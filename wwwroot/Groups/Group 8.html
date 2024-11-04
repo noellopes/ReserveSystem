@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Room & Equipment Reservation</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0f7fa;
+            color: #007bb5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #007bb5;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .carousel {
+            display: flex;
+            overflow: hidden;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+            .carousel img {
+                width: 100%;
+            }
+
+        .reservation-form {
+            background-color: #b3e5fc;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+            .form-group label {
+                display: block;
+                color: #007bb5;
+            }
+
+            .form-group input, .form-group select {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #007bb5;
+                border-radius: 5px;
+            }
+
+            .form-group button {
+                background-color: #007bb5;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Futuristic Hotel Room & Equipment Reservation</h1>
+    </div>
+    <div class="container">
+        <div class="carousel">
+            <img src="images/room1.jpg" alt="Room 1">
+            <img src="images/room2.jpg" alt="Room 2">
+            <img src="images/room3.jpg" alt="Room 3">
+        </div>
+        <div class="reservation-form">
+            <h2>Reserve a Room or Equipment</h2>
+            <form action="#">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="room-type">Room Type</label>
+                    <select id="room-type" name="room-type">
+                        <option value="single">Single Room</option>
+                        <option value="double">Double Room</option>
+                        <option value="suite">Suite</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="equipment">Equipment</label>
+                    <select id="equipment" name="equipment">
+                        <option value="projector">Projector</option>
+                        <option value="sound-system">Sound System</option>
+                        <option value="microphone">Microphone</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Reserve Now</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
