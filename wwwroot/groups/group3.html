@@ -3,80 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group 3 - RoomService Project</title>
+    <title>Grupo 3 - RoomService Project</title>
     <style>
+        /* Genel sayfa stili */
         body {
             font-family: 'Arial', sans-serif;
             background: linear-gradient(to right, #667eea, #764ba2);
+            color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            color: #f4f4f9;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        .container {
-            width: 100%;
-            max-width: 500px;
-            padding: 30px;
-            background-color: #ffffff;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        h1, h2 {
             text-align: center;
-        }
-
-        h1 {
-            font-size: 2em;
-            margin: 0;
             color: #333;
             background: linear-gradient(to right, #764ba2, #667eea);
             -webkit-background-clip: text;
             color: transparent;
         }
-
-        p {
-            color: #666;
-            font-weight: 500;
+        /* Ana içerik kutusu */
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            color: #333;
             margin-bottom: 20px;
         }
-
-        .member-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+        /* Bölüm başlığı ve liste stili */
+        .section {
+            margin: 20px 0;
         }
 
-        .member-item {
-            margin: 10px 0;
-            padding: 15px;
-            background-color: #f7f7f7;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            font-size: 1.1em;
-            font-weight: bold;
-            color: #333;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-            .member-item:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-                background-color: #e4e4e4;
+            .section ul {
+                list-style-type: none;
+                padding: 0;
             }
+
+            .section li {
+                margin: 10px 0;
+                padding: 15px;
+                background-color: #f7f7f7;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                font-weight: bold;
+                transition: transform 0.2s, box-shadow 0.2s;
+            }
+
+                .section li:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+                    background-color: #e4e4e4;
+                }
     </style>
 </head>
 <body>
+
+    <!-- Grup Bilgileri -->
     <div class="container">
         <h1>Grupo 3 - RoomService Project</h1>
-        <p>Meet the Team Members</p>
-        <ul class="member-list">
-            <li class="member-item">Ana Antunes</li>
-            <li class="member-item">Marta Almeida</li>
-            <li class="member-item">Pedro Nunes</li>
-            <li class="member-item">Kerem</li>
-            <li class="member-item">Mehmet</li>
-        </ul>
+        <h2>Team Members</h2>
+        <div class="section">
+            <ul>
+                <li>Ana Antunes</li>
+                <li>Marta Almeida</li>
+                <li>Pedro Nunes</li>
+                <li>Kerem</li>
+                <li>Mehmet</li>
+            </ul>
+        </div>
     </div>
+
+    <!-- Use Case Bilgileri -->
+    <div class="container">
+        <h2>Room Service</h2>
+        <div class="section">
+            <ul>
+                <li>Add Room Service</li>
+                <li>Update Room Service</li>
+                <li>Delete Room Service</li>
+                <li>Check Available Services</li>
+                <li>Check Prices</li>
+            </ul>
+        </div>
+
+        <h2>Registration</h2>
+        <div class="section">
+            <ul>
+                <li>Create Account</li>
+                <li>Update Account</li>
+                <li>Delete Account</li>
+            </ul>
+        </div>
+
+        <h2>Notifications</h2>
+        <div class="section">
+            <ul>
+                <li>Send Notification (Success)</li>
+                <li>Send Notification (Failure)</li>
+                <li>Send Notification (Temporarily Unavailable)</li>
+                <li>Check Available Services</li>
+            </ul>
+        </div>
+
+        <h2>Actors</h2>
+        <div class="section">
+            <ul>
+                <li>Client (Internet Connection)</li>
+                <li>Receptionist (dispatch)</li>
+                <li>Programmers</li>
+                <li>Teachers</li>
+                <li>Hotel Manager</li>
+            </ul>
+        </div>
+    </div>
+
 </body>
 </html>
