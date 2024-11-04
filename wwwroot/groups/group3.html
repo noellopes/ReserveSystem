@@ -3,60 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grupo 3 - RoomService Project</title>
+    <title>Group 3 - RoomService Project</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             margin: 0;
-            padding: 0;
+            color: #f4f4f9;
         }
 
         .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
             background-color: #ffffff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
         }
 
         h1 {
-            text-align: center;
+            font-size: 2em;
+            margin: 0;
             color: #333;
+            background: linear-gradient(to right, #764ba2, #667eea);
+            -webkit-background-clip: text;
+            color: transparent;
         }
 
-        ul {
-            list-style-type: none;
+        p {
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .member-list {
+            list-style: none;
             padding: 0;
+            margin: 0;
         }
 
-        li {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-        }
-
-            li:last-child {
-                border-bottom: none;
-            }
-
-        .group-member {
+        .member-item {
+            margin: 10px 0;
+            padding: 15px;
+            background-color: #f7f7f7;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-size: 1.1em;
             font-weight: bold;
-            color: #555;
+            color: #333;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
+
+            .member-item:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+                background-color: #e4e4e4;
+            }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Grupo 3 - RoomService Project</h1>
-        <p>Project Group Members:</p>
-        <ul>
-            <li><span class="group-member">Ana Antunes</span></li>
-            <li><span class="group-member">Marta Almeida</span></li>
-            <li><span class="group-member">Pedro Nunes</span></li>
-            <li><span class="group-member">Kerem</span></li>
-            <li><span class="group-member">Mehmet</span></li>
+        <p>Meet the Team Members</p>
+        <ul class="member-list">
+            <li class="member-item">Ana Antunes</li>
+            <li class="member-item">Marta Almeida</li>
+            <li class="member-item">Pedro Nunes</li>
+            <li class="member-item">Kerem</li>
+            <li class="member-item">Mehmet</li>
         </ul>
     </div>
 </body>
