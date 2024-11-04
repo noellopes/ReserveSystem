@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ReserveSystem.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ReserveSystemUsersDbContext : IdentityDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public ReserveSystemUsersDbContext(DbContextOptions<ReserveSystemUsersDbContext> options)
             : base(options)
         {
         }
