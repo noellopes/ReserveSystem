@@ -21,10 +21,12 @@ namespace ReserveSystem.Models
 
         // Chave estrangeira
         [Required]
+        [Display(Name = "Staff ID")]
         public int StaffId { get; set; }
 
         // Propriedade de navegação
         [ForeignKey("StaffId")]
+        [Display (Name = "Staff Name")]
         public String Staff { get; set; }
 
         public bool IsValidShiftTime()

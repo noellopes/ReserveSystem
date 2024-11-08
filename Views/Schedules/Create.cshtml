@@ -1,0 +1,64 @@
+﻿@model ReserveSystem.Models.Schedule
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container my-5 p-4 bg-light shadow rounded">
+    <h1 class="text-center text-primary mb-4">Create New Schedule</h1>
+
+    <h4 class="text-muted">Schedule Details</h4>
+    <hr class="mb-4" />
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form asp-action="Create" class="p-4 border rounded bg-white shadow-sm">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Date" class="form-label fw-semibold">Date</label>
+                    <input asp-for="Date" class="form-control form-control-lg" placeholder="Select a date" />
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="StartShiftTime" class="form-label fw-semibold">Start Shift Time</label>
+                    <input asp-for="StartShiftTime" class="form-control form-control-lg" placeholder="Enter start time" />
+                    <span asp-validation-for="StartShiftTime" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="EndShiftTime" class="form-label fw-semibold">End Shift Time</label>
+                    <input asp-for="EndShiftTime" class="form-control form-control-lg" placeholder="Enter end time" />
+                    <span asp-validation-for="EndShiftTime" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="StaffId" class="form-label fw-semibold">Staff ID</label>
+                    <input asp-for="StaffId" class="form-control form-control-lg" placeholder="Enter staff ID" />
+                    <span asp-validation-for="StaffId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Staff" class="form-label fw-semibold">Staff Name</label>
+                    <input asp-for="Staff" class="form-control form-control-lg" placeholder="Enter staff name" />
+                    <span asp-validation-for="Staff" class="text-danger"></span>
+                </div>
+
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a asp-action="Index" class="text-decoration-none text-secondary">&larr; Back to List</a>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
