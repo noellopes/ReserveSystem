@@ -11,20 +11,20 @@ namespace ReserveSystem.Models
         [Required]
         int ClienteId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Data de CheckIn Necessária")]
         DateTime DataCheckIn { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Data de CheckOut Necessária")]
         DateTime DataCheckOut { get; set; }
-
-        [Required]
+        
+        [Required(ErrorMessage = "Data de Reserva Necessária")]
         DateTime DataReserva { get; set; }
 
         [Required]
         bool EstadoPagamento { get; set; }
 
         [Required]
-        string Estado { get; set; }
+        string? Estado { get; set; }
 
         [Required]
         int NumeroPessoas { get; set; }
