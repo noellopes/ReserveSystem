@@ -34,7 +34,7 @@ namespace ReserveSystem.Controllers
             }
 
             var staffModel = await _context.StaffModel
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Staff_Id == id);
             if (staffModel == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Email,Password")] StaffModel staffModel)
+        public async Task<IActionResult> Create([Bind("Staff_Id,Staff_Name,Staff_Email,Staff_Password")] StaffModel staffModel)
         {
             if (ModelState.IsValid)
             {
@@ -62,7 +62,10 @@ namespace ReserveSystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            //ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Department_Id", "Department_Name", staff.Department_Id);
             return View(staffModel);
+           
+            
         }
 
         // GET: StaffModels/Edit/5
@@ -86,9 +89,9 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Password")] StaffModel staffModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Staff_Id,Staff_Name,Staff_Email,Staff_Password")] StaffModel staffModel)
         {
-            if (id != staffModel.Id)
+            if (id != staffModel.Staff_Id)
             {
                 return NotFound();
             }
@@ -102,7 +105,7 @@ namespace ReserveSystem.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StaffModelExists(staffModel.Id))
+                    if (!StaffModelExists(staffModel.Staff_Id))
                     {
                         return NotFound();
                     }
@@ -125,7 +128,7 @@ namespace ReserveSystem.Controllers
             }
 
             var staffModel = await _context.StaffModel
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Staff_Id == id);
             if (staffModel == null)
             {
                 return NotFound();
@@ -151,7 +154,7 @@ namespace ReserveSystem.Controllers
 
         private bool StaffModelExists(int id)
         {
-            return _context.StaffModel.Any(e => e.Id == id);
+            return _context.StaffModel.Any(e => e.Staff_Id == id);
         }
     }
 }

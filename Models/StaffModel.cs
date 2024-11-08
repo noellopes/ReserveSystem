@@ -1,25 +1,32 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ReserveSystem.Models
 {
     public class StaffModel
     {
-   
+            [Key]
             [Required]
-            public int Id { get; set; }
+            public int Staff_Id { get; set; }
 
             [Required]
             [StringLength(100)]
-            public string Name { get; set; }
+            public string Staff_Name { get; set; }
 
             [Required]
             [EmailAddress]
-            public string Email { get; set; }
+            public string Staff_Email { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
-            public string Password { get; set; }
-        }
+            public string Staff_Password { get; set; }
+
+            [ForeignKey("Department")]
+            public int Department_Id { get; set; }
+
+            [ForeignKey("Job")]
+            public int Job_Id { get; set; }
+    }
     
 }
 

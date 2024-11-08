@@ -4,28 +4,38 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Add new staff member</h1>
 
-<h4>StaffModel</h4>
+
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 form-container">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="Staff_Name" class="control-label">Name</label>
+                <input asp-for="Staff_Name" class="form-control" />
+                <span asp-validation-for="Staff_Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+                <label asp-for="Staff_Email" class="control-label">Email</label>
+                <input asp-for="Staff_Email" class="form-control" />
+                <span asp-validation-for="Staff_Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
+                <label asp-for="Staff_Password" class="control-label">Password</label>
+                <input asp-for="Staff_Password" class="form-control" />
+                <span asp-validation-for="Staff_Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Department_Id" class="control-label">Department</label>
+                <select asp-for="Department_Id" class="form-control" asp-items="ViewBag.Departments"></select>
+                <span asp-validation-for="Department_Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Job_Id" class="control-label">Job</label>
+                <select asp-for="Job_Id" class="form-control" asp-items="ViewBag.Jobs"></select>
+                <span asp-validation-for="Job_Id" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
