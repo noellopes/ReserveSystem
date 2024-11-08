@@ -10,6 +10,7 @@ namespace ReserveSystem.Models
         public string Nome { get; set; }
 
         [Required, StringLength(500)]
+        [Display(Name = "Descrição")]
         public string Descricao { get; set; }
 
     }
