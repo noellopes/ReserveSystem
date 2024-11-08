@@ -5,29 +5,22 @@ namespace ReserveSystem.Models
     public class Reserva
     {
 
-        [Key] [Required] 
-        int ReservaId { get; set; }
+        [Key] 
+        public int ReservaId { get; set; }
+        [Required(ErrorMessage = "Data de CheckIn")]
+        public DateTime DataCheckIn { get; set; }
+        [Required(ErrorMessage = "Data de CheckOut")]
+        public DateTime DataCheckOut { get; set; }
+        [Required(ErrorMessage = "Data de Reserva")]
+        public DateTime DataReserva { get; set; }
+        [Required(ErrorMessage = "Estado de Reserva é obrigatório")]
+        public string Estado { get; set; }
+        public bool EstadoPagamento { get; set; }
+        [Required(ErrorMessage = "Número da pessoa")]
+        public int NumeroPessoas { get; set; }
+        public int ClienteId { get; set; }
+        public Cliente Cliente { get; set; }
 
-        [Required]
-        int ClienteId { get; set; }
-
-        [Required]
-        DateTime DataCheckIn { get; set; }
-
-        [Required]
-        DateTime DataCheckOut { get; set; }
-
-        [Required]
-        DateTime DataReserva { get; set; }
-
-        [Required]
-        bool EstadoPagamento { get; set; }
-
-        [Required]
-        string Estado { get; set; }
-
-        [Required]
-        int NumeroPessoas { get; set; }
 
 
     }

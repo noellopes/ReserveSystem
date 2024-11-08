@@ -7,20 +7,22 @@ namespace ReserveSystem.Models
         [Key][Required]
         public int ClienteId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Nome é obrigatório")]
         public String Nome { get;set; }
 
-        [Required]
+        [Required(ErrorMessage = "Email obrigatório")]
+        [EmailAddress(ErrorMessage = "Formato do email invalido")]
         public String Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Telefone obrigatório")]
         public String Telefone { get; set; }
 
-        [Required]
         public bool Login { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "NIF obrigatorio")]
         public String Nif  { get; set; }
+        public ICollection<Reserva> Reserva { get; set; }
+
 
     }
 }
