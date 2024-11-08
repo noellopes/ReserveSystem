@@ -1,0 +1,35 @@
+﻿@model StaffModel
+
+@{
+    ViewData["Title"] = "Add Staff";
+}
+
+<h1>@ViewBag.Title</h1>
+<h2>Adicionar Novo Funcionário</h2>
+
+<form asp-action="Create" method="post">
+    <div>
+        <label for="Id">Id</label>
+        <input asp-for="Id" class="form-control" />
+        <span asp-validation-for="Id" class="text-danger"></span>
+    </div>
+    <div>
+        <label for="Name">Name</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div>
+        <label for="Email">Email</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div>
+        <label for="Password">Senha</label>
+        <input asp-for="Password" type="password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <button type="submit">Save</button>
+</form>
+
+<a asp-action="Index">Voltar à Lista</a>
+

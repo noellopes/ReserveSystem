@@ -22,6 +22,19 @@ namespace ReserveSystem.Controllers
         {
             return View();
         }
+        public IActionResult Staff() => View();
+
+        [HttpPost]
+        public IActionResult Staff(StaffModel staff)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(staff);
+            }
+
+
+            return View("RegisterComplete", staff);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
