@@ -86,7 +86,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Nome,Email,Telefone,Login,Nif")] Cliente cliente)
+        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Nome,Email,Telefone,Login,Nif")] ClienteModel cliente)
         {
             if (id != cliente.ClienteId)
             {
