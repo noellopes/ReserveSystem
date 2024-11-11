@@ -1,0 +1,143 @@
+﻿@model ReserveSystem.Models.Cliente
+
+@{
+    ViewData["Title"] = "Adicionar Novo";
+}
+
+<h1 class="page-title">Adicionar Novo Cliente</h1>
+
+<h4 class="form-header">Informações do Cliente</h4>
+<hr />
+<div class="form-container">
+    <form asp-action="Create" class="styled-form">
+        <div asp-validation-summary="ModelOnly" class="validation-summary text-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="Nome" class="control-label"></label>
+            <input asp-for="Nome" class="form-control" />
+            <span asp-validation-for="Nome" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Email" class="control-label"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Morada" class="control-label"></label>
+            <input asp-for="Morada" class="form-control" />
+            <span asp-validation-for="Morada" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="NIF" class="control-label"></label>
+            <input asp-for="NIF" class="form-control" />
+            <span asp-validation-for="NIF" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="DataNascimento" class="control-label"></label>
+            <input asp-for="DataNascimento" class="form-control" />
+            <span asp-validation-for="DataNascimento" class="text-danger"></span>
+        </div>
+
+        <div class="form-group buttons">
+            <input type="submit" value="Adicionar" class="btn-submit" />
+            <a asp-action="Index" class="btn-back">Voltar para Lista</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f3f0f8;
+        color: #4b0082;
+        padding: 20px;
+    }
+
+    .page-title {
+        color: #4b0082;
+        text-align: center;
+        font-size: 2em;
+        margin-bottom: 20px;
+    }
+
+    .form-header {
+        font-size: 1.5em;
+        color: #4b0082;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #ffffff;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    .styled-form .form-group {
+        margin-bottom: 15px;
+    }
+
+    .styled-form .form-control {
+        width: 100%;
+        padding: 10px;
+        font-size: 1em;
+        border: 1px solid #d3cce3;
+        border-radius: 6px;
+    }
+
+        .styled-form .form-control:focus {
+            border-color: #6a0dad;
+            box-shadow: 0 0 5px rgba(106, 13, 173, 0.3);
+        }
+
+    .validation-summary {
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 1px solid #ffccd5;
+        background-color: #ffe5ec;
+        border-radius: 6px;
+    }
+
+    .buttons {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .btn-submit {
+        background-color: #6a0dad;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1em;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+        .btn-submit:hover {
+            background-color: #580d8a;
+        }
+
+    .btn-back {
+        color: #4b0082;
+        text-decoration: none;
+        font-size: 1em;
+    }
+
+        .btn-back:hover {
+            color: #6a0dad;
+        }
+</style>

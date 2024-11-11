@@ -1,0 +1,118 @@
+﻿@model IEnumerable<ReserveSystem.Models.Cliente>
+
+@{
+    ViewData["Title"] = "Página Inicial";
+}
+
+<h1 class="page-title">Clientes</h1>
+
+<p>
+    <a class="btn-create" asp-action="Create">+ Adicionar Novo Cliente</a>
+</p>
+
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Nome)</th>
+            <th>@Html.DisplayNameFor(model => model.Email)</th>
+            <th>@Html.DisplayNameFor(model => model.Morada)</th>
+            <th>@Html.DisplayNameFor(model => model.NIF)</th>
+            <th>@Html.DisplayNameFor(model => model.DataNascimento)</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Nome)</td>
+                <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                <td>@Html.DisplayFor(modelItem => item.Morada)</td>
+                <td>@Html.DisplayFor(modelItem => item.NIF)</td>
+                <td>@Html.DisplayFor(modelItem => item.DataNascimento)</td>
+                <td>
+                    <a class="action-link edit" asp-action="Edit" asp-route-id="@item.ClienteId">Editar</a> |
+                    <a class="action-link details" asp-action="Details" asp-route-id="@item.ClienteId">Mostrar</a> |
+                    <a class="action-link delete" asp-action="Delete" asp-route-id="@item.ClienteId">Apagar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f3f0f8;
+        color: #4b0082;
+        padding: 20px;
+    }
+
+    .page-title {
+        color: #4b0082;
+        text-align: center;
+        font-size: 2em;
+        margin-bottom: 20px;
+    }
+
+    .btn-create {
+        display: inline-block;
+        padding: 10px 20px;
+        margin-bottom: 20px;
+        background-color: #6a0dad;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 8px;
+    }
+
+        .btn-create:hover {
+            background-color: #580d8a;
+        }
+
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        margin: 0 auto;
+    }
+
+        .styled-table thead {
+            background-color: #4b0082;
+            color: #fff;
+        }
+
+        .styled-table th, .styled-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .styled-table tbody tr {
+            background-color: #f9f6fd;
+        }
+
+            .styled-table tbody tr:nth-child(even) {
+                background-color: #e9e0f7;
+            }
+
+            .styled-table tbody tr:hover {
+                background-color: #d1c4e9;
+            }
+
+    .action-link {
+        color: #6a0dad;
+        text-decoration: none;
+    }
+
+        .action-link.edit:hover {
+            color: #580d8a;
+        }
+
+        .action-link.details:hover {
+            color: #3e0875;
+        }
+
+        .action-link.delete:hover {
+            color: #940000;
+        }
+</style>

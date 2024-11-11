@@ -1,0 +1,127 @@
+﻿@model ReserveSystem.Models.Cliente
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1 class="page-title">Excluir Cliente</h1>
+
+<h3 class="confirmation-text">Tem certeza de que deseja excluir este cliente?</h3>
+<div class="details-container">
+    <h4 class="form-header">Detalhes do Cliente</h4>
+    <hr />
+    <dl class="detail-list">
+        <dt>@Html.DisplayNameFor(model => model.Nome)</dt>
+        <dd>@Html.DisplayFor(model => model.Nome)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Email)</dt>
+        <dd>@Html.DisplayFor(model => model.Email)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Morada)</dt>
+        <dd>@Html.DisplayFor(model => model.Morada)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.NIF)</dt>
+        <dd>@Html.DisplayFor(model => model.NIF)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.DataNascimento)</dt>
+        <dd>@Html.DisplayFor(model => model.DataNascimento)</dd>
+    </dl>
+
+    <form asp-action="Delete" class="delete-form">
+        <input type="hidden" asp-for="ClienteId" />
+        <div class="form-buttons">
+            <input type="submit" value="Excluir" class="btn-delete" />
+            <a asp-action="Index" class="btn-back">Voltar para Lista</a>
+        </div>
+    </form>
+</div>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f3f0f8;
+        color: #4b0082;
+        padding: 20px;
+    }
+
+    .page-title {
+        color: #4b0082;
+        text-align: center;
+        font-size: 2em;
+        margin-bottom: 20px;
+    }
+
+    .confirmation-text {
+        text-align: center;
+        font-size: 1.2em;
+        color: #6a0dad;
+        margin-bottom: 20px;
+    }
+
+    .details-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #ffffff;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    .form-header {
+        font-size: 1.5em;
+        color: #4b0082;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .detail-list dt {
+        font-weight: bold;
+        color: #6a0dad;
+        margin-top: 10px;
+    }
+
+    .detail-list dd {
+        margin-left: 0;
+        padding: 5px 0 10px;
+        border-bottom: 1px solid #e9e0f7;
+    }
+
+    .delete-form {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .form-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .btn-delete {
+        background-color: #940000;
+        color: #ffffff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1em;
+        cursor: pointer;
+    }
+
+        .btn-delete:hover {
+            background-color: #760000;
+        }
+
+    .btn-back {
+        color: #4b0082;
+        text-decoration: none;
+        font-size: 1em;
+        padding: 10px 20px;
+        border-radius: 8px;
+        background-color: #f3f0f8;
+    }
+
+        .btn-back:hover {
+            color: #6a0dad;
+        }
+</style>
