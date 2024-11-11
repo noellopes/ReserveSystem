@@ -1,0 +1,38 @@
+﻿@model ReserveSystem.Models.JobModel
+
+@{
+    ViewData["Title"] = "Create Job";
+}
+
+<h1 class="mb-4">Create Job</h1>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <form asp-action="Create" class="needs-validation" novalidate>
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+            <!-- Job Description Field -->
+            <div class="mb-3">
+                <label asp-for="jobDescription" class="form-label fw-bold"></label>
+                <input asp-for="jobDescription" class="form-control" placeholder="Enter job description" />
+                <span asp-validation-for="jobDescription" class="text-danger"></span>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-lg">Create Job</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
+
+@section Scripts {
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
