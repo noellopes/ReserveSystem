@@ -19,10 +19,33 @@ namespace ReserveSystem.Controllers
             _context = context;
         }
 
-        // GET: Clientes
-        public async Task<IActionResult> Index()
+        // Action para listar os clientes com ordenação e paginação
+        public async Task<IActionResult> Index(int page = 1)
         {
-            return View(await _context.Cliente.ToListAsync());
+            // Defina o número de clientes por página
+            int pageSize = 15;
+
+            // Calcule o número total de clientes
+            var totalClientes = await _context.Cliente.CountAsync();
+            var totalPages = (int)Math.Ceiling((double)totalClientes / pageSize);
+
+            // Obtenha os clientes ordenados por nome e paginados
+            var clientes = await _context.Cliente
+                .OrderBy(c => c.Nome) // Ordena os clientes por nome de forma alfabética
+                .Skip((page - 1) * pageSize) // Pula os clientes das páginas anteriores
+                .Take(pageSize) // Limita a quantidade de resultados por página
+                .ToListAsync();
+
+            // Crie um modelo para passar para a view
+            var model = new ClienteViewModel
+            {
+                Clientes = clientes,
+                CurrentPage = page,
+                TotalPages = totalPages
+            };
+
+            // Retorne a view com o modelo
+            return View(model);
         }
 
         // GET: Clientes/Details/5

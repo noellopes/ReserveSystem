@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ReserveSystem.Models.Cliente>
+﻿@model ClienteViewModel
 
 @{
     ViewData["Title"] = "Página Inicial";
@@ -13,16 +13,16 @@
 <table class="styled-table">
     <thead>
         <tr>
-            <th>@Html.DisplayNameFor(model => model.Nome)</th>
-            <th>@Html.DisplayNameFor(model => model.Email)</th>
-            <th>@Html.DisplayNameFor(model => model.Morada)</th>
-            <th>@Html.DisplayNameFor(model => model.NIF)</th>
-            <th>@Html.DisplayNameFor(model => model.DataNascimento)</th>
+            <th>@Html.DisplayNameFor(model => model.Clientes.First().Nome)</th>
+            <th>@Html.DisplayNameFor(model => model.Clientes.First().Email)</th>
+            <th>@Html.DisplayNameFor(model => model.Clientes.First().Morada)</th>
+            <th>@Html.DisplayNameFor(model => model.Clientes.First().NIF)</th>
+            <th>@Html.DisplayNameFor(model => model.Clientes.First().DataNascimento)</th>
             <th>Ações</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Clientes)
         {
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.Nome)</td>
@@ -39,6 +39,24 @@
         }
     </tbody>
 </table>
+
+<!-- Paginação -->
+<div class="pagination">
+    @if (Model.CurrentPage > 1)
+    {
+        <a href="@Url.Action("Index", new { page = Model.CurrentPage - 1 })" class="btn-pagination">Página Anterior</a>
+    }
+
+    @for (int i = 1; i <= Model.TotalPages; i++)
+    {
+        <a href="@Url.Action("Index", new { page = i })" class="btn-pagination @((i == Model.CurrentPage) ? "active" : "")">@i</a>
+    }
+
+    @if (Model.CurrentPage < Model.TotalPages)
+    {
+        <a href="@Url.Action("Index", new { page = Model.CurrentPage + 1 })" class="btn-pagination">Próxima Página</a>
+    }
+</div>
 
 <style>
     body {
@@ -114,5 +132,27 @@
 
         .action-link.delete:hover {
             color: #940000;
+        }
+
+    .pagination {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .btn-pagination {
+        padding: 5px 10px;
+        margin: 0 5px;
+        background-color: #6a0dad;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+        .btn-pagination.active {
+            background-color: #580d8a;
+        }
+
+        .btn-pagination:hover {
+            background-color: #580d8a;
         }
 </style>
