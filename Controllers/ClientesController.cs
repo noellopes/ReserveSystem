@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
@@ -20,32 +18,47 @@ namespace ReserveSystem.Controllers
         }
 
         // Action para listar os clientes com ordenação e paginação
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(int page = 1, string nomePesquisa = "")
         {
-            // Defina o número de clientes por página
             int pageSize = 15;
+            var clientesQuery = _context.Cliente.AsQueryable();
 
-            // Calcule o número total de clientes
-            var totalClientes = await _context.Cliente.CountAsync();
+            if (!string.IsNullOrEmpty(nomePesquisa))
+            {
+                clientesQuery = clientesQuery.Where(c => c.Nome.Contains(nomePesquisa));
+            }
+
+            var totalClientes = await clientesQuery.CountAsync();
             var totalPages = (int)Math.Ceiling((double)totalClientes / pageSize);
 
-            // Obtenha os clientes ordenados por nome e paginados
-            var clientes = await _context.Cliente
-                .OrderBy(c => c.Nome) // Ordena os clientes por nome de forma alfabética
-                .Skip((page - 1) * pageSize) // Pula os clientes das páginas anteriores
-                .Take(pageSize) // Limita a quantidade de resultados por página
+            var clientes = await clientesQuery
+                .OrderBy(c => c.Nome)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
 
-            // Crie um modelo para passar para a view
             var model = new ClienteViewModel
             {
                 Clientes = clientes,
                 CurrentPage = page,
-                TotalPages = totalPages
+                TotalPages = totalPages,
+                NomePesquisa = nomePesquisa
             };
 
-            // Retorne a view com o modelo
             return View(model);
+        }
+
+        // Método para buscar clientes por nome 
+        [HttpGet]
+        public async Task<IActionResult> BuscarClientesPorNome(string nome)
+        {
+            var clientes = await _context.Cliente
+                .Where(c => c.Nome.Contains(nome))
+                .Select(c => c.Nome)
+                .Take(10) // Limitar a 10 resultados para a pesquisa
+                .ToListAsync();
+
+            return Json(clientes);
         }
 
         // GET: Clientes/Details/5

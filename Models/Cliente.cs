@@ -19,11 +19,11 @@ namespace ReserveSystem.Models
         public string Email { get; set; }
 
         [StringLength(200)]
-        [Display(Name = "Endereço")]
+        [Display(Name = "Morada")]
         public string Morada { get; set; }
 
         [StringLength(20)]
-        [Display(Name = "Número de Identificação Fiscal")]
+        [Display(Name = "NIF")]
         public string NIF { get; set; }
 
         [DataType(DataType.Date)]

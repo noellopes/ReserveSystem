@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using ReserveSystem.Models;
 
 namespace ReserveSystem.Models
 {
@@ -13,5 +12,8 @@ namespace ReserveSystem.Models
 
         // Total de páginas para paginação
         public int TotalPages { get; set; }
+
+        // Nome para filtrar clientes
+        public string NomePesquisa { get; set; }
     }
 }
