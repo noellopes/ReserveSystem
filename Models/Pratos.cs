@@ -10,7 +10,6 @@ namespace ReserveSystem.Models
         public string PratoNome { get; set; }
         [Required]
         public string Descrição { get; set; }
-        [Required]
 
 
     }

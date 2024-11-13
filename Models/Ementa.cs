@@ -23,7 +23,5 @@ namespace ReserveSystem.Models
 
         public int IdBebidas { get; }
 
-        [Required]
-
     }
 }

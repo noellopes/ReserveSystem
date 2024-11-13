@@ -1,10 +1,12 @@
 ﻿using Microsoft.VisualBasic;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime;
 
 namespace ReserveSystem.Models
 {
     public class Reserva
     {
+
         public int IdReserva { get; set; }
 
         [Required]
@@ -21,5 +23,7 @@ namespace ReserveSystem.Models
         public DateTime DataHora { get; set; }
 
         public string Observacao { get; set; }
+
+
     }
 }
