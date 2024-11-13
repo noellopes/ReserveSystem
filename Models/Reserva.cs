@@ -6,7 +6,7 @@ namespace ReserveSystem.Models
 {
     public class Reserva
     {
-
+        [Key]
         public int IdReserva { get; set; }
 
         [Required]
