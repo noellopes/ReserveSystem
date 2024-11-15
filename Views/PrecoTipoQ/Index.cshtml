@@ -1,0 +1,119 @@
+﻿@model IEnumerable<ReserveSystem.Models.PrecoTipoQuarto>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.tipo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.quantidadeQuartos)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.capacidade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrecoBase)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.taxaCancelamento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.taxaAdiconal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.numeroReserva)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dataCheckIn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dataCheckOut)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dataReserva)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dataCancelamento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cancelamento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.estado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstadoPagamento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumeroPessoas)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.tipo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.quantidadeQuartos)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.capacidade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrecoBase)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.taxaCancelamento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.taxaAdiconal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.numeroReserva)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dataCheckIn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dataCheckOut)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dataReserva)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dataCancelamento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.cancelamento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.estado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstadoPagamento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumeroPessoas)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.precotq_id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.precotq_id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.precotq_id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

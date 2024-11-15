@@ -3,7 +3,7 @@
 namespace ReserveSystem.Models;
 public class PrecoTipoQuarto : Reserva
 {
-    [Required]
+    [Key]
     public int precotq_id { get; set; }
     [Required]
     public string tipo { get; set; }
