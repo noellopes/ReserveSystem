@@ -1,0 +1,27 @@
+﻿@model ReserveSystem.Models.Cliente
+
+<h2>Criar Cliente</h2>
+
+<form asp-action="CriarCliente" method="post">
+    <div>
+        <label for="Nomecliente">Nome</label>
+        <input type="text" asp-for="Nomecliente" />
+    </div>
+    <div>
+        <label for="Moradacliente">Morada</label>
+        <input type="text" asp-for="Moradacliente" />
+    </div>
+    <div>
+        <label for="Email">Email</label>
+        <input type="text" asp-for="Email" />
+    </div>
+    <div>
+        <label for="NIF">NIF</label>
+        <input type="text" asp-for="NIF" />
+    </div>
+    <div>
+        <label for="Telemovel">Telefone</label>
+        <input type="text" asp-for="Telemovel" />
+    </div>
+    <button type="submit">Criar Cliente</button>
+</form>

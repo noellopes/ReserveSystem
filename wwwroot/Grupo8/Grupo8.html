@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabalho de Grupo - Grupo 8</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #0073e6;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        h1, h2 {
+            margin: 0;
+            padding-bottom: 10px;
+        }
+
+        .content, .reservation-form {
+            background-color: #fff;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #0073e6;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+            button:hover {
+                background-color: #005bb5;
+            }
+    </style>
+</head>
+<body>
+
+    <!-- Cabeçalho com nome do grupo -->
+    <header>
+        <h1>Trabalho de Grupo</h1>
+        <h2>Grupo 8</h2>
+    </header>
+
+    <!-- Container do conteúdo principal -->
+    <div class="container">
+        <div class="content">
+            <h2>Tema do Trabalho: Salas e Equipamentos</h2>
+            <p>Bem-vindo à página do projeto do Grupo 8. O tema do nosso trabalho é sobre o gerenciamento e organização de salas e equipamentos, abordando aspectos de agendamento, alocação de recursos, e otimização de espaços.</p>
+        </div>
+
+        <!-- Formulário de reserva -->
+        <div class="reservation-form">
+            <h2>Faça sua Reserva de Quarto e Equipamento</h2>
+            <form action="#" method="post">
+
+                <!-- Seleção do quarto -->
+                <label for="room">Selecione o Quarto:</label>
+                <select id="room" name="room" required>
+                    <option value="">Escolha um quarto</option>
+                    <option value="quarto1">Quarto 1</option>
+                    <option value="quarto2">Quarto 2</option>
+                    <option value="quarto3">Quarto 3</option>
+                </select>
+
+                <!-- Seleção do equipamento -->
+                <label for="equipment">Selecione o Equipamento:</label>
+                <select id="equipment" name="equipment" required>
+                    <option value="">Escolha um equipamento</option>
+                    <option value="projetor">Projetor</option>
+                    <option value="computador">Computador</option>
+                    <option value="tv">TV</option>
+                    <option value="som">Sistema de Som</option>
+                </select>
+
+                <!-- Data da reserva -->
+                <label for="date">Data da Reserva:</label>
+                <input type="date" id="date" name="date" required>
+
+                <!-- Hora da reserva -->
+                <label for="time">Horário da Reserva:</label>
+                <input type="time" id="time" name="time" required>
+
+                <!-- Botão de enviar -->
+                <button type="submit">Reservar</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+﻿@model ReserveSystem.Models.Reserva
+
+<h2>Criar Reserva</h2>
+
+<form asp-action="CriarReserva" method="post">
+    <div>
+        <label for="Numerocliente">Número do Cliente</label>
+        <input type="text" asp-for="Numerocliente" />
+    </div>
+    <div>
+        <label for="Tiporeserva">Tipo de Reserva</label>
+        <input type="text" asp-for="Tiporeserva" />
+    </div>
+    <div>
+        <label for="Totalparticipante">Total de Participantes</label>
+        <input type="number" asp-for="Totalparticipante" />
+    </div>
+    <div>
+        <label for="Datareserva">Data da Reserva</label>
+        <input type="date" asp-for="Datareserva" />
+    </div>
+    <div>
+        <label for="Datainicio">Data de Início</label>
+        <input type="date" asp-for="Datainicio" />
+    </div>
+    <div>
+        <label for="Datafim">Data de Fim</label>
+        <input type="date" asp-for="Datafim" />
+    </div>
+    <button type="submit">Confirmar Reserva</button>
+</form>
