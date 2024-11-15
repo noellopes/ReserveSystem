@@ -4,7 +4,7 @@ namespace ReserveSystem.Models;
 public class Reserva
 {
 	
-        [Required]
+        [Key]
         public int numeroReserva {  get; set; }
 
         [Required]
@@ -19,7 +19,7 @@ public class Reserva
         [Required]
         public DateTime dataCancelamento { get; set; }
 
-       
+       [Required]
         public bool cancelamento { get; set; }
 
         [Required]
@@ -30,6 +30,10 @@ public class Reserva
 
         [Required]
         public int NumeroPessoas { get; set; }
+
+
+        [Required]
+        public int NumeroCamasAdicional { get; set; }
 
 
 
