@@ -4,97 +4,176 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - PrecoTipoQuarto</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #faf3e0; /* Light pastel background */
+            font-family: 'Arial', sans-serif;
+        }
 
-<h4>PrecoTipoQuarto</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="tipo" class="control-label"></label>
-                <input asp-for="tipo" class="form-control" />
-                <span asp-validation-for="tipo" class="text-danger"></span>
+        .container {
+            margin-top: 50px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h4 {
+            color: #5d5c61;
+        }
+
+        .btn-primary {
+            background-color: #a58970;
+            border: none;
+        }
+
+            .btn-primary:hover {
+                background-color: #866d57;
+            }
+
+        .btn-secondary {
+            background-color: #d3d3d3;
+            border: none;
+        }
+
+            .btn-secondary:hover {
+                background-color: #bfbfbf;
+            }
+
+        .form-group label {
+            font-weight: bold;
+            color: #5d5c61;
+        }
+
+        .form-control {
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+        }
+
+            .form-control:focus {
+                border-color: #a58970;
+                box-shadow: 0 0 0 .2rem rgba(165, 137, 112, .25);
+            }
+
+        .text-danger {
+            color: #e74c3c;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #d3d3d3;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">@ViewData["Title"]</h1>
+        <h4 class="text-center">PrecoTipoQuarto</h4>
+        <hr />
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <div class="form-group">
+                            <label asp-for="tipo" class="control-label"></label>
+                            <input asp-for="tipo" class="form-control" />
+                            <span asp-validation-for="tipo" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="quantidadeQuartos" class="control-label"></label>
+                            <input asp-for="quantidadeQuartos" class="form-control" />
+                            <span asp-validation-for="quantidadeQuartos" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="capacidade" class="control-label"></label>
+                            <input asp-for="capacidade" class="form-control" />
+                            <span asp-validation-for="capacidade" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="PrecoBase" class="control-label"></label>
+                            <input asp-for="PrecoBase" class="form-control" />
+                            <span asp-validation-for="PrecoBase" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="taxaCancelamento" class="control-label"></label>
+                            <input asp-for="taxaCancelamento" class="form-control" />
+                            <span asp-validation-for="taxaCancelamento" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="taxaAdiconal" class="control-label"></label>
+                            <input asp-for="taxaAdiconal" class="form-control" />
+                            <span asp-validation-for="taxaAdiconal" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="numeroReserva" class="control-label"></label>
+                            <input asp-for="numeroReserva" class="form-control" />
+                            <span asp-validation-for="numeroReserva" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="dataCheckIn" class="control-label"></label>
+                            <input asp-for="dataCheckIn" class="form-control" />
+                            <span asp-validation-for="dataCheckIn" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="dataCheckOut" class="control-label"></label>
+                            <input asp-for="dataCheckOut" class="form-control" />
+                            <span asp-validation-for="dataCheckOut" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="dataReserva" class="control-label"></label>
+                            <input asp-for="dataReserva" class="form-control" />
+                            <span asp-validation-for="dataReserva" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="dataCancelamento" class="control-label"></label>
+                            <input asp-for="dataCancelamento" class="form-control" />
+                            <span asp-validation-for="dataCancelamento" class="text-danger"></span>
+                        </div>
+                        <div class="form-group form-check">
+                            <input class="form-check-input" asp-for="cancelamento" />
+                            <label class="form-check-label" asp-for="cancelamento">
+                                @Html.DisplayNameFor(model => model.cancelamento)
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="estado" class="control-label"></label>
+                            <input asp-for="estado" class="form-control" />
+                            <span asp-validation-for="estado" class="text-danger"></span>
+                        </div>
+                        <div class="form-group form-check">
+                            <input class="form-check-input" asp-for="EstadoPagamento" />
+                            <label class="form-check-label" asp-for="EstadoPagamento">
+                                @Html.DisplayNameFor(model => model.EstadoPagamento)
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="NumeroPessoas" class="control-label"></label>
+                            <input asp-for="NumeroPessoas" class="form-control" />
+                            <span asp-validation-for="NumeroPessoas" class="text-danger"></span>
+                        </div>
+                        <div class="form-group text-center">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="quantidadeQuartos" class="control-label"></label>
-                <input asp-for="quantidadeQuartos" class="form-control" />
-                <span asp-validation-for="quantidadeQuartos" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="capacidade" class="control-label"></label>
-                <input asp-for="capacidade" class="form-control" />
-                <span asp-validation-for="capacidade" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PrecoBase" class="control-label"></label>
-                <input asp-for="PrecoBase" class="form-control" />
-                <span asp-validation-for="PrecoBase" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="taxaCancelamento" class="control-label"></label>
-                <input asp-for="taxaCancelamento" class="form-control" />
-                <span asp-validation-for="taxaCancelamento" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="taxaAdiconal" class="control-label"></label>
-                <input asp-for="taxaAdiconal" class="form-control" />
-                <span asp-validation-for="taxaAdiconal" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="numeroReserva" class="control-label"></label>
-                <input asp-for="numeroReserva" class="form-control" />
-                <span asp-validation-for="numeroReserva" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="dataCheckIn" class="control-label"></label>
-                <input asp-for="dataCheckIn" class="form-control" />
-                <span asp-validation-for="dataCheckIn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="dataCheckOut" class="control-label"></label>
-                <input asp-for="dataCheckOut" class="form-control" />
-                <span asp-validation-for="dataCheckOut" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="dataReserva" class="control-label"></label>
-                <input asp-for="dataReserva" class="form-control" />
-                <span asp-validation-for="dataReserva" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="dataCancelamento" class="control-label"></label>
-                <input asp-for="dataCancelamento" class="form-control" />
-                <span asp-validation-for="dataCancelamento" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="cancelamento" /> @Html.DisplayNameFor(model => model.cancelamento)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="estado" class="control-label"></label>
-                <input asp-for="estado" class="form-control" />
-                <span asp-validation-for="estado" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="EstadoPagamento" /> @Html.DisplayNameFor(model => model.EstadoPagamento)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="NumeroPessoas" class="control-label"></label>
-                <input asp-for="NumeroPessoas" class="form-control" />
-                <span asp-validation-for="NumeroPessoas" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
+        <div class="text-center mt-3">
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
     </div>
-</div>
+</body>
+</html>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 

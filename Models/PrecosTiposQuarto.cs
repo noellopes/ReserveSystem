@@ -8,7 +8,7 @@ public class PrecoTipoQuarto : Reserva
     [Required]
     public string tipo { get; set; }
     [Required]
-    public int QuantidadeDeQuartos { get; set; }
+    public int quantidadeQuartos { get; set; }
     [Required]
     public int capacidade { get; set; }
 
