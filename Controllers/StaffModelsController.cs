@@ -12,9 +12,9 @@ namespace ReserveSystem.Controllers
 {
     public class StaffModelsController : Controller
     {
-        private readonly ReserveSystemUsersDbContext _context;
+        private readonly ReserveSystemContext _context;
 
-        public StaffModelsController(ReserveSystemUsersDbContext context)
+        public StaffModelsController(ReserveSystemContext context)
         {
             _context = context;
         }
@@ -46,15 +46,18 @@ namespace ReserveSystem.Controllers
         // GET: StaffModels/Create
         public IActionResult Create()
         {
+            
+            //ViewData["Job_Id"] = new SelectList(_context.Jobs, "JobId", "Name");
             return View();
         }
+
 
         // POST: StaffModels/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Staff_Id,Staff_Name,Staff_Email,Staff_Password")] StaffModel staffModel)
+        public async Task<IActionResult> Create([Bind("Staff_Id,Staff_Name,Staff_Email,Staff_Password,Department_Id,Job_Id")] StaffModel staffModel)
         {
             if (ModelState.IsValid)
             {
@@ -62,7 +65,8 @@ namespace ReserveSystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            //ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Department_Id", "Department_Name", staff.Department_Id);
+
+            //ViewBag.Jobs = new SelectList(_context.Jobs.ToList(), "Job_Id", "Job_Name", staff.Job_Id);
             return View(staffModel);
            
             

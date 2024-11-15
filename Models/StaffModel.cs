@@ -18,13 +18,9 @@ namespace ReserveSystem.Models
             public string Staff_Email { get; set; }
 
             [Required]
-            [DataType(DataType.Password)]
-            public string Staff_Password { get; set; }
+        [DataType(DataType.Password)]
+        public string Staff_Password { get; set; }
 
-            [ForeignKey("Department")]
-            public int Department_Id { get; set; }
-
-            [ForeignKey("Job")]
             public int Job_Id { get; set; }
     }
     
