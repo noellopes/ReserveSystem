@@ -19,6 +19,6 @@ namespace ReserveSystem.Models
         [Required(ErrorMessage = "Número da pessoa")]
         public int NumeroPessoas { get; set; }
         public int ClienteId { get; set; }
-        public ClienteModel Cliente { get; set; }
+        public ClienteModel? Cliente { get; set; }
     }
 }
