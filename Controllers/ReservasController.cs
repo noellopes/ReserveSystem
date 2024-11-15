@@ -57,7 +57,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ReservaId,DataCheckIn,DataCheckOut,DataReserva,Estado,EstadoPagamento,NumeroPessoas,ClienteId")] Reserva reserva)
+        public async Task<IActionResult> Create([Bind("ReservaId,DataCheckIn,DataCheckOut,DataReserva,Estado,EstadoPagamento,NumeroPessoas,ClienteId")] ReservaModel reserva)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +91,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ReservaId,DataCheckIn,DataCheckOut,DataReserva,Estado,EstadoPagamento,NumeroPessoas,ClienteId")] Reserva reserva)
+        public async Task<IActionResult> Edit(int id, [Bind("ReservaId,DataCheckIn,DataCheckOut,DataReserva,Estado,EstadoPagamento,NumeroPessoas,ClienteId")] ReservaModel reserva)
         {
             if (id != reserva.ReservaId)
             {

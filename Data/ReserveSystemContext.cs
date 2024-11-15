@@ -6,7 +6,7 @@ namespace ReserveSystem.Data
     public class ReserveSystemContext : DbContext
     {
         public ReserveSystemContext(DbContextOptions<ReserveSystemContext> options) : base(options) {}
-        public DbSet<ReserveSystem.Models.Cliente> Cliente { get; set; } = default!;
-        public DbSet<ReserveSystem.Models.Reserva> Reserva { get; set; } = default!;
+        public DbSet<ClienteModel> Cliente { get; set; } 
+        public DbSet<ReservaModel> Reserva { get; set; }
     }
 }
