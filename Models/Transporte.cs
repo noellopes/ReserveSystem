@@ -21,10 +21,12 @@ namespace ReserveSystem.Models
         [StringLength(50,
             ErrorMessage = "O tipo de transporte não pode ter mais de 50 caracteres e deve ter pelo menos 3 caracteres.",
             MinimumLength = 3)]
+        [Display(Name = "Tipo de Transporte")]
         public string TipoTransporte { get; set; }
 
         [Required(ErrorMessage = "O ano de fabricação é obrigatório.")]
         [Range(1900, 2100, ErrorMessage = "O ano de fabricação deve estar entre 1900 e 2100.")]
+        [Display(Name = "Ano de Fabricação")]
         public int AnoFabricacao { get; set; }
 
         // Propriedade derivada que retorna uma descrição com base no tipo de transporte
@@ -32,17 +34,28 @@ namespace ReserveSystem.Models
         {
             get
             {
-                switch (TipoTransporte.ToLower())
+                return TipoTransporte?.ToLower() switch
                 {
-                    case "autocarro":
-                        return "Transporte coletivo de passageiros.";
-
-                    case "carrinha":
-                        return "Transporte alternativo ou de turismo.";
-                    default:
-                        return "Tipo de transporte desconhecido.";
+                    "autocarro" => "Transporte Pesado de Passageiros",
+                    "carrinha" => "Transporte alternativo de passageiros ou turismo",
+                    _ => "Tipo de transporte desconhecido"
+                };
+            }
+            set
+            {
+                if (value == "Transporte Pesado de Passageiros")
+                {
+                    TipoTransporte = "Autocarro";
+                }
+                else if (value == "Transporte alternativo de passageiros ou turismo")
+                {
+                    TipoTransporte = "Carrinha";
+                }
+                else
+                {
+                    TipoTransporte = "Outro";
                 }
             }
         }
     }
-}
+    }
