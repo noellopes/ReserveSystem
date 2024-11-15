@@ -4,33 +4,61 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<style>
+    .details-container {
+        margin-top: 2rem;
+    }
 
-<div>
-    <h4>Ingrediente</h4>
+    .details-header {
+        color: #007bff;
+        text-align: center;
+    }
+
+    .details-list dt {
+        font-weight: bold;
+        text-align: right;
+    }
+
+    .details-list dd {
+        text-align: left;
+    }
+
+    .btn-custom {
+        background-color: #28a745;
+        color: white;
+    }
+
+        .btn-custom:hover {
+            background-color: #218838;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+</style>
+
+<div class="container details-container">
+    <h1 class="details-header">Detalhes do Ingrediente</h1>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.QuantidadeDisponivel)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.QuantidadeDisponivel)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UnidadeMedida)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UnidadeMedida)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.IngredienteId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <dl class="row details-list">
+                <dt class="col-sm-4">Nome</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Nome)</dd>
+                <dt class="col-sm-4">Quantidade Disponível</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.QuantidadeDisponivel)</dd>
+                <dt class="col-sm-4">Unidade de Medida</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.UnidadeMedida)</dd>
+            </dl>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center mt-4">
+        <a class="btn btn-sm btn-custom me-2" asp-action="Edit" asp-route-id="@Model?.IngredienteId">Editar</a>
+        <a class="btn btn-sm btn-secondary" asp-action="Index">Voltar à Lista</a>
+    </div>
 </div>
