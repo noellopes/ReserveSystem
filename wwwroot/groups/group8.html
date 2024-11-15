@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Grupo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label, button {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #0056b3;
+            }
+
+        .members-list {
+            margin-top: 20px;
+        }
+
+        .member-item {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Gerenciamento de Grupo</h1>
+
+        <!-- Formulário para adicionar um novo membro -->
+        <label for="memberName">Nome do Membro:</label>
+        <input type="text" id="memberName" placeholder="Digite o nome do membro">
+
+        <label for="memberEmail">Email do Membro:</label>
+        <input type="text" id="memberEmail" placeholder="Digite o email do membro">
+
+        <button onclick="adicionarMembro()">Adicionar Membro</button>
+
+        <div class="members-list" id="membersList">
+            <h3>Membros do Grupo:</h3>
+            <!-- Lista de membros será renderizada aqui -->
+        </div>
+    </div>
+
+    <script>
+    // Lista de membros do grupo
+    let membros = [];
+    let nextId = 1;
+
+    function adicionarMembro() {
+        const nome = document.getElementById("memberName").value;
+        const email = document.getElementById("memberEmail").value;
+
+        if (nome === "" || email === "") {
+            alert("Por favor, preencha todos os campos!");
+            return;
+        }
+
+        // Adiciona o novo membro à lista
+        membros.push({ id: nextId++, nome, email });
+        document.getElementById("memberName").value = "";
+        document.getElementById("memberEmail").value = "";
+
+        atualizarLista();
+    }
+
+    function removerMembro(id) {
+        // Remove o membro pelo ID
+        membros = membros.filter(membro => membro.id !== id);
+        atualizarLista();
+    }
+
+    function atualizarLista() {
+        const membersList = document.getElementById("membersList");
+        membersList.innerHTML = "<h3>Membros do Grupo:</h3>";
+
+        if (membros.length === 0) {
+            membersList.innerHTML += "<p>Nenhum membro encontrado.</p>";
+            return;
+        }
+
+        // Renderiza cada membro na lista
+        membros.forEach(membro => {
+            const memberItem = document.createElement("div");
+            memberItem.className = "member-item";
+            memberItem.innerHTML = `
+                <p><strong>ID:</strong> ${membro.id}</p>
+                <p><strong>Nome:</strong> ${membro.nome}</p>
+                <p><strong>Email:</strong> ${membro.email}</p>
+                <button onclick="removerMembro(${membro.id})">Remover</button>
+            `;
+            membersList.appendChild(memberItem);
+        });
+    }
+    </script>
+
+</body>
+</html>
