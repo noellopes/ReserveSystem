@@ -2,15 +2,16 @@
 
 namespace ReserveSystem.Models
 {
-    public class Pratos
+    public class Prato
     {
+        [Key]
         public int IdPrato {  get; set; }
-        [Required]
 
+        [Required]
         public string PratoNome { get; set; }
-        [Required]
-        public string Descrição { get; set; }
 
+        [Required]
+        public string Descricao { get; set; }
 
     }
 }

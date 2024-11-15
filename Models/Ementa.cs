@@ -5,23 +5,24 @@ namespace ReserveSystem.Models
 {
     public class Ementa
     {
-        
+
+        [Key]
         public int EmentaId { get; set; }
 
         [Required]
 
-        public int IdPratos { get;}
+        public Prato NomePrato { get; set; }
 
         [Required]
-        public int IdSobremesas { get; }
-
-        [Required]
-
-        public int IdSopas { get; }
+        public int IdSobremesas { get; set; }
 
         [Required]
 
-        public int IdBebidas { get; }
+        public int IdSopas { get; set; }
+
+        [Required]
+
+        public int IdBebidas { get; set; }
 
     }
 }
