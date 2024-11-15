@@ -21,7 +21,7 @@ namespace ReserveSystem.Models
         [DataType(DataType.Password)]
         public string Staff_Password { get; set; }
 
-            public int Job_Id { get; set; }
+           public int Job_Id { get; set; }
     }
     
 }

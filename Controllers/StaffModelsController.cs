@@ -57,7 +57,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Staff_Id,Staff_Name,Staff_Email,Staff_Password,Department_Id,Job_Id")] StaffModel staffModel)
+        public async Task<IActionResult> Create([Bind("Staff_Id,Staff_Name,Staff_Email,Staff_Password")] StaffModel staffModel)
         {
             if (ModelState.IsValid)
             {
