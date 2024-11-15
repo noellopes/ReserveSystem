@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-
-
 namespace ReserveSystem.Models;
 public class Reserva
 {
@@ -25,7 +23,7 @@ public class Reserva
         public bool cancelamento { get; set; }
 
         [Required]
-        public string Estado {  get; set; }
+        public string estado { get; set; }
 
         [Required]
         public bool EstadoPagamento { get; set; }

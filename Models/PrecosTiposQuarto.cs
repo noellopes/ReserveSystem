@@ -13,7 +13,7 @@ public class PrecoTipoQuarto : Reserva
     public int capacidade { get; set; }
 
     [Required]
-		public	float PrecoBase {  get; set; }
+	public	float PrecoBase {  get; set; }
 
     [Required]
     public float taxaCancelamento { get; set; }
