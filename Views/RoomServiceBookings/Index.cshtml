@@ -1,0 +1,101 @@
+﻿@model IEnumerable<ReserveSystem.Models.RoomServiceBooking>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RoomServiceId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClientId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoomId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsReserved)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffConfirmation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClientFeedback)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AmountToPay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PaymentMade)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RoomServiceId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StaffId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RoomId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsReserved)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StaffConfirmation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientFeedback)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AmountToPay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaymentMade)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.RoomServiceBookingId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.RoomServiceBookingId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.RoomServiceBookingId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
