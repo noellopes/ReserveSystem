@@ -1,0 +1,32 @@
+﻿@model IEnumerable<ReserveSystem.Models.Equipamento>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Equipamentos</title>
+</head>
+<body>
+    <h1>Lista de Equipamentos</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Tipo</th>
+                <th>Quantidade</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var equipamento in Model)
+            {
+                <tr>
+                    <td>@equipamento.IdEquipamento</td>
+                    <td>@equipamento.NomeEquipamento</td>
+                    <td>@equipamento.TipoEquipamento</td>
+                    <td>@equipamento.Quantidade</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using ReserveSystem.Data;
 using ReserveSystem.Models;
 using System.Diagnostics;
 
@@ -22,6 +23,8 @@ namespace ReserveSystem.Controllers
         {
             return View();
         }
+
+        public readonly ReserveSystemContext context;
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
