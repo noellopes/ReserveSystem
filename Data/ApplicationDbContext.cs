@@ -11,5 +11,6 @@ namespace ReserveSystem.Data
         {
         }
         public DbSet<ReserveSystem.Models.Reserva> Reserva { get; set; } = default!;
+        public DbSet<ReserveSystem.Models.Prato> Prato { get; set; } = default!;
     }
 }

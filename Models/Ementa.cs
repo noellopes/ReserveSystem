@@ -13,16 +13,7 @@ namespace ReserveSystem.Models
 
         public Prato NomePrato { get; set; }
 
-        [Required]
-        public int IdSobremesas { get; set; }
-
-        [Required]
-
-        public int IdSopas { get; set; }
-
-        [Required]
-
-        public int IdBebidas { get; set; }
+       
 
     }
 }
