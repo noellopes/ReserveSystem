@@ -26,7 +26,7 @@ namespace ReserveSystem.Migrations
             modelBuilder.Entity("ReserveSystem.Models.Equipamento", b =>
             modelBuilder.Entity("ReserveSystem.Models.ClienteModel", b =>
                 {
-                    b.Property<int>("IdEquipamento")
+                    b.Property<int>("IdEquipamento");
                     b.Property<int>("ClienteId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
@@ -50,16 +50,16 @@ namespace ReserveSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NomeEquipamento")
+                    b.Property<string>("NomeEquipamento");
                     b.Property<string>("Telefone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Quantidade")
+                    b.Property<int>("Quantidade");
                     b.HasKey("ClienteId");
 
                     b.ToTable("ClienteModel");
-                });
+                }));
 
             modelBuilder.Entity("ReserveSystem.Models.ReservaModel", b =>
                 {
@@ -84,7 +84,7 @@ namespace ReserveSystem.Migrations
                     b.Property<int>("Partcipantes")
                         .HasColumnType("int");
 
-                    b.Property<string>("TipoEquipamento")
+                    b.Property<string>("TipoEquipamento");
                     b.Property<double>("PrecoTotal")
                         .HasColumnType("float");
 
@@ -109,9 +109,14 @@ namespace ReserveSystem.Migrations
                         .IsRequired();
 
                     b.Navigation("Cliente");
-                });
 
-                    b.ToTable("Equipamento", (string)null);
+
+                });
+            modelBuilder.Entity("ReserveSystem.Models.Equipamento", b =>
+            {
+                b.ToTable("Equipamento", (string)null);
+            });
+
             modelBuilder.Entity("ReserveSystem.Models.ClienteModel", b =>
                 {
                     b.Navigation("Reserva");

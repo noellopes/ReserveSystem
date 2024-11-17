@@ -1,106 +1,141 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group 8 - Room and Equipment Reservation</title>
+    <title>Gerenciamento de Grupo</title>
     <style>
-        /* Base styles */
         body {
             font-family: Arial, sans-serif;
+            margin: 20px;
             background-color: #f4f4f4;
-            color: #333;
-            margin: 0;
-            padding: 0;
         }
-        /* Container styling */
+
         .container {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 30px;
-            background-color: #ffffff;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-            border-radius: 10px;
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
         }
-        /* Header styling */
+
         h1 {
             text-align: center;
-            color: #34495e;
-            font-size: 2rem;
-            margin-bottom: 10px;
+            color: #333;
         }
-        h2 {
-            color: #3498db;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 5px;
-            margin-top: 25px;
-            font-size: 1.5rem;
+
+        label, button {
+            display: block;
+            margin-top: 10px;
         }
-        /* Paragraph styling */
-        p {
-            line-height: 1.6;
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
-        /* List styling */
-        ul {
-            list-style-type: disc;
-            padding-left: 20px;
-        }
-        /* Group members styling */
-        .members, .progress {
-            margin-top: 15px;
-        }
-        .member, .task {
+
+        button {
             padding: 10px;
-            background-color: #ecf0f1;
-            border-left: 4px solid #3498db;
-            margin-bottom: 10px;
-            border-radius: 5px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
         }
-        .member strong, .task strong {
-            color: #2c3e50;
+
+            button:hover {
+                background-color: #0056b3;
+            }
+
+        .members-list {
+            margin-top: 20px;
+        }
+
+        .member-item {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>Group 8 - Room and Equipment Reservation</h1>
 
-    <!-- Project Responsibilities -->
-    <h2>Project Responsibilities</h2>
-    <p>Group 8 is tasked with creating and managing resources, including rooms and equipment, for event reservation purposes. Our responsibilities cover defining availability, setting schedules, and managing budgeting needs. Here’s a summary of our tasks:</p>
-    <ul>
-        <li>Creation and management of various resources (rooms, equipment, etc.).</li>
-        <li>Setting availability, schedules, capacities, preparation time, and specific rules for each resource/room.</li>
-        <li>Defining types of events, such as parties, conferences, etc.</li>
-        <li>Budgeting requirements and calculations.</li>
-    </ul>
+    <div class="container">
+        <h1>Gerenciamento de Grupo</h1>
 
-    <!-- Group Members -->
-    <h2>Group Members</h2>
-    <div class="members">
-        <div class="member">
-            <strong>1711103</strong> - Ali Anıl Hazar
-        </div>
-        <div class="member">
-            <strong>1702622</strong> - Janice Horta
-        </div>
-        <div class="member">
-            <strong>1707797</strong> - Edson Florêncio Muandula
-        </div>
-        <div class="member">
-            <strong>1702815</strong> - Artur da Silva Filipe Melão
+        <!-- Formulário para adicionar um novo membro -->
+        <label for="memberName">Nome do Membro:</label>
+        <input type="text" id="memberName" placeholder="Digite o nome do membro">
+
+        <label for="memberEmail">Email do Membro:</label>
+        <input type="text" id="memberEmail" placeholder="Digite o email do membro">
+
+        <button onclick="adicionarMembro()">Adicionar Membro</button>
+
+        <div class="members-list" id="membersList">
+            <h3>Membros do Grupo:</h3>
+            <!-- Lista de membros será renderizada aqui -->
         </div>
     </div>
 
-    <!-- Project Progress -->
-    <h2>Progress</h2>
-    <p>Here’s an update on what we’ve accomplished so far:</p>
-    <div class="progress">
-        <div class="task">
-            <strong>The Label:</strong> Explanation
-        </div>
+    <script>
+    // Lista de membros do grupo
+    let membros = [];
+    let nextId = 1;
 
-    </div>
-</div>
+    function adicionarMembro() {
+        const nome = document.getElementById("memberName").value;
+        const email = document.getElementById("memberEmail").value;
+
+        if (nome === "" || email === "") {
+            alert("Por favor, preencha todos os campos!");
+            return;
+        }
+
+        // Adiciona o novo membro à lista
+        membros.push({ id: nextId++, nome, email });
+        document.getElementById("memberName").value = "";
+        document.getElementById("memberEmail").value = "";
+
+        atualizarLista();
+    }
+
+    function removerMembro(id) {
+        // Remove o membro pelo ID
+        membros = membros.filter(membro => membro.id !== id);
+        atualizarLista();
+    }
+
+    function atualizarLista() {
+        const membersList = document.getElementById("membersList");
+        membersList.innerHTML = "<h3>Membros do Grupo:</h3>";
+
+        if (membros.length === 0) {
+            membersList.innerHTML += "<p>Nenhum membro encontrado.</p>";
+            return;
+        }
+
+        // Renderiza cada membro na lista
+        membros.forEach(membro => {
+            const memberItem = document.createElement("div");
+            memberItem.className = "member-item";
+            memberItem.innerHTML = `
+                <p><strong>ID:</strong> ${membro.id}</p>
+                <p><strong>Nome:</strong> ${membro.nome}</p>
+                <p><strong>Email:</strong> ${membro.email}</p>
+                <button onclick="removerMembro(${membro.id})">Remover</button>
+            `;
+            membersList.appendChild(memberItem);
+        });
+    }
+    </script>
+
 </body>
 </html>
