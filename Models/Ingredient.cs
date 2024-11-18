@@ -7,7 +7,7 @@ namespace ReserveSystem.Models
         
         public int IngredientID { get; set; }
 
-        [Display(Name = "Ingredient Name")]
+        [Display(Name = "Name")]
         [Required(ErrorMessage = "Ingredient Name is required"), StringLength(300)]
         public string Name { get; set; }
 
