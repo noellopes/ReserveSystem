@@ -5,7 +5,7 @@ namespace ReserveSystem.Models
     public class Prato
     {
         [Key]
-        public int IdPrato {  get; set; }
+        public int IdPrato { get; set; }
 
         [Required]
         public string PratoNome { get; set; }

@@ -12,7 +12,7 @@ namespace ReserveSystem.Models
         [Required]
         public string NomeCliente { get; set; }
 
-        [Range(1, 35)]
+        [Required][Range(1, 35)]
         public int NumeroMesa { get; set; }
 
         [Required(ErrorMessage = "O número da mesa é obrigatório.")]

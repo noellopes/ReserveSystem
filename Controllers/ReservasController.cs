@@ -10,22 +10,38 @@ using ReserveSystem.Models;
 
 namespace ReserveSystem.Controllers
 {
+<<<<<<<< HEAD:Controllers/ReservasController.cs
     public class ReservasController : Controller
     {
         private readonly ApplicationDbContext _context;
 
         public ReservasController(ApplicationDbContext context)
+========
+    public class PratosController : Controller
+        {
+        private readonly ApplicationDbContext _context;
+
+        public PratosController(ApplicationDbContext context)
+>>>>>>>> d383a10b65dded3aefe11ca251809fc3f7617840:Controllers/PratosController.cs
         {
             _context = context;
         }
 
+<<<<<<<< HEAD:Controllers/ReservasController.cs
         // GET: Reservas
+========
+        // GET: Pratos
+>>>>>>>> d383a10b65dded3aefe11ca251809fc3f7617840:Controllers/PratosController.cs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Reserva.ToListAsync());
+            return View(await _context.Prato.ToListAsync());
         }
 
+<<<<<<<< HEAD:Controllers/ReservasController.cs
         // GET: Reservas/Details/5
+========
+        // GET: Pratos/Details/5
+>>>>>>>> d383a10b65dded3aefe11ca251809fc3f7617840:Controllers/PratosController.cs
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +49,51 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var reserva = await _context.Reserva
-                .FirstOrDefaultAsync(m => m.IdReserva == id);
-            if (reserva == null)
+            var prato = await _context.Prato
+                .FirstOrDefaultAsync(m => m.IdPrato == id);
+            if (prato == null)
             {
                 return NotFound();
             }
 
-            return View(reserva);
+            return View(prato);
         }
 
+<<<<<<<< HEAD:Controllers/ReservasController.cs
         // GET: Reservas/Create
+========
+        // GET: Pratos/Create
+>>>>>>>> d383a10b65dded3aefe11ca251809fc3f7617840:Controllers/PratosController.cs
         public IActionResult Create()
         {
             return View();
         }
 
+<<<<<<<< HEAD:Controllers/ReservasController.cs
         // POST: Reservas/Create
+========
+        // POST: Pratos/Create
+>>>>>>>> d383a10b65dded3aefe11ca251809fc3f7617840:Controllers/PratosController.cs
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdReserva,NomeCliente,NumeroMesa,NumeroPessoas,DataHora,Observacao")] Reserva reserva)
+        public async Task<IActionResult> Create([Bind("IdPrato,PratoNome,Descricao")] Prato prato)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(reserva);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(reserva);
-        }
+                _context.Add(prato);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+            return View(prato);
+                    }
 
+<<<<<<<< HEAD:Controllers/ReservasController.cs
         // GET: Reservas/Edit/5
+========
+        // GET: Pratos/Edit/5
+>>>>>>>> d383a10b65dded3aefe11ca251809fc3f7617840:Controllers/PratosController.cs
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +101,26 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var reserva = await _context.Reserva.FindAsync(id);
-            if (reserva == null)
+            var prato = await _context.Prato.FindAsync(id);
+            if (prato == null)
             {
                 return NotFound();
             }
-            return View(reserva);
+            return View(prato);
         }
 
+<<<<<<<< HEAD:Controllers/ReservasController.cs
         // POST: Reservas/Edit/5
+========
+        // POST: Pratos/Edit/5
+>>>>>>>> d383a10b65dded3aefe11ca251809fc3f7617840:Controllers/PratosController.cs
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdReserva,NomeCliente,NumeroMesa,NumeroPessoas,DataHora,Observacao")] Reserva reserva)
+        public async Task<IActionResult> Edit(int id, [Bind("IdPrato,PratoNome,Descricao")] Prato prato)
         {
-            if (id != reserva.IdReserva)
+            if (id != prato.IdPrato)
             {
                 return NotFound();
             }
@@ -97,12 +129,12 @@ namespace ReserveSystem.Controllers
             {
                 try
                 {
-                    _context.Update(reserva);
+                    _context.Update(prato);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
-                {
-                    if (!ReservaExists(reserva.IdReserva))
+                    {
+                    if (!PratoExists(prato.IdPrato))
                     {
                         return NotFound();
                     }
@@ -113,10 +145,14 @@ namespace ReserveSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(reserva);
+            return View(prato);
         }
 
+<<<<<<<< HEAD:Controllers/ReservasController.cs
         // GET: Reservas/Delete/5
+========
+        // GET: Pratos/Delete/5
+>>>>>>>> d383a10b65dded3aefe11ca251809fc3f7617840:Controllers/PratosController.cs
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,34 +160,38 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var reserva = await _context.Reserva
-                .FirstOrDefaultAsync(m => m.IdReserva == id);
-            if (reserva == null)
+            var prato = await _context.Prato
+                .FirstOrDefaultAsync(m => m.IdPrato == id);
+            if (prato == null)
             {
                 return NotFound();
             }
 
-            return View(reserva);
+            return View(prato);
         }
 
+<<<<<<<< HEAD:Controllers/ReservasController.cs
         // POST: Reservas/Delete/5
+========
+        // POST: Pratos/Delete/5
+>>>>>>>> d383a10b65dded3aefe11ca251809fc3f7617840:Controllers/PratosController.cs
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var reserva = await _context.Reserva.FindAsync(id);
-            if (reserva != null)
+            var prato = await _context.Prato.FindAsync(id);
+            if (prato != null)
             {
-                _context.Reserva.Remove(reserva);
+                _context.Prato.Remove(prato);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ReservaExists(int id)
+        private bool PratoExists(int id)
         {
-            return _context.Reserva.Any(e => e.IdReserva == id);
+            return _context.Prato.Any(e => e.IdPrato == id);
         }
     }
 }
