@@ -34,7 +34,7 @@ namespace ReserveSystem.Controllers
             }
 
             var precoTipoQuarto = await _context.PrecoTipoQuarto
-                .FirstOrDefaultAsync(m => m.precotq_id == id);
+                .FirstOrDefaultAsync(m => m.TipoQuartoId == id);
             if (precoTipoQuarto == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("precotq_id,tipo,quantidadeQuartos,capacidade,PrecoBase,taxaCancelamento,taxaAdiconal,numeroReserva,dataCheckIn,dataCheckOut,dataReserva,dataCancelamento,cancelamento,estado,EstadoPagamento,NumeroPessoas")] PrecoTipoQuarto precoTipoQuarto)
+        public async Task<IActionResult> Create([Bind("TipoQuartoId,tipo,quantidadeQuartos,capacidade,PrecoBase,taxaCancelamento,camaAdiconal,numeroReserva,dataCheckIn,dataCheckOut,dataReserva,dataCancelamento,cancelamento,estado,EstadoPagamento,NumeroPessoas")] PrecoTipoQuarto precoTipoQuarto)
         {
             if (ModelState.IsValid)
             {
@@ -86,9 +86,9 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("precotq_id,tipo,quantidadeQuartos,capacidade,PrecoBase,taxaCancelamento,taxaAdiconal,numeroReserva,dataCheckIn,dataCheckOut,dataReserva,dataCancelamento,cancelamento,estado,EstadoPagamento,NumeroPessoas")] PrecoTipoQuarto precoTipoQuarto)
+        public async Task<IActionResult> Edit(int id, [Bind("TipoQuartoId,tipo,quantidadeQuartos,capacidade,PrecoBase,taxaCancelamento,camaAdiconal,numeroReserva,dataCheckIn,dataCheckOut,dataReserva,dataCancelamento,cancelamento,estado,EstadoPagamento,NumeroPessoas")] PrecoTipoQuarto precoTipoQuarto)
         {
-            if (id != precoTipoQuarto.precotq_id)
+            if (id != precoTipoQuarto.TipoQuartoId)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace ReserveSystem.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PrecoTipoQuartoExists(precoTipoQuarto.precotq_id))
+                    if (!PrecoTipoQuartoExists(precoTipoQuarto.TipoQuartoId))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace ReserveSystem.Controllers
             }
 
             var precoTipoQuarto = await _context.PrecoTipoQuarto
-                .FirstOrDefaultAsync(m => m.precotq_id == id);
+                .FirstOrDefaultAsync(m => m.TipoQuartoId == id);
             if (precoTipoQuarto == null)
             {
                 return NotFound();
@@ -151,7 +151,7 @@ namespace ReserveSystem.Controllers
 
         private bool PrecoTipoQuartoExists(int id)
         {
-            return _context.PrecoTipoQuarto.Any(e => e.precotq_id == id);
+            return _context.PrecoTipoQuarto.Any(e => e.TipoQuartoId == id);
         }
     }
 }

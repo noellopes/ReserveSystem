@@ -1,16 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace ReserveSystem.Models;
-public class PrecoTipoQuarto : Reserva
+public class PrecoTipoQuarto 
 {
     [Key]
-    public int precotq_id { get; set; }
+    public int TipoQuartoId { get; set; }
     [Required]
     public string tipo { get; set; }
-    [Required]
-    public int quantidadeQuartos { get; set; }
+
     [Required]
     public int capacidade { get; set; }
+
+    [Required]
+    public int quantidadeQuartos { get; set; }
+   
+
 
     [Required]
 	public	float PrecoBase {  get; set; }
@@ -19,7 +23,15 @@ public class PrecoTipoQuarto : Reserva
     public float taxaCancelamento { get; set; }
 
     [Required]
-    public float taxaAdiconal { get; set; }
+    public float camaAdiconal { get; set; }
 
+
+    [Required]
+    public bool QuartoAdaptado { get; set; }
+
+    [Required]
+    public bool Vista {  get; set; }
+
+    
 }
 

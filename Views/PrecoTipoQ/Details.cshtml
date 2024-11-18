@@ -41,68 +41,27 @@
             @Html.DisplayFor(model => model.taxaCancelamento)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.taxaAdiconal)
+            @Html.DisplayNameFor(model => model.camaAdiconal)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.taxaAdiconal)
+            @Html.DisplayFor(model => model.camaAdiconal)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.numeroReserva)
+            @Html.DisplayNameFor(model => model.QuartoAdaptado)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.numeroReserva)
+            @Html.DisplayFor(model => model.QuartoAdaptado)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.dataCheckIn)
+            @Html.DisplayNameFor(model => model.Vista)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.dataCheckIn)
+            @Html.DisplayFor(model => model.Vista)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.dataCheckOut)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.dataCheckOut)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.dataReserva)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.dataReserva)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.dataCancelamento)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.dataCancelamento)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.cancelamento)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.cancelamento)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.estado)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.estado)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EstadoPagamento)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EstadoPagamento)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NumeroPessoas)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NumeroPessoas)
-        </dd>
+        
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.precotq_id">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model?.TipoQuartoId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

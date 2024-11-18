@@ -1,7 +1,7 @@
 ﻿@model ReserveSystem.Models.PrecoTipoQuarto
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create new Room Type";
 }
 
 <!DOCTYPE html>
@@ -90,16 +90,18 @@
                             <input asp-for="tipo" class="form-control" />
                             <span asp-validation-for="tipo" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
-                            <label asp-for="quantidadeQuartos" class="control-label"></label>
-                            <input asp-for="quantidadeQuartos" class="form-control" />
-                            <span asp-validation-for="quantidadeQuartos" class="text-danger"></span>
-                        </div>
+
                         <div class="form-group">
                             <label asp-for="capacidade" class="control-label"></label>
                             <input asp-for="capacidade" class="form-control" />
                             <span asp-validation-for="capacidade" class="text-danger"></span>
                         </div>
+                        <div class="form-group">
+                            <label asp-for="quantidadeQuartos" class="control-label"></label>
+                            <input asp-for="quantidadeQuartos" class="form-control" />
+                            <span asp-validation-for="quantidadeQuartos" class="text-danger"></span>
+                        </div>
+                        
                         <div class="form-group">
                             <label asp-for="PrecoBase" class="control-label"></label>
                             <input asp-for="PrecoBase" class="form-control" />
@@ -111,57 +113,23 @@
                             <span asp-validation-for="taxaCancelamento" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="taxaAdiconal" class="control-label"></label>
-                            <input asp-for="taxaAdiconal" class="form-control" />
-                            <span asp-validation-for="taxaAdiconal" class="text-danger"></span>
+                            <label asp-for="camaAdiconal" class="control-label"></label>
+                            <input asp-for="camaAdiconal" class="form-control" />
+                            <span asp-validation-for="camaAdiconal" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
-                            <label asp-for="numeroReserva" class="control-label"></label>
-                            <input asp-for="numeroReserva" class="form-control" />
-                            <span asp-validation-for="numeroReserva" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="dataCheckIn" class="control-label"></label>
-                            <input asp-for="dataCheckIn" class="form-control" />
-                            <span asp-validation-for="dataCheckIn" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="dataCheckOut" class="control-label"></label>
-                            <input asp-for="dataCheckOut" class="form-control" />
-                            <span asp-validation-for="dataCheckOut" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="dataReserva" class="control-label"></label>
-                            <input asp-for="dataReserva" class="form-control" />
-                            <span asp-validation-for="dataReserva" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="dataCancelamento" class="control-label"></label>
-                            <input asp-for="dataCancelamento" class="form-control" />
-                            <span asp-validation-for="dataCancelamento" class="text-danger"></span>
-                        </div>
+
                         <div class="form-group form-check">
-                            <input class="form-check-input" asp-for="cancelamento" />
-                            <label class="form-check-label" asp-for="cancelamento">
-                                @Html.DisplayNameFor(model => model.cancelamento)
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="QuartoAdaptado" /> @Html.DisplayNameFor(model => model.QuartoAdaptado)
                             </label>
                         </div>
-                        <div class="form-group">
-                            <label asp-for="estado" class="control-label"></label>
-                            <input asp-for="estado" class="form-control" />
-                            <span asp-validation-for="estado" class="text-danger"></span>
-                        </div>
+
                         <div class="form-group form-check">
-                            <input class="form-check-input" asp-for="EstadoPagamento" />
-                            <label class="form-check-label" asp-for="EstadoPagamento">
-                                @Html.DisplayNameFor(model => model.EstadoPagamento)
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="Vista" /> @Html.DisplayNameFor(model => model.Vista)
                             </label>
                         </div>
-                        <div class="form-group">
-                            <label asp-for="NumeroPessoas" class="control-label"></label>
-                            <input asp-for="NumeroPessoas" class="form-control" />
-                            <span asp-validation-for="NumeroPessoas" class="text-danger"></span>
-                        </div>
+                        
                         <div class="form-group text-center">
                             <input type="submit" value="Create" class="btn btn-primary" />
                         </div>

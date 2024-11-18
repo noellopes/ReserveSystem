@@ -1,119 +1,160 @@
 ﻿@model IEnumerable<ReserveSystem.Models.PrecoTipoQuarto>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Room Type Index";
 }
 
-<h1>Index</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - PrecoTipoQuarto</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #f9f9f6; /* Off-white background */
+            color: #1a1a1a; /* Deep black for text */
+        }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.tipo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.quantidadeQuartos)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.capacidade)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PrecoBase)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.taxaCancelamento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.taxaAdiconal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.numeroReserva)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.dataCheckIn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.dataCheckOut)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.dataReserva)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.dataCancelamento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.cancelamento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.estado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EstadoPagamento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NumeroPessoas)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.tipo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.quantidadeQuartos)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.capacidade)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PrecoBase)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.taxaCancelamento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.taxaAdiconal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.numeroReserva)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.dataCheckIn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.dataCheckOut)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.dataReserva)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.dataCancelamento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.cancelamento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.estado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EstadoPagamento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumeroPessoas)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.precotq_id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.precotq_id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.precotq_id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        /* Overall table styles */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+
+        /* Table Header Styles */
+        .table thead {
+            background-color: #333333; /* Dark background for header */
+            color: white;
+        }
+
+        /* Table row hover effect */
+        .table tbody tr:hover {
+            background-color: #F5F5F5; /* Hover effect color */
+            color: #d4af37; /* Text color on hover */
+            cursor: pointer;
+        }
+
+        /* Table cell styles */
+        .table th, .table td {
+            padding: 18px 20px;
+            text-align: left;
+            font-size: 1.125rem;
+            font-weight: 500;
+        }
+
+        /* Button styles */
+        .btn {
+            background-color: #ffffff;
+            border-color: #d4af37;
+            color: #333333;
+            font-weight: 600;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-size: 1.125rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #333333;
+            color: #F5F5F5;
+            border-color: #333333;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .btn:active {
+            background-color: #000000; /* Darker effect when clicked */
+            border-color: #000000;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Return to original shadow */
+            transform: translateY(0); /* Button "presses" down */
+        }
+
+        .hr {
+            border: none;
+            height: 2px;
+            background-color: #d4af37; /* Gold */
+            width: 60%;
+            margin: 1rem auto;
+            opacity: 0.8;
+        }
+
+        /* Centered title */
+        h1 {
+            font-size: 2rem;
+            color: #d4af37; /* Gold for title */
+        }
+
+        /* Adjusting the paragraph style for centered 'Create' button */
+        p {
+            text-align: center;
+            margin-top: 2rem;
+        }
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const rows = document.querySelectorAll(".clickable-row");
+            rows.forEach(row => {
+                row.addEventListener("click", function () {
+                    window.location = this.dataset.href;
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center my-4">@ViewData["Title"]</h1>
+        <hr class="hr" />
+        <table class="table table-bordered my-4">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.tipo)</th>
+                    <th>@Html.DisplayNameFor(model => model.quantidadeQuartos)</th>
+                    <th>@Html.DisplayNameFor(model => model.capacidade)</th>
+                    <th>@Html.DisplayNameFor(model => model.PrecoBase)</th>
+                    <th>@Html.DisplayNameFor(model => model.taxaCancelamento)</th>
+                    <th>@Html.DisplayNameFor(model => model.camaAdiconal)</th>
+                    <th>@Html.DisplayNameFor(model => model.QuartoAdaptado)</th>
+                    <th>@Html.DisplayNameFor(model => model.Vista)</th>
+                    <th>Actions</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="clickable-row" data-href="@Url.Action("Details", new { id = item.TipoQuartoId })">
+                        <td>@Html.DisplayFor(modelItem => item.tipo)</td>
+                        <td>@Html.DisplayFor(modelItem => item.quantidadeQuartos)</td>
+                        <td>@Html.DisplayFor(modelItem => item.capacidade)</td>
+                        <td>@Html.DisplayFor(modelItem => item.PrecoBase)</td>
+                        <td>@Html.DisplayFor(modelItem => item.taxaCancelamento)</td>
+                        <td>@Html.DisplayFor(modelItem => item.camaAdiconal)</td>
+                        <td>@Html.DisplayFor(modelItem => item.QuartoAdaptado)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Vista)</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.TipoQuartoId">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.TipoQuartoId">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.TipoQuartoId">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <p>
+            <a class="btn" asp-action="Create">Create New</a>
+        </p>
+    </div>
+</body>
+</html>
+

@@ -12,7 +12,7 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="precotq_id" />
+            <input type="hidden" asp-for="TipoQuartoId" />
             <div class="form-group">
                 <label asp-for="tipo" class="control-label"></label>
                 <input asp-for="tipo" class="form-control" />
@@ -39,55 +39,23 @@
                 <span asp-validation-for="taxaCancelamento" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="taxaAdiconal" class="control-label"></label>
-                <input asp-for="taxaAdiconal" class="form-control" />
-                <span asp-validation-for="taxaAdiconal" class="text-danger"></span>
+                <label asp-for="camaAdiconal" class="control-label"></label>
+                <input asp-for="camaAdiconal" class="form-control" />
+                <span asp-validation-for="camaAdiconal" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="numeroReserva" class="control-label"></label>
-                <input asp-for="numeroReserva" class="form-control" />
-                <span asp-validation-for="numeroReserva" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="dataCheckIn" class="control-label"></label>
-                <input asp-for="dataCheckIn" class="form-control" />
-                <span asp-validation-for="dataCheckIn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="dataCheckOut" class="control-label"></label>
-                <input asp-for="dataCheckOut" class="form-control" />
-                <span asp-validation-for="dataCheckOut" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="dataReserva" class="control-label"></label>
-                <input asp-for="dataReserva" class="form-control" />
-                <span asp-validation-for="dataReserva" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="dataCancelamento" class="control-label"></label>
-                <input asp-for="dataCancelamento" class="form-control" />
-                <span asp-validation-for="dataCancelamento" class="text-danger"></span>
-            </div>
+         
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="cancelamento" /> @Html.DisplayNameFor(model => model.cancelamento)
+                    <input class="form-check-input" asp-for="QuartoAdaptado" /> @Html.DisplayNameFor(model => model.QuartoAdaptado)
                 </label>
             </div>
-            <div class="form-group">
-                <label asp-for="estado" class="control-label"></label>
-                <input asp-for="estado" class="form-control" />
-                <span asp-validation-for="estado" class="text-danger"></span>
-            </div>
+
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="EstadoPagamento" /> @Html.DisplayNameFor(model => model.EstadoPagamento)
+                    <input class="form-check-input" asp-for="Vista" /> @Html.DisplayNameFor(model => model.Vista)
                 </label>
             </div>
-            <div class="form-group">
-                <label asp-for="NumeroPessoas" class="control-label"></label>
-                <input asp-for="NumeroPessoas" class="form-control" />
-                <span asp-validation-for="NumeroPessoas" class="text-danger"></span>
-            </div>
+            
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
