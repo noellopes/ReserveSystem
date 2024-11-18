@@ -224,6 +224,25 @@ namespace ReserveSystem.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ReserveSystem.Models.Mesa", b =>
+                {
+                    b.Property<int>("IdMesa")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdMesa"));
+
+                    b.Property<int>("NumeroLugares")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Reservado")
+                        .HasColumnType("bit");
+
+                    b.HasKey("IdMesa");
+
+                    b.ToTable("Mesa");
+                });
+
             modelBuilder.Entity("ReserveSystem.Models.Prato", b =>
                 {
                     b.Property<int>("IdPrato")
