@@ -42,7 +42,7 @@ namespace ReserveSystem.Migrations
 
                     b.HasKey("IngredientID");
 
-                    b.ToTable("Ingredient");
+                    b.ToTable("Ingredient", (string)null);
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.Prato", b =>
@@ -65,7 +65,7 @@ namespace ReserveSystem.Migrations
 
                     b.HasKey("PratoID");
 
-                    b.ToTable("Prato");
+                    b.ToTable("Prato", (string)null);
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.Stock", b =>
@@ -89,7 +89,7 @@ namespace ReserveSystem.Migrations
 
                     b.HasIndex("IngredientID");
 
-                    b.ToTable("Stock");
+                    b.ToTable("Stock", (string)null);
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.Stock", b =>

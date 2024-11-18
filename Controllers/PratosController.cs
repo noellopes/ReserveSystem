@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
 
-namespace ReserveSystem.Views
+namespace ReserveSystem.Controllers
 {
     public class PratosController : Controller
     {
