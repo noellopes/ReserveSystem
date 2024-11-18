@@ -2,7 +2,7 @@
 
 namespace ReserveSystem.Models
 {
-    internal class SeedDataCliente
+    internal class SeedData
     {
         internal static void Populate(ReserveSystemContext? db)
         {

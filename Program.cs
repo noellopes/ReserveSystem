@@ -39,7 +39,7 @@ else
 using (var serviceScope = app.Services.CreateScope())
 {
     var db = serviceScope.ServiceProvider.GetService<ReserveSystemContext>();
-    SeedDataCliente.Populate(db);
+    SeedData.Populate(db);
 }
 
 app.UseHttpsRedirection();
