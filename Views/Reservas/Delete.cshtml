@@ -12,40 +12,40 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DataCheckIn)
+            @Html.DisplayNameFor(model => model.CHECKIN_DATE)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DataCheckIn)
+            @Html.DisplayFor(model => model.CHECKIN_DATE)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DataCheckOut)
+            @Html.DisplayNameFor(model => model.CHECKOUT_DATE)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DataCheckOut)
+            @Html.DisplayFor(model => model.CHECKOUT_DATE)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DataReserva)
+            @Html.DisplayNameFor(model => model.BOOKING_DATE)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DataReserva)
+            @Html.DisplayFor(model => model.BOOKING_DATE)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Estado)
+            @Html.DisplayNameFor(model => model.BOOKED)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Estado)
+            @Html.DisplayFor(model => model.BOOKED)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EstadoPagamento)
+            @Html.DisplayNameFor(model => model.PAYMENT_STATUS)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EstadoPagamento)
+            @Html.DisplayFor(model => model.PAYMENT_STATUS)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NumeroPessoas)
+            @Html.DisplayNameFor(model => model.TOTAL_PERSONS_NUMBER)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NumeroPessoas)
+            @Html.DisplayFor(model => model.TOTAL_PERSONS_NUMBER)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Cliente)
@@ -56,7 +56,7 @@
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="ReservaId" />
+        <input type="hidden" asp-for="ID_BOOKING" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>

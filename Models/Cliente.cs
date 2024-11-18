@@ -23,7 +23,7 @@ namespace ReserveSystem.Models
 
         [Required(ErrorMessage = "NIF obrigatorio")]
         public String Nif  { get; set; }
-        public ICollection<Reserva> Reserva { get; set; }
+        public ICollection<ReservaModel> Reserva { get; set; }
 
 
     }

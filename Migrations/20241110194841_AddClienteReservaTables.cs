@@ -29,25 +29,25 @@ namespace ReserveSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Reserva",
+                name: "Reservation",
                 columns: table => new
                 {
-                    ReservaId = table.Column<int>(type: "int", nullable: false)
+                    ReservationId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DataCheckIn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataCheckOut = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataReserva = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Estado = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EstadoPagamento = table.Column<bool>(type: "bit", nullable: false),
-                    NumeroPessoas = table.Column<int>(type: "int", nullable: false),
-                    ClienteId = table.Column<int>(type: "int", nullable: false)
+                    CheckInDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CheckOutDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ReservationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PaymentStatus = table.Column<bool>(type: "bit", nullable: false),
+                    TotalPeople = table.Column<int>(type: "int", nullable: false),
+                    ClientId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reserva", x => x.ReservaId);
+                    table.PrimaryKey("PK_Reserva", x => x.ReservationId);
                     table.ForeignKey(
                         name: "FK_Reserva_Cliente_ClienteId",
-                        column: x => x.ClienteId,
+                        column: x => x.ClientId,
                         principalTable: "Cliente",
                         principalColumn: "ClienteId",
                         onDelete: ReferentialAction.Cascade);
@@ -55,7 +55,7 @@ namespace ReserveSystem.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reserva_ClienteId",
-                table: "Reserva",
+                table: "Reservation",
                 column: "ClienteId");
         }
 
@@ -63,7 +63,7 @@ namespace ReserveSystem.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Reserva");
+                name: "Reservation");
 
             migrationBuilder.DropTable(
                 name: "Cliente");

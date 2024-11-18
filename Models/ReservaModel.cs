@@ -1,24 +1,26 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ReserveSystem.Models
 {
     public class ReservaModel
     {
 
-        [Key] 
-        public int ReservaId { get; set; }
+        [Key]
+        public int ID_BOOKING { get; set; }
         [Required(ErrorMessage = "Data de CheckIn")]
-        public DateTime DataCheckIn { get; set; }
+        public DateTime CHECKIN_DATE { get; set; }
         [Required(ErrorMessage = "Data de CheckOut")]
-        public DateTime DataCheckOut { get; set; }
+        public DateTime CHECKOUT_DATE { get; set; }
         [Required(ErrorMessage = "Data de Reserva")]
-        public DateTime DataReserva { get; set; }
+        public DateTime BOOKING_DATE { get; set; }
         [Required(ErrorMessage = "Estado de Reserva é obrigatório")]
-        public string Estado { get; set; }
-        public bool EstadoPagamento { get; set; }
+        public string BOOKED { get; set; }
+        public bool PAYMENT_STATUS { get; set; }
         [Required(ErrorMessage = "Número da pessoa")]
-        public int NumeroPessoas { get; set; }
-        public int ClienteId { get; set; }
+        public int TOTAL_PERSONS_NUMBER { get; set; }
+
+        [ForeignKey("ID_CLIENT")]
         public ClienteModel? Cliente { get; set; }
     }
 }
