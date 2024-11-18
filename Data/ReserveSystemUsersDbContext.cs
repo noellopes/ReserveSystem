@@ -10,7 +10,5 @@ namespace ReserveSystem.Data
             : base(options)
         {
         }
-        public DbSet<ReserveSystem.Models.JobModel> JobModel { get; set; } = default!;
-        public DbSet<ReserveSystem.Models.DepModel> DepModel { get; set; } = default!;
     }
 }

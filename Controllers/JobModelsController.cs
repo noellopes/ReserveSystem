@@ -12,9 +12,9 @@ namespace ReserveSystem.Controllers
 {
     public class JobModelsController : Controller
     {
-        private readonly ReserveSystemUsersDbContext _context;
+        private readonly ReserveSystemContext _context;
 
-        public JobModelsController(ReserveSystemUsersDbContext context)
+        public JobModelsController(ReserveSystemContext context)
         {
             _context = context;
         }
