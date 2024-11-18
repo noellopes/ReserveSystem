@@ -22,16 +22,8 @@ namespace ReserveSystem.Controllers
         // GET: Rooms
         public async Task<IActionResult> Index()
         {
-            if (_context.Rooms == null)
-            {
-                return Problem("Entity set 'ReserveSystemContext.Rooms'  is null.");
-            }
-
-
-            var rooms = await _context.Rooms.ToListAsync();
-            return View(rooms);
+            return View(await _context.Rooms.ToListAsync());
         }
-
 
         // GET: Rooms/Details/5
         public async Task<IActionResult> Details(int? id)

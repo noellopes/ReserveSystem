@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserveSystem.Data;
 
@@ -11,9 +12,11 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    partial class ReserveSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20241118202811_UpdateReservaModel")]
+    partial class UpdateReservaModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +25,7 @@ namespace ReserveSystem.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ReserveSystem.Models.Cliente", b =>
+            modelBuilder.Entity("ReserveSystem.Models.ClienteModel", b =>
                 {
                     b.Property<int>("ClienteId")
                         .ValueGeneratedOnAdd()
@@ -54,45 +57,47 @@ namespace ReserveSystem.Migrations
                     b.ToTable("Cliente");
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.Reservation", b =>
+            modelBuilder.Entity("ReserveSystem.Models.ReservaModel", b =>
                 {
-                    b.Property<int>("ReservationId")
+                    b.Property<int>("ReservaId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservationId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservaId"));
 
-                    b.Property<int>("ClientId")
+                    b.Property<int>("ClienteId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CheckInDate")
+                    b.Property<DateTime>("DataCheckIn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("CheckOutDate")
+                    b.Property<DateTime>("DataCheckOut")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("ReservationDate")
+                    b.Property<DateTime>("DataReserva")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Status")
+                    b.Property<string>("Estado")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("PaymentStatus")
+                    b.Property<bool>("EstadoPagamento")
                         .HasColumnType("bit");
 
-                    b.Property<int>("TotalPeople")
+                    b.Property<int>("NumeroPessoas")
                         .HasColumnType("int");
 
-                    b.HasKey("ReservationId");
+                    b.HasKey("ReservaId");
 
-                    b.ToTable("Reservation");
+                    b.HasIndex("ClienteId");
+
+                    b.ToTable("Reserva");
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.Reservation", b =>
+            modelBuilder.Entity("ReserveSystem.Models.ReservaModel", b =>
                 {
-                    b.HasOne("ReserveSystem.Models.Cliente", "Cliente")
-                        .WithMany("Reservation")
+                    b.HasOne("ReserveSystem.Models.ClienteModel", "Cliente")
+                        .WithMany("Reserva")
                         .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -100,9 +105,9 @@ namespace ReserveSystem.Migrations
                     b.Navigation("Cliente");
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.Cliente", b =>
+            modelBuilder.Entity("ReserveSystem.Models.ClienteModel", b =>
                 {
-                    b.Navigation("Reservation");
+                    b.Navigation("Reserva");
                 });
 #pragma warning restore 612, 618
         }

@@ -36,7 +36,7 @@ namespace ReserveSystem.Controllers
 
             var reserva = await _context.Reserva
                 .Include(r => r.Cliente)
-                .FirstOrDefaultAsync(m => m.ReservaId == id);
+                .FirstOrDefaultAsync(m => m.ID_BOOKING == id);
             if (reserva == null)
             {
                 return NotFound();
@@ -65,7 +65,7 @@ namespace ReserveSystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Email", reserva.ClienteId);
+            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Email", reserva.Cliente);
             return View(reserva);
         }
 
@@ -82,7 +82,7 @@ namespace ReserveSystem.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Email", reserva.ClienteId);
+            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Email", reserva.Cliente);
             return View(reserva);
         }
 
@@ -93,7 +93,7 @@ namespace ReserveSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ReservaId,DataCheckIn,DataCheckOut,DataReserva,Estado,EstadoPagamento,NumeroPessoas,ClienteId")] ReservaModel reserva)
         {
-            if (id != reserva.ReservaId)
+            if (id != reserva.ID_BOOKING)
             {
                 return NotFound();
             }
@@ -107,7 +107,7 @@ namespace ReserveSystem.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ReservaExists(reserva.ReservaId))
+                    if (!ReservaExists(reserva.ID_BOOKING))
                     {
                         return NotFound();
                     }
@@ -118,7 +118,7 @@ namespace ReserveSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Email", reserva.ClienteId);
+            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Email", reserva.Cliente);
             return View(reserva);
         }
 
@@ -132,7 +132,7 @@ namespace ReserveSystem.Controllers
 
             var reserva = await _context.Reserva
                 .Include(r => r.Cliente)
-                .FirstOrDefaultAsync(m => m.ReservaId == id);
+                .FirstOrDefaultAsync(m => m.ID_BOOKING == id);
             if (reserva == null)
             {
                 return NotFound();
@@ -158,7 +158,7 @@ namespace ReserveSystem.Controllers
 
         private bool ReservaExists(int id)
         {
-            return _context.Reserva.Any(e => e.ReservaId == id);
+            return _context.Reserva.Any(e => e.ID_BOOKING == id);
         }
     }
 }
