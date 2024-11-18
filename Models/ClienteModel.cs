@@ -2,7 +2,7 @@
 
 namespace ReserveSystem.Models
 {
-    public class Cliente
+    public class ClienteModel
     {
         [Key][Required]
         public int ClienteId { get; set; }
@@ -21,7 +21,7 @@ namespace ReserveSystem.Models
 
         [Required(ErrorMessage = "NIF obrigatorio")]
         public String Nif  { get; set; }
-        public ICollection<Reserva> Reserva { get; set; }
+        public ICollection<ReservaModel>? Reserva { get; set; }
 
 
     }

@@ -2,7 +2,7 @@
 
 namespace ReserveSystem.Models
 {
-    public class Reserva
+    public class ReservaModel
     {
 
         [Key] 
@@ -19,9 +19,6 @@ namespace ReserveSystem.Models
         [Required(ErrorMessage = "Número da pessoa")]
         public int NumeroPessoas { get; set; }
         public int ClienteId { get; set; }
-        public Cliente Cliente { get; set; }
-
-
-
+        public ClienteModel? Cliente { get; set; }
     }
 }
