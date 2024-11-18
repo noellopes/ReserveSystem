@@ -45,29 +45,6 @@ namespace ReserveSystem.Migrations
                     b.ToTable("Ingredient");
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.Prato", b =>
-                {
-                    b.Property<int>("PratoID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PratoID"));
-
-                    b.Property<string>("Descricao")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.HasKey("PratoID");
-
-                    b.ToTable("Prato");
-                });
-
             modelBuilder.Entity("ReserveSystem.Models.Stock", b =>
                 {
                     b.Property<int>("StockID")
