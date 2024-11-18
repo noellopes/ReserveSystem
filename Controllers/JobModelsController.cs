@@ -54,7 +54,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("jobID,jobDescription")] JobModel jobModel)
+        public async Task<IActionResult> Create([Bind("jobID,jobName,jobDescription")] JobModel jobModel)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("jobID,jobDescription")] JobModel jobModel)
+        public async Task<IActionResult> Edit(int id, [Bind("jobID,jobName,jobDescription")] JobModel jobModel)
         {
             if (id != jobModel.jobID)
             {
