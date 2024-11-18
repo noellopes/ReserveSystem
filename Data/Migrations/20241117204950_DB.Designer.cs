@@ -12,8 +12,8 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241115123101_Prato")]
-    partial class Prato
+    [Migration("20241117204950_DB")]
+    partial class DB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -249,39 +249,34 @@ namespace ReserveSystem.Data.Migrations
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.Reserva", b =>
-                {
-                    b.Property<int>("IdReserva")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("IdReserva")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdReserva"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdReserva"));
 
-                    b.Property<DateTime>("DataHora")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("DataHora")
+                    .HasColumnType("datetime2");
 
-                    b.Property<string>("NomeCliente")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("NomeCliente")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NomePratoIdPrato")
-                        .HasColumnType("int");
+                b.Property<int>("NumeroMesa")
+                    .HasColumnType("int");
 
-                    b.Property<int>("NumeroMesa")
-                        .HasColumnType("int");
+                b.Property<int>("NumeroPessoas")
+                    .HasColumnType("int");
 
-                    b.Property<int>("NumeroPessoas")
-                        .HasColumnType("int");
+                b.Property<string>("Observacao")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Observacao")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.HasKey("IdReserva");
 
-                    b.HasKey("IdReserva");
-
-                    b.HasIndex("NomePratoIdPrato");
-
-                    b.ToTable("Reserva");
-                });
+                b.ToTable("Reserva");
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
@@ -332,17 +327,6 @@ namespace ReserveSystem.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ReserveSystem.Models.Reserva", b =>
-                {
-                    b.HasOne("ReserveSystem.Models.Prato", "NomePrato")
-                        .WithMany()
-                        .HasForeignKey("NomePratoIdPrato")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("NomePrato");
                 });
 #pragma warning restore 612, 618
         }

@@ -12,7 +12,7 @@ namespace ReserveSystem.Models
         [Required]
         public string NomeCliente { get; set; }
 
-        [Range(1, 35)]
+        [Required][Range(1, 35)]
         public int NumeroMesa { get; set; }
 
         [Required(ErrorMessage = "O número da mesa é obrigatório.")]
@@ -24,6 +24,6 @@ namespace ReserveSystem.Models
 
         public string Observacao { get; set; }
 
-        public Prato NomePrato { get; set; }
+        //public string NomePrato { get; set; } Modificar para tipo Prato quando finalizado
     }
 }

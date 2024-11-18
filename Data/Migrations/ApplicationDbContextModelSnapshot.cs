@@ -260,9 +260,6 @@ namespace ReserveSystem.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NomePratoIdPrato")
-                        .HasColumnType("int");
-
                     b.Property<int>("NumeroMesa")
                         .HasColumnType("int");
 
@@ -274,8 +271,6 @@ namespace ReserveSystem.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdReserva");
-
-                    b.HasIndex("NomePratoIdPrato");
 
                     b.ToTable("Reserva");
                 });
@@ -329,17 +324,6 @@ namespace ReserveSystem.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ReserveSystem.Models.Reserva", b =>
-                {
-                    b.HasOne("ReserveSystem.Models.Prato", "NomePrato")
-                        .WithMany()
-                        .HasForeignKey("NomePratoIdPrato")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("NomePrato");
                 });
 #pragma warning restore 612, 618
         }
