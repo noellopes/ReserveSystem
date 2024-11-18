@@ -10,22 +10,22 @@ using ReserveSystem.Models;
 
 namespace ReserveSystem.Controllers
 {
-    public class ReservaController : Controller
+    public class PratosController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ReservaController(ApplicationDbContext context)
+        public PratosController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Reserva
+        // GET: Pratos
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Reserva.ToListAsync());
+            return View(await _context.Prato.ToListAsync());
         }
 
-        // GET: Reserva/Details/5
+        // GET: Pratos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var reserva = await _context.Reserva
-                .FirstOrDefaultAsync(m => m.IdReserva == id);
-            if (reserva == null)
+            var prato = await _context.Prato
+                .FirstOrDefaultAsync(m => m.IdPrato == id);
+            if (prato == null)
             {
                 return NotFound();
             }
 
-            return View(reserva);
+            return View(prato);
         }
 
-        // GET: Reserva/Create
+        // GET: Pratos/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Reserva/Create
+        // POST: Pratos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdReserva,NomeCliente,NumeroMesa,NumeroPessoas,DataHora,Observacao")] Reserva reserva)
+        public async Task<IActionResult> Create([Bind("IdPrato,PratoNome,Descricao")] Prato prato)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(reserva);
+                _context.Add(prato);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(reserva);
+            return View(prato);
         }
 
-        // GET: Reserva/Edit/5
+        // GET: Pratos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var reserva = await _context.Reserva.FindAsync(id);
-            if (reserva == null)
+            var prato = await _context.Prato.FindAsync(id);
+            if (prato == null)
             {
                 return NotFound();
             }
-            return View(reserva);
+            return View(prato);
         }
 
-        // POST: Reserva/Edit/5
+        // POST: Pratos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdReserva,NomeCliente,NumeroMesa,NumeroPessoas,DataHora,Observacao")] Reserva reserva)
+        public async Task<IActionResult> Edit(int id, [Bind("IdPrato,PratoNome,Descricao")] Prato prato)
         {
-            if (id != reserva.IdReserva)
+            if (id != prato.IdPrato)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace ReserveSystem.Controllers
             {
                 try
                 {
-                    _context.Update(reserva);
+                    _context.Update(prato);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ReservaExists(reserva.IdReserva))
+                    if (!PratoExists(prato.IdPrato))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace ReserveSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(reserva);
+            return View(prato);
         }
 
-        // GET: Reserva/Delete/5
+        // GET: Pratos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,34 +124,34 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var reserva = await _context.Reserva
-                .FirstOrDefaultAsync(m => m.IdReserva == id);
-            if (reserva == null)
+            var prato = await _context.Prato
+                .FirstOrDefaultAsync(m => m.IdPrato == id);
+            if (prato == null)
             {
                 return NotFound();
             }
 
-            return View(reserva);
+            return View(prato);
         }
 
-        // POST: Reserva/Delete/5
+        // POST: Pratos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var reserva = await _context.Reserva.FindAsync(id);
-            if (reserva != null)
+            var prato = await _context.Prato.FindAsync(id);
+            if (prato != null)
             {
-                _context.Reserva.Remove(reserva);
+                _context.Prato.Remove(prato);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ReservaExists(int id)
+        private bool PratoExists(int id)
         {
-            return _context.Reserva.Any(e => e.IdReserva == id);
+            return _context.Prato.Any(e => e.IdPrato == id);
         }
     }
 }
