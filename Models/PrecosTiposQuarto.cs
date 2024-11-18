@@ -1,22 +1,27 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ReserveSystem.Models;
 public class PrecoTipoQuarto : TipoQuarto
 {
 
     [Key]
-    public int precotq_id { get; set; }
+    public int id_RTPrice { get; set; }
     [Required]
-	public	float PrecoBase {  get; set; }
-
-    [Required]
-    public float taxaCancelamento { get; set; }
+	public	float BasePrice {  get; set; }
 
     [Required]
-    public float camaAdiconal { get; set; }
+    public float CancelationFee { get; set; }
 
+    [Required]
+    public float AdicionalBeds { get; set; }
 
+    /*
+    [ForeignKey("TipoQuarto")] public int TipoQuartoId { get; set; } 
+    // Navigation property
+    public TipoQuarto TipoQuarto { get; set; }
 
-    
+    */
 }
 

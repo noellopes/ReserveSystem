@@ -54,7 +54,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TipoQuartoId,tipo,quantidadeQuartos,capacidade,PrecoBase,taxaCancelamento,camaAdiconal,numeroReserva,dataCheckIn,dataCheckOut,dataReserva,dataCancelamento,cancelamento,estado,EstadoPagamento,NumeroPessoas")] PrecoTipoQuarto precoTipoQuarto)
+        public async Task<IActionResult> Create([Bind("TipoQuartoId,type,RoomQuantity,capacity,BasePrice,CancelationFee,AdicionalBeds,numeroReserva,dataCheckIn,dataCheckOut,dataReserva,dataCancelamento,cancelamento,estado,EstadoPagamento,NumeroPessoas")] PrecoTipoQuarto precoTipoQuarto)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TipoQuartoId,tipo,quantidadeQuartos,capacidade,PrecoBase,taxaCancelamento,camaAdiconal,numeroReserva,dataCheckIn,dataCheckOut,dataReserva,dataCancelamento,cancelamento,estado,EstadoPagamento,NumeroPessoas")] PrecoTipoQuarto precoTipoQuarto)
+        public async Task<IActionResult> Edit(int id, [Bind("TipoQuartoId,type,RoomQuantity,capacity,BasePrice,CancelationFee,AdicionalBeds,numeroReserva,dataCheckIn,dataCheckOut,dataReserva,dataCancelamento,cancelamento,estado,EstadoPagamento,NumeroPessoas")] PrecoTipoQuarto precoTipoQuarto)
         {
             if (id != precoTipoQuarto.TipoQuartoId)
             {

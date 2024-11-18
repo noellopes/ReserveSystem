@@ -7,20 +7,20 @@ namespace ReserveSystem.Models
         [Key]
         public int TipoQuartoId { get; set; }
         [Required]
-        public string tipo { get; set; }
+        public string type { get; set; }
 
         [Required]
-        public int capacidade { get; set; }
+        public int capacity { get; set; }
 
         [Required]
-        public int quantidadeQuartos { get; set; }
+        public int RoomQuantity { get; set; }
 
 
         [Required]
-        public bool QuartoAdaptado { get; set; }
+        public bool AcessibilityRoom { get; set; }
 
         [Required]
-        public bool Vista { get; set; }
+        public bool View { get; set; }
 
     }
 }

@@ -235,28 +235,28 @@ namespace ReserveSystem.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TipoQuartoId"));
 
-                    b.Property<float>("PrecoBase")
+                    b.Property<float>("BasePrice")
                         .HasColumnType("real");
 
-                    b.Property<bool>("QuartoAdaptado")
+                    b.Property<bool>("AcessibilityRoom")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("Vista")
+                    b.Property<bool>("View")
                         .HasColumnType("bit");
 
-                    b.Property<float>("camaAdiconal")
+                    b.Property<float>("AdicionalBeds")
                         .HasColumnType("real");
 
-                    b.Property<int>("capacidade")
+                    b.Property<int>("capacity")
                         .HasColumnType("int");
 
-                    b.Property<int>("quantidadeQuartos")
+                    b.Property<int>("RoomQuantity")
                         .HasColumnType("int");
 
-                    b.Property<float>("taxaCancelamento")
+                    b.Property<float>("CancelationFee")
                         .HasColumnType("real");
 
-                    b.Property<string>("tipo")
+                    b.Property<string>("type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

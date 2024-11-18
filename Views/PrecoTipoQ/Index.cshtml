@@ -21,6 +21,8 @@
         /* Overall table styles */
         .table {
             width: 100%;
+            max-width: 1000px; /* Ensure table doesn't get too wide */
+            margin: 0 auto; /* Center the table */
             border-collapse: collapse;
             border-radius: 10px;
             overflow: hidden;
@@ -133,14 +135,41 @@
                 @foreach (var item in Model)
                 {
                     <tr class="clickable-row" data-href="@Url.Action("Details", new { id = item.TipoQuartoId })">
-                        <td>@Html.DisplayFor(modelItem => item.tipo)</td>
-                        <td>@Html.DisplayFor(modelItem => item.quantidadeQuartos)</td>
-                        <td>@Html.DisplayFor(modelItem => item.capacidade)</td>
-                        <td>@Html.DisplayFor(modelItem => item.PrecoBase)</td>
-                        <td>@Html.DisplayFor(modelItem => item.taxaCancelamento)</td>
-                        <td>@Html.DisplayFor(modelItem => item.camaAdiconal)</td>
-                        <td>@Html.DisplayFor(modelItem => item.QuartoAdaptado)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Vista)</td>
+                        <td>@Html.DisplayFor(modelItem => item.type)</td>
+                        <td>@Html.DisplayFor(modelItem => item.capacity)</td>
+                        <td>@Html.DisplayFor(modelItem => item.RoomQuantity)</td>
+                        <td>
+                            @if (item.BasePrice == 0)
+                            {
+                                <a class="btn btn-primary" asp-action="Create">Add</a>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => item.BasePrice)
+                            }
+                        </td>
+                        <td>
+                            @if (item.CancelationFee == 0)
+                            {
+                                <a class="btn btn-primary" asp-action="Create">Add</a>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => item.CancelationFee)
+                            }
+                        </td>
+                        <td>
+                            @if (item.AdicionalBeds == 0)
+                            {
+                                <a class="btn btn-primary" asp-action="Create">Add</a>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => item.AdicionalBeds)
+                            }
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.AcessibilityRoom)</td>
+                        <td>@Html.DisplayFor(modelItem => item.View)</td>
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.TipoQuartoId">Edit</a> |
                             <a asp-action="Details" asp-route-id="@item.TipoQuartoId">Details</a> |

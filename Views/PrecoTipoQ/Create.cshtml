@@ -159,44 +159,44 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
             <div class="form-group">
-                <label asp-for="tipo" class="control-label">Room Type</label>
-                <input asp-for="tipo" class="form-control" />
-                <span asp-validation-for="tipo" class="text-danger"></span>
+                <label asp-for="type" class="control-label">Room Type</label>
+                <input asp-for="type" class="form-control" />
+                <span asp-validation-for="type" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="capacidade" class="control-label">Room Capacity</label>
-                <input asp-for="capacidade" class="form-control" />
-                <span asp-validation-for="capacidade" class="text-danger"></span>
+                <label asp-for="capacity" class="control-label">Room Capacity</label>
+                <input asp-for="capacity" class="form-control" />
+                <span asp-validation-for="capacity" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="quantidadeQuartos" class="control-label">Room Quantity</label>
-                <input asp-for="quantidadeQuartos" class="form-control" />
-                <span asp-validation-for="quantidadeQuartos" class="text-danger"></span>
+                <label asp-for="RoomQuantity" class="control-label">Room Quantity</label>
+                <input asp-for="RoomQuantity" class="form-control" />
+                <span asp-validation-for="RoomQuantity" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PrecoBase" class="control-label">Room Base Price</label>
-                <input asp-for="PrecoBase" class="form-control" />
-                <span asp-validation-for="PrecoBase" class="text-danger"></span>
+                <label asp-for="BasePrice" class="control-label">Room Base Price</label>
+                <input asp-for="BasePrice" class="form-control" />
+                <span asp-validation-for="BasePrice" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="taxaCancelamento" class="control-label">Cancellation Fee</label>
-                <input asp-for="taxaCancelamento" class="form-control" />
-                <span asp-validation-for="taxaCancelamento" class="text-danger"></span>
+                <label asp-for="CancelationFee" class="control-label">Cancellation Fee</label>
+                <input asp-for="CancelationFee" class="form-control" />
+                <span asp-validation-for="CancelationFee" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="camaAdiconal" class="control-label">Additional Beds</label>
-                <input asp-for="camaAdiconal" class="form-control" />
-                <span asp-validation-for="camaAdiconal" class="text-danger"></span>
+                <label asp-for="AdicionalBeds" class="control-label">Additional Beds</label>
+                <input asp-for="AdicionalBeds" class="form-control" />
+                <span asp-validation-for="AdicionalBeds" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
-                <input class="form-check-input" asp-for="QuartoAdaptado" />
-                <label class="form-check-label" asp-for="QuartoAdaptado">
+                <input class="form-check-input" asp-for="AcessibilityRoom" />
+                <label class="form-check-label" asp-for="AcessibilityRoom">
                     Accessibility Room
                 </label>
             </div>
             <div class="form-group form-check">
-                <input class="form-check-input" asp-for="Vista" />
-                <label class="form-check-label" asp-for="Vista">
+                <input class="form-check-input" asp-for="View" />
+                <label class="form-check-label" asp-for="View">
                     Room with View
                 </label>
             </div>
