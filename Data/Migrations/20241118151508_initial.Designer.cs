@@ -9,11 +9,11 @@ using ReserveSystem.Data;
 
 #nullable disable
 
-namespace ReserveSystem.Migrations
+namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    [Migration("20241115151012_AddClienteReservaTable")]
-    partial class AddClienteReservaTable
+    [Migration("20241118151508_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,6 +41,10 @@ namespace ReserveSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("NIF")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NomeCliente")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -56,6 +60,30 @@ namespace ReserveSystem.Migrations
                     b.HasKey("ClienteId");
 
                     b.ToTable("ClienteModel");
+                });
+
+            modelBuilder.Entity("ReserveSystem.Models.Equipamento", b =>
+                {
+                    b.Property<int>("IdEquipamento")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdEquipamento"));
+
+                    b.Property<string>("NomeEquipamento")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantidade")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TipoEquipamento")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdEquipamento");
+
+                    b.ToTable("Equipamento", (string)null);
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.ReservaModel", b =>

@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace ReserveSystem.Migrations
+namespace ReserveSystem.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AddClienteReservaTable : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,12 +20,28 @@ namespace ReserveSystem.Migrations
                     NomeCliente = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MoradaCliente = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NIF = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Telefone = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ClienteModel", x => x.ClienteId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Equipamento",
+                columns: table => new
+                {
+                    IdEquipamento = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NomeEquipamento = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TipoEquipamento = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Quantidade = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Equipamento", x => x.IdEquipamento);
                 });
 
             migrationBuilder.CreateTable(
@@ -62,6 +78,9 @@ namespace ReserveSystem.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Equipamento");
+
             migrationBuilder.DropTable(
                 name: "ReservaModel");
 

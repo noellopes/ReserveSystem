@@ -8,7 +8,7 @@ using ReserveSystem.Data;
 
 #nullable disable
 
-namespace ReserveSystem.Migrations
+namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
     partial class ReserveSystemContextModelSnapshot : ModelSnapshot
@@ -17,21 +17,17 @@ namespace ReserveSystem.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("ProductVersion", "8.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ReserveSystem.Models.Equipamento", b =>
             modelBuilder.Entity("ReserveSystem.Models.ClienteModel", b =>
                 {
-                    b.Property<int>("IdEquipamento");
                     b.Property<int>("ClienteId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdEquipamento"));
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClienteId"));
 
                     b.Property<string>("Email")
@@ -39,6 +35,10 @@ namespace ReserveSystem.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MoradaCliente")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NIF")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -50,16 +50,38 @@ namespace ReserveSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NomeEquipamento");
                     b.Property<string>("Telefone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Quantidade");
                     b.HasKey("ClienteId");
 
                     b.ToTable("ClienteModel");
-                }));
+                });
+
+            modelBuilder.Entity("ReserveSystem.Models.Equipamento", b =>
+                {
+                    b.Property<int>("IdEquipamento")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdEquipamento"));
+
+                    b.Property<string>("NomeEquipamento")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantidade")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TipoEquipamento")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdEquipamento");
+
+                    b.ToTable("Equipamento", (string)null);
+                });
 
             modelBuilder.Entity("ReserveSystem.Models.ReservaModel", b =>
                 {
@@ -84,7 +106,6 @@ namespace ReserveSystem.Migrations
                     b.Property<int>("Partcipantes")
                         .HasColumnType("int");
 
-                    b.Property<string>("TipoEquipamento");
                     b.Property<double>("PrecoTotal")
                         .HasColumnType("float");
 
@@ -92,7 +113,6 @@ namespace ReserveSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("IdEquipamento");
                     b.HasKey("ReservaID");
 
                     b.HasIndex("ClienteId");
@@ -109,13 +129,7 @@ namespace ReserveSystem.Migrations
                         .IsRequired();
 
                     b.Navigation("Cliente");
-
-
                 });
-            modelBuilder.Entity("ReserveSystem.Models.Equipamento", b =>
-            {
-                b.ToTable("Equipamento", (string)null);
-            });
 
             modelBuilder.Entity("ReserveSystem.Models.ClienteModel", b =>
                 {
