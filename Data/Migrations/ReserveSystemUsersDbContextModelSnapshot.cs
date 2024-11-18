@@ -291,9 +291,6 @@ namespace ReserveSystem.Data.Migrations
                 b.Property<DateTime>("HoraFim")
                     .HasColumnType("datetime2");
 
-                b.Property<double>("Preço")
-                    .HasColumnType("float");
-
                 b.Property<long>("IdTipoSala")
                     .HasColumnType("bigint");
 
@@ -320,6 +317,9 @@ namespace ReserveSystem.Data.Migrations
 
                 b.Property<int>("Capacidade")
                     .HasColumnType("int");
+                
+                b.Property<double>("PreçoHora")
+                    .HasColumnType("float");
 
                 b.HasKey("IdTipoSala");
 

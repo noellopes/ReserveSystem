@@ -13,6 +13,8 @@ public class TipoSala
     public int TamanhoSala { get; set; }
     
     public int Capacidade { get; set; }
+    
+    public double PreçoHora {get;set;}
 
     public virtual Sala Sala { get; set; }
     
