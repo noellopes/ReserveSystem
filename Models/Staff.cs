@@ -12,6 +12,7 @@
         public string StartFunctionsDate { get; set; }
         public string EndFunctionsDate { get; set; }
         public int JobId { get; set; }
+        public int DaysOffVacation { get; set; }
 
     }
 }
