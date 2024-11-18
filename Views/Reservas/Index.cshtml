@@ -4,11 +4,20 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>LISTA DE RESERVAS</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<button type="button" class="btn btn-success">
+    <a asp-action="Create">Fazer reserva</a>
+</button>
+
+<button type="button" class="btn btn-danger">
+    <a asp-action="Edit">Alterar reserva</a>
+</button>
+
+<button type="button" class="btn btn-warning">
+    <a asp-action="Delete">Eliminar reserva</a>
+</button>
+
 <table class="table">
     <thead>
         <tr>
