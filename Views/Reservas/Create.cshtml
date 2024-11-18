@@ -1,4 +1,4 @@
-﻿@model ReserveSystem.Models.ReservaModel
+﻿@model ReserveSystem.Models.Reservation
 
 @{
     ViewData["Title"] = "Create";
@@ -13,34 +13,34 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="DataCheckIn" class="control-label"></label>
-                <input asp-for="DataCheckIn" class="form-control" />
-                <span asp-validation-for="DataCheckIn" class="text-danger"></span>
+                <label asp-for="CheckInDate" class="control-label"></label>
+                <input asp-for="CheckInDate" class="form-control" />
+                <span asp-validation-for="CheckInDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DataCheckOut" class="control-label"></label>
-                <input asp-for="DataCheckOut" class="form-control" />
-                <span asp-validation-for="DataCheckOut" class="text-danger"></span>
+                <label asp-for="CheckOutDate" class="control-label"></label>
+                <input asp-for="CheckOutDate" class="form-control" />
+                <span asp-validation-for="CheckOutDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DataReserva" class="control-label"></label>
-                <input asp-for="DataReserva" class="form-control" />
-                <span asp-validation-for="DataReserva" class="text-danger"></span>
+                <label asp-for="ReservationDate" class="control-label"></label>
+                <input asp-for="ReservationDate" class="form-control" />
+                <span asp-validation-for="ReservationDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Estado" class="control-label"></label>
-                <input asp-for="Estado" class="form-control" />
-                <span asp-validation-for="Estado" class="text-danger"></span>
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="EstadoPagamento" /> @Html.DisplayNameFor(model => model.EstadoPagamento)
+                    <input class="form-check-input" asp-for="PaymentStatus" /> @Html.DisplayNameFor(model => model.PaymentStatus)
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="NumeroPessoas" class="control-label"></label>
-                <input asp-for="NumeroPessoas" class="form-control" />
-                <span asp-validation-for="NumeroPessoas" class="text-danger"></span>
+                <label asp-for="TotalPeople" class="control-label"></label>
+                <input asp-for="TotalPeople" class="form-control" />
+                <span asp-validation-for="TotalPeople" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ClienteId" class="control-label"></label>

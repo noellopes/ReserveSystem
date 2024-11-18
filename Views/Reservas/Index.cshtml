@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ReserveSystem.Models.ReservaModel>
+﻿@model IEnumerable<ReserveSystem.Models.Reservation>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,22 +13,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.DataCheckIn)
+                @Html.DisplayNameFor(model => model.CheckInDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DataCheckOut)
+                @Html.DisplayNameFor(model => model.CheckOutDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DataReserva)
+                @Html.DisplayNameFor(model => model.ReservationDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Estado)
+                @Html.DisplayNameFor(model => model.Status)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EstadoPagamento)
+                @Html.DisplayNameFor(model => model.PaymentStatus)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NumeroPessoas)
+                @Html.DisplayNameFor(model => model.TotalPeople)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Cliente)
@@ -40,30 +40,30 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.DataCheckIn)
+                @Html.DisplayFor(modelItem => item.CheckInDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DataCheckOut)
+                @Html.DisplayFor(modelItem => item.CheckOutDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DataReserva)
+                @Html.DisplayFor(modelItem => item.ReservationDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Estado)
+                @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.EstadoPagamento)
+                @Html.DisplayFor(modelItem => item.PaymentStatus)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NumeroPessoas)
+                @Html.DisplayFor(modelItem => item.TotalPeople)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Cliente.Email)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ReservaId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ReservaId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ReservaId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.ReservationId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ReservationId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ReservationId">Delete</a>
             </td>
         </tr>
 }

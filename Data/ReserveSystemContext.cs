@@ -7,6 +7,6 @@ namespace ReserveSystem.Data
     {
         public ReserveSystemContext(DbContextOptions<ReserveSystemContext> options) : base(options) {}
         public DbSet<ClienteModel> Cliente { get; set; } 
-        public DbSet<ReservaModel> Reserva { get; set; }
+        public DbSet<Reservation> Reserva { get; set; }
     }
 }
