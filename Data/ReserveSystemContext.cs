@@ -9,5 +9,6 @@ namespace ReserveSystem.Data
         public DbSet<ReserveSystem.Models.Ingredient> Ingredient { get; set; } = default!;
 
         public DbSet<ReserveSystem.Models.Stock> Stock { get; set; } = default!;
+        public DbSet<ReserveSystem.Models.Prato> Prato { get; set; } = default!;
     }
 }

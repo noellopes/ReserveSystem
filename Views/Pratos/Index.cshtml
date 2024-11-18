@@ -1,0 +1,68 @@
+﻿@model IEnumerable<ReserveSystem.Models.Prato>
+
+@{
+    ViewData["Title"] = "Lista de Pratos";
+}
+
+<style>
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        margin-bottom: 20px;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-link {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .btn-link:hover {
+        color: #0056b3;
+        text-decoration: underline;
+    }
+
+    .table th {
+        text-align: left;
+    }
+</style>
+
+<div class="container mt-4">
+    <h1 class="text-center text-primary">Lista de Pratos</h1>
+    <hr />
+    <div class="text-center mb-4">
+        <a asp-action="Create" class="btn btn-primary">Criar Novo Prato</a>
+    </div>
+
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.First().nome)</th>
+                <th>@Html.DisplayNameFor(model => model.First().descricao)</th>
+                <th class="text-center">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.nome)</td>
+                    <td>@Html.DisplayFor(modelItem => item.descricao)</td>
+                    <td class="text-center">
+                        <a asp-action="Edit" asp-route-id="@item.pratoID" class="btn-link">Editar</a> |
+                        <a asp-action="Details" asp-route-id="@item.pratoID" class="btn-link">Detalhes</a> |
+                        <a asp-action="Delete" asp-route-id="@item.pratoID" class="btn-link text-danger">Excluir</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="text-center mt-3">
+        <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+    </div>
+</div>

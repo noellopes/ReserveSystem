@@ -1,0 +1,56 @@
+﻿@model ReserveSystem.Models.Prato
+
+@{
+    ViewData["Title"] = "Detalhes do Prato";
+}
+
+<style>
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+    .text-danger {
+        font-size: 0.9em;
+    }
+
+    a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+        a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+    .dl-horizontal dt {
+        font-weight: bold;
+    }
+</style>
+
+<div class="container mt-4">
+    <h1 class="text-center text-primary">Detalhes do Prato</h1>
+    <hr />
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h4 class="text-primary">Informações do Prato</h4>
+            <dl class="row mt-4">
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.nome)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.nome)</dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.descricao)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.descricao)</dd>
+            </dl>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        <a asp-action="Edit" asp-route-id="@Model?.pratoID" class="btn btn-primary">Editar</a>
+        <a asp-action="Index" class="btn btn-secondary ml-3">Voltar à Lista</a>
+    </div>
+</div>
