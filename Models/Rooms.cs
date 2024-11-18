@@ -6,7 +6,7 @@ namespace ReserveSystem.Models
     {
         [Key][Required] public int RoomTypeId {get; set;}
 
-        [Required] public int RoomType {get; set;}
+        [Required] public string RoomType {get; set;}
 
         [Required] public int Capacity {get; set;}
 
@@ -14,7 +14,7 @@ namespace ReserveSystem.Models
 
         [Required] public bool HasView {get; set;}
 
-        [Required] public string AdaptedRoom { get; set; }
+        [Required] public bool AdaptedRoom { get; set; }
 
 
     }

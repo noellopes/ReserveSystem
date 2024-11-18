@@ -12,42 +12,21 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.RoomType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Capacity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NumberOfRooms)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HasView)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AdaptedRoom)
-            </th>
-            <th></th>
+            <th> @Html.DisplayNameFor(model => model.RoomType)</th>
+            <th> @Html.DisplayNameFor(model => model.Capacity)</th>
+            <th> @Html.DisplayNameFor(model => model.NumberOfRooms)</th>
+            <th> @Html.DisplayNameFor(model => model.HasView)</th>
+            <th> @Html.DisplayNameFor(model => model.AdaptedRoom)</th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RoomType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Capacity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumberOfRooms)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HasView)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdaptedRoom)
-            </td>
+            <td>@Html.DisplayFor(modelItem => item.RoomType)</td>
+            <td>@Html.DisplayFor(modelItem => item.Capacity)</td>
+            <td> @Html.DisplayFor(modelItem => item.NumberOfRooms)</td>
+            <td>@Html.DisplayFor(modelItem => item.HasView)</td>
+            <td>@Html.DisplayFor(modelItem => item.AdaptedRoom)</td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.RoomTypeId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.RoomTypeId">Details</a> |

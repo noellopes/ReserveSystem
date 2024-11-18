@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
+using ReserveSystem.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,17 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetService<ReserveSystemContext>();
+    SeedDataRooms.Populate(db);
+
+}
+
 app.MapRazorPages();
 
 app.Run();
+
+
