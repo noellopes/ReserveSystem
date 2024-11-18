@@ -1,16 +1,14 @@
 ﻿@model IEnumerable<ReserveSystem.Models.ClienteModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Clientes";
 }
 
-<h1>Index</h1>
-
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary"><i class="bi bi-person-plus"></i>Adicionar Cliente</a>
 </p>
-<table class="table">
-    <thead>
+<table class="table table-striped">
+    <thead class="fs-2">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Nome)
@@ -48,10 +46,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Nif)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ClienteId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ClienteId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ClienteId">Delete</a>
+                <td class="d-flex justify-content-end">
+                <a asp-action="Edit" asp-route-id="@item.ClienteId" class="btn btn-primary ms-2">Edit</a> 
+                <a asp-action="Details" asp-route-id="@item.ClienteId" class="btn btn-secondary ms-2">Details</a> 
+                <a asp-action="Delete" asp-route-id="@item.ClienteId" class="btn btn-danger ms-2">Delete</a>
             </td>
         </tr>
 }
