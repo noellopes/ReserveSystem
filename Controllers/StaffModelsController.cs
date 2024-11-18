@@ -64,20 +64,38 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Staff_Id,Staff_Name,Staff_Email,Staff_Password,Job_Id,DriverLicense")] StaffModel staffModel)
+        public async Task<IActionResult> Create([Bind("Staff_Id,Staff_Name,BirthDate,Staff_Email,Staff_Password,Job_Id,DriverLicenseExpirationDate,DriverLicenseGrade")] StaffModel staffModel, List<string> DrivingLicenseGrades)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(staffModel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                // Verificar se a data de nascimento não é a data mínima
+                if (staffModel.BirthDate == DateTime.MinValue)
+                {
+                    staffModel.BirthDate = DateTime.Today;  // Definir como a data atual ou qualquer outra data válida
+                }
+
+                // Verificar se a data de expiração da licença de condução foi preenchida corretamente
+                if (staffModel.DriverLicenseExpirationDate == DateTime.MinValue)
+                {
+                    staffModel.DriverLicenseExpirationDate = DateTime.Today;  // Deixa o campo nulo caso não tenha sido preenchido
+                }
+
+              
+                staffModel.DrivingLicenseGrades = DrivingLicenseGrades;
+                ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G" };
+
+                //ViewBag.Jobs = new SelectList(_context.Jobs.ToList(), "Job_Id", "Job_Name", staff.Job_Id);
+                return View(staffModel);
+                
             }
 
-            ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G" };
-            //ViewBag.Jobs = new SelectList(_context.Jobs.ToList(), "Job_Id", "Job_Name", staff.Job_Id);
-            return View(staffModel);
-           
-            
+            staffModel.DrivingLicenseGrades = DrivingLicenseGrades;
+
+            _context.Add(staffModel);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
         }
 
         // GET: StaffModels/Edit/5
@@ -101,13 +119,13 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Staff_Id,Staff_Name,Staff_Email,Staff_Password")] StaffModel staffModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Staff_Id,Staff_Name,BirthDate,Staff_Email,Staff_Password,Job_Id,DriverLicenseExpirationDate,DriverLicenseGrade")] StaffModel staffModel)
         {
             if (id != staffModel.Staff_Id)
             {
                 return NotFound();
             }
-
+            
             if (ModelState.IsValid)
             {
                 try

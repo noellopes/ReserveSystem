@@ -27,8 +27,9 @@
         {
             <tr>
                 <td>@Html.DisplayFor(modelItem => staff.Staff_Name)</td>
-                <td>@Html.DisplayFor(modelItem => staff.BirthDate)</td>
+                <td>@staff.BirthDate.ToString("dd/MM/yyyy")</td>
                 <td>@Html.DisplayFor(modelItem => staff.Staff_Email)</td>
+                <td>@Html.DisplayNameFor(model => model.Job_Id)</td>
                 @*
             <td>
             @ViewBag.Jobs.FirstOrDefault(job => job.Value == staff.Job_Id.ToString())?.Text
@@ -45,7 +46,7 @@
                         <span>No Driving License Grades</span>
                     }
                 </td>
-                <td>@Html.DisplayFor(modelItem => staff.DriverLicenseExpirationDate)</td>
+                <td>@staff.DriverLicenseExpirationDate.ToString("dd/MM/yyyy")</td>
                 <td>
                     <a asp-action="Details" asp-route-id="@staff.Staff_Id" class="btn btn-info">Details</a>
                     <a asp-action="Edit" asp-route-id="@staff.Staff_Id" class="btn btn-warning">Edit</a>
