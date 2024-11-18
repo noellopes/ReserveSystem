@@ -28,26 +28,27 @@
             background-color: #ffffff;
         }
 
-        /* Table Header Styles */
-        .table thead {
-            background-color: #333333; /* Dark background for header */
-            color: white;
-        }
+            /* Table Header Styles */
+            .table thead {
+                background-color: #333333; /* Dark background for header */
+                color: white;
+            }
 
-        /* Table row hover effect */
-        .table tbody tr:hover {
-            background-color: #F5F5F5; /* Hover effect color */
-            color: #d4af37; /* Text color on hover */
-            cursor: pointer;
-        }
+            /* Table row hover effect */
+            .table tbody tr:hover {
+                background-color: #F5F5F5; /* Hover effect color */
+                color: #d4af37; /* Text color on hover */
+                cursor: pointer;
+            }
 
-        /* Table cell styles */
-        .table th, .table td {
-            padding: 18px 20px;
-            text-align: left;
-            font-size: 1.125rem;
-            font-weight: 500;
-        }
+            /* Table cell styles */
+            .table th, .table td {
+                padding: 18px 20px;
+                text-align: left;
+                font-size: 1.125rem;
+                font-weight: 500;
+                white-space: nowrap; /* Prevents text wrapping */
+            }
 
         /* Button styles */
         .btn {
@@ -62,21 +63,21 @@
             transition: all 0.3s ease;
         }
 
-        .btn:hover {
-            background-color: #333333;
-            color: #F5F5F5;
-            border-color: #333333;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-            transform: translateY(-3px);
-        }
+            .btn:hover {
+                background-color: #333333;
+                color: #F5F5F5;
+                border-color: #333333;
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+                transform: translateY(-3px);
+            }
 
-        .btn:active {
-            background-color: #000000; /* Darker effect when clicked */
-            border-color: #000000;
-            color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Return to original shadow */
-            transform: translateY(0); /* Button "presses" down */
-        }
+            .btn:active {
+                background-color: #000000; /* Darker effect when clicked */
+                border-color: #000000;
+                color: white;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Return to original shadow */
+                transform: translateY(0); /* Button "presses" down */
+            }
 
         .hr {
             border: none;
@@ -118,16 +119,14 @@
         <table class="table table-bordered my-4">
             <thead>
                 <tr>
-                    <th>@Html.DisplayNameFor(model => model.tipo)</th>
-                    <th>@Html.DisplayNameFor(model => model.quantidadeQuartos)</th>
-                    <th>@Html.DisplayNameFor(model => model.capacidade)</th>
-                    <th>@Html.DisplayNameFor(model => model.PrecoBase)</th>
-                    <th>@Html.DisplayNameFor(model => model.taxaCancelamento)</th>
-                    <th>@Html.DisplayNameFor(model => model.camaAdiconal)</th>
-                    <th>@Html.DisplayNameFor(model => model.QuartoAdaptado)</th>
-                    <th>@Html.DisplayNameFor(model => model.Vista)</th>
-                    <th>Actions</th>
-                    <th></th>
+                    <th>Room Type</th>
+                    <th>Room Capacity</th>
+                    <th>Room Quantity</th>
+                    <th>Room Base Price</th>
+                    <th>Cancellation Fee</th>
+                    <th>Additional Beds</th>
+                    <th>Accessibility Room</th>
+                    <th>Room with View</th>
                 </tr>
             </thead>
             <tbody>
@@ -157,4 +156,3 @@
     </div>
 </body>
 </html>
-

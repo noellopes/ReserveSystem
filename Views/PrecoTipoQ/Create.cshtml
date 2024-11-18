@@ -1,7 +1,7 @@
 ﻿@model ReserveSystem.Models.PrecoTipoQuarto
 
 @{
-    ViewData["Title"] = "Create new Room Type";
+    ViewData["Title"] = "Create new prices for Room Type";
 }
 
 <!DOCTYPE html>
@@ -12,136 +12,202 @@
     <title>@ViewData["Title"] - PrecoTipoQuarto</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        /* General Body Styling */
         body {
-            background-color: #faf3e0; /* Light pastel background */
-            font-family: 'Arial', sans-serif;
+            font-family: 'Georgia', serif;
+            background-color: #f9f9f6; /* Off-white background */
+            color: #1a1a1a; /* Deep black for text */
         }
 
-        .container {
-            margin-top: 50px;
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        /* Form Container Styles */
+        .form-container {
+            background: #ffffff; /* White background for container */
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+            max-width: 600px;
+            margin: 3rem auto;
+            transition: all 0.3s ease;
         }
 
-        h1, h4 {
-            color: #5d5c61;
+        .form-container:hover {
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
         }
 
-        .btn-primary {
-            background-color: #a58970;
-            border: none;
+        /* Heading Styles */
+        h1 {
+            color: #d4af37; /* Gold for heading */
+            font-size: 2rem;
+            font-weight: 700;
         }
 
-            .btn-primary:hover {
-                background-color: #866d57;
-            }
-
-        .btn-secondary {
-            background-color: #d3d3d3;
-            border: none;
-        }
-
-            .btn-secondary:hover {
-                background-color: #bfbfbf;
-            }
-
+        /* Form Group and Label Styles */
         .form-group label {
-            font-weight: bold;
-            color: #5d5c61;
+            font-size: 1.1rem;
+            color: #1a1a1a; /* Black for labels */
+            font-weight: 600;
         }
 
+        /* Input Field Styles */
         .form-control {
-            border: 1px solid #ced4da;
-            border-radius: .25rem;
-        }
-
-            .form-control:focus {
-                border-color: #a58970;
-                box-shadow: 0 0 0 .2rem rgba(165, 137, 112, .25);
-            }
-
-        .text-danger {
-            color: #e74c3c;
-        }
-
-        .card {
-            background-color: #ffffff;
-            border: 1px solid #d3d3d3;
             border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
+            border: 1px solid #cccccc;
+            padding: 12px 16px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #f9f9f9; /* Light off-white for input background */
+        }
+
+        .form-control:focus {
+            border-color: #d4af37; /* Gold border on focus */
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.2); /* Soft gold focus shadow */
+            background-color: #ffffff; /* White background on focus */
+        }
+
+        /* Form Check Styles */
+        .form-check-input:checked {
+            background-color: #d4af37; /* Gold for checked boxes */
+            border-color: #d4af37;
+        }
+
+        .form-check-label {
+            color: #555555; /* Dark grey text */
+            font-size: 1rem;
+        }
+
+        /* Error Text Styling */
+        .text-danger {
+            font-size: 0.875rem;
+            color: #cc0000; /* Red for error messages */
+        }
+
+        /* Primary Button Styles */
+        .btn_create {
+            background-color: #ffffff;
+            border-color: #d4af37;
+            color: #333333;
+            font-weight: 600;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-size: 1.125rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            width: 50%;
+        }
+
+        .btn_create:hover {
+            background-color: #333333;
+            color: #F5F5F5;
+            border-color: #d4af37;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .btn_create:active {
+            background-color: #000000; /* Darker effect when clicked */
+            border-color: #000000;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Return to original shadow */
+            transform: translateY(0); /* Button "presses" down */
+        }
+
+        /* Back Button Styling */
+        .btn_back {
+            background-color: #333333;
+            border-color: #d4af37;
+            color: #ffffff;
+            font-weight: 600;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-size: 1.125rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .btn_back:hover {
+            background-color: #ffffff;
+            color: #d4af37;
+            border-color: #d4af37;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+        /* Additional Input Field and Group Styling */
+        .form-group {
+            margin-bottom: 2rem; /* Increased space between inputs */
+        }
+
+        /* Enhancing the checkboxes */
+        .form-check {
+            margin-bottom: 1rem;
+        }
+
+        .hr {
+            border: none;
+            height: 2px;
+            background-color: #d4af37; /* Gold */
+            width: 60%;
+            margin: 1rem auto;
+            opacity: 0.8;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container form-container">
         <h1 class="text-center">@ViewData["Title"]</h1>
-        <h4 class="text-center">PrecoTipoQuarto</h4>
-        <hr />
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <form asp-action="Create">
-                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-                        <div class="form-group">
-                            <label asp-for="tipo" class="control-label"></label>
-                            <input asp-for="tipo" class="form-control" />
-                            <span asp-validation-for="tipo" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-group">
-                            <label asp-for="capacidade" class="control-label"></label>
-                            <input asp-for="capacidade" class="form-control" />
-                            <span asp-validation-for="capacidade" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="quantidadeQuartos" class="control-label"></label>
-                            <input asp-for="quantidadeQuartos" class="form-control" />
-                            <span asp-validation-for="quantidadeQuartos" class="text-danger"></span>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label asp-for="PrecoBase" class="control-label"></label>
-                            <input asp-for="PrecoBase" class="form-control" />
-                            <span asp-validation-for="PrecoBase" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="taxaCancelamento" class="control-label"></label>
-                            <input asp-for="taxaCancelamento" class="form-control" />
-                            <span asp-validation-for="taxaCancelamento" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="camaAdiconal" class="control-label"></label>
-                            <input asp-for="camaAdiconal" class="form-control" />
-                            <span asp-validation-for="camaAdiconal" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-group form-check">
-                            <label class="form-check-label">
-                                <input class="form-check-input" asp-for="QuartoAdaptado" /> @Html.DisplayNameFor(model => model.QuartoAdaptado)
-                            </label>
-                        </div>
-
-                        <div class="form-group form-check">
-                            <label class="form-check-label">
-                                <input class="form-check-input" asp-for="Vista" /> @Html.DisplayNameFor(model => model.Vista)
-                            </label>
-                        </div>
-                        
-                        <div class="form-group text-center">
-                            <input type="submit" value="Create" class="btn btn-primary" />
-                        </div>
-                    </form>
-                </div>
+        <hr class="hr" />
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            <div class="form-group">
+                <label asp-for="tipo" class="control-label">Room Type</label>
+                <input asp-for="tipo" class="form-control" />
+                <span asp-validation-for="tipo" class="text-danger"></span>
             </div>
-        </div>
+            <div class="form-group">
+                <label asp-for="capacidade" class="control-label">Room Capacity</label>
+                <input asp-for="capacidade" class="form-control" />
+                <span asp-validation-for="capacidade" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="quantidadeQuartos" class="control-label">Room Quantity</label>
+                <input asp-for="quantidadeQuartos" class="form-control" />
+                <span asp-validation-for="quantidadeQuartos" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PrecoBase" class="control-label">Room Base Price</label>
+                <input asp-for="PrecoBase" class="form-control" />
+                <span asp-validation-for="PrecoBase" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="taxaCancelamento" class="control-label">Cancellation Fee</label>
+                <input asp-for="taxaCancelamento" class="form-control" />
+                <span asp-validation-for="taxaCancelamento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="camaAdiconal" class="control-label">Additional Beds</label>
+                <input asp-for="camaAdiconal" class="form-control" />
+                <span asp-validation-for="camaAdiconal" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <input class="form-check-input" asp-for="QuartoAdaptado" />
+                <label class="form-check-label" asp-for="QuartoAdaptado">
+                    Accessibility Room
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <input class="form-check-input" asp-for="Vista" />
+                <label class="form-check-label" asp-for="Vista">
+                    Room with View
+                </label>
+            </div>
+            <div class="form-group text-center">
+                <input type="submit" value="Create" class="btn btn_create" />
+            </div>
+        </form>
         <div class="text-center mt-3">
-            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            <a asp-action="Index" class="btn btn_back">Back to List</a>
         </div>
     </div>
 </body>
 </html>
-
 
