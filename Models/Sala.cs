@@ -14,8 +14,6 @@ public class Sala
     
     public DateTime HoraFim {get;set;}
     
-    public double Preço {get;set;}
-    
     [ForeignKey("TipoSala")]
     public long IdTipoSala  {get;set;}
     
