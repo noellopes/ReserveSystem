@@ -9,7 +9,7 @@ namespace ReserveSystem.Models
         public int jobID { get; set; }
 
         [Required(ErrorMessage = "Job name is required")]
-        public required List<JobModel> jobName { get; set; }
+        public required String jobName { get; set; }
 
         [Required(ErrorMessage = "Job description is required")]
         public required String jobDescription { get; set; }
