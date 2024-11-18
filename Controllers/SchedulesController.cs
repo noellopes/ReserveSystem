@@ -12,9 +12,9 @@ namespace ReserveSystem.Controllers
 {
     public class SchedulesController : Controller
     {
-        private readonly ReserveSystemUsersDbContext _context;
+        private readonly ReserveSystemContext _context;
 
-        public SchedulesController(ReserveSystemUsersDbContext context)
+        public SchedulesController(ReserveSystemContext context)
         {
             _context = context;
         }
@@ -54,7 +54,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ScheduleId,Date,StartShiftTime,EndShiftTime,Staff,Staff")] Schedule schedule)
+        public async Task<IActionResult> Create([Bind("ScheduleId,StaffId,TypeOfSheduleId,Date,StartShiftTime,EndShiftTime,Presence")] Schedule schedule)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ScheduleId,Date,StartShiftTime,EndShiftTime,StaffId,Staff")] Schedule schedule)
+        public async Task<IActionResult> Edit(int id, [Bind("ScheduleId,StaffId,TypeOfSheduleId,Date,StartShiftTime,EndShiftTime,Presence")] Schedule schedule)
         {
             if (id != schedule.ScheduleId)
             {

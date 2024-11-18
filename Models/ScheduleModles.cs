@@ -11,23 +11,27 @@ namespace ReserveSystem.Models
         public int ScheduleId { get; set; }
 
         [Required]
-        public DateTime Date { get; set; }
-
-        [Required]
-        public DateTime StartShiftTime { get; set; }
-
-        [Required]
-        public DateTime EndShiftTime { get; set; }
-
-        // Chave estrangeira
-        [Required]
+        [ForeignKey("StaffId")]
         [Display(Name = "Staff ID")]
         public int StaffId { get; set; }
 
-        // Propriedade de navegação
-        [ForeignKey("StaffId")]
-        [Display (Name = "Staff Name")]
-        public String Staff { get; set; }
+        [Required]
+        [ForeignKey("TypeOfSheduleId")]
+        [Display(Name = "Type of Schedule ID")]
+        public int TypeOfSheduleId { get; set; }
+
+        [Required]
+        public DateTime Date { get; set; }
+
+        [Required]
+        [Display(Name = "Start Shift Time")]
+        public DateTime StartShiftTime { get; set; }
+
+        [Required]
+        [Display(Name = "End Shift Time")]
+        public DateTime EndShiftTime { get; set; }
+
+        public bool Presence { get; set; }
 
         public bool IsValidShiftTime()
         {

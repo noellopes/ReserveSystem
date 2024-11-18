@@ -11,6 +11,18 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StaffId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StaffId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TypeOfSheduleId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TypeOfSheduleId)
+        </dd>
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Date)
         </dt>
         <dd class = "col-sm-10">
@@ -29,16 +41,10 @@
             @Html.DisplayFor(model => model.EndShiftTime)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StaffId)
+            @Html.DisplayNameFor(model => model.Presence)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StaffId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Staff)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Staff)
+            @Html.DisplayFor(model => model.Presence)
         </dd>
     </dl>
 </div>

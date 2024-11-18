@@ -13,6 +13,12 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.StaffId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TypeOfSheduleId)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Date)
             </th>
             <th>
@@ -22,10 +28,7 @@
                 @Html.DisplayNameFor(model => model.EndShiftTime)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StaffId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Staff)
+                @Html.DisplayNameFor(model => model.Presence)
             </th>
             <th></th>
         </tr>
@@ -33,6 +36,12 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StaffId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeOfSheduleId)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
@@ -43,10 +52,7 @@
                 @Html.DisplayFor(modelItem => item.EndShiftTime)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StaffId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Staff)
+                @Html.DisplayFor(modelItem => item.Presence)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ScheduleId">Edit</a> |
