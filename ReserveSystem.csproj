@@ -23,4 +23,12 @@
     <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Ingredientes\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Ingredientes\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Ingredientes\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Ingredientes\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Ingredientes\Index.cshtml" />
+  </ItemGroup>
+
 </Project>
