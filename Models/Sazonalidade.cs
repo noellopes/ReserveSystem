@@ -17,5 +17,7 @@ namespace ReserveSystem.Models
         public DateTime DateEnd { get; set; }
         [Required]
         public bool InUse { get; set; }
+        [Required]
+        public float SeasonFee {  get; set; }
     }
 }
