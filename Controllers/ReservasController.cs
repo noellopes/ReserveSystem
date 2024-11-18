@@ -10,22 +10,23 @@ using ReserveSystem.Models;
 
 namespace ReserveSystem.Controllers
 {
-    public class ClientesController : Controller
+    public class ReservasController : Controller
     {
         private readonly ReserveSystemContext _context;
 
-        public ClientesController(ReserveSystemContext context)
+        public ReservasController(ReserveSystemContext context)
         {
             _context = context;
         }
 
-        // GET: Clientes
+        // GET: Reservas
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Cliente.ToListAsync());
+            var reserveSystemContext = _context.Reserva.Include(r => r.Cliente);
+            return View(await reserveSystemContext.ToListAsync());
         }
 
-        // GET: Clientes/Details/5
+        // GET: Reservas/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,46 +34,42 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var cliente = await _context.Cliente
-                .FirstOrDefaultAsync(m => m.ClienteId == id);
-            if (cliente == null)
+            var reserva = await _context.Reserva
+                .Include(r => r.Cliente)
+                .FirstOrDefaultAsync(m => m.ReservaId == id);
+            if (reserva == null)
             {
                 return NotFound();
             }
 
-            return View(cliente);
+            return View(reserva);
         }
 
-        // GET: Clientes/Create
+        // GET: Reservas/Create
         public IActionResult Create()
         {
+            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Email");
             return View();
         }
 
-        // POST: Clientes/Create
+        // POST: Reservas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClienteId,Nome,Email,Telefone,Login,Nif")] ClienteModel cliente)
+        public async Task<IActionResult> Create([Bind("ReservaId,DataCheckIn,DataCheckOut,DataReserva,Estado,EstadoPagamento,NumeroPessoas,ClienteId")] ReservaModel reserva)
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Add(cliente);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-                catch(Exception ex)
-                {
-                    Console.WriteLine($"Error: {ex.Message}");
-                }
+                _context.Add(reserva);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-            return View(cliente);
+            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Email", reserva.ClienteId);
+            return View(reserva);
         }
 
-        // GET: Clientes/Edit/5
+        // GET: Reservas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,22 +77,23 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var cliente = await _context.Cliente.FindAsync(id);
-            if (cliente == null)
+            var reserva = await _context.Reserva.FindAsync(id);
+            if (reserva == null)
             {
                 return NotFound();
             }
-            return View(cliente);
+            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Email", reserva.ClienteId);
+            return View(reserva);
         }
 
-        // POST: Clientes/Edit/5
+        // POST: Reservas/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Nome,Email,Telefone,Login,Nif")] ClienteModel cliente)
+        public async Task<IActionResult> Edit(int id, [Bind("ReservaId,DataCheckIn,DataCheckOut,DataReserva,Estado,EstadoPagamento,NumeroPessoas,ClienteId")] ReservaModel reserva)
         {
-            if (id != cliente.ClienteId)
+            if (id != reserva.ReservaId)
             {
                 return NotFound();
             }
@@ -104,12 +102,12 @@ namespace ReserveSystem.Controllers
             {
                 try
                 {
-                    _context.Update(cliente);
+                    _context.Update(reserva);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ClienteExists(cliente.ClienteId))
+                    if (!ReservaExists(reserva.ReservaId))
                     {
                         return NotFound();
                     }
@@ -120,10 +118,11 @@ namespace ReserveSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(cliente);
+            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Email", reserva.ClienteId);
+            return View(reserva);
         }
 
-        // GET: Clientes/Delete/5
+        // GET: Reservas/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -131,34 +130,35 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var cliente = await _context.Cliente
-                .FirstOrDefaultAsync(m => m.ClienteId == id);
-            if (cliente == null)
+            var reserva = await _context.Reserva
+                .Include(r => r.Cliente)
+                .FirstOrDefaultAsync(m => m.ReservaId == id);
+            if (reserva == null)
             {
                 return NotFound();
             }
 
-            return View(cliente);
+            return View(reserva);
         }
 
-        // POST: Clientes/Delete/5
+        // POST: Reservas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var cliente = await _context.Cliente.FindAsync(id);
-            if (cliente != null)
+            var reserva = await _context.Reserva.FindAsync(id);
+            if (reserva != null)
             {
-                _context.Cliente.Remove(cliente);
+                _context.Reserva.Remove(reserva);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ClienteExists(int id)
+        private bool ReservaExists(int id)
         {
-            return _context.Cliente.Any(e => e.ClienteId == id);
+            return _context.Reserva.Any(e => e.ReservaId == id);
         }
     }
 }
