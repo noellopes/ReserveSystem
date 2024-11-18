@@ -17,6 +17,7 @@ namespace ReserveSystem.Models
         [Required(ErrorMessage = "Telefone obrigatório")]
         public String Telefone { get; set; }
 
+
         [Required]
         public bool Login { get; set; }
 
