@@ -226,38 +226,41 @@ namespace ReserveSystem.Data.Migrations
 
             modelBuilder.Entity("ReserveSystem.Models.PrecoTipoQuarto", b =>
                 {
-                    b.Property<int>("TipoQuartoId")
+                    b.Property<int>("id_RTPrice")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TipoQuartoId"));
-
-                    b.Property<float>("BasePrice")
-                        .HasColumnType("real");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id_RTPrice"));
 
                     b.Property<bool>("AcessibilityRoom")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("View")
                         .HasColumnType("bit");
 
                     b.Property<float>("AdicionalBeds")
                         .HasColumnType("real");
 
-                    b.Property<int>("capacity")
-                        .HasColumnType("int");
+                    b.Property<float>("BasePrice")
+                        .HasColumnType("real");
+
+                    b.Property<float>("CancelationFee")
+                        .HasColumnType("real");
 
                     b.Property<int>("RoomQuantity")
                         .HasColumnType("int");
 
-                    b.Property<float>("CancelationFee")
-                        .HasColumnType("real");
+                    b.Property<int>("TipoQuartoId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("View")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("capacity")
+                        .HasColumnType("int");
 
                     b.Property<string>("type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("TipoQuartoId");
+                    b.HasKey("id_RTPrice");
 
                     b.ToTable("PrecoTipoQuarto");
                 });
