@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ReserveSystem.Models
 {
@@ -16,7 +17,9 @@ namespace ReserveSystem.Models
         public double PrecoTotal { get; set; }
         public int ClienteId { get; set; }
         public ClienteModel? Cliente { get; set; }
-
+        [ForeignKey("Equipamento")]
+        public int IdEquipamento { get; set; }  // Foreign key to Equipamento
+        public Equipamento Equipamento { get; set; }  // Navigation property
 
     }
 }

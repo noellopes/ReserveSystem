@@ -4,29 +4,32 @@
 <html>
 <head>
     <title>Lista de Equipamentos</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Lista de Equipamentos</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Tipo</th>
-                <th>Quantidade</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="container mt-4">
+        <h1>Lista de Equipamentos</h1>
+        <div class="row">
             @foreach (var equipamento in Model)
             {
-                <tr>
-                    <td>@equipamento.IdEquipamento</td>
-                    <td>@equipamento.NomeEquipamento</td>
-                    <td>@equipamento.TipoEquipamento</td>
-                    <td>@equipamento.Quantidade</td>
-                </tr>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="https://img.pccomponentes.com/articles/1051/10517903/132-jbl-flip-6-altavoz-bluetooth-30w-azul.jpg" class="card-img-top" alt="@equipamento.NomeEquipamento">
+                        <div class="card-body">
+                            <h5 class="card-title">@equipamento.NomeEquipamento</h5>
+                            <p class="card-text">
+                                <strong>Tipo:</strong> @equipamento.TipoEquipamento<br>
+                                <strong>Quantidade:</strong> @equipamento.Quantidade
+                            </p>
+                            <a href="@Url.Action("Edit", "Equipamento", new { id = equipamento.IdEquipamento })" class="btn btn-primary">Editar</a>
+                            <a href="@Url.Action("ReportIssue", "Equipamento", new { id = equipamento.IdEquipamento })" class="btn btn-warning">Reportar Avarias</a>
+                            <a href="@Url.Action("Delete", "Equipamento", new { id = equipamento.IdEquipamento })" class="btn btn-danger">Excluir</a>
+                            
+                        </div>
+                    </div>
+                </div>
             }
-        </tbody>
-    </table>
+        </div>
+    </div>
 </body>
 </html>
