@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using ReserveSystem.Models;
 
 namespace ReserveSystem.Data
 {
@@ -9,5 +10,6 @@ namespace ReserveSystem.Data
             : base(options)
         {
         }
+        public DbSet<ReserveSystem.Models.Sazonalidade> Sazonalidade { get; set; } = default!;
     }
 }
