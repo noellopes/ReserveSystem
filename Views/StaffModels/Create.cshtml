@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Create";
+    var grades = ViewBag.DrivingLicenseGrades as List<string>;
 }
 
 <h1>Add new staff member</h1>
@@ -18,20 +19,51 @@
                 <span asp-validation-for="Staff_Name" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="BirthDate" class="control-label">BirthDate</label>
+                <input asp-for="BirthDate" class="form-control" type="date" />
+                <span asp-validation-for="BirthDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
                 <label asp-for="Staff_Email" class="control-label">Email</label>
                 <input asp-for="Staff_Email" class="form-control" />
                 <span asp-validation-for="Staff_Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Staff_Password" class="control-label">Password</label>
-                <input asp-for="Staff_Password" class="form-control" />
+                <div class="input-group">
+                    <input asp-for="Staff_Password" class="form-control" type="password" value="defaultpassword" id="Staff_Password" />
+                    <span class="input-group-text" onclick="togglePasswordVisibility()" style="cursor: pointer;">
+                        <i class="fas fa-eye" id="togglePasswordIcon"></i>
+                    </span>
+                </div>
                 <span asp-validation-for="Staff_Password" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
+            
+            <div class="form-group">
             <label asp-for="Job_Id" class="control-label">Job</label>
             <select asp-for="Job_Id" class="form-control" asp-items="ViewBag.Jobs"></select>
             <span asp-validation-for="Job_Id" class="text-danger"></span>
-            </div>*@
+            </div>
+            
+            <div class="form-group">
+                <label class="control-label">Driving License Grades</label>
+                @if (grades != null)
+                {
+                    foreach (var grade in grades)
+                    {
+                        <div class="form-check">
+                            <input type="checkbox" name="DrivingLicenseGrade" value="@grade" class="form-check-input" />
+                            <label class="form-check-label">@grade</label>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="form-group">
+                <label asp-for="DriverLicenseExpirationDate" class="control-label">DriverLicenseExpirationDate</label>
+                <input asp-for="DriverLicenseExpirationDate" class="form-control" type="date"/>
+                <span asp-validation-for="DriverLicenseExpirationDate" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -45,4 +77,20 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('Staff_Password');
+            const toggleIcon = document.getElementById('togglePasswordIcon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+    </script>
 }

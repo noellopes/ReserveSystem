@@ -46,9 +46,16 @@ namespace ReserveSystem.Controllers
         // GET: StaffModels/Create
         public IActionResult Create()
         {
+
+            //ViewBag.Jobs = new SelectList(_context.Jobs, "JobId", "Name");
+            ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G" };
+
+            var model = new StaffModel
+            {
+                Staff_Password = "defaultpassword" // Definir o valor padrão
+            };
+            return View(model);
             
-            //ViewData["Job_Id"] = new SelectList(_context.Jobs, "JobId", "Name");
-            return View();
         }
 
 
@@ -57,7 +64,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Staff_Id,Staff_Name,Staff_Email,Staff_Password")] StaffModel staffModel)
+        public async Task<IActionResult> Create([Bind("Staff_Id,Staff_Name,Staff_Email,Staff_Password,Job_Id,DriverLicense")] StaffModel staffModel)
         {
             if (ModelState.IsValid)
             {
@@ -66,6 +73,7 @@ namespace ReserveSystem.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G" };
             //ViewBag.Jobs = new SelectList(_context.Jobs.ToList(), "Job_Id", "Job_Name", staff.Job_Id);
             return View(staffModel);
            

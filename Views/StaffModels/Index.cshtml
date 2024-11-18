@@ -1,47 +1,58 @@
 ﻿@model IEnumerable<ReserveSystem.Models.StaffModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Staff List";
 }
 
-<h1>Index</h1>
+<h1>Staff Members</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Add New Staff</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Staff_Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Staff_Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Staff_Password)
-            </th>
-            <th></th>
+            <th>@Html.DisplayNameFor(model => model.Staff_Name)</th>
+            <th>@Html.DisplayNameFor(model => model.BirthDate)</th>
+            <th>@Html.DisplayNameFor(model => model.Staff_Email)</th>
+            <th>@Html.DisplayNameFor(model => model.Job_Id)</th>
+            <th>@Html.DisplayNameFor(model => model.DrivingLicenseGrades)</th>
+            <th>@Html.DisplayNameFor(model => model.DriverLicenseExpirationDate)</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
+        @foreach (var staff in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => staff.Staff_Name)</td>
+                <td>@Html.DisplayFor(modelItem => staff.BirthDate)</td>
+                <td>@Html.DisplayFor(modelItem => staff.Staff_Email)</td>
+                @*
             <td>
-                @Html.DisplayFor(modelItem => item.Staff_Name)
+            @ViewBag.Jobs.FirstOrDefault(job => job.Value == staff.Job_Id.ToString())?.Text
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Staff_Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Staff_Password)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Staff_Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Staff_Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Staff_Id">Delete</a>
-            </td>
-        </tr>
-}
+                *@
+                
+                <td>
+                    @if (staff.DrivingLicenseGrades != null && staff.DrivingLicenseGrades.Any())
+                    {
+                        @string.Join(", ", staff.DrivingLicenseGrades)
+                    }
+                    else
+                    {
+                        <span>No Driving License Grades</span>
+                    }
+                </td>
+                <td>@Html.DisplayFor(modelItem => staff.DriverLicenseExpirationDate)</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@staff.Staff_Id" class="btn btn-info">Details</a>
+                    <a asp-action="Edit" asp-route-id="@staff.Staff_Id" class="btn btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@staff.Staff_Id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
