@@ -7,5 +7,6 @@ namespace ReserveSystem.Data
     {
         public ReserveSystemContext(DbContextOptions<ReserveSystemContext> options) : base(options) {}
         public DbSet<ReserveSystem.Models.Ingredient> Ingredient { get; set; } = default!;
+        public DbSet<ReserveSystem.Models.Stock> Stock { get; set; } = default!;
     }
 }
