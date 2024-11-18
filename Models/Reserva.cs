@@ -22,7 +22,7 @@ namespace ReserveSystem.Models
         [Required]
         public DateTime DataHora { get; set; }
 
-        public string Observacao { get; set; }
+        public string? Observacao { get; set; }
 
 
     }

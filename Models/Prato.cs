@@ -10,8 +10,8 @@ namespace ReserveSystem.Models
         [Required]
         public string PratoNome { get; set; }
 
-        [Required]
-        public string Descricao { get; set; }
+        
+        public string? Descricao { get; set; }
 
     }
 }

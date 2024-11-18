@@ -1,47 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging; // Added for logging
 using ReserveSystem.Data;
 using ReserveSystem.Models;
 
 namespace ReserveSystem.Controllers
 {
-<<<<<<<< HEAD:Controllers/ReservasController.cs
     public class ReservasController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<ReservasController> _logger; // Added for logging
 
-        public ReservasController(ApplicationDbContext context)
-========
-    public class PratosController : Controller
-        {
-        private readonly ApplicationDbContext _context;
-
-        public PratosController(ApplicationDbContext context)
->>>>>>>> d383a10b65dded3aefe11ca251809fc3f7617840:Controllers/PratosController.cs
+        public ReservasController(ApplicationDbContext context, ILogger<ReservasController> logger)
         {
             _context = context;
+            _logger = logger; // Initialize logger
         }
 
-<<<<<<<< HEAD:Controllers/ReservasController.cs
         // GET: Reservas
-========
-        // GET: Pratos
->>>>>>>> d383a10b65dded3aefe11ca251809fc3f7617840:Controllers/PratosController.cs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Prato.ToListAsync());
+            return View(await _context.Reserva.ToListAsync());
         }
 
-<<<<<<<< HEAD:Controllers/ReservasController.cs
         // GET: Reservas/Details/5
-========
-        // GET: Pratos/Details/5
->>>>>>>> d383a10b65dded3aefe11ca251809fc3f7617840:Controllers/PratosController.cs
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -49,51 +34,53 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var prato = await _context.Prato
-                .FirstOrDefaultAsync(m => m.IdPrato == id);
-            if (prato == null)
+            var reserva = await _context.Reserva
+                .FirstOrDefaultAsync(m => m.IdReserva == id);
+            if (reserva == null)
             {
                 return NotFound();
             }
 
-            return View(prato);
+            return View(reserva);
         }
 
-<<<<<<<< HEAD:Controllers/ReservasController.cs
         // GET: Reservas/Create
-========
-        // GET: Pratos/Create
->>>>>>>> d383a10b65dded3aefe11ca251809fc3f7617840:Controllers/PratosController.cs
         public IActionResult Create()
         {
             return View();
         }
 
-<<<<<<<< HEAD:Controllers/ReservasController.cs
-        // POST: Reservas/Create
-========
-        // POST: Pratos/Create
->>>>>>>> d383a10b65dded3aefe11ca251809fc3f7617840:Controllers/PratosController.cs
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdPrato,PratoNome,Descricao")] Prato prato)
+        public async Task<IActionResult> Create([Bind("IdReserva,NomeCliente,NumeroMesa,NumeroPessoas,DataHora,Observacao")] Reserva reserva)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(prato);
+                try
+                {
+                    _context.Add(reserva);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
-            return View(prato);
+                catch (DbUpdateException ex)
+                {
+                    // Log the exception details
+                    _logger.LogError($"Error while creating reservation: {ex.Message}");
+                    if (ex.InnerException != null)
+                    {
+                        _logger.LogError($"Inner exception: {ex.InnerException.Message}");
                     }
 
-<<<<<<<< HEAD:Controllers/ReservasController.cs
+                    // Provide user feedback (Optional)
+                    ModelState.AddModelError(string.Empty, "An error occurred while saving the reservation. Please try again.");
+                    return View(reserva);
+                }
+            }
+            return View(reserva);
+        }
+
         // GET: Reservas/Edit/5
-========
-        // GET: Pratos/Edit/5
->>>>>>>> d383a10b65dded3aefe11ca251809fc3f7617840:Controllers/PratosController.cs
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -101,26 +88,20 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var prato = await _context.Prato.FindAsync(id);
-            if (prato == null)
+            var reserva = await _context.Reserva.FindAsync(id);
+            if (reserva == null)
             {
                 return NotFound();
             }
-            return View(prato);
+            return View(reserva);
         }
 
-<<<<<<<< HEAD:Controllers/ReservasController.cs
-        // POST: Reservas/Edit/5
-========
-        // POST: Pratos/Edit/5
->>>>>>>> d383a10b65dded3aefe11ca251809fc3f7617840:Controllers/PratosController.cs
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdPrato,PratoNome,Descricao")] Prato prato)
+        public async Task<IActionResult> Edit(int id, [Bind("IdReserva,NomeCliente,NumeroMesa,NumeroPessoas,DataHora,Observacao")] Reserva reserva)
         {
-            if (id != prato.IdPrato)
+            if (id != reserva.IdReserva)
             {
                 return NotFound();
             }
@@ -129,30 +110,47 @@ namespace ReserveSystem.Controllers
             {
                 try
                 {
-                    _context.Update(prato);
+                    _context.Update(reserva);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    // Log the exception details
+                    _logger.LogError($"Concurrency issue while updating reservation: {ex.Message}");
+                    if (ex.InnerException != null)
                     {
-                    if (!PratoExists(prato.IdPrato))
+                        _logger.LogError($"Inner exception: {ex.InnerException.Message}");
+                    }
+
+                    // Check if the entity still exists
+                    if (!ReservaExists(reserva.IdReserva))
                     {
                         return NotFound();
                     }
-                    else
+
+                    // Provide user feedback (Optional)
+                    ModelState.AddModelError(string.Empty, "A concurrency error occurred. Please try again.");
+                    return View(reserva);
+                }
+                catch (DbUpdateException ex)
+                {
+                    // Log the exception details
+                    _logger.LogError($"Error while updating reservation: {ex.Message}");
+                    if (ex.InnerException != null)
                     {
-                        throw;
+                        _logger.LogError($"Inner exception: {ex.InnerException.Message}");
                     }
+
+                    // Provide user feedback (Optional)
+                    ModelState.AddModelError(string.Empty, "An error occurred while saving the reservation. Please try again.");
+                    return View(reserva);
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(prato);
+            return View(reserva);
         }
 
-<<<<<<<< HEAD:Controllers/ReservasController.cs
         // GET: Reservas/Delete/5
-========
-        // GET: Pratos/Delete/5
->>>>>>>> d383a10b65dded3aefe11ca251809fc3f7617840:Controllers/PratosController.cs
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -160,38 +158,34 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var prato = await _context.Prato
-                .FirstOrDefaultAsync(m => m.IdPrato == id);
-            if (prato == null)
+            var reserva = await _context.Reserva
+                .FirstOrDefaultAsync(m => m.IdReserva == id);
+            if (reserva == null)
             {
                 return NotFound();
             }
 
-            return View(prato);
+            return View(reserva);
         }
 
-<<<<<<<< HEAD:Controllers/ReservasController.cs
         // POST: Reservas/Delete/5
-========
-        // POST: Pratos/Delete/5
->>>>>>>> d383a10b65dded3aefe11ca251809fc3f7617840:Controllers/PratosController.cs
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var prato = await _context.Prato.FindAsync(id);
-            if (prato != null)
+            var reserva = await _context.Reserva.FindAsync(id);
+            if (reserva != null)
             {
-                _context.Prato.Remove(prato);
+                _context.Reserva.Remove(reserva);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PratoExists(int id)
+        private bool ReservaExists(int id)
         {
-            return _context.Prato.Any(e => e.IdPrato == id);
+            return _context.Reserva.Any(e => e.IdReserva == id);
         }
     }
 }
