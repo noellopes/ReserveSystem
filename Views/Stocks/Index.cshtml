@@ -1,49 +1,64 @@
 ﻿@model IEnumerable<ReserveSystem.Models.Stock>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Stock";
 }
 
-<h1>Index</h1>
+<style>
+    .table th, .table td {
+        text-align: center;
+    }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Ingrediente
-            </th>
-            <th>
-                Quantidade Disponível
-            </th>
-            <th>
-                Data da Última Atualização
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @item.Ingredient.Name
-                </td>
-                <td>
-                    @*Adicionar também a unidade de medida*@
-                    @item.AvailableQuantity @item.Ingredient.UnityMeasure
-                </td>
-                <td>
-                    @item.LastModificationDate.ToShortDateString()
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.StockID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.StockID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.StockID">Delete</a>
-                </td>
-            </tr>
+    .table th {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn-custom {
+        background-color: #28a745;
+        color: white;
+    }
+
+        .btn-custom:hover {
+            background-color: #218838;
         }
-    </tbody>
-</table>
+
+    .btn-edit, .btn-details, .btn-delete {
+        margin: 0 5px;
+    }
+</style>
+
+<div class="container mt-4">
+    <h1 class="text-center text-primary">Stock</h1>
+
+    <div class="d-flex justify-content-between mb-3">
+        <a class="btn btn-primary" asp-action="Create">Adicionar Novo Stock</a>
+    </div>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Ingrediente</th>
+                <th>Quantidade Disponível</th>
+                <th>Data da Última Atualização</th>
+                <th>Opções</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Ingredient.Name</td>
+                    @*Adiciona também as unidades correspondentes ao ingrediente*@
+                    <td>@item.AvailableQuantity @item.Ingredient.UnityMeasure</td>
+                    <td>@item.LastModificationDate.ToShortDateString()</td>
+                    <td>
+                        <a class="btn btn-sm btn-info btn-edit" asp-action="Edit" asp-route-id="@item.StockID">Editar</a>
+                        <a class="btn btn-sm btn-primary btn-details" asp-action="Details" asp-route-id="@item.StockID">Detalhes</a>
+                        <a class="btn btn-sm btn-danger btn-delete" asp-action="Delete" asp-route-id="@item.StockID">Excluir</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

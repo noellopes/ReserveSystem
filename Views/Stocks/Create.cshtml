@@ -4,6 +4,36 @@
     ViewData["Title"] = "Create";
 }
 
+<style>
+    .form-control {
+        margin-bottom: 20px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+    .text-danger {
+        font-size: 0.9em;
+    }
+
+    a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+        a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+</style>
+
 <h1>Create</h1>
 
 <h4>Stock</h4>
@@ -14,7 +44,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="IngredientID" class="control-label"></label>
-                <select asp-for="IngredientID" class ="form-control" asp-items="ViewBag.IngredientID"></select>
+                <select asp-for="IngredientID" class="form-control" asp-items="ViewBag.IngredientID"></select>
             </div>
             <div class="form-group">
                 <label asp-for="AvailableQuantity" class="control-label"></label>
@@ -38,5 +68,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
