@@ -1,0 +1,49 @@
+﻿@model IEnumerable<ReserveSystem.Models.Stock>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Ingrediente
+            </th>
+            <th>
+                Quantidade Disponível
+            </th>
+            <th>
+                Data da Última Atualização
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Ingredient.Name
+                </td>
+                <td>
+                    @*Adicionar também a unidade de medida*@
+                    @item.AvailableQuantity @item.Ingredient.UnityMeasure
+                </td>
+                <td>
+                    @item.LastModificationDate.ToShortDateString()
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.StockID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.StockID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.StockID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
