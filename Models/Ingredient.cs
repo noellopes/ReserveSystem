@@ -2,7 +2,7 @@
 
 namespace ReserveSystem.Models
 {
-    public class Ingrediente
+    public class Ingredient
     {
         public int IngredienteId { get; set; }
 
