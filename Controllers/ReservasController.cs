@@ -36,7 +36,7 @@ namespace ReserveSystem.Controllers
 
             var reserva = await _context.Reserva
                 .Include(r => r.Cliente)
-                .FirstOrDefaultAsync(m => m.ReservaId == id);
+                .FirstOrDefaultAsync(m => m.ReservationId == id);
             if (reserva == null)
             {
                 return NotFound();
@@ -57,7 +57,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ReservaId,DataCheckIn,DataCheckOut,DataReserva,Estado,EstadoPagamento,NumeroPessoas,ClienteId")] ReservaModel reserva)
+        public async Task<IActionResult> Create([Bind("ReservaId,DataCheckIn,DataCheckOut,DataReserva,Estado,EstadoPagamento,NumeroPessoas,ClienteId")] Reservation reserva)
         {
             if (ModelState.IsValid)
             {
@@ -91,9 +91,9 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ReservaId,DataCheckIn,DataCheckOut,DataReserva,Estado,EstadoPagamento,NumeroPessoas,ClienteId")] ReservaModel reserva)
+        public async Task<IActionResult> Edit(int id, [Bind("ReservaId,DataCheckIn,DataCheckOut,DataReserva,Estado,EstadoPagamento,NumeroPessoas,ClienteId")] Reservation reserva)
         {
-            if (id != reserva.ReservaId)
+            if (id != reserva.ReservationId)
             {
                 return NotFound();
             }
@@ -107,7 +107,7 @@ namespace ReserveSystem.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ReservaExists(reserva.ReservaId))
+                    if (!ReservaExists(reserva.ReservationId))
                     {
                         return NotFound();
                     }
@@ -132,7 +132,7 @@ namespace ReserveSystem.Controllers
 
             var reserva = await _context.Reserva
                 .Include(r => r.Cliente)
-                .FirstOrDefaultAsync(m => m.ReservaId == id);
+                .FirstOrDefaultAsync(m => m.ReservationId == id);
             if (reserva == null)
             {
                 return NotFound();
@@ -158,7 +158,7 @@ namespace ReserveSystem.Controllers
 
         private bool ReservaExists(int id)
         {
-            return _context.Reserva.Any(e => e.ReservaId == id);
+            return _context.Reserva.Any(e => e.ReservationId == id);
         }
     }
 }
