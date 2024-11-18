@@ -1,0 +1,41 @@
+﻿@model ReserveSystem.Models.Prato
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1 class="text-center mt-4">Detalhes do Prato</h1>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0">Informações do Prato</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Detalhes do Prato -->
+                    <dl class="row mb-4">
+                        <dt class="col-sm-4">Nome:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Nome)</dd>
+
+                        <dt class="col-sm-4">Descrição:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Descricao)</dd>
+                    </dl>
+
+                    <!-- Botões de Ação -->
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Edit" asp-route-id="@Model?.PratoId" class="btn btn-warning">Editar</a>
+                        <a asp-action="Index" class="btn btn-secondary">Voltar à Lista</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
