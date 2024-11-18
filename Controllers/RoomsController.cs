@@ -22,6 +22,7 @@ namespace ReserveSystem.Controllers
         // GET: Rooms
         public async Task<IActionResult> Index()
         {
+            
             return View(await _context.Rooms.ToListAsync());
         }
 

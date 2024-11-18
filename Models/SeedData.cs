@@ -4,7 +4,7 @@ namespace ReserveSystem.Models
 {
     internal class SeedData
     {
-        internal static void Populate(ReserveSystemContext? db)
+        internal static void Populate(ReserveSystemContext db)
         {
             if (db == null)
                 return;
@@ -12,6 +12,7 @@ namespace ReserveSystem.Models
             db.Database.EnsureCreated();
 
             PopulateCliente(db);
+            PopulateRooms(db);
         }
 
         private static void PopulateCliente(ReserveSystemContext db)
@@ -42,6 +43,48 @@ namespace ReserveSystem.Models
                 new ClienteModel { Nome = "Tomás Ferreira", Email = "tomas.ferreira@example.com", Telefone = "+351922345680", Login = false, Nif = "012340098" }
                 }
                 );
+            db.SaveChanges();
+        }
+
+        private static void PopulateRooms(ReserveSystemContext db)
+        {
+            // Verificar se já existem quartos na base de dados
+            if (db.Rooms.Any()) return;
+
+            db.Rooms.AddRange(
+                new List<Rooms>
+                {
+            new Rooms { RoomType = "Standard", Capacity = 2, NumberOfRooms = 10, HasView = true, AdaptedRoom = false },
+            new Rooms { RoomType = "Standard", Capacity = 2, NumberOfRooms = 8, HasView = false, AdaptedRoom = true },
+            new Rooms { RoomType = "Suite", Capacity = 4, NumberOfRooms = 7, HasView = true, AdaptedRoom = false },
+            new Rooms { RoomType = "Suite", Capacity = 4, NumberOfRooms = 5, HasView = false, AdaptedRoom = true },
+            new Rooms { RoomType = "Deluxe", Capacity = 3, NumberOfRooms = 6, HasView = true, AdaptedRoom = true },
+            new Rooms { RoomType = "Deluxe", Capacity = 3, NumberOfRooms = 8, HasView = false, AdaptedRoom = false },
+            new Rooms { RoomType = "Executive", Capacity = 2, NumberOfRooms = 5, HasView = true, AdaptedRoom = false },
+            new Rooms { RoomType = "Executive", Capacity = 2, NumberOfRooms = 4, HasView = false, AdaptedRoom = true },
+            new Rooms { RoomType = "Family", Capacity = 5, NumberOfRooms = 3, HasView = true, AdaptedRoom = true },
+            new Rooms { RoomType = "Family", Capacity = 5, NumberOfRooms = 4, HasView = false, AdaptedRoom = false },
+            new Rooms { RoomType = "Presidential", Capacity = 6, NumberOfRooms = 2, HasView = true, AdaptedRoom = false },
+            new Rooms { RoomType = "Presidential", Capacity = 6, NumberOfRooms = 1, HasView = false, AdaptedRoom = true },
+            new Rooms { RoomType = "Penthouse", Capacity = 4, NumberOfRooms = 2, HasView = true, AdaptedRoom = true },
+            new Rooms { RoomType = "Studio", Capacity = 2, NumberOfRooms = 10, HasView = false, AdaptedRoom = false },
+            new Rooms { RoomType = "Loft", Capacity = 3, NumberOfRooms = 3, HasView = true, AdaptedRoom = false },
+            new Rooms { RoomType = "Loft", Capacity = 3, NumberOfRooms = 4, HasView = false, AdaptedRoom = true },
+            new Rooms { RoomType = "Villa", Capacity = 8, NumberOfRooms = 2, HasView = true, AdaptedRoom = false },
+            new Rooms { RoomType = "Villa", Capacity = 8, NumberOfRooms = 3, HasView = false, AdaptedRoom = true },
+            new Rooms { RoomType = "Bungalow", Capacity = 4, NumberOfRooms = 5, HasView = true, AdaptedRoom = false },
+            new Rooms { RoomType = "Bungalow", Capacity = 4, NumberOfRooms = 6, HasView = false, AdaptedRoom = true },
+            new Rooms { RoomType = "Single", Capacity = 1, NumberOfRooms = 15, HasView = false, AdaptedRoom = false },
+            new Rooms { RoomType = "Single", Capacity = 1, NumberOfRooms = 12, HasView = true, AdaptedRoom = true },
+            new Rooms { RoomType = "Double", Capacity = 2, NumberOfRooms = 20, HasView = false, AdaptedRoom = false },
+            new Rooms { RoomType = "Double", Capacity = 2, NumberOfRooms = 15, HasView = true, AdaptedRoom = true },
+            new Rooms { RoomType = "Cottage", Capacity = 5, NumberOfRooms = 4, HasView = true, AdaptedRoom = false },
+            new Rooms { RoomType = "Cottage", Capacity = 5, NumberOfRooms = 3, HasView = false, AdaptedRoom = true },
+            new Rooms { RoomType = "Cabin", Capacity = 3, NumberOfRooms = 7, HasView = true, AdaptedRoom = false },
+            new Rooms { RoomType = "Cabin", Capacity = 3, NumberOfRooms = 6, HasView = false, AdaptedRoom = true }
+                }
+            );
+
             db.SaveChanges();
         }
     }
