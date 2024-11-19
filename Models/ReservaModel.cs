@@ -15,7 +15,7 @@ namespace ReserveSystem.Models
         [Required(ErrorMessage = "Data de Reserva")]
         public DateTime BOOKING_DATE { get; set; }
         [Required(ErrorMessage = "Estado de Reserva é obrigatório")]
-        public string BOOKED { get; set; }
+        public bool BOOKED { get; set; }
         public bool PAYMENT_STATUS { get; set; }
         [Required(ErrorMessage = "Número da pessoa")]
         public int TOTAL_PERSONS_NUMBER { get; set; }
