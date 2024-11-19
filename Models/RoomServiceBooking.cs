@@ -48,37 +48,5 @@ namespace ReserveSystem.Models
         public decimal AmountToPay { get; set; }
 
         public bool PaymentMade { get; set; }
-
-        // Methods (Optional) - Placeholder examples, typically implemented in a service layer
-        public RoomServiceBooking GetRoomServiceBooking(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool AddRoomServiceBooking(RoomServiceBooking booking)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool UpdateRoomServiceBooking(RoomServiceBooking booking)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool DeleteRoomServiceBooking(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool AssignStaff(int staffId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool ChangeReservationStatus(bool newStatus)
-        {
-            this.IsReserved = newStatus;
-            return true; // Indicating success; modify as needed
-        }
     }
 }
