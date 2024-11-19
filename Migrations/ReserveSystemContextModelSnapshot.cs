@@ -22,7 +22,7 @@ namespace ReserveSystem.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ReserveSystem.Models.Cliente", b =>
+            modelBuilder.Entity("ReserveSystem.Models.ClienteModel", b =>
                 {
                     b.Property<int>("ClienteId")
                         .ValueGeneratedOnAdd()
@@ -54,55 +54,54 @@ namespace ReserveSystem.Migrations
                     b.ToTable("Cliente");
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.Reservation", b =>
+            modelBuilder.Entity("ReserveSystem.Models.ReservaModel", b =>
                 {
-                    b.Property<int>("ReservationId")
+                    b.Property<int>("ID_BOOKING")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservationId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_BOOKING"));
 
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CheckInDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("CheckOutDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ReservationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PaymentStatus")
+                    b.Property<bool>("BOOKED")
                         .HasColumnType("bit");
 
-                    b.Property<int>("TotalPeople")
+                    b.Property<DateTime>("BOOKING_DATE")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CHECKIN_DATE")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CHECKOUT_DATE")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("ID_CLIENT")
                         .HasColumnType("int");
 
-                    b.HasKey("ReservationId");
+                    b.Property<bool>("PAYMENT_STATUS")
+                        .HasColumnType("bit");
 
-                    b.ToTable("Reservation");
+                    b.Property<int>("TOTAL_PERSONS_NUMBER")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID_BOOKING");
+
+                    b.HasIndex("ID_CLIENT");
+
+                    b.ToTable("ReservaModel");
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.Reservation", b =>
+            modelBuilder.Entity("ReserveSystem.Models.ReservaModel", b =>
                 {
-                    b.HasOne("ReserveSystem.Models.Cliente", "Cliente")
-                        .WithMany("Reservation")
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("ReserveSystem.Models.ClienteModel", "Cliente")
+                        .WithMany("Reserva")
+                        .HasForeignKey("ID_CLIENT");
 
                     b.Navigation("Cliente");
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.Cliente", b =>
+            modelBuilder.Entity("ReserveSystem.Models.ClienteModel", b =>
                 {
-                    b.Navigation("Reservation");
+                    b.Navigation("Reserva");
                 });
 #pragma warning restore 612, 618
         }
