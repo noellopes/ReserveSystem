@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ReserveSystem.Models
 {
@@ -17,9 +18,10 @@ namespace ReserveSystem.Models
         [Required(ErrorMessage = "Please enter the price of additional beds for this room type")]
         public float AdicionalBeds { get; set; }
 
-        // Foreign key and navigation property
         [Required]
+        [ForeignKey("TipoQuartoId")]
         public int TipoQuartoId { get; set; } // Foreign key
-        public required TipoQuarto TipoQuarto { get; set; } // Navigation property
-    }
+        public TipoQuarto TipoQuarto { get; set; } // Para procurar outros atributos
+
+        }
 }

@@ -11,5 +11,6 @@ namespace ReserveSystem.Data
         {
         }
         public DbSet<ReserveSystem.Models.TipoQuarto> TipoQuarto { get; set; } = default!;
+        public DbSet<ReserveSystem.Models.PrecoTipoQuarto> PrecoTipoQuarto { get; set; } = default!;
     }
 }
