@@ -13,20 +13,20 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="RoomServiceId" class="control-label"></label>
-                <select asp-for="RoomServiceId" class ="form-control" asp-items="ViewBag.RoomServiceId"></select>
+                <label asp-for="RoomServiceID" class="control-label"></label>
+                <select asp-for="RoomServiceID" class ="form-control" asp-items="ViewBag.RoomServiceID"></select>
             </div>
             <div class="form-group">
-                <label asp-for="StaffId" class="control-label"></label>
-                <select asp-for="StaffId" class ="form-control" asp-items="ViewBag.StaffId"></select>
+                <label asp-for="StaffID" class="control-label"></label>
+                <select asp-for="StaffID" class ="form-control" asp-items="ViewBag.StaffID"></select>
             </div>
             <div class="form-group">
-                <label asp-for="ClientId" class="control-label"></label>
-                <select asp-for="ClientId" class ="form-control" asp-items="ViewBag.ClientId"></select>
+                <label asp-for="ClientID" class="control-label"></label>
+                <select asp-for="ClientID" class ="form-control" asp-items="ViewBag.ClientID"></select>
             </div>
             <div class="form-group">
-                <label asp-for="RoomId" class="control-label"></label>
-                <select asp-for="RoomId" class ="form-control" asp-items="ViewBag.RoomId"></select>
+                <label asp-for="RoomID" class="control-label"></label>
+                <select asp-for="RoomID" class ="form-control" asp-items="ViewBag.RoomID"></select>
             </div>
             <div class="form-group">
                 <label asp-for="DateTime" class="control-label"></label>
@@ -43,6 +43,16 @@
                 <input asp-for="EndDate" class="form-control" />
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="BookedState" /> @Html.DisplayNameFor(model => model.BookedState)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="StaffConfirmation" /> @Html.DisplayNameFor(model => model.StaffConfirmation)
+                </label>
+            </div>
             <div class="form-group">
                 <label asp-for="ClientFeedback" class="control-label"></label>
                 <input asp-for="ClientFeedback" class="form-control" />
@@ -52,6 +62,11 @@
                 <label asp-for="AmountToPay" class="control-label"></label>
                 <input asp-for="AmountToPay" class="form-control" />
                 <span asp-validation-for="AmountToPay" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="PaymentMade" /> @Html.DisplayNameFor(model => model.PaymentMade)
+                </label>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

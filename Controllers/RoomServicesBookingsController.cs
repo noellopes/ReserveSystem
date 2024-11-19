@@ -10,23 +10,23 @@ using ReserveSystem.Models;
 
 namespace ReserveSystem.Controllers
 {
-    public class RoomServicesBookingController : Controller
+    public class RoomServicesBookingsController : Controller
     {
         private readonly ReserveSystemContext _context;
 
-        public RoomServicesBookingController(ReserveSystemContext context)
+        public RoomServicesBookingsController(ReserveSystemContext context)
         {
             _context = context;
         }
 
-        // GET: RoomServicesBooking
+        // GET: RoomServicesBookings
         public async Task<IActionResult> Index()
         {
             var reserveSystemContext = _context.RoomServiceBooking.Include(r => r.Client).Include(r => r.Room).Include(r => r.RoomService).Include(r => r.Staff);
             return View(await reserveSystemContext.ToListAsync());
         }
 
-        // GET: RoomServicesBooking/Details/5
+        // GET: RoomServicesBookings/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -39,7 +39,7 @@ namespace ReserveSystem.Controllers
                 .Include(r => r.Room)
                 .Include(r => r.RoomService)
                 .Include(r => r.Staff)
-                .FirstOrDefaultAsync(m => m.RoomServiceBookingId == id);
+                .FirstOrDefaultAsync(m => m.RoomServicesBookingID == id);
             if (roomServicesBooking == null)
             {
                 return NotFound();
@@ -48,22 +48,22 @@ namespace ReserveSystem.Controllers
             return View(roomServicesBooking);
         }
 
-        // GET: RoomServicesBooking/Create
+        // GET: RoomServicesBookings/Create
         public IActionResult Create()
         {
-            ViewData["ClientId"] = new SelectList(_context.Set<Client>(), "ClientId", "ClientId");
-            ViewData["RoomId"] = new SelectList(_context.Set<Room>(), "RoomId", "RoomId");
-            ViewData["RoomServiceId"] = new SelectList(_context.Set<RoomService>(), "RoomServiceId", "RoomServiceId");
-            ViewData["StaffId"] = new SelectList(_context.Set<Staff>(), "StaffId", "StaffId");
+            ViewData["ClientID"] = new SelectList(_context.Set<Client>(), "ClientID", "ClientID");
+            ViewData["RoomID"] = new SelectList(_context.Set<Room>(), "RoomID", "RoomID");
+            ViewData["RoomServiceID"] = new SelectList(_context.Set<RoomService>(), "RoomServiceID", "RoomServiceID");
+            ViewData["StaffID"] = new SelectList(_context.Set<Staff>(), "StaffID", "StaffID");
             return View();
         }
 
-        // POST: RoomServicesBooking/Create
+        // POST: RoomServicesBookings/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RoomServiceBookingId,RoomServiceId,StaffId,ClientId,RoomId,DateTime,StartDate,EndDate,BookedState,StaffConfirmation,ClientFeedback,AmountToPay,PaymentMade")] RoomServicesBooking roomServicesBooking)
+        public async Task<IActionResult> Create([Bind("RoomServicesBookingID,RoomServiceID,StaffID,ClientID,RoomID,DateTime,StartDate,EndDate,BookedState,StaffConfirmation,ClientFeedback,AmountToPay,PaymentMade")] RoomServicesBooking roomServicesBooking)
         {
             if (ModelState.IsValid)
             {
@@ -71,14 +71,14 @@ namespace ReserveSystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClientId"] = new SelectList(_context.Set<Client>(), "ClientId", "ClientId", roomServicesBooking.ClientId);
-            ViewData["RoomId"] = new SelectList(_context.Set<Room>(), "RoomId", "RoomId", roomServicesBooking.RoomId);
-            ViewData["RoomServiceId"] = new SelectList(_context.Set<RoomService>(), "RoomServiceId", "RoomServiceId", roomServicesBooking.RoomServiceId);
-            ViewData["StaffId"] = new SelectList(_context.Set<Staff>(), "StaffId", "StaffId", roomServicesBooking.StaffId);
+            ViewData["ClientID"] = new SelectList(_context.Set<Client>(), "ClientID", "ClientID", roomServicesBooking.ClientID);
+            ViewData["RoomID"] = new SelectList(_context.Set<Room>(), "RoomID", "RoomID", roomServicesBooking.RoomID);
+            ViewData["RoomServiceID"] = new SelectList(_context.Set<RoomService>(), "RoomServiceID", "RoomServiceID", roomServicesBooking.RoomServiceID);
+            ViewData["StaffID"] = new SelectList(_context.Set<Staff>(), "StaffID", "StaffID", roomServicesBooking.StaffID);
             return View(roomServicesBooking);
         }
 
-        // GET: RoomServicesBooking/Edit/5
+        // GET: RoomServicesBookings/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -91,21 +91,21 @@ namespace ReserveSystem.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClientId"] = new SelectList(_context.Set<Client>(), "ClientId", "ClientId", roomServicesBooking.ClientId);
-            ViewData["RoomId"] = new SelectList(_context.Set<Room>(), "RoomId", "RoomId", roomServicesBooking.RoomId);
-            ViewData["RoomServiceId"] = new SelectList(_context.Set<RoomService>(), "RoomServiceId", "RoomServiceId", roomServicesBooking.RoomServiceId);
-            ViewData["StaffId"] = new SelectList(_context.Set<Staff>(), "StaffId", "StaffId", roomServicesBooking.StaffId);
+            ViewData["ClientID"] = new SelectList(_context.Set<Client>(), "ClientID", "ClientID", roomServicesBooking.ClientID);
+            ViewData["RoomID"] = new SelectList(_context.Set<Room>(), "RoomID", "RoomID", roomServicesBooking.RoomID);
+            ViewData["RoomServiceID"] = new SelectList(_context.Set<RoomService>(), "RoomServiceID", "RoomServiceID", roomServicesBooking.RoomServiceID);
+            ViewData["StaffID"] = new SelectList(_context.Set<Staff>(), "StaffID", "StaffID", roomServicesBooking.StaffID);
             return View(roomServicesBooking);
         }
 
-        // POST: RoomServicesBooking/Edit/5
+        // POST: RoomServicesBookings/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RoomServiceBookingId,RoomServiceId,StaffId,ClientId,RoomId,DateTime,StartDate,EndDate,BookedState,StaffConfirmation,ClientFeedback,AmountToPay,PaymentMade")] RoomServicesBooking roomServicesBooking)
+        public async Task<IActionResult> Edit(int id, [Bind("RoomServicesBookingID,RoomServiceID,StaffID,ClientID,RoomID,DateTime,StartDate,EndDate,BookedState,StaffConfirmation,ClientFeedback,AmountToPay,PaymentMade")] RoomServicesBooking roomServicesBooking)
         {
-            if (id != roomServicesBooking.RoomServiceBookingId)
+            if (id != roomServicesBooking.RoomServicesBookingID)
             {
                 return NotFound();
             }
@@ -119,7 +119,7 @@ namespace ReserveSystem.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RoomServicesBookingExists(roomServicesBooking.RoomServiceBookingId))
+                    if (!RoomServicesBookingExists(roomServicesBooking.RoomServicesBookingID))
                     {
                         return NotFound();
                     }
@@ -130,14 +130,14 @@ namespace ReserveSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClientId"] = new SelectList(_context.Set<Client>(), "ClientId", "ClientId", roomServicesBooking.ClientId);
-            ViewData["RoomId"] = new SelectList(_context.Set<Room>(), "RoomId", "RoomId", roomServicesBooking.RoomId);
-            ViewData["RoomServiceId"] = new SelectList(_context.Set<RoomService>(), "RoomServiceId", "RoomServiceId", roomServicesBooking.RoomServiceId);
-            ViewData["StaffId"] = new SelectList(_context.Set<Staff>(), "StaffId", "StaffId", roomServicesBooking.StaffId);
+            ViewData["ClientID"] = new SelectList(_context.Set<Client>(), "ClientID", "ClientID", roomServicesBooking.ClientID);
+            ViewData["RoomID"] = new SelectList(_context.Set<Room>(), "RoomID", "RoomID", roomServicesBooking.RoomID);
+            ViewData["RoomServiceID"] = new SelectList(_context.Set<RoomService>(), "RoomServiceID", "RoomServiceID", roomServicesBooking.RoomServiceID);
+            ViewData["StaffID"] = new SelectList(_context.Set<Staff>(), "StaffID", "StaffID", roomServicesBooking.StaffID);
             return View(roomServicesBooking);
         }
 
-        // GET: RoomServicesBooking/Delete/5
+        // GET: RoomServicesBookings/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -150,7 +150,7 @@ namespace ReserveSystem.Controllers
                 .Include(r => r.Room)
                 .Include(r => r.RoomService)
                 .Include(r => r.Staff)
-                .FirstOrDefaultAsync(m => m.RoomServiceBookingId == id);
+                .FirstOrDefaultAsync(m => m.RoomServicesBookingID == id);
             if (roomServicesBooking == null)
             {
                 return NotFound();
@@ -159,7 +159,7 @@ namespace ReserveSystem.Controllers
             return View(roomServicesBooking);
         }
 
-        // POST: RoomServicesBooking/Delete/5
+        // POST: RoomServicesBookings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -176,7 +176,7 @@ namespace ReserveSystem.Controllers
 
         private bool RoomServicesBookingExists(int id)
         {
-            return _context.RoomServiceBooking.Any(e => e.RoomServiceBookingId == id);
+            return _context.RoomServiceBooking.Any(e => e.RoomServicesBookingID == id);
         }
     }
 }

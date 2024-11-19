@@ -6,7 +6,7 @@ namespace ReserveSystem.Models
 {
     public class RoomServicesBooking
     {
-        public required int RoomServiceBookingID { get; set; }
+        public required int RoomServicesBookingID { get; set; }
         public required int RoomServiceID { get; set; }
         public required int StaffID { get; set; }
         public required int ClientID { get; set; }

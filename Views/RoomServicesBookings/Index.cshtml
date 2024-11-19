@@ -13,18 +13,6 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.RoomService)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Staff)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Client)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Room)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.DateTime)
             </th>
             <th>
@@ -48,24 +36,24 @@
             <th>
                 @Html.DisplayNameFor(model => model.PaymentMade)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoomService)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Staff)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Client)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Room)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RoomService.RoomServiceId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Staff.StaffId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Client.ClientId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Room.RoomId)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DateTime)
             </td>
@@ -91,9 +79,21 @@
                 @Html.DisplayFor(modelItem => item.PaymentMade)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.RoomServiceBookingId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.RoomServiceBookingId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.RoomServiceBookingId">Delete</a>
+                @Html.DisplayFor(modelItem => item.RoomService.RoomServiceID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Staff.StaffID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Client.ClientID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Room.RoomID)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.RoomServicesBookingID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.RoomServicesBookingID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.RoomServicesBookingID">Delete</a>
             </td>
         </tr>
 }
