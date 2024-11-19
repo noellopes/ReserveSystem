@@ -3,20 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserveSystem.Data;
 
 #nullable disable
 
-namespace ReserveSystem.Migrations
+namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    [Migration("20241118212045_InitialMigration")]
-    partial class InitialMigration
+    partial class ReserveSystemContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,6 +35,10 @@ namespace ReserveSystem.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MoradaCliente")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NIF")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -102,9 +103,6 @@ namespace ReserveSystem.Migrations
                     b.Property<DateTime>("DataReserva")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdEquipamento")
-                        .HasColumnType("int");
-
                     b.Property<int>("Partcipantes")
                         .HasColumnType("int");
 
@@ -118,8 +116,6 @@ namespace ReserveSystem.Migrations
                     b.HasKey("ReservaID");
 
                     b.HasIndex("ClienteId");
-
-                    b.HasIndex("IdEquipamento");
 
                     b.ToTable("ReservaModel");
                 });
@@ -141,6 +137,9 @@ namespace ReserveSystem.Migrations
                     b.Property<long>("IdTipoSala")
                         .HasColumnType("bigint");
 
+                    b.Property<double>("Preço")
+                        .HasColumnType("float");
+
                     b.Property<DateTime>("TempoPreparação")
                         .HasColumnType("datetime2");
 
@@ -149,7 +148,7 @@ namespace ReserveSystem.Migrations
                     b.HasIndex("IdTipoSala")
                         .IsUnique();
 
-                    b.ToTable("Salas");
+                    b.ToTable("Sala");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.TipoSala", b =>
@@ -167,15 +166,12 @@ namespace ReserveSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("PreçoHora")
-                        .HasColumnType("float");
-
                     b.Property<int>("TamanhoSala")
                         .HasColumnType("int");
 
                     b.HasKey("IdTipoSala");
 
-                    b.ToTable("TipoSalas");
+                    b.ToTable("TipoSala");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.ReservaModel", b =>
@@ -186,15 +182,7 @@ namespace ReserveSystem.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ReserveSystem.Models.Equipamento", "Equipamento")
-                        .WithMany()
-                        .HasForeignKey("IdEquipamento")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Cliente");
-
-                    b.Navigation("Equipamento");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.Sala", b =>

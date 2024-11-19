@@ -44,19 +44,18 @@ namespace ReserveSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TipoSalas",
+                name: "TipoSala",
                 columns: table => new
                 {
                     IdTipoSala = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NomeAvaria = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TamanhoSala = table.Column<int>(type: "int", nullable: false),
-                    Capacidade = table.Column<int>(type: "int", nullable: false),
-                    PreçoHora = table.Column<double>(type: "float", nullable: false)
+                    Capacidade = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TipoSalas", x => x.IdTipoSala);
+                    table.PrimaryKey("PK_TipoSala", x => x.IdTipoSala);
                 });
 
             migrationBuilder.CreateTable(
@@ -71,8 +70,7 @@ namespace ReserveSystem.Migrations
                     DataFim = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Partcipantes = table.Column<int>(type: "int", nullable: false),
                     PrecoTotal = table.Column<double>(type: "float", nullable: false),
-                    ClienteId = table.Column<int>(type: "int", nullable: false),
-                    IdEquipamento = table.Column<int>(type: "int", nullable: false)
+                    ClienteId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -83,16 +81,10 @@ namespace ReserveSystem.Migrations
                         principalTable: "ClienteModel",
                         principalColumn: "ClienteId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ReservaModel_Equipamento_IdEquipamento",
-                        column: x => x.IdEquipamento,
-                        principalTable: "Equipamento",
-                        principalColumn: "IdEquipamento",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Salas",
+                name: "Sala",
                 columns: table => new
                 {
                     IdSala = table.Column<long>(type: "bigint", nullable: false)
@@ -100,15 +92,16 @@ namespace ReserveSystem.Migrations
                     TempoPreparação = table.Column<DateTime>(type: "datetime2", nullable: false),
                     HoraInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
                     HoraFim = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Preço = table.Column<double>(type: "float", nullable: false),
                     IdTipoSala = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Salas", x => x.IdSala);
+                    table.PrimaryKey("PK_Sala", x => x.IdSala);
                     table.ForeignKey(
-                        name: "FK_Salas_TipoSalas_IdTipoSala",
+                        name: "FK_Sala_TipoSala_IdTipoSala",
                         column: x => x.IdTipoSala,
-                        principalTable: "TipoSalas",
+                        principalTable: "TipoSala",
                         principalColumn: "IdTipoSala",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -119,13 +112,8 @@ namespace ReserveSystem.Migrations
                 column: "ClienteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReservaModel_IdEquipamento",
-                table: "ReservaModel",
-                column: "IdEquipamento");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Salas_IdTipoSala",
-                table: "Salas",
+                name: "IX_Sala_IdTipoSala",
+                table: "Sala",
                 column: "IdTipoSala",
                 unique: true);
         }
@@ -134,19 +122,19 @@ namespace ReserveSystem.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Equipamento");
+
+            migrationBuilder.DropTable(
                 name: "ReservaModel");
 
             migrationBuilder.DropTable(
-                name: "Salas");
+                name: "Sala");
 
             migrationBuilder.DropTable(
                 name: "ClienteModel");
 
             migrationBuilder.DropTable(
-                name: "Equipamento");
-
-            migrationBuilder.DropTable(
-                name: "TipoSalas");
+                name: "TipoSala");
         }
     }
 }
