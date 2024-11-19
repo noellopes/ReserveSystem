@@ -1,0 +1,132 @@
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f8ff; 
+    margin: 0;
+    padding: 0;
+}
+
+
+h2 {
+    text-align: center;
+    color: #07273a;
+    margin-top: 20px;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #004f70;
+}
+.table thead th {
+    background-color: #2f485e;
+    color: #ffffff;
+}
+tr:nth-child(odd) {
+    background-color: #e8f2ff; 
+}
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #c5c5c5;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 15px;
+    margin: 5px;
+    text-decoration: none;
+    color: white;
+    background-color: #4c7caf;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.btn:hover {
+    background-color: #2f485e;
+}
+
+.btn-danger {
+    background-color: #f44336;
+}
+
+.btn-danger:hover {
+    background-color: #da190b;
+}
+
+.btn-warning {
+    background-color: #ff9800;
+}
+
+.btn-warning:hover {
+    background-color: #e68a00;
+}
+
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #4c7caf;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2f485e;
+}
+
+/* Edit ve Delete Links Button */
+.table td a {
+    display: inline-block; /* Blok olarak göster */
+    padding: 6px 12px; /* İç boşluk */
+    background-color: #007BFF; /* Mavi arka plan */
+    color: white; /* Beyaz yazı rengi */
+    text-decoration: none; /* Alt çizgiyi kaldır */
+    border-radius: 4px; /* Köşeleri yuvarlat */
+    margin-right: 5px; /* Linkler arası boşluk */
+    font-size: 14px; 
+}
+
+/* Hover Durumu: Üzerine Gelince Renk Değiştir */
+.table td a:hover {
+    background-color: #2f485e; 
+}
+
+/* Delete Linki için Kırmızı Buton Stili */
+.table td a[href*="Delete"] {
+    background-color: #DC3545; 
+}
+
+.table td a[href*="Delete"]:hover {
+    background-color: #75111a; 
+}
