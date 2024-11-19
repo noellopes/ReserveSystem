@@ -9,5 +9,6 @@ namespace ReserveSystem.Data
             : base(options)
         {
         }
+        public DbSet<ReserveSystem.Models.PersonalTrainerModel> PersonalTrainer { get; set; } = default!;
     }
 }

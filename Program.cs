@@ -8,13 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ReserveSystemsUsers") ?? throw new InvalidOperationException("Connection string 'ReserveSystemsUsers' not found.");
 builder.Services.AddDbContext<ReserveSystemUsersDbContext>(options =>
     options.UseSqlServer(connectionString));
-
-builder.Services.AddDbContext<ReserveSystemContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ReserveSystem") ?? throw new InvalidOperationException("Connection string 'ReserveSystem' not found.")));
-
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ReserveSystemUsersDbContext>();

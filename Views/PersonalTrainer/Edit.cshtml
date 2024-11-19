@@ -1,0 +1,52 @@
+﻿@model ReserveSystem.Models.PersonalTrainerModel
+
+@{
+    ViewData["Title"] = "Editar Personal Trainer";
+}
+
+<h1 class="text-center my-4">Editar Personal Trainer</h1>
+
+<div class="container">
+    <form asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+
+        <!-- Campo Oculto para o ID -->
+        <input type="hidden" asp-for="Id" />
+
+        <!-- Resumo de Validação -->
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <!-- Campo Nome -->
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <!-- Campo Email -->
+        <div class="form-group">
+            <label asp-for="Email" class="control-label"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <!-- Campo Telefone -->
+        <div class="form-group">
+            <label asp-for="Phone" class="control-label"></label>
+            <input asp-for="Phone" class="form-control" />
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+
+        <!-- Botões -->
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

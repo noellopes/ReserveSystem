@@ -1,0 +1,56 @@
+﻿@model ReserveSystem.Models.PersonalTrainerModel
+
+@{
+    ViewData["Title"] = "Adicionar Personal Trainer";
+}
+
+<!-- Título da Página -->
+<h1 class="text-center my-4">Adicionar Novo Personal Trainer</h1>
+
+<!-- Formulário de Criação -->
+<div class="container">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+
+        <!-- Resumo de Validação (Erros Globais) -->
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <!-- Campo Nome -->
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <!-- Campo Email -->
+        <div class="form-group">
+            <label asp-for="Email" class="control-label"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <!-- Campo Telefone -->
+        <div class="form-group">
+            <label asp-for="Phone" class="control-label"></label>
+            <input asp-for="Phone" class="form-control" />
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+
+        <!-- Botão de Submissão -->
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success">Adicionar Personal Trainer</button>
+        </div>
+    </form>
+</div>
+
+<!-- Voltar para a Lista -->
+<div class="text-center mt-3">
+    <a asp-action="Index" class="btn btn-primary">Voltar para a Lista</a>
+</div>
+
+<!-- Scripts de Validação -->
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
