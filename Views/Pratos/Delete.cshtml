@@ -1,0 +1,71 @@
+﻿@model ReserveSystem.Models.Prato
+
+@{
+    ViewData["Title"] = "Remover Prato";
+}
+
+<style>
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+    .text-danger {
+        font-size: 0.9em;
+    }
+
+    a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+        a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+    .dl-horizontal dt {
+        font-weight: bold;
+    }
+</style>
+
+<div class="container mt-4">
+    <h1 class="text-center text-primary">Excluir Prato</h1>
+    <hr />
+    <h3 class="text-center text-danger">Tem certeza que deseja excluir este item?</h3>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h4 class="text-primary">Detalhes do Prato</h4>
+            <dl class="row mt-4">
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Nome)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Nome)</dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Descricao)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Descricao)</dd>
+            </dl>
+
+            <form asp-action="Delete" class="mt-4">
+                <input type="hidden" asp-for="PratoId" />
+                <div class="text-center">
+                    <input type="submit" value="Excluir" class="btn btn-danger" />
+                    <a asp-action="Index" class="btn btn-primary ml-3">Voltar à Lista</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
