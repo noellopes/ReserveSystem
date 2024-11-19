@@ -1,0 +1,9 @@
+@{
+    ViewData["Title"] = "Error";
+}
+
+<h1>Error</h1>
+<div class="alert alert-danger">
+    @ViewBag.ErrorMessage ?? "An unexpected error occurred."
+</div>
+<a asp-action="Index" class="btn btn-primary">Back to List</a>
