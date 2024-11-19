@@ -10,6 +10,6 @@ namespace ReserveSystem.Data
 
 
         public DbSet<DaysOffAndVacations> DaysOffAndVacations { get; set; }
-        public DbSet<Staff> Staff { get; set; }
+      //  public DbSet<Staff> Staff { get; set; }
     }
 }

@@ -1,50 +1,59 @@
 ﻿@model IEnumerable<ReserveSystem.Models.DaysOffAndVacations>
-@using ReserveSystem.Models
 
+@{
+    ViewData["Title"] = "Index";
+}
 
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
 <table class="table">
     <thead>
         <tr>
-            <th>Staff Id</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Status</th>
-            <th>Actions</th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Reason)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        @if (!Model.Any())
-{
-    <tr>
-                <td colspan="5" class="text-center">There are no permission requests yet.</td>
-    </tr>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StaffId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Reason)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.DayOffVacationId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.DayOffVacationId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.DayOffVacationId">Delete</a>
+            </td>
+        </tr>
 }
-      else
-      {
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Staff?.StaffId</td>
-                <td>@item.StartDate.ToShortDateString()</td>
-                <td>@item.EndDate.ToShortDateString()</td>
-                <td>@item.Status</td>
-                <td>
-                    @if (item.Status == "Pending")
-                    {
-                        <form asp-action="ConfirmRequest" method="post">
-                            <input type="hidden" name="id" value="@item.DayOffVacationId" />
-                            <button type="submit" class="btn btn-success">Onayla</button>
-                        </form>
-                        <form asp-action="DenyRequest" method="post">
-                            <input type="hidden" name="id" value="@item.DayOffVacationId" />
-                            <button type="submit" class="btn btn-danger">Reddet</button>
-                        </form>
-                    }
-                </td>
-            </tr>
-      
-        }
-      }   
-    
     </tbody>
 </table>

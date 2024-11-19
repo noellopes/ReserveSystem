@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Rendering;
-
 
 namespace ReserveSystem.Controllers
 {
@@ -16,76 +19,139 @@ namespace ReserveSystem.Controllers
             _context = context;
         }
 
-        // List all requests
+        // GET: DaysOffAndVacations
         public async Task<IActionResult> Index()
         {
-            var requests = await _context.DaysOffAndVacations
-                .Include(d => d.Staff)
-                .ToListAsync();
-            return View(requests);
+            return View(await _context.DaysOffAndVacations.ToListAsync());
         }
 
-        // New permission request creation page (GET)
+        // GET: DaysOffAndVacations/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var daysOffAndVacations = await _context.DaysOffAndVacations
+                .FirstOrDefaultAsync(m => m.DayOffVacationId == id);
+            if (daysOffAndVacations == null)
+            {
+                return NotFound();
+            }
+
+            return View(daysOffAndVacations);
+        }
+
+        // GET: DaysOffAndVacations/Create
         public IActionResult Create()
         {
-            // We send the staff list with ViewBag.
-            ViewBag.StaffList = new SelectList(_context.Staff, "StaffId", "Name");
             return View();
         }
 
-
-        // Create new permission request (POST)
+        // POST: DaysOffAndVacations/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(DaysOffAndVacations model)
+        public async Task<IActionResult> Create([Bind("DayOffVacationId,StaffId,StartDate,EndDate,Reason,Status")] DaysOffAndVacations daysOffAndVacations)
         {
-
             if (ModelState.IsValid)
             {
-                _context.Add(model);
+                _context.Add(daysOffAndVacations);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(model);
+            return View(daysOffAndVacations);
         }
 
-        // View request details
-        public async Task<IActionResult> Details(int? id)
+        // GET: DaysOffAndVacations/Edit/5
+        public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null) return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-            var request = await _context.DaysOffAndVacations.FindAsync(id);
-
-            if (request == null) return NotFound();
-
-            return View(request);
+            var daysOffAndVacations = await _context.DaysOffAndVacations.FindAsync(id);
+            if (daysOffAndVacations == null)
+            {
+                return NotFound();
+            }
+            return View(daysOffAndVacations);
         }
 
-        // Confirm the request
+        // POST: DaysOffAndVacations/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public async Task<IActionResult> ConfirmRequest(int id)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("DayOffVacationId,StaffId,StartDate,EndDate,Reason,Status")] DaysOffAndVacations daysOffAndVacations)
         {
-            var request = await _context.DaysOffAndVacations.FindAsync(id);
-            if (request == null) return NotFound();
+            if (id != daysOffAndVacations.DayOffVacationId)
+            {
+                return NotFound();
+            }
 
-            // Approval process
-            request.Status = "Approved"; // Add the Status property if it exists in the database
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(daysOffAndVacations);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!DaysOffAndVacationsExists(daysOffAndVacations.DayOffVacationId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(daysOffAndVacations);
+        }
+
+        // GET: DaysOffAndVacations/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var daysOffAndVacations = await _context.DaysOffAndVacations
+                .FirstOrDefaultAsync(m => m.DayOffVacationId == id);
+            if (daysOffAndVacations == null)
+            {
+                return NotFound();
+            }
+
+            return View(daysOffAndVacations);
+        }
+
+        // POST: DaysOffAndVacations/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var daysOffAndVacations = await _context.DaysOffAndVacations.FindAsync(id);
+            if (daysOffAndVacations != null)
+            {
+                _context.DaysOffAndVacations.Remove(daysOffAndVacations);
+            }
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        // Reject request
-        [HttpPost]
-        public async Task<IActionResult> DenyRequest(int id)
+        private bool DaysOffAndVacationsExists(int id)
         {
-            var request = await _context.DaysOffAndVacations.FindAsync(id);
-            if (request == null) return NotFound();
-
-            // Rejection process
-            request.Status = "Rejected"; // Add the Status property if it exists in the database
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return _context.DaysOffAndVacations.Any(e => e.DayOffVacationId == id);
         }
-
     }
 }

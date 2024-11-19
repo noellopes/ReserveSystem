@@ -26,7 +26,7 @@ namespace ReserveSystem.Models
         public string Status { get; set; } // Status for the request
 
         // Navigation Property
-         public virtual Staff Staff { get; set; }
+       // public virtual Staff Staff { get; set; }
 
         // Helper Method
         public bool IsValidRequest()
