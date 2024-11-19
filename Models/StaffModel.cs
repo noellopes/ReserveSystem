@@ -19,6 +19,10 @@ namespace ReserveSystem.Models
             [Required]
             [EmailAddress]
             public string Staff_Email { get; set; }
+            
+        [Required]
+        [StringLength(9)]
+            public string Staff_Phone { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
