@@ -1,0 +1,50 @@
+﻿@model IEnumerable<ReserveSystem.Models.DaysOffAndVacations>
+@using ReserveSystem.Models
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Staff Id</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+{
+    <tr>
+                <td colspan="5" class="text-center">There are no permission requests yet.</td>
+    </tr>
+}
+      else
+      {
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Staff?.StaffId</td>
+                <td>@item.StartDate.ToShortDateString()</td>
+                <td>@item.EndDate.ToShortDateString()</td>
+                <td>@item.Status</td>
+                <td>
+                    @if (item.Status == "Pending")
+                    {
+                        <form asp-action="ConfirmRequest" method="post">
+                            <input type="hidden" name="id" value="@item.DayOffVacationId" />
+                            <button type="submit" class="btn btn-success">Onayla</button>
+                        </form>
+                        <form asp-action="DenyRequest" method="post">
+                            <input type="hidden" name="id" value="@item.DayOffVacationId" />
+                            <button type="submit" class="btn btn-danger">Reddet</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+      
+        }
+      }   
+    
+    </tbody>
+</table>

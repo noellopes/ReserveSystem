@@ -1,0 +1,37 @@
+﻿@model ReserveSystem.Models.DaysOffAndVacations
+
+@{
+    ViewData["Title"] = "Create New Permission Request";
+}
+
+<h2>Create New Permission Request</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="StaffId" class="control-label">Staff</label>
+        <select asp-for="StaffId" asp-items="ViewBag.StaffList" class="form-control"></select>
+        <span asp-validation-for="StaffId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="StartDate" class="control-label">Start Date</label>
+        <input asp-for="StartDate" class="form-control" />
+        <span asp-validation-for="StartDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="EndDate" class="control-label">End Date</label>
+        <input asp-for="EndDate" class="form-control" />
+        <span asp-validation-for="EndDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Reason" class="control-label">Reason</label>
+        <textarea asp-for="Reason" class="form-control"></textarea>
+        <span asp-validation-for="Reason" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+</form>
