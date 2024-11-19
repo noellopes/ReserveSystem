@@ -1,0 +1,59 @@
+﻿@model ReserveSystem.Models.RoomService
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>RoomService</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID_RoomService" />
+            <div class="form-group">
+                <label asp-for="Job_ID" class="control-label"></label>
+                <input asp-for="Job_ID" class="form-control" />
+                <span asp-validation-for="Job_ID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Room_Service_Name" class="control-label"></label>
+                <input asp-for="Room_Service_Name" class="form-control" />
+                <span asp-validation-for="Room_Service_Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Room_Service_Description" class="control-label"></label>
+                <input asp-for="Room_Service_Description" class="form-control" />
+                <span asp-validation-for="Room_Service_Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Room_Service_Price" class="control-label"></label>
+                <input asp-for="Room_Service_Price" class="form-control" />
+                <span asp-validation-for="Room_Service_Price" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Room_Service_Active" /> @Html.DisplayNameFor(model => model.Room_Service_Active)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Room_Service_Limit_Hour" class="control-label"></label>
+                <input asp-for="Room_Service_Limit_Hour" class="form-control" />
+                <span asp-validation-for="Room_Service_Limit_Hour" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
