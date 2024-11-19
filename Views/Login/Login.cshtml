@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (ViewBag.Message != null)
+{
+    <p style="color: green;">@ViewBag.Message</p>
+}
+@if (ViewBag.Error != null)
+{
+    <p style="color: red;">@ViewBag.Error</p>
+}
+
+<form method="post">
+    <div>
+        <label for="Staff_id">ID de Usuario</label>
+        <input type="text" id="Staff_id" name="Staff_id" placeholder="Enter your staff ID" required />
+    </div>
+    <div>
+        <label for="Password">Contraseña</label>
+        <input type="password" id="Password" name="Password" placeholder="Enter you password" required />
+    </div>
+    <button type="submit">Iniciar Sesión</button>
+</form>

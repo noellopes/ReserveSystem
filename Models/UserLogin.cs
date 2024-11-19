@@ -5,17 +5,12 @@ namespace ReserveSystem.Models
     public class UserLogin
     {
         [Key]
-        public int Id { get; set; }
+        public int Login_id { get; set; }
 
-        [Required]
-        public int IdPrivilegio { get; set; }
+        [Required(ErrorMessage = "The ID is mandatory.")]
+        public int Staff_id { get; set; }
 
-        [Required]
-        [StringLength(100)]
-        public string Nombre { get; set; }
-
-        [Required]
-        [DataType(DataType.Password)]
+        [Required(ErrorMessage = "The password is mandatory.")]
         public string Password { get; set; }
 
     }
