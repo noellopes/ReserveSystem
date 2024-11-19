@@ -12,8 +12,8 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    [Migration("20241118202811_UpdateReservaModel")]
-    partial class UpdateReservaModel
+    [Migration("20241119102653_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,48 +59,45 @@ namespace ReserveSystem.Migrations
 
             modelBuilder.Entity("ReserveSystem.Models.ReservaModel", b =>
                 {
-                    b.Property<int>("ReservaId")
+                    b.Property<int>("ID_BOOKING")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservaId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_BOOKING"));
 
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DataCheckIn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataCheckOut")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataReserva")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Estado")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("EstadoPagamento")
+                    b.Property<bool>("BOOKED")
                         .HasColumnType("bit");
 
-                    b.Property<int>("NumeroPessoas")
+                    b.Property<DateTime>("BOOKING_DATE")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CHECKIN_DATE")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CHECKOUT_DATE")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("ID_CLIENT")
                         .HasColumnType("int");
 
-                    b.HasKey("ReservaId");
+                    b.Property<bool>("PAYMENT_STATUS")
+                        .HasColumnType("bit");
 
-                    b.HasIndex("ClienteId");
+                    b.Property<int>("TOTAL_PERSONS_NUMBER")
+                        .HasColumnType("int");
 
-                    b.ToTable("Reserva");
+                    b.HasKey("ID_BOOKING");
+
+                    b.HasIndex("ID_CLIENT");
+
+                    b.ToTable("ReservaModel");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.ReservaModel", b =>
                 {
                     b.HasOne("ReserveSystem.Models.ClienteModel", "Cliente")
                         .WithMany("Reserva")
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ID_CLIENT");
 
                     b.Navigation("Cliente");
                 });
