@@ -1,0 +1,27 @@
+@model ReserveSystem.Models.Sala
+
+<h1>Delete Sala</h1>
+<h4>Are you sure you want to delete this Sala?</h4>
+<table class="table">
+    <tr>
+        <th>Id:</th>
+        <td>@Model.IdSala</td>
+    </tr>
+    <tr>
+        <th>Hora Inicio:</th>
+        <td>@Model.HoraInicio</td>
+    </tr>
+    <tr>
+        <th>Hora Fim:</th>
+        <td>@Model.HoraFim</td>
+    </tr>
+    <tr>
+        <th>Tipo Sala:</th>
+        <td>@Model.TipoSala?.NomeAvaria ?? "Unassigned"</td>
+    </tr>
+</table>
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="IdSala" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
