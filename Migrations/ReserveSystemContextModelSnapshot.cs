@@ -65,7 +65,7 @@ namespace ReserveSystem.Migrations
 
                     b.HasKey("PratoID");
 
-                    b.ToTable("Prato", (string)null);
+                    b.ToTable("Prato");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.Stock", b =>
