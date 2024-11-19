@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ReserveSystem.Models.RoomServiceBooking>
+@model IEnumerable<ReserveSystem.Models.RoomServicesBooking>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,28 +13,28 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.RoomServiceId)
+                @Html.DisplayNameFor(model => model.RoomService)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StaffId)
+                @Html.DisplayNameFor(model => model.Staff)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ClientId)
+                @Html.DisplayNameFor(model => model.Client)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RoomId)
+                @Html.DisplayNameFor(model => model.Room)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateTime)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.StartDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StartTime)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.EndDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsReserved)
+                @Html.DisplayNameFor(model => model.BookedState)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.StaffConfirmation)
@@ -55,28 +55,28 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.RoomServiceId)
+                @Html.DisplayFor(modelItem => item.RoomService.RoomServiceId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StaffId)
+                @Html.DisplayFor(modelItem => item.Staff.StaffId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ClientId)
+                @Html.DisplayFor(modelItem => item.Client.ClientId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.RoomId)
+                @Html.DisplayFor(modelItem => item.Room.RoomId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateTime)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StartDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StartTime)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.EndDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IsReserved)
+                @Html.DisplayFor(modelItem => item.BookedState)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StaffConfirmation)

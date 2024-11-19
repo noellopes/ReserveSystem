@@ -1,4 +1,4 @@
-﻿@model ReserveSystem.Models.RoomServiceBooking
+@model ReserveSystem.Models.RoomServicesBooking
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,7 +6,7 @@
 
 <h1>Edit</h1>
 
-<h4>RoomServiceBooking</h4>
+<h4>RoomServicesBooking</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -15,23 +15,28 @@
             <input type="hidden" asp-for="RoomServiceBookingId" />
             <div class="form-group">
                 <label asp-for="RoomServiceId" class="control-label"></label>
-                <input asp-for="RoomServiceId" class="form-control" />
+                <select asp-for="RoomServiceId" class="form-control" asp-items="ViewBag.RoomServiceId"></select>
                 <span asp-validation-for="RoomServiceId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="StaffId" class="control-label"></label>
-                <input asp-for="StaffId" class="form-control" />
+                <select asp-for="StaffId" class="form-control" asp-items="ViewBag.StaffId"></select>
                 <span asp-validation-for="StaffId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ClientId" class="control-label"></label>
-                <input asp-for="ClientId" class="form-control" />
+                <select asp-for="ClientId" class="form-control" asp-items="ViewBag.ClientId"></select>
                 <span asp-validation-for="ClientId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="RoomId" class="control-label"></label>
-                <input asp-for="RoomId" class="form-control" />
+                <select asp-for="RoomId" class="form-control" asp-items="ViewBag.RoomId"></select>
                 <span asp-validation-for="RoomId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateTime" class="control-label"></label>
+                <input asp-for="DateTime" class="form-control" />
+                <span asp-validation-for="DateTime" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label"></label>
@@ -39,24 +44,9 @@
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StartTime" class="control-label"></label>
-                <input asp-for="StartTime" class="form-control" />
-                <span asp-validation-for="StartTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="EndDate" class="control-label"></label>
                 <input asp-for="EndDate" class="form-control" />
                 <span asp-validation-for="EndDate" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsReserved" /> @Html.DisplayNameFor(model => model.IsReserved)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="StaffConfirmation" /> @Html.DisplayNameFor(model => model.StaffConfirmation)
-                </label>
             </div>
             <div class="form-group">
                 <label asp-for="ClientFeedback" class="control-label"></label>
@@ -67,11 +57,6 @@
                 <label asp-for="AmountToPay" class="control-label"></label>
                 <input asp-for="AmountToPay" class="form-control" />
                 <span asp-validation-for="AmountToPay" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="PaymentMade" /> @Html.DisplayNameFor(model => model.PaymentMade)
-                </label>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

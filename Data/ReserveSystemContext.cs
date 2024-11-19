@@ -6,6 +6,6 @@ namespace ReserveSystem.Data
     public class ReserveSystemContext : DbContext
     {
         public ReserveSystemContext(DbContextOptions<ReserveSystemContext> options) : base(options) {}
-        public DbSet<ReserveSystem.Models.RoomServiceBooking> RoomServiceBooking { get; set; } = default!;
+        public DbSet<ReserveSystem.Models.RoomServicesBooking> RoomServiceBooking { get; set; } = default!;
     }
 }
