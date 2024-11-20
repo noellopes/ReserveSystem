@@ -9,22 +9,22 @@ namespace ReserveSystem.Models
         [Column(TypeName = "INTEGER")]
         public int Id { get; set; }
         
-        [Required, ForeignKey("RoomServiceId"), Display(Name = "Room Service ID"), DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [Required, ForeignKey("RoomServiceId"), Display(Name = "Room Service ID")]
         [Column(TypeName = "INTEGER(11)")]
         public int RoomServiceId { get; set; }
 
-        [Required, ForeignKey("StaffId"), Display(Name = "Staff ID"), DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [Required, ForeignKey("StaffId"), Display(Name = "Staff ID")]
         [Column(TypeName = "INTEGER(11)")]
         public int StaffId { get; set; }
 
-        [Required, ForeignKey("ClientId"), Display(Name = "Client ID"), DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [Required, ForeignKey("ClientId"), Display(Name = "Client ID")]
         [Column(TypeName = "INTEGER(11)")]
         public int ClientId { get; set; }
 
-        [Required, ForeignKey("RoomId"), Display(Name = "Room ID"), DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [Required, ForeignKey("RoomId"), Display(Name = "Room ID")]
         public int RoomId { get; set; }
 
-        [DataType(DataType.DateTime), Display(Name = "System Date and Time"), DisplayFormat(DataFormatString = "{0:dd-MM-yyyy HH:mm}", ApplyFormatInEditMode = true), DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [DataType(DataType.DateTime), Display(Name = "System Date and Time"), DisplayFormat(DataFormatString = "{0:dd-MM-yyyy HH:mm}", ApplyFormatInEditMode = true)]
         [Column(TypeName = "datetime")]
         public DateTime DateTime { get; set; }
 
@@ -48,11 +48,11 @@ namespace ReserveSystem.Models
         [Column(TypeName = "INTEGER(1)")]
         public int ClientFeedback { get; set; }
 
-        [Required, DataType(DataType.Currency), Display(Name = "Value To Pay"), DisplayFormat(DataFormatString = "{0:C}"), Range(0, 999999.99), DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [Required, DataType(DataType.Currency), Display(Name = "Value To Pay"), DisplayFormat(DataFormatString = "{0:C}"), Range(0, 999999.99)]
         [Column(TypeName = "decimal(8, 2)")]
         public decimal ValueToPay { get; set; }
 
-        [Display(Name = "Is Payment Done"), DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [Display(Name = "Is Payment Done")]
         [Column(TypeName = "bit")]
         public bool PaymentDone { get; set; }
 
