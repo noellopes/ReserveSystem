@@ -32,7 +32,7 @@ namespace ReserveSystem.Controllers
             return View(salas);
         }
 
-        // GET: Sala/Details/5
+        // GET: Sala/Details/{id}
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null)
@@ -56,12 +56,6 @@ namespace ReserveSystem.Controllers
         // GET: Sala/Create
         public IActionResult Create()
         {
-            if (!_context.TipoSalas.Any())
-            {
-                ViewBag.ErrorMessage = "No TipoSalas available. Create a TipoSala first.";
-                return View("Error");
-            }
-
             ViewData["IdTipoSala"] = new SelectList(_context.TipoSalas, "IdTipoSala", "NomeAvaria");
             return View();
         }
@@ -82,7 +76,7 @@ namespace ReserveSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Sala/Edit/5
+        // GET: Sala/Edit/{id}
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -107,7 +101,7 @@ namespace ReserveSystem.Controllers
             return View(sala);
         }
 
-        // POST: Sala/Edit/5
+        // POST: Sala/Edit/{id}
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, Sala sala)
@@ -143,7 +137,7 @@ namespace ReserveSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Sala/Delete/5
+        // GET: Sala/Delete/{id}
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -164,7 +158,7 @@ namespace ReserveSystem.Controllers
             return View(sala);
         }
 
-        // POST: Sala/Delete/5
+        // POST: Sala/Delete/{id}
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
