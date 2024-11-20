@@ -4,49 +4,199 @@
     ViewData["Title"] = "ConfigSeason";
 }
 
-<h1>Configurate a new season</h1>
-<hr />
+<style>
+    /* General Body Styling */
+    body {
+        font-family: 'Georgia', serif;
+        background-color: #f9f9f6; /* Off-white background */
+        color: #1a1a1a; /* Deep black for text */
+    }
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="NameSeason" class="control-label"></label>
-                <input asp-for="NameSeason" class="form-control" />
-                <span asp-validation-for="NameSeason" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateBegin" class="control-label"></label>
-                <input asp-for="DateBegin" class="form-control" />
-                <span asp-validation-for="DateBegin" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateEnd" class="control-label"></label>
-                <input asp-for="DateEnd" class="form-control" />
-                <span asp-validation-for="DateEnd" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SeasonFee" class="control-label"></label>
-                <input asp-for="SeasonFee" class="form-control" />
-                <span asp-validation-for="SeasonFee" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="InUse" /> @Html.DisplayNameFor(model => model.InUse)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+    /* Form Container Styles */
+    .form-container {
+        background: #ffffff; /* White background for container */
+        padding: 3rem;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+        max-width: 600px;
+        margin: 3rem auto;
+        transition: all 0.3s ease;
+    }
+
+        .form-container:hover {
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+        }
+
+    /* Heading Styles */
+    h1 {
+        color: #d4af37; /* Gold for heading */
+        font-size: 2rem;
+        font-weight: 700;
+    }
+
+    /* Form Group and Label Styles */
+    .form-group label {
+        font-size: 1.1rem;
+        color: #1a1a1a; /* Black for labels */
+        font-weight: 600;
+    }
+
+    /* Input Field Styles */
+    .form-control {
+        border-radius: 8px;
+        border: 1px solid #cccccc;
+        padding: 12px 16px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background-color: #f9f9f9; /* Light off-white for input background */
+    }
+
+        .form-control:focus {
+            border-color: #d4af37; /* Gold border on focus */
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.2); /* Soft gold focus shadow */
+            background-color: #ffffff; /* White background on focus */
+        }
+
+    /* Form Check Styles */
+    .form-check-input:checked {
+        background-color: #d4af37; /* Gold for checked boxes */
+        border-color: #d4af37;
+    }
+
+    .form-check-label {
+        color: #555555; /* Dark grey text */
+        font-size: 1rem;
+    }
+
+    /* Error Text Styling */
+    .text-danger {
+        font-size: 0.875rem;
+        color: #cc0000; /* Red for error messages */
+    }
+
+    /* Primary Button Styles */
+    .btn_create {
+        background-color: #ffffff;
+        border-color: #d4af37;
+        color: #333333;
+        font-weight: 600;
+        padding: 14px 28px;
+        border-radius: 50px;
+        font-size: 1.125rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        width: 50%;
+    }
+
+        .btn_create:hover {
+            background-color: #333333;
+            color: #F5F5F5;
+            border-color: #d4af37;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .btn_create:active {
+            background-color: #000000; /* Darker effect when clicked */
+            border-color: #000000;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Return to original shadow */
+            transform: translateY(0); /* Button "presses" down */
+        }
+
+    /* Back Button Styling */
+    .btn_back {
+        background-color: #333333;
+        border-color: #d4af37;
+        color: #ffffff;
+        font-weight: 600;
+        padding: 14px 28px;
+        border-radius: 50px;
+        font-size: 1.125rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+        .btn_back:hover {
+            background-color: #ffffff;
+            color: #d4af37;
+            border-color: #d4af37;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+    /* Additional Input Field and Group Styling */
+    .form-group {
+        margin-bottom: 2rem; /* Increased space between inputs */
+    }
+
+    /* Enhancing the checkboxes */
+    .form-check {
+        margin-bottom: 1rem;
+    }
+
+    .hr {
+        border: none;
+        height: 2px;
+        background-color: #d4af37; /* Gold */
+        width: 60%;
+        margin: 1rem auto;
+        opacity: 0.8;
+    }
+</style>
+
+<h1 class="text-center my-4 text-gold font-weight-bold">Configurate a new season</h1>
+<hr class="hr" />
+
+<div class="form-container">
+    <form asp-action="ConfigSeason">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+        <div class="form-group">
+            <label asp-for="NameSeason" class="control-label"></label>
+            <input asp-for="NameSeason" class="form-control" />
+            <span asp-validation-for="NameSeason" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="DateBegin" class="control-label"></label>
+            <input asp-for="DateBegin" class="form-control" />
+            <span asp-validation-for="DateBegin" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="DateEnd" class="control-label"></label>
+            <input asp-for="DateEnd" class="form-control" />
+            <span asp-validation-for="DateEnd" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="SeasonFee" class="control-label"></label>
+            <input asp-for="SeasonFee" class="form-control" type="number" step="0.01" min="0" max="1" />
+            <span asp-validation-for="SeasonFee" class="text-danger"></span>
+        </div>
+
+        <div class="form-group form-check">
+            <input class="form-check-input" asp-for="InUse" />
+            <label class="form-check-label" asp-for="InUse">In Use?</label>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-group text-center">
+            <input type="submit" value="Add Season" class="btn btn_create" />
+        </div>
+    </form>
+
+    <div class="text-center mt-4">
+        <a asp-action="ViewSeasonList" class="btn btn_back">Back</a>
     </div>
 </div>
+<hr class="hr" />
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

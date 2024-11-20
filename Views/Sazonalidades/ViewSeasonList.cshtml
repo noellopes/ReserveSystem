@@ -100,7 +100,6 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Id</th>
             <th>Name</th>
             <th>Begin date</th>
             <th>End date</th>
@@ -111,18 +110,12 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.Id_saz)</td>
+            <tr class="clickable-row" data-href="@Url.Action("Details", new { id = item.Id_saz })">
                 <td>@Html.DisplayFor(modelItem => item.NameSeason)</td>
-                <td>@Html.DisplayFor(modelItem => item.DateBegin)</td>
-                <td>@Html.DisplayFor(modelItem => item.DateEnd)</td>
+                <td>@item.DateBegin.ToShortDateString()</td>
+                <td>@item.DateEnd.ToShortDateString()</td>
                 <td>@Html.DisplayFor(modelItem => item.SeasonFee)</td>
-                <td>@Html.DisplayFor(modelItem => item.InUse)</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id_saz">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id_saz">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id_saz">Delete</a>
-                </td>
+                <td>@(item.InUse ? "Yes" : "No")</td>
             </tr>
         }
     </tbody>
