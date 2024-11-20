@@ -13,6 +13,8 @@ namespace ReserveSystem.Migrations
             migrationBuilder.DropTable(
                 name: "Ingrediente");
 
+
+
             migrationBuilder.CreateTable(
                 name: "TypeOfSchedule",
                 columns: table => new
