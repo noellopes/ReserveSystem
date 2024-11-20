@@ -4,6 +4,7 @@ namespace ReserveSystem.Models
 {
     public class Ingredient
     {
+        [Key]
         public int IngredienteId { get; set; }
 
         [Display(Name = "Nome do Ingrediente")]
