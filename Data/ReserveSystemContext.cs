@@ -5,6 +5,7 @@ namespace ReserveSystem.Data
 {
     public class ReserveSystemContext : DbContext
     {
+     
         public ReserveSystemContext(DbContextOptions<ReserveSystemContext> options) : base(options) {}
         public DbSet<ReserveSystem.Models.StaffModel> StaffModel { get; set; } = default!;
         public DbSet<ReserveSystem.Models.JobModel> JobModel { get; set; } = default!;
@@ -12,5 +13,9 @@ namespace ReserveSystem.Data
         public DbSet<ReserveSystem.Models.TypeOfSchedule> TypeOfSchedule { get; set; } = default!;
         
 
+
+
+        public DbSet<DaysOffAndVacations> DaysOffAndVacations { get; set; }
+      //  public DbSet<Staff> Staff { get; set; }
     }
 }

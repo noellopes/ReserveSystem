@@ -107,6 +107,35 @@ namespace ReserveSystem.Migrations
                     b.HasKey("TypeOfScheduleId");
 
                     b.ToTable("TypeOfSchedule");
+            modelBuilder.Entity("ReserveSystem.Models.DaysOffAndVacations", b =>
+                {
+                    b.Property<int>("DayOffVacationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DayOffVacationId"));
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StaffId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("DayOffVacationId");
+
+                    b.ToTable("DaysOffAndVacations");
                 });
 #pragma warning restore 612, 618
         }
