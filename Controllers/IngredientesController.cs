@@ -54,7 +54,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IngredienteId,Nome,QuantidadeDisponivel,UnidadeMedida")] Ingrediente ingrediente)
+        public async Task<IActionResult> Create([Bind("IngredienteId,Nome,QuantidadeDisponivel,UnidadeMedida")] Ingredient ingrediente)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IngredienteId,Nome,QuantidadeDisponivel,UnidadeMedida")] Ingrediente ingrediente)
+        public async Task<IActionResult> Edit(int id, [Bind("IngredienteId,Nome,QuantidadeDisponivel,UnidadeMedida")] Ingredient ingrediente)
         {
             if (id != ingrediente.IngredienteId)
             {

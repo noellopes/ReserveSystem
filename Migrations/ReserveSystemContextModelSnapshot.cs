@@ -76,33 +76,34 @@ namespace ReserveSystem.Migrations
                     b.HasKey("EmployeeId");
 
                     b.ToTable("Employee");
-                    
-            modelBuilder.Entity("ReserveSystem.Models.Ingrediente", b =>
-                {
-                    b.Property<int>("IngredienteId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IngredienteId"));
+                    modelBuilder.Entity("ReserveSystem.Models.Ingrediente", b =>
+                        {
+                            b.Property<int>("IngredienteId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
 
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IngredienteId"));
 
-                    b.Property<double>("QuantidadeDisponivel")
-                        .HasColumnType("float");
+                            b.Property<string>("Nome")
+                                .IsRequired()
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)");
 
-                    b.Property<string>("UnidadeMedida")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                            b.Property<double>("QuantidadeDisponivel")
+                                .HasColumnType("float");
 
-                    b.HasKey("IngredienteId");
+                            b.Property<string>("UnidadeMedida")
+                                .IsRequired()
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)");
 
-                    b.ToTable("Ingrediente");
-                });
+                            b.HasKey("IngredienteId");
+
+                            b.ToTable("Ingrediente");
+                        });
 #pragma warning restore 612, 618
-        }
+                });
+    }
     }
 }
