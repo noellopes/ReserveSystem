@@ -9,5 +9,8 @@ namespace ReserveSystem.Data
         public DbSet<ReserveSystem.Models.StaffModel> StaffModel { get; set; } = default!;
         public DbSet<ReserveSystem.Models.JobModel> JobModel { get; set; } = default!;
         public DbSet<ReserveSystem.Models.Schedule> Schedule { get; set; } = default!;
+        public DbSet<ReserveSystem.Models.TypeOfSchedule> TypeOfSchedule { get; set; } = default!;
+        
+
     }
 }

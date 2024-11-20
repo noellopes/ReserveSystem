@@ -18,7 +18,6 @@ namespace ReserveSystem.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.10")
-                .HasAnnotation("ProductVersion", "8.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -93,6 +92,21 @@ namespace ReserveSystem.Migrations
                     b.HasKey("ScheduleId");
 
                     b.ToTable("Schedule");
+            modelBuilder.Entity("ReserveSystem.Models.TypeOfSchedule", b =>
+                {
+                    b.Property<int>("TypeOfScheduleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TypeOfScheduleId"));
+
+                    b.Property<string>("TypeOfScheduleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TypeOfScheduleId");
+
+                    b.ToTable("TypeOfSchedule");
                 });
 #pragma warning restore 612, 618
         }
