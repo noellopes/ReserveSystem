@@ -19,8 +19,13 @@ namespace ReserveSystem.Controllers
             _context = context;
         }
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         // GET: Sazonalidades
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> ViewSeasonList()
         {
             return View(await _context.Sazonalidade.ToListAsync());
         }
@@ -43,24 +48,23 @@ namespace ReserveSystem.Controllers
             return View(sazonalidade);
         }
 
-        // GET: Sazonalidades/Create
-        public IActionResult Create()
+        // GET: Sazonalidades/ConfigSeason
+        public IActionResult ConfigSeason()
         {
             return View();
         }
 
-        // POST: Sazonalidades/Create
+        // POST: Sazonalidades/ConfigSeason
         // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id_saz,NameSeason,DateBegin,DateEnd,InUse")] Sazonalidade sazonalidade)
+        public async Task<IActionResult> ConfigSeason([Bind("Id_saz,NameSeason,DateBegin,DateEnd,InUse")] Sazonalidade sazonalidade)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(sazonalidade);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(ViewSeasonList));
             }
             return View(sazonalidade);
         }
@@ -111,7 +115,7 @@ namespace ReserveSystem.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(ViewSeasonList));
             }
             return View(sazonalidade);
         }
@@ -146,7 +150,7 @@ namespace ReserveSystem.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ViewSeasonList));
         }
 
         private bool SazonalidadeExists(int id)

@@ -5,10 +5,6 @@
 
 <h1>@ViewBag.Title</h1>
 
-<p class="text-center">
-    <a class="btn" asp-action="ConfigSeason">Configure New Sazonalidade</a>
-</p>
-
 <style>
     body {
         font-family: 'Georgia', serif;
@@ -108,6 +104,7 @@
             <th>Name</th>
             <th>Begin date</th>
             <th>End date</th>
+            <th>Season Fee</th>
             <th>In use</th>
         </tr>
     </thead>
@@ -119,6 +116,7 @@
                 <td>@Html.DisplayFor(modelItem => item.NameSeason)</td>
                 <td>@Html.DisplayFor(modelItem => item.DateBegin)</td>
                 <td>@Html.DisplayFor(modelItem => item.DateEnd)</td>
+                <td>@Html.DisplayFor(modelItem => item.SeasonFee)</td>
                 <td>@Html.DisplayFor(modelItem => item.InUse)</td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id_saz">Edit</a> |
@@ -140,6 +138,6 @@
         });
     });
 </script>
-<p>
-    <a class="btn" asp-action="ConfigSeason">Create New Season</a>
+<p class="text-center">
+    <a class="btn" asp-action="ConfigSeason">Configure New Sazonalidade</a>
 </p>
