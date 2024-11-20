@@ -20,7 +20,7 @@ namespace ReserveSystem.Migrations
                     Capacity = table.Column<int>(type: "int", nullable: false),
                     NumberOfRooms = table.Column<int>(type: "int", nullable: false),
                     HasView = table.Column<bool>(type: "bit", nullable: false),
-                    AdaptedRoom = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    AdaptedRoom = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
