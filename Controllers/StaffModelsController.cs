@@ -64,32 +64,28 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Staff_Id,Staff_Name,BirthDate,Staff_Email,Staff_Phone,Staff_Password,Job_Id,DriverLicenseExpirationDate,DriverLicenseGrade")] StaffModel staffModel, List<string> DrivingLicenseGrades)
+        public async Task<IActionResult> Create([Bind("Staff_Id,Staff_Name,BirthDate,Staff_Email,Staff_Phone,Staff_Password,Job_Id,DriverLicenseExpirationDate,DrivingLicenseGrades")] StaffModel staffModel, List<string>? DrivingLicenseGrades)
         {
+           
             if (ModelState.IsValid)
             {
-
-              
                 staffModel.DrivingLicenseGrades = DrivingLicenseGrades;
-                ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G" };
-
                 //ViewBag.Jobs = new SelectList(_context.Jobs.ToList(), "Job_Id", "Job_Name", staff.Job_Id);
-                return View(staffModel);
+                _context.Add(staffModel);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+                
                 
             }
-
-            staffModel.DrivingLicenseGrades = DrivingLicenseGrades;
-
-            _context.Add(staffModel);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G" };
+            return View(staffModel);
 
         }
 
         // GET: StaffModels/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G" };
+            ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G"};
             if (id == null)
             {
                 return NotFound();
@@ -108,9 +104,10 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Staff_Id,Staff_Name,BirthDate,Staff_Email,Staff_Phone,Staff_Password,Job_Id,DriverLicenseExpirationDate,DriverLicenseGrade")] StaffModel staffModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Staff_Id,Staff_Name,BirthDate,Staff_Email,Staff_Phone,Staff_Password,Job_Id,DriverLicenseExpirationDate,DrivingLicenseGrades")] StaffModel staffModel)
         {
-            ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G" };
+            
+            
             if (id != staffModel.Staff_Id)
             {
                 return NotFound();
@@ -118,8 +115,10 @@ namespace ReserveSystem.Controllers
             
             if (ModelState.IsValid)
             {
+             
                 try
                 {
+                    ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G"};
                     _context.Update(staffModel);
                     await _context.SaveChangesAsync();
                 }
@@ -134,6 +133,7 @@ namespace ReserveSystem.Controllers
                         throw;
                     }
                 }
+                
                 return RedirectToAction(nameof(Index));
             }
             return View(staffModel);

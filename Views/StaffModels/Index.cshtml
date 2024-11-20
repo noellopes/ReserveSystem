@@ -17,6 +17,7 @@
             <th>@Html.DisplayNameFor(model => model.BirthDate)</th>
             <th>@Html.DisplayNameFor(model => model.Staff_Email)</th>
             <th>@Html.DisplayNameFor(Model => Model.Staff_Phone)</th>
+            <th>@Html.DisplayNameFor(Model => Model.Staff_Password)</th>
             <th>@Html.DisplayNameFor(model => model.Job_Id)</th>
             <th>@Html.DisplayNameFor(model => model.DrivingLicenseGrades)</th>
             <th>@Html.DisplayNameFor(model => model.DriverLicenseExpirationDate)</th>
@@ -30,7 +31,8 @@
                 <td>@Html.DisplayFor(modelItem => staff.Staff_Name)</td>
                 <td>@staff.BirthDate.ToString("dd/MM/yyyy")</td>
                 <td>@Html.DisplayFor(modelItem => staff.Staff_Email)</td>
-                <th>@Html.DisplayFor(modelItem => staff.Staff_Phone)</th>
+                <td>@Html.DisplayFor(modelItem => staff.Staff_Phone)</td>
+                <td>@Html.DisplayFor(modelItem => staff.Staff_Password)</td>
                 <td>@Html.DisplayFor(modelItem => staff.Job_Id)</td>
                 @*
             <td>

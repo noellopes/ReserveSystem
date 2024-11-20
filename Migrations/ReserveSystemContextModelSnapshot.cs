@@ -37,7 +37,6 @@ namespace ReserveSystem.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DrivingLicenseGrades")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Job_Id")
