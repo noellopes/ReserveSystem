@@ -26,9 +26,35 @@
             </div>
 
             <div class="form-group mb-3">
-                <label asp-for="Telefone" class="control-label "></label>
-                <input asp-for="Telefone" class="form-control bg-light" type="tel" />
-                <span asp-validation-for="Telefone" class="text-danger"></span>
+                <label asp-for="Telefone" class="control-label "></label>                
+                <div class="input-group">
+                    <select id="countrySelect" class="form-control">
+                        <option value="+1" data-flag="us" data-code="+1" data-length="10">USA (+1)</option>
+                        <option value="+44" data-flag="gb" data-code="+44" data-length="10">UK (+44)</option>
+                        <option value="+91" data-flag="in" data-code="+91" data-length="10">India (+91)</option>
+                        <option value="+234" data-flag="ng" data-code="+234" data-length="11">Nigeria (+234)</option>
+                        <option value="+351" data-flag="pt" data-code="+351" data-length="9">Portugal (+351)</option>
+                        <option value="+33" data-flag="fr" data-code="+33" data-length="10">France (+33)</option>
+                        <option value="+49" data-flag="de" data-code="+49" data-length="11">Germany (+49)</option>
+                        <option value="+39" data-flag="it" data-code="+39" data-length="10">Italy (+39)</option>
+                        <option value="+34" data-flag="es" data-code="+34" data-length="9">Spain (+34)</option>
+                        <option value="+55" data-flag="br" data-code="+55" data-length="11">Brazil (+55)</option>
+                        <option value="+61" data-flag="au" data-code="+61" data-length="9">Australia (+61)</option>
+                        <option value="+27" data-flag="za" data-code="+27" data-length="9">South Africa (+27)</option>
+                        <option value="+81" data-flag="jp" data-code="+81" data-length="10">Japan (+81)</option>
+                        <option value="+52" data-flag="mx" data-code="+52" data-length="10">Mexico (+52)</option>
+                        <option value="+86" data-flag="cn" data-code="+86" data-length="11">China (+86)</option>
+                        <option value="+7" data-flag="ru" data-code="+7" data-length="10">Russia (+7)</option>
+                        <option value="+31" data-flag="nl" data-code="+31" data-length="9">Netherlands (+31)</option>
+                        <option value="+82" data-flag="kr" data-code="+82" data-length="10">South Korea (+82)</option>
+                        <option value="+20" data-flag="eg" data-code="+20" data-length="10">Egypt (+20)</option>
+                    </select>
+                    <span id="flagIcon" class="input-group-text" style="display: none;">
+                        <img src="" id="flag" alt="Country Flag" style="width: 30px; height: 20px;">
+                    </span>
+                    <input asp-for="Telefone" id="telefone" class="form-control bg-light" type="tel" />
+                    <span asp-validation-for="Telefone" class="text-danger"></span>
+                </div>
             </div>
 
             <div class="form-group form-check mb-3">

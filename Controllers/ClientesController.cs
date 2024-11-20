@@ -49,14 +49,6 @@ namespace ReserveSystem.Controllers
             return View();
         }
 
-        public IActionResult Details()
-        {
-            return View();
-        }
-
-        // POST: Clientes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ClienteId,Nome,Email,Telefone,Login,Nif")] ClienteModel cliente)
@@ -65,6 +57,11 @@ namespace ReserveSystem.Controllers
             {
                 try
                 {
+                    if (!NifValidator.IsNifValid(cliente.Nif))
+                    {
+                        ModelState.AddModelError("Nif", "NIF Invalido");
+                        return View(cliente);
+                    }
                     _context.Add(cliente);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
