@@ -7,7 +7,7 @@
 
 <h1>Edit</h1>
 
-<h4>StaffModel</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -59,7 +59,7 @@
 
                     for (int i = 0; i < grades.Count; i++)
                     {
-                        // Verifica se o grade atual está selecionado
+                        
                         bool isChecked = Model.DrivingLicenseGrades != null && Model.DrivingLicenseGrades.Contains(grades[i]);
 
                         <div class="form-check">
@@ -86,14 +86,14 @@
 
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
+                
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

@@ -173,5 +173,83 @@ h1 {
     background-color: #f9f9f9;
 }
 
+/* Data List - dl, dt, dd */
+dl {
+    margin: 20px 0;
+    padding: 0;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+}
+
+dt {
+    font-weight: 600;
+    color: #555;
+    font-size: 14px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+}
+
+dd {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    line-height: 1.5;
+}
+
+/* Adicionando um estilo de hover nas linhas */
+dl:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+/* Resposta do hover na definição de dados dd */
+dd:hover {
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+/* Adicionando separação visual entre os termos e as definições */
+dl dt + dd {
+    border-top: 1px solid #f1f1f1;
+    padding-top: 10px;
+}
+
+/* Personalizando o espaçamento entre o título e a definição */
+dl dt {
+    margin-top: 10px;
+}
+
+/* Estilo para os termos de dados (dt) quando estão em grupos */
+dl dt {
+    display: inline-block;
+    width: 150px; /* Altere a largura conforme necessário */
+}
+
+/* Ajuste para as definições (dd) que terão o restante do espaço */
+dl dd {
+    display: inline-block;
+    width: calc(100% - 160px); /* Calculando com base na largura do dt */
+}
+
+/* Mobile adjustments: Ajustando para telas pequenas */
+@media (max-width: 768px) {
+    dl {
+        padding: 10px;
+    }
+
+        dl dt {
+            font-size: 13px;
+            width: 100%;
+        }
+
+        dl dd {
+            font-size: 13px;
+            width: 100%;
+            margin-top: 5px;
+        }
+}
 
 
