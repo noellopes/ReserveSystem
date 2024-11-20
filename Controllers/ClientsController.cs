@@ -62,6 +62,12 @@ namespace ReserveSystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            if (!client.IsCleanPreferenceValid())
+            {
+                ModelState.AddModelError("CleanPreference", "Clean preference date must be >= than today");
+            }
+
             return View(client);
         }
 
