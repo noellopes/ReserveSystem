@@ -7,5 +7,6 @@ namespace ReserveSystem.Data
     {
         public ReserveSystemContext(DbContextOptions<ReserveSystemContext> options) : base(options) {}
         public DbSet<Client> Client { get; set; } = default!;
+        public DbSet<ReserveSystem.Models.Employee> Employee { get; set; } = default!;
     }
 }
