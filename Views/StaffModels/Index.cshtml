@@ -13,14 +13,15 @@
 <table class="table">
     <thead>
         <tr>
-            <th>@Html.DisplayNameFor(model => model.Staff_Name)</th>
-            <th>@Html.DisplayNameFor(model => model.BirthDate)</th>
-            <th>@Html.DisplayNameFor(model => model.Staff_Email)</th>
-            <th>@Html.DisplayNameFor(Model => Model.Staff_Phone)</th>
-            <th>@Html.DisplayNameFor(Model => Model.Staff_Password)</th>
-            <th>@Html.DisplayNameFor(model => model.Job_Id)</th>
-            <th>@Html.DisplayNameFor(model => model.DrivingLicenseGrades)</th>
-            <th>@Html.DisplayNameFor(model => model.DriverLicenseExpirationDate)</th>
+            <th>Id</th>
+            <th>Name</th>
+            <th>BirthDate</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Password</th>
+            <th>Id</th>
+            <th>Driving License Grades</th>
+            <th>Driver License Expiration Date</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -28,6 +29,7 @@
         @foreach (var staff in Model)
         {
             <tr>
+                <td>@Html.DisplayFor(modelItem => staff.Staff_Id)</td>
                 <td>@Html.DisplayFor(modelItem => staff.Staff_Name)</td>
                 <td>@staff.BirthDate.ToString("dd/MM/yyyy")</td>
                 <td>@Html.DisplayFor(modelItem => staff.Staff_Email)</td>

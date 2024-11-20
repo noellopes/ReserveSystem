@@ -123,4 +123,55 @@ h1 {
     margin-bottom: 20px;
 }
 
+/* Tabela */
+.table {
+    width: 100%;
+    margin: 20px 0;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+    .table th, .table td {
+        padding: 12px;
+        text-align: left;
+        font-size: 14px;
+        color: #333;
+        border-bottom: 1px solid #f1f1f1;
+    }
+
+    .table th {
+        background-color: #00bfa5;
+        color: white;
+        font-weight: 600;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f9f9f9;
+    }
+
+/* Adicionando borda à tabela */
+.table-bordered {
+    border: 1px solid #e0e0e0;
+}
+
+    .table-bordered th, .table-bordered td {
+        border: 1px solid #e0e0e0;
+    }
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+/* Tabela sem bordas */
+.table-borderless th, .table-borderless td {
+    border: none;
+}
+
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+
 

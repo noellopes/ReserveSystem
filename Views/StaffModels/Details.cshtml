@@ -10,7 +10,12 @@
     <h4>Staff Model</h4>
     <hr />
     <dl class="row">
-        <!-- Staff Name -->
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Staff_Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Staff_Id)
+        </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Staff_Name)
         </dt>
