@@ -16,7 +16,7 @@ namespace ReserveSystem.Migrations
                 {
                     RoomTypeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoomType = table.Column<int>(type: "int", nullable: false),
+                    RoomType = table.Column<string>(type: "varchar(50)", nullable: false),
                     Capacity = table.Column<int>(type: "int", nullable: false),
                     NumberOfRooms = table.Column<int>(type: "int", nullable: false),
                     HasView = table.Column<bool>(type: "bit", nullable: false),
