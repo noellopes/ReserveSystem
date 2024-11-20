@@ -24,21 +24,6 @@
                 <span asp-validation-for="CHECKOUT_DATE" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="BOOKING_DATE" class="control-label"></label>
-                <input asp-for="BOOKING_DATE" class="form-control" />
-                <span asp-validation-for="BOOKING_DATE" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BOOKED" class="control-label"></label>
-                <input asp-for="BOOKED" class="form-control" />
-                <span asp-validation-for="BOOKED" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="PAYMENT_STATUS" /> @Html.DisplayNameFor(model => model.PAYMENT_STATUS)
-                </label>
-            </div>
-            <div class="form-group">
                 <label asp-for="TOTAL_PERSONS_NUMBER" class="control-label"></label>
                 <input asp-for="TOTAL_PERSONS_NUMBER" class="form-control" />
                 <span asp-validation-for="TOTAL_PERSONS_NUMBER" class="text-danger"></span>
