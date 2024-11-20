@@ -8,5 +8,6 @@ namespace ReserveSystem.Data
         public ReserveSystemContext(DbContextOptions<ReserveSystemContext> options) : base(options) {}
         public DbSet<ReserveSystem.Models.StaffModel> StaffModel { get; set; } = default!;
         public DbSet<ReserveSystem.Models.JobModel> JobModel { get; set; } = default!;
+        public DbSet<ReserveSystem.Models.Schedule> Schedule { get; set; } = default!;
     }
 }
