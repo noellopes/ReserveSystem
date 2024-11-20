@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
@@ -20,9 +18,110 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: RoomServiceBooking
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, string sortOrder)
         {
-            return View(await _context.RoomServiceBooking.ToListAsync());
+            ViewData["CurrentFilter"] = searchString;
+            ViewData["RoomServiceIdSortParm"] = String.IsNullOrEmpty(sortOrder) ? "roomServiceId_desc" : "";
+            ViewData["StaffIdSortParm"] = sortOrder == "StaffId" ? "staffId_desc" : "StaffId";
+            ViewData["ClientIdSortParm"] = sortOrder == "ClientId" ? "clientId_desc" : "ClientId";
+            ViewData["RoomIdSortParm"] = sortOrder == "RoomId" ? "roomId_desc" : "RoomId";
+            ViewData["DateTimeSortParm"] = sortOrder == "DateTime" ? "dateTime_desc" : "DateTime";
+            ViewData["StartDateSortParm"] = sortOrder == "StartDate" ? "startDate_desc" : "StartDate";
+            ViewData["EndDateSortParm"] = sortOrder == "EndDate" ? "endDate_desc" : "EndDate";
+            ViewData["BookedStateSortParm"] = sortOrder == "BookedState" ? "bookedState_desc" : "BookedState";
+            ViewData["StaffConfirmationSortParm"] = sortOrder == "StaffConfirmation" ? "staffConfirmation_desc" : "StaffConfirmation";
+            ViewData["ClientFeedbackSortParm"] = sortOrder == "ClientFeedback" ? "clientFeedback_desc" : "ClientFeedback";
+            ViewData["ValueToPaySortParm"] = sortOrder == "ValueToPay" ? "valueToPay_desc" : "ValueToPay";
+            ViewData["PaymentDoneSortParm"] = sortOrder == "PaymentDone" ? "paymentDone_desc" : "PaymentDone";
+
+            var bookings = from b in _context.RoomServiceBooking
+                           select b;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                bookings = bookings.Where(b => b.RoomServiceId.ToString().Contains(searchString)
+                                       || b.StaffId.ToString().Contains(searchString)
+                                       || b.ClientId.ToString().Contains(searchString)
+                                       || b.RoomId.ToString().Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "roomServiceId_desc":
+                    bookings = bookings.OrderByDescending(b => b.RoomServiceId);
+                    break;
+                case "StaffId":
+                    bookings = bookings.OrderBy(b => b.StaffId);
+                    break;
+                case "staffId_desc":
+                    bookings = bookings.OrderByDescending(b => b.StaffId);
+                    break;
+                case "ClientId":
+                    bookings = bookings.OrderBy(b => b.ClientId);
+                    break;
+                case "clientId_desc":
+                    bookings = bookings.OrderByDescending(b => b.ClientId);
+                    break;
+                case "RoomId":
+                    bookings = bookings.OrderBy(b => b.RoomId);
+                    break;
+                case "roomId_desc":
+                    bookings = bookings.OrderByDescending(b => b.RoomId);
+                    break;
+                case "DateTime":
+                    bookings = bookings.OrderBy(b => b.DateTime);
+                    break;
+                case "dateTime_desc":
+                    bookings = bookings.OrderByDescending(b => b.DateTime);
+                    break;
+                case "StartDate":
+                    bookings = bookings.OrderBy(b => b.StartDate);
+                    break;
+                case "startDate_desc":
+                    bookings = bookings.OrderByDescending(b => b.StartDate);
+                    break;
+                case "EndDate":
+                    bookings = bookings.OrderBy(b => b.EndDate);
+                    break;
+                case "endDate_desc":
+                    bookings = bookings.OrderByDescending(b => b.EndDate);
+                    break;
+                case "BookedState":
+                    bookings = bookings.OrderBy(b => b.BookedState);
+                    break;
+                case "bookedState_desc":
+                    bookings = bookings.OrderByDescending(b => b.BookedState);
+                    break;
+                case "StaffConfirmation":
+                    bookings = bookings.OrderBy(b => b.StaffConfirmation);
+                    break;
+                case "staffConfirmation_desc":
+                    bookings = bookings.OrderByDescending(b => b.StaffConfirmation);
+                    break;
+                case "ClientFeedback":
+                    bookings = bookings.OrderBy(b => b.ClientFeedback);
+                    break;
+                case "clientFeedback_desc":
+                    bookings = bookings.OrderByDescending(b => b.ClientFeedback);
+                    break;
+                case "ValueToPay":
+                    bookings = bookings.OrderBy(b => (double)b.ValueToPay);
+                    break;
+                case "valueToPay_desc":
+                    bookings = bookings.OrderByDescending(b => (double)b.ValueToPay);
+                    break;
+                case "PaymentDone":
+                    bookings = bookings.OrderBy(b => b.PaymentDone);
+                    break;
+                case "paymentDone_desc":
+                    bookings = bookings.OrderByDescending(b => b.PaymentDone);
+                    break;
+                default:
+                    bookings = bookings.OrderBy(b => b.RoomServiceId);
+                    break;
+            }
+
+            return View(await bookings.AsNoTracking().ToListAsync());
         }
 
         // GET: RoomServiceBooking/Details/5

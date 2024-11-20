@@ -1,101 +1,94 @@
 @model IEnumerable<ReserveSystem.Models.RoomServiceBooking>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Room Service Bookings";
 }
 
-<h1>Index</h1>
+<!-- Container for the buttons and search input -->
+<div class="d-flex justify-content-between my-4">
+    <!-- Create New Button -->
+    <a asp-action="Create" class="btn btn-primary" role="button">Create New</a>
+    
+    <!-- Search Input and Button -->
+    <form asp-action="Index" method="get">
+        <div class="form-group d-flex">
+            <input type="text" name="searchString" id="searchString" value="@ViewData["CurrentFilter"]" class="form-control me-2" placeholder="Search..." />
+            <button type="submit" class="btn btn-secondary" aria-label="Submit Search">Search</button>
+        </div>
+    </form>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.RoomServiceId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClientId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RoomId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BookedState)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffConfirmation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClientFeedback)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ValueToPay)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PaymentDone)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RoomServiceId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StaffId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClientId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RoomId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BookedState)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StaffConfirmation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClientFeedback)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ValueToPay)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PaymentDone)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<!-- Table with sorted columns -->
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover text-center">
+        <caption id="table-caption">List of Room Service Bookings</caption>
+        <thead class="table-dark">
+            <tr class="align-middle text-center">
+                <!-- Sortable Column Headers -->
+                <th scope="col">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["RoomServiceIdSortParm"]" aria-sort="@ViewData["RoomServiceIdSortParm"]" aria-label="Sort by Room Service ID">Room Service ID</a>
+                </th>
+                <th scope="col">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["StaffIdSortParm"]" aria-sort="@ViewData["StaffIdSortParm"]" aria-label="Sort by Staff ID">Staff ID</a>
+                </th>
+                <th scope="col">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["ClientIdSortParm"]" aria-sort="@ViewData["ClientIdSortParm"]" aria-label="Sort by Client ID">Client ID</a>
+                </th>
+                <th scope="col">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["RoomIdSortParm"]" aria-sort="@ViewData["RoomIdSortParm"]" aria-label="Sort by Room ID">Room ID</a>
+                </th>
+                <th scope="col">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["DateTimeSortParm"]" aria-sort="@ViewData["DateTimeSortParm"]" aria-label="Sort by Date Time">Date Time</a>
+                </th>
+                <th scope="col">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["StartDateSortParm"]" aria-sort="@ViewData["StartDateSortParm"]" aria-label="Sort by Start Date">Start Date</a>
+                </th>
+                <th scope="col">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["EndDateSortParm"]" aria-sort="@ViewData["EndDateSortParm"]" aria-label="Sort by End Date">End Date</a>
+                </th>
+                <th scope="col">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["BookedStateSortParm"]" aria-sort="@ViewData["BookedStateSortParm"]" aria-label="Sort by Booked State">Booked State</a>
+                </th>
+                <th scope="col">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["StaffConfirmationSortParm"]" aria-sort="@ViewData["StaffConfirmationSortParm"]" aria-label="Sort by Staff Confirmation">Staff Confirmation</a>
+                </th>
+                <th scope="col">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["ClientFeedbackSortParm"]" aria-sort="@ViewData["ClientFeedbackSortParm"]" aria-label="Sort by Client Feedback">Client Feedback</a>
+                </th>
+                <th scope="col">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["ValueToPaySortParm"]" aria-sort="@ViewData["ValueToPaySortParm"]" aria-label="Sort by Value To Pay">Value To Pay</a>
+                </th>
+                <th scope="col">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["PaymentDoneSortParm"]" aria-sort="@ViewData["PaymentDoneSortParm"]" aria-label="Sort by Payment Done">Payment Done</a>
+                </th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="align-middle text-center">
+                    <td>@Html.DisplayFor(modelItem => item.RoomServiceId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.StaffId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ClientId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.RoomId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.DateTime)</td>
+                    <td>@Html.DisplayFor(modelItem => item.StartDate)</td>
+                    <td>@Html.DisplayFor(modelItem => item.EndDate)</td>
+                    <td>@Html.DisplayFor(modelItem => item.BookedState)</td>
+                    <td>@Html.DisplayFor(modelItem => item.StaffConfirmation)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ClientFeedback)</td>
+                    <td>@item.ValueToPay.ToString("C", new System.Globalization.CultureInfo("pt-PT"))</td>
+                    <td>@Html.DisplayFor(modelItem => item.PaymentDone)</td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="Actions">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning mx-2" aria-label="Edit Booking">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info mx-2" aria-label="View Booking Details">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger mx-2" aria-label="Delete Booking">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
