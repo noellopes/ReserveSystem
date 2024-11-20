@@ -31,6 +31,8 @@ namespace ReserveSystem.Models
         // Navigation Property
        // public virtual Staff Staff { get; set; }
 
+
+
         // Helper Method
         public bool IsValidRequest()
         {
