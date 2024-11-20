@@ -22,7 +22,7 @@ namespace ReserveSystem.Controllers
         // GET: Reservas
         public async Task<IActionResult> Index()
         {
-            var reserveSystemContext = _context.Reserva.Include(r => r.Cliente);
+            var reserveSystemContext = _context.ReservaModel.Include(r => r.Cliente);
             return View(await reserveSystemContext.ToListAsync());
         }
 
@@ -34,7 +34,7 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var reserva = await _context.Reserva
+            var reserva = await _context.ReservaModel
                 .Include(r => r.Cliente)
                 .FirstOrDefaultAsync(m => m.ID_BOOKING == id);
             if (reserva == null)
@@ -52,12 +52,15 @@ namespace ReserveSystem.Controllers
             return View();
         }
 
+
+                
+
         // POST: Reservas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ReservaId,DataCheckIn,DataCheckOut,DataReserva,Estado,EstadoPagamento,NumeroPessoas,ClienteId")] ReservaModel reserva)
+        public async Task<IActionResult> Create([Bind("ID_BOOKING,CHECKIN_DATE,DataCheckOut,CHECKOUT_DATE,STATUS,PAYMENT_STATUS,TOTAL_PERSONS_NUMBER,ID_CLIENT")] ReservaModel reserva)
         {
             if (ModelState.IsValid)
             {
@@ -77,7 +80,7 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var reserva = await _context.Reserva.FindAsync(id);
+            var reserva = await _context.ReservaModel.FindAsync(id);
             if (reserva == null)
             {
                 return NotFound();
@@ -130,7 +133,7 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var reserva = await _context.Reserva
+            var reserva = await _context.ReservaModel
                 .Include(r => r.Cliente)
                 .FirstOrDefaultAsync(m => m.ID_BOOKING == id);
             if (reserva == null)
@@ -146,10 +149,10 @@ namespace ReserveSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var reserva = await _context.Reserva.FindAsync(id);
+            var reserva = await _context.ReservaModel.FindAsync(id);
             if (reserva != null)
             {
-                _context.Reserva.Remove(reserva);
+                _context.ReservaModel.Remove(reserva);
             }
 
             await _context.SaveChangesAsync();
@@ -158,7 +161,7 @@ namespace ReserveSystem.Controllers
 
         private bool ReservaExists(int id)
         {
-            return _context.Reserva.Any(e => e.ID_BOOKING == id);
+            return _context.ReservaModel.Any(e => e.ID_BOOKING == id);
         }
     }
 }
