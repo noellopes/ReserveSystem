@@ -144,7 +144,7 @@ namespace ReserveSystem.Migrations
                     b.HasIndex("IdTipoSala")
                         .IsUnique();
 
-                    b.ToTable("Sala");
+                    b.ToTable("Salas");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.TipoSala", b =>
@@ -167,7 +167,7 @@ namespace ReserveSystem.Migrations
 
                     b.HasKey("IdTipoSala");
 
-                    b.ToTable("TipoSala");
+                    b.ToTable("TipoSalas");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.ReservaModel", b =>
