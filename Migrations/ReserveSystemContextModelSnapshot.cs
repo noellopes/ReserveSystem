@@ -17,7 +17,7 @@ namespace ReserveSystem.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.11")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -88,35 +88,6 @@ namespace ReserveSystem.Migrations
                     b.HasIndex("ID_CLIENT");
 
                     b.ToTable("ReservaModel");
-                });
-
-            modelBuilder.Entity("ReserveSystem.Models.Rooms", b =>
-                {
-                    b.Property<int>("RoomTypeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomTypeId"));
-
-                    b.Property<bool>("AdaptedRoom")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Capacity")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("HasView")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("NumberOfRooms")
-                        .HasColumnType("int");
-
-                    b.Property<string>("RoomType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("RoomTypeId");
-
-                    b.ToTable("Rooms");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.ReservaModel", b =>
