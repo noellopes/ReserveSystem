@@ -21,9 +21,12 @@ namespace ReserveSystem.Models
         public string Reason { get; set; }
 
 
+
         [Required]
         [MaxLength(500)]
         public string Status { get; set; } // Status for the request
+
+
 
         // Navigation Property
        // public virtual Staff Staff { get; set; }
