@@ -24,6 +24,7 @@ namespace ReserveSystem.Models
 
         public string Observacao { get; set; }
 
-
+        public int IdPrato { get; set; }
+        public Prato? Prato { get; set; }
     }
 }

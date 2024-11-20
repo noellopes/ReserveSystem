@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging; // Added for logging
 using ReserveSystem.Data;
 using ReserveSystem.Models;
 
@@ -12,21 +13,20 @@ namespace ReserveSystem.Controllers
     public class ReservasController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly ILogger<ReservasController> _logger; // Added for logging
 
-        public ReservasController(ApplicationDbContext context, ILogger<ReservasController> logger)
+        public ReservasController(ApplicationDbContext context)
         {
             _context = context;
-            _logger = logger; // Initialize logger
         }
 
         // GET: Reservas
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Reserva.ToListAsync());
+            var applicationDbContext = _context.Reserva.Include(b => b.Prato);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Reservas/Details
+        // GET: Reservas/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,6 +35,7 @@ namespace ReserveSystem.Controllers
             }
 
             var reserva = await _context.Reserva
+                .Include(b => b.Prato)
                 .FirstOrDefaultAsync(m => m.IdReserva == id);
             if (reserva == null)
             {
@@ -47,40 +48,28 @@ namespace ReserveSystem.Controllers
         // GET: Reservas/Create
         public IActionResult Create()
         {
+            ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome");
             return View();
         }
 
-
+        // POST: Reservas/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdReserva,NomeCliente,NumeroMesa,NumeroPessoas,DataHora,Observacao")] Reserva reserva)
+        public async Task<IActionResult> Create([Bind("IdReserva,NomeCliente,NumeroMesa,NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva)
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Add(reserva);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (DbUpdateException ex)
-                {
-                    // Log the exception details
-                    _logger.LogError($"Error while creating reservation: {ex.Message}");
-                    if (ex.InnerException != null)
-                    {
-                        _logger.LogError($"Inner exception: {ex.InnerException.Message}");
-                    }
-
-                    // Provide user feedback (Optional)
-                    ModelState.AddModelError(string.Empty, "An error occurred while saving the reservation. Please try again.");
-                    return View(reserva);
-                }
+                _context.Add(reserva);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
+            ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome");
             return View(reserva);
         }
 
-        // GET: Reservas/Edit
+        // GET: Reservas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -96,10 +85,12 @@ namespace ReserveSystem.Controllers
             return View(reserva);
         }
 
-
+        // POST: Reservas/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdReserva,NomeCliente,NumeroMesa,NumeroPessoas,DataHora,Observacao")] Reserva reserva)
+        public async Task<IActionResult> Edit(int id, [Bind("IdReserva,NomeCliente,NumeroMesa,NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva)
         {
             if (id != reserva.IdReserva)
             {
@@ -113,44 +104,23 @@ namespace ReserveSystem.Controllers
                     _context.Update(reserva);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException ex)
+                catch (DbUpdateConcurrencyException)
                 {
-                    // Log the exception details
-                    _logger.LogError($"Concurrency issue while updating reservation: {ex.Message}");
-                    if (ex.InnerException != null)
-                    {
-                        _logger.LogError($"Inner exception: {ex.InnerException.Message}");
-                    }
-
-                    // Check if the entity still exists
                     if (!ReservaExists(reserva.IdReserva))
                     {
                         return NotFound();
                     }
-
-                    // Provide user feedback (Optional)
-                    ModelState.AddModelError(string.Empty, "A concurrency error occurred. Please try again.");
-                    return View(reserva);
-                }
-                catch (DbUpdateException ex)
-                {
-                    // Log the exception details
-                    _logger.LogError($"Error while updating reservation: {ex.Message}");
-                    if (ex.InnerException != null)
+                    else
                     {
-                        _logger.LogError($"Inner exception: {ex.InnerException.Message}");
+                        throw;
                     }
-
-                    // Provide user feedback (Optional)
-                    ModelState.AddModelError(string.Empty, "An error occurred while saving the reservation. Please try again.");
-                    return View(reserva);
                 }
                 return RedirectToAction(nameof(Index));
             }
             return View(reserva);
         }
 
-        // GET: Reservas/Delete
+        // GET: Reservas/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -168,7 +138,7 @@ namespace ReserveSystem.Controllers
             return View(reserva);
         }
 
-        // POST: Reservas/Delete
+        // POST: Reservas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -177,9 +147,9 @@ namespace ReserveSystem.Controllers
             if (reserva != null)
             {
                 _context.Reserva.Remove(reserva);
-                await _context.SaveChangesAsync();
             }
 
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

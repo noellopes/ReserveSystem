@@ -13,6 +13,7 @@ namespace ReserveSystem.Models
         [Required]
         public string Descricao { get; set; }
 
+        public ICollection<Reserva>? Reservas { get; set; }
     }
 }
 
