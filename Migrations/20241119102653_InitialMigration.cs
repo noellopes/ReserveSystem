@@ -9,7 +9,21 @@ namespace ReserveSystem.Migrations
     public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
+        /// 
+
         protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropForeignKey(
+               name: "FK_ReservaModel_Cliente_ID_CLIENT", // The name of the foreign key
+               table: "ReservaModel");
+
+            migrationBuilder.DropTable(
+                name: "ReservaModel");
+
+            migrationBuilder.DropTable(
+                name: "Cliente");
+        }
+        protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
                 name: "Cliente",
@@ -59,13 +73,6 @@ namespace ReserveSystem.Migrations
         }
 
         /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropTable(
-                name: "ReservaModel");
-
-            migrationBuilder.DropTable(
-                name: "Cliente");
-        }
+        
     }
 }

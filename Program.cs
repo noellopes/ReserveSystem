@@ -36,11 +36,11 @@ else
 }
 
 //seed data
-using (var serviceScope = app.Services.CreateScope())
-{
-    var db = serviceScope.ServiceProvider.GetService<ReserveSystemContext>();
-    SeedData.Populate(db);
-}
+//using (var serviceScope = app.Services.CreateScope())
+//{
+//    var db = serviceScope.ServiceProvider.GetService<ReserveSystemContext>();
+//    SeedData.Populate(db);
+//}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

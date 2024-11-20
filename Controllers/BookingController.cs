@@ -10,23 +10,22 @@ using ReserveSystem.Models;
 
 namespace ReserveSystem.Controllers
 {
-    public class RoomsController : Controller
+    public class BookingController : Controller
     {
         private readonly ReserveSystemContext _context;
 
-        public RoomsController(ReserveSystemContext context)
+        public BookingController(ReserveSystemContext context)
         {
             _context = context;
         }
 
-        // GET: Rooms
+        // GET: Booking
         public async Task<IActionResult> Index()
         {
-            
-            return View(await _context.Rooms.ToListAsync());
+            return View(await _context.Booking.ToListAsync());
         }
 
-        // GET: Rooms/Details/5
+        // GET: Booking/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,39 +33,39 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var rooms = await _context.Rooms
-                .FirstOrDefaultAsync(m => m.RoomTypeId == id);
-            if (rooms == null)
+            var bookingModel = await _context.Booking
+                .FirstOrDefaultAsync(m => m.ID_BOOKING == id);
+            if (bookingModel == null)
             {
                 return NotFound();
             }
 
-            return View(rooms);
+            return View(bookingModel);
         }
 
-        // GET: Rooms/Create
+        // GET: Booking/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Rooms/Create
+        // POST: Booking/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RoomTypeId,RoomType,Capacity,NumberOfRooms,HasView,AdaptedRoom")] Rooms rooms)
+        public async Task<IActionResult> Create([Bind("ID_BOOKING,CHECKIN_DATE,CHECKOUT_DATE,BOOKING_DATE,TOTAL_PERSONS_NUMBER,BOOKED,PAYMENT_STATUS")] BookingModel bookingModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(rooms);
+                _context.Add(bookingModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(rooms);
+            return View(bookingModel);
         }
 
-        // GET: Rooms/Edit/5
+        // GET: Booking/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,22 +73,22 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var rooms = await _context.Rooms.FindAsync(id);
-            if (rooms == null)
+            var bookingModel = await _context.Booking.FindAsync(id);
+            if (bookingModel == null)
             {
                 return NotFound();
             }
-            return View(rooms);
+            return View(bookingModel);
         }
 
-        // POST: Rooms/Edit/5
+        // POST: Booking/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RoomTypeId,RoomType,Capacity,NumberOfRooms,HasView,AdaptedRoom")] Rooms rooms)
+        public async Task<IActionResult> Edit(int id, [Bind("ID_BOOKING,CHECKIN_DATE,CHECKOUT_DATE,BOOKING_DATE,TOTAL_PERSONS_NUMBER,BOOKED,PAYMENT_STATUS")] BookingModel bookingModel)
         {
-            if (id != rooms.RoomTypeId)
+            if (id != bookingModel.ID_BOOKING)
             {
                 return NotFound();
             }
@@ -98,12 +97,12 @@ namespace ReserveSystem.Controllers
             {
                 try
                 {
-                    _context.Update(rooms);
+                    _context.Update(bookingModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RoomsExists(rooms.RoomTypeId))
+                    if (!BookingModelExists(bookingModel.ID_BOOKING))
                     {
                         return NotFound();
                     }
@@ -114,10 +113,10 @@ namespace ReserveSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(rooms);
+            return View(bookingModel);
         }
 
-        // GET: Rooms/Delete/5
+        // GET: Booking/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,34 +124,34 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var rooms = await _context.Rooms
-                .FirstOrDefaultAsync(m => m.RoomTypeId == id);
-            if (rooms == null)
+            var bookingModel = await _context.Booking
+                .FirstOrDefaultAsync(m => m.ID_BOOKING == id);
+            if (bookingModel == null)
             {
                 return NotFound();
             }
 
-            return View(rooms);
+            return View(bookingModel);
         }
 
-        // POST: Rooms/Delete/5
+        // POST: Booking/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var rooms = await _context.Rooms.FindAsync(id);
-            if (rooms != null)
+            var bookingModel = await _context.Booking.FindAsync(id);
+            if (bookingModel != null)
             {
-                _context.Rooms.Remove(rooms);
+                _context.Booking.Remove(bookingModel);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RoomsExists(int id)
+        private bool BookingModelExists(int id)
         {
-            return _context.Rooms.Any(e => e.RoomTypeId == id);
+            return _context.Booking.Any(e => e.ID_BOOKING == id);
         }
     }
 }
