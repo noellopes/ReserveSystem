@@ -69,18 +69,6 @@ namespace ReserveSystem.Controllers
             if (ModelState.IsValid)
             {
 
-                // Verificar se a data de nascimento não é a data mínima
-                if (staffModel.BirthDate == DateTime.MinValue)
-                {
-                    staffModel.BirthDate = DateTime.Today;  // Definir como a data atual ou qualquer outra data válida
-                }
-
-                // Verificar se a data de expiração da licença de condução foi preenchida corretamente
-                if (staffModel.DriverLicenseExpirationDate == DateTime.MinValue)
-                {
-                    staffModel.DriverLicenseExpirationDate = DateTime.Today;  // Deixa o campo nulo caso não tenha sido preenchido
-                }
-
               
                 staffModel.DrivingLicenseGrades = DrivingLicenseGrades;
                 ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G" };
@@ -101,6 +89,7 @@ namespace ReserveSystem.Controllers
         // GET: StaffModels/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G" };
             if (id == null)
             {
                 return NotFound();
@@ -121,6 +110,7 @@ namespace ReserveSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Staff_Id,Staff_Name,BirthDate,Staff_Email,Staff_Phone,Staff_Password,Job_Id,DriverLicenseExpirationDate,DriverLicenseGrade")] StaffModel staffModel)
         {
+            ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G" };
             if (id != staffModel.Staff_Id)
             {
                 return NotFound();

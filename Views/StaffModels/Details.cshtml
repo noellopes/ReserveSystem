@@ -23,7 +23,7 @@
             @Html.DisplayNameFor(model => model.BirthDate)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.BirthDate)
+            @Model.BirthDate.ToString("dd/MM/yyyy")
         </dd>
 
         <!-- Staff Email -->
@@ -55,10 +55,6 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Job_Id)
         </dd>
-
-        <dt class="col-sm-2">
-            Job Name
-        </dt>
         
         @*
         <dd class="col-sm-10">
@@ -89,7 +85,7 @@
             @Html.DisplayNameFor(model => model.DriverLicenseExpirationDate)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DriverLicenseExpirationDate)
+            @Model.DriverLicenseExpirationDate.ToString("dd/MM/yyyy")
         </dd>
 
     </dl>
