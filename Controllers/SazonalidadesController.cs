@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
 
@@ -33,7 +34,7 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Sazonalidades/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, bool savednow = false)
         {
             if (id == null)
             {
@@ -44,15 +45,31 @@ namespace ReserveSystem.Controllers
                 .FirstOrDefaultAsync(m => m.Id_saz == id);
             if (sazonalidade == null)
             {
-                return NotFound();
+
+                ViewBag.Entity = "Seasonality";
+                ViewBag.Controller = "Sazonalidades";
+                ViewBag.Action = "ViewSeasonList";
+                return View("EntityNoLongerExists");
             }
 
+            ViewBag.Saved = savednow;
             return View(sazonalidade);
         }
 
         // GET: Sazonalidades/ConfigSeason
-        public IActionResult ConfigSeason()
+        public IActionResult ConfigSeason(string? name = null)
         {
+            if(name != null)
+            {
+                Sazonalidade sazonalidade = new Sazonalidade
+                {
+                    NameSeason = name
+                };
+
+                ViewBag.PreviouslyDeleted = true;
+                return View(sazonalidade);
+            }
+
             return View();
         }
 
@@ -67,7 +84,7 @@ namespace ReserveSystem.Controllers
             {
                 _context.Add(sazonalidade);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(ViewSeasonList));
+                return RedirectToAction(nameof(Details), new { id = sazonalidade.Id_saz, savednow = true });
             }
             return View(sazonalidade);
         }
@@ -83,7 +100,10 @@ namespace ReserveSystem.Controllers
             var sazonalidade = await _context.Sazonalidade.FindAsync(id);
             if (sazonalidade == null)
             {
-                return NotFound();
+                ViewBag.Entity = "Seasonality";
+                ViewBag.Controller = "Sazonalidades";
+                ViewBag.Action = "ViewSeasonList";
+                return View("EntityNoLongerExists");
             }
             return View(sazonalidade);
         }
@@ -111,14 +131,14 @@ namespace ReserveSystem.Controllers
                 {
                     if (!SazonalidadeExists(sazonalidade.Id_saz))
                     {
-                        return NotFound();
+                        return RedirectToAction(nameof(ConfigSeason), new { name = sazonalidade.NameSeason, datestart = sazonalidade.DateBegin, dateend = sazonalidade.DateEnd, used = sazonalidade.InUse, fee = sazonalidade.SeasonFee });
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(ViewSeasonList));
+                return RedirectToAction(nameof(Details), new { id = sazonalidade.Id_saz, savednow = true});
             }
             return View(sazonalidade);
         }
@@ -135,7 +155,11 @@ namespace ReserveSystem.Controllers
                 .FirstOrDefaultAsync(m => m.Id_saz == id);
             if (sazonalidade == null)
             {
-                return NotFound();
+                ViewBag.Entity = "Seasonality";
+                ViewBag.Controller = "Sazonalidades";
+                ViewBag.Action = "ViewSeasonList";
+
+                return View("SuccessfullyDeleted");
             }
 
             return View(sazonalidade);
@@ -150,10 +174,13 @@ namespace ReserveSystem.Controllers
             if (sazonalidade != null)
             {
                 _context.Sazonalidade.Remove(sazonalidade);
+                await _context.SaveChangesAsync();
             }
+            ViewBag.Entity = "Seasonality";
+            ViewBag.Controller = "Sazonalidades";
+            ViewBag.Action = "ViewSeasonList";
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(ViewSeasonList));
+            return View("SuccessfullyDeleted");
         }
 
         private bool SazonalidadeExists(int id)

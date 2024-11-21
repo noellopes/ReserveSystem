@@ -145,6 +145,21 @@
     }
 </style>
 
+@if (ViewBag.PreviouslyDeleted is true)
+{
+    <div class="container mt-5 alert alert-danger" style="border-color:crimson">
+        <div class="" role="alert">
+            <div class="d-flex">
+                <i class="fa-solid fa-xmark" style="font-size: 1.25em; padding-top: 4px;"></i>
+                <h4 class="alert-heading ms-2">Warning!</h4>
+                <br>
+            </div>
+            <p>The seasonality you were editing no longer exists. It might have been deleted.</p>
+            <p><strong>You can save and store it, but make sure this is the correct course of action.</strong></p>
+        </div>
+    </div>
+}
+
 <h1 class="text-center my-4 text-gold font-weight-bold">Configurate a new season</h1>
 <hr class="hr" />
 
