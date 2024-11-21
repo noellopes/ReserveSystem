@@ -7,36 +7,36 @@
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
-
 <div class="text-center px-1 mb-3 mx-2">
-
-
-	<div class="row">
-		<div class="col-5 mb-3">
-			<a asp-controller="PrecoTipoQ" asp-action="Create" class="btn btn-primary">
-				Create Room Type Prices
-			</a>
-		</div>
-		<div class="col-5 mb-3">
-			<a asp-controller="PrecoTipoQ" asp-action="Index" class="btn btn-outline-success">
-				Index of Room Type Prices
-			</a>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-5 mb-3">
-			<a asp-controller="TipoQuartoExemplo" asp-action="Create" class="btn btn-outline-primary">
-				Create Room Type
-			</a>
-		</div>
-		<div class="col-5 mb-3">
-
-			<a asp-controller="TipoQuartoExemplo" asp-action="Index" class="btn btn-success">
-				Room Type Index
-			</a>
-		</div>
-	</div>
-
+    <div class="row justify-content-center">
+        <div class="col-md-4 col-10 mb-3">
+            <h1>Create:</h1>
+            <a asp-controller="TipoQuartoExemplo" asp-action="Create" class="btn btn-outline-primary w-100">
+                Create Room Type
+            </a>
+        </div>
+        <div class="col-md-4 col-10 mb-3">
+            <h1>Index:</h1>
+            <a asp-controller="TipoQuartoExemplo" asp-action="Index" class="btn btn-success w-100">
+                Room Type Index
+            </a>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        
+        <div class="col-md-4 col-10 mb-3">
+            
+            <a asp-controller="PrecoTipoQ" asp-action="Create" class="btn btn-primary w-100">
+                Create Room Type Prices
+            </a>
+        </div>
+        <div class="col-md-4 col-10 mb-3">
+           
+            <a asp-controller="PrecoTipoQ" asp-action="Index" class="btn btn-outline-success w-100">
+                Index of Room Type Prices
+            </a>
+        </div>
+    </div>
     
 </div>
 
