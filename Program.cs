@@ -21,6 +21,9 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ReserveSystemUsersDbContext>();
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddScoped<PasswordHasher<ClientModel>>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

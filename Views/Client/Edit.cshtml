@@ -41,6 +41,7 @@
                         <option value="+31" data-flag="nl" data-code="+31" data-length="9">Netherlands (+31)</option>
                         <option value="+82" data-flag="kr" data-code="+82" data-length="10">South Korea (+82)</option>
                         <option value="+20" data-flag="eg" data-code="+20" data-length="10">Egypt (+20)</option>
+                        <option value="others" data-flag="" data-code="" data-length="">Others</option>
                     </select>
                     <span id="flagIcon" class="input-group-text" style="display: none;">
                         <img src="" id="flag" alt="Country Flag" style="width: 30px; height: 20px;">
@@ -66,7 +67,7 @@
             </div>
             <div class="d-flex justify-content-between m-3">
                 <div class="form-group">
-                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                    <a asp-action="Index" class="btn btn-secondary"><i class="bi bi-arrow-left-circle"></i> Back to List</a>
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Edit" class="btn btn-primary" />
@@ -75,8 +76,6 @@
         </form>
     </div>
 </div>
-
- 
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

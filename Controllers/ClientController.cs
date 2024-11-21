@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,19 +16,25 @@ namespace ReserveSystem.Controllers
     public class ClientController : Controller
     {
         private readonly ReserveSystemContext _context;
+        //private readonly SignInManager<IdentityUser> _signInManager;
+        //private readonly UserManager<IdentityUser> _userManager;
+        //private readonly PasswordHasher<ClientModel> passwordHasher;
 
-        public ClientController(ReserveSystemContext context)
+        public ClientController(ReserveSystemContext context, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            //_signInManager = signInManager;
+            //_userManager = userManager;
+            //this.passwordHasher = passwordHasher;
         }
 
-        // GET: Clientes
+        // GET: Client
         public async Task<IActionResult> Index()
         {
             return View(await _context.Client.ToListAsync());
         }
 
-        // GET: Clientes/Details/5
+        // GET: Client/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,25 +42,28 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var cliente = await _context.Client
+            var clientModel = await _context.Client
                 .FirstOrDefaultAsync(m => m.ClienteId == id);
-            if (cliente == null)
+            if (clientModel == null)
             {
                 return NotFound();
             }
 
-            return View(cliente);
+            return View(clientModel);
         }
 
-        // GET: Clientes/Create
+        // GET: Client/Create
         public IActionResult Create()
         {
             return View();
         }
 
+        // POST: Client/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClienteId,Name,Phone,Address,Email,NIF")] ClientModel cliente)
+        public async Task<IActionResult> Create([Bind("ClienteId,Name,Phone,Address,Email,NIF,Password")] ClientModel cliente)
         {
             if (ModelState.IsValid)
             {
@@ -59,9 +71,10 @@ namespace ReserveSystem.Controllers
                 {
                     if (!NifValidator.IsNifValid(cliente.NIF))
                     {
-                        ModelState.AddModelError("NIF", "NIF Invalido");
+                        ModelState.AddModelError("NIF", "NIF Inválido");
                         return View(cliente);
                     }
+                    //cliente.Password = passwordHasher.HashPassword(cliente, cliente.Password);
                     _context.Add(cliente);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
@@ -69,12 +82,13 @@ namespace ReserveSystem.Controllers
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Error: {ex.Message}");
+                    return View(cliente);
                 }
             }
             return View(cliente);
         }
 
-        // GET: Clientes/Edit/5
+        // GET: Client/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -82,22 +96,22 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var cliente = await _context.Client.FindAsync(id);
-            if (cliente == null)
+            var clientModel = await _context.Client.FindAsync(id);
+            if (clientModel == null)
             {
                 return NotFound();
             }
-            return View(cliente);
+            return View(clientModel);
         }
 
-        // POST: Clientes/Edit/5
+        // POST: Client/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Name,Phone,Address,Email,NIF")] ClientModel cliente)
+        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Name,Phone,Address,Email,NIF,Password")] ClientModel clientModel)
         {
-            if (id != cliente.ClienteId)
+            if (id != clientModel.ClienteId)
             {
                 return NotFound();
             }
@@ -106,12 +120,12 @@ namespace ReserveSystem.Controllers
             {
                 try
                 {
-                    _context.Update(cliente);
+                    _context.Update(clientModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ClienteExists(cliente.ClienteId))
+                    if (!ClientModelExists(clientModel.ClienteId))
                     {
                         return NotFound();
                     }
@@ -122,28 +136,30 @@ namespace ReserveSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(cliente);
+            return View(clientModel);
         }
 
-        // GET: Clientes/Delete/5
+        // GET: Client/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "Invalid client ID.";
+                return RedirectToAction(nameof(Index));
             }
 
             var cliente = await _context.Client
                 .FirstOrDefaultAsync(m => m.ClienteId == id);
             if (cliente == null)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "Client not found.";
+                return RedirectToAction(nameof(Index));
             }
 
             return View(cliente);
         }
 
-        // POST: Clientes/Delete/5
+        // POST: Client/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -152,15 +168,21 @@ namespace ReserveSystem.Controllers
             if (cliente != null)
             {
                 _context.Client.Remove(cliente);
+                TempData["SuccessMessage"] = "Deleted successfully.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Client not found.";
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ClienteExists(int id)
+        private bool ClientModelExists(int id)
         {
             return _context.Client.Any(e => e.ClienteId == id);
         }
+
     }
 }

@@ -8,20 +8,25 @@ namespace ReserveSystem.Models
         public int ClienteId { get; set; }
 
         [Required(ErrorMessage = "Nome é obrigatório")]
-        public String Name { get;set; }
+        public string Name { get;set; }
 
         [Required(ErrorMessage = "Telefone obrigatório")]
-        public String Phone { get; set; }
+        public string Phone { get; set; }
 
         [Required(ErrorMessage = "Endereço obrigatório")]
-        public String Address { get; set; }
+        public string Address { get; set; }
 
         [Required(ErrorMessage = "Email obrigatório")]
         [EmailAddress(ErrorMessage = "Formato do email invalido")]
-        public String Email { get; set; }
+        public string Email { get; set; }
 
-        [Required(ErrorMessage = "NIF obrigatorio")]
-        public String NIF { get; set; }
+        [Required(ErrorMessage = "NIF obrigatório")]
+        public string NIF { get; set; }
+
+        [Required(ErrorMessage ="Password obrigatório")]
+        [StringLength(20, MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        public string Password {  get; set; }
 
         public ICollection<BookingModel>? Booking { get; set; }
 

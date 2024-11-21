@@ -39,4 +39,6 @@ input[type="tel"] {
     width: 2px;
 }
 
-
+span {
+    display:block;
+}

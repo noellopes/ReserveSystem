@@ -4,45 +4,73 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="border rounded shadow-sm">
+                <div class="card-header bg-light text-dark text-center">
+                    <h3 class="mb-0"><i class="bi bi-info-circle"></i> Client Details</h3>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-center">
+                        <dl class="row w-100">
+                            <div class="mb-3">
+                                <dt class="col-sm-4 text-muted">
+                                    <i class="bi bi-person"></i> @Html.DisplayNameFor(model => model.Name)
+                                </dt>
+                                <dd class="col-sm-8 text-dark fw-bold">
+                                    @Html.DisplayFor(model => model.Name)
+                                </dd>
+                            </div>
 
-<div class="d-flex justify-content-center">
-    <dl class="row">
-        <div class="mb-3">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Name)
-            </dt>
+                            <div class="mb-3">
+                                <dt class="col-sm-4 text-muted">
+                                    <i class="bi bi-telephone"></i> @Html.DisplayNameFor(model => model.Phone)
+                                </dt>
+                                <dd class="col-sm-8 text-dark fw-bold">
+                                    @Html.DisplayFor(model => model.Phone)
+                                </dd>
+                            </div>
+
+                            <div class="mb-3">
+                                <dt class="col-sm-4 text-muted">
+                                    <i class="bi bi-house-door"></i> @Html.DisplayNameFor(model => model.Address)
+                                </dt>
+                                <dd class="col-sm-8 text-dark fw-bold">
+                                    @Html.DisplayFor(model => model.Address)
+                                </dd>
+                            </div>
+
+                            <div class="mb-3">
+                                <dt class="col-sm-4 text-muted">
+                                    <i class="bi bi-envelope"></i> @Html.DisplayNameFor(model => model.Email)
+                                </dt>
+                                <dd class="col-sm-8 text-dark fw-bold">
+                                    @Html.DisplayFor(model => model.Email)
+                                </dd>
+                            </div>
+
+                            <div class="mb-3">
+                                <dt class="col-sm-4 text-muted">
+                                    <i class="bi bi-card-text"></i> @Html.DisplayNameFor(model => model.NIF)
+                                </dt>
+                                <dd class="col-sm-8 text-dark fw-bold">
+                                    @Html.DisplayFor(model => model.NIF)
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+
+                    <div class="d-flex justify-content-between m-3">
+                        <a href="@Url.Action("Index")" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left-circle"></i> Back to List
+                        </a>
+                        <a href="@Url.Action("Edit", new { id = Model.ClienteId })" class="btn btn-primary">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Phone)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NIF)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NIF)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.ClienteId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    </div>
 </div>
