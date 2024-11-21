@@ -6,7 +6,7 @@
 
 <h1>Edit</h1>
 
-<h4>BookingModel</h4>
+<h4>Reserva</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -24,24 +24,14 @@
                 <span asp-validation-for="CHECKOUT_DATE" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="BOOKING_DATE" class="control-label"></label>
-                <input asp-for="BOOKING_DATE" class="form-control" />
-                <span asp-validation-for="BOOKING_DATE" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="TOTAL_PERSONS_NUMBER" class="control-label"></label>
                 <input asp-for="TOTAL_PERSONS_NUMBER" class="form-control" />
                 <span asp-validation-for="TOTAL_PERSONS_NUMBER" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="BOOKED" /> @Html.DisplayNameFor(model => model.BOOKED)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="PAYMENT_STATUS" /> @Html.DisplayNameFor(model => model.PAYMENT_STATUS)
-                </label>
+            <div class="form-group">
+                <label asp-for="Client" class="control-label"></label>
+                <select asp-for="Client" class="form-control" asp-items="ViewBag.Cliente"></select>
+                <span asp-validation-for="Client" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -55,5 +45,10 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
+
+
+
