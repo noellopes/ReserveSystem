@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging; // Added for logging
 using ReserveSystem.Data;
 using ReserveSystem.Models;
 
@@ -13,17 +12,23 @@ namespace ReserveSystem.Controllers
     public class ReservasController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<ReservasController> _logger; // Added for logging
+
 
         public ReservasController(ApplicationDbContext context)
+
         {
             _context = context;
+            _logger = logger; // Initialize logger
         }
 
         // GET: Reservas
         public async Task<IActionResult> Index()
         {
+
             var applicationDbContext = _context.Reserva.Include(b => b.Prato);
             return View(await applicationDbContext.ToListAsync());
+
         }
 
         // GET: Reservas/Details/5
@@ -35,7 +40,9 @@ namespace ReserveSystem.Controllers
             }
 
             var reserva = await _context.Reserva
+
                 .Include(b => b.Prato)
+
                 .FirstOrDefaultAsync(m => m.IdReserva == id);
             if (reserva == null)
             {
@@ -51,6 +58,7 @@ namespace ReserveSystem.Controllers
             ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome");
             return View();
         }
+
 
         // POST: Reservas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -82,6 +90,7 @@ namespace ReserveSystem.Controllers
             {
                 return NotFound();
             }
+
             ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome", reserva.IdPrato);
             return View(reserva);
         }
@@ -92,6 +101,7 @@ namespace ReserveSystem.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdReserva,NomeCliente,NumeroMesa,NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva)
+
         {
             if (id != reserva.IdReserva)
             {
@@ -105,20 +115,37 @@ namespace ReserveSystem.Controllers
                     _context.Update(reserva);
                     await _context.SaveChangesAsync();
                 }
+
                 catch (DbUpdateConcurrencyException)
                 {
+
                     if (!ReservaExists(reserva.IdReserva))
                     {
                         return NotFound();
                     }
-                    else
+
+                    // Provide user feedback (Optional)
+                    ModelState.AddModelError(string.Empty, "A concurrency error occurred. Please try again.");
+                    return View(reserva);
+                }
+                catch (DbUpdateException ex)
+                {
+                    // Log the exception details
+                    _logger.LogError($"Error while updating reservation: {ex.Message}");
+                    if (ex.InnerException != null)
                     {
-                        throw;
+                        _logger.LogError($"Inner exception: {ex.InnerException.Message}");
                     }
+
+                    // Provide user feedback (Optional)
+                    ModelState.AddModelError(string.Empty, "An error occurred while saving the reservation. Please try again.");
+                    return View(reserva);
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome", reserva.IdPrato);
+
             return View(reserva);
         }
 
@@ -131,7 +158,9 @@ namespace ReserveSystem.Controllers
             }
 
             var reserva = await _context.Reserva
+
                 .Include(b => b.Prato)
+
                 .FirstOrDefaultAsync(m => m.IdReserva == id);
             if (reserva == null)
             {
@@ -150,9 +179,10 @@ namespace ReserveSystem.Controllers
             if (reserva != null)
             {
                 _context.Reserva.Remove(reserva);
+
+
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

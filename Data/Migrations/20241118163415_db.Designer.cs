@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserveSystem.Data;
 
@@ -11,9 +12,11 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241118163415_db")]
+    partial class db
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,25 +227,25 @@ namespace ReserveSystem.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-
-            modelBuilder.Entity("ReserveSystem.Models.Mesa", b =>
+            modelBuilder.Entity("ReserveSystem.Models.Cliente", b =>
                 {
-                    b.Property<int>("IdMesa")
+                    b.Property<int>("ClienteId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdMesa"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClienteId"));
 
-                    b.Property<int>("NumeroLugares")
-                        .HasColumnType("int");
+                    b.Property<string>("CC")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Reservado")
-                        .HasColumnType("bit");
+                    b.Property<string>("telemovel")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("IdMesa");
+                    b.HasKey("ClienteId");
 
-                    b.ToTable("Mesa");
-
+                    b.ToTable("Cliente");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.Prato", b =>
@@ -276,9 +279,6 @@ namespace ReserveSystem.Data.Migrations
                     b.Property<DateTime>("DataHora")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdPrato")
-                        .HasColumnType("int");
-
                     b.Property<string>("NomeCliente")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -292,12 +292,7 @@ namespace ReserveSystem.Data.Migrations
                     b.Property<string>("Observacao")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PratoIdPrato")
-                        .HasColumnType("int");
-
                     b.HasKey("IdReserva");
-
-                    b.HasIndex("PratoIdPrato");
 
                     b.ToTable("Reserva");
                 });
@@ -351,20 +346,6 @@ namespace ReserveSystem.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ReserveSystem.Models.Reserva", b =>
-                {
-                    b.HasOne("ReserveSystem.Models.Prato", "Prato")
-                        .WithMany("Reservas")
-                        .HasForeignKey("PratoIdPrato");
-
-                    b.Navigation("Prato");
-                });
-
-            modelBuilder.Entity("ReserveSystem.Models.Prato", b =>
-                {
-                    b.Navigation("Reservas");
                 });
 #pragma warning restore 612, 618
         }
