@@ -69,17 +69,6 @@ namespace ReserveSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id_RTPrice,BasePrice,CancelationFee,AdicionalBeds,TipoQuartoId")] PrecoTipoQuarto precoTipoQuarto)
         {
-            /*
-			  if (ModelState.IsValid)
-			  {
-
-				 _context.Add(precoTipoQuarto);
-				 await _context.SaveChangesAsync();
-				 return RedirectToAction(nameof(Index));
-
-
-
-			  }*/
             
 			if (!ModelState.IsValid)
 			{
@@ -89,11 +78,13 @@ namespace ReserveSystem.Controllers
 					Console.WriteLine(error); // Log errors
 				}
 			}
-			try
-			{
+            // equivalente a (ModelState.IsValid)
+            try
+            {
 				_context.Add(precoTipoQuarto);
 				await _context.SaveChangesAsync();
-			}
+                return RedirectToAction(nameof(Index));
+            }
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error saving to database: {ex.Message}");
@@ -141,6 +132,7 @@ namespace ReserveSystem.Controllers
                 {
                     _context.Update(precoTipoQuarto);
                     await _context.SaveChangesAsync();
+                   // return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
