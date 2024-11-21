@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging; // Added for logging
 using ReserveSystem.Data;
@@ -15,11 +17,10 @@ namespace ReserveSystem.Controllers
         private readonly ILogger<ReservasController> _logger; // Added for logging
 
 
-        public ReservasController(ApplicationDbContext context)
-
+        public ReservasController(ApplicationDbContext context, ILogger<ReservasController> logger)
         {
             _context = context;
-            _logger = logger; // Initialize logger
+            _logger = logger; // Agora, o logger é inicializado corretamente
         }
 
         // GET: Reservas
