@@ -131,6 +131,7 @@ namespace ReserveSystem.Controllers
             }
 
             var reserva = await _context.Reserva
+                .Include(b => b.Prato)
                 .FirstOrDefaultAsync(m => m.IdReserva == id);
             if (reserva == null)
             {
