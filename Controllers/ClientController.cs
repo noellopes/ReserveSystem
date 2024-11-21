@@ -99,7 +99,7 @@ namespace ReserveSystem.Controllers
             var author = await _context.Client.FindAsync(id);
             if (author == null)
             {
-                ViewBag.Entity = "Client";
+                ViewBag.Entity = "Cliente";
                 ViewBag.Controller = "Client";
                 ViewBag.Action = "Index";
                 return View("EntityNoLongerExists");
