@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = $"{ViewBag.Entity} no longer exists";
+}
+<h1>@ViewBag.Title</h1>
+<div class="container mt-5">
+    <div class="alert alert-warning text-center" role="alert">
+        <h4 class="alert-heading">Warning!</h4>
+        <p>The @ViewBag.Entity you are looking for no longer exists. It might have been deleted.</p>
+        <hr>
+        <a asp-action="@ViewBag.Action" asp.controler="@ViewBag.Controller" class="btn btn-primary">Back to list</a>
+    </div>
+</div>

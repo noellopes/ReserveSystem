@@ -1,4 +1,4 @@
-﻿@model ReserveSystem.Models.RoomService
+﻿@* @model ReserveSystem.Models.RoomService
 
 @{
     ViewData["Title"] = "Delete";
@@ -54,4 +54,49 @@
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>
+</div>
+*@
+
+@model ReserveSystem.Models.RoomService
+
+@{
+    ViewData["Title"] = "Delete Room Service";
+}
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="card shadow" style="width: 36rem;">
+        <div class="card-body">
+            <h5 class="card-title text-center text-danger">Delete Room Service</h5>
+            <h6 class="card-subtitle mb-2 text-muted text-center">Are you sure you want to delete this?</h6>
+
+            <dl class="row">
+                <dt class="col-sm-4">Job ID</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Job_ID)</dd>
+
+                <dt class="col-sm-4">Service Name</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Room_Service_Name)</dd>
+
+                <dt class="col-sm-4">Description</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Room_Service_Description)</dd>
+
+                <dt class="col-sm-4">Price</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Room_Service_Price)</dd>
+
+                <dt class="col-sm-4">Active</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Room_Service_Active)</dd>
+
+                <dt class="col-sm-4">Limit Hour</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Room_Service_Limit_Hour)</dd>
+            </dl>
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="ID_RoomService" />
+
+                <div class="d-flex justify-content-around">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

@@ -26,7 +26,7 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: RoomServices/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, bool savedNow = false)
         {
             if (id == null)
             {
@@ -37,15 +37,29 @@ namespace ReserveSystem.Controllers
                 .FirstOrDefaultAsync(m => m.ID_RoomService == id);
             if (roomService == null)
             {
-                return NotFound();
+                ViewBag.Entity = "RoomService";
+                ViewBag.Controller = "RoomServices";
+                ViewBag.Action = "Index";
+                return View("EntityNoLongerExists");
             }
 
+            ViewBag.Saved = savedNow;
             return View(roomService);
         }
 
         // GET: RoomServices/Create
-        public IActionResult Create()
+        public IActionResult Create(string? Name = null)
         {
+            if (Name != null)
+            {
+                RoomService roomService = new RoomService
+                {
+                    Room_Service_Name = Name
+                };
+
+                ViewBag.PreviouslyDeleted = true;
+                return View(roomService);
+            }
             return View();
         }
 
@@ -60,7 +74,7 @@ namespace ReserveSystem.Controllers
             {
                 _context.Add(roomService);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new {id = roomService.ID_RoomService, savedNow = true });
             }
             return View(roomService);
         }
@@ -76,7 +90,10 @@ namespace ReserveSystem.Controllers
             var roomService = await _context.RoomService.FindAsync(id);
             if (roomService == null)
             {
-                return NotFound();
+                ViewBag.Entity = "RoomService";
+                ViewBag.Controller = "RoomServices";
+                ViewBag.Action = "Index";
+                return View("EntityNoLongerExists");
             }
             return View(roomService);
         }
@@ -104,14 +121,14 @@ namespace ReserveSystem.Controllers
                 {
                     if (!RoomServiceExists(roomService.ID_RoomService))
                     {
-                        return NotFound();
+                        return RedirectToAction(nameof(Create), new { Name = roomService.Room_Service_Name });
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new { id = roomService.ID_RoomService, savedNow = true });
             }
             return View(roomService);
         }
@@ -128,7 +145,10 @@ namespace ReserveSystem.Controllers
                 .FirstOrDefaultAsync(m => m.ID_RoomService == id);
             if (roomService == null)
             {
-                return NotFound();
+                ViewBag.Entity = "RoomService";
+                ViewBag.Controller = "RoomServices";
+                ViewBag.Action = "Index";
+                return View("DeleteSuccess");
             }
 
             return View(roomService);
@@ -145,8 +165,10 @@ namespace ReserveSystem.Controllers
                 _context.RoomService.Remove(roomService);
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            ViewBag.Entity = "RoomService";
+            ViewBag.Controller = "RoomServices";
+            ViewBag.Action = "Index";
+            return View("DeleteSuccess");
         }
 
         private bool RoomServiceExists(int id)

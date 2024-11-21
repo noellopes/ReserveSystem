@@ -1,4 +1,4 @@
-﻿@model ReserveSystem.Models.RoomService
+﻿@* @model ReserveSystem.Models.RoomService
 
 @{
     ViewData["Title"] = "Create";
@@ -56,3 +56,71 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+ *@
+
+@model ReserveSystem.Models.RoomService
+
+@{
+    ViewData["Title"] = "Create New Room Service";
+}
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="card shadow" style="width: 36rem;">
+        <div class="card-body">
+            <h5 class="card-title text-center">Create Room Service</h5>
+            <h6 class="card-subtitle mb-2 text-muted text-center">Fill out the details below</h6>
+            
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                
+                <div class="mb-3">
+                    <label asp-for="Job_ID" class="form-label">Job ID</label>
+                    <input asp-for="Job_ID" class="form-control" />
+                    <span asp-validation-for="Job_ID" class="text-danger"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <label asp-for="Room_Service_Name" class="form-label">Service Name</label>
+                    <input asp-for="Room_Service_Name" class="form-control" />
+                    <span asp-validation-for="Room_Service_Name" class="text-danger"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <label asp-for="Room_Service_Description" class="form-label">Description</label>
+                    <textarea asp-for="Room_Service_Description" class="form-control"></textarea>
+                    <span asp-validation-for="Room_Service_Description" class="text-danger"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <label asp-for="Room_Service_Price" class="form-label">Price</label>
+                    <input asp-for="Room_Service_Price" class="form-control" type="number" step="0.01" />
+                    <span asp-validation-for="Room_Service_Price" class="text-danger"></span>
+                </div>
+                
+                <div class="form-check mb-3">
+                    <input class="form-check-input" asp-for="Room_Service_Active" />
+                    <label asp-for="Room_Service_Active" class="form-check-label">Active</label>
+                </div>
+                
+                <div class="mb-3">
+                    <label asp-for="Room_Service_Limit_Hour" class="form-label">Limit Hour</label>
+                    <input asp-for="Room_Service_Limit_Hour" class="form-control" />
+                    <span asp-validation-for="Room_Service_Limit_Hour" class="text-danger"></span>
+                </div>
+                
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </form>
+            
+            <div class="text-center mt-3">
+                <a asp-action="Index" class="card-link">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
