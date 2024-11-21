@@ -1,19 +1,19 @@
 @model ReserveSystem.Models.Sala
 
-<h1>Create Room</h1>
+<h1>Criar Sala</h1>
 <form asp-action="Create" method="post">
     <div class="form-group">
-        <label asp-for="HoraInicio">Start Time</label>
+        <label asp-for="HoraInicio">Hora Início</label>
         <input asp-for="HoraInicio" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="HoraFim">End Time</label>
+        <label asp-for="HoraFim">Hora Fim</label>
         <input asp-for="HoraFim" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="IdTipoSala">Room Type</label>
+        <label asp-for="IdTipoSala">Tipo Sala</label>
         <select asp-for="IdTipoSala" class="form-control" asp-items="ViewBag.IdTipoSala"></select>
     </div>
-    <button type="submit" class="btn btn-success">Save</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    <button type="submit" class="btn btn-success">Salvar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
 </form>
