@@ -96,12 +96,15 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var clientModel = await _context.Client.FindAsync(id);
-            if (clientModel == null)
+            var author = await _context.Client.FindAsync(id);
+            if (author == null)
             {
-                return NotFound();
+                ViewBag.Entity = "Client";
+                ViewBag.Controller = "Client";
+                ViewBag.Action = "Index";
+                return View("EntityNoLongerExists");
             }
-            return View(clientModel);
+            return View(author);
         }
 
         // POST: Client/Edit/5
@@ -154,6 +157,11 @@ namespace ReserveSystem.Controllers
             {
                 TempData["ErrorMessage"] = "Client not found.";
                 return RedirectToAction(nameof(Index));
+
+                ViewBag.Entity = "Cliente";
+                ViewBag.Controller = "Client";
+                ViewBag.Action = "Index";
+                return View("DeletedSuccess");
             }
 
             return View(cliente);
@@ -168,12 +176,12 @@ namespace ReserveSystem.Controllers
             if (cliente != null)
             {
                 _context.Client.Remove(cliente);
-                TempData["SuccessMessage"] = "Deleted successfully.";
+                
             }
-            else
-            {
-                TempData["ErrorMessage"] = "Client not found.";
-            }
+            ViewBag.Entity = "Cliente";
+            ViewBag.Controller = "Client";
+            ViewBag.Action = "Index";
+            return View("DeletedSuccess");
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
