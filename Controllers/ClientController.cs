@@ -91,6 +91,7 @@ namespace ReserveSystem.Controllers
         // GET: Client/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            
             if (id == null)
             {
                 return NotFound();
@@ -123,14 +124,26 @@ namespace ReserveSystem.Controllers
             {
                 try
                 {
+                    var existingClient = await _context.Client.FindAsync(id);
+
+                    if (existingClient == null)
+                    {
+                        ViewBag.Entity = "Cliente";
+                        ViewBag.Controller = "Client";
+                        ViewBag.Action = "Index";
+                        return View("EntityNoLongerExists");
+                    }
+
                     _context.Update(clientModel);
                     await _context.SaveChangesAsync();
                 }
+
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!ClientModelExists(clientModel.ClienteId))
                     {
                         return NotFound();
+
                     }
                     else
                     {
