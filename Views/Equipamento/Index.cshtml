@@ -8,7 +8,11 @@
         {
             <div class="col-md-4 mb-4">
                 <div class="card">
-                    <img src="https://img.pccomponentes.com/articles/1051/10517903/132-jbl-flip-6-altavoz-bluetooth-30w-azul.jpg" class="card-img-top" alt="@equipamento.NomeEquipamento">
+                    @{
+                        var imageUrl = Url.Content("wwwroot/images/equipamento/" + equipamento.IdEquipamento + ".jpg");
+                        Console.WriteLine($"Generated Image URL: {imageUrl}");
+                    }
+                    <img src="@imageUrl" class="card-img-top" alt="@equipamento.NomeEquipamento">
                     <div class="card-body">
                         <h5 class="card-title">@equipamento.NomeEquipamento</h5>
                         <p class="card-text">
