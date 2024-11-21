@@ -13,10 +13,5 @@ namespace ReserveSystem.Data
         
         public DbSet<TipoSala> TipoSala { get; set; } = default!;
 
-        public void ClearReservaTable() 
-        { 
-            this.Database.ExecuteSqlRaw("DELETE FROM Reserva"); 
-        }
-
     }
 }

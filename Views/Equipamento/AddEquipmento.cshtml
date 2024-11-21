@@ -1,0 +1,25 @@
+﻿@model ReserveSystem.Models.Equipamento
+
+
+<div class="container mt-4">
+    <h1>Add New Equipment</h1>
+    <form asp-action="AddEquipamento" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label asp-for="NomeEquipamento" class="control-label"></label>
+            <input asp-for="NomeEquipamento" class="form-control" />
+            <span asp-validation-for="NomeEquipamento" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="TipoEquipamento" class="control-label"></label>
+            <input asp-for="TipoEquipamento" class="form-control" />
+            <span asp-validation-for="TipoEquipamento" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Quantidade" class="control-label"></label>
+            <input asp-for="Quantidade" class="form-control" />
+            <span asp-validation-for="Quantidade" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Add</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
