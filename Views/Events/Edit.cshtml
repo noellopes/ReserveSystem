@@ -1,0 +1,210 @@
+﻿@model ReserveSystem.Models.Events
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<style>
+    /* General Body Styling */
+    body {
+        font-family: 'Georgia', serif;
+        background-color: #f9f9f6; /* Off-white background */
+        color: #1a1a1a; /* Deep black for text */
+    }
+
+    /* Form Container Styles */
+    .form-container {
+        background: #ffffff; /* White background for container */
+        padding: 4rem; /* Increased padding */
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+        max-width: 750px; /* Wider form */
+        margin: 3rem auto;
+        transition: all 0.3s ease;
+    }
+
+        .form-container:hover {
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+        }
+
+    /* Heading Styles */
+    h1 {
+        font-size: 2rem;
+        color: #d4af37; /* Gold for title */
+    }
+
+    /* Form Group and Label Styles */
+    .form-group label {
+        font-size: 1.2rem; /* Larger label text */
+        color: #1a1a1a; /* Black for labels */
+        font-weight: 600;
+        margin-bottom: 0.5rem; /* Add space below the label */
+    }
+
+    /* Input Field Styles */
+    .form-control {
+        border-radius: 8px;
+        border: 1px solid #cccccc;
+        padding: 14px 18px; /* Increased padding */
+        font-size: 1.1rem; /* Larger font size */
+        transition: all 0.3s ease;
+        background-color: #f9f9f9; /* Light off-white for input background */
+        width: 100%; /* Full-width inputs */
+    }
+
+        .form-control:focus {
+            border-color: #d4af37; /* Gold border on focus */
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.2); /* Soft gold focus shadow */
+            background-color: #ffffff; /* White background on focus */
+        }
+
+    /* Form Check Styles */
+    .form-check-input:checked {
+        background-color: #d4af37; /* Gold for checked boxes */
+        border-color: #d4af37;
+    }
+
+    .form-check-label {
+        color: #555555; /* Dark grey text */
+        font-size: 1.1rem; /* Larger checkbox label */
+    }
+
+    /* Error Text Styling */
+    .text-danger {
+        font-size: 1rem;
+        color: #cc0000; /* Red for error messages */
+    }
+
+    /* Primary Button Styles */
+    .btn_edit {
+        background-color: #ffffff;
+        border-color: #d4af37;
+        color: #333333;
+        font-weight: 600;
+        padding: 16px 32px; /* Larger button */
+        border-radius: 50px;
+        font-size: 1.25rem; /* Larger font size */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        width: 60%; /* Larger button width */
+        margin-top: 2rem;
+    }
+
+        .btn_edit:hover {
+            background-color: #333333;
+            color: #F5F5F5;
+            border-color: #d4af37;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .btn_edit:active {
+            background-color: #000000; /* Darker effect when clicked */
+            border-color: #000000;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Return to original shadow */
+            transform: translateY(0); /* Button "presses" down */
+        }
+
+    /* Back Button Styling */
+    .btn_back {
+        background-color: #333333;
+        border-color: #d4af37;
+        color: #ffffff;
+        font-weight: 600;
+        padding: 14px 28px;
+        border-radius: 50px;
+        font-size: 1.125rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+        .btn_back:hover {
+            background-color: #ffffff;
+            color: #d4af37;
+            border-color: #d4af37;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+    .hr {
+        border: none;
+        height: 2px;
+        background-color: #d4af37; /* Gold */
+        width: 60%;
+        margin: 1rem auto;
+        opacity: 0.8;
+    }
+</style>
+
+<h1 class="text-center">Edit an Event</h1>
+<hr class="hr" />
+<div class="form-container">
+    <form asp-action="Edit" asp-route-id="@Model.event_id">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+        <!-- Event Name -->
+        <div class="form-group my-2">
+            <label asp-for="nameEv" class="control-label">Event Name</label>
+            <input asp-for="nameEv" class="form-control" />
+            <span asp-validation-for="nameEv" class="text-danger"></span>
+        </div>
+
+        <!-- Start Date -->
+        <div class="form-group my-2">
+            <label asp-for="startDate" class="control-label">Start Date</label>
+            <input asp-for="startDate" type="date" class="form-control" />
+            <span asp-validation-for="startDate" class="text-danger"></span>
+        </div>
+
+        <!-- End Date -->
+        <div class="form-group my-2">
+            <label asp-for="endDate" class="control-label">End Date</label>
+            <input asp-for="endDate" type="date" class="form-control" />
+            <span asp-validation-for="endDate" class="text-danger"></span>
+        </div>
+
+        <!-- Fee -->
+        <div class="form-group my-2">
+            <label asp-for="fee" class="control-label">Event Fee</label>
+            <input asp-for="fee" class="form-control" type="number" step="0.01" min="0" max="1" />
+            <span asp-validation-for="fee" class="text-danger"></span>
+        </div>
+
+        <!-- Annual Event Checkbox -->
+        <div class="form-group form-check my-2">
+            <input class="form-check-input" asp-for="anual" />
+            <label class="form-check-label" asp-for="anual">Annual Event</label>
+        </div>
+
+        <!-- Municipal Checkbox -->
+        <div class="form-group form-check my-2">
+            <input class="form-check-input" asp-for="municipal" />
+            <label class="form-check-label" asp-for="municipal">Municipal</label>
+        </div>
+
+        <!-- National Checkbox -->
+        <div class="form-group form-check my-2">
+            <input class="form-check-input" asp-for="national" />
+            <label class="form-check-label" asp-for="national">National</label>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-group text-center my-2">
+            <input type="hidden" asp-for="event_id" />
+            <input type="submit" value="Save" class="btn btn_edit" />
+        </div>
+    </form>
+
+    <div class="text-center mt-4">
+        <a asp-action="Show" class="btn btn_back">Back to List</a>
+    </div>
+</div>
+<hr class="hr" />
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

@@ -1,0 +1,268 @@
+﻿@model ReserveSystem.Models.Events
+
+@{
+    ViewData["Title"] = "Delete Event";
+}
+
+<style>
+    /* General Body Styling */
+    body {
+        font-family: 'Georgia', serif;
+        background-color: #f9f9f6; /* Off-white background */
+        color: #1a1a1a; /* Deep black for text */
+    }
+
+    /* Container for the Delete Confirmation */
+    .details-container {
+        background: #ffffff; /* White background for container */
+        padding: 3rem;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        max-width: 700px;
+        margin: 5rem auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Row Styling */
+    .row {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    /* Label and Value Divs Styling */
+    .label {
+        font-weight: 600;
+        color: #333333;
+        font-size: 1.1rem;
+        text-align: left;
+        flex: 1;
+    }
+
+    .value {
+        font-size: 1.05rem;
+        color: #4a4a4a;
+        text-align: right;
+        flex: 2;
+    }
+
+    /* Horizontal Line Styling */
+    .hr {
+        border: none;
+        height: 2px;
+        background-color: #d4af37; /* Gold */
+        width: 60%;
+        margin: 1rem auto;
+        opacity: 0.8;
+    }
+
+    /* Button Styling */
+    .btn_delete, .btn_back {
+        font-weight: 600;
+        padding: 14px 28px;
+        border-radius: 50px;
+        font-size: 1.125rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        width: 50%;
+    }
+
+    .btn_delete {
+        background-color: #ffffff;
+        border-color: #d4af37;
+        color: #333333;
+    }
+
+        .btn_delete:hover {
+            background-color: #333333;
+            color: #F5F5F5;
+            border-color: #d4af37;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .btn_delete:active {
+            background-color: #000000;
+            border-color: #000000;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transform: translateY(0);
+        }
+
+    .btn_back {
+        background-color: #333333;
+        border-color: #d4af37;
+        color: #ffffff;
+    }
+
+        .btn_back:hover {
+            background-color: #ffffff;
+            color: #d4af37;
+            border-color: #d4af37;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+    /* Button container for aligning Delete and Back buttons */
+    .button-container {
+        display: flex;
+        gap: 1rem; /* Space between buttons */
+        justify-content: center;
+        margin-top: 2rem; /* Space above buttons */
+        width: 70%;
+    }
+
+    /* Styling for Back button to appear below Delete button */
+    .btn_back {
+        display: block;
+        margin: 2rem auto 0;
+        width: 70%;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 2rem;
+        color: #d4af37; /* Gold for title */
+    }
+
+    /* Modal Styling */
+    .modal-content {
+        background-color: #ffffff; /* White background */
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        background-color: #333333; /* Gold */
+        color: white;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+    }
+
+    .modal-body {
+        font-size: 1.1rem;
+        color: #333333;
+        padding: 1.5rem;
+    }
+
+    .modal-footer {
+        background-color: #f9f9f6; /* Light off-white */
+        padding: 1rem;
+        text-align: center;
+    }
+
+    .btn_deleteC {
+        background-color: white; /* Gold */
+        border-color: #d4af37;
+        color: #d4af37;
+        font-weight: 600;
+        width: 100%;
+        padding: 14px;
+        border-radius: 50px;
+        font-size: 1.125rem;
+        transition: all 0.3s ease;
+    }
+
+        .btn_deleteC:hover {
+            background-color: #333333;
+            border-color: #d4af37;
+            color: #ffffff;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+    .btn-danger:active {
+        background-color: #000000;
+        border-color: #000000;
+        color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transform: translateY(0);
+    }
+
+    .btn_cancel {
+        background-color: #333333;
+        color: white;
+        border: 1px solid #d4af37;
+        width: 100%;
+        font-weight: 600;
+        border-radius: 50px;
+        padding: 14px;
+    }
+
+        .btn_cancel:hover {
+            background-color: white;
+            color: #d4af37;
+        }
+</style>
+
+<div class="details-container">
+    <h1 class="text-center">Delete Event</h1>
+    <hr class="hr" />
+
+    <div class="row">
+        <div class="label">Event Name</div>
+        <div class="value">@Html.DisplayFor(model => model.nameEv)</div>
+    </div>
+    <div class="row">
+        <div class="label">Start Date</div>
+        <div class="value">@Html.DisplayFor(model => model.startDate)</div>
+    </div>
+    <div class="row">
+        <div class="label">End Date</div>
+        <div class="value">@Html.DisplayFor(model => model.endDate)</div>
+    </div>
+    <div class="row">
+        <div class="label">Fee</div>
+        <div class="value">@Html.DisplayFor(model => model.fee)</div>
+    </div>
+    <div class="row">
+        <div class="label">Annual</div>
+        <div class="value">@((Model.anual) ? "Yes" : "No")</div>
+    </div>
+    <div class="row">
+        <div class="label">Municipal</div>
+        <div class="value">@((Model.municipal) ? "Yes" : "No")</div>
+    </div>
+    <div class="row">
+        <div class="label">National</div>
+        <div class="value">@((Model.national) ? "Yes" : "No")</div>
+    </div>
+
+    <div class="button-container">
+        <!-- Modal Trigger for Delete Confirmation -->
+        <button class="btn btn_delete" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+            Confirm Delete
+        </button>
+    </div>
+
+    <!-- Modal for Delete Confirmation -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete the event "<strong>@Model.nameEv</strong>"? This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer">
+                    <form asp-action="Delete" method="post">
+                        <input type="hidden" asp-for="event_id" />
+                        <button type="submit" class="btn btn_deleteC">Confirm Delete</button>
+                    </form>
+                    <button type="button" class="btn btn_cancel" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a asp-action="Show" class="btn btn_back">Back to List</a>
+</div>
+
+<!-- Bootstrap JS and dependencies for modal -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
