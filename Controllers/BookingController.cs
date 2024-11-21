@@ -26,7 +26,7 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Booking/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, bool savedNow = false)
         {
             if (id == null)
             {
@@ -37,7 +37,11 @@ namespace ReserveSystem.Controllers
                 .FirstOrDefaultAsync(m => m.ID_BOOKING == id);
             if (bookingModel == null)
             {
-                return NotFound();
+                    ViewBag.Entity = "Reserva";
+                    ViewBag.Controller = "Booking";
+                    ViewBag.Action = "Index";
+                    return View("EntityNoLongerExists");
+                
             }
 
             return View(bookingModel);
@@ -59,14 +63,14 @@ namespace ReserveSystem.Controllers
            
                 if (ModelState.IsValid)
                 {
-
                     bookingModel.BOOKED = false;
                     bookingModel.PAYMENT_STATUS = false;
                     bookingModel.BOOKING_DATE = DateTime.Now;
                     _context.Add(bookingModel);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Details), new { id = bookingModel.ID_BOOKING, savedNow = true });
                 }
+
                 return View(bookingModel);
             }
 
@@ -178,9 +182,9 @@ namespace ReserveSystem.Controllers
             ViewBag.Entity = "Reserva";
             ViewBag.Controller = "Booking";
             ViewBag.Action = "Index";
-            return View("DeletedSuccess");
+
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return View("DeletedSuccess");
         }
 
         private bool BookingModelExists(int id)
@@ -188,4 +192,6 @@ namespace ReserveSystem.Controllers
             return _context.Booking.Any(e => e.ID_BOOKING == id);
         }
     }
+
+
 }
