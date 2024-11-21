@@ -51,7 +51,7 @@ namespace ReserveSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClienteId,Nome,Email,Telefone,Login,Nif")] ClientModel cliente)
+        public async Task<IActionResult> Create([Bind("ClienteId,Name,Phone,Address,Email,NIF")] ClientModel cliente)
         {
             if (ModelState.IsValid)
             {
@@ -59,7 +59,7 @@ namespace ReserveSystem.Controllers
                 {
                     if (!NifValidator.IsNifValid(cliente.NIF))
                     {
-                        ModelState.AddModelError("Nif", "NIF Invalido");
+                        ModelState.AddModelError("NIF", "NIF Invalido");
                         return View(cliente);
                     }
                     _context.Add(cliente);
@@ -95,7 +95,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Nome,Email,Telefone,Login,Nif")] ClientModel cliente)
+        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Name,Phone,Address,Email,NIF")] ClientModel cliente)
         {
             if (id != cliente.ClienteId)
             {
