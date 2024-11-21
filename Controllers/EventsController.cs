@@ -165,8 +165,6 @@ namespace ReserveSystem.Controllers
             ViewBag.Action = "Show";
             return View("DeleteSuccess");
 
-            
-           // return RedirectToAction(nameof(Show)); // Redirect to Show page after deletion
         }
 
         private bool EventsExists(int id)
