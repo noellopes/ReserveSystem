@@ -4,6 +4,7 @@ namespace ReserveSystem.Models
 {
     public class Ingredient
     {
+        [Key]
         public int IngredienteId { get; set; }
 
         [Display(Name = "Nome do Ingrediente")]
@@ -14,5 +15,7 @@ namespace ReserveSystem.Models
         [Display(Name = "Unidade de medida")]
         [Required(ErrorMessage = "A unidade de medida é obrigatória."), StringLength(10)]
         public string UnidadeMedida { get; set; }
+
+        public string QuantidadeDisponivel { get; set; }
     }
 }
