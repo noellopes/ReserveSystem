@@ -20,27 +20,9 @@ namespace ReserveSystem.Models
         [StringLength(256, ErrorMessage = "Invalid Email Address.")]
         public required string Email { get; set; }
 
-        [Required(ErrorMessage = "Clean preference is required.")]
-        [DataType(DataType.Date, ErrorMessage = "Invalid date format.")]
-        public DateTime CleanPreference { get; set; }
+        //public int QuartoId { get; set; }
 
-        public bool IsCleanPreferenceValid()
-        {
-            return CleanPreference >= DateTime.Today;
-        }
-
-        //public DateTime CleanPreference
-        //{
-        //    get { return CleanPreference; }
-        //    set { 
-        //        if(value < DateTime.Today)
-        //        {
-        //            throw new ArgumentException("Clean Date Invalid. Must be >= than today day");
-        //
-        //       }
-        //        CleanPreference = value;
-        //    }
-        //}
+        //public Quarto Quarto { get; set; }
 
     }
 }

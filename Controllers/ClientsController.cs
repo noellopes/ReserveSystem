@@ -54,18 +54,13 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClientId,Name,Phone,Email,CleanPreference")] Client client)
+        public async Task<IActionResult> Create([Bind("ClientId,Name,Phone,Email")] Client client)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(client);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-
-            if (!client.IsCleanPreferenceValid())
-            {
-                ModelState.AddModelError("CleanPreference", "Clean preference date must be >= than today");
             }
 
             return View(client);
@@ -92,7 +87,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ClientId,Name,Phone,Email,CleanPreference")] Client client)
+        public async Task<IActionResult> Edit(int id, [Bind("ClientId,Name,Phone,Email")] Client client)
         {
             if (id != client.ClientId)
             {
