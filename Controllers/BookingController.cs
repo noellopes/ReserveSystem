@@ -33,7 +33,7 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var bookingModel = await _context.Booking
+            var bookingModel = await _context.Booking 
                 .FirstOrDefaultAsync(m => m.ID_BOOKING == id);
             if (bookingModel == null)
             {

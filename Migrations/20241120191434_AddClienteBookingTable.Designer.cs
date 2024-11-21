@@ -12,52 +12,20 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    [Migration("20241119102653_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20241120191434_AddClienteBookingTable")]
+    partial class AddClienteBookingTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "8.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ReserveSystem.Models.ClienteModel", b =>
-                {
-                    b.Property<int>("ClienteId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClienteId"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Login")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Nif")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Telefone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ClienteId");
-
-                    b.ToTable("Cliente");
-                });
-
-            modelBuilder.Entity("ReserveSystem.Models.ReservaModel", b =>
+            modelBuilder.Entity("ReserveSystem.Models.BookingModel", b =>
                 {
                     b.Property<int>("ID_BOOKING")
                         .ValueGeneratedOnAdd()
@@ -90,21 +58,57 @@ namespace ReserveSystem.Migrations
 
                     b.HasIndex("ID_CLIENT");
 
-                    b.ToTable("ReservaModel");
+                    b.ToTable("Booking");
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.ReservaModel", b =>
+            modelBuilder.Entity("ReserveSystem.Models.ClientModel", b =>
                 {
-                    b.HasOne("ReserveSystem.Models.ClienteModel", "Cliente")
-                        .WithMany("Reserva")
+                    b.Property<int>("ClienteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClienteId"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NIF")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ClienteId");
+
+                    b.HasIndex("NIF")
+                        .IsUnique();
+
+                    b.ToTable("Client");
+                });
+
+            modelBuilder.Entity("ReserveSystem.Models.BookingModel", b =>
+                {
+                    b.HasOne("ReserveSystem.Models.ClientModel", "Client")
+                        .WithMany("Booking")
                         .HasForeignKey("ID_CLIENT");
 
-                    b.Navigation("Cliente");
+                    b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.ClienteModel", b =>
+            modelBuilder.Entity("ReserveSystem.Models.ClientModel", b =>
                 {
-                    b.Navigation("Reserva");
+                    b.Navigation("Booking");
                 });
 #pragma warning restore 612, 618
         }
