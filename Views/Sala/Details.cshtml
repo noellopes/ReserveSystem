@@ -1,22 +1,18 @@
 @model ReserveSystem.Models.Sala
 
-<h1>Details of Sala</h1>
+<h1>Room Details</h1>
 <table class="table">
     <tr>
-        <th>Id:</th>
-        <td>@Model.IdSala</td>
-    </tr>
-    <tr>
-        <th>Hora Inicio:</th>
+        <th>Start Time:</th>
         <td>@Model.HoraInicio</td>
     </tr>
     <tr>
-        <th>Hora Fim:</th>
+        <th>End Time:</th>
         <td>@Model.HoraFim</td>
     </tr>
     <tr>
-        <th>Tipo Sala:</th>
-        <td>@Model.TipoSala?.NomeAvaria ?? "Unassigned"</td>
+        <th>Room Type:</th>
+        <td>@Model.TipoSala?.NomeSala ?? "Unassigned"</td>
     </tr>
 </table>
 <a asp-action="Index" class="btn btn-secondary">Back to List</a>
