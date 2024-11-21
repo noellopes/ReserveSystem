@@ -120,8 +120,8 @@
         {
             <tr class="clickable-row" data-href="@Url.Action("Details", new { id = item.event_id })">
                 <td>@Html.DisplayFor(modelItem => item.nameEv)</td>
-                <td>@item.startDate.ToShortDateString()</td>
-                <td>@item.endDate.ToShortDateString()</td>
+                <td>@item.startDate.ToString("dd/MM/yyyy")</td>
+                <td>@item.endDate.ToString("dd/MM/yyyy")</td>
                 <td>@Html.DisplayFor(modelItem => item.fee)</td>
                 <td>@(item.anual ? "Yes" : "No")</td>
                 <td>@(item.municipal ? "Yes" : "No")</td>

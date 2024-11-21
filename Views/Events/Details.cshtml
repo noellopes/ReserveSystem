@@ -170,11 +170,11 @@
     </div>
     <div class="row">
         <div class="label">Start Date</div>
-        <div class="value">@Html.DisplayFor(model => model.startDate)</div>
+        <div class="value">@Model.startDate.ToString("dd/MM/yyyy")</div>
     </div>
     <div class="row">
         <div class="label">End Date</div>
-        <div class="value">@Html.DisplayFor(model => model.endDate)</div>
+        <div class="value">@Model.endDate.ToString("dd/MM/yyyy")</div>
     </div>
     <div class="row">
         <div class="label">Fee</div>

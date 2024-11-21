@@ -152,7 +152,7 @@
     .modal-footer {
         background-color: #f9f9f6; /* Light off-white */
         padding: 1rem;
-        text-align: center;
+        justify-content: center;
     }
 
     .btn_deleteC {
@@ -175,13 +175,13 @@
             transform: translateY(-3px);
         }
 
-    .btn-danger:active {
-        background-color: #000000;
-        border-color: #000000;
-        color: white;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transform: translateY(0);
-    }
+            .btn_deleteC:active {
+                background-color: #000000;
+                border-color: #000000;
+                color: white;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                transform: translateY(0);
+            }
 
     .btn_cancel {
         background-color: #333333;
@@ -209,11 +209,11 @@
     </div>
     <div class="row">
         <div class="label">Start Date</div>
-        <div class="value">@Html.DisplayFor(model => model.startDate)</div>
+        <div class="value">@Model.startDate.ToString("dd/MM/yyyy")</div>
     </div>
     <div class="row">
         <div class="label">End Date</div>
-        <div class="value">@Html.DisplayFor(model => model.endDate)</div>
+        <div class="value">@Model.endDate.ToString("dd/MM/yyyy")</div>
     </div>
     <div class="row">
         <div class="label">Fee</div>
@@ -245,10 +245,11 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Deletion</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to delete the event "<strong>@Model.nameEv</strong>"? This action cannot be undone.</p>
+                    <p>Are you sure you want to permenently delete the event "<strong>@Model.nameEv</strong>"?<br></p>
+                    <p class="fst-italic text-end">This action cannot be undone.<p />
                 </div>
                 <div class="modal-footer">
                     <form asp-action="Delete" method="post">

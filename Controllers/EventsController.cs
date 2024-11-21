@@ -58,7 +58,10 @@ namespace ReserveSystem.Controllers
             {
                 _context.Add(events);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Show));
+                ViewBag.Entity = "Event";
+                ViewBag.Controller = "Events";
+                ViewBag.Action = "Show";
+                return View("CreateSuccess");
             }
             return View(events);
         }
@@ -75,7 +78,10 @@ namespace ReserveSystem.Controllers
             var events = await _context.Events.FindAsync(id);
             if (events == null)
             {
-                return NotFound();
+                ViewBag.Entity = "Event";
+                ViewBag.Controller = "Events";
+                ViewBag.Action = "Show";
+                return View("EntityNoLongerExists");
             }
             return View(events);
         }
@@ -109,14 +115,16 @@ namespace ReserveSystem.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Show));
+                ViewBag.Entity = "Event";
+                ViewBag.Controller = "Events";
+                ViewBag.Action = "Show";
+                return View("DeleteSuccess");
             }
             return View(events);
         }
 
 
         // GET: Events/Delete/5
-        [HttpGet("Events/Delete/{id}")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -128,14 +136,17 @@ namespace ReserveSystem.Controllers
                 .FirstOrDefaultAsync(m => m.event_id == id);
             if (events == null)
             {
-                return NotFound();
+                ViewBag.Entity = "Event";
+                ViewBag.Controller = "Events";
+                ViewBag.Action = "Show";
+                return View("DeleteSuccess");
             }
 
             return View(events);
         }
 
         // POST: Events/Delete/5
-        [HttpPost("Events/Delete/{id}")]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -143,10 +154,16 @@ namespace ReserveSystem.Controllers
             if (events != null)
             {
                 _context.Events.Remove(events);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Show)); // Redirect to Show page after deletion
+            ViewBag.Entity = "Event";
+            ViewBag.Controller = "Events";
+            ViewBag.Action = "Show";
+            return View("DeleteSuccess");
+
+            
+           // return RedirectToAction(nameof(Show)); // Redirect to Show page after deletion
         }
 
         private bool EventsExists(int id)
