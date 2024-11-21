@@ -14,5 +14,8 @@ namespace ReserveSystem.Models
 
         [Required(ErrorMessage = "Type is required.")]
         public required string Type { get; set; }
+
+        public int QuartoId { get; set; }
+        public Quarto Quarto { get; set; }
     }
 }

@@ -20,9 +20,9 @@ namespace ReserveSystem.Models
         [StringLength(256, ErrorMessage = "Invalid Email Address.")]
         public required string Email { get; set; }
 
-        //public int QuartoId { get; set; }
+        public int QuartoId { get; set; }
 
-        //public Quarto Quarto { get; set; }
+        public Quarto Quarto { get; set; }
 
     }
 }
