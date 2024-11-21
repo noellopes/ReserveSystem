@@ -44,6 +44,7 @@ namespace ReserveSystem.Controllers
                 
             }
 
+            ViewBag.Saved = savedNow;
             return View(bookingModel);
         }
 
