@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace ReserveSystem.Controllers
@@ -18,13 +17,6 @@ namespace ReserveSystem.Controllers
         // GET: TipoSala
         public IActionResult Index()
         {
-            // Remove all TipoSala records for demonstration purposes
-            if (_context.TipoSala.Any())
-            {
-                _context.TipoSala.RemoveRange(_context.TipoSala);
-                _context.SaveChanges();
-            }
-
             // Add predefined TipoSala instances if none exist
             if (!_context.TipoSala.Any())
             {
@@ -45,9 +37,14 @@ namespace ReserveSystem.Controllers
             }
 
             // Retrieve all TipoSala records to display
-            var TipoSala = _context.TipoSala.ToList();
-            return View(TipoSala);
+            var tipoSalas = _context.TipoSala.ToList();
+            if (!tipoSalas.Any())
+            {
+                ViewBag.EmptyMessage = "No TipoSala available in the system.";
+            }
+            return View(tipoSalas);
         }
+
 
         // GET: TipoSala/Create
         public IActionResult Create()
@@ -69,7 +66,7 @@ namespace ReserveSystem.Controllers
             return View(tipoSala);
         }
 
-        // GET: TipoSala/Edit/5
+        // GET: TipoSala/Edit/{id}
         public IActionResult Edit(long id)
         {
             var tipoSala = _context.TipoSala.Find(id);
@@ -80,7 +77,7 @@ namespace ReserveSystem.Controllers
             return View(tipoSala);
         }
 
-        // POST: TipoSala/Edit/5
+        // POST: TipoSala/Edit/{id}
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(TipoSala tipoSala)
@@ -94,7 +91,7 @@ namespace ReserveSystem.Controllers
             return View(tipoSala);
         }
 
-        // GET: TipoSala/Delete/5
+        // GET: TipoSala/Delete/{id}
         public IActionResult Delete(long id)
         {
             var tipoSala = _context.TipoSala.Find(id);
@@ -105,7 +102,7 @@ namespace ReserveSystem.Controllers
             return View(tipoSala);
         }
 
-        // POST: TipoSala/Delete/5
+        // POST: TipoSala/Delete/{id}
         [HttpPost, ActionName("DeleteConfirmed")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(long id)
@@ -119,7 +116,7 @@ namespace ReserveSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: TipoSala/Details/5
+        // GET: TipoSala/Details/{id}
         public IActionResult Details(long id)
         {
             var tipoSala = _context.TipoSala.Find(id);
@@ -131,4 +128,3 @@ namespace ReserveSystem.Controllers
         }
     }
 }
-    

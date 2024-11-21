@@ -4,7 +4,6 @@ namespace ReserveSystem.Models;
 
 public class TipoSala
 {
-    
     [Key] 
     public long IdTipoSala { get; set; }
 

@@ -20,31 +20,27 @@ namespace ReserveSystem.Controllers
         // GET: Sala
         public IActionResult Index()
         {
-            // Clear existing Sala records (for demonstration purposes only)
             if (_context.Sala.Any())
             {
                 _context.Sala.RemoveRange(_context.Sala);
                 _context.SaveChanges();
             }
 
-            // Add predefined Sala instances if none exist
             if (!_context.Sala.Any())
             {
-                // Ensure there are predefined TipoSala records to associate with
                 if (!_context.TipoSala.Any())
                 {
                     var predefinedTipoSala = new List<TipoSala>
                     {
-                        new TipoSala { NomeSala = "Conference Room", TamanhoSala = 50, Capacidade = 30, PreçoHora = 100.00 },
-                        new TipoSala { NomeSala = "Auditorium", TamanhoSala = 200, Capacidade = 150, PreçoHora = 300.00 },
-                        new TipoSala { NomeSala = "Small Meeting Room", TamanhoSala = 20, Capacidade = 10, PreçoHora = 50.00 }
+                        new TipoSala { NomeSala = "Sala de Conferência", TamanhoSala = 50, Capacidade = 30, PreçoHora = 100.00 },
+                        new TipoSala { NomeSala = "Auditório", TamanhoSala = 200, Capacidade = 150, PreçoHora = 300.00 },
+                        new TipoSala { NomeSala = "Sala de Reuniões Pequena", TamanhoSala = 20, Capacidade = 10, PreçoHora = 50.00 }
                     };
 
                     _context.TipoSala.AddRange(predefinedTipoSala);
                     _context.SaveChanges();
                 }
 
-                // Retrieve predefined TipoSala records to associate with Salas
                 var tipoSalas = _context.TipoSala.ToList();
 
                 var predefinedSala = new List<Sala>
@@ -58,11 +54,15 @@ namespace ReserveSystem.Controllers
                 _context.SaveChanges();
             }
 
-            // Retrieve all Sala records to display
-            var rooms = _context.Sala.Include(s => s.TipoSala).ToList();
-            return View(rooms);
-        }
+            var salas = _context.Sala.Include(s => s.TipoSala).ToList();
+            if (!salas.Any())
+            {
+                ViewBag.EmptyMessage = "No Sala available in the system.";
+                return View(Enumerable.Empty<Sala>());
+            }
+            return View(salas);
 
+        }
 
         // GET: Sala/Details/{id}
         public async Task<IActionResult> Details(long? id)
