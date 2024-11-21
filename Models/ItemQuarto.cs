@@ -6,7 +6,7 @@
 
         public int QuantidadeQuarto { get; set; }
 
-        //public ICollection<Items> Items { get; set; } = new List<Items>();
+        public ICollection<Items> Items { get; set; } = new List<Items>();
 
     }
 }
