@@ -114,7 +114,7 @@
                 <td>@Html.DisplayFor(modelItem => item.NameSeason)</td>
                 <td>@item.DateBegin.ToShortDateString()</td>
                 <td>@item.DateEnd.ToShortDateString()</td>
-                <td>@Html.DisplayFor(modelItem => item.SeasonFee)</td>
+                <td>@item.SeasonFee.ToString("F2")</td>
                 <td>@(item.InUse ? "Yes" : "No")</td>
             </tr>
         }
