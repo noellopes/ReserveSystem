@@ -39,16 +39,23 @@ namespace ReserveSystem.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                ViewBag.Entity = "Cliente";
+                ViewBag.Controller = "Client";
+                ViewBag.Action = "Index";
+                return View("EntityNoLongerExists");
             }
 
             var clientModel = await _context.Client
                 .FirstOrDefaultAsync(m => m.ClienteId == id);
             if (clientModel == null)
             {
-                return NotFound();
+                ViewBag.Entity = "Cliente";
+                ViewBag.Controller = "Client";
+                ViewBag.Action = "Index";
+                return View("EntityNoLongerExists");
             }
-
+            _context.Client.Remove(clientModel);
+            await _context.SaveChangesAsync();
             return View(clientModel);
         }
 
@@ -160,23 +167,23 @@ namespace ReserveSystem.Controllers
         {
             if (id == null)
             {
-                TempData["ErrorMessage"] = "Invalid client ID.";
-                return RedirectToAction(nameof(Index));
-            }
-
-            var cliente = await _context.Client
-                .FirstOrDefaultAsync(m => m.ClienteId == id);
-            if (cliente == null)
-            {
-                TempData["ErrorMessage"] = "Client not found.";
-                return RedirectToAction(nameof(Index));
-
                 ViewBag.Entity = "Cliente";
                 ViewBag.Controller = "Client";
                 ViewBag.Action = "Index";
                 return View("DeletedSuccess");
             }
 
+            var cliente = await _context.Client
+                .FirstOrDefaultAsync(m => m.ClienteId == id);
+            if (cliente == null)
+            {
+                ViewBag.Entity = "Cliente";
+                ViewBag.Controller = "Client";
+                ViewBag.Action = "Index";
+                return View("DeletedSuccess");
+            }
+            _context.Client.Remove(cliente);
+            await _context.SaveChangesAsync();
             return View(cliente);
         }
 
@@ -195,7 +202,6 @@ namespace ReserveSystem.Controllers
             ViewBag.Controller = "Client";
             ViewBag.Action = "Index";
             return View("DeletedSuccess");
-
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
