@@ -11,5 +11,6 @@ namespace ReserveSystem.Data
         public DbSet<ReserveSystem.Models.Ingredient> Ingrediente { get; set; } = default!;
         public DbSet<ReserveSystem.Models.Quarto> Quarto { get; set; } = default!;
         public DbSet<ReserveSystem.Models.ItemQuarto> ItemQuarto { get; set; } = default!;
+        public DbSet<ReserveSystem.Models.Items> Items { get; set; } = default!;
     }
 }
