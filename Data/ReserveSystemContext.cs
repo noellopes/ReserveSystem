@@ -7,7 +7,7 @@ namespace ReserveSystem.Data
     {
         public ReserveSystemContext(DbContextOptions<ReserveSystemContext> options) : base(options) {}
         public DbSet<Equipamento> Equipamento { get; set; } = default!;
-        public DbSet<ClienteModel> ClienteModel { get; set; } = default!;
+        
         public DbSet<ReservaModel> ReservaModel { get; set; } = default!; 
         public DbSet<Sala> Sala { get; set; } = default!;
         
@@ -17,6 +17,8 @@ namespace ReserveSystem.Data
         { 
             this.Database.ExecuteSqlRaw("DELETE FROM Reserva"); 
         }
+        public DbSet<ClientModel> ClientModel { get; set; }
+        
 
     }
 }

@@ -48,7 +48,7 @@ namespace ReserveSystem.Controllers
         // GET: Reserva/Create
         public IActionResult Create()
         {
-            ViewData["ClienteId"] = new SelectList(_context.ClienteModel, "ClienteId", "Email");
+            ViewData["ClienteId"] = new SelectList(_context.ClientModel, "ClienteId", "Email");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace ReserveSystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.ClienteModel, "ClienteId", "Email", reservaModel.ClienteId);
+            ViewData["ClienteId"] = new SelectList(_context.ClientModel, "ClienteId", "Email", reservaModel.ClienteId);
             return View(reservaModel);
         }
 
@@ -82,7 +82,7 @@ namespace ReserveSystem.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClienteId"] = new SelectList(_context.ClienteModel, "ClienteId", "Email", reservaModel.ClienteId);
+            ViewData["ClienteId"] = new SelectList(_context.ClientModel, "ClienteId", "Email", reservaModel.ClienteId);
             return View(reservaModel);
         }
 
@@ -118,7 +118,7 @@ namespace ReserveSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.ClienteModel, "ClienteId", "Email", reservaModel.ClienteId);
+            ViewData["ClienteId"] = new SelectList(_context.ClientModel, "ClienteId", "Email", reservaModel.ClienteId);
             return View(reservaModel);
         }
 

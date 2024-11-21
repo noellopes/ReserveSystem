@@ -8,7 +8,7 @@ using ReserveSystem.Data;
 
 #nullable disable
 
-namespace ReserveSystem.Data.Migrations
+namespace ReserveSystem.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
     partial class ReserveSystemContextModelSnapshot : ModelSnapshot
@@ -22,7 +22,7 @@ namespace ReserveSystem.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ReserveSystem.Models.ClienteModel", b =>
+            modelBuilder.Entity("ReserveSystem.Models.ClientModel", b =>
                 {
                     b.Property<int>("ClienteId")
                         .ValueGeneratedOnAdd()
@@ -38,9 +38,8 @@ namespace ReserveSystem.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NIF")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("NIF")
+                        .HasColumnType("int");
 
                     b.Property<string>("NomeCliente")
                         .IsRequired()
@@ -56,7 +55,7 @@ namespace ReserveSystem.Data.Migrations
 
                     b.HasKey("ClienteId");
 
-                    b.ToTable("ClienteModel");
+                    b.ToTable("ClientModel");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.Equipamento", b =>
@@ -176,7 +175,7 @@ namespace ReserveSystem.Data.Migrations
 
             modelBuilder.Entity("ReserveSystem.Models.ReservaModel", b =>
                 {
-                    b.HasOne("ReserveSystem.Models.ClienteModel", "Cliente")
+                    b.HasOne("ReserveSystem.Models.ClientModel", "Cliente")
                         .WithMany("Reserva")
                         .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -196,7 +195,7 @@ namespace ReserveSystem.Data.Migrations
                     b.Navigation("TipoSala");
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.ClienteModel", b =>
+            modelBuilder.Entity("ReserveSystem.Models.ClientModel", b =>
                 {
                     b.Navigation("Reserva");
                 });
