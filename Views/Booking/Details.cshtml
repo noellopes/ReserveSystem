@@ -4,6 +4,18 @@
     ViewData["Title"] = "Details";
 }
 
+
+
+@if (ViewBag.Saved is true)
+{
+    <div class="container mt-5">
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">Success</h4>
+            <p>The Author’s information has been successfully saved.</p>
+        </div>
+    </div>
+}
+
 <h1>Details</h1>
 
 <div>

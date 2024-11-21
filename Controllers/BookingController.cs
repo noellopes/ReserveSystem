@@ -26,7 +26,7 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Booking/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, bool savedNow = false)
         {
             if (id == null)
             {
@@ -65,7 +65,7 @@ namespace ReserveSystem.Controllers
                     bookingModel.BOOKING_DATE = DateTime.Now;
                     _context.Add(bookingModel);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Details), new { id = bookingModel.ID_BOOKING, savedNow = true });
                 }
                 return View(bookingModel);
             }
