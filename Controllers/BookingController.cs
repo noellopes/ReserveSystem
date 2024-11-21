@@ -54,16 +54,20 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID_BOOKING,CHECKIN_DATE,CHECKOUT_DATE,BOOKING_DATE,TOTAL_PERSONS_NUMBER,BOOKED,PAYMENT_STATUS")] BookingModel bookingModel)
+        public async Task<IActionResult> Create([Bind("ClientID,ID_BOOKING,CHECKIN_DATE,CHECKOUT_DATE,BOOKING_DATE,TOTAL_PERSONS_NUMBER,BOOKED,PAYMENT_STATUS")] BookingModel bookingModel)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(bookingModel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+           
+                if (ModelState.IsValid)
+                {
+                    bookingModel.BOOKED = false;
+                    bookingModel.PAYMENT_STATUS = false;
+                    bookingModel.BOOKING_DATE = DateTime.Now;
+                    _context.Add(bookingModel);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(bookingModel);
             }
-            return View(bookingModel);
-        }
 
         // GET: Booking/Edit/5
         public async Task<IActionResult> Edit(int? id)
