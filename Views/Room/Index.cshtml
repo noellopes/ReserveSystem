@@ -4,12 +4,13 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<h1 style="width: 100%; font-family: 'Arial Rounded MT';">Escolha o seu quarto</h1>
+
+<br>
+<br />
+
+<table class="table text-center" style="width: 100%; font-family: 'Arial Rounded MT';">
     <thead>
         <tr>
             <th>
@@ -31,29 +32,29 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RoomType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Capacity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumberOfRooms)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HasView)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdaptedRoom)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.RoomTypeId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.RoomTypeId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.RoomTypeId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoomType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Capacity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfRooms)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HasView)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdaptedRoom)
+                </td>
+                <td>
+                    <a asp-controller="Reservas" asp-action="Create" asp-route-id="@item.RoomTypeId" class="btn btn-primary" style="background-color: #6f42c1; border-color: #6f42c1;"><i class="bi bi-journal-plus"></i> Adicionar a reserva</a> |
+                </td>
+            </tr>
+        }
+
 </table>
+ </tbody>
