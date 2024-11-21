@@ -8,7 +8,7 @@ public class TipoSala
     [Key] 
     public long IdTipoSala { get; set; }
 
-    public string NomeAvaria { get; set; }
+    public string NomeSala { get; set; }
     
     public int TamanhoSala { get; set; }
     

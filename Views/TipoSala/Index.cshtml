@@ -1,0 +1,48 @@
+@model IEnumerable<ReserveSystem.Models.TipoSala>
+
+@{
+ViewData["Title"] = "Tipo Sala List";
+}
+
+<h1>Tipo Sala List</h1>
+
+@if (!Model.Any())
+{
+<div class="alert alert-warning">
+    No Tipo Sala records available. Click below to add a new Tipo Sala.
+</div>
+<a asp-action="Create" class="btn btn-primary">Create New Tipo Sala</a>
+}
+else
+{
+<table class="table">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Nome Sala</th>
+        <th>Tamanho Sala (sqm)</th>
+        <th>Capacidade</th>
+        <th>Preço por Hora (€)</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>@item.IdTipoSala</td>
+        <td>@item.NomeSala</td>
+        <td>@item.TamanhoSala</td>
+        <td>@item.Capacidade</td>
+        <td>@item.PreçoHora.ToString("F2")</td>
+        <td>
+            <a asp-action="Details" asp-route-id="@item.IdTipoSala" class="btn btn-info btn-sm">Details</a>
+            <a asp-action="Edit" asp-route-id="@item.IdTipoSala" class="btn btn-warning btn-sm">Edit</a>
+            <a asp-action="Delete" asp-route-id="@item.IdTipoSala" class="btn btn-danger btn-sm">Delete</a>
+        </td>
+    </tr>
+    }
+    </tbody>
+</table>
+<a asp-action="Create" class="btn btn-primary">Create New Tipo Sala</a>
+}
