@@ -14,7 +14,9 @@ namespace ReserveSystem.Controllers
         private readonly ApplicationDbContext _context;
         private readonly ILogger<ReservasController> _logger; // Added for logging
 
-        public ReservasController(ApplicationDbContext context, ILogger<ReservasController> logger)
+
+        public ReservasController(ApplicationDbContext context)
+
         {
             _context = context;
             _logger = logger; // Initialize logger
@@ -23,7 +25,10 @@ namespace ReserveSystem.Controllers
         // GET: Reservas
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Reserva.ToListAsync());
+
+            var applicationDbContext = _context.Reserva.Include(b => b.Prato);
+            return View(await applicationDbContext.ToListAsync());
+
         }
 
         // GET: Reservas/Details/5
@@ -35,6 +40,9 @@ namespace ReserveSystem.Controllers
             }
 
             var reserva = await _context.Reserva
+
+                .Include(b => b.Prato)
+
                 .FirstOrDefaultAsync(m => m.IdReserva == id);
             if (reserva == null)
             {
@@ -47,36 +55,25 @@ namespace ReserveSystem.Controllers
         // GET: Reservas/Create
         public IActionResult Create()
         {
+            ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome");
             return View();
         }
 
 
+        // POST: Reservas/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdReserva,NomeCliente,NumeroMesa,NumeroPessoas,DataHora,Observacao")] Reserva reserva)
+        public async Task<IActionResult> Create([Bind("IdReserva,NomeCliente,NumeroMesa,NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva)
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Add(reserva);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (DbUpdateException ex)
-                {
-                    // Log the exception details
-                    _logger.LogError($"Error while creating reservation: {ex.Message}");
-                    if (ex.InnerException != null)
-                    {
-                        _logger.LogError($"Inner exception: {ex.InnerException.Message}");
-                    }
-
-                    // Provide user feedback (Optional)
-                    ModelState.AddModelError(string.Empty, "An error occurred while saving the reservation. Please try again.");
-                    return View(reserva);
-                }
+                _context.Add(reserva);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
+            ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome", reserva.IdPrato);
             return View(reserva);
         }
 
@@ -93,13 +90,18 @@ namespace ReserveSystem.Controllers
             {
                 return NotFound();
             }
+
+            ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome", reserva.IdPrato);
             return View(reserva);
         }
 
-
+        // POST: Reservas/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdReserva,NomeCliente,NumeroMesa,NumeroPessoas,DataHora,Observacao")] Reserva reserva)
+        public async Task<IActionResult> Edit(int id, [Bind("IdReserva,NomeCliente,NumeroMesa,NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva)
+
         {
             if (id != reserva.IdReserva)
             {
@@ -113,16 +115,10 @@ namespace ReserveSystem.Controllers
                     _context.Update(reserva);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException ex)
-                {
-                    // Log the exception details
-                    _logger.LogError($"Concurrency issue while updating reservation: {ex.Message}");
-                    if (ex.InnerException != null)
-                    {
-                        _logger.LogError($"Inner exception: {ex.InnerException.Message}");
-                    }
 
-                    // Check if the entity still exists
+                catch (DbUpdateConcurrencyException)
+                {
+
                     if (!ReservaExists(reserva.IdReserva))
                     {
                         return NotFound();
@@ -147,6 +143,9 @@ namespace ReserveSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome", reserva.IdPrato);
+
             return View(reserva);
         }
 
@@ -159,6 +158,9 @@ namespace ReserveSystem.Controllers
             }
 
             var reserva = await _context.Reserva
+
+                .Include(b => b.Prato)
+
                 .FirstOrDefaultAsync(m => m.IdReserva == id);
             if (reserva == null)
             {
@@ -177,7 +179,8 @@ namespace ReserveSystem.Controllers
             if (reserva != null)
             {
                 _context.Reserva.Remove(reserva);
-                await _context.SaveChangesAsync();
+
+
             }
 
             return RedirectToAction(nameof(Index));
