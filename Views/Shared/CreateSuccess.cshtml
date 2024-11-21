@@ -80,7 +80,7 @@
     <div class="alert alert-success" role="alert">
         <h4 class="alert-heading">Success!</h4>
         <p>The @ViewBag.Entity was successfully created.</p>
-        <a asp-action="@ViewBag.Action" asp-controller="@ViewBag.Controller" class="btn_back">Back to List</a>
+        <a asp-action="@ViewBag.Action" asp-controller="@ViewBag.Controller" asp-route-id="@ViewBag.EventId" class="btn_back">Back to Details</a>
     </div>
 
     
