@@ -1,42 +1,42 @@
 @model IEnumerable<ReserveSystem.Models.Sala>
 
-<h1>List of Salas</h1>
+<h1>Room List</h1>
 
 @if (!Model.Any())
 {
-    <div class="alert alert-warning" role="alert">
-        @ViewBag.EmptyMessage
-    </div>
-    <a asp-action="Create" class="btn btn-primary">Create New Sala</a>
+<div class="alert alert-warning">
+    No rooms available in the system. Click below to add a new room.
+</div>
+<a asp-action="Create" class="btn btn-primary">Create New Room</a>
 }
 else
 {
-    <table class="table">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>Hora Inicio</th>
-            <th>Hora Fim</th>
-            <th>Tipo Sala</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var sala in Model)
-        {
-            <tr>
-                <td>@sala.IdSala</td>
-                <td>@sala.HoraInicio.ToString("g")</td>
-                <td>@sala.HoraFim.ToString("g")</td>
-                <td>@sala.TipoSala?.NomeAvaria ?? "Unassigned"</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@sala.IdSala" class="btn btn-info btn-sm">Details</a>
-                    <a asp-action="Edit" asp-route-id="@sala.IdSala" class="btn btn-warning btn-sm">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@sala.IdSala" class="btn btn-danger btn-sm">Delete</a>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
-    <a asp-action="Create" class="btn btn-primary">Create New Sala</a>
+<table class="table">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Room Type</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var room in Model)
+    {
+    <tr>
+        <td>@room.IdSala</td>
+        <td>@room.HoraInicio.ToString("g")</td>
+        <td>@room.HoraFim.ToString("g")</td>
+        <td>@room.TipoSala?.NomeSala ?? "Unassigned"</td>
+        <td>
+            <a asp-action="Details" asp-route-id="@room.IdSala" class="btn btn-info btn-sm">Details</a>
+            <a asp-action="Edit" asp-route-id="@room.IdSala" class="btn btn-warning btn-sm">Edit</a>
+            <a asp-action="Delete" asp-route-id="@room.IdSala" class="btn btn-danger btn-sm">Delete</a>
+        </td>
+    </tr>
+    }
+    </tbody>
+</table>
+<a asp-action="Create" class="btn btn-primary">Create New Room</a>
 }
