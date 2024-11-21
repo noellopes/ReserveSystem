@@ -155,7 +155,7 @@ namespace ReserveSystem.Migrations
                     b.Property<int>("Capacidade")
                         .HasColumnType("int");
 
-                    b.Property<string>("NomeAvaria")
+                    b.Property<string>("NomeSala")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

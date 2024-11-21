@@ -10,9 +10,9 @@ namespace ReserveSystem.Data
         public DbSet<ClienteModel> ClienteModel { get; set; } = default!;
         public DbSet<ReservaModel> ReservaModel { get; set; } = default!; 
         
-        public DbSet<Sala> Salas { get; set; } = default!;
+        public DbSet<Sala> Sala { get; set; } = default!;
         
-        public DbSet<TipoSala> TipoSalas { get; set; } = default!;
+        public DbSet<TipoSala> TipoSala { get; set; } = default!;
 
         public void ClearReservaTable() 
         { 

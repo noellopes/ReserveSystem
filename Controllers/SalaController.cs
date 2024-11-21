@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ReserveSystem.Controllers
 {
@@ -16,21 +18,51 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Sala
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var salas = await _context.Salas
-                .Include(s => s.TipoSala)
-                .ToListAsync();
-
-            // Handle the case where no Salas exist
-            if (salas == null || !salas.Any())
+            // Clear existing Sala records (for demonstration purposes only)
+            if (_context.Sala.Any())
             {
-                ViewBag.EmptyMessage = "No Salas available in the system.";
-                return View(Enumerable.Empty<Sala>());
+                _context.Sala.RemoveRange(_context.Sala);
+                _context.SaveChanges();
             }
 
-            return View(salas);
+            // Add predefined Sala instances if none exist
+            if (!_context.Sala.Any())
+            {
+                // Ensure there are predefined TipoSala records to associate with
+                if (!_context.TipoSala.Any())
+                {
+                    var predefinedTipoSala = new List<TipoSala>
+                    {
+                        new TipoSala { NomeSala = "Conference Room", TamanhoSala = 50, Capacidade = 30, PreçoHora = 100.00 },
+                        new TipoSala { NomeSala = "Auditorium", TamanhoSala = 200, Capacidade = 150, PreçoHora = 300.00 },
+                        new TipoSala { NomeSala = "Small Meeting Room", TamanhoSala = 20, Capacidade = 10, PreçoHora = 50.00 }
+                    };
+
+                    _context.TipoSala.AddRange(predefinedTipoSala);
+                    _context.SaveChanges();
+                }
+
+                // Retrieve predefined TipoSala records to associate with Salas
+                var tipoSalas = _context.TipoSala.ToList();
+
+                var predefinedSala = new List<Sala>
+                {
+                    new Sala { HoraInicio = DateTime.Today.AddHours(8), HoraFim = DateTime.Today.AddHours(12), IdTipoSala = tipoSalas[0].IdTipoSala },
+                    new Sala { HoraInicio = DateTime.Today.AddHours(13), HoraFim = DateTime.Today.AddHours(17), IdTipoSala = tipoSalas[1].IdTipoSala },
+                    new Sala { HoraInicio = DateTime.Today.AddHours(9), HoraFim = DateTime.Today.AddHours(11), IdTipoSala = tipoSalas[2].IdTipoSala }
+                };
+
+                _context.Sala.AddRange(predefinedSala);
+                _context.SaveChanges();
+            }
+
+            // Retrieve all Sala records to display
+            var rooms = _context.Sala.Include(s => s.TipoSala).ToList();
+            return View(rooms);
         }
+
 
         // GET: Sala/Details/{id}
         public async Task<IActionResult> Details(long? id)
@@ -40,38 +72,38 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var sala = await _context.Salas
-                .Include(s => s.TipoSala)
-                .FirstOrDefaultAsync(m => m.IdSala == id);
+            var Sala = await _context.Sala
+                .Include(r => r.TipoSala)
+                .FirstOrDefaultAsync(r => r.IdSala == id);
 
-            if (sala == null)
+            if (Sala == null)
             {
                 ViewBag.ErrorMessage = $"Sala with ID {id} not found.";
                 return View("Error");
             }
 
-            return View(sala);
+            return View(Sala);
         }
 
         // GET: Sala/Create
         public IActionResult Create()
         {
-            ViewData["IdTipoSala"] = new SelectList(_context.TipoSalas, "IdTipoSala", "NomeAvaria");
+            ViewData["IdTipoSala"] = new SelectList(_context.TipoSala, "IdTipoSala", "NomeSala");
             return View();
         }
 
         // POST: Sala/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Sala sala)
+        public async Task<IActionResult> Create(Sala Sala)
         {
             if (!ModelState.IsValid)
             {
-                ViewData["IdTipoSala"] = new SelectList(_context.TipoSalas, "IdTipoSala", "NomeAvaria", sala.IdTipoSala);
-                return View(sala);
+                ViewData["IdTipoSala"] = new SelectList(_context.TipoSala, "IdTipoSala", "NomeSala", Sala.IdTipoSala);
+                return View(Sala);
             }
 
-            _context.Add(sala);
+            _context.Add(Sala);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -84,47 +116,41 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var sala = await _context.Salas.FindAsync(id);
-            if (sala == null)
+            var Sala = await _context.Sala.FindAsync(id);
+            if (Sala == null)
             {
                 ViewBag.ErrorMessage = $"Sala with ID {id} not found.";
                 return View("Error");
             }
 
-            if (!_context.TipoSalas.Any())
-            {
-                ViewBag.ErrorMessage = "No TipoSalas available. Create a TipoSala first.";
-                return View("Error");
-            }
-
-            ViewData["IdTipoSala"] = new SelectList(_context.TipoSalas, "IdTipoSala", "NomeAvaria", sala.IdTipoSala);
-            return View(sala);
+            ViewData["IdTipoSala"] = new SelectList(_context.TipoSala, "IdTipoSala", "NomeSala", Sala.IdTipoSala);
+            return View(Sala);
         }
 
         // POST: Sala/Edit/{id}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, Sala sala)
+        public async Task<IActionResult> Edit(long id, Sala Sala)
         {
-            if (id != sala.IdSala)
+            if (id != Sala.IdSala)
             {
                 return NotFound();
             }
 
             if (!ModelState.IsValid)
             {
-                ViewData["IdTipoSala"] = new SelectList(_context.TipoSalas, "IdTipoSala", "NomeAvaria", sala.IdTipoSala);
-                return View(sala);
+                ViewData["IdTipoSala"] = new SelectList(_context.TipoSala, "IdTipoSala", "NomeSala", Sala.IdTipoSala);
+                return View(Sala);
             }
 
             try
             {
-                _context.Update(sala);
+                _context.Update(Sala);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!SalaExists(sala.IdSala))
+                if (!SalaExists(Sala.IdSala))
                 {
                     return NotFound();
                 }
@@ -145,17 +171,17 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var sala = await _context.Salas
-                .Include(s => s.TipoSala)
-                .FirstOrDefaultAsync(m => m.IdSala == id);
+            var Sala = await _context.Sala
+                .Include(r => r.TipoSala)
+                .FirstOrDefaultAsync(r => r.IdSala == id);
 
-            if (sala == null)
+            if (Sala == null)
             {
                 ViewBag.ErrorMessage = $"Sala with ID {id} not found.";
                 return View("Error");
             }
 
-            return View(sala);
+            return View(Sala);
         }
 
         // POST: Sala/Delete/{id}
@@ -163,21 +189,21 @@ namespace ReserveSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            var sala = await _context.Salas.FindAsync(id);
-            if (sala == null)
+            var Sala = await _context.Sala.FindAsync(id);
+            if (Sala == null)
             {
                 ViewBag.ErrorMessage = $"Sala with ID {id} not found.";
                 return View("Error");
             }
 
-            _context.Salas.Remove(sala);
+            _context.Sala.Remove(Sala);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool SalaExists(long id)
         {
-            return _context.Salas.Any(e => e.IdSala == id);
+            return _context.Sala.Any(r => r.IdSala == id);
         }
     }
 }
