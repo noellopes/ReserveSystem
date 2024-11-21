@@ -50,11 +50,13 @@
             {
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.Client.Name)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Client.Phone)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Client.Email)</td>
                     <td>@Html.DisplayFor(modelItem => item.Client.NIF)</td>
+                    <td>@Html.DisplayFor(modelItem => item.BOOKING_DATE)</td>
                     <td>@Html.DisplayFor(modelItem => item.CHECKIN_DATE)</td>
                     <td>@Html.DisplayFor(modelItem => item.CHECKOUT_DATE)</td>
                     <td>@Html.DisplayFor(modelItem => item.TOTAL_PERSONS_NUMBER)</td>
+                    <td>@(item.PAYMENT_STATUS ? "Pago" : "Não pago")</td>
                     <td>
                         <a asp-action="Details" asp-route-id="@item.ID_BOOKING"><i class="fa-solid fa-circle-info text-black"></i></a> |
                         <a asp-action="Edit" asp-route-id="@item.ID_BOOKING"><i class="fa-solid fa-pen-to-square text-black"></i></a> |
