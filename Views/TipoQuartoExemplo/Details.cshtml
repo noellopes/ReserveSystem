@@ -1,48 +1,197 @@
 ﻿@model ReserveSystem.Models.TipoQuarto
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Room Type Details";
 }
 
-<h1>Details</h1>
+<style>
+    /* General Body Styling */
+    body {
+        font-family: 'Georgia', serif;
+        background-color: #f9f9f6; /* Off-white background */
+        color: #1a1a1a; /* Deep black for text */
+    }
 
-<div>
-    <h4>TipoQuarto</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.type)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.type)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.capacity)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.capacity)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RoomQuantity)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RoomQuantity)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AcessibilityRoom)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AcessibilityRoom)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.View)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.View)
-        </dd>
-    </dl>
+    /* Container and General Styles */
+    .details-container {
+        background: #ffffff; /* White background for container */
+        padding: 3rem;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        max-width: 700px;
+        margin: 5rem auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .row {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    /* Styling for Label and Value Divs */
+    .label {
+        font-weight: 600;
+        color: #333333; /* Darker black */
+        font-size: 1.1rem;
+        text-align: left;
+        flex: 1;
+    }
+
+    .value {
+        font-size: 1.05rem;
+        color: #4a4a4a; /* Dark grey for values */
+        text-align: right;
+        flex: 2;
+    }
+
+    /* Additional styles */
+    .hr {
+        border: none;
+        height: 2px;
+        background-color: #d4af37; /* Gold */
+        width: 60%;
+        margin: 1rem auto;
+        opacity: 0.8;
+    }
+
+    /* Button Styles */
+    .btn_edit, .btn_delete, .btn_back {
+        font-weight: 600;
+        padding: 14px 28px;
+        border-radius: 50px;
+        font-size: 1.125rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        width: 50%;
+    }
+
+    .btn_edit {
+        background-color: #ffffff;
+        border-color: #d4af37;
+        color: #333333;
+    }
+
+        .btn_edit:hover {
+            background-color: #333333;
+            color: #F5F5F5;
+            border-color: #d4af37;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .btn_edit:active {
+            background-color: #000000;
+            border-color: #000000;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transform: translateY(0);
+        }
+
+    .btn_delete {
+        background-color: #ffffff;
+        border-color: #d4af37;
+        color: #333333;
+    }
+
+        .btn_delete:hover {
+            background-color: #333333;
+            color: #F5F5F5;
+            border-color: #d4af37;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .btn_delete:active {
+            background-color: #000000;
+            border-color: #000000;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transform: translateY(0);
+        }
+
+    .btn_back {
+        background-color: #333333;
+        border-color: #d4af37;
+        color: #ffffff;
+    }
+
+        .btn_back:hover {
+            background-color: #ffffff;
+            color: #d4af37;
+            border-color: #d4af37;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+    /* Button container for aligning Edit and Delete buttons in one row */
+    .button-container {
+        display: flex;
+        gap: 1rem; /* Space between buttons */
+        justify-content: center;
+        margin-top: 2rem; /* Space above buttons */
+        width: 70%;
+    }
+
+    /* Styling for Back button to appear below Edit and Delete buttons */
+    .btn_back {
+        display: block;
+        margin: 2rem auto 0; /* Space above Back button */
+        width: 70%; /* Centralized and with similar width as other buttons */
+        text-align: center;
+    }
+
+    /* Responsive layout for mobile */
+    .details-container {
+        padding: 2rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+        color: #d4af37; /* Gold for title */
+    }
+
+    .btn-primary, .btn-warning {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+</style>
+
+<div class="details-container">
+    <h1 class="text-center">Room Type Information</h1>
+    <hr class="hr" />
+    <div class="row">
+        <div class="label">Type</div>
+        <div class="value">@Html.DisplayFor(model => model.type)</div>
+    </div>
+    <div class="row">
+        <div class="label">Capacity</div>
+        <div class="value">@Html.DisplayFor(model => model.capacity)</div>
+    </div>
+    <div class="row">
+        <div class="label">Room Quantity</div>
+        <div class="value">@Html.DisplayFor(model => model.RoomQuantity)</div>
+    </div>
+    <div class="row">
+        <div class="label">Room with Accessibility </div>
+        <div class="value">@Html.DisplayFor(model => model.AcessibilityRoom)</div>
+    </div>
+    <div class="row">
+        <div class="label">Room with View</div>
+        <div class="value">@Html.DisplayFor(model => model.View)</div>
+    </div>
+
+    <!-- Button container for Edit and Delete buttons side by side -->
+    <div class="button-container">
+        <a asp-action="Edit" asp-route-id="@Model?.TipoQuartoId" class="btn btn_edit">Edit</a>
+        <a asp-action="Delete" asp-route-id="@Model?.TipoQuartoId" class="btn btn_delete">Delete</a>
+    </div>
+
+    <!-- Back button positioned below Edit and Delete buttons -->
+    <a asp-action="Index" class="btn btn_back">Back to List</a>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.TipoQuartoId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
