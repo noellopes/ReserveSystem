@@ -14,8 +14,5 @@ namespace ReserveSystem.Models
 
         [Required(ErrorMessage = "Type is required.")]
         public required string Type { get; set; }
-
-        [Required(ErrorMessage = "Work schedule is required.")]
-        public List<string> WorkSchedule { get; set; } = new List<string>();
     }
 }
