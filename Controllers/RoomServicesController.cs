@@ -163,6 +163,7 @@ namespace ReserveSystem.Controllers
             if (roomService != null)
             {
                 _context.RoomService.Remove(roomService);
+                await _context.SaveChangesAsync(); // Salva as mudanças no banco
             }
 
             ViewBag.Entity = "RoomService";
