@@ -2,9 +2,6 @@
 @{
     ViewData["Title"] = "ViewSeasonList";
 }
-
-<h1>@ViewBag.Title</h1>
-
 <style>
     body {
         font-family: 'Georgia', serif;
@@ -112,8 +109,8 @@
         {
             <tr class="clickable-row" data-href="@Url.Action("Details", new { id = item.Id_saz })">
                 <td>@Html.DisplayFor(modelItem => item.NameSeason)</td>
-                <td>@item.DateBegin.ToShortDateString()</td>
-                <td>@item.DateEnd.ToShortDateString()</td>
+                <td>@item.DateBegin.ToString("dd/MMM/yyyy")</td>
+                <td>@item.DateEnd.ToString("dd/MMM/yyyy")</td>
                 <td>@item.SeasonFee.ToString("F2")</td>
                 <td>@(item.InUse ? "Yes" : "No")</td>
             </tr>
