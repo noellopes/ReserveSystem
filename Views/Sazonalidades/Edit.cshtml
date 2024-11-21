@@ -4,51 +4,467 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<!--
+<style>
+    /* General Body Styling */
+    body {
+        font-family: 'Georgia', serif;
+        background-color: #f9f9f6; /* Off-white background */
+        color: #1a1a1a; /* Deep black for text */
+    }
 
-<h4>Seasonality</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id_saz" />
-            <div class="form-group">
-                <label asp-for="NameSeason" class="control-label"></label>
-                <input asp-for="NameSeason" class="form-control" />
-                <span asp-validation-for="NameSeason" class="text-danger"></span>
+    /* Container for the Delete Confirmation */
+    .details-container {
+        background: #ffffff; /* White background for container */
+        padding: 3rem;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        max-width: 700px;
+        margin: 5rem auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Label and Value Divs Styling */
+    .label {
+        font-weight: 600;
+        color: #333333;
+        font-size: 1.1rem;
+        text-align: left;
+        flex: 1;
+    }
+
+    .value {
+        font-size: 1.05rem;
+        color: #4a4a4a;
+        text-align: right;
+        flex: 2;
+    }
+
+    /* Horizontal Line Styling */
+    .hr {
+        border: none;
+        height: 2px;
+        background-color: #d4af37; /* Gold */
+        width: 60%;
+        margin: 1rem auto;
+        opacity: 0.8;
+    }
+
+    /* Button Styling */
+    .btn_edit, .btn_back {
+        font-weight: 600;
+        padding: 14px 28px;
+        border-radius: 50px;
+        font-size: 1.125rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        width: 50%;
+    }
+
+    .btn_edit {
+        background-color: #ffffff;
+        border-color: #d4af37;
+        color: #333333;
+    }
+
+        .btn_edit:hover {
+            background-color: #333333;
+            color: #F5F5F5;
+            border-color: #d4af37;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .btn_edit:active {
+            background-color: #000000;
+            border-color: #000000;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transform: translateY(0);
+        }
+
+    .btn_back {
+        background-color: #333333;
+        border-color: #d4af37;
+        color: #ffffff;
+    }
+
+        .btn_back:hover {
+            background-color: #ffffff;
+            color: #d4af37;
+            border-color: #d4af37;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+    /* Button container for aligning Delete and Back buttons */
+    .button-container {
+        display: flex;
+        gap: 1rem; /* Space between buttons */
+        justify-content: center;
+        margin-top: 2rem; /* Space above buttons */
+        width: 70%;
+    }
+
+    /* Styling for Back button to appear below Delete button */
+    .btn_back {
+        display: block;
+        margin: 2rem auto 0;
+        width: 70%;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 2rem;
+        color: #d4af37; /* Gold for title */
+    }
+
+    /* Modal Styling */
+    .modal-content {
+        background-color: #ffffff; /* White background */
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        background-color: #333333;
+        color: white;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+    }
+
+    .modal-body {
+        font-size: 1.1rem;
+        color: #333333;
+        padding: 1.5rem;
+    }
+
+    .modal-footer {
+        background-color: #f9f9f6; /* Light off-white */
+        padding: 1rem;
+        justify-content: center;
+    }
+
+    .btn_editC {
+        background-color: white; 
+        border-color: #d4af37;
+        color: #000000;
+        font-weight: 600;
+        width: 100%;
+        padding: 14px;
+        border-radius: 50px;
+        font-size: 1.125rem;
+        transition: all 0.3s ease;
+    }
+
+        .btn_editC:hover {
+            background-color: #333333;
+            border-color: #d4af37;
+            color: #ffffff;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+    .btn-danger:active {
+        background-color: #000000;
+        border-color: #000000;
+        color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transform: translateY(0);
+    }
+
+    .btn_cancel {
+        background-color: #333333;
+        color: white;
+        border: 1px solid #d4af37;
+        width: 100%;
+        font-weight: 600;
+        border-radius: 50px;
+        padding: 14px;
+    }
+
+        .btn_cancel:hover {
+            background-color: white;
+            color: #d4af37;
+        }
+</style>
+-->
+
+<style>
+    body {
+        font-family: 'Georgia', serif;
+        background-color: #f9f9f6; /* Off-white background */
+        color: #1a1a1a; /* Deep black for text */
+    }
+
+    /* Horizontal Line Styling */
+    .hr {
+        border: none;
+        height: 2px;
+        background-color: #d4af37; /* Gold */
+        width: 60%;
+        margin: 1rem auto;
+        opacity: 0.8;
+    }
+
+    /* Container Styling */
+    .details-container {
+        background: #ffffff; /* White background for container */
+        padding: 3rem;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        max-width: 700px;
+        margin: 5rem auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Form Styling */
+    .form-group {
+        margin-bottom: 1.5rem;
+        width: 100%;
+    }
+
+    .form-check-label {
+        font-size: 0.5rem;
+        color: #333333;
+    }
+
+    label {
+        font-weight: 600;
+        color: #333333;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    /* Form Inputs */
+    .form-group label {
+        font-size: 1.1rem;
+        color: #1a1a1a; /* Black for labels */
+        font-weight: 600;
+    }
+
+    /* Input Field Styles */
+    .form-group input{
+        border-radius: 8px;
+        border: 1px solid #cccccc;
+        padding: 12px 16px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background-color: #f9f9f9; /* Light off-white for input background */
+    }
+
+        .form-group input:focus {
+            border-color: #d4af37; /* Gold border on focus */
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.2); /* Soft gold focus shadow */
+            background-color: #ffffff; /* White background on focus */
+        }
+
+    /* Form Check Styles */
+    .form-check-input:checked {
+        background-color: #d4af37; /* Gold for checked boxes */
+        border-color: #d4af37;
+    }
+
+    /* Button Styling */
+    .btn_edit, .btn_back{
+        font-weight: 600;
+        padding: 14px 28px;
+        border-radius: 50px;
+        font-size: 1.125rem;
+        width: 100%;
+        text-align: center;
+        display: inline-block;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    /* Confirm button styling */
+    .btn_edit {
+        margin-bottom: 1rem; 
+        background-color: #ffffff;
+        border-color: #d4af37;
+        color: #333333;
+    }
+
+        .btn_edit:hover {
+            background-color: #333333;
+            color: #F5F5F5;
+            border-color: #d4af37;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .btn_edit:active {
+            background-color: #000000;
+            border-color: #000000;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transform: translateY(0);
+        }
+
+    .btn_back {
+        background-color: #333333;
+        color: #ffffff;
+        border-color: #d4af37;
+        margin-top: 1rem;
+    }
+
+        .btn_back:hover {
+            background-color: #ffffff;
+            color: #d4af37;
+            border-color: #d4af37;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+    /* Title Styling */
+    h1 {
+        font-size: 2rem;
+        color: #d4af37; /* Gold for title */
+    }
+
+    /* Modal Styling */
+    .modal-content {
+        background-color: #ffffff; /* White background */
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        background-color: #333333;
+        color: white;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+    }
+
+    .modal-body {
+        font-size: 1.1rem;
+        color: #333333;
+        padding: 1.5rem;
+    }
+
+    .modal-footer {
+        background-color: #f9f9f6; /* Light off-white */
+        padding: 1rem;
+        justify-content: center;
+    }
+
+    /* Modal buttons */
+    .btn_editC {
+        background-color: white;
+        border-color: #d4af37;
+        color: #000000;
+        font-weight: 600;
+        width: 100%;
+        padding: 14px;
+        border-radius: 50px;
+        font-size: 1.125rem;
+        transition: all 0.3s ease;
+    }
+
+        .btn_editC:hover {
+            background-color: #333333;
+            border-color: #d4af37;
+            color: #ffffff;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+    .btn_cancel {
+        background-color: #333333;
+        color: white;
+        border: 1px solid #d4af37;
+        width: 100%;
+        font-weight: 600;
+        border-radius: 50px;
+        padding: 14px;
+    }
+
+        .btn_cancel:hover {
+            background-color: white;
+            color: #d4af37;
+        }
+
+</style>
+
+
+<div class="details-container">
+    <h1 class="text-center">Edit Seasonality</h1>
+    <hr class="hr" />
+
+    <form asp-action="Edit" id="editForm" style="width:90%">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id_saz" />
+
+        <div class="form-group">
+            <label asp-for="NameSeason" class="control-label label"></label>
+            <input asp-for="NameSeason" class="form-control value" />
+            <span asp-validation-for="NameSeason" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="DateBegin" class="control-label label"></label>
+            <input asp-for="DateBegin" class="form-control value" type="date" />
+            <span asp-validation-for="DateBegin" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="DateEnd" class="control-label label"></label>
+            <input asp-for="DateEnd" class="form-control value" type="date" />
+            <span asp-validation-for="DateEnd" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="SeasonFee" class="control-label label"></label>
+            <input asp-for="SeasonFee" class="form-control value" type="number" step="0.01" min="0" max="1" />
+            <span asp-validation-for="SeasonFee" class="text-danger"></span>
+        </div>
+        <div class="form-group form-check">
+            <label class="form-check-label label">
+                <input class="form-check-input value" asp-for="InUse" /> In Use
+            </label>
+        </div>
+
+		<!-- Trigger the modal instead of submitting the form directly -->
+		<button type="button" class="btn btn_edit" data-bs-toggle="modal" data-bs-target="#confirmEditModal">Confirm Changes</button>
+
+        <a asp-action="ViewSeasonList" class="btn btn_back">Back to List</a>
+        
+        
+
+        <!-- Modal for Confirm Edit -->
+        <div class="modal fade" id="confirmEditModal" tabindex="-1" aria-labelledby="confirmEditModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmEditModalLabel">Save Changes</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to permanently alter the event "<strong>@Model.NameSeason</strong>"?<br></p>
+                    </div>
+                    <div class="modal-footer">
+                        <!-- Submit the form when the user confirms -->
+                        <button type="button" class="btn btn_editC" id="confirmSubmit">Confirm Changes</button>
+                        <button type="button" class="btn btn_cancel" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="DateBegin" class="control-label"></label>
-                <input asp-for="DateBegin" class="form-control" type="date" />
-                <span asp-validation-for="DateBegin" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateEnd" class="control-label"></label>
-                <input asp-for="DateEnd" class="form-control" type="date"/>
-                <span asp-validation-for="DateEnd" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SeasonFee" class="control-label"></label>
-                <input asp-for="SeasonFee" class="form-control" type="number" step="0.01" min="0" max="1" />
-                <span asp-validation-for="SeasonFee" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="InUse" /> @Html.DisplayNameFor(model => model.InUse)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="hidden" asp-for="Id_saz" />
-                <input type="submit" value="Save" class="btn btn-primary" />
-                <a asp-action="ViewSeasonList">Back to List</a>
-            </div>
-        </form>
-    </div>
+        </div>
+    </form>
+
+    
 </div>
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+<!-- Bootstrap JS and dependencies for modal -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // JavaScript to handle modal confirmation
+    document.getElementById("confirmSubmit").addEventListener("click", function () {
+        // Submit the form when the confirm button is clicked
+        document.getElementById("editForm").submit();
+    });
+</script>
