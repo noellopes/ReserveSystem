@@ -24,11 +24,12 @@
                 <label asp-for="Phone" id="" class="control-label "></label>
                 <div class="input-group">
                     <select id="countrySelect" class="form-control">
+                        <option value="" data-flag="" data-code="" data-length="">Select Contry</option>
+                        <option value="+351" data-flag="pt" data-code="+351" data-length="9">Portugal (+351)</option>
                         <option value="+1" data-flag="us" data-code="+1" data-length="10">USA (+1)</option>
                         <option value="+44" data-flag="gb" data-code="+44" data-length="10">UK (+44)</option>
                         <option value="+91" data-flag="in" data-code="+91" data-length="10">India (+91)</option>
                         <option value="+234" data-flag="ng" data-code="+234" data-length="11">Nigeria (+234)</option>
-                        <option value="+351" data-flag="pt" data-code="+351" data-length="9">Portugal (+351)</option>
                         <option value="+33" data-flag="fr" data-code="+33" data-length="10">France (+33)</option>
                         <option value="+49" data-flag="de" data-code="+49" data-length="11">Germany (+49)</option>
                         <option value="+39" data-flag="it" data-code="+39" data-length="10">Italy (+39)</option>
@@ -43,12 +44,11 @@
                         <option value="+31" data-flag="nl" data-code="+31" data-length="9">Netherlands (+31)</option>
                         <option value="+82" data-flag="kr" data-code="+82" data-length="10">South Korea (+82)</option>
                         <option value="+20" data-flag="eg" data-code="+20" data-length="10">Egypt (+20)</option>
-                        <option value="others" data-flag="" data-code="" data-length="">Others</option>
                     </select>
                     <span id="flagIcon" class="input-group-text" style="display: none;">
                         <img src="" id="flag" alt="Country Flag" style="width: 30px; height: 20px;">
                     </span>
-                    <input asp-for="Phone" id="telefone" class="form-control bg-light" type="tel" />                   
+                    <input asp-for="Phone" id="telefone" class="form-control bg-light" type="tel" />   
                 </div>
                 @* <span id="phoneError" class="text-danger" style="display: none;">Número de telefone Invalido. Por favor, certifique-se de que o número tenha o comprimento correto para o país selecionado.</span> *@
             </div>
