@@ -205,9 +205,9 @@
                         @Html.DisplayFor(modelItem => item.AdicionalBeds)
                     </td>
 
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.id_RTPrice" class="btn btn_edit">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.id_RTPrice" class="btn btn_delete">Details</a> |
+                    <td class="button-container">
+                        <a asp-action="Edit" asp-route-id="@item.id_RTPrice" class="btn btn_edit">Edit</a> 
+                        <a asp-action="Details" asp-route-id="@item.id_RTPrice" class="btn btn_delete">Details</a> 
                         <a asp-action="Delete" asp-route-id="@item.id_RTPrice" class="btn btn_back">Delete</a>
                     </td>
                 </tr>

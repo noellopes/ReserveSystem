@@ -48,26 +48,63 @@ namespace ReserveSystem.Controllers
         // GET: PrecoTipoQ/Create
         public IActionResult Create()
         {
-            ViewData["TipoQuartoId"] = new SelectList(_context.TipoQuarto, "TipoQuartoId", "type");
-            return View();
-        }
+            /*
+			var tipoQuartos = _context.TipoQuarto.ToList();
+			foreach (var tipo in tipoQuartos)
+			{
+				Console.WriteLine($"TipoQuartoId: {tipo.TipoQuartoId}, Type: {tipo.type}");
+			}
+			ViewData["TipoQuartoId"] = new SelectList(tipoQuartos, "TipoQuartoId", "type");
+			return View();
+            */
 
-        // POST: PrecoTipoQ/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+			 ViewData["TipoQuartoId"] = new SelectList(_context.TipoQuarto, "TipoQuartoId", "type");
+			return View();
+		}
+
+		// POST: PrecoTipoQ/Create
+		// To protect from overposting attacks, enable the specific properties you want to bind to.
+		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id_RTPrice,BasePrice,CancelationFee,AdicionalBeds,TipoQuartoId")] PrecoTipoQuarto precoTipoQuarto)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(precoTipoQuarto);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["TipoQuartoId"] = new SelectList(_context.TipoQuarto, "TipoQuartoId", "type", precoTipoQuarto.TipoQuartoId);
-            return View(precoTipoQuarto);
-        }
+            /*
+			  if (ModelState.IsValid)
+			  {
+
+				 _context.Add(precoTipoQuarto);
+				 await _context.SaveChangesAsync();
+				 return RedirectToAction(nameof(Index));
+
+
+
+			  }*/
+            
+			if (!ModelState.IsValid)
+			{
+				var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+				foreach (var error in errors)
+				{
+					Console.WriteLine(error); // Log errors
+				}
+			}
+			try
+			{
+				_context.Add(precoTipoQuarto);
+				await _context.SaveChangesAsync();
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error saving to database: {ex.Message}");
+				// You can log or handle this further
+				ViewData["TipoQuartoId"] = new SelectList(_context.TipoQuarto, "TipoQuartoId", "type", precoTipoQuarto.TipoQuartoId);
+				return View(precoTipoQuarto);
+			}
+
+			  ViewData["TipoQuartoId"] = new SelectList(_context.TipoQuarto, "TipoQuartoId", "type", precoTipoQuarto.TipoQuartoId);
+			  return View(precoTipoQuarto);
+		}
 
         // GET: PrecoTipoQ/Edit/5
         public async Task<IActionResult> Edit(int? id)
