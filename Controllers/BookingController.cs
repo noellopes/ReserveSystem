@@ -175,7 +175,10 @@ namespace ReserveSystem.Controllers
             {
                 _context.Booking.Remove(bookingModel);
             }
-
+            ViewBag.Entity = "Reserva";
+            ViewBag.Controller = "Booking";
+            ViewBag.Action = "Index";
+            return View("DeletedSuccess");
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
