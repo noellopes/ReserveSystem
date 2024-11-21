@@ -27,7 +27,7 @@ namespace ReserveSystem.Controllers
         public async Task<IActionResult> Index()
         {
 
-            var applicationDbContext = _context.Reserva.Include(b => b.Prato);
+            var applicationDbContext = _context.Reserva.Include(b => b.Prato).Include(c => c.Cliente);
             return View(await applicationDbContext.ToListAsync());
 
         }

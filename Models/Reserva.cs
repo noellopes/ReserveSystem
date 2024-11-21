@@ -10,7 +10,8 @@ namespace ReserveSystem.Models
         public int IdReserva { get; set; }
 
         [Required]
-        public string NomeCliente { get; set; }
+        public int IdCliente { get; set; }
+        public Cliente? Cliente { get; set; }
 
         [Required][Range(1, 35)]
         public int NumeroMesa { get; set; }
