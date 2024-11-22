@@ -14,14 +14,16 @@ namespace ReserveSystem.Models
         public int JobId { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(50)]
         public string StaffName { get; set; }
         [Required]
         public string StaffEmail { get; set; }
 
         [StringLength(50)]
+
         public string StaffDept { get; set; }
         public string StaffPhone { get; set; }
+
         [Required]
         [MinLength(8)]
         public string StaffPassword { get; set; }

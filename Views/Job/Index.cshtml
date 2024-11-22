@@ -1,0 +1,28 @@
+﻿@model IEnumerable<ReserveSystem.Models.Job>
+
+<h2>Job List</h2>
+
+<a asp-action="Create" class="btn btn-primary">Create New Job</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Job Name</th>
+            <th>Job Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var job in Model)
+        {
+            <tr>
+                <td>@job.JobName</td>
+                <td>@job.JobDescription</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@job.JobId" class="btn btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@job.JobId" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

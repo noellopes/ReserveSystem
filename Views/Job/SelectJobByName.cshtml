@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ReserveSystem.Models.Job>
+
+<h2>Search Job by Name</h2>
+
+<!-- Job Name Search Form -->
+<form asp-action="SelectJobByName" method="post">
+    <div class="form-group">
+        <label for="jobName">Job Name:</label>
+        <input type="text" name="name" id="jobName" class="form-control" placeholder="Enter job name" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<!-- Validation or Information Messages -->
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-info mt-3">
+        @ViewBag.Message
+    </div>
+}
+
+<!-- Job Results -->
+@if (Model != null && Model.Any())
+{
+    <h3>Results:</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Job ID</th>
+                <th>Job Name</th>
+                <th>Job Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var job in Model)
+            {
+                <tr>
+                    <td>@job.JobId</td>
+                    <td>@job.JobName</td>
+                    <td>@job.JobDescription</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
