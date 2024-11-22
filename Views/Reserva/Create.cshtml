@@ -1,0 +1,56 @@
+﻿@model ReserveSystem.Models.ReservaModel
+
+@{
+    ViewData["Title"] = "Adicionar Agendamento";
+}
+
+<h1 class="text-center my-4">Adicionar Novo Agendamento</h1>
+
+<div class="container">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+
+        <!-- Campo Data e Hora -->
+        <div class="form-group">
+            <label asp-for="Hour" class="control-label">Data e Horário</label>
+            <input asp-for="Hour" type="datetime-local" class="form-control" />
+            <span asp-validation-for="Hour" class="text-danger"></span>
+        </div>
+
+        <!-- Dropdown de Personal Trainers -->
+        <div class="form-group">
+            <label for="PersonalTrainerId" class="control-label">Personal Trainer</label>
+            <select asp-for="PersonalTrainerId" class="form-control"
+                    asp-items="@(new SelectList(ViewData["PersonalTrainers"] as List<ReserveSystem.Models.PersonalTrainerModel>, "Id", "Name"))">
+                <option value="">Selecione um Personal Trainer</option>
+            </select>
+            <span asp-validation-for="PersonalTrainerId" class="text-danger"></span>
+        </div>
+
+        <!-- Dropdown de Clientes -->
+        <div class="form-group">
+            <label for="ClientId" class="control-label">Cliente</label>
+            <select asp-for="ClientId" class="form-control"
+                    asp-items="@(new SelectList(ViewData["Clients"] as List<ReserveSystem.Models.ClientModel>, "Id", "Name"))">
+                <option value="">Selecione um Cliente</option>
+            </select>
+            <span asp-validation-for="ClientId" class="text-danger"></span> <!-- Mensagem de erro aparece aqui -->
+        </div>
+
+
+        <!-- Botões -->
+        <button type="submit" class="btn btn-success">Salvar</button>
+    </form>
+
+    <!-- Voltar para a Lista -->
+    <div class="text-center mt-3">
+        <a asp-action="Index" class="btn btn-primary">Voltar para a Lista</a>
+    </div>
+
+    <!-- Scripts de Validação -->
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</div>

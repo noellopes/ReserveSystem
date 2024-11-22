@@ -1,0 +1,31 @@
+﻿@model ReserveSystem.Models.ClientModel
+
+@{
+    ViewData["Title"] = "Excluir Cliente";
+}
+
+<h1 class="text-center my-4 text-danger">Excluir Cliente</h1>
+
+<div class="container">
+    <p class="text-center text-danger">Tem certeza de que deseja excluir este Cliente?</p>
+
+    <!-- Detalhes do Personal Trainer -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">@Model.Name</h5>
+            <p class="card-text"><strong>Email:</strong> @Model.Email</p>
+            <p class="card-text"><strong>Telefone:</strong> @Model.Phone</p>
+        </div>
+    </div>
+
+    <!-- Formulário para exclusão -->
+    <form asp-action="Delete" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id" />
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-danger">Excluir</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>

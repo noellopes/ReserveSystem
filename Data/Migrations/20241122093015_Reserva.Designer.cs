@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserveSystem.Data;
 
@@ -11,9 +12,11 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ReserveSystemUsersDbContext))]
-    partial class ReserveSystemUsersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241122093015_Reserva")]
+    partial class Reserva
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -285,23 +288,25 @@ namespace ReserveSystem.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ClientId")
+                    b.Property<int>("ClienteId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Hour")
+                    b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("PersonalTrainerId")
+                    b.Property<TimeSpan>("Horario")
+                        .HasColumnType("time");
+
+                    b.Property<int>("Maquinas")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PersonalTrainer")
                         .HasColumnType("int");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
-
-                    b.HasIndex("PersonalTrainerId");
 
                     b.ToTable("Reserva");
                 });
@@ -355,23 +360,6 @@ namespace ReserveSystem.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ReserveSystem.Models.ReservaModel", b =>
-                {
-                    b.HasOne("ReserveSystem.Models.ClientModel", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ReserveSystem.Models.PersonalTrainerModel", "PersonalTrainer")
-                        .WithMany()
-                        .HasForeignKey("PersonalTrainerId");
-
-                    b.Navigation("Client");
-
-                    b.Navigation("PersonalTrainer");
                 });
 #pragma warning restore 612, 618
         }

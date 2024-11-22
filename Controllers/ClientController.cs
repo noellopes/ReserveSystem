@@ -2,26 +2,33 @@
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
-
 namespace ReserveSystem.Controllers
 {
-    public class PersonalTrainer : Controller
+    public class ClientController : Controller
     {
+        private readonly ReserveSystemUsersDbContext _context;
 
-        private readonly ReserveSystemContext _context;
-
-        public PersonalTrainer(ReserveSystemContext context)
+        public ClientController(ReserveSystemUsersDbContext context)
         {
             _context = context;
         }
 
-        // GET: Clientes
+        // GET: Client/Index
         public async Task<IActionResult> Index()
         {
-            return View(await _context.PersonalTrainer.ToListAsync());
+            try
+            {
+                return View(await _context.Client.ToListAsync());
+            }
+            catch (Exception ex)
+            {
+                // Registra o erro
+                Console.WriteLine(ex.Message);
+                return View("Error"); // Certifique-se de ter uma View de erro.
+            }
         }
 
-        // GET: Clientes/Details/5
+        // GET: Client/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -29,48 +36,38 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var personalTrainer = await _context.PersonalTrainer
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (personalTrainer == null)
+            var cliente = await _context.Client.FirstOrDefaultAsync(c => c.Id == id);
+            if (cliente == null)
             {
                 return NotFound();
             }
 
-            return View(personalTrainer);
-        }
-        // GET: Clientes/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        public IActionResult Details()
-        {
-            return View();
-        }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Email,Phone")] PersonalTrainerModel cliente)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Add(cliente);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error: {ex.Message}");
-                }
-            }
             return View(cliente);
         }
 
-        // GET: Clientes/Edit/5
+        // GET: Client/Create
+        public IActionResult Create()
+        {
+            // Passa uma nova instância do modelo para a View
+            return View(new ClientModel());
+        }
+
+        // POST: Client/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(ClientModel cliente)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(cliente);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(cliente);
+        }
+
+        // GET: Client/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,21 +75,21 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var cliente = await _context.PersonalTrainer.FindAsync(id);
+            var cliente = await _context.Client.FindAsync(id);
             if (cliente == null)
             {
                 return NotFound();
             }
+
             return View(cliente);
         }
-        // POST: Clientes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        // POST: Client/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Phone")] PersonalTrainerModel personal)
+        public async Task<IActionResult> Edit(int id, ClientModel cliente)
         {
-            if (id != personal.Id)
+            if (id != cliente.Id)
             {
                 return NotFound();
             }
@@ -101,12 +98,12 @@ namespace ReserveSystem.Controllers
             {
                 try
                 {
-                    _context.Update(personal);
+                    _context.Update(cliente);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PersonalTrainerExists(personal.Id))
+                    if (!ClienteExists(cliente.Id))
                     {
                         return NotFound();
                     }
@@ -115,12 +112,14 @@ namespace ReserveSystem.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
-            return View(personal);
+
+            return View(cliente);
         }
 
-        // GET: Clientes/Delete/5
+        // GET: Client/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -128,8 +127,7 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var cliente = await _context.PersonalTrainer
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var cliente = await _context.Client.FirstOrDefaultAsync(c => c.Id == id);
             if (cliente == null)
             {
                 return NotFound();
@@ -138,24 +136,20 @@ namespace ReserveSystem.Controllers
             return View(cliente);
         }
 
-        // POST: Clientes/Delete/5
+        // POST: Client/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var cliente = await _context.PersonalTrainer.FindAsync(id);
-            if (cliente != null)
-            {
-                _context.PersonalTrainer.Remove(cliente);
-            }
-
+            var cliente = await _context.Client.FindAsync(id);
+            _context.Client.Remove(cliente);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PersonalTrainerExists(int id)
+        private bool ClienteExists(int id)
         {
-            return _context.PersonalTrainer.Any(e => e.Id == id);
+            return _context.Client.Any(c => c.Id == id);
         }
     }
 }

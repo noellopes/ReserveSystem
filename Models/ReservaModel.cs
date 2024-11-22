@@ -1,24 +1,32 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace ReserveSystem.Models
 {
     public class ReservaModel
     {
+
         [Key]
-        public int Id { get; set; } // Identificador único da reserva
+        public int Id { get; set; }
 
-        [Required(ErrorMessage = "A data é obrigatória")]
-        public DateTime Data { get; set; } // Data da reserva
+        [Required(ErrorMessage = "O Cliente é obrigatório.")]
+        [ForeignKey("Client")]
+        public int ClientId { get; set; }
+        public required ClientModel Client { get; set; } // Relacionamento com o cliente
 
-        [Required(ErrorMessage = "O horário é obrigatório.")]
-        public TimeSpan Horario { get; set; } // Horário da reserva
+        [ForeignKey("PersonalTrainer")]
+        public int? PersonalTrainerId { get; set; } // PT é opcional
+        public PersonalTrainerModel? PersonalTrainer { get; set; } // Agora permite valores nulos
 
-        public bool Status { get; set; } // Status da reserva (Ativa, Cancelada)
+        //[Required]
+        //[ForeignKey("MuscleGroup")]
+        //public int MuscleGroupId { get; set; }
+        //public MuscleGroupModel MuscleGroup { get; set; } // Relacionamento com o Grupo Muscular
 
-        public int ClienteId { get; set; } // Relacionamento com um cliente
+        [Required(ErrorMessage = "A data e o horário são obrigatórios.")]
+        public DateTime Hour { get; set; } // Horário do treino
 
-        public int PersonalTrainer {  get; set; }
-
-        public int Maquinas { get; set; }
+        [Required]
+        public bool Status { get; set; } // true para reservado, false para cancelado
     }
 }

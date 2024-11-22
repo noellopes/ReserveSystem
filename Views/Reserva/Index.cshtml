@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ReserveSystem.Models.ReservaModel>
+
+@{
+    ViewData["Title"] = "Agendamentos de Treino";
+}
+
+<h1 class="text-center my-4">Agendamentos de Treino</h1>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Personal Trainer</th>
+            <th>Cliente</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Hour.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@item.PersonalTrainer.Name</td>
+                <td>@item.Client.Name</td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">
+                        <i class="fa fa-trash-alt"></i> Excluir
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create" class="btn btn-primary">Adicionar Novo Agendamento</a>

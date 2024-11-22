@@ -1,20 +1,19 @@
-
-﻿
-@model ReserveSystem.Models.PersonalTrainerModel
+﻿@model ReserveSystem.Models.ClientModel
 
 @{
-    ViewData["Title"] = "Adicionar Personal Trainer";
+    ViewData["Title"] = "Editar Cliente";
 }
 
-<!-- Título da Página -->
-<h1 class="text-center my-4">Adicionar Novo Personal Trainer</h1>
+<h1 class="text-center my-4">Editar Cliente</h1>
 
-<!-- Formulário de Criação -->
 <div class="container">
-    <form asp-action="Create" method="post">
+    <form asp-action="Edit" method="post">
         @Html.AntiForgeryToken()
 
-        <!-- Resumo de Validação (Erros Globais) -->
+        <!-- Campo Oculto para o ID -->
+        <input type="hidden" asp-for="Id" />
+
+        <!-- Resumo de Validação -->
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <!-- Campo Nome -->
@@ -38,25 +37,16 @@
             <span asp-validation-for="Phone" class="text-danger"></span>
         </div>
 
-        <!-- Botão de Submissão -->
+        <!-- Botões -->
         <div class="text-center mt-4">
-            <button type="submit" class="btn btn-success">Adicionar Personal Trainer</button>
+            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
         </div>
     </form>
 </div>
 
-<!-- Voltar para a Lista -->
-<div class="text-center mt-3">
-    <a asp-action="Index" class="btn btn-primary">Voltar para a Lista</a>
-</div>
-
-<!-- Scripts de Validação -->
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-﻿
-
-
-<h1>Pagina de criar!!!!</h1>
