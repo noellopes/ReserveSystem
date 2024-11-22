@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ReserveSystem.Data;
 using ReserveSystem.Models;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,9 +9,9 @@ namespace ReserveSystem.Controllers
 {
     public class StaffController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ReserveSystemContext _context;
 
-        public StaffController(ApplicationDbContext context)
+        public StaffController(ReserveSystemContext context)
         {
             _context = context;
         }
@@ -18,7 +19,7 @@ namespace ReserveSystem.Controllers
         // GET: Staff
         public async Task<IActionResult> Index()
         {
-            var staffList = await _context.Staff.Include(s => s.Job).ToListAsync();
+            var staffList = await _context.Staff.Include(s => s.JobId).ToListAsync();
             return View(staffList);
         }
 
@@ -31,7 +32,7 @@ namespace ReserveSystem.Controllers
             }
 
             var staff = await _context.Staff
-                .Include(s => s.Job)
+                .Include(s => s.JobId)
                 .FirstOrDefaultAsync(m => m.StaffID == id);
 
             if (staff == null)

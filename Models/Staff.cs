@@ -1,4 +1,7 @@
-﻿namespace ReserveSystem.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace ReserveSystem.Models
 
 {
     public class Staff
@@ -11,16 +14,16 @@
         public int JobId { get; set; }
 
         [Required]
-        [StringLenght(100)]
+        [StringLength(100)]
         public string StaffName { get; set; }
         [Required]
         public string StaffEmail { get; set; }
 
-        [StringLenght(50)]
+        [StringLength(50)]
         public string StaffDept { get; set; }
         public string StaffPhone { get; set; }
         [Required]
-        [MinLenght(8)]
+        [MinLength(8)]
         public string StaffPassword { get; set; }
 
         [Required]
