@@ -1,90 +1,63 @@
 @model ReserveSystem.Models.RoomServiceBooking
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Room Service Booking Details";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>RoomServiceBooking</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RoomServiceId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RoomServiceId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StaffId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StaffId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ClientId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ClientId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RoomId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RoomId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateTime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateTime)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BookedState)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BookedState)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StaffConfirmation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StaffConfirmation)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ClientFeedback)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ClientFeedback)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ValueToPay)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ValueToPay)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PaymentDone)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PaymentDone)
-        </dd>
-    </dl>
+<!-- Page Header -->
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <h1 class="text-center text-primary">Room Service Booking Details</h1>
+    </div>
+    <hr class="border-primary">
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<!-- Details Section -->
+<div class="card border-secondary shadow-lg mx-auto" style="width: 75%;">
+    <div class="card-header bg-dark text-light text-center">
+        <h4>Booking Nº @Model?.Id details</h4>
+    </div>
+    <div class="card-body bg-dark text-light mx-auto">
+        <dl class="row">
+            <dt class="col-sm-4">Room Service ID:</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.RoomServiceId)</dd>
+
+            <dt class="col-sm-4">Staff ID:</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.StaffId)</dd>
+
+            <dt class="col-sm-4">Client ID:</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.ClientId)</dd>
+
+            <dt class="col-sm-4">Room ID:</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.RoomId)</dd>
+
+            <dt class="col-sm-4">Booking Date & Time:</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.DateTime)</dd>
+
+            <dt class="col-sm-4">Start Date:</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.StartDate)</dd>
+
+            <dt class="col-sm-4">End Date:</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.EndDate)</dd>
+
+            <dt class="col-sm-4">Booking Status:</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.BookedState)</dd>
+
+            <dt class="col-sm-4">Staff Confirmation:</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.StaffConfirmation)</dd>
+
+            <dt class="col-sm-4">Client Feedback:</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.ClientFeedback)</dd>
+
+            <dt class="col-sm-4">Price:</dt>
+            <dd class="col-sm-8">@Model?.ValueToPay.ToString("C", new System.Globalization.CultureInfo("pt-PT"))</dd>
+
+            <dt class="col-sm-4 text-right text-dark">Payment Status:</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.PaymentDone)</dd>
+        </dl>
+    </div>
+    <div class="card-footer bg-dark text-center">
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-outline-warning mx-2">Edit</a>
+        <a asp-action="Index" class="btn btn-outline-success mx-2">Back to List</a>
+    </div>
 </div>
