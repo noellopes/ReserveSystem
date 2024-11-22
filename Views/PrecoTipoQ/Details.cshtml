@@ -4,6 +4,8 @@
     ViewData["Title"] = "Details";
 }
 
+
+
 <style>
     body {
         font-family: 'Georgia', serif;
@@ -154,7 +156,10 @@
     }
 </style>
 
+
+
 <div class="details-container">
+
     <h1 class="text-center">Information of the Room Type Prices</h1>
     <hr />
     <div class="row">
@@ -178,8 +183,8 @@
     </div>
 
     <div class="button-container">
-        <a asp-action="Edit" asp-route-id="@Model?.TipoQuartoId" class="btn btn_edit">Edit</a>
-        <a asp-action="Delete" asp-route-id="@Model?.TipoQuartoId" class="btn btn_delete">Delete</a>
+        <a asp-action="Edit" asp-route-id="@Model?.id_RTPrice" class="btn btn_edit">Edit</a>
+        <a asp-action="Delete" asp-route-id="@Model?.id_RTPrice" class="btn btn_delete">Delete</a>
     </div>
     <a asp-action="Index" class="btn btn_back">Back to List</a>
 </div>

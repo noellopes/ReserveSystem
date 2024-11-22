@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +28,7 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: PrecoTipoQ/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id) //, bool salvo= false
         {
             if (id == null)
             {
@@ -39,27 +40,18 @@ namespace ReserveSystem.Controllers
                 .FirstOrDefaultAsync(m => m.id_RTPrice == id);
             if (precoTipoQuarto == null)
             {
-                return NotFound();
+                 return NotFound();
             }
-
+            //ViewBag.Saved = salvo;
             return View(precoTipoQuarto);
         }
 
         // GET: PrecoTipoQ/Create
-        public IActionResult Create()
+        public IActionResult Create() 
         {
-            /*
-			var tipoQuartos = _context.TipoQuarto.ToList();
-			foreach (var tipo in tipoQuartos)
-			{
-				Console.WriteLine($"TipoQuartoId: {tipo.TipoQuartoId}, Type: {tipo.type}");
-			}
-			ViewData["TipoQuartoId"] = new SelectList(tipoQuartos, "TipoQuartoId", "type");
-			return View();
-            */
-
-			 ViewData["TipoQuartoId"] = new SelectList(_context.TipoQuarto, "TipoQuartoId", "type");
-			return View();
+          
+            ViewData["TipoQuartoId"] = new SelectList(_context.TipoQuarto, "TipoQuartoId", "type");
+            return View();
 		}
 
 		// POST: PrecoTipoQ/Create
@@ -75,7 +67,7 @@ namespace ReserveSystem.Controllers
 				var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
 				foreach (var error in errors)
 				{
-					Console.WriteLine(error); // Log errors
+					Console.WriteLine(error); 
 				}
 			}
             // equivalente a (ModelState.IsValid)
@@ -84,15 +76,17 @@ namespace ReserveSystem.Controllers
 				_context.Add(precoTipoQuarto);
 				await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Details), new {id = precoTipoQuarto.id_RTPrice, salvo = true});
+
             }
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error saving to database: {ex.Message}");
-				// You can log or handle this further
+				/*
 				ViewData["TipoQuartoId"] = new SelectList(_context.TipoQuarto, "TipoQuartoId", "type", precoTipoQuarto.TipoQuartoId);
-				return View(precoTipoQuarto);
+				return View(precoTipoQuarto);*/
 			}
-
+            
 			  ViewData["TipoQuartoId"] = new SelectList(_context.TipoQuarto, "TipoQuartoId", "type", precoTipoQuarto.TipoQuartoId);
 			  return View(precoTipoQuarto);
 		}
@@ -119,6 +113,8 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+
+
         public async Task<IActionResult> Edit(int id, [Bind("id_RTPrice,BasePrice,CancelationFee,AdicionalBeds,TipoQuartoId")] PrecoTipoQuarto precoTipoQuarto)
         {
             if (id != precoTipoQuarto.id_RTPrice)
@@ -132,13 +128,14 @@ namespace ReserveSystem.Controllers
                 {
                     _context.Update(precoTipoQuarto);
                     await _context.SaveChangesAsync();
-                   // return RedirectToAction(nameof(Index));
+                    // return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!PrecoTipoQuartoExists(precoTipoQuarto.id_RTPrice))
                     {
-                        return NotFound();
+                        
+                         return NotFound();
                     }
                     else
                     {
@@ -146,7 +143,8 @@ namespace ReserveSystem.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            }
+                //return RedirectToAction(nameof(Details), new { id = precoTipoQuarto.id_RTPrice, salvo = true });
+            } 
             ViewData["TipoQuartoId"] = new SelectList(_context.TipoQuarto, "TipoQuartoId", "type", precoTipoQuarto.TipoQuartoId);
             return View(precoTipoQuarto);
         }
@@ -181,7 +179,7 @@ namespace ReserveSystem.Controllers
                 _context.PrecoTipoQuarto.Remove(precoTipoQuarto);
             }
 
-            await _context.SaveChangesAsync();
+              await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
