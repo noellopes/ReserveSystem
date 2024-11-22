@@ -22,9 +22,11 @@ namespace ReserveSystem.Controllers
             {
                 var predefinedTipoSala = new List<TipoSala>
                 {
-                    new TipoSala { NomeSala = "Conference Room", TamanhoSala = 50, Capacidade = 30, PreçoHora = 100.00 },
+                    new TipoSala
+                        { NomeSala = "Conference Room", TamanhoSala = 50, Capacidade = 30, PreçoHora = 100.00 },
                     new TipoSala { NomeSala = "Auditorium", TamanhoSala = 200, Capacidade = 150, PreçoHora = 300.00 },
-                    new TipoSala { NomeSala = "Small Meeting Room", TamanhoSala = 20, Capacidade = 10, PreçoHora = 50.00 },
+                    new TipoSala
+                        { NomeSala = "Small Meeting Room", TamanhoSala = 20, Capacidade = 10, PreçoHora = 50.00 },
                     new TipoSala { NomeSala = "Training Room", TamanhoSala = 100, Capacidade = 50, PreçoHora = 150.00 },
                     new TipoSala { NomeSala = "Boardroom", TamanhoSala = 40, Capacidade = 20, PreçoHora = 120.00 },
                     new TipoSala { NomeSala = "Breakout Room", TamanhoSala = 30, Capacidade = 15, PreçoHora = 75.00 },
@@ -42,6 +44,7 @@ namespace ReserveSystem.Controllers
             {
                 ViewBag.EmptyMessage = "No TipoSala available in the system.";
             }
+
             return View(tipoSalas);
         }
 
@@ -63,6 +66,7 @@ namespace ReserveSystem.Controllers
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(tipoSala);
         }
 
@@ -74,6 +78,7 @@ namespace ReserveSystem.Controllers
             {
                 return NotFound();
             }
+
             return View(tipoSala);
         }
 
@@ -88,6 +93,7 @@ namespace ReserveSystem.Controllers
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(tipoSala);
         }
 
@@ -99,6 +105,7 @@ namespace ReserveSystem.Controllers
             {
                 return NotFound();
             }
+
             return View(tipoSala);
         }
 
@@ -113,6 +120,7 @@ namespace ReserveSystem.Controllers
                 _context.TipoSala.Remove(tipoSala);
                 _context.SaveChanges();
             }
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -124,6 +132,7 @@ namespace ReserveSystem.Controllers
             {
                 return NotFound();
             }
+
             return View(tipoSala);
         }
     }

@@ -25,9 +25,14 @@ namespace ReserveSystem.Controllers
                 {
                     var predefinedTipoSala = new List<TipoSala>
                     {
-                        new TipoSala { NomeSala = "Sala de Conferência", TamanhoSala = 50, Capacidade = 30, PreçoHora = 100.00 },
-                        new TipoSala { NomeSala = "Auditório", TamanhoSala = 200, Capacidade = 150, PreçoHora = 300.00 },
-                        new TipoSala { NomeSala = "Sala de Reuniões Pequena", TamanhoSala = 20, Capacidade = 10, PreçoHora = 50.00 }
+                        new TipoSala
+                            { NomeSala = "Sala de Conferência", TamanhoSala = 50, Capacidade = 30, PreçoHora = 100.00 },
+                        new TipoSala
+                            { NomeSala = "Auditório", TamanhoSala = 200, Capacidade = 150, PreçoHora = 300.00 },
+                        new TipoSala
+                        {
+                            NomeSala = "Sala de Reuniões Pequena", TamanhoSala = 20, Capacidade = 10, PreçoHora = 50.00
+                        }
                     };
 
                     _context.TipoSala.AddRange(predefinedTipoSala);
@@ -38,9 +43,21 @@ namespace ReserveSystem.Controllers
 
                 var predefinedSala = new List<Sala>
                 {
-                    new Sala { HoraInicio = DateTime.Today.AddHours(8), HoraFim = DateTime.Today.AddHours(12), IdTipoSala = tipoSalas[0].IdTipoSala },
-                    new Sala { HoraInicio = DateTime.Today.AddHours(13), HoraFim = DateTime.Today.AddHours(17), IdTipoSala = tipoSalas[1].IdTipoSala },
-                    new Sala { HoraInicio = DateTime.Today.AddHours(9), HoraFim = DateTime.Today.AddHours(11), IdTipoSala = tipoSalas[2].IdTipoSala }
+                    new Sala
+                    {
+                        HoraInicio = DateTime.Today.AddHours(8), HoraFim = DateTime.Today.AddHours(12),
+                        IdTipoSala = tipoSalas[0].IdTipoSala
+                    },
+                    new Sala
+                    {
+                        HoraInicio = DateTime.Today.AddHours(13), HoraFim = DateTime.Today.AddHours(17),
+                        IdTipoSala = tipoSalas[1].IdTipoSala
+                    },
+                    new Sala
+                    {
+                        HoraInicio = DateTime.Today.AddHours(9), HoraFim = DateTime.Today.AddHours(11),
+                        IdTipoSala = tipoSalas[2].IdTipoSala
+                    }
                 };
 
                 _context.Sala.AddRange(predefinedSala);
@@ -56,10 +73,12 @@ namespace ReserveSystem.Controllers
         {
             var userSalas = await _context.Sala
                 .Include(s => s.TipoSala)
-                .Where(s => !_context.Sala.Any(pre => pre.HoraInicio == s.HoraInicio && pre.HoraFim == s.HoraFim)) // Exclude predefined
+                .Where(s => s.IdTipoSala != null) // Ensure it's filtering correctly
                 .ToListAsync();
+
             return View(userSalas);
         }
+
 
         // GET: Sala/Details/{id}
         public async Task<IActionResult> Details(long? id)
@@ -193,16 +212,17 @@ namespace ReserveSystem.Controllers
             var sala = await _context.Sala.FindAsync(id);
             if (sala == null)
             {
-                ViewBag.ErrorMessage = $"Sala with ID {id} not found.";
-                return View("Error");
+                TempData["ErrorMessage"] = "Sala not found.";
+                return RedirectToAction("Error");
             }
 
             _context.Sala.Remove(sala);
             await _context.SaveChangesAsync();
 
-            TempData["SuccessMessage"] = "Sala successfully deleted!";
-            return RedirectToAction(nameof(ListUserSalas));
+            TempData["SuccessMessage"] = "Sala successfully deleted.";
+            return RedirectToAction("ListUserSalas");
         }
+
 
         private bool SalaExists(long id)
         {
