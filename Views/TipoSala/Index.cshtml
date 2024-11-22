@@ -1,18 +1,21 @@
 @model IEnumerable<ReserveSystem.Models.TipoSala>
 
-<h1>Lista de TipoSala</h1>
+<h1 class="text-center text-primary">Lista de TipoSala</h1>
 
 @if (!Model.Any())
 {
-    <div class="alert alert-warning">
-        Nenhum TipoSala disponível. Clique abaixo para adicionar um novo TipoSala.
-    </div>
+<div class="alert alert-info text-center" style="background-color: #e6f7ff; color: #0056b3;">
+    Nenhum TipoSala disponível. Clique abaixo para adicionar um novo TipoSala.
+</div>
+<div class="text-center">
     <a asp-action="Create" class="btn btn-primary">Criar Novo TipoSala</a>
+</div>
 }
 else
 {
-    <table class="table">
-        <thead>
+<div class="table-responsive">
+    <table class="table table-bordered table-striped" style="background-color: #f0f8ff;">
+        <thead class="table-primary text-primary">
         <tr>
             <th>#</th>
             <th>Nome</th>
@@ -25,20 +28,23 @@ else
         <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@item.IdTipoSala</td>
-                <td>@item.NomeSala</td>
-                <td>@item.TamanhoSala</td>
-                <td>@item.Capacidade</td>
-                <td>@item.PreçoHora.ToString("F2")</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.IdTipoSala" class="btn btn-info btn-sm">Detalhes</a>
-                    <a asp-action="Edit" asp-route-id="@item.IdTipoSala" class="btn btn-warning btn-sm">Editar</a>
-                    <a asp-action="Delete" asp-route-id="@item.IdTipoSala" class="btn btn-danger btn-sm">Excluir</a>
-                </td>
-            </tr>
+        <tr>
+            <td>@item.IdTipoSala</td>
+            <td>@item.NomeSala</td>
+            <td>@item.TamanhoSala</td>
+            <td>@item.Capacidade</td>
+            <td>@item.PreçoHora.ToString("F2")</td>
+            <td class="text-center">
+                <a asp-action="Details" asp-route-id="@item.IdTipoSala" class="btn btn-info btn-sm">Detalhes</a>
+                <a asp-action="Edit" asp-route-id="@item.IdTipoSala" class="btn btn-warning btn-sm">Editar</a>
+                <a asp-action="Delete" asp-route-id="@item.IdTipoSala" class="btn btn-danger btn-sm">Excluir</a>
+            </td>
+        </tr>
         }
         </tbody>
     </table>
+</div>
+<div class="text-center">
     <a asp-action="Create" class="btn btn-primary">Criar Novo TipoSala</a>
+</div>
 }

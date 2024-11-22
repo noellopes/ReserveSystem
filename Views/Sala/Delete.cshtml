@@ -1,23 +1,25 @@
 @model ReserveSystem.Models.Sala
 
-<h1>Delete Room</h1>
-<p>Are you sure you want to delete this room?</p>
-<table class="table">
-    <tr>
-        <th>Start Time:</th>
-        <td>@Model.HoraInicio</td>
-    </tr>
-    <tr>
-        <th>End Time:</th>
-        <td>@Model.HoraFim</td>
-    </tr>
-    <tr>
-        <th>Room Type:</th>
-        <td>@Model.TipoSala?.NomeSala ?? "Unassigned"</td>
-    </tr>
-</table>
-<form asp-action="DeleteConfirmed" method="post">
-    <input type="hidden" asp-for="IdSala" />
-    <button type="submit" class="btn btn-danger">Delete</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-</form>
+<h1 class="text-center text-danger">Excluir Sala</h1>
+<p class="text-danger">Tem certeza de que deseja excluir esta sala?</p>
+<div class="p-4 border rounded" style="background-color: #ffebeb;">
+    <table class="table table-bordered">
+        <tr>
+            <th>Hora Início</th>
+            <td>@Model.HoraInicio</td>
+        </tr>
+        <tr>
+            <th>Hora Fim</th>
+            <td>@Model.HoraFim</td>
+        </tr>
+        <tr>
+            <th>Tipo Sala</th>
+            <td>@Model.TipoSala?.NomeSala ?? "Não Atribuído"</td>
+        </tr>
+    </table>
+    <form asp-action="DeleteConfirmed" method="post">
+        <input type="hidden" asp-for="IdSala" />
+        <button type="submit" class="btn btn-danger">Excluir</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

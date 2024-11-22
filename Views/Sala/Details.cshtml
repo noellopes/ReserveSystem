@@ -1,20 +1,22 @@
 @model ReserveSystem.Models.Sala
 
-<h1>Room Details</h1>
-<table class="table">
-    <tr>
-        <th>Start Time:</th>
-        <td>@Model.HoraInicio</td>
-    </tr>
-    <tr>
-        <th>End Time:</th>
-        <td>@Model.HoraFim</td>
-    </tr>
-    <tr>
-        <th>Room Type:</th>
-        <td>@Model.TipoSala?.NomeSala ?? "Unassigned"</td>
-    </tr>
-</table>
-<a asp-action="Index" class="btn btn-secondary">Back to List</a>
-<a asp-action="Edit" asp-route-id="@Model.IdSala" class="btn btn-warning">Edit</a>
-<a asp-action="Delete" asp-route-id="@Model.IdSala" class="btn btn-danger">Delete</a>
+<h1 class="text-center text-primary">Detalhes da Sala</h1>
+<div class="p-4 border rounded" style="background-color: #e6f7ff;">
+    <table class="table table-bordered">
+        <tr>
+            <th>Hora Início</th>
+            <td>@Model.HoraInicio</td>
+        </tr>
+        <tr>
+            <th>Hora Fim</th>
+            <td>@Model.HoraFim</td>
+        </tr>
+        <tr>
+            <th>Tipo Sala</th>
+            <td>@Model.TipoSala?.NomeSala ?? "Não Atribuído"</td>
+        </tr>
+    </table>
+    <a asp-action="Index" class="btn btn-primary">Voltar à Lista</a>
+    <a asp-action="Edit" asp-route-id="@Model.IdSala" class="btn btn-warning">Editar</a>
+    <a asp-action="Delete" asp-route-id="@Model.IdSala" class="btn btn-danger">Excluir</a>
+</div>
