@@ -1,0 +1,136 @@
+@model ReserveSystem.Models.RoomServiceBooking
+
+@{
+    ViewData["Title"] = "Create Room Service Booking";
+}
+
+<!-- Page Header -->
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <h1 class="text-center text-primary">Create Room Service Booking</h1>
+    </div>
+    <hr class="border-primary">
+</div>
+
+<!-- Create Form -->
+<div class="card border-secondary shadow-lg mx-auto" style="width: 75%;">
+    <div class="card-header bg-dark text-light text-center">
+        <h4>New Room Service Booking</h4>
+    </div>
+    <div class="card-body bg-dark text-light">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+            <!-- Two-Column Layout -->
+            <div class="row">
+                <!-- Input Fields -->
+                <div class="col-md-6 mb-4">
+                    <label asp-for="RoomServiceId" class="form-label">Room Service ID:</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-dark text-light">🏠</span>
+                        <input asp-for="RoomServiceId" class="form-control bg-dark text-light" style="border: 1px solid white;" />
+                    </div>
+                    <span asp-validation-for="RoomServiceId" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label asp-for="StaffId" class="form-label">Staff ID:</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-dark text-light">👤</span>
+                        <input asp-for="StaffId" class="form-control bg-dark text-light" style="border: 1px solid white;" />
+                    </div>
+                    <span asp-validation-for="StaffId" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label asp-for="ClientId" class="form-label">Client ID:</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-dark text-light">👤</span>
+                        <input asp-for="ClientId" class="form-control bg-dark text-light" style="border: 1px solid white;" />
+                    </div>
+                    <span asp-validation-for="ClientId" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label asp-for="RoomId" class="form-label">Room ID:</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-dark text-light">🏠</span>
+                        <input asp-for="RoomId" class="form-control bg-dark text-light" style="border: 1px solid white;" />
+                    </div>
+                    <span asp-validation-for="RoomId" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label asp-for="DateTime" class="form-label">Booking Date & Time:</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-dark text-light">📅 🕒</span>
+                        <input asp-for="DateTime" class="form-control bg-dark text-light" style="border: 1px solid white;" />
+                    </div>
+                    <span asp-validation-for="DateTime" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label asp-for="StartDate" class="form-label">Start Date:</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-dark text-light">📅</span>
+                        <input asp-for="StartDate" class="form-control bg-dark text-light" style="border: 1px solid white;" />
+                    </div>
+                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label asp-for="EndDate" class="form-label">End Date:</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-dark text-light">📅</span>
+                        <input asp-for="EndDate" class="form-control bg-dark text-light" style="border: 1px solid white;" />
+                    </div>
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label asp-for="ClientFeedback" class="form-label">Client Feedback:</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-dark text-light">🎙️</span>
+                        <input asp-for="ClientFeedback" class="form-control bg-dark text-light" style="border: 1px solid white;" />
+                    </div>
+                    <span asp-validation-for="ClientFeedback" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label asp-for="ValueToPay" class="form-label">Price:</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-dark text-light">💵</span>
+                        <input asp-for="ValueToPay" type="number" class="form-control bg-dark text-light" style="border: 1px solid white;" />
+                    </div>
+                    <span asp-validation-for="ValueToPay" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Checkboxes -->
+            <div class="form-group d-flex justify-content-between my-4">
+                <div class="form-check">
+                    <input class="form-check-input" asp-for="BookedState" />
+                    <label class="form-check-label text-light" asp-for="BookedState">Booking State</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" asp-for="StaffConfirmation" />
+                    <label class="form-check-label text-light" asp-for="StaffConfirmation">Staff Confirmation</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" asp-for="PaymentDone" />
+                    <label class="form-check-label text-light" asp-for="PaymentDone">Payment Done</label>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="form-group text-center mt-4">
+                <input type="submit" value="Create" class="btn btn-outline-success mx-2">
+                <a asp-action="Index" class="btn btn-outline-light mx-2">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
