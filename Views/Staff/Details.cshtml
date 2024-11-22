@@ -1,0 +1,23 @@
+@model ReserveSystem.Models.Staff
+
+<h2>Staff Details</h2>
+
+<div>
+    <h4>@Model.StaffName</h4>
+    <dl class="row">
+        <dt class="col-sm-2">Email:</dt>
+        <dd class="col-sm-10">@Model.StaffEmail</dd>
+
+        <dt class="col-sm-2">Department:</dt>
+        <dd class="col-sm-10">@Model.StaffDept</dd>
+
+        <dt class="col-sm-2">Phone:</dt>
+        <dd class="col-sm-10">@Model.StaffPhone</dd>
+
+        <dt class="col-sm-2">Job ID:</dt>
+        <dd class="col-sm-10">@Model.JobId</dd>
+    </dl>
+</div>
+
+<a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    

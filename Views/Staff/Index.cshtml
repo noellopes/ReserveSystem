@@ -1,0 +1,33 @@
+@model IEnumerable<ReserveSystem.Models.Staff>
+
+    <h2>Staff List</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Staff Name</th>
+                <th>Email</th>
+                <th>Department</th>
+                <th>Phone</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var staff in Model)
+        {
+            <tr>
+                <td>@staff.StaffName</td>
+                <td>@staff.StaffEmail</td>
+                <td>@staff.StaffDept</td>
+                <td>@staff.StaffPhone</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@staff.StaffID">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@staff.StaffID">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@staff.StaffID">Delete</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <a asp-action="Create" class="btn btn-primary">Add New Staff</a>

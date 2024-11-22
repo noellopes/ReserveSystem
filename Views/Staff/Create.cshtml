@@ -1,0 +1,34 @@
+@model ReserveSystem.Models.Staff
+
+<h2>Add New Staff</h2>
+
+<form asp-action="Create">
+    <div class="form-group">
+        <label asp-for="StaffName" class="control-label"></label>
+        <input asp-for="StaffName" class="form-control" />
+        <span asp-validation-for="StaffName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="StaffEmail" class="control-label"></label>
+        <input asp-for="StaffEmail" class="form-control" />
+        <span asp-validation-for="StaffEmail" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="StaffDept" class="control-label"></label>
+        <input asp-for="StaffDept" class="form-control" />
+        <span asp-validation-for="StaffDept" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="StaffPhone" class="control-label"></label>
+        <input asp-for="StaffPhone" class="form-control" />
+        <span asp-validation-for="StaffPhone" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="JobId" class="control-label"></label>
+        <input asp-for="JobId" class="form-control" />
+        <span asp-validation-for="JobId" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+<a asp-action="Index" class="btn btn-secondary">Back to List</a>
