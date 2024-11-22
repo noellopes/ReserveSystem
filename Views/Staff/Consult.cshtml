@@ -1,0 +1,18 @@
+﻿@model ReserveSystem.Models.Staff
+
+<h2>Consult Staff</h2>
+
+<p>@ViewBag.ConsultMessage</p>
+
+<dl>
+    <dt>Name:</dt>
+    <dd>@Model.StaffName</dd>
+
+    <dt>Email:</dt>
+    <dd>@Model.StaffEmail</dd>
+
+    <dt>Department:</dt>
+    <dd>@Model.StaffDept</dd>
+</dl>
+
+<a asp-action="Index" class="btn btn-secondary">Back to List</a>

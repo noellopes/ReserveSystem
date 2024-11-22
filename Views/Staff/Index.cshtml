@@ -1,6 +1,11 @@
 @model IEnumerable<ReserveSystem.Models.Staff>
 
     <h2>Staff List</h2>
+<form asp-action="Search" method="get">
+    <input type="text" name="searchString" placeholder="Search Staff" class="form-control" />
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
 
     <table class="table">
         <thead>

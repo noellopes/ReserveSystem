@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Models;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ReserveSystem.Controllers
@@ -145,6 +146,43 @@ namespace ReserveSystem.Controllers
         private bool StaffExists(int id)
         {
             return _context.Staff.Any(e => e.StaffID == id);
+        }
+
+        // SELECT: Staff/Search
+        public async Task<IActionResult> Search(string searchString)
+        {
+            var staffList = from s in _context.Staff.Include(s => s.Job)
+                            select s;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                staffList = staffList.Where(s => s.StaffName.Contains(searchString) || s.StaffDept.Contains(searchString));
+            }
+
+            return View("Index", await staffList.ToListAsync());
+        }
+
+        // CONSULT: Staff/Consult
+        public async Task<IActionResult> Consult(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var staff = await _context.Staff
+                .Include(s => s.Job)
+                .FirstOrDefaultAsync(m => m.StaffID == id);
+
+            if (staff == null)
+            {
+                return NotFound();
+            }
+
+            // Örnek: İlgili personelin tatil günlerinin detaylı incelemesi gibi özel bir işlem
+            ViewBag.ConsultMessage = $"Staff {staff.StaffName} has {staff.DaysOffVacation} vacation days remaining.";
+
+            return View(staff);
         }
     }
 }
