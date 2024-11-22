@@ -19,7 +19,7 @@ namespace ReserveSystem.Controllers
         // GET: Staff
         public async Task<IActionResult> Index()
         {
-            var staffList = await _context.Staff.Include(s => s.JobId).ToListAsync();
+            var staffList = await _context.Staff.ToListAsync();
             return View(staffList);
         }
 
@@ -32,7 +32,6 @@ namespace ReserveSystem.Controllers
             }
 
             var staff = await _context.Staff
-                .Include(s => s.JobId)
                 .FirstOrDefaultAsync(m => m.StaffID == id);
 
             if (staff == null)
@@ -52,7 +51,7 @@ namespace ReserveSystem.Controllers
         // POST: Staff/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StaffID,JobId,StaffName,StaffEmail,StaffDept,StaffPhone,StaffPassword,StartFunctionsDate,EndFunctionsDate,DaysOffVacation")] Staff staff)
+        public async Task<IActionResult> Create([Bind("StaffID,StaffName,StaffEmail,StaffDept,StaffPhone,StaffPassword,StartFunctionsDate,EndFunctionsDate,DaysOffVacation")] Staff staff)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +82,7 @@ namespace ReserveSystem.Controllers
         // POST: Staff/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StaffID,JobId,StaffName,StaffEmail,StaffDept,StaffPhone,StaffPassword,StartFunctionsDate,EndFunctionsDate,DaysOffVacation")] Staff staff)
+        public async Task<IActionResult> Edit(int id, [Bind("StaffID,StaffName,StaffEmail,StaffDept,StaffPhone,StaffPassword,StartFunctionsDate,EndFunctionsDate,DaysOffVacation")] Staff staff)
         {
             if (id != staff.StaffID)
             {
@@ -122,7 +121,6 @@ namespace ReserveSystem.Controllers
             }
 
             var staff = await _context.Staff
-                .Include(s => s.Job)
                 .FirstOrDefaultAsync(m => m.StaffID == id);
 
             if (staff == null)
@@ -152,7 +150,7 @@ namespace ReserveSystem.Controllers
         // SELECT: Staff/Search
         public async Task<IActionResult> Search(string searchString)
         {
-            var staffList = from s in _context.Staff.Include(s => s.Job)
+            var staffList = from s in _context.Staff
                             select s;
 
             if (!string.IsNullOrEmpty(searchString))
@@ -172,7 +170,6 @@ namespace ReserveSystem.Controllers
             }
 
             var staff = await _context.Staff
-                .Include(s => s.Job)
                 .FirstOrDefaultAsync(m => m.StaffID == id);
 
             if (staff == null)
