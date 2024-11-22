@@ -14,7 +14,6 @@ namespace ReserveSystem.Models
         public DateTime DataFim { get; set; }
         public int Partcipantes { get; set; }
         public double PrecoTotal { get; set; }
-
         public int ClienteId { get; set; }
         public ClientModel? ClienteModel { get; set; }
         //public int IdEquipamento { get; set; }
