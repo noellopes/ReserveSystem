@@ -1,0 +1,25 @@
+﻿@model IEnumerable<ReserveSystem.Models.Job>
+
+<h2>All Jobs</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Job ID</th>
+            <th>Job Name</th>
+            <th>Job Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var job in Model)
+        {
+            <tr>
+                <td>@job.JobId</td>
+                <td>@job.JobName</td>
+                <td>@job.JobDescription</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-secondary">Back to Job List</a>

@@ -96,17 +96,13 @@ namespace ReserveSystem.Controllers
         }
 
         // Custom: consult_job
+        // GET: ConsultJob
         public IActionResult ConsultJob()
         {
-            var jobs = _context.Job.Select(j => new
-            {
-                j.JobId,
-                j.JobName,
-                j.JobDescription
-            }).ToList();
-
-            return Json(jobs);
+            var jobs = _context.Job.ToList(); // Tüm işleri çek
+            return View(jobs);
         }
+
 
         // Custom: select_job
         // GET: SelectJobByName
