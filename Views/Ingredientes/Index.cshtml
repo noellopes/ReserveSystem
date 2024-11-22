@@ -1,0 +1,62 @@
+﻿@model IEnumerable<ReserveSystem.Models.Ingredient>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    .table th, .table td {
+        text-align: center;
+    }
+
+    .table th {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn-custom {
+        background-color: #28a745;
+        color: white;
+    }
+
+        .btn-custom:hover {
+            background-color: #218838;
+        }
+
+    .btn-edit, .btn-details, .btn-delete {
+        margin: 0 5px;
+    }
+</style>
+
+<div class="container mt-4">
+    <h1 class="text-center text-primary">Ingredientes no Buffet</h1>
+
+    <div class="d-flex justify-content-between mb-3">
+        <a class="btn btn-primary" asp-action="Create">Criar Novo Ingrediente</a>
+    </div>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Nome)</th>
+                <th>@Html.DisplayNameFor(model => model.QuantidadeDisponivel)</th>
+                <th>@Html.DisplayNameFor(model => model.UnidadeMedida)</th>
+                <th>Opções</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Nome)</td>
+                    <td>@Html.DisplayFor(modelItem => item.QuantidadeDisponivel)</td>
+                    <td>@Html.DisplayFor(modelItem => item.UnidadeMedida)</td>
+                    <td>
+                        <a class="btn btn-sm btn-info btn-edit" asp-action="Edit" asp-route-id="@item.IngredienteId">Editar</a>
+                        <a class="btn btn-sm btn-primary btn-details" asp-action="Details" asp-route-id="@item.IngredienteId">Detalhes</a>
+                        <a class="btn btn-sm btn-danger btn-delete" asp-action="Delete" asp-route-id="@item.IngredienteId">Excluir</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
