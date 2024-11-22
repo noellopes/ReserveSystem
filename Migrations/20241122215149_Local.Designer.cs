@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserveSystem.Data;
 
@@ -11,13 +12,15 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    partial class ReserveSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20241122215149_Local")]
+    partial class Local
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.11")
+                .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -82,6 +85,51 @@ namespace ReserveSystem.Migrations
                     b.ToTable("Equipamento");
                 });
 
+            modelBuilder.Entity("ReserveSystem.Models.Reserva", b =>
+                {
+                    b.Property<int>("ReservaID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservaID"));
+
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ClienteModelClienteId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DataFim")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataReserva")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdEquipamento")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Partcipantes")
+                        .HasColumnType("int");
+
+                    b.Property<double>("PrecoTotal")
+                        .HasColumnType("float");
+
+                    b.Property<string>("TipoReserva")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ReservaID");
+
+                    b.HasIndex("ClienteModelClienteId");
+
+                    b.HasIndex("IdEquipamento");
+
+                    b.ToTable("Reserva");
+                });
+
             modelBuilder.Entity("ReserveSystem.Models.ReservaModel", b =>
                 {
                     b.Property<int>("ReservaID")
@@ -91,6 +139,9 @@ namespace ReserveSystem.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservaID"));
 
                     b.Property<int>("ClienteId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ClienteModelClienteId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DataFim")
@@ -114,7 +165,7 @@ namespace ReserveSystem.Migrations
 
                     b.HasKey("ReservaID");
 
-                    b.HasIndex("ClienteId");
+                    b.HasIndex("ClienteModelClienteId");
 
                     b.ToTable("ReservaModel");
                 });
@@ -143,7 +194,7 @@ namespace ReserveSystem.Migrations
 
                     b.HasIndex("IdTipoSala");
 
-                    b.ToTable("Salas");
+                    b.ToTable("Sala");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.TipoSala", b =>
@@ -169,18 +220,33 @@ namespace ReserveSystem.Migrations
 
                     b.HasKey("IdTipoSala");
 
-                    b.ToTable("TipoSalas");
+                    b.ToTable("TipoSala");
+                });
+
+            modelBuilder.Entity("ReserveSystem.Models.Reserva", b =>
+                {
+                    b.HasOne("ReserveSystem.Models.ClientModel", "ClienteModel")
+                        .WithMany()
+                        .HasForeignKey("ClienteModelClienteId");
+
+                    b.HasOne("ReserveSystem.Models.Equipamento", "Equipamento")
+                        .WithMany()
+                        .HasForeignKey("IdEquipamento")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ClienteModel");
+
+                    b.Navigation("Equipamento");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.ReservaModel", b =>
                 {
-                    b.HasOne("ReserveSystem.Models.ClientModel", "Cliente")
-                        .WithMany("Reserva")
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("ReserveSystem.Models.ClientModel", "ClienteModel")
+                        .WithMany("ReservaModel")
+                        .HasForeignKey("ClienteModelClienteId");
 
-                    b.Navigation("Cliente");
+                    b.Navigation("ClienteModel");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.Sala", b =>
@@ -196,7 +262,7 @@ namespace ReserveSystem.Migrations
 
             modelBuilder.Entity("ReserveSystem.Models.ClientModel", b =>
                 {
-                    b.Navigation("Reserva");
+                    b.Navigation("ReservaModel");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.TipoSala", b =>

@@ -10,22 +10,22 @@ using ReserveSystem.Models;
 
 namespace ReserveSystem.Controllers
 {
-    public class ClienteController : Controller
+    public class ClientController : Controller
     {
         private readonly ReserveSystemContext _context;
 
-        public ClienteController(ReserveSystemContext context)
+        public ClientController(ReserveSystemContext context)
         {
             _context = context;
         }
 
-        // GET: Cliente
+        // GET: Client
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ClienteModel.ToListAsync());
+            return View(await _context.ClientModel.ToListAsync());
         }
 
-        // GET: Cliente/Details/5
+        // GET: Client/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,46 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var clienteModel = await _context.ClienteModel
+            var clientModel = await _context.ClientModel
                 .FirstOrDefaultAsync(m => m.ClienteId == id);
-            if (clienteModel == null)
+            if (clientModel == null)
             {
                 return NotFound();
             }
 
-            return View(clienteModel);
+            return View(clientModel);
         }
 
-        // GET: Cliente/Create
+        // GET: Client/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Cliente/Create
+        // POST: Client/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClienteId,NomeCliente,MoradaCliente,Email,Password,Telefone")] ClienteModel clienteModel)
+        public async Task<IActionResult> Create([Bind("ClienteId,NomeCliente,MoradaCliente,Email,Password,Telefone,NIF")] ClientModel clientModel)
         {
+            //try
+            //{
+
+            //}catch(Exception ex)
+            //{
+
+            //}
             if (ModelState.IsValid)
             {
-                _context.Add(clienteModel);
+                _context.Add(clientModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(clienteModel);
+            return View(clientModel);
         }
 
-        // GET: Cliente/Edit/5
+        // GET: Client/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +80,22 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var clienteModel = await _context.ClienteModel.FindAsync(id);
-            if (clienteModel == null)
+            var clientModel = await _context.ClientModel.FindAsync(id);
+            if (clientModel == null)
             {
                 return NotFound();
             }
-            return View(clienteModel);
+            return View(clientModel);
         }
 
-        // POST: Cliente/Edit/5
+        // POST: Client/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,NomeCliente,MoradaCliente,Email,Password,Telefone")] ClienteModel clienteModel)
+        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,NomeCliente,MoradaCliente,Email,Password,Telefone,NIF")] ClientModel clientModel)
         {
-            if (id != clienteModel.ClienteId)
+            if (id != clientModel.ClienteId)
             {
                 return NotFound();
             }
@@ -97,12 +104,12 @@ namespace ReserveSystem.Controllers
             {
                 try
                 {
-                    _context.Update(clienteModel);
+                    _context.Update(clientModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ClienteModelExists(clienteModel.ClienteId))
+                    if (!ClientModelExists(clientModel.ClienteId))
                     {
                         return NotFound();
                     }
@@ -113,10 +120,10 @@ namespace ReserveSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(clienteModel);
+            return View(clientModel);
         }
 
-        // GET: Cliente/Delete/5
+        // GET: Client/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,34 +131,34 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var clienteModel = await _context.ClienteModel
+            var clientModel = await _context.ClientModel
                 .FirstOrDefaultAsync(m => m.ClienteId == id);
-            if (clienteModel == null)
+            if (clientModel == null)
             {
                 return NotFound();
             }
 
-            return View(clienteModel);
+            return View(clientModel);
         }
 
-        // POST: Cliente/Delete/5
+        // POST: Client/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var clienteModel = await _context.ClienteModel.FindAsync(id);
-            if (clienteModel != null)
+            var clientModel = await _context.ClientModel.FindAsync(id);
+            if (clientModel != null)
             {
-                _context.ClienteModel.Remove(clienteModel);
+                _context.ClientModel.Remove(clientModel);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ClienteModelExists(int id)
+        private bool ClientModelExists(int id)
         {
-            return _context.ClienteModel.Any(e => e.ClienteId == id);
+            return _context.ClientModel.Any(e => e.ClienteId == id);
         }
     }
 }

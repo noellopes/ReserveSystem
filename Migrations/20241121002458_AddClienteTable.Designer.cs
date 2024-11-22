@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserveSystem.Data;
 
@@ -11,9 +12,11 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    partial class ReserveSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20241121002458_AddClienteTable")]
+    partial class AddClienteTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,14 +139,18 @@ namespace ReserveSystem.Migrations
                     b.Property<long>("IdTipoSala")
                         .HasColumnType("bigint");
 
+                    b.Property<double>("Preço")
+                        .HasColumnType("float");
+
                     b.Property<DateTime>("TempoPreparação")
                         .HasColumnType("datetime2");
 
                     b.HasKey("IdSala");
 
-                    b.HasIndex("IdTipoSala");
+                    b.HasIndex("IdTipoSala")
+                        .IsUnique();
 
-                    b.ToTable("Salas");
+                    b.ToTable("Sala");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.TipoSala", b =>
@@ -157,19 +164,16 @@ namespace ReserveSystem.Migrations
                     b.Property<int>("Capacidade")
                         .HasColumnType("int");
 
-                    b.Property<string>("NomeSala")
+                    b.Property<string>("NomeAvaria")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("PreçoHora")
-                        .HasColumnType("float");
 
                     b.Property<int>("TamanhoSala")
                         .HasColumnType("int");
 
                     b.HasKey("IdTipoSala");
 
-                    b.ToTable("TipoSalas");
+                    b.ToTable("TipoSala");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.ReservaModel", b =>
@@ -186,8 +190,8 @@ namespace ReserveSystem.Migrations
             modelBuilder.Entity("ReserveSystem.Models.Sala", b =>
                 {
                     b.HasOne("ReserveSystem.Models.TipoSala", "TipoSala")
-                        .WithMany("Salas")
-                        .HasForeignKey("IdTipoSala")
+                        .WithOne("Sala")
+                        .HasForeignKey("ReserveSystem.Models.Sala", "IdTipoSala")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -201,7 +205,8 @@ namespace ReserveSystem.Migrations
 
             modelBuilder.Entity("ReserveSystem.Models.TipoSala", b =>
                 {
-                    b.Navigation("Salas");
+                    b.Navigation("Sala")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
