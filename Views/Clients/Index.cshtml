@@ -4,6 +4,7 @@
     ViewData["Title"] = "Home Page";
 }
 
+
 <h1 class="page-title">Clients</h1>
 
 <div class="header-buttons">
@@ -15,6 +16,13 @@
         <button type="button" class="btn-clear" onclick="window.location.href='@Url.Action("Index", new { nameSearch = "" })'">Show All</button>
     </form>
 </div>
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
 
 <table class="styled-table">
     <thead>

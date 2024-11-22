@@ -139,6 +139,7 @@ namespace ReserveSystem.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var client = await _context.Clients.FindAsync(id);
@@ -146,8 +147,10 @@ namespace ReserveSystem.Controllers
             {
                 _context.Clients.Remove(client);
                 await _context.SaveChangesAsync();
-            }
 
+                // Armazena a mensagem de sucesso no TempData
+                TempData["SuccessMessage"] = "Client successfully deleted.";
+            }
             return RedirectToAction(nameof(Index));
         }
 
