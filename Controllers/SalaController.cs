@@ -97,15 +97,16 @@ namespace ReserveSystem.Controllers
             if (!ModelState.IsValid)
             {
                 ViewData["IdTipoSala"] = new SelectList(_context.TipoSala, "IdTipoSala", "NomeSala", sala.IdTipoSala);
-                return View(sala);
+                return View(sala); // Return the view with validation errors if the model state is invalid
             }
 
             _context.Add(sala);
             await _context.SaveChangesAsync();
 
-            TempData["SuccessMessage"] = "Sala successfully created!";
-            return RedirectToAction(nameof(ListUserSalas));
+            TempData["SuccessMessage"] = "Sala successfully created!"; // Store success message
+            return RedirectToAction("ListUserSalas"); // Redirect to ListUserSalas view
         }
+
 
         // GET: Sala/Edit/{id}
         public async Task<IActionResult> Edit(long? id)
