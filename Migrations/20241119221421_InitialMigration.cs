@@ -51,7 +51,8 @@ namespace ReserveSystem.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NomeAvaria = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TamanhoSala = table.Column<int>(type: "int", nullable: false),
-                    Capacidade = table.Column<int>(type: "int", nullable: false)
+                    Capacidade = table.Column<int>(type: "int", nullable: false),
+                    PreçoHora = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -92,7 +93,6 @@ namespace ReserveSystem.Migrations
                     TempoPreparação = table.Column<DateTime>(type: "datetime2", nullable: false),
                     HoraInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
                     HoraFim = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Preço = table.Column<double>(type: "float", nullable: false),
                     IdTipoSala = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
