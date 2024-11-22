@@ -2,13 +2,65 @@
     ViewBag.Title = $"{ViewBag.Entity} successfully deleted";
 }
 
+<style>
+    h1 {
+        color: #d4af37; /* Gold for heading */
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 700;
+    }
+
+    hr {
+        border: none;
+        height: 2px;
+        background-color: #d4af37; /* Gold */
+        width: 60%;
+        margin: 1rem auto;
+        opacity: 0.8;
+    }
+
+    .btn {
+        background-color: #ffffff;
+        border-color: #d4af37;
+        color: #333333;
+        font-weight: 600;
+        padding: 14px 28px;
+        border-radius: 50px;
+        font-size: 1.125rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        width: 45%;
+        margin-top: 7rem;
+    }
+
+        .btn:hover {
+            background-color: #333333;
+            color: #F5F5F5;
+            border-color: ##b29126;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .btn:active {
+            background-color: #000000; /* Darker effect when clicked */
+            border-color: #000000;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Return to original shadow */
+            transform: translateY(0); /* Button "presses" down */
+        }
+
+</style>
+
 <h1>@ViewBag.Title</h1>
-<div class="container mt-5">
-    <div class="alert alert-success" role="alert">
+<hr>
+
+<div class="container mt-5 text-center">
+    <div class="alert alert-success text-center" role="alert"style="border-color:darkgreen">
         <h4 class="alert-heading">Success!</h4>
+        <br>
         <p>The @ViewBag.Entity was succesfully deleted.</p>
-        <hr>
-        <a asp-action="@ViewBag.Action" asp-controller="@ViewBag.Controller" class="btn btn-primary">Back to list</a>
     </div>
+    <a asp-action="@ViewBag.Action" asp-controller="@ViewBag.Controller" class="btn">Back to list</a>
 </div>
 
+<script src="https://kit.fontawesome.com/667d0be6de.js" crossorigin="anonymous"></script>

@@ -2,8 +2,55 @@
     ViewData["Title"] = "Home Page";
 }
 
+<style>
+    h1 {
+        color: #d4af37; /* Gold for heading */
+        font-size: 2rem;
+        font-weight: 700;
+    }
+
+    hr {
+        border: none;
+        height: 2px;
+        background-color: #d4af37; /* Gold */
+        width: 60%;
+        margin: 1rem auto;
+        opacity: 0.8;
+    }
+
+    .btn {
+        background-color: #ffffff;
+        border-color: #d4af37;
+        color: #333333;
+        font-weight: 600;
+        padding: 14px 28px;
+        border-radius: 50px;
+        font-size: 1.125rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        width: 45%;
+        margin-top:6rem;
+    }
+
+        .btn:hover {
+            background-color: #333333;
+            color: #F5F5F5;
+            border-color: ##b29126;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .btn:active {
+            background-color: #000000; /* Darker effect when clicked */
+            border-color: #000000;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Return to original shadow */
+            transform: translateY(0); /* Button "presses" down */
+        }
+</style>
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <hr />
+    <a class="btn" asp-action="Index" asp-controller="Sazonalidades">Enter the Seasonality System</a>
 </div>
-<a class="btn btn-success" asp-action="ViewSeasonList" asp-controller="Sazonalidades">wow</a>
