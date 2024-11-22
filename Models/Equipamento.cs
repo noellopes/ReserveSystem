@@ -9,6 +9,5 @@ namespace ReserveSystem.Models
         public string NomeEquipamento { get; set; }
         public string TipoEquipamento { get; set; }
         public int Quantidade { get; set; }
-        
     }
 }
