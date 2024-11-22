@@ -14,7 +14,7 @@ namespace ReserveSystem.Models
 
         [Required]
         [StringLength(100)]
-        [EmailAddress]
+        [Display(Name = "Telefone")]
         [Display(Name = "Endereço de E-mail")]
         public string Email { get; set; }
 
