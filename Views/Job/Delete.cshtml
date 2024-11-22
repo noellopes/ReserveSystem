@@ -1,0 +1,21 @@
+﻿@model ReserveSystem.Models.Job
+
+<h2>Delete Job</h2>
+
+<div>
+    <h3>Are you sure you want to delete this job?</h3>
+    <div>
+        <dl class="row">
+            <dt class="col-sm-2">Job Name</dt>
+            <dd class="col-sm-10">@Model.JobName</dd>
+            <dt class="col-sm-2">Job Description</dt>
+            <dd class="col-sm-10">@Model.JobDescription</dd>
+        </dl>
+    </div>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="JobId" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
