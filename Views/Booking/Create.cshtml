@@ -3,68 +3,37 @@
 @{
     ViewData["Title"] = "Create";
 }
-<html>
-<head>
 
-</head>
-<body>
-    <h1 class="text-center">CRIAR NOVA RESERVA</h1>
-    <br>
-    <div class="d-flex justify-content-center">
-        <div class="col-md-4 border rounded p-5 shadow-sm bg-light">
-            <form asp-action="Create">
-                
-                <div class="form-group mt-2">
-                    <label class="control-label">Data de Check-In</label>
-                    <input asp-for="CHECKIN_DATE" class="form-control"/>
-                    <span asp-validation-for="CHECKIN_DATE" class="text-danger"></span>
-                </div>
-                <div class="form-group mt-2">
-                    <label class="control-label">Data de Check-Out</label>
-                    <input asp-for="CHECKOUT_DATE" class="form-control"/>
-                    <span asp-validation-for="CHECKOUT_DATE" class="text-danger"></span>
-                </div>
-                <div class="form-group mt-2">
-                    <label class="control-label">Numero de Pessoas</label>
-                    <input asp-for="TOTAL_PERSONS_NUMBER" class="form-control"/>
-                    <span asp-validation-for="TOTAL_PERSONS_NUMBER" class="text-danger"></span>
-                </div>
-                <div class="form-group d-flex mt-2">
-                    <input type="submit" value="Criar nova Reserva" class="btn btn-success w-50 me-1 fw-bold" />
-                    <button type="button" class="btn btn-primary w-50 ms-1">
-                        <a asp-action="Index" style="text-decoration: none; color: white"><b>Lista de Reservas</b></a>
-                    </button>
-                </div>
-            </form>
-        </div>
+<h1 class="text-center">CRIAR NOVA RESERVA</h1>
+<br>
+<div class="d-flex justify-content-center">
+    <div class="col-md-4 border rounded p-5 shadow-sm bg-light">
+        <form asp-action="Create">
+            <div class="form-group mt-2">
+                <label class="control-label">Data de Check-In</label>
+                <input asp-for="CHECKIN_DATE" class="form-control" />
+                <span asp-validation-for="CHECKIN_DATE" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2">
+                <label class="control-label">Data de Check-Out</label>
+                <input asp-for="CHECKOUT_DATE" class="form-control" />
+                <span asp-validation-for="CHECKOUT_DATE" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2">
+                <label class="control-label">Numero de Pessoas</label>
+                <input asp-for="TOTAL_PERSONS_NUMBER" class="form-control" />
+                <span asp-validation-for="TOTAL_PERSONS_NUMBER" class="text-danger"></span>
+            </div>
+            <div class="form-group d-flex mt-2">
+                <input type="submit" value="Criar nova Reserva" class="btn btn-success w-50 me-1 fw-bold" />
+                <button type="button" class="btn btn-primary w-50 ms-1">
+                    <a asp-action="Index" style="text-decoration: none; color: white"><b>Lista de Reservas</b></a>
+                </button>
+            </div>
+        </form>
     </div>
-</body>
-</html>
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

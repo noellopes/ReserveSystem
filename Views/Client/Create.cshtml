@@ -14,13 +14,12 @@
         <form asp-action="Create" method="post" class="border p-5 rounded shadow-sm">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
-                <span asp-validation-for="Name" class="text-danger"></span>
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control bg-light " type="text" />                
+                <input asp-for="Name" class="form-control bg-light " type="text" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
 
             <div class="form-group mb-3">
-                <span asp-validation-for="Phone" class="text-danger"></span>
                 <label asp-for="Phone" id="" class="control-label "></label>
                 <div class="input-group">
                     <select id="countrySelect" class="form-control">
@@ -48,30 +47,32 @@
                     <span id="flagIcon" class="input-group-text" style="display: none;">
                         <img src="" id="flag" alt="Country Flag" style="width: 30px; height: 20px;">
                     </span>
+                    <span asp-validation-for="Phone" class="text-danger"></span>
                     <input asp-for="Phone" id="telefone" class="form-control bg-light" type="tel" />   
                 </div>
-                @* <span id="phoneError" class="text-danger" style="display: none;">Número de telefone Invalido. Por favor, certifique-se de que o número tenha o comprimento correto para o país selecionado.</span> *@
+                @*<span id="phoneError" class="text-danger" style="display: none;">Número de telefone Invalido. Por favor, certifique-se de que o número tenha o comprimento correto para o país selecionado.</span> *@
             </div>
 
             <div class="form-group">
-                <span asp-validation-for="Address" class="text-danger"></span>
                 <label asp-for="Address" class="control-label"></label>
                 <input asp-for="Address" class="form-control bg-light" type="text" />
+                <span asp-validation-for="Address" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <span asp-validation-for="Email" class="text-danger"></span>
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control bg-light " type="email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <span asp-validation-for="NIF" class="text-danger"></span>
                 <label asp-for="NIF" class="control-label"></label>
                 <input asp-for="NIF" class="form-control bg-light" type="text" maxlength="9" />
+                <span asp-validation-for="NIF" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <span asp-validation-for="Password" class="text-danger"></span>
+                
                 <label asp-for="Password" class="control-label"></label>
                 <input asp-for="Password" class="form-control bg-light" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="d-flex justify-content-between m-3">
                 <div class="form-group">

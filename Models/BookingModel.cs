@@ -21,6 +21,7 @@ namespace ReserveSystem.Models
 
         [DataType(DataType.Date)]
         public DateTime BOOKING_DATE { get; set; }
+
         [Required(ErrorMessage = "Inserir numero de pessoas")]
         public int TOTAL_PERSONS_NUMBER { get; set; }
 
