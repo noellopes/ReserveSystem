@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
+using System.Threading.Tasks;
 
 namespace ReserveSystem.Controllers
 {
@@ -15,15 +16,9 @@ namespace ReserveSystem.Controllers
             _context = context;
         }
 
-        // GET: Sala
+        // GET: Sala (Predefined + User-Generated)
         public IActionResult Index()
         {
-            if (_context.Sala.Any())
-            {
-                _context.Sala.RemoveRange(_context.Sala);
-                _context.SaveChanges();
-            }
-
             if (!_context.Sala.Any())
             {
                 if (!_context.TipoSala.Any())
@@ -53,12 +48,17 @@ namespace ReserveSystem.Controllers
             }
 
             var salas = _context.Sala.Include(s => s.TipoSala).ToList();
-            if (!salas.Any())
-            {
-                ViewBag.EmptyMessage = "No Sala available in the system.";
-                return View(Enumerable.Empty<Sala>());
-            }
             return View(salas);
+        }
+
+        // GET: ListUserSalas (Only User-Generated)
+        public async Task<IActionResult> ListUserSalas()
+        {
+            var userSalas = await _context.Sala
+                .Include(s => s.TipoSala)
+                .Where(s => !_context.Sala.Any(pre => pre.HoraInicio == s.HoraInicio && pre.HoraFim == s.HoraFim)) // Exclude predefined
+                .ToListAsync();
+            return View(userSalas);
         }
 
         // GET: Sala/Details/{id}
@@ -102,7 +102,9 @@ namespace ReserveSystem.Controllers
 
             _context.Add(sala);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            TempData["SuccessMessage"] = "Sala successfully created!";
+            return RedirectToAction(nameof(ListUserSalas));
         }
 
         // GET: Sala/Edit/{id}
@@ -144,6 +146,9 @@ namespace ReserveSystem.Controllers
             {
                 _context.Update(sala);
                 await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Sala successfully updated!";
+                return RedirectToAction(nameof(ListUserSalas));
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -156,8 +161,6 @@ namespace ReserveSystem.Controllers
                     throw;
                 }
             }
-
-            return RedirectToAction(nameof(Index));
         }
 
         // GET: Sala/Delete/{id}
@@ -195,7 +198,9 @@ namespace ReserveSystem.Controllers
 
             _context.Sala.Remove(sala);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            TempData["SuccessMessage"] = "Sala successfully deleted!";
+            return RedirectToAction(nameof(ListUserSalas));
         }
 
         private bool SalaExists(long id)

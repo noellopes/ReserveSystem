@@ -1,0 +1,55 @@
+@model IEnumerable<ReserveSystem.Models.Sala>
+
+<h1 class="text-center text-primary">Lista de Salas Criadas</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+<div class="alert alert-success text-center">
+    @TempData["SuccessMessage"]
+</div>
+}
+
+@if (!Model.Any())
+{
+<div class="alert alert-info text-center" style="background-color: #e6f7ff; color: #0056b3;">
+    Nenhuma sala criada. Clique abaixo para adicionar uma nova sala.
+</div>
+<div class="text-center">
+    <a asp-action="Create" class="btn btn-primary">Criar Nova Sala</a>
+</div>
+}
+else
+{
+<div class="table-responsive">
+    <table class="table table-bordered table-striped" style="background-color: #f0f8ff;">
+        <thead class="table-primary text-primary">
+        <tr>
+            <th>#</th>
+            <th>Hora Início</th>
+            <th>Hora Fim</th>
+            <th>Tipo Sala</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var sala in Model)
+        {
+        <tr>
+            <td>@sala.IdSala</td>
+            <td>@sala.HoraInicio.ToString("g")</td>
+            <td>@sala.HoraFim.ToString("g")</td>
+            <td>@sala.TipoSala?.NomeSala ?? "Não Atribuído"</td>
+            <td class="text-center">
+                <a asp-action="Details" asp-route-id="@sala.IdSala" class="btn btn-info btn-sm">Detalhes</a>
+                <a asp-action="Edit" asp-route-id="@sala.IdSala" class="btn btn-warning btn-sm">Editar</a>
+                <a asp-action="Delete" asp-route-id="@sala.IdSala" class="btn btn-danger btn-sm">Excluir</a>
+            </td>
+        </tr>
+        }
+        </tbody>
+    </table>
+</div>
+<div class="text-center">
+    <a asp-action="Create" class="btn btn-primary">Criar Nova Sala</a>
+</div>
+}
