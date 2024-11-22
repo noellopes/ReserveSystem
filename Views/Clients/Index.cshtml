@@ -1,0 +1,233 @@
+﻿@model ClientViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1 class="page-title">Clients</h1>
+
+<div class="header-buttons">
+    <a class="btn-create" asp-action="Create">+ Add New Client</a>
+    <form asp-action="Index" method="get" class="search-form">
+        <input type="text" name="nameSearch" placeholder="Search by name..." class="search-input" id="clientSearchInput" autocomplete="off" />
+        <select id="clientDropdown" name="clientId" class="search-dropdown" style="display: none;"></select>
+        <button type="submit" class="btn-search">Search</button>
+        <button type="button" class="btn-clear" onclick="window.location.href='@Url.Action("Index", new { nameSearch = "" })'">Show All</button>
+    </form>
+</div>
+
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Clients.FirstOrDefault().ClientName)</th>
+            <th>@Html.DisplayNameFor(model => model.Clients.FirstOrDefault().ClientEmail)</th>
+            <th>@Html.DisplayNameFor(model => model.Clients.FirstOrDefault().ClientAddress)</th>
+            <th>@Html.DisplayNameFor(model => model.Clients.FirstOrDefault().ClientNIF)</th>
+            <th>@Html.DisplayNameFor(model => model.Clients.FirstOrDefault().ClientPhone)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Clients)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.ClientName)</td>
+                <td>
+                    <a href="mailto:@item.ClientEmail" class="email-link">@Html.DisplayFor(modelItem => item.ClientEmail)</a>
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.ClientAddress)</td>
+                <td>@Html.DisplayFor(modelItem => item.ClientNIF)</td>
+                <td>@Html.DisplayFor(modelItem => item.ClientPhone)</td>
+                <td>
+                    <a class="action-link btn-edit" asp-action="Edit" asp-route-id="@item.ClientId">Edit</a>
+                    <a class="action-link btn-details" asp-action="Details" asp-route-id="@item.ClientId">Show</a>
+                    <a class="action-link btn-delete" href="#" onclick="return confirmDelete(@item.ClientId)">Delete</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#clientSearchInput').on('input', function () {
+                let searchTerm = $(this).val();
+
+                if (searchTerm.length > 2) {
+                    $.ajax({
+                        url: '@Url.Action("GetClientsByName", "Clients")',
+                        data: { term: searchTerm },
+                        success: function (data) {
+                            let dropdown = $('#clientDropdown');
+                            dropdown.empty().show();
+
+                            data.forEach(function (client) {
+                                dropdown.append($('<option></option>').attr('value', client.ClientId).text(client.ClientName));
+                            });
+                        }
+                    });
+                } else {
+                    $('#clientDropdown').hide();
+                }
+            });
+
+            $('#clientDropdown').on('change', function () {
+                $('#clientSearchInput').val($(this).find('option:selected').text());
+                $('#clientDropdown').hide();
+            });
+        });
+    </script>
+    <script>
+        function confirmDelete(clientId) {
+            if (confirm("Are you sure you want to delete this client?")) {
+                window.location.href = '@Url.Action("Delete", "Clients")/' + clientId;
+            }
+            return false;
+        }
+    </script>
+
+}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f3f0f8;
+        color: #4b0082;
+        padding: 20px;
+    }
+
+    .page-title {
+        color: #4b0082;
+        text-align: center;
+        font-size: 2em;
+        margin-bottom: 20px;
+    }
+
+    .header-buttons {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .btn-create {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #6a0dad; /* Roxo claro */
+        color: #fff;
+        text-decoration: none;
+        border-radius: 8px;
+    }
+
+        .btn-create:hover {
+            border-color: #007bff;
+            color: #007bff;
+        }
+
+    .search-form {
+        display: flex;
+        align-items: center;
+    }
+
+    .search-input {
+        padding: 10px;
+        border: 2px solid #6a0dad; /* Roxo claro */
+        border-radius: 5px;
+        margin-right: 10px;
+    }
+
+    .search-dropdown {
+        padding: 10px;
+        border: 2px solid #6a0dad; /* Roxo claro */
+        border-radius: 5px;
+        margin-right: 10px;
+    }
+
+    .btn-search, .btn-clear {
+        padding: 10px 20px;
+        border: 2px solid #6a0dad; /* Roxo claro */
+        background-color: #6a0dad; /* Roxo claro */
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: border-color 0.3s, color 0.3s, background-color 0.3s;
+    }
+
+        .btn-search:hover, .btn-clear:hover {
+            background-color: white;
+            color: #6a0dad;
+        }
+
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        margin: 0 auto;
+    }
+
+        .styled-table thead {
+            background-color: #4b0082;
+            color: #fff;
+        }
+
+        .styled-table th, .styled-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .styled-table tbody tr {
+            background-color: #f9f6fd;
+        }
+
+            .styled-table tbody tr:nth-child(even) {
+                background-color: #e9e0f7;
+            }
+
+            .styled-table tbody tr:hover {
+                background-color: #d1c4e9;
+            }
+
+    .action-link {
+        text-decoration: none;
+        border: 2px solid #6a0dad; /* Roxo claro */
+        padding: 5px 10px;
+        border-radius: 5px;
+        background-color: #6a0dad; /* Roxo claro */
+        color: white;
+        transition: border-color 0.3s, color 0.3s, background-color 0.3s;
+    }
+
+        .action-link:hover {
+            background-color: white;
+            color: initial;
+        }
+
+        .action-link.btn-edit:hover {
+            border-color: #FFD700; /* Amarelo ao passar o mouse */
+            color: #FFD700;
+        }
+
+        .action-link.btn-details:hover {
+            border-color: green; /* Verde ao passar o mouse */
+            color: green;
+        }
+
+        .action-link.btn-delete:hover {
+            border-color: red; /* Vermelho ao passar o mouse */
+            color: red;
+        }
+
+    .email-link {
+        color: #4b0082;
+        text-decoration: none;
+    }
+
+        .email-link:hover {
+            text-decoration: underline;
+        }
+</style>

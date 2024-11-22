@@ -1,37 +1,43 @@
-﻿@model ReserveSystem.Models.Cliente
+﻿@model ReserveSystem.Models.Client
 
 @{
     ViewData["Title"] = "Delete";
 }
 
-<h1 class="page-title">Excluir Cliente</h1>
+<h1 class="page-title">Delete Client</h1>
 
-<h3 class="confirmation-text">Tem certeza de que deseja excluir este cliente?</h3>
+<h3 class="confirmation-text">Are you sure you want to delete this client?</h3>
 <div class="details-container">
-    <h4 class="form-header">Detalhes do Cliente</h4>
+    <h4 class="form-header">Client Details</h4>
     <hr />
     <dl class="detail-list">
-        <dt>@Html.DisplayNameFor(model => model.Nome)</dt>
-        <dd>@Html.DisplayFor(model => model.Nome)</dd>
+        <dt>@Html.DisplayNameFor(model => model.ClientName)</dt>
+        <dd>@Html.DisplayFor(model => model.ClientName)</dd>
 
-        <dt>@Html.DisplayNameFor(model => model.Email)</dt>
-        <dd>@Html.DisplayFor(model => model.Email)</dd>
+        <dt>@Html.DisplayNameFor(model => model.ClientEmail)</dt>
+        <dd>@Html.DisplayFor(model => model.ClientEmail)</dd>
 
-        <dt>@Html.DisplayNameFor(model => model.Morada)</dt>
-        <dd>@Html.DisplayFor(model => model.Morada)</dd>
+        <dt>@Html.DisplayNameFor(model => model.ClientAddress)</dt>
+        <dd>@Html.DisplayFor(model => model.ClientAddress)</dd>
 
-        <dt>@Html.DisplayNameFor(model => model.NIF)</dt>
-        <dd>@Html.DisplayFor(model => model.NIF)</dd>
+        <dt>@Html.DisplayNameFor(model => model.ClientNIF)</dt>
+        <dd>@Html.DisplayFor(model => model.ClientNIF)</dd>
 
-        <dt>@Html.DisplayNameFor(model => model.DataNascimento)</dt>
-        <dd>@Html.DisplayFor(model => model.DataNascimento)</dd>
+        <dt>@Html.DisplayNameFor(model => model.ClientPhone)</dt>
+        <dd>@Html.DisplayFor(model => model.ClientPhone)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.ClientLogin)</dt>
+        <dd>@Html.DisplayFor(model => model.ClientLogin)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.ClientStatus)</dt>
+        <dd>@Html.DisplayFor(model => model.ClientStatus)</dd>
     </dl>
 
     <form asp-action="Delete" class="delete-form">
-        <input type="hidden" asp-for="ClienteId" />
+        <input type="hidden" asp-for="ClientId" />
         <div class="form-buttons">
-            <input type="submit" value="Excluir" class="btn-delete" />
-            <a asp-action="Index" class="btn-back">Voltar para Lista</a>
+            <input type="submit" value="Delete" class="btn-delete" />
+            <a asp-action="Index" class="btn-back">Back to List</a>
         </div>
     </form>
 </div>

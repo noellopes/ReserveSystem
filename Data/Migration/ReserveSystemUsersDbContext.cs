@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Models;
 
-namespace ReserveSystem.Data
+namespace ReserveSystem.Data.Migration
 {
     public class ReserveSystemUsersDbContext : IdentityDbContext // Usando IdentityDbContext
     {
@@ -11,6 +11,5 @@ namespace ReserveSystem.Data
         {
         }
 
-        public DbSet<Cliente> Cliente { get; set; } // Definindo a DbSet para Cliente
     }
 }

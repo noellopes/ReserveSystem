@@ -1,51 +1,63 @@
-﻿@model ReserveSystem.Models.Cliente
+﻿@model ReserveSystem.Models.Client
 
 @{
-    ViewData["Title"] = "Editar Cliente";
+    ViewData["Title"] = "Edit Client";
 }
 
-<h1 class="page-title">Editar Cliente</h1>
+<h1 class="page-title">Edit Client</h1>
 
 <div class="form-container">
-    <h4 class="form-header">Informações do Cliente</h4>
+    <h4 class="form-header">Client Information</h4>
     <hr />
     <form asp-action="Edit" class="edit-form">
         <div asp-validation-summary="ModelOnly" class="validation-summary text-danger"></div>
-        <input type="hidden" asp-for="ClienteId" />
+        <input type="hidden" asp-for="ClientId" />
 
         <div class="form-group">
-            <label asp-for="Nome" class="control-label"></label>
-            <input asp-for="Nome" class="form-control" />
-            <span asp-validation-for="Nome" class="text-danger"></span>
+            <label asp-for="ClientName" class="control-label"></label>
+            <input asp-for="ClientName" class="form-control" />
+            <span asp-validation-for="ClientName" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="Email" class="control-label"></label>
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
+            <label asp-for="ClientEmail" class="control-label"></label>
+            <input asp-for="ClientEmail" class="form-control" />
+            <span asp-validation-for="ClientEmail" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="Morada" class="control-label"></label>
-            <input asp-for="Morada" class="form-control" />
-            <span asp-validation-for="Morada" class="text-danger"></span>
+            <label asp-for="ClientAddress" class="control-label"></label>
+            <input asp-for="ClientAddress" class="form-control" />
+            <span asp-validation-for="ClientAddress" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="NIF" class="control-label"></label>
-            <input asp-for="NIF" class="form-control" />
-            <span asp-validation-for="NIF" class="text-danger"></span>
+            <label asp-for="ClientNIF" class="control-label"></label>
+            <input asp-for="ClientNIF" class="form-control" />
+            <span asp-validation-for="ClientNIF" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="DataNascimento" class="control-label"></label>
-            <input asp-for="DataNascimento" class="form-control" />
-            <span asp-validation-for="DataNascimento" class="text-danger"></span>
+            <label asp-for="ClientPhone" class="control-label"></label>
+            <input asp-for="ClientPhone" class="form-control" />
+            <span asp-validation-for="ClientPhone" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ClientLogin" class="control-label"></label>
+            <input asp-for="ClientLogin" class="form-control" />
+            <span asp-validation-for="ClientLogin" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ClientStatus" class="control-label"></label>
+            <input asp-for="ClientStatus" class="form-control" />
+            <span asp-validation-for="ClientStatus" class="text-danger"></span>
         </div>
 
         <div class="form-buttons">
-            <input type="submit" value="Salvar" class="btn-save" />
-            <a asp-action="Index" class="btn-back">Voltar para Lista</a>
+            <input type="submit" value="Save" class="btn-save" />
+            <a asp-action="Index" class="btn-back">Back to List</a>
         </div>
     </form>
 </div>
@@ -125,9 +137,9 @@
         cursor: pointer;
     }
 
-        .btn-save:hover {
-            background-color: #580d8a;
-        }
+    .btn-save:hover {
+        background-color: #580d8a;
+    }
 
     .btn-back {
         color: #4b0082;
@@ -138,7 +150,7 @@
         background-color: #f3f0f8;
     }
 
-        .btn-back:hover {
-            color: #6a0dad;
-        }
+    .btn-back:hover {
+        color: #6a0dad;
+    }
 </style>

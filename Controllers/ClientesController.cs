@@ -8,186 +8,149 @@ using ReserveSystem.Models;
 
 namespace ReserveSystem.Controllers
 {
-    public class ClientesController : Controller
+    public class ClientsController : Controller
     {
-        private readonly ReserveSystemUsersDbContext _context;
+        private readonly ReserveSystemContext _context;
 
-        public ClientesController(ReserveSystemUsersDbContext context)
+        public ClientsController(ReserveSystemContext context)
         {
             _context = context;
         }
 
-        // Action para listar os clientes com ordenação e paginação
-        public async Task<IActionResult> Index(int page = 1, string nomePesquisa = "")
+        // Action to list clients with sorting and pagination
+        public async Task<IActionResult> Index(int page = 1, string nameSearch = "")
         {
             int pageSize = 15;
-            var clientesQuery = _context.Cliente.AsQueryable();
+            var clientsQuery = _context.Clients.AsQueryable();
 
-            if (!string.IsNullOrEmpty(nomePesquisa))
+            // Filtering clients by name
+            if (!string.IsNullOrEmpty(nameSearch))
             {
-                clientesQuery = clientesQuery.Where(c => c.Nome.Contains(nomePesquisa));
+                clientsQuery = clientsQuery.Where(c => c.ClientName.Contains(nameSearch));
             }
 
-            var totalClientes = await clientesQuery.CountAsync();
-            var totalPages = (int)Math.Ceiling((double)totalClientes / pageSize);
+            // Calculate total clients and pages
+            var totalClients = await clientsQuery.CountAsync();
+            var totalPages = (int)Math.Ceiling((double)totalClients / pageSize);
 
-            var clientes = await clientesQuery
-                .OrderBy(c => c.Nome)
+            // Retrieve paginated clients
+            var clients = await clientsQuery
+                .OrderBy(c => c.ClientName) // Order by name
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
-            var model = new ClienteViewModel
+            // Prepare the ViewModel for the View
+            var model = new ClientViewModel
             {
-                Clientes = clientes,
+                Clients = clients,
                 CurrentPage = page,
                 TotalPages = totalPages,
-                NomePesquisa = nomePesquisa
+                SearchName = nameSearch
             };
 
             return View(model);
         }
 
-        // Método para buscar clientes por nome 
+        // Method to search clients by name (for autocomplete)
         [HttpGet]
-        public async Task<IActionResult> BuscarClientesPorNome(string nome)
+        public async Task<IActionResult> SearchClientsByName(string name)
         {
-            var clientes = await _context.Cliente
-                .Where(c => c.Nome.Contains(nome))
-                .Select(c => c.Nome)
-                .Take(10) // Limitar a 10 resultados para a pesquisa
+            // Filter clients by partial name
+            var clients = await _context.Clients
+                .Where(c => c.ClientName.Contains(name))
+                .Select(c => c.ClientName)
+                .Take(10) // Limit to 10 results
                 .ToListAsync();
 
-            return Json(clientes);
+            // Return the client names as JSON
+            return Json(clients);
         }
 
-        // GET: Clientes/Details/5
+        // Methods to show details, edit, create, and delete (already implemented correctly)
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var cliente = await _context.Cliente
-                .FirstOrDefaultAsync(m => m.ClienteId == id);
-            if (cliente == null)
-            {
-                return NotFound();
-            }
+            var client = await _context.Clients
+                .FirstOrDefaultAsync(m => m.ClientId == id);
+            if (client == null) return NotFound();
 
-            return View(cliente);
+            return View(client);
         }
 
-        // GET: Clientes/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() => View();
 
-        // POST: Clientes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClienteId,Nome,Email,Morada,NIF,DataNascimento")] Cliente cliente)
+        public async Task<IActionResult> Create([Bind("ClientId,ClientName,ClientEmail,ClientAddress,ClientNIF,ClientPhone,ClientLogin,ClientStatus")] Client client)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(cliente);
+                _context.Add(client);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(cliente);
+            return View(client);
         }
 
-        // GET: Clientes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var cliente = await _context.Cliente.FindAsync(id);
-            if (cliente == null)
-            {
-                return NotFound();
-            }
-            return View(cliente);
+            var client = await _context.Clients.FindAsync(id);
+            if (client == null) return NotFound();
+            return View(client);
         }
 
-        // POST: Clientes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Nome,Email,Morada,NIF,DataNascimento")] Cliente cliente)
+        public async Task<IActionResult> Edit(int id, [Bind("ClientId,ClientName,ClientEmail,ClientAddress,ClientNIF,ClientPhone,ClientLogin,ClientStatus")] Client client)
         {
-            if (id != cliente.ClienteId)
-            {
-                return NotFound();
-            }
+            if (id != client.ClientId) return NotFound();
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(cliente);
+                    _context.Update(client);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ClienteExists(cliente.ClienteId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!ClientExists(client.ClientId)) return NotFound();
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(cliente);
+            return View(client);
         }
 
-        // GET: Clientes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var cliente = await _context.Cliente
-                .FirstOrDefaultAsync(m => m.ClienteId == id);
-            if (cliente == null)
-            {
-                return NotFound();
-            }
+            var client = await _context.Clients
+                .FirstOrDefaultAsync(m => m.ClientId == id);
+            if (client == null) return NotFound();
 
-            return View(cliente);
+            return View(client);
         }
 
-        // POST: Clientes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var cliente = await _context.Cliente.FindAsync(id);
-            if (cliente != null)
+            var client = await _context.Clients.FindAsync(id);
+            if (client != null)
             {
-                _context.Cliente.Remove(cliente);
+                _context.Clients.Remove(client);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ClienteExists(int id)
-        {
-            return _context.Cliente.Any(e => e.ClienteId == id);
-        }
+        private bool ClientExists(int id) => _context.Clients.Any(e => e.ClientId == id);
     }
 }

@@ -1,19 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ReserveSystem.Models
 {
-    public class ClienteViewModel
+    public class ClientViewModel
     {
-        // Lista de clientes a serem exibidos na view
-        public List<Cliente> Clientes { get; set; }
+        // Client object for displaying and editing a single client
+        public List<Client> Clients { get; set; }
 
-        // Página atual da paginação
+        public Client Client { get; set; }
+        // Current page for pagination (if pagination is used)
         public int CurrentPage { get; set; }
 
-        // Total de páginas para paginação
+        // Total number of pages for pagination (if pagination is used)
         public int TotalPages { get; set; }
 
-        // Nome para filtrar clientes
-        public string NomePesquisa { get; set; }
+        // Name for filtering clients
+        public string SearchName { get; set; }
+        public List<string> AllClientNames { get; set; } // Adicionado para dropdown
     }
 }
+

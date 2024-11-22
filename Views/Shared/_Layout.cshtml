@@ -48,3 +48,29 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+@{
+    var deleteSuccessMessage = TempData["DeleteSuccess"] as string;
+    var notFoundMessage = TempData["NotFound"] as string;
+    var successMessage = TempData["SuccessMessage"] as string;
+}
+
+@if (!string.IsNullOrEmpty(deleteSuccessMessage))
+{
+    <div class="alert alert-success">
+        <strong>Success!</strong> @deleteSuccessMessage
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(notFoundMessage))
+{
+    <div class="alert alert-warning">
+        <strong>Warning!</strong> @notFoundMessage
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div class="alert alert-success">
+        <strong>Success!</strong> @successMessage
+    </div>
+}
