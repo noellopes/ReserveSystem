@@ -56,6 +56,13 @@ namespace ReserveSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ClienteId,NomeCliente,MoradaCliente,Email,Password,Telefone,NIF")] ClientModel clientModel)
         {
+            //try
+            //{
+
+            //}catch(Exception ex)
+            //{
+
+            //}
             if (ModelState.IsValid)
             {
                 _context.Add(clientModel);

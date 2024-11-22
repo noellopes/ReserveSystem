@@ -4,16 +4,17 @@ namespace ReserveSystem.Models;
 
 public class TipoSala
 {
-    
-    [Key] 
+    [Key]
     public long IdTipoSala { get; set; }
 
-    public string NomeAvaria { get; set; }
+    public string NomeSala { get; set; }
     
     public int TamanhoSala { get; set; }
     
     public int Capacidade { get; set; }
+    
+    public double PreçoHora { get; set; }
 
-    public virtual Sala Sala { get; set; }
+    public virtual ICollection<Sala> Salas { get; set; }
     
 }

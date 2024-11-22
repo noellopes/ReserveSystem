@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ReserveSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class NIF : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "ClienteModel",
+                name: "Cliente",
                 columns: table => new
                 {
                     ClienteId = table.Column<int>(type: "int", nullable: false)
@@ -21,11 +21,12 @@ namespace ReserveSystem.Migrations
                     MoradaCliente = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Telefone = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Telefone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NIF = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClienteModel", x => x.ClienteId);
+                    table.PrimaryKey("PK_Cliente", x => x.ClienteId);
                 });
 
             migrationBuilder.CreateTable(
@@ -44,7 +45,7 @@ namespace ReserveSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TipoSala",
+                name: "TipoSalas",
                 columns: table => new
                 {
                     IdTipoSala = table.Column<long>(type: "bigint", nullable: false)
@@ -55,11 +56,11 @@ namespace ReserveSystem.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TipoSala", x => x.IdTipoSala);
+                    table.PrimaryKey("PK_TipoSalas", x => x.IdTipoSala);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ReservaModel",
+                name: "Reserva",
                 columns: table => new
                 {
                     ReservaID = table.Column<int>(type: "int", nullable: false)
@@ -70,21 +71,28 @@ namespace ReserveSystem.Migrations
                     DataFim = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Partcipantes = table.Column<int>(type: "int", nullable: false),
                     PrecoTotal = table.Column<double>(type: "float", nullable: false),
-                    ClienteId = table.Column<int>(type: "int", nullable: false)
+                    ClienteId = table.Column<int>(type: "int", nullable: false),
+                    IdEquipamento = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ReservaModel", x => x.ReservaID);
+                    table.PrimaryKey("PK_Reserva", x => x.ReservaID);
                     table.ForeignKey(
-                        name: "FK_ReservaModel_ClienteModel_ClienteId",
+                        name: "FK_Reserva_Cliente_ClienteId",
                         column: x => x.ClienteId,
-                        principalTable: "ClienteModel",
+                        principalTable: "Cliente",
                         principalColumn: "ClienteId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reserva_Equipamento_IdEquipamento",
+                        column: x => x.IdEquipamento,
+                        principalTable: "Equipamento",
+                        principalColumn: "IdEquipamento",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sala",
+                name: "Salas",
                 columns: table => new
                 {
                     IdSala = table.Column<long>(type: "bigint", nullable: false)
@@ -97,23 +105,28 @@ namespace ReserveSystem.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sala", x => x.IdSala);
+                    table.PrimaryKey("PK_Salas", x => x.IdSala);
                     table.ForeignKey(
-                        name: "FK_Sala_TipoSala_IdTipoSala",
+                        name: "FK_Salas_TipoSalas_IdTipoSala",
                         column: x => x.IdTipoSala,
-                        principalTable: "TipoSala",
+                        principalTable: "TipoSalas",
                         principalColumn: "IdTipoSala",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReservaModel_ClienteId",
-                table: "ReservaModel",
+                name: "IX_Reserva_ClienteId",
+                table: "Reserva",
                 column: "ClienteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sala_IdTipoSala",
-                table: "Sala",
+                name: "IX_Reserva_IdEquipamento",
+                table: "Reserva",
+                column: "IdEquipamento");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Salas_IdTipoSala",
+                table: "Salas",
                 column: "IdTipoSala",
                 unique: true);
         }
@@ -122,19 +135,19 @@ namespace ReserveSystem.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Reserva");
+
+            migrationBuilder.DropTable(
+                name: "Salas");
+
+            migrationBuilder.DropTable(
+                name: "Cliente");
+
+            migrationBuilder.DropTable(
                 name: "Equipamento");
 
             migrationBuilder.DropTable(
-                name: "ReservaModel");
-
-            migrationBuilder.DropTable(
-                name: "Sala");
-
-            migrationBuilder.DropTable(
-                name: "ClienteModel");
-
-            migrationBuilder.DropTable(
-                name: "TipoSala");
+                name: "TipoSalas");
         }
     }
 }
