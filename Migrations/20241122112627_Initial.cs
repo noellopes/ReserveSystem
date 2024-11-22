@@ -46,7 +46,7 @@ namespace ReserveSystem.Migrations
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    QuartoId = table.Column<int>(type: "int", nullable: false)
+                    QuartoId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -55,8 +55,7 @@ namespace ReserveSystem.Migrations
                         name: "FK_Client_Quarto_QuartoId",
                         column: x => x.QuartoId,
                         principalTable: "Quarto",
-                        principalColumn: "QuartoId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "QuartoId");
                 });
 
             migrationBuilder.CreateTable(
@@ -67,7 +66,7 @@ namespace ReserveSystem.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    QuartoId = table.Column<int>(type: "int", nullable: false)
+                    QuartoId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -76,8 +75,7 @@ namespace ReserveSystem.Migrations
                         name: "FK_Employee_Quarto_QuartoId",
                         column: x => x.QuartoId,
                         principalTable: "Quarto",
-                        principalColumn: "QuartoId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "QuartoId");
                 });
 
             migrationBuilder.CreateTable(

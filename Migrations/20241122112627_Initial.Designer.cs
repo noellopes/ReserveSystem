@@ -12,7 +12,7 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    [Migration("20241121222237_Initial")]
+    [Migration("20241122112627_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -48,7 +48,7 @@ namespace ReserveSystem.Migrations
                         .HasMaxLength(9)
                         .HasColumnType("nvarchar(9)");
 
-                    b.Property<int>("QuartoId")
+                    b.Property<int?>("QuartoId")
                         .HasColumnType("int");
 
                     b.HasKey("ClientId");
@@ -71,7 +71,7 @@ namespace ReserveSystem.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("QuartoId")
+                    b.Property<int?>("QuartoId")
                         .HasColumnType("int");
 
                     b.Property<string>("Type")
@@ -173,24 +173,16 @@ namespace ReserveSystem.Migrations
 
             modelBuilder.Entity("ReserveSystem.Models.Client", b =>
                 {
-                    b.HasOne("ReserveSystem.Models.Quarto", "Quarto")
+                    b.HasOne("ReserveSystem.Models.Quarto", null)
                         .WithMany("Clients")
-                        .HasForeignKey("QuartoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Quarto");
+                        .HasForeignKey("QuartoId");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.Employee", b =>
                 {
-                    b.HasOne("ReserveSystem.Models.Quarto", "Quarto")
+                    b.HasOne("ReserveSystem.Models.Quarto", null)
                         .WithMany("Employees")
-                        .HasForeignKey("QuartoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Quarto");
+                        .HasForeignKey("QuartoId");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.ItemQuarto", b =>
