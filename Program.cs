@@ -37,12 +37,12 @@ builder.Services.AddControllersWithViews();
 var app = builder.Build();
 
 // Seed the database
-/* using (var scope = app.Services.CreateScope())
+using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
 
     SeedData.Initialize(services);
-} */
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
