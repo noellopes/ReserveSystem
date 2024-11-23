@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -27,21 +28,6 @@ namespace ReserveSystem.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cliente", x => x.ClienteId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Equipamento",
-                columns: table => new
-                {
-                    IdEquipamento = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NomeEquipamento = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TipoEquipamento = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Quantidade = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Equipamento", x => x.IdEquipamento);
                 });
 
             migrationBuilder.CreateTable(

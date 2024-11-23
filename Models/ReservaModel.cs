@@ -16,7 +16,5 @@ namespace ReserveSystem.Models
         public double PrecoTotal { get; set; }
         public int ClienteId { get; set; }
         public ClientModel? ClienteModel { get; set; }
-        //public int IdEquipamento { get; set; }
-        //public Equipamento? Equipamento { get; internal set; }
     }
 }

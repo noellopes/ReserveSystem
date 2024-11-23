@@ -16,7 +16,7 @@
         <td>@Model.TipoSala?.NomeSala ?? "Unassigned"</td>
     </tr>
 </table>
-<form asp-action="DeleteConfirmed" method="post">
+<form asp-action="Index" method="post">
     <input type="hidden" asp-for="IdSala" />
     <button type="submit" class="btn btn-danger">Delete</button>
     <a asp-action="Index" class="btn btn-secondary">Cancel</a>

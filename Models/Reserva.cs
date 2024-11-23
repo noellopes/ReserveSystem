@@ -2,6 +2,7 @@
 {
     public class Reserva
     {
+
         public int ReservaID { get; set; }
 
         public string TipoReserva { get; set; }// fica como um dropdown - select tag 
@@ -13,7 +14,5 @@
 
         public int ClienteId { get; set; }
         public ClientModel? ClienteModel { get; set; }
-        public int IdEquipamento { get; set; }
-        public Equipamento? Equipamento { get; internal set; }
     }
 }
