@@ -1,44 +1,38 @@
 @model IEnumerable<ReserveSystem.Models.Sala>
 
-<h1 class="text-center text-primary">Lista de Salas</h1>
+@{
+ViewData["Title"] = "Salas";
+}
 
-@if (!Model.Any())
-{
-    <div class="alert alert-info text-center">
-        Nenhuma sala disponível no sistema. Clique abaixo para adicionar uma nova sala.
-    </div>
-    <a asp-action="Create" class="btn btn-primary">Criar Nova Sala</a>
-}
-else
-{
-    <div class="p-4 border rounded" style="background-color: #e6f7ff;">
-        <table class="table table-bordered custom-table">
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Hora Início</th>
-                <th>Hora Fim</th>
-                <th>Tipo Sala</th>
-                <th>Ações</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var sala in Model)
-            {
-                <tr>
-                    <td>@sala.IdSala</td>
-                    <td>@sala.HoraInicio.ToString("g")</td>
-                    <td>@sala.HoraFim.ToString("g")</td>
-                    <td>@sala.TipoSala?.NomeSala ?? "Não Atribuído"</td>
-                    <td>
-                        <a asp-action="Details" asp-route-id="@sala.IdSala" class="btn btn-info btn-sm">Detalhes</a>
-                        <a asp-action="Edit" asp-route-id="@sala.IdSala" class="btn btn-warning btn-sm">Editar</a>
-                        <a asp-action="Delete" asp-route-id="@sala.IdSala" class="btn btn-danger btn-sm">Excluir</a>
-                    </td>
-                </tr>
-            }
-            </tbody>
-        </table>
-        <a asp-action="Create" class="btn btn-primary">Criar Nova Sala</a>
-    </div>
-}
+<h1>Salas</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.TempoPreparação)</th>
+        <th>@Html.DisplayNameFor(model => model.HoraInicio)</th>
+        <th>@Html.DisplayNameFor(model => model.HoraFim)</th>
+        <th>@Html.DisplayNameFor(model => model.TipoSala.NomeSala)</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>@Html.DisplayFor(modelItem => item.TempoPreparação)</td>
+        <td>@Html.DisplayFor(modelItem => item.HoraInicio)</td>
+        <td>@Html.DisplayFor(modelItem => item.HoraFim)</td>
+        <td>@Html.DisplayFor(modelItem => item.TipoSala.NomeSala)</td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.IdSala">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.IdSala">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.IdSala">Delete</a>
+        </td>
+    </tr>
+    }
+    </tbody>
+</table>

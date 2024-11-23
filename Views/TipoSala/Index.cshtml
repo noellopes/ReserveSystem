@@ -1,50 +1,39 @@
 @model IEnumerable<ReserveSystem.Models.TipoSala>
 
-<h1 class="text-center text-primary">Lista de TipoSala</h1>
-
-@if (!Model.Any())
-{
-<div class="alert alert-info text-center" style="background-color: #e6f7ff; color: #0056b3;">
-    Nenhum TipoSala disponível. Clique abaixo para adicionar um novo TipoSala.
-</div>
-<div class="text-center">
-    <a asp-action="Create" class="btn btn-primary">Criar Novo TipoSala</a>
-</div>
+@{
+    ViewData["Title"] = "Tipo Salas";
 }
-else
-{
-<div class="table-responsive">
-    <table class="table table-bordered table-striped" style="background-color: #f0f8ff;">
-        <thead class="table-primary text-primary">
+
+<h1>Tipo Salas</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.NomeSala)</th>
+        <th>@Html.DisplayNameFor(model => model.TamanhoSala)</th>
+        <th>@Html.DisplayNameFor(model => model.Capacidade)</th>
+        <th>@Html.DisplayNameFor(model => model.PreçoHora)</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
         <tr>
-            <th>#</th>
-            <th>Nome</th>
-            <th>Tamanho (m²)</th>
-            <th>Capacidade</th>
-            <th>Preço por Hora (€)</th>
-            <th>Ações</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>@item.IdTipoSala</td>
-            <td>@item.NomeSala</td>
-            <td>@item.TamanhoSala</td>
-            <td>@item.Capacidade</td>
-            <td>@item.PreçoHora.ToString("F2")</td>
-            <td class="text-center">
-                <a asp-action="Details" asp-route-id="@item.IdTipoSala" class="btn btn-info btn-sm">Detalhes</a>
-                <a asp-action="Edit" asp-route-id="@item.IdTipoSala" class="btn btn-warning btn-sm">Editar</a>
-                <a asp-action="Delete" asp-route-id="@item.IdTipoSala" class="btn btn-danger btn-sm">Excluir</a>
+            <td>@Html.DisplayFor(modelItem => item.NomeSala)</td>
+            <td>@Html.DisplayFor(modelItem => item.TamanhoSala)</td>
+            <td>@Html.DisplayFor(modelItem => item.Capacidade)</td>
+            <td>@Html.DisplayFor(modelItem => item.PreçoHora)</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdTipoSala">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdTipoSala">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdTipoSala">Delete</a>
             </td>
         </tr>
-        }
-        </tbody>
-    </table>
-</div>
-<div class="text-center">
-    <a asp-action="Create" class="btn btn-primary">Criar Novo TipoSala</a>
-</div>
-}
+    }
+    </tbody>
+</table>

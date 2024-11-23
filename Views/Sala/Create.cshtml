@@ -1,27 +1,37 @@
 @model ReserveSystem.Models.Sala
 
-<h1 class="text-center text-primary">Criar Sala</h1>
-<div class="p-4 border rounded" style="background-color: #e6f7ff;">
-    <form asp-action="Create" method="post">
-        <div class="form-group mb-3">
-            <label asp-for="HoraInicio" class="form-label text-primary">Hora Início</label>
-            <input asp-for="HoraInicio" class="form-control border-primary" type="datetime-local" />
-            <span asp-validation-for="HoraInicio" class="text-danger"></span>
-        </div>
-        <div class="form-group mb-3">
-            <label asp-for="HoraFim" class="form-label text-primary">Hora Fim</label>
-            <input asp-for="HoraFim" class="form-control border-primary" type="datetime-local" />
-            <span asp-validation-for="HoraFim" class="text-danger"></span>
-        </div>
-        <div class="form-group mb-3">
-            <label asp-for="IdTipoSala" class="form-label text-primary">Tipo Sala</label>
-            <select asp-for="IdTipoSala" class="form-control border-primary" asp-items="ViewBag.IdTipoSala"></select>
-            <span asp-validation-for="IdTipoSala" class="text-danger"></span>
-        </div>
-        <button type="submit" class="btn btn-primary">Salvar</button>
-        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-    </form>
-</div>
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+@{
+ViewData["Title"] = "Create Sala";
 }
+
+<h1>Create Sala</h1>
+
+<form asp-action="Create">
+    <div class="form-group">
+        <label asp-for="TempoPreparação" class="control-label"></label>
+        <input asp-for="TempoPreparação" class="form-control" />
+        <span asp-validation-for="TempoPreparação" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="HoraInicio" class="control-label"></label>
+        <input asp-for="HoraInicio" class="form-control" />
+        <span asp-validation-for="HoraInicio" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="HoraFim" class="control-label"></label>
+        <input asp-for="HoraFim" class="form-control" />
+        <span asp-validation-for="HoraFim" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="IdTipoSala" class="control-label"></label>
+        <select asp-for="IdTipoSala" class="form-control" asp-items="ViewBag.IdTipoSala"></select>
+        <span asp-validation-for="IdTipoSala" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+
+<p>
+    <a asp-action="Index">Back to List</a>
+</p>

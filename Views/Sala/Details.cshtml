@@ -1,22 +1,25 @@
 @model ReserveSystem.Models.Sala
 
-<h1 class="text-center text-primary">Detalhes da Sala</h1>
-<div class="p-4 border rounded" style="background-color: #e6f7ff;">
-    <table class="table table-bordered">
-        <tr>
-            <th>Hora Início</th>
-            <td>@Model.HoraInicio</td>
-        </tr>
-        <tr>
-            <th>Hora Fim</th>
-            <td>@Model.HoraFim</td>
-        </tr>
-        <tr>
-            <th>Tipo Sala</th>
-            <td>@Model.TipoSala?.NomeSala ?? "Não Atribuído"</td>
-        </tr>
-    </table>
-    <a asp-action="Index" class="btn btn-primary">Voltar à Lista</a>
-    <a asp-action="Edit" asp-route-id="@Model.IdSala" class="btn btn-warning">Editar</a>
-    <a asp-action="Delete" asp-route-id="@Model.IdSala" class="btn btn-danger">Excluir</a>
+@{
+ViewData["Title"] = "Sala Details";
+}
+
+<h1>Sala Details</h1>
+
+<div>
+    <dl class="row">
+        <dt>@Html.DisplayNameFor(model => model.TempoPreparação)</dt>
+        <dd>@Html.DisplayFor(model => model.TempoPreparação)</dd>
+        <dt>@Html.DisplayNameFor(model => model.HoraInicio)</dt>
+        <dd>@Html.DisplayFor(model => model.HoraInicio)</dd>
+        <dt>@Html.DisplayNameFor(model => model.HoraFim)</dt>
+        <dd>@Html.DisplayFor(model => model.HoraFim)</dd>
+        <dt>@Html.DisplayNameFor(model => model.TipoSala.NomeSala)</dt>
+        <dd>@Html.DisplayFor(model => model.TipoSala.NomeSala)</dd>
+    </dl>
 </div>
+
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.IdSala">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</p>

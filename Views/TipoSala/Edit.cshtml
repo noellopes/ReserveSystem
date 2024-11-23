@@ -1,0 +1,38 @@
+@model ReserveSystem.Models.TipoSala
+
+@{
+ViewData["Title"] = "Edit Tipo Sala";
+}
+
+<h1>Edit Tipo Sala</h1>
+
+<form asp-action="Edit">
+    <input type="hidden" asp-for="IdTipoSala" />
+    <div class="form-group">
+        <label asp-for="NomeSala" class="control-label"></label>
+        <input asp-for="NomeSala" class="form-control" />
+        <span asp-validation-for="NomeSala" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="TamanhoSala" class="control-label"></label>
+        <input asp-for="TamanhoSala" class="form-control" />
+        <span asp-validation-for="TamanhoSala" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Capacidade" class="control-label"></label>
+        <input asp-for="Capacidade" class="form-control" />
+        <span asp-validation-for="Capacidade" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PreçoHora" class="control-label"></label>
+        <input asp-for="PreçoHora" class="form-control" />
+        <span asp-validation-for="PreçoHora" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+</form>
+
+<p>
+    <a asp-action="Index">Back to List</a>
+</p>

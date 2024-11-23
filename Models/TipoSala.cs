@@ -9,6 +9,8 @@ public class TipoSala
 
     [Required(ErrorMessage = "O campo 'NomeSala' é obrigatório.")]
     [StringLength(100, ErrorMessage = "O nome da sala deve ter no máximo 100 caracteres.")]
+    [MaxLength(800)]
+
     public string NomeSala { get; set; }
     
     [Required(ErrorMessage = "O campo 'TamanhoSala' é obrigatório.")]
@@ -23,6 +25,5 @@ public class TipoSala
     [Range(0.01, double.MaxValue, ErrorMessage = "O preço por hora deve ser maior que 0.")]
     public double PreçoHora { get; set; }
 
-    // Collection of Salas linked to this TipoSala
     public ICollection<Sala> Salas { get; set; }
 }

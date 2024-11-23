@@ -1,0 +1,31 @@
+@model ReserveSystem.Models.TipoSala
+
+@{
+    ViewData["Title"] = "Delete Tipo Sala";
+}
+
+<h1>Delete Tipo Sala</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+
+<div>
+    <dl class="row">
+        <dt>@Html.DisplayNameFor(model => model.NomeSala)</dt>
+        <dd>@Html.DisplayFor(model => model.NomeSala)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.TamanhoSala)</dt>
+        <dd>@Html.DisplayFor(model => model.TamanhoSala)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Capacidade)</dt>
+        <dd>@Html.DisplayFor(model => model.Capacidade)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.PreçoHora)</dt>
+        <dd>@Html.DisplayFor(model => model.PreçoHora)</dd>
+    </dl>
+</div>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="IdTipoSala" />
+    <input type="submit" value="Delete" class="btn btn-danger" /> |
+    <a asp-action="Index">Back to List</a>
+</form>

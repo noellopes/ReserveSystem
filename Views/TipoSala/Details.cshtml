@@ -1,0 +1,28 @@
+@model ReserveSystem.Models.TipoSala
+
+@{
+    ViewData["Title"] = "Tipo Sala Details";
+}
+
+<h1>Tipo Sala Details</h1>
+
+<div>
+    <dl class="row">
+        <dt>@Html.DisplayNameFor(model => model.NomeSala)</dt>
+        <dd>@Html.DisplayFor(model => model.NomeSala)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.TamanhoSala)</dt>
+        <dd>@Html.DisplayFor(model => model.TamanhoSala)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Capacidade)</dt>
+        <dd>@Html.DisplayFor(model => model.Capacidade)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.PreçoHora)</dt>
+        <dd>@Html.DisplayFor(model => model.PreçoHora)</dd>
+    </dl>
+</div>
+
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.IdTipoSala">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</p>
