@@ -1,36 +1,39 @@
 @model IEnumerable<ReserveSystem.Models.Sala>
 
 @{
-ViewData["Title"] = "Salas";
+ViewData["Title"] = "Rooms";
 }
 
-<h1>Salas</h1>
+<h1 class="mb-4">Rooms</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
+<div class="mb-3">
+    <a asp-action="Create" class="btn btn-success">Create New Room</a>
+</div>
+
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
     <tr>
-        <th>@Html.DisplayNameFor(model => model.TempoPreparação)</th>
-        <th>@Html.DisplayNameFor(model => model.HoraInicio)</th>
-        <th>@Html.DisplayNameFor(model => model.HoraFim)</th>
-        <th>@Html.DisplayNameFor(model => model.TipoSala.NomeSala)</th>
-        <th></th>
+        <th>ID</th>
+        <th>Preparation Time</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Room Type</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
     @foreach (var item in Model)
     {
     <tr>
-        <td>@Html.DisplayFor(modelItem => item.TempoPreparação)</td>
-        <td>@Html.DisplayFor(modelItem => item.HoraInicio)</td>
-        <td>@Html.DisplayFor(modelItem => item.HoraFim)</td>
-        <td>@Html.DisplayFor(modelItem => item.TipoSala.NomeSala)</td>
+        <td>@item.IdSala</td>
+        <td>@item.TempoPreparação.ToString(@"hh\:mm")</td>
+        <td>@item.HoraInicio.ToString("HH:mm")</td>
+        <td>@item.HoraFim.ToString("HH:mm")</td>
+        <td>@item.TipoSala?.NomeSala </td>
         <td>
-            <a asp-action="Edit" asp-route-id="@item.IdSala">Edit</a> |
-            <a asp-action="Details" asp-route-id="@item.IdSala">Details</a> |
-            <a asp-action="Delete" asp-route-id="@item.IdSala">Delete</a>
+            <a asp-action="Edit" asp-route-id="@item.IdSala" class="btn btn-sm btn-warning">Edit</a>
+            <a asp-action="Details" asp-route-id="@item.IdSala" class="btn btn-sm btn-info">Details</a>
+            <a asp-action="Delete" asp-route-id="@item.IdSala" class="btn btn-sm btn-danger">Delete</a>
         </td>
     </tr>
     }
