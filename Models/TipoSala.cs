@@ -25,5 +25,5 @@ public class TipoSala
     [Range(0.01, double.MaxValue, ErrorMessage = "O preço por hora deve ser maior que 0.")]
     public double PreçoHora { get; set; }
 
-    public ICollection<Sala> Salas { get; set; }
+    public ICollection<Sala>? Salas { get; set; }
 }
