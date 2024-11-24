@@ -1,8 +1,69 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    /* Styling for the Group Members and Project Explanation Section */
+    .container-info {
+        max-width: 900px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+    }
+    .container-info h2 {
+        color: #0056b3;
+        border-bottom: 2px solid #0056b3;
+        padding-bottom: 5px;
+        margin-bottom: 15px;
+    }
+    .container-info p {
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+    .container-info ul {
+        list-style-type: disc;
+        padding-left: 20px;
+    }
+    .container-info .members {
+        margin-top: 20px;
+    }
+    .container-info .member {
+        padding: 8px;
+        background-color: #e9ecef;
+        border-left: 4px solid #0056b3;
+        margin-bottom: 10px;
+        border-radius: 5px;
+    }
+    .container-info .member strong {
+        color: #343a40;
+    }
+</style>
+
+<div class="container-info">
+    <h2>Project Responsibilities</h2>
+    <p>Group 8 is tasked with creating and managing resources, including rooms and equipment, for event reservation purposes. Our responsibilities cover defining availability, setting schedules, and managing budgeting needs. Here’s a summary of our tasks:</p>
+    <ul>
+        <li>Creation and management of various resources (rooms, equipment, etc.).</li>
+        <li>Setting availability, schedules, capacities, preparation time, and specific rules for each resource/room.</li>
+        <li>Defining types of events, such as parties, conferences, etc.</li>
+        <li>Budgeting requirements and calculations.</li>
+    </ul>
+
+    <h2>Group Members</h2>
+    <div class="members">
+        <div class="member">
+            <strong>1711103</strong> - Ali Anıl Hazar
+        </div>
+        <div class="member">
+            <strong>1702622</strong> - Janice Horta
+        </div>
+        <div class="member">
+            <strong>1707797</strong> - Edson Florêncio Muandula
+        </div>
+        <div class="member">
+            <strong>1702815</strong> - Artur da Silva Filipe Melão
+        </div>
+    </div>
 </div>
