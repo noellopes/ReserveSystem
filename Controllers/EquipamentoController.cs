@@ -21,13 +21,13 @@ namespace ReserveSystem.Controllers
 
         public IActionResult Index()
         {
-            // Clean the Equipamento table if there are any entries with IDs starting from 21
-            if (_context.Equipamento.Any(e => e.IdEquipamento >= 21)) 
+            // Clean the Equipamento table if there are any entries 
+            /*if (_context.Equipamento.Any(e => e.IdEquipamento >= 0)) 
             { 
-                var equipamentosToDelete = _context.Equipamento.Where(e => e.IdEquipamento >= 21).ToList(); 
+                var equipamentosToDelete = _context.Equipamento.Where(e => e.IdEquipamento >= 0).ToList(); 
                 _context.Equipamento.RemoveRange(equipamentosToDelete); 
                 _context.SaveChanges(); 
-            }
+            }*/
 
             if (!_context.Equipamento.Any())
             {       
@@ -56,19 +56,20 @@ namespace ReserveSystem.Controllers
                 };
 
                 using (var transaction = _context.Database.BeginTransaction()) 
-                { 
-                    try 
-                    { _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT Equipamento ON"); 
+                {
+                    try
+                    { 
+                        _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT Equipamento ON"); 
                         foreach (var equipamento in listaEquipamentos) 
                         { 
                             _context.Database.ExecuteSqlRaw(
                                 "INSERT INTO Equipamento (IdEquipamento, NomeEquipamento, TipoEquipamento, Quantidade) VALUES ({0}, {1}, {2}, {3})", 
-                                equipamento.IdEquipamento, equipamento.NomeEquipamento, equipamento.TipoEquipamento, equipamento.Quantidade); 
-                        } 
+                                equipamento.IdEquipamento, equipamento.NomeEquipamento, equipamento.TipoEquipamento, equipamento.Quantidade);
+                        }
                         _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT Equipamento OFF"); 
                         transaction.Commit(); 
                     } 
-                    catch 
+                    catch
                     { 
                         transaction.Rollback(); 
                         throw; 
@@ -81,6 +82,25 @@ namespace ReserveSystem.Controllers
             return View(equipamentos);
         }
 
+        public IActionResult AddEquipment() 
+        { 
+            return View(); 
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddEquipment(Equipamento equipamento) 
+        {
+
+            if (ModelState.IsValid)
+            {
+                _context.Add(equipamento);
+                _context.SaveChanges();
+                TempData["Message"] = "New equipment has been successfully added.";
+                return RedirectToAction(nameof(Index));
+            }
+            return View(equipamento);
+        }
         public IActionResult Edit(int id)
         {
             var equipamento = _context.Equipamento.Find(id);
@@ -90,6 +110,9 @@ namespace ReserveSystem.Controllers
             }
             return View(equipamento);
         }
+
+        
+
 
         [HttpPost]
         public IActionResult Edit(Equipamento equipamento)
@@ -114,7 +137,8 @@ namespace ReserveSystem.Controllers
             return View(equipamento);
         }
 
-        [HttpPost, ActionName("DeleteConfirmed")]
+        [HttpPost, ActionName("Delete")]
+
         public IActionResult DeleteConfirmed(int id)
         {
             var equipamento = _context.Equipamento.Find(id);
