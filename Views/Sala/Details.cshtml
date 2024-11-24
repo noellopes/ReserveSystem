@@ -1,25 +1,28 @@
 @model ReserveSystem.Models.Sala
 
 @{
-ViewData["Title"] = "Sala Details";
+ViewData["Title"] = "Room Details";
 }
 
-<h1>Sala Details</h1>
+<h1>Room Details</h1>
 
 <div>
     <dl class="row">
-        <dt>@Html.DisplayNameFor(model => model.TempoPreparação)</dt>
-        <dd>@Html.DisplayFor(model => model.TempoPreparação)</dd>
-        <dt>@Html.DisplayNameFor(model => model.HoraInicio)</dt>
-        <dd>@Html.DisplayFor(model => model.HoraInicio)</dd>
-        <dt>@Html.DisplayNameFor(model => model.HoraFim)</dt>
-        <dd>@Html.DisplayFor(model => model.HoraFim)</dd>
-        <dt>@Html.DisplayNameFor(model => model.TipoSala.NomeSala)</dt>
-        <dd>@Html.DisplayFor(model => model.TipoSala.NomeSala)</dd>
+        <dt>Preparation Time</dt>
+        <dd>@Model.TempoPreparação.ToString(@"hh\:mm")</dd>
+
+        <dt>Start Time</dt>
+        <dd>@Model.HoraInicio.ToString("HH:mm")</dd>
+
+        <dt>End Time</dt>
+        <dd>@Model.HoraFim.ToString("HH:mm")</dd>
+
+        <dt>Room Type</dt>
+        <dd>@Model.TipoSala.NomeSala</dd>
     </dl>
 </div>
 
 <p>
-    <a asp-action="Edit" asp-route-id="@Model.IdSala">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.IdSala" class="btn btn-primary">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </p>
