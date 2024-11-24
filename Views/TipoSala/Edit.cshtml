@@ -1,0 +1,40 @@
+@model ReserveSystem.Models.TipoSala
+
+@{
+ViewData["Title"] = "Edit Room Type";
+}
+
+<h1 class="mb-4">Edit Room Type</h1>
+
+<form asp-action="Edit" method="post" class="card p-4 shadow-sm">
+    <input type="hidden" asp-for="IdTipoSala" />
+
+    <div class="mb-3">
+        <label asp-for="NomeSala" class="form-label">Room Name</label>
+        <input asp-for="NomeSala" class="form-control" />
+        <span asp-validation-for="NomeSala" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TamanhoSala" class="form-label">Room Size (m²)</label>
+        <input asp-for="TamanhoSala" class="form-control" placeholder="Enter size in m²" />
+        <span asp-validation-for="TamanhoSala" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Capacidade" class="form-label">Capacity</label>
+        <input asp-for="Capacidade" class="form-control" />
+        <span asp-validation-for="Capacidade" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PreçoHora" class="form-label">Hourly Price</label>
+        <input asp-for="PreçoHora" class="form-control" />
+        <span asp-validation-for="PreçoHora" class="text-danger"></span>
+    </div>
+
+    <div class="text-end">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>

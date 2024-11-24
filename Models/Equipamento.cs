@@ -6,7 +6,11 @@ namespace ReserveSystem.Models
     {
         [Key]
         public int IdEquipamento { get; set; }
+        [MaxLength(800)]
+
         public string NomeEquipamento { get; set; }
+        [MaxLength(800)]
+
         public string TipoEquipamento { get; set; }
         public int Quantidade { get; set; }
     }

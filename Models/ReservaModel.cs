@@ -8,6 +8,8 @@ namespace ReserveSystem.Models
         [Key]
         public int ReservaID { get; set; }
 
+        [MaxLength(800)]
+
         public string TipoReserva { get; set; }// fica como um dropdown - select tag 
         public DateTime DataReserva { get; set; }
         public DateTime DataInicio { get; set; }

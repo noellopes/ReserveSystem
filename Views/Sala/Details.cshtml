@@ -1,20 +1,28 @@
 @model ReserveSystem.Models.Sala
 
+@{
+ViewData["Title"] = "Room Details";
+}
+
 <h1>Room Details</h1>
-<table class="table">
-    <tr>
-        <th>Start Time:</th>
-        <td>@Model.HoraInicio</td>
-    </tr>
-    <tr>
-        <th>End Time:</th>
-        <td>@Model.HoraFim</td>
-    </tr>
-    <tr>
-        <th>Room Type:</th>
-        <td>@Model.TipoSala?.NomeSala ?? "Unassigned"</td>
-    </tr>
-</table>
-<a asp-action="Index" class="btn btn-secondary">Back to List</a>
-<a asp-action="Edit" asp-route-id="@Model.IdSala" class="btn btn-warning">Edit</a>
-<a asp-action="Delete" asp-route-id="@Model.IdSala" class="btn btn-danger">Delete</a>
+
+<div>
+    <dl class="row">
+        <dt>Preparation Time</dt>
+        <dd>@Model.TempoPreparação.ToString(@"hh\:mm")</dd>
+
+        <dt>Start Time</dt>
+        <dd>@Model.HoraInicio.ToString("HH:mm")</dd>
+
+        <dt>End Time</dt>
+        <dd>@Model.HoraFim.ToString("HH:mm")</dd>
+
+        <dt>Room Type</dt>
+        <dd>@Model.TipoSala.NomeSala</dd>
+    </dl>
+</div>
+
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.IdSala" class="btn btn-primary">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</p>

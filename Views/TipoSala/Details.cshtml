@@ -1,0 +1,31 @@
+@model ReserveSystem.Models.TipoSala
+
+@{
+ViewData["Title"] = "Room Type Details";
+}
+
+<h1>Room Type Details</h1>
+
+<div>
+    <dl class="row">
+        <dt>Room ID</dt>
+        <dd>@Model.IdTipoSala</dd>
+
+        <dt>Room Name</dt>
+        <dd>@Model.NomeSala</dd>
+
+        <dt>Room Size (m²)</dt>
+        <dd>@Model.TamanhoSala</dd>
+
+        <dt>Capacity</dt>
+        <dd>@Model.Capacidade</dd>
+
+        <dt>Hourly Price</dt>
+        <dd>@Model.PreçoHora</dd>
+    </dl>
+</div>
+
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.IdTipoSala" class="btn btn-primary">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</p>

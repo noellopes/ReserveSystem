@@ -4,25 +4,32 @@ using ReserveSystem.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("ReserveSystemsUsers") ?? throw new InvalidOperationException("Connection string 'ReserveSystemsUsers' not found.");
-builder.Services.AddDbContext<ReserveSystemUsersDbContext>(options =>
-    options.UseSqlServer(connectionString));
+// Check if SQLite should be used (local dev)
+var useSQLite = builder.Configuration.GetValue<bool>("UseSQLite", false);
 
-builder.Services.AddDbContext<ReserveSystemContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ReserveSystem") ?? throw new InvalidOperationException("Connection string 'ReserveSystem' not found.")));
+if (useSQLite)
+{
+    // SQLite for local development
+    builder.Services.AddDbContext<ReserveSystemContext>(options =>
+        options.UseSqlite(builder.Configuration.GetConnectionString("SQLiteConnection") 
+                          ?? throw new InvalidOperationException("Connection string 'SQLiteConnection' not found.")));
+}
+else
+{
+    // SQL Server for team
+    builder.Services.AddDbContext<ReserveSystemContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("ReserveSystem") 
+                             ?? throw new InvalidOperationException("Connection string 'ReserveSystem' not found.")));
+}
 
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-
-
+// Identity Configuration
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ReserveSystemUsersDbContext>();
+    .AddEntityFrameworkStores<ReserveSystemContext>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
@@ -30,7 +37,6 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 

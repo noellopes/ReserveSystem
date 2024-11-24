@@ -1,19 +1,38 @@
 @model ReserveSystem.Models.Sala
 
-<h1>Criar Sala</h1>
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label asp-for="HoraInicio">Hora Início</label>
-        <input asp-for="HoraInicio" class="form-control" />
+@{
+ViewData["Title"] = "Create Room";
+}
+
+<h1 class="mb-4">Create Room</h1>
+
+<form asp-action="Create" method="post" class="card p-4 shadow-sm">
+    <div class="mb-3">
+        <label asp-for="TempoPreparação" class="form-label">Preparation Time (HH:mm)</label>
+        <input asp-for="TempoPreparação" class="form-control" placeholder="HH:mm" />
+        <span asp-validation-for="TempoPreparação" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <label asp-for="HoraFim">Hora Fim</label>
-        <input asp-for="HoraFim" class="form-control" />
+
+    <div class="mb-3">
+        <label asp-for="HoraInicio" class="form-label">Start Time</label>
+        <input asp-for="HoraInicio" class="form-control" type="time"/>
+        <span asp-validation-for="HoraInicio" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <label asp-for="IdTipoSala">Tipo Sala</label>
-        <select asp-for="IdTipoSala" class="form-control" asp-items="ViewBag.IdTipoSala"></select>
+
+    <div class="mb-3">
+        <label asp-for="HoraFim" class="form-label">End Time</label>
+        <input asp-for="HoraFim" class="form-control" type="time"/>
+        <span asp-validation-for="HoraFim" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-success">Salvar</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+
+    <div class="mb-3">
+        <label asp-for="IdTipoSala" class="form-label">Room Type</label>
+        <select asp-for="IdTipoSala" class="form-select" asp-items="ViewBag.TipoSalaList"></select>
+        <span asp-validation-for="IdTipoSala" class="text-danger"></span>
+    </div>
+
+    <div class="text-end">
+        <button type="submit" class="btn btn-primary">Create</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </div>
 </form>
