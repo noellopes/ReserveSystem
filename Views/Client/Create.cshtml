@@ -4,21 +4,21 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1 style="font-family: 'Arial', sans-serif;">Create New Client</h1>
 
-<h4>ClientModel</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="NomeCliente" class="control-label"></label>
+                <label asp-for="NomeCliente" class="control-label">FullName</label>
                 <input asp-for="NomeCliente" class="form-control" />
                 <span asp-validation-for="NomeCliente" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="MoradaCliente" class="control-label"></label>
+                <label asp-for="MoradaCliente" class="control-label">Address</label>
                 <input asp-for="MoradaCliente" class="form-control" />
                 <span asp-validation-for="MoradaCliente" class="text-danger"></span>
             </div>
