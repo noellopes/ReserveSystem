@@ -34,7 +34,7 @@ namespace ReserveSystem.Controllers
             }
 
             var items = await _context.Items
-                .FirstOrDefaultAsync(m => m.ItemId == id);
+                .FirstOrDefaultAsync(m => m.ItemsId == id);
             if (items == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ItemId,Nome,QuantidadeArmazem")] Items items)
+        public async Task<IActionResult> Create([Bind("ItemsId,Name,QuantityStock,MinimumStock")] Items items)
         {
             if (ModelState.IsValid)
             {
@@ -86,9 +86,9 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ItemId,Nome,QuantidadeArmazem")] Items items)
+        public async Task<IActionResult> Edit(int id, [Bind("ItemsId,Name,QuantityStock,MinimumStock")] Items items)
         {
-            if (id != items.ItemId)
+            if (id != items.ItemsId)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace ReserveSystem.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ItemsExists(items.ItemId))
+                    if (!ItemsExists(items.ItemsId))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace ReserveSystem.Controllers
             }
 
             var items = await _context.Items
-                .FirstOrDefaultAsync(m => m.ItemId == id);
+                .FirstOrDefaultAsync(m => m.ItemsId == id);
             if (items == null)
             {
                 return NotFound();
@@ -151,7 +151,7 @@ namespace ReserveSystem.Controllers
 
         private bool ItemsExists(int id)
         {
-            return _context.Items.Any(e => e.ItemId == id);
+            return _context.Items.Any(e => e.ItemsId == id);
         }
     }
 }
