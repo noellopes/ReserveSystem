@@ -7,8 +7,12 @@ namespace ReserveSystem.Models
             [Key]
             public int ClienteId { get; set; }
             [Required(ErrorMessage = "Nome do Cliente é Obrigatorio")]
-            public string NomeCliente { get; set; }
+             [Display(Name = "Full Name")]
+
+             public string NomeCliente { get; set; }
             [Required(ErrorMessage = "A Morrada do Cliente é Obrigatorio")]
+            [Display(Name = "Address")]
+
             public string MoradaCliente { get; set; }
             [EmailAddress]
             [Required(ErrorMessage = "Email do Cliente Obrigatorio")]
