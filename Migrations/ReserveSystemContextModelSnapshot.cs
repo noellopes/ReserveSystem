@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserveSystem.Data;
 
@@ -16,68 +15,62 @@ namespace ReserveSystem.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("ReserveSystem.Models.ClientModel", b =>
+            modelBuilder.Entity("ReserveSystem.Models.ClienteModel", b =>
                 {
                     b.Property<int>("ClienteId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClienteId"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(8000)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("MoradaCliente")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("NIF")
-                        .HasColumnType("int");
+                        .HasMaxLength(8000)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("NomeCliente")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(8000)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(8000)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Telefone")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(8000)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("ClienteId");
 
-                    b.ToTable("ClientModel");
+                    b.ToTable("ClienteModel");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.Equipamento", b =>
                 {
                     b.Property<int>("IdEquipamento")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdEquipamento"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("NomeEquipamento")
                         .IsRequired()
-                        .HasMaxLength(800)
-                        .HasColumnType("nvarchar(800)");
+                        .HasMaxLength(8000)
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Quantidade")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("TipoEquipamento")
                         .IsRequired()
-                        .HasMaxLength(800)
-                        .HasColumnType("nvarchar(800)");
+                        .HasMaxLength(8000)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("IdEquipamento");
 
@@ -88,39 +81,34 @@ namespace ReserveSystem.Migrations
                 {
                     b.Property<int>("ReservaID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservaID"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ClienteModelClienteId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("DataFim")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DataInicio")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DataReserva")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Partcipantes")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<double>("PrecoTotal")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<string>("TipoReserva")
                         .IsRequired()
-                        .HasMaxLength(800)
-                        .HasColumnType("nvarchar(800)");
+                        .HasMaxLength(8000)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("ReservaID");
 
-                    b.HasIndex("ClienteModelClienteId");
+                    b.HasIndex("ClienteId");
 
                     b.ToTable("ReservaModel");
                 });
@@ -129,21 +117,19 @@ namespace ReserveSystem.Migrations
                 {
                     b.Property<long>("IdSala")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("IdSala"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<TimeOnly>("HoraFim")
-                        .HasColumnType("time");
+                        .HasColumnType("TEXT");
 
                     b.Property<TimeOnly>("HoraInicio")
-                        .HasColumnType("time");
+                        .HasColumnType("TEXT");
 
                     b.Property<long>("IdTipoSala")
-                        .HasColumnType("bigint");
+                        .HasColumnType("INTEGER");
 
                     b.Property<TimeSpan>("TempoPreparação")
-                        .HasColumnType("time");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("IdSala");
 
@@ -156,23 +142,21 @@ namespace ReserveSystem.Migrations
                 {
                     b.Property<long>("IdTipoSala")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("IdTipoSala"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Capacidade")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("NomeSala")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(8000)
+                        .HasColumnType("TEXT");
 
                     b.Property<double>("PreçoHora")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<int>("TamanhoSala")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("IdTipoSala");
 
@@ -181,11 +165,13 @@ namespace ReserveSystem.Migrations
 
             modelBuilder.Entity("ReserveSystem.Models.ReservaModel", b =>
                 {
-                    b.HasOne("ReserveSystem.Models.ClientModel", "ClienteModel")
-                        .WithMany("ReservaModel")
-                        .HasForeignKey("ClienteModelClienteId");
+                    b.HasOne("ReserveSystem.Models.ClienteModel", "Cliente")
+                        .WithMany("Reserva")
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("ClienteModel");
+                    b.Navigation("Cliente");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.Sala", b =>
@@ -199,9 +185,9 @@ namespace ReserveSystem.Migrations
                     b.Navigation("TipoSala");
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.ClientModel", b =>
+            modelBuilder.Entity("ReserveSystem.Models.ClienteModel", b =>
                 {
-                    b.Navigation("ReservaModel");
+                    b.Navigation("Reserva");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.TipoSala", b =>
