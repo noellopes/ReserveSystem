@@ -3,24 +3,39 @@
 
 <div class="container mt-4">
     <h1>Equipment List</h1>
+
+    @* Check if there's a message in TempData and display it *@
+    @{
+        var message = TempData["Message"];
+        if (message != null)
+        {
+            <div class="alert alert-success">
+                @message
+            </div>
+        }
+    }
+    <p>
+        <a asp-action="AddEquipment" class="btn btn-primary">Create New Equipment</a>
+    </p>
     <div class="row">
         @foreach (var equipamento in Model)
         {
             <div class="col-md-4 mb-4">
                 <div class="card">
-                    <img src="https://img.pccomponentes.com/articles/1051/10517903/132-jbl-flip-6-altavoz-bluetooth-30w-azul.jpg" class="card-img-top" alt="@equipamento.NomeEquipamento">
+                    <img src="@Url.Content("~/images/equipamento/" + equipamento.IdEquipamento + ".jpg")" class="card-img-top img-standard-size" alt="@equipamento.NomeEquipamento">
                     <div class="card-body">
                         <h5 class="card-title">@equipamento.NomeEquipamento</h5>
-                        <p class="card-text">
+                        <p class="card-text">                            
                             <strong>Tipo:</strong> @equipamento.TipoEquipamento<br>
                             <strong>Quantidade:</strong> @equipamento.Quantidade
                         </p>
-                        <a href="@Url.Action("Edit", "Equipamento", new { id = equipamento.IdEquipamento })" class="btn btn-primary">Edit</a>
-                        <a href="@Url.Action("ReportIssue", "Equipamento", new { id = equipamento.IdEquipamento })" class="btn btn-warning">Report Issue</a>
-                        <a href="@Url.Action("Delete", "Equipamento", new { id = equipamento.IdEquipamento })" class="btn btn-danger">Delete</a>
+                        <a asp-action="Edit" asp-route-id="@equipamento.IdEquipamento" class="btn btn-primary">Edit</a>
+                        <a asp-action="ReportIssue" asp-route-id="@equipamento.IdEquipamento" class="btn btn-warning">Report Issue</a>
+                        <a asp-action="Delete" asp-route-id="@equipamento.IdEquipamento" class="btn btn-danger">Delete</a>
                     </div>
                 </div>
             </div>
         }
     </div>
 </div>
+
