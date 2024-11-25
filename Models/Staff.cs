@@ -20,7 +20,6 @@ namespace ReserveSystem.Models
 
         [StringLength(50)]
 
-        public string StaffDept { get; set; }
         public string StaffPhone { get; set; }
 
         [Required]
@@ -28,8 +27,8 @@ namespace ReserveSystem.Models
         public string StaffPassword { get; set; }
 
         [Required]
-        public string StartFunctionsDate { get; set; }
-        public string EndFunctionsDate { get; set; }
+        public DateTime StartFunctionsDate { get; set; }
+        public DateTime? EndFunctionsDate { get; set; }
         public int DaysOffVacation { get; set; }
 
     }
