@@ -22,12 +22,12 @@ namespace ReserveSystem.Controllers
         public IActionResult Index()
         {
             // Clean the Equipamento table if there are any entries 
-            /*if (_context.Equipamento.Any(e => e.IdEquipamento >= 0)) 
+            if (_context.Equipamento.Any(e => e.IdEquipamento >= 0)) 
             { 
-                var equipamentosToDelete = _context.Equipamento.Where(e => e.IdEquipamento >= 0).ToList(); 
+                var equipamentosToDelete = _context.Equipamento.Where(e => e.IdEquipamento >= 30).ToList(); 
                 _context.Equipamento.RemoveRange(equipamentosToDelete); 
                 _context.SaveChanges(); 
-            }*/
+            }
 
             if (!_context.Equipamento.Any())
             {       
