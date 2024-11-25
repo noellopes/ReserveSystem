@@ -1,23 +1,14 @@
 ﻿@model ReserveSystem.Models.Equipamento
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Report Issue</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container mt-4">
-        <h1>Report Issue</h1>
-        <form asp-action="ReportIssue" method="post">
-            <div class="form-group">
-                <label for="IssueDescription">Issue Description</label>
-                <textarea id="IssueDescription" name="IssueDescription" class="form-control" rows="4"></textarea>
-            </div>
-            <input type="hidden" asp-for="IdEquipamento" />
-            <button type="submit" class="btn btn-warning">Report</button>
-            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-        </form>
-    </div>
-</body>
-</html>
+<div class="container mt-4">
+    <h1>Report Issue</h1>
+    <form asp-action="ReportIssue" method="post">
+        <div class="form-group">
+            <label for="IssueDescription">Issue Description</label>
+            <textarea id="IssueDescription" name="IssueDescription" class="form-control" rows="4"></textarea>
+        </div>
+        <input type="hidden" asp-for="IdEquipamento" />
+        <button type="submit" class="btn btn-warning">Report</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

@@ -20,3 +20,9 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.img-standard-size {
+    width: 100%; /* Adjust width as needed */
+    height: 250px; /* Adjust height as needed */
+    object-fit: contain; /* This ensures the image covers the specified dimensions without distorting */
+}

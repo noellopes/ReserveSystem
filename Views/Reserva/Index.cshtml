@@ -31,7 +31,7 @@
                 @Html.DisplayNameFor(model => model.PrecoTotal)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Cliente)
+                @Html.DisplayNameFor(model => model.ClienteId)
             </th>
             <th></th>
         </tr>
@@ -58,7 +58,7 @@
                 @Html.DisplayFor(modelItem => item.PrecoTotal)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Cliente.ClienteId)
+                @Html.DisplayFor(modelItem => item.ClienteId)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ReservaID">Edit</a> |

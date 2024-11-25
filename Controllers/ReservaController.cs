@@ -22,7 +22,7 @@ namespace ReserveSystem.Controllers
         // GET: Reserva
         public async Task<IActionResult> Index()
         {
-            var reserveSystemContext = _context.ReservaModel.Include(r => r.Cliente);
+            var reserveSystemContext = _context.ReservaModel.Include(r => r.ClienteId);
             return View(await reserveSystemContext.ToListAsync());
         }
 
@@ -34,21 +34,24 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var reservaModel = await _context.ReservaModel
-                .Include(r => r.Cliente)
+            var Reserva = await _context.ReservaModel
+                .Include(r => r.ClienteId)
                 .FirstOrDefaultAsync(m => m.ReservaID == id);
-            if (reservaModel == null)
+            if (Reserva == null)
             {
                 return NotFound();
             }
 
-            return View(reservaModel);
+            return View(Reserva);
         }
 
         // GET: Reserva/Create
         public IActionResult Create()
         {
-            ViewData["ClienteId"] = new SelectList(_context.ClienteModel, "ClienteId", "Email");
+            //ViewData["ClienteId"] = new SelectList(_context.ReservaModel, "ClienteId");
+            var clienteIds = _context.ClientModel.Select(r => r.ClienteId).ToList();
+            ViewData["ClienteId"] = new SelectList(clienteIds);
+
             return View();
         }
 
@@ -57,16 +60,16 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ReservaID,TipoReserva,DataReserva,DataInicio,DataFim,Partcipantes,PrecoTotal,ClienteId")] ReservaModel reservaModel)
+        public async Task<IActionResult> Create([Bind("ReservaID,TipoReserva,DataReserva,DataInicio,DataFim,Partcipantes,PrecoTotal,ClienteId")] ReservaModel Reserva)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(reservaModel);
+                _context.Add(Reserva);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.ClienteModel, "ClienteId", "Email", reservaModel.ClienteId);
-            return View(reservaModel);
+            //ViewData["ClienteId"] = new SelectList(_context.ClientModel, "ClienteId", "Email", ReservaModel.C);
+            return View(Reserva);
         }
 
         // GET: Reserva/Edit/5
@@ -77,13 +80,13 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var reservaModel = await _context.ReservaModel.FindAsync(id);
-            if (reservaModel == null)
+            var Reserva = await _context.ReservaModel.FindAsync(id);
+            if (Reserva == null)
             {
                 return NotFound();
             }
-            ViewData["ClienteId"] = new SelectList(_context.ClienteModel, "ClienteId", "Email", reservaModel.ClienteId);
-            return View(reservaModel);
+            //ViewData["ClienteId"] = new SelectList(_context.ClientModel, "ClienteId", "Email", ReservaModel.ClienteId);
+            return View(Reserva);
         }
 
         // POST: Reserva/Edit/5
@@ -91,9 +94,9 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ReservaID,TipoReserva,DataReserva,DataInicio,DataFim,Partcipantes,PrecoTotal,ClienteId")] ReservaModel reservaModel)
+        public async Task<IActionResult> Edit(int id, [Bind("ReservaID,TipoReserva,DataReserva,DataInicio,DataFim,Partcipantes,PrecoTotal,ClienteId")] ReservaModel Reserva)
         {
-            if (id != reservaModel.ReservaID)
+            if (id != Reserva.ReservaID)
             {
                 return NotFound();
             }
@@ -102,12 +105,12 @@ namespace ReserveSystem.Controllers
             {
                 try
                 {
-                    _context.Update(reservaModel);
+                    _context.Update(Reserva);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ReservaModelExists(reservaModel.ReservaID))
+                    if (!ReservaExists(Reserva.ReservaID))
                     {
                         return NotFound();
                     }
@@ -118,8 +121,8 @@ namespace ReserveSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.ClienteModel, "ClienteId", "Email", reservaModel.ClienteId);
-            return View(reservaModel);
+            //ViewData["ClienteId"] = new SelectList(_context.ClientModel, "ClienteId", "Email", reservaModel.ClienteId);
+            return View(Reserva);
         }
 
         // GET: Reserva/Delete/5
@@ -130,15 +133,15 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var reservaModel = await _context.ReservaModel
-                .Include(r => r.Cliente)
+            var Reserva = await _context.ReservaModel
+                .Include(r => r.ClienteId)
                 .FirstOrDefaultAsync(m => m.ReservaID == id);
-            if (reservaModel == null)
+            if (Reserva == null)
             {
                 return NotFound();
             }
 
-            return View(reservaModel);
+            return View(Reserva);
         }
 
         // POST: Reserva/Delete/5
@@ -146,17 +149,17 @@ namespace ReserveSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var reservaModel = await _context.ReservaModel.FindAsync(id);
-            if (reservaModel != null)
+            var Reserva = await _context.ReservaModel.FindAsync(id);
+            if (Reserva != null)
             {
-                _context.ReservaModel.Remove(reservaModel);
+                _context.ReservaModel.Remove(Reserva);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ReservaModelExists(int id)
+        private bool ReservaExists(int id)
         {
             return _context.ReservaModel.Any(e => e.ReservaID == id);
         }
