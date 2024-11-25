@@ -22,8 +22,8 @@ namespace ReserveSystem.Controllers
         // GET: Reserva
         public async Task<IActionResult> Index()
         {
-            var reserveSystemContext = _context.ReservaModel.Include(r => r.ClienteId);
-            return View(await reserveSystemContext.ToListAsync());
+            //var reserveSystemContext = _context.ReservaModel.Include(r => r.ClienteId);
+            return View(await _context.ReservaModel.ToListAsync());
         }
 
         // GET: Reserva/Details/5

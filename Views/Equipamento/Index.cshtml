@@ -9,9 +9,9 @@
         var message = TempData["Message"];
         if (message != null)
         {
-            <div class="alert alert-success">
-                @message
-            </div>
+                <div class="alert alert-success">
+                    @message
+                </div>           
         }
     }
     <p>
@@ -21,7 +21,7 @@
         @foreach (var equipamento in Model)
         {
             <div class="col-md-4 mb-4">
-                <div class="card">
+                <div class="card" >
                     <img src="@Url.Content("~/images/equipamento/" + equipamento.IdEquipamento + ".jpg")" class="card-img-top img-standard-size" alt="@equipamento.NomeEquipamento">
                     <div class="card-body">
                         <h5 class="card-title">@equipamento.NomeEquipamento</h5>

@@ -28,7 +28,7 @@ namespace ReserveSystem.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error fetching TipoSala list");
-                TempData["ErrorMessage"] = "An unexpected error occurred while fetching the TipoSala list.";
+                TempData["Message"] = "An unexpected error occurred while fetching the TipoSala list.";
                 return View(new List<TipoSala>()); // Boş bir list döndür geçici olarak
             }
         }
@@ -60,13 +60,13 @@ namespace ReserveSystem.Controllers
             {
                 _context.Add(tipoSala);
                 await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "TipoSala created successfully.";
+                TempData["Message"] = "Room Type created successfully.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error creating TipoSala");
-                TempData["ErrorMessage"] = "An unexpected error occurred while creating the TipoSala.";
+                TempData["Message"] = "An unexpected error occurred while creating the TipoSala.";
                 return View(tipoSala);
             }
         }
@@ -76,7 +76,7 @@ namespace ReserveSystem.Controllers
         {
             if (id == null)
             {
-                TempData["ErrorMessage"] = "Invalid TipoSala ID.";
+                TempData["Message"] = "Invalid TipoSala ID.";
                 return NotFound();
             }
 
@@ -85,7 +85,7 @@ namespace ReserveSystem.Controllers
                 var tipoSala = await _context.TipoSala.FirstOrDefaultAsync(m => m.IdTipoSala == id);
                 if (tipoSala == null)
                 {
-                    TempData["ErrorMessage"] = "TipoSala not found.";
+                    TempData["Message"] = "TipoSala not found.";
                     return NotFound();
                 }
 
@@ -94,7 +94,7 @@ namespace ReserveSystem.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error fetching TipoSala details");
-                TempData["ErrorMessage"] = "An unexpected error occurred while fetching the TipoSala details.";
+                TempData["Message"] = "An unexpected error occurred while fetching the TipoSala details.";
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -119,7 +119,7 @@ namespace ReserveSystem.Controllers
         {
             if (id != tipoSala.IdTipoSala)
             {
-                TempData["ErrorMessage"] = "Invalid TipoSala ID.";
+                TempData["Message"] = "Invalid Room Type ID.";
                 return NotFound();
             }
 
@@ -137,27 +137,27 @@ namespace ReserveSystem.Controllers
             {
                 _context.Update(tipoSala);
                 await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "TipoSala updated successfully.";
+                TempData["Message"] = "Room Type updated successfully.";
                 return RedirectToAction(nameof(Index));
             }
             catch (DbUpdateConcurrencyException ex)
             {
                 if (!TipoSalaExists(tipoSala.IdTipoSala))
                 {
-                    TempData["ErrorMessage"] = "TipoSala not found.";
+                    TempData["Message"] = "Room Type not found.";
                     return NotFound();
                 }
                 else
                 {
                     _logger.LogError(ex, "Concurrency error while updating TipoSala");
-                    TempData["ErrorMessage"] = "A concurrency error occurred while updating the TipoSala.";
+                    TempData["Message"] = "A concurrency error occurred while updating the TipoSala.";
                     return View(tipoSala);
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error updating TipoSala");
-                TempData["ErrorMessage"] = "An unexpected error occurred while updating the TipoSala.";
+                _logger.LogError(ex, "Error updating Room Type");
+                TempData["Message"] = "An unexpected error occurred while updating the Room Type";
                 return View(tipoSala);
             }
         }
@@ -189,19 +189,19 @@ namespace ReserveSystem.Controllers
                 var tipoSala = await _context.TipoSala.FindAsync(IdTipoSala);
                 if (tipoSala == null)
                 {
-                    TempData["ErrorMessage"] = "TipoSala not found.";
+                    TempData["Message"] = "Room Type not found.";
                     return NotFound();
                 }
 
                 _context.TipoSala.Remove(tipoSala);
                 await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "TipoSala deleted successfully.";
+                TempData["Message"] = "Room Type deleted successfully.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error deleting TipoSala");
-                TempData["ErrorMessage"] = "An unexpected error occurred while deleting the TipoSala.";
+                TempData["Message"] = "An unexpected error occurred while deleting the TipoSala.";
                 return RedirectToAction(nameof(Index));
             }
         }

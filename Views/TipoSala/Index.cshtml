@@ -2,6 +2,14 @@
 
 @{
 ViewData["Title"] = "Room Types";
+
+    var message = TempData["Message"];
+    if (message != null)
+    {
+        <div class="alert alert-success">
+            @message
+        </div>
+    }
 }
 
 <h1 class="mb-4">Room Types</h1>

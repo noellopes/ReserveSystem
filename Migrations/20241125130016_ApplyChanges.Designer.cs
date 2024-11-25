@@ -12,8 +12,8 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    [Migration("20241123010035_UpdateEquipamentoSchema")]
-    partial class UpdateEquipamentoSchema
+    [Migration("20241125130016_ApplyChanges")]
+    partial class ApplyChanges
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -71,14 +71,16 @@ namespace ReserveSystem.Migrations
 
                     b.Property<string>("NomeEquipamento")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(800)
+                        .HasColumnType("nvarchar(800)");
 
                     b.Property<int>("Quantidade")
                         .HasColumnType("int");
 
                     b.Property<string>("TipoEquipamento")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(800)
+                        .HasColumnType("nvarchar(800)");
 
                     b.HasKey("IdEquipamento");
 
@@ -116,7 +118,8 @@ namespace ReserveSystem.Migrations
 
                     b.Property<string>("TipoReserva")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(800)
+                        .HasColumnType("nvarchar(800)");
 
                     b.HasKey("ReservaID");
 
@@ -133,17 +136,17 @@ namespace ReserveSystem.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("IdSala"));
 
-                    b.Property<DateTime>("HoraFim")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeOnly>("HoraFim")
+                        .HasColumnType("time");
 
-                    b.Property<DateTime>("HoraInicio")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeOnly>("HoraInicio")
+                        .HasColumnType("time");
 
                     b.Property<long>("IdTipoSala")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("TempoPreparação")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeSpan>("TempoPreparação")
+                        .HasColumnType("time");
 
                     b.HasKey("IdSala");
 
@@ -165,7 +168,8 @@ namespace ReserveSystem.Migrations
 
                     b.Property<string>("NomeSala")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<double>("PreçoHora")
                         .HasColumnType("float");

@@ -26,7 +26,7 @@ namespace ReserveSystem.Controllers
             { 
                 var equipamentosToDelete = _context.Equipamento.Where(e => e.IdEquipamento >= 30).ToList(); 
                 _context.Equipamento.RemoveRange(equipamentosToDelete); 
-                _context.SaveChanges(); 
+                _context.SaveChanges();
             }
 
             if (!_context.Equipamento.Any())
@@ -121,6 +121,7 @@ namespace ReserveSystem.Controllers
             {
                 _context.Update(equipamento);
                 _context.SaveChanges();
+                TempData["Message"] = "The equipment has been edited.";
                 return RedirectToAction(nameof(Index));
             }
             return View(equipamento);
@@ -166,9 +167,10 @@ namespace ReserveSystem.Controllers
 
         [HttpPost]
         public IActionResult ReportIssue(int id, string issueDescription)
-        { 
+        {
+            TempData["Message"] = "The report has been sent to the technician.";
             // Logic to handle reporting the issue 
-          // You can store the issue report in a database table or send a notification, etc.
+            // You can store the issue report in a database table or send a notification, etc.
             return RedirectToAction(nameof(Index));
         }
 

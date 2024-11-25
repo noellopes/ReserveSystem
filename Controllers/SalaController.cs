@@ -106,7 +106,7 @@ namespace ReserveSystem.Controllers
 
                 _context.Add(sala);
                 await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Sala created successfully.";
+                TempData["Message"] = "Room created successfully.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -172,7 +172,7 @@ namespace ReserveSystem.Controllers
 
                 _context.Update(sala);
                 await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Sala updated successfully.";
+                TempData["Message"] = "Room updated successfully.";
                 return RedirectToAction(nameof(Index));
             }
             catch (DbUpdateConcurrencyException ex)
@@ -244,7 +244,7 @@ namespace ReserveSystem.Controllers
 
                 _context.Sala.Remove(sala);
                 await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Sala deleted successfully.";
+                TempData["Message"] = "Room deleted successfully.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
