@@ -3,8 +3,11 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <a asp-controller="Login" asp-action="Login" class="btn btn-primary">Log in</a>
-    <a asp-controller="Login" asp-action="Create" class="btn btn-primary">Create Staff user</a>
+    <h1 class="display-4">Welcome to Reserve System</h1>
+    <br>
+    <a asp-controller="UserLogins" asp-action="Login" class="btn btn-primary" style="background-color:blue">Log in</a>
+    <br>
+    <br>
+    <a asp-controller="UserLogins" asp-action="Create" class="btn btn-primary" style="background-color:green">Create Staff user</a>
+    <a asp-controller="UserLogins" asp-action="Index" class="btn btn-primary">List Staff users</a>
 </div>

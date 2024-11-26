@@ -1,0 +1,41 @@
+﻿@model IEnumerable<ReserveSystem.Models.UserLogin>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>List of Staff Users</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Staff_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Password)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Staff_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Password)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Login_id" class="btn btn-primary" style="background-color:green">Edit</a>  
+                    <a asp-action="Details" asp-route-id="@item.Login_id" class="btn btn-primary">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Login_id" class="btn btn-primary" style="background-color:red">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

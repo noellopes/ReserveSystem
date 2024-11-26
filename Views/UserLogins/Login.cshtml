@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>Iniciar Sesión</h1>
+
+<!-- Mensaje de éxito -->
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert alert-success">@ViewBag.Message</div>
+}
+
+<!-- Mensaje de error -->
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+<!-- Formulario de Login -->
+<form asp-action="Login" method="post">
+    <div class="form-group">
+        <label for="Staff_id">ID del Usuario</label>
+        <input type="text" id="Staff_id" name="Staff_id" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="Password">Contraseña</label>
+        <input type="password" id="Password" name="Password" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+</form>
