@@ -10,10 +10,11 @@
 
 <hr />
 <div class="row">
-    <div class="col-md-4 form-container">
+    <div class="col-md-8 form-container">
+        
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
+            <div class="row">
             <div class="form-group">
                 <label asp-for="Staff_Name" class="control-label">Name</label>
                 <input asp-for="Staff_Name" class="form-control" />
@@ -47,29 +48,21 @@
                 </div>
                 <span asp-validation-for="Staff_Password" class="text-danger"></span>
             </div>
-
+        </div>
+        <div class="row">
             <div class="form-group">
                 <label asp-for="Job_Id" class="control-label">Job</label>
                 <input asp-for="Job_Id" class="form-control" />
                 <span asp-validation-for="Job_Id" class="text-danger"></span>
             </div>
-            @*
-            <div class="form-group">
-            <label asp-for="Job_Id" class="control-label">Job</label>
-            <select asp-for="Job_Id" class="form-control" asp-items="ViewBag.Jobs"></select>
-            <span asp-validation-for="Job_Id" class="text-danger"></span>
-            </div>
-            *@
-            
-            
-            
+
             <div class="form-group">
                 <label class="control-label">Driving License Grades</label>
                 @if (grades != null && grades.Count > 0)
                 {
                     for (int i = 0; i < grades.Count; i++)
                     {
-                        <div class="form-check">
+                        <div class="form-check" style="display: inline-block; margin-right: 10px;">
                            
                             <input type="checkbox"
                                    name="DrivingLicenseGrades"
@@ -93,11 +86,13 @@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
+            </div>
         </form>
+        
     </div>
 </div>
 
-<div>
+
     <a asp-action="Index">Back to List</a>
 </div>
 
