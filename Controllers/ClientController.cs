@@ -201,9 +201,10 @@ namespace ReserveSystem.Controllers
             ViewBag.Entity = "Cliente";
             ViewBag.Controller = "Client";
             ViewBag.Action = "Index";
-            return View("DeletedSuccess");
+            
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return View("DeletedSuccess");
+            //return RedirectToAction(nameof(Index));
         }
 
         private bool ClientModelExists(int id)
