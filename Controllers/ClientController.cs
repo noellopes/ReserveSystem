@@ -92,6 +92,14 @@ namespace ReserveSystem.Controllers
             {
                 try
                 {
+                    var existingPhone = await _context.Client
+                    .FirstOrDefaultAsync(c => c.Phone == cliente.Phone);
+
+                    if (existingPhone != null)
+                    {
+                        ModelState.AddModelError("Phone", "Invalid Phone number. Please verify and try again.");
+                        return View(cliente);
+                    }
                     var existingClient = await _context.Client
                     .FirstOrDefaultAsync(c => c.Email == cliente.Email);
 

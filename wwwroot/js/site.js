@@ -1,68 +1,90 @@
-﻿document.getElementById("countrySelect").addEventListener("change", function () {
-    const selectedOption = this.options[this.selectedIndex];
-    const countryCode = selectedOption.getAttribute("data-code");
-    const countryFlagCode = selectedOption.getAttribute("data-flag");
-    const phoneLength = selectedOption.getAttribute("data-length");
+﻿//document.getElementById("countrySelect").addEventListener("change", function () {
+//    const selectedOption = this.options[this.selectedIndex];
+//    const countryCode = selectedOption.getAttribute("data-code");
+//    const countryFlagCode = selectedOption.getAttribute("data-flag");
+//    const phoneLength = selectedOption.getAttribute("data-length");
 
-    const telephoneElement = document.getElementById("telefone");
-    const flagElement = document.getElementById("flag");
-    const flagWrapper = document.getElementById("flagIcon");
+//    const telephoneElement = document.getElementById("telefone");
+//    const flagElement = document.getElementById("flag");
+//    const flagWrapper = document.getElementById("flagIcon");
 
-    // Preserve the user's input (excluding the previous country code if any)
-    let userInput = telephoneElement.value.replace(/^\+\d+\s/, "").trim();
+//    // Preserve the user's input (excluding the previous country code if any)
+//    let userInput = telephoneElement.value.replace(/^\+\d+\s/, "").trim();
 
-    // If "Others" is selected, clear the telephone input and hide the flag
-    if (!countryCode) {
-        telephoneElement.value = ""; // Clear the phone number input
-        flagElement.src = ""; // Hide the flag
-        flagWrapper.style.display = "none"; // Hide the flag wrapper
-        telephoneElement.removeAttribute("maxlength"); // Remove maxlength attribute
-        return; // Exit early if no valid country is selected
-    }
+//    // If "Others" is selected, clear the telephone input and hide the flag
+//    if (!countryCode) {
+//        telephoneElement.value = ""; // Clear the phone number input
+//        flagElement.src = ""; // Hide the flag
+//        flagWrapper.style.display = "none"; // Hide the flag wrapper
+//        telephoneElement.removeAttribute("maxlength"); // Remove maxlength attribute
+//        return; // Exit early if no valid country is selected
+//    }
 
-    // Display the new country code and user input in the telephone field
-    telephoneElement.value = `${countryCode} ${userInput}`;
-    if (phoneLength) {
-        telephoneElement.setAttribute("maxlength", parseInt(phoneLength) + countryCode.length + 1); // Account for the country code length
-    } else {
-        telephoneElement.removeAttribute("maxlength"); // Remove maxlength if phoneLength is not set
-    }
+//    // Display the new country code and user input in the telephone field
+//    telephoneElement.value = `${countryCode} ${userInput}`;
+//    if (phoneLength) {
+//        telephoneElement.setAttribute("maxlength", parseInt(phoneLength) + countryCode.length + 1); // Account for the country code length
+//    } else {
+//        telephoneElement.removeAttribute("maxlength"); // Remove maxlength if phoneLength is not set
+//    }
 
-    // Update the flag if available
-    if (countryFlagCode) {
-        const flagUrl = `https://flagcdn.com/w320/${countryFlagCode}.png`;
-        flagElement.src = flagUrl;  // Update flag URL
-        flagWrapper.style.display = "block";  // Show the flag icon
-    } else {
-        flagElement.src = "";  // Hide the flag if not available
-        flagWrapper.style.display = "none"; // Hide the flag wrapper
-    }
+//    // Update the flag if available
+//    if (countryFlagCode) {
+//        const flagUrl = `https://flagcdn.com/80x60/${countryFlagCode}.png`;
+//        flagElement.src = flagUrl;  // Update flag URL
+//        flagWrapper.style.display = "block";  // Show the flag icon
+//    } else {
+//        flagElement.src = "";  // Hide the flag if not available
+//        flagWrapper.style.display = "none"; // Hide the flag wrapper
+//    }
 
-    // Remove previous input validation handler and attach a new one
-    telephoneElement.removeEventListener("input", validatePhoneLength);
-    telephoneElement.addEventListener("input", validatePhoneLength);
+   
+//});
 
-    // Validate the phone length
-    function validatePhoneLength() {
-        const countryCodeLength = countryCode ? countryCode.length + 1 : 0;  // +1 for the space
-        const maxDigits = phoneLength ? parseInt(phoneLength) + countryCodeLength : Infinity;
 
-        if (telephoneElement.value.length > maxDigits) {
-            telephoneElement.value = telephoneElement.value.slice(0, maxDigits);  // Limit the input length
-        }
+//// Trigger the change event on page load to set the default flag (optional)
+//document.getElementById("countrySelect").dispatchEvent(new Event("change"));
 
-        // Check if the current length is valid (excluding the country code)
-        const currentLength = telephoneElement.value.replace(/^\+\d+\s/, "").length;
-        if (phoneLength && currentLength < parseInt(phoneLength)) {
-            document.getElementById("phoneError").style.display = "inline";  // Show error if length is too short
-        } else {
-            document.getElementById("phoneError").style.display = "none";  // Hide error
-        }
-    }
-});
+//document.getElementById("telefone").addEventListener("input", function (event) {
+//    validatePhoneLength();
 
-// Trigger the change event on page load to set the default flag (optional)
-document.getElementById("countrySelect").dispatchEvent(new Event("change"));
+//    // Prevent form submission if there's a validation error
+//    const phoneError = document.getElementById("phoneError");
+//    if (phoneError.style.display === "inline") {
+//        event.preventDefault();
+//    }
+
+//    // Remove previous input validation handler and attach a new one
+//    telephoneElement.removeEventListener("input", validatePhoneLength);
+//    telephoneElement.addEventListener("input", validatePhoneLength);
+
+//    // Validate the phone length
+//    function validatePhoneLength() {
+//        const countryCodeLength = countryCode ? countryCode.length + 1 : 0; // +1 for the space
+//        const maxDigits = phoneLength ? parseInt(phoneLength) + countryCodeLength : Infinity;
+
+//        if (telephoneElement.value.length > maxDigits) {
+//            telephoneElement.value = telephoneElement.value.slice(0, maxDigits); // Truncate to max length
+//        }
+
+//        // Validate the length of the number excluding the country code
+//        const currentLength = telephoneElement.value.replace(/^\+\d+\s/, "").length;
+//        const phoneError = document.getElementById("phoneError");
+//        if (phoneLength && currentLength < parseInt(phoneLength)) {
+//            phoneError.style.display = "inline"; // Show error if too short
+//        } else {
+//            phoneError.style.display = "none"; // Hide error if valid
+//        }
+//        if (phoneLength) {
+//            telephoneElement.setAttribute("maxlength", parseInt(phoneLength) + countryCode.length + 1);
+//        } else {
+//            telephoneElement.removeAttribute("maxlength");
+//        }
+
+//    }
+//});
+//document.getElementById("telefone").dispatchEvent(new Event("change"));
+
 
 // Event listener for changes in the Identification Type
 // Event listener for changes in the Identification Type

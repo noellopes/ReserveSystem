@@ -36,16 +36,10 @@
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
-            </th>
-            @* <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th> *@
+            </th>          
             <th>
                 @Html.DisplayNameFor(model => model.Address)
-            </th>
-            @* <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th> *@
+            </th>            
             <th>
                 @Html.DisplayNameFor(model => model.Identification) Number
             </th>
@@ -58,16 +52,10 @@
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                @* <td>
-                    @Html.DisplayFor(modelItem => item.Phone)
-                </td> *@
+                </td>               
                 <td>
                     @Html.DisplayFor(modelItem => item.Address)
-                </td>
-                @* <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td> *@
+                </td>              
                 <td>
                     @Html.DisplayFor(modelItem => item.Identification)
                 </td>
@@ -78,7 +66,6 @@
                     <a asp-action="Delete" asp-route-id="@item.ClienteId" class="btn btn-danger ms-2">Delete</a>
                     <a asp-action="Create" asp-controller="Booking" class="btn btn-success ms-2">Book</a>
                 </td>
-
             </tr>
         }
     </tbody>
