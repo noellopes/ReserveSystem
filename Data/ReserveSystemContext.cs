@@ -11,9 +11,8 @@ namespace ReserveSystem.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Enforce unique constraint on NIF
             modelBuilder.Entity<ClientModel>()
-                .HasIndex(c => c.NIF)
+                .HasIndex(c => c.Identification)
                 .IsUnique();
 
             base.OnModelCreating(modelBuilder);

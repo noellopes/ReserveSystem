@@ -12,7 +12,7 @@
 <div class="d-flex justify-content-center">
     <div class="col-md-6">
         <form asp-action="Create" method="post" class="border p-5 rounded shadow-sm">
-            <div asp-validation-summary="All" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control bg-light " type="text" />
@@ -22,8 +22,8 @@
             <div class="form-group mb-3">
                 <label asp-for="Phone" id="" class="control-label "></label>
                 <div class="input-group">
-                    <select id="countrySelect" class="form-control">
-                        <option value="" data-flag="" data-code="" data-length="">Select Contry</option>
+                    <select asp-for="Phone" id="countrySelect" class="form-control">
+                        <option value="" data-flag="" data-code="" data-length="" disabled selected>Select Contry</option>
                         <option value="+351" data-flag="pt" data-code="+351" data-length="9">Portugal (+351)</option>
                         <option value="+1" data-flag="us" data-code="+1" data-length="10">USA (+1)</option>
                         <option value="+44" data-flag="gb" data-code="+44" data-length="10">UK (+44)</option>
@@ -53,24 +53,37 @@
                 @*<span id="phoneError" class="text-danger" style="display: none;">Número de telefone Invalido. Por favor, certifique-se de que o número tenha o comprimento correto para o país selecionado.</span> *@
             </div>
 
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Address" class="control-label"></label>
                 <input asp-for="Address" class="form-control bg-light" type="text" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control bg-light " type="email" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="NIF" class="control-label"></label>
-                <input asp-for="NIF" class="form-control bg-light" type="text" maxlength="9" />
-                <span asp-validation-for="NIF" class="text-danger"></span>
+            <div class="form-group mb-3">
+                <label asp-for="IdentificationType" class="control-label">Identification Number</label>
+                <div class="input-group">
+                    <select asp-for="IdentificationType" id="IdentificationType" class="form-control bg-light">
+                        <option value="" disabled selected>Select an option</option>
+                        <option value="NIF">Tax Identification Number/Número de Identificação Fiscal(NIF)</option>
+                        <option value="IDCard">Identification Card/Bilhete de Identification(BI)</option>
+                        <option value="Passport">Passport/Passaporte</option>
+                    </select>
+                </div>
+
+                <div id="IdentificationInputWrapper" style="display: none;">
+                    <input id="IdentificationNumber" asp-for="Identification" class="form-control bg-light" type="text" placeholder="Enter your identification number" />
+                </div>
+                <span asp-validation-for="Identification" class="text-danger"></span>
+                @* <input asp-for="Identification" class="form-control bg-light" type="text" /> *@
             </div>
-            <div class="form-group">
+
+            <div class="form-group mb-3">
                 
-                <label asp-for="Password" class="control-label"></label>
+                <label asp-for="Password" class="control-label">Password</label>
                 <input asp-for="Password" class="form-control bg-light" type="password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>

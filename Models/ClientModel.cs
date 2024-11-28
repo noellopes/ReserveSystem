@@ -20,13 +20,17 @@ namespace ReserveSystem.Models
         [EmailAddress(ErrorMessage = "Formato do email invalido")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "NIF obrigatório")]
-        public string NIF { get; set; }
+        [Required(ErrorMessage = "Identificação obrigatório")]
+        public string Identification { get; set; }
+
 
         [Required(ErrorMessage ="Password obrigatório")]
         [StringLength(20, MinimumLength = 6)]
         [DataType(DataType.Password)]
         public string Password {  get; set; }
+
+        [Required(ErrorMessage = "Tipo de identificação obrigatório")]
+        public string IdentificationType { get; set; }
 
         public ICollection<BookingModel>? Booking { get; set; }
 

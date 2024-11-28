@@ -70,18 +70,43 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClienteId,Name,Phone,Address,Email,NIF,Password")] ClientModel cliente)
+        public async Task<IActionResult> Create([Bind("ClienteId,Name,Phone,Address,Email,Identification,Password, IdentificationType")] ClientModel cliente)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    if (!NifValidator.IsNifValid(cliente.NIF))
+                    if(cliente.IdentificationType == "NIF")
                     {
-                        ModelState.AddModelError("NIF", "NIF Inválido");
+                        if (!Validator.IsNifValid(cliente.Identification))
+                        {
+                            ModelState.AddModelError("Identification", "Identification Invalid or NIF cannot be less or greater than 9 digits");
+                            return View(cliente);
+                        }
+                    }
+                    else if(cliente.IdentificationType == "IDCard")
+                    {
+                        if (!Validator.IsIDCardValid(cliente.Identification))
+                        {
+                            ModelState.AddModelError("Identification", "Identification Invalid or ID Card number cannot be lesser than 8 or greater than 18 digits");
+                            return View(cliente);
+                        }
+                    }
+                    else if(cliente.IdentificationType == "Passport")
+                    {
+                        if (!Validator.IsPassportValid(cliente.Identification))
+                        {
+                            ModelState.AddModelError("Identification", "Identification Invalid or Passport number cannot be lesser than 8 digits or greater than 12 digits");
+                            return View(cliente);
+                        }
+                    }
+                    var isDuplicate = await _context.Client.AnyAsync(c => c.Identification == cliente.Identification);
+                    if (isDuplicate)
+                    {
+                        ModelState.AddModelError("Identification", "Invalid identification details. Please verify and try again.");
                         return View(cliente);
                     }
-                    //cliente.Password = passwordHasher.HashPassword(cliente, cliente.Password);
+
                     _context.Add(cliente);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
@@ -115,12 +140,9 @@ namespace ReserveSystem.Controllers
             return View(author);
         }
 
-        // POST: Client/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Name,Phone,Address,Email,NIF,Password")] ClientModel clientModel)
+        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Name,Phone,Address,Email,Identification,Password,IdentificationType")] ClientModel clientModel)
         {
             if (id != clientModel.ClienteId)
             {
@@ -204,7 +226,6 @@ namespace ReserveSystem.Controllers
             
             await _context.SaveChangesAsync();
             return View("DeletedSuccess");
-            //return RedirectToAction(nameof(Index));
         }
 
         private bool ClientModelExists(int id)
