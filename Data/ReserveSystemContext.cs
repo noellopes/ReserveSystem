@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using ReserveSystem.Models;
 
 namespace ReserveSystem.Data
 {
@@ -10,7 +9,5 @@ namespace ReserveSystem.Data
         {
         }
         public DbSet<ReserveSystem.Models.RoomServiceBooking> RoomServiceBooking { get; set; } = default!;
-
-        public DbSet<ReserveSystem.Models.RoomServiceBooking> RoomServiceBookings { get; set; } = default!;
     }
 }

@@ -40,19 +40,19 @@
             <tr>
                 <!-- Column Headers -->
                 <th scope="col">#</th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].Id) </th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].RoomServiceId) </th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].StaffId) </th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].ClientId) </th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].RoomId) </th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].DateTime) </th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].StartDate) </th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].EndDate) </th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].BookedState) </th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].StaffConfirmation) </th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].ClientFeedback) </th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].ValueToPay) </th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].PaymentDone) </th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().Id) </th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().RoomServiceId) </th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().StaffId) </th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().ClientId) </th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().RoomId) </th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().DateTime) </th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().StartDate) </th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().EndDate) </th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().BookedState) </th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().StaffConfirmation) </th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().ClientFeedback) </th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().ValueToPay) </th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().PaymentDone) </th>
                 <th scope="col">Actions</th>
 
             </tr>
@@ -98,4 +98,39 @@
             </tr>
         </tfoot>
     </table>
+
+    <nav aria-label="Room Service Bookings Pagination">
+        <ul class="pagination">
+            @{
+                var style = "page-item";
+                style += Model.PagingInfo?.CurrentPage == 1 ? " disabled" : "";
+            }
+
+            <li class="@style">
+                <a class="page-link" asp-action="Index" asp-route-page="1" aria-label="First">First</a>
+            </li>
+            @if (Model.PagingInfo != null)
+            {
+                @for (int i = Model.PagingInfo.StartPage; i <= Model.PagingInfo.EndPage; i++)
+                {
+                    style = "page-item";
+        
+                    if (i == Model.PagingInfo.CurrentPage)
+                    {
+                        style += " active";
+                    }
+
+                    <li class="@style">
+                        <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+                    </li>
+                }
+                style = "page-item";
+                style += Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages ? " disabled" : "";
+                
+                <li class="@style">
+                    <a class="page-link" asp-action="Index" asp-route-page="@Model.PagingInfo.TotalPages" aria-label="Last">Last</a>
+                </li>
+            }
+        </ul>
+    </nav>
 </div>
