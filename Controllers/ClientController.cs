@@ -29,9 +29,25 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Client
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchQuery)
         {
-            return View(await _context.Client.ToListAsync());
+            var clients = _context.Client.AsQueryable();
+
+            // If searchQuery is provided, filter by Email or Identification
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                clients = clients.Where(c =>
+                    c.Email.Contains(searchQuery) ||
+                    c.Identification.Contains(searchQuery));
+            }
+            var clientList = await clients.ToListAsync();
+
+            if (Request.Headers.XRequestedWith == "XMLHttpRequest")
+            {
+                // Return only the table rows as a partial view for AJAX requests
+                return PartialView("_ClientTableBody", clientList);
+            }
+            return View(clientList);
         }
 
         // GET: Client/Details/5
@@ -76,7 +92,15 @@ namespace ReserveSystem.Controllers
             {
                 try
                 {
-                    if(cliente.IdentificationType == "NIF")
+                    var existingClient = await _context.Client
+                    .FirstOrDefaultAsync(c => c.Email == cliente.Email);
+
+                    if (existingClient != null)
+                    {
+                        ModelState.AddModelError("Email", "Invalid email. Please verify and try again.");
+                        return View(cliente);
+                    }
+                    if (cliente.IdentificationType == "NIF")
                     {
                         if (!Validator.IsNifValid(cliente.Identification))
                         {

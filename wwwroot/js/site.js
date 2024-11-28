@@ -96,3 +96,20 @@ document.getElementById("IdentificationType").addEventListener("change", functio
 document.getElementById("IdentificationType").dispatchEvent(new Event("change"));
 
 
+$(document).ready(function () {
+    // When the user types in the search bar
+    $("#searchQuery").on("input", function () {
+        var query = $(this).val();
+
+        // Send AJAX request to the server
+        $.ajax({
+            url: "@Url.Action("Index", "Client")", // The Index action that returns the filtered data
+            type: "GET",
+            data: { searchQuery: query }, // Send the query parameter
+            success: function (data) {
+                // Replace the table body with the filtered data (updated rows)
+                $("#clientTableBody").html(data);
+            }
+        });
+    });
+});

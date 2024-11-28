@@ -23,6 +23,14 @@
 <p>
     <a asp-action="Create" class="btn btn-primary"><i class="bi bi-person-plus"></i> Adicionar Cliente</a>
 </p>
+<form method="get" action="@Url.Action("Index")">
+    <div class="input-group mb-3">
+        <input type="text" name="searchQuery" class="form-control"
+               placeholder="Search by Email or Identification"
+               value="@ViewData["SearchQuery"]" />
+        <button class="btn btn-primary" type="submit">Search</button>
+    </div>
+</form>
 <table class="table table-striped">
     <thead class="fs-2">
         <tr>
@@ -44,7 +52,7 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="clientTableBody">
         @foreach (var item in Model)
         {
             <tr>

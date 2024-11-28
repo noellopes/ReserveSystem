@@ -12,7 +12,7 @@
 <div class="d-flex justify-content-center">
     <div class="col-md-6">
         <form asp-action="Create" method="post" class="border p-5 rounded shadow-sm">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control bg-light " type="text" />
@@ -50,7 +50,7 @@
                     <span asp-validation-for="Phone" class="text-danger"></span>
                     <input asp-for="Phone" id="telefone" class="form-control bg-light" type="tel" />   
                 </div>
-                @*<span id="phoneError" class="text-danger" style="display: none;">Número de telefone Invalido. Por favor, certifique-se de que o número tenha o comprimento correto para o país selecionado.</span> *@
+                @* <span id="phoneError" class="text-danger" style="display: none;">Número de telefone Invalido. Por favor, certifique-se de que o número tenha o comprimento correto para o país selecionado.</span> *@
             </div>
 
             <div class="form-group mb-3">
@@ -73,12 +73,11 @@
                         <option value="Passport">Passport/Passaporte</option>
                     </select>
                 </div>
-
                 <div id="IdentificationInputWrapper" style="display: none;">
-                    <input id="IdentificationNumber" asp-for="Identification" class="form-control bg-light" type="text" placeholder="Enter your identification number" />
+                    @* <input id="IdentificationNumber" asp-for="Identification" class="form-control bg-light" type="text" placeholder="Enter your identification number" /> *@
                 </div>
                 <span asp-validation-for="Identification" class="text-danger"></span>
-                @* <input asp-for="Identification" class="form-control bg-light" type="text" /> *@
+                <input asp-for="Identification" class="form-control bg-light" type="text" />
             </div>
 
             <div class="form-group mb-3">
