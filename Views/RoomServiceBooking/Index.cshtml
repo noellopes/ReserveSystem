@@ -96,41 +96,45 @@
                     <caption>List of Room Service Bookings</caption>
                 </td>
             </tr>
+            <tr>
+                <td colspan="15">
+                    <nav aria-label="Room Service Bookings Pagination">
+                        <ul class="pagination">
+                            @{
+                                var style = "page-item";
+                                style += Model.PagingInfo?.CurrentPage == 1 ? " disabled" : "";
+                            }
+
+                            <li class="@style">
+                                <a class="page-link" asp-action="Index" asp-route-page="1" aria-label="First">First</a>
+                            </li>
+                            @if (Model.PagingInfo != null)
+                            {
+                                @for (int i = Model.PagingInfo.StartPage; i <= Model.PagingInfo.EndPage; i++)
+                                {
+                                    style = "page-item";
+                        
+                                    if (i == Model.PagingInfo.CurrentPage)
+                                    {
+                                        style += " active";
+                                    }
+
+                                    <li class="@style">
+                                        <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+                                    </li>
+                                }
+                                style = "page-item";
+                                style += Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages ? " disabled" : "";
+                                
+                                <li class="@style">
+                                    <a class="page-link" asp-action="Index" asp-route-page="@Model.PagingInfo.TotalPages" aria-label="Last">Last</a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                </td>
+            </tr>
         </tfoot>
     </table>
 
-    <nav aria-label="Room Service Bookings Pagination">
-        <ul class="pagination">
-            @{
-                var style = "page-item";
-                style += Model.PagingInfo?.CurrentPage == 1 ? " disabled" : "";
-            }
-
-            <li class="@style">
-                <a class="page-link" asp-action="Index" asp-route-page="1" aria-label="First">First</a>
-            </li>
-            @if (Model.PagingInfo != null)
-            {
-                @for (int i = Model.PagingInfo.StartPage; i <= Model.PagingInfo.EndPage; i++)
-                {
-                    style = "page-item";
-        
-                    if (i == Model.PagingInfo.CurrentPage)
-                    {
-                        style += " active";
-                    }
-
-                    <li class="@style">
-                        <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
-                    </li>
-                }
-                style = "page-item";
-                style += Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages ? " disabled" : "";
-                
-                <li class="@style">
-                    <a class="page-link" asp-action="Index" asp-route-page="@Model.PagingInfo.TotalPages" aria-label="Last">Last</a>
-                </li>
-            }
-        </ul>
-    </nav>
 </div>
