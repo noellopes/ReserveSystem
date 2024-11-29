@@ -4,137 +4,92 @@
     ViewData["Title"] = "Room Service Bookings";
 }
 
-<!-- Table -->
-<div class="table-responsive">
-    <table class="table table-dark table-striped table-borderless table-hover w-auto m-auto">
-        
-        <thead class="align-middle text-center text-nowrap">
-            <tr>
-                <th scope="col" colspan="15">
-                    <!-- Container for the buttons and search input -->
-                    <div class="d-flex justify-content-around align-content-center my-4">    
-                        <div class="w-100">
-                            <form asp-controller="RoomServiceBooking" asp-action="Index" method="get">
-                                <div class="form-group d-flex justify-content-between align-items-center px-2">
-                                    <div>
-                                        <a asp-action="Create" class="btn btn-outline-success" aria-label="Create New Booking">Create New Room Service Booking</a>
-                                    </div>
-                                    <div>
-                                        <label for="SearchInt" class="p-2 mx-2">Search by Room Service Booking ID's:</label>
-                                        <input type="number" class="text-center text-black bg-white btn btn-outline" id="SearchInt" name="SearchInt" value="0" style="width: 4rem;">
-                                    </div>
-                                    <div class="d-flex gap-1 align-items-center">
-                                        <div>
-                                            <select asp-for="RoomServiceId" asp-items="Model.RoomServicesIds" class="btn btn-outline-warning mx-2"> <option value="">All Room Service ID's</option> </select>
-                                        </div>
-                                        <div>
-                                            <input type="submit" value="Filter" class="btn btn-outline-success" aria-label="Filter">
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
+<!-- Cards Grid -->
+<div class="container">
+    <!-- Top Controls and Pagination -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
+        <div class="col d-flex justify-content-start align-items-center">
+            <a asp-action="Create" class="btn btn-outline-success" aria-label="Create New Booking">Create New</a>
+        </div>
+        <div class="col d-flex gap-2 justify-content-center align-items-center">
+            <form asp-controller="RoomServiceBooking" asp-action="Index" method="get" class="d-flex gap-2">
+                <label for="SearchInt" class="p-2">Search by Booking ID:</label>
+                <input type="number" class="form-control" id="SearchInt" name="SearchInt" value="0"
+                    style="width: 4rem;">
+                <select asp-for="RoomServiceId" asp-items="Model.RoomServicesIds" class="form-select">
+                    <option value="">All Room Service ID's</option>
+                </select>
+                <input type="submit" value="Filter" class="btn btn-outline-success" aria-label="Filter">
+            </form>
+        </div>
+        <nav aria-label="Room Service Bookings Pagination" class="col d-flex justify-content-end align-items-center">
+            <ul class="pagination mb-0">
+                @{
+                    var style = "page-item";
+                    style += Model.PagingInfo?.CurrentPage == 1 ? " disabled" : "";
+                }
+
+                <li class="@style">
+                    <a class="page-link" asp-action="Index" asp-route-page="1" aria-label="First">First</a>
+                </li>
+                @if (Model.PagingInfo != null)
+                {
+                    @for (int i = Model.PagingInfo.StartPage; i <= Model.PagingInfo.EndPage; i++)
+                    {
+                        style = "page-item";
+                        if (i == Model.PagingInfo.CurrentPage)
+                        {
+                            style += " active";
+                        }
+
+                        <li class="@style">
+                            <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+                        </li>
+                    }
+                    style = "page-item";
+                    style += Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages ? " disabled" : "";
+
+                    <li class="@style">
+                        <a class="page-link" asp-action="Index" asp-route-page="@Model.PagingInfo.TotalPages"
+                            aria-label="Last">Last</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var item in Model.RoomServiceBookings!)
+        {
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Booking ID: @item.Id</h5>
+                        <p class="card-text"><strong>Room Service ID:</strong> @item.RoomServiceId</p>
+                        <p class="card-text"><strong>Staff ID:</strong> @item.StaffId</p>
+                        <p class="card-text"><strong>Client ID:</strong> @item.ClientId</p>
+                        <p class="card-text"><strong>Room ID:</strong> @item.RoomId</p>
+                        <p class="card-text"><strong>Date & Time:</strong> @item.DateTime</p>
+                        <p class="card-text"><strong>Start Date:</strong> @item.StartDate</p>
+                        <p class="card-text"><strong>End Date:</strong> @item.EndDate</p>
+                        <p class="card-text"><strong>Booked State:</strong> @item.BookedState</p>
+                        <p class="card-text"><strong>Staff Confirmation:</strong> @item.StaffConfirmation</p>
+                        <p class="card-text"><strong>Client Feedback:</strong> @item.ClientFeedback</p>
+                        <p class="card-text"><strong>Price:</strong> @item.ValueToPay.ToString("C", new
+                        System.Globalization.CultureInfo("pt-PT"))</p>
+                        <p class="card-text"><strong>Payment Done:</strong> @item.PaymentDone</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-group" role="group" aria-label="Actions">
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info rounded mx-2"
+                                aria-label="View Booking Details">Details</a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning rounded mx-2"
+                                aria-label="Edit Booking">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger rounded mx-2"
+                                aria-label="Delete Booking">Delete</a>
                         </div>
                     </div>
-                </th>
-            </tr>
-            <tr>
-                <!-- Column Headers -->
-                <th scope="col">#</th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().Id) </th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().RoomServiceId) </th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().StaffId) </th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().ClientId) </th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().RoomId) </th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().DateTime) </th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().StartDate) </th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().EndDate) </th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().BookedState) </th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().StaffConfirmation) </th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().ClientFeedback) </th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().ValueToPay) </th>
-                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings.First().PaymentDone) </th>
-                <th scope="col">Actions</th>
-
-            </tr>
-        </thead>
-        <tbody class="align-middle text-center text-nowrap">
-            @{
-                <!-- Counter for the rows -->
-                var counter = 0;
-            }
-            @foreach (var item in Model.RoomServiceBookings!)
-            {
-                counter++;   
-                <tr>
-                    <th scope="row">@counter</th>
-                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                    <td>@Html.DisplayFor(modelItem => item.RoomServiceId)</td>
-                    <td>@Html.DisplayFor(modelItem => item.StaffId)</td>
-                    <td>@Html.DisplayFor(modelItem => item.ClientId)</td>
-                    <td>@Html.DisplayFor(modelItem => item.RoomId)</td>
-                    <td>@Html.DisplayFor(modelItem => item.DateTime)</td>
-                    <td>@Html.DisplayFor(modelItem => item.StartDate)</td>
-                    <td>@Html.DisplayFor(modelItem => item.EndDate)</td>
-                    <td>@Html.DisplayFor(modelItem => item.BookedState)</td>
-                    <td>@Html.DisplayFor(modelItem => item.StaffConfirmation)</td>
-                    <td>@Html.DisplayFor(modelItem => item.ClientFeedback)</td>
-                    <td>@item.ValueToPay.ToString("C", new System.Globalization.CultureInfo("pt-PT"))</td>
-                    <td>@Html.DisplayFor(modelItem => item.PaymentDone)</td>
-                    <td>
-                        <div class="btn-group" role="group" aria-label="Actions">
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning rounded mx-2" aria-label="Edit Booking">Edit</a>
-                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info rounded mx-2" aria-label="View Booking Details">Details</a>
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger rounded mx-2" aria-label="Delete Booking">Delete</a>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="15">
-                    <caption>List of Room Service Bookings</caption>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="15">
-                    <nav aria-label="Room Service Bookings Pagination">
-                        <ul class="pagination">
-                            @{
-                                var style = "page-item";
-                                style += Model.PagingInfo?.CurrentPage == 1 ? " disabled" : "";
-                            }
-
-                            <li class="@style">
-                                <a class="page-link" asp-action="Index" asp-route-page="1" aria-label="First">First</a>
-                            </li>
-                            @if (Model.PagingInfo != null)
-                            {
-                                @for (int i = Model.PagingInfo.StartPage; i <= Model.PagingInfo.EndPage; i++)
-                                {
-                                    style = "page-item";
-                        
-                                    if (i == Model.PagingInfo.CurrentPage)
-                                    {
-                                        style += " active";
-                                    }
-
-                                    <li class="@style">
-                                        <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
-                                    </li>
-                                }
-                                style = "page-item";
-                                style += Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages ? " disabled" : "";
-                                
-                                <li class="@style">
-                                    <a class="page-link" asp-action="Index" asp-route-page="@Model.PagingInfo.TotalPages" aria-label="Last">Last</a>
-                                </li>
-                            }
-                        </ul>
-                    </nav>
-                </td>
-            </tr>
-        </tfoot>
-    </table>
-
+                </div>
+            </div>
+        }
+    </div>
 </div>
