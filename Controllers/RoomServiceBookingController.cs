@@ -96,7 +96,12 @@ namespace ReserveSystem.Controllers
             {
                 _context.Add(roomServiceBooking);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                
+                @ViewBag.Title = "Creation Successfull!";
+                @ViewBag.Action = "Create";
+                @ViewBag.Message = "Your booking has been successfully created.";
+                
+                return View("CreateOrUpdate", roomServiceBooking);
             }
             return View(roomServiceBooking);
         }
@@ -135,6 +140,9 @@ namespace ReserveSystem.Controllers
                 {
                     _context.Update(roomServiceBooking);
                     await _context.SaveChangesAsync();
+                    @ViewBag.Title = "Edition Successfull!";
+                    @ViewBag.Action = "Edit";
+                    @ViewBag.Message = "Your booking has been successfully updated.";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -147,7 +155,8 @@ namespace ReserveSystem.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                return View("CreateOrUpdate", roomServiceBooking);
             }
             return View(roomServiceBooking);
         }
@@ -167,7 +176,8 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            return View(roomServiceBooking);
+            //return View(roomServiceBooking);
+            return View("DeletionSuccess", roomServiceBooking);
         }
 
         // POST: RoomServiceBooking/Delete/5
