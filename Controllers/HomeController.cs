@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ReserveSystem.Models;
 using System.Diagnostics;
 
@@ -19,6 +19,16 @@ namespace ReserveSystem.Controllers
         }
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult ClienteHome()
+        {
+            return View();
+        }
+
+        public IActionResult FuncionarioHome()
         {
             return View();
         }
