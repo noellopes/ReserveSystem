@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
+using System.Diagnostics;
 
 namespace ReserveSystem.Controllers
 {
@@ -187,6 +188,12 @@ namespace ReserveSystem.Controllers
         private bool RoomServiceBookingExists(int id)
         {
             return _context.RoomServiceBooking.Any(e => e.Id == id);
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
