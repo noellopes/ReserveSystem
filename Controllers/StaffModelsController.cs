@@ -22,7 +22,10 @@ namespace ReserveSystem.Controllers
         // GET: StaffModels
         public async Task<IActionResult> Index()
         {
-            return View(await _context.StaffModel.ToListAsync());
+            var staffList = await _context.StaffModel
+                                  //.Include(s => s.Job) 
+                                  .ToListAsync();
+            return View(staffList);
         }
 
         // GET: StaffModels/Details/5
@@ -47,12 +50,12 @@ namespace ReserveSystem.Controllers
         public IActionResult Create()
         {
 
-            //ViewBag.Jobs = new SelectList(_context.Jobs, "JobId", "Name");
+            //ViewBag.Jobs = new SelectList(_context.Jobs.ToList(), "JobId", "Name");
             ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G" };
 
             var model = new StaffModel
             {
-                Staff_Password = "defaultpassword" // Definir o valor padrão
+                Staff_Password = "defaultpassword" 
             };
             return View(model);
             
@@ -70,13 +73,13 @@ namespace ReserveSystem.Controllers
             if (ModelState.IsValid)
             {
                 staffModel.DrivingLicenseGrades = DrivingLicenseGrades;
-                //ViewBag.Jobs = new SelectList(_context.Jobs.ToList(), "Job_Id", "Job_Name", staff.Job_Id);
                 _context.Add(staffModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
                 
                 
             }
+            //ViewBag.Jobs = new SelectList(_context.Jobs.ToList(), "Job_Id", "Job_Name", staffModel.Job_Id);
             ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G" };
             return View(staffModel);
 
@@ -85,7 +88,7 @@ namespace ReserveSystem.Controllers
         // GET: StaffModels/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G"};
+            
             if (id == null)
             {
                 return NotFound();
@@ -96,6 +99,9 @@ namespace ReserveSystem.Controllers
             {
                 return NotFound();
             }
+            //ViewBag.Jobs = new SelectList(_context.Jobs.ToList(), "Job_Id", "Job_Name", staffModel.Job_Id);
+            ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G" };
+
             return View(staffModel);
         }
 
@@ -118,7 +124,7 @@ namespace ReserveSystem.Controllers
              
                 try
                 {
-                    ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G"};
+                    
                     _context.Update(staffModel);
                     await _context.SaveChangesAsync();
                 }
@@ -136,6 +142,8 @@ namespace ReserveSystem.Controllers
                 
                 return RedirectToAction(nameof(Index));
             }
+            //ViewBag.Jobs = new SelectList(_context.Jobs.ToList(), "Job_Id", "Job_Name", staffModel.Job_Id);
+            ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G" };
             return View(staffModel);
         }
 
@@ -148,6 +156,7 @@ namespace ReserveSystem.Controllers
             }
 
             var staffModel = await _context.StaffModel
+                //.Include(s => s.Job)
                 .FirstOrDefaultAsync(m => m.Staff_Id == id);
             if (staffModel == null)
             {

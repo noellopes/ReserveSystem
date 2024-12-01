@@ -29,10 +29,13 @@
             public string Staff_Password { get; set; } = "defaultpassword";
 
             [Required]
-                public int Job_Id { get; set; }
+            [ForeignKey("Job")]
+            public int Job_Id { get; set; }
 
-        
-            public List<string>? DrivingLicenseGrades { get; set; }
+            //public JobModel? Job { get; set; }
+
+
+        public List<string>? DrivingLicenseGrades { get; set; }
             
                 public DateTime DriverLicenseExpirationDate { get; set; }
         }

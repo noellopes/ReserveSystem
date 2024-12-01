@@ -53,6 +53,7 @@
             <div class="form-group">
                 <label asp-for="Job_Id" class="control-label">Job</label>
                 <input asp-for="Job_Id" class="form-control" />
+                    @*<select asp-for="Job_Id" class="form-control" asp-items="ViewBag.Jobs"></select>*@
                 <span asp-validation-for="Job_Id" class="text-danger"></span>
             </div>
 

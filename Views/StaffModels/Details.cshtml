@@ -62,8 +62,11 @@
         </dd>
         
         @*
+        <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Job.Job_Name)
+        </dt>
         <dd class="col-sm-10">
-        @ViewBag.Jobs.FirstOrDefault(job => job.Value == Model.Job_Id.ToString())?.Text
+        @Html.DisplayFor(model => model.Job.Job_Name)
         </dd>
         *@
 
