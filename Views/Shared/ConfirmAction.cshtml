@@ -1,0 +1,100 @@
+@model ReserveSystem.Models.RoomServiceBooking
+
+@{
+    ViewData["Action"] = ViewBag.Action;
+    if (ViewData["Action"]?.ToString() == "Create")
+    {
+        ViewData["Title"] = "Confirm Creation";
+        ViewData["Message"] = "Do you wish to create this room service booking?";
+        ViewData["Info"] = "You can confirm the creation of the booking by clicking the button below.";
+    }
+    else if (ViewData["Action"]?.ToString() == "Edit")
+    {
+        ViewData["Title"] = "Confirm Update";
+        ViewData["Message"] = "Do you wish to update this room service booking?";
+        ViewData["Info"] = "You can confirm the update of the booking by clicking the button below.";
+    }
+    else if (ViewData["Action"]?.ToString() == "Delete")
+    {
+        ViewData["Title"] = "Confirm Deletion";
+        ViewData["Message"] = "Do you wish to delete this room service booking?";
+        ViewData["Info"] = "You can confirm the deletion of the booking by clicking the button below.";
+    } 
+    else
+    {
+        ViewData["Action"] = "Index";
+        ViewData["Title"] = "";
+        ViewData["Message"] = "";
+        ViewData["Info"] = "";
+    }
+}
+
+<!-- Title -->
+<div class="container text-center my-5 mx-auto">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+<!-- Alert -->
+<div class="container text-center my-5 mx-auto">
+    <div class="alert alert-success mx-auto" role="alert">
+        <p>@ViewData["Message"]</p>
+        <hr>
+        <p class="mb-2">@ViewData["Info"]</p>
+    </div>
+</div>
+
+<!-- Buttons -->
+<div class="container text-center my-5 mx-auto">
+    <div class="d-flex justify-content-center align-items-center mx-auto">
+        @if (ViewData["Action"] != null)
+        {
+            <!-- Call the post methods to create, edit or delete when the user clicks the confirm button -->
+            @if (ViewData["Action"]?.ToString() == "Create")
+            {
+                <form asp-action="ConfirmCreate" asp-controller="RoomServiceBooking" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="RoomServiceId" />
+                    <input type="hidden" asp-for="StaffId" />
+                    <input type="hidden" asp-for="ClientId" />
+                    <input type="hidden" asp-for="RoomId" />
+                    <input type="hidden" asp-for="DateTime" />
+                    <input type="hidden" asp-for="StartDate" />
+                    <input type="hidden" asp-for="EndDate" />
+                    <input type="hidden" asp-for="BookedState" />
+                    <input type="hidden" asp-for="StaffConfirmation" />
+                    <input type="hidden" asp-for="ClientFeedback" />
+                    <input type="hidden" asp-for="ValueToPay" />
+                    <input type="hidden" asp-for="PaymentDone" />
+                    <button type="submit" class="btn btn-success mx-2">Confirm and create <i class="bi bi-check-circle-fill"></i></button>
+                </form>
+            }
+            else if (ViewData["Action"]?.ToString() == "Edit")
+            {
+                <form asp-action="ConfirmEdit" asp-controller="RoomServiceBooking" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="RoomServiceId" />
+                    <input type="hidden" asp-for="StaffId" />
+                    <input type="hidden" asp-for="ClientId" />
+                    <input type="hidden" asp-for="RoomId" />
+                    <input type="hidden" asp-for="DateTime" />
+                    <input type="hidden" asp-for="StartDate" />
+                    <input type="hidden" asp-for="EndDate" />
+                    <input type="hidden" asp-for="BookedState" />
+                    <input type="hidden" asp-for="StaffConfirmation" />
+                    <input type="hidden" asp-for="ClientFeedback" />
+                    <input type="hidden" asp-for="ValueToPay" />
+                    <input type="hidden" asp-for="PaymentDone" />
+                    <button type="submit" class="btn btn-success mx-2">Confirm and update <i class="bi bi-pencil-fill"></i></button>
+                </form>
+            }
+            else if (ViewData["Action"]?.ToString() == "Delete")
+            {
+                <form asp-action="ConfirmDelete" asp-controller="RoomServiceBooking" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <button type="submit" class="btn btn-danger mx-2">Confirm and delete <i class="bi bi-trash-fill"></i></button>
+                </form>
+            }
+        }        
+        <a asp-controller="RoomServiceBooking" asp-action="Index" class="btn btn-outline-primary mx-2">Return to HomePage <i class="bi bi-house-door-fill"></i></a>
+    </div>
+</div>

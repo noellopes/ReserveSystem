@@ -1,9 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace ReserveSystem.Data
 {
     public class ReserveSystemContext : DbContext
     {
-        public ReserveSystemContext(DbContextOptions<ReserveSystemContext> options) : base(options) {}
+        public ReserveSystemContext(DbContextOptions<ReserveSystemContext> options) 
+            : base(options) 
+        {
+        }
+        public DbSet<ReserveSystem.Models.RoomServiceBooking> RoomServiceBooking { get; set; } = default!;
     }
 }
