@@ -6,86 +6,174 @@
 
 <!-- Cards Grid -->
 <div class="container">
-    <!-- Top Controls and Pagination -->
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
-        <div class="col d-flex justify-content-start align-items-center">
-            <a asp-action="Create" class="btn btn-outline-success" aria-label="Create New Booking">Create New</a>
-        </div>
-        <div class="col d-flex gap-2 justify-content-center align-items-center">
-            <form asp-controller="RoomServiceBooking" asp-action="Index" method="get" class="d-flex gap-2">
-                <label for="SearchInt" class="p-2">Search by Booking ID:</label>
-                <input type="number" class="form-control" id="SearchInt" name="SearchInt" value="0"
-                    style="width: 4rem;">
-                <select asp-for="RoomServiceId" asp-items="Model.RoomServicesIds" class="form-select">
-                    <option value="">All Room Service ID's</option>
-                </select>
-                <input type="submit" value="Filter" class="btn btn-outline-success" aria-label="Filter">
-            </form>
-        </div>
-        <nav aria-label="Room Service Bookings Pagination" class="col d-flex justify-content-end align-items-center">
-            <ul class="pagination mb-0">
-                @{
-                    var style = "page-item";
-                    style += Model.PagingInfo?.CurrentPage == 1 ? " disabled" : "";
-                }
+    <!-- Top Controls -->
+    <div class="container-fluid mb-4">
+        <div class="row g-3">
+            <!-- Create Button -->
+            <div class="col-12 col-lg-3">
+                <a asp-action="Create" class="btn btn-success w-100">
+                    <i class="bi bi-plus-circle-fill me-2"></i>Create New Booking
+                </a>
+            </div>
 
-                <li class="@style">
-                    <a class="page-link" asp-action="Index" asp-route-page="1" aria-label="First">First</a>
-                </li>
-                @if (Model.PagingInfo != null)
-                {
-                    @for (int i = Model.PagingInfo.StartPage; i <= Model.PagingInfo.EndPage; i++)
-                    {
-                        style = "page-item";
-                        if (i == Model.PagingInfo.CurrentPage)
+            <!-- Search and Filter Form -->
+            <div class="col-12 col-lg-9">
+                <form asp-controller="RoomServiceBooking" asp-action="Index" method="get">
+                    <div class="row g-2">
+                        <div class="col-12 col-sm-5">
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark text-light">
+                                    <i class="bi bi-search"></i>
+                                </span>
+                                <input type="number" class="form-control" id="SearchInt" name="SearchInt"
+                                    placeholder="Booking ID" min="0" value="@Model.SearchInt">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-4">
+                            <select asp-for="RoomServiceId" asp-items="Model.RoomServicesIds" class="form-select">
+                                <option value="">All Room Services</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-sm-3 d-flex gap-2">
+                            <button type="submit" class="btn btn-primary flex-grow-1">
+                                <i class="bi bi-funnel-fill me-2"></i>Filter
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-circle-fill"></i>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    @if (Model.PagingInfo != null && Model.PagingInfo.TotalPages > 1)
+    {
+        <div class="row mb-4">
+            <div class="col-12">
+                <nav aria-label="Room Service Bookings Pagination">
+                    <ul class="pagination pagination-sm justify-content-center mb-0">
+                        <!-- First Page -->
+                        <li class="page-item @(Model.PagingInfo.CurrentPage == 1 ? "disabled" : "")">
+                            <a class="page-link" asp-action="Index" asp-route-page="1"
+                                asp-route-searchInt="@Model.SearchInt" asp-route-roomServiceId="@Model.RoomServiceId"
+                                aria-label="First">
+                                <i class="bi bi-chevron-double-left"></i>
+                            </a>
+                        </li>
+
+                        <!-- Page Numbers -->
+                        @for (int i = Model.PagingInfo.StartPage; i <= Model.PagingInfo.EndPage; i++)
                         {
-                            style += " active";
+                            <li class="page-item @(i == Model.PagingInfo.CurrentPage ? "active" : "")">
+                                <a class="page-link" asp-action="Index" asp-route-page="@i"
+                                    asp-route-searchInt="@Model.SearchInt" asp-route-roomServiceId="@Model.RoomServiceId">@i</a>
+                            </li>
                         }
 
-                        <li class="@style">
-                            <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+                        <!-- Last Page -->
+                        <li
+                            class="page-item @(Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages ? "disabled" : "")">
+                            <a class="page-link" asp-action="Index" asp-route-page="@Model.PagingInfo.TotalPages"
+                                asp-route-searchInt="@Model.SearchInt" asp-route-roomServiceId="@Model.RoomServiceId"
+                                aria-label="Last">
+                                <i class="bi bi-chevron-double-right"></i>
+                            </a>
                         </li>
-                    }
-                    style = "page-item";
-                    style += Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages ? " disabled" : "";
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    }
 
-                    <li class="@style">
-                        <a class="page-link" asp-action="Index" asp-route-page="@Model.PagingInfo.TotalPages"
-                            aria-label="Last">Last</a>
-                    </li>
-                }
-            </ul>
-        </nav>
-    </div>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         @foreach (var item in Model.RoomServiceBookings!)
         {
             <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Booking ID: @item.Id</h5>
-                        <p class="card-text"><strong>Room Service ID:</strong> @item.RoomServiceId</p>
-                        <p class="card-text"><strong>Staff ID:</strong> @item.StaffId</p>
-                        <p class="card-text"><strong>Client ID:</strong> @item.ClientId</p>
-                        <p class="card-text"><strong>Room ID:</strong> @item.RoomId</p>
-                        <p class="card-text"><strong>Date & Time:</strong> @item.DateTime</p>
-                        <p class="card-text"><strong>Start Date:</strong> @item.StartDate</p>
-                        <p class="card-text"><strong>End Date:</strong> @item.EndDate</p>
-                        <p class="card-text"><strong>Booked State:</strong> @item.BookedState</p>
-                        <p class="card-text"><strong>Staff Confirmation:</strong> @item.StaffConfirmation</p>
-                        <p class="card-text"><strong>Client Feedback:</strong> @item.ClientFeedback</p>
-                        <p class="card-text"><strong>Price:</strong> @item.ValueToPay.ToString("C", new
-                        System.Globalization.CultureInfo("pt-PT"))</p>
-                        <p class="card-text"><strong>Payment Done:</strong> @item.PaymentDone</p>
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-header bg-dark text-light">
+                        <h5 class="card-title mb-0">
+                            <i class="bi bi-bookmark-fill me-2"></i>
+                            Booking #@item.Id
+                        </h5>
                     </div>
-                    <div class="card-footer">
-                        <div class="btn-group" role="group" aria-label="Actions">
-                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info rounded mx-2"
-                                aria-label="View Booking Details">Details</a>
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning rounded mx-2"
-                                aria-label="Edit Booking">Edit</a>
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger rounded mx-2"
-                                aria-label="Delete Booking">Delete</a>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <!-- Service Details -->
+                            <div class="col-12">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-house-door-fill text-primary me-2"></i>
+                                    <span>Room Service #@item.RoomServiceId | Room #@item.RoomId</span>
+                                </div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-people-fill text-info me-2"></i>
+                                    <span>Staff #@item.StaffId | Client #@item.ClientId</span>
+                                </div>
+                            </div>
+
+                            <!-- Dates -->
+                            <div class="col-12">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-calendar-event text-success me-2"></i>
+                                    <span>Booked: @item.DateTime.ToString("dd/MM/yyyy HH:mm")</span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-calendar-range text-warning me-2"></i>
+                                    <span>Period: @item.StartDate.ToString("dd/MM/yyyy") -
+                                        @item.EndDate.ToString("dd/MM/yyyy")</span>
+                                </div>
+                            </div>
+
+                            <!-- Status Badges -->
+                            <div class="col-12">
+                                <span class="badge @(item.BookedState ? "bg-success" : "bg-secondary") me-2">
+                                    <i class="bi bi-calendar-check me-1"></i>
+                                    @(item.BookedState ? "Booked" : "Not Booked")
+                                </span>
+                                <span class="badge @(item.StaffConfirmation ? "bg-info" : "bg-warning") me-2">
+                                    <i class="bi bi-person-check me-1"></i>
+                                    @(item.StaffConfirmation ? "Staff Confirmed" : "Pending Confirmation")
+                                </span>
+                                <span class="badge @(item.PaymentDone ? "bg-success" : "bg-danger")">
+                                    <i class="bi bi-credit-card me-1"></i>
+                                    @(item.PaymentDone ? "Paid" : "Payment Pending")
+                                </span>
+                            </div>
+
+                            <!-- Feedback and Price -->
+                            <div class="col-12 d-flex justify-content-between align-items-center mt-3">
+                                <div class="feedback">
+                                    <span class="text-muted">Feedback:</span>
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <i
+                                            class="bi bi-star-fill @(i <= item.ClientFeedback ? "text-warning" : "text-secondary")"></i>
+                                    }
+                                </div>
+                                <div class="price">
+                                    <span class="fs-5 fw-bold text-success">
+                                        @item.ValueToPay.ToString("C", new System.Globalization.CultureInfo("pt-PT"))
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-light border-0">
+                        <div class="btn-group w-100" role="group">
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary"
+                                data-bs-toggle="tooltip" data-bs-placement="top" title="View Details">
+                                <i class="bi bi-eye-fill"></i>
+                            </a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning" title="Edit"
+                                data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                <i class="bi bi-pencil-fill"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger" title="Delete"
+                                data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+                                <i class="bi bi-trash-fill"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -93,3 +181,13 @@
         }
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        // Initialize all tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+}

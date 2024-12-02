@@ -66,14 +66,14 @@ namespace ReserveSystem.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error));
             }
 
             var roomServiceBooking = await _context.RoomServiceBooking
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (roomServiceBooking == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error));
             }
 
             return View(roomServiceBooking);
@@ -121,13 +121,13 @@ namespace ReserveSystem.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error));
             }
 
             var roomServiceBooking = await _context.RoomServiceBooking.FindAsync(id);
             if (roomServiceBooking == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error));
             }
             return View(roomServiceBooking);
         }
@@ -141,7 +141,7 @@ namespace ReserveSystem.Controllers
         {
             if (id != roomServiceBooking.Id)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error));
             }
 
             if (ModelState.IsValid)
@@ -158,7 +158,7 @@ namespace ReserveSystem.Controllers
         {
             if (id != roomServiceBooking.Id)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error));
             }
 
             if (ModelState.IsValid)
@@ -174,7 +174,7 @@ namespace ReserveSystem.Controllers
                 {
                     if (!RoomServiceBookingExists(roomServiceBooking.Id))
                     {
-                        return NotFound();
+                        return RedirectToAction(nameof(Error));
                     }
                     else
                     {
@@ -190,14 +190,14 @@ namespace ReserveSystem.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error));
             }
 
             var roomServiceBooking = await _context.RoomServiceBooking
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (roomServiceBooking == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error));
             }
 
             return View(roomServiceBooking);
@@ -211,7 +211,7 @@ namespace ReserveSystem.Controllers
             var roomServiceBooking = _context.RoomServiceBooking.Find(id);
             if (roomServiceBooking == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error));
             }
             
             ViewBag.Action = "Delete";
@@ -231,7 +231,7 @@ namespace ReserveSystem.Controllers
                 return View("ActionSuccess"); 
             }
 
-            return NotFound();
+            return RedirectToAction(nameof(Error));
         }
 
         private bool RoomServiceBookingExists(int id)
@@ -240,9 +240,33 @@ namespace ReserveSystem.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Error(int? statusCode = null)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var error = new ErrorViewModel 
+            { 
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+
+            // Default error message
+            ViewBag.ErrorMessage = "An error occurred while processing your request.";
+            
+            if (statusCode.HasValue)
+            {
+                switch (statusCode.Value)
+                {
+                    case 404:
+                        ViewBag.ErrorMessage = "The requested page was not found.";
+                        break;
+                    case 500:
+                        ViewBag.ErrorMessage = "An internal server error occurred.";
+                        break;
+                    default:
+                        ViewBag.ErrorMessage = "An error occurred while processing your request.";
+                        break;
+                }
+            }
+
+            return View(error);
         }
     }
 }
