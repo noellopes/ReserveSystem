@@ -1,9 +1,9 @@
 ﻿@model ReserveSystem.Models.ErrorViewModel
 @{
     ViewData["Title"] = "Error";
+    ViewData["ErrorMessage"] = ViewBag.ErrorMessage;
 }
 
-<!-- Error message -->
 <div class="container text-center my-5">
     <h1 class="display-4 text-danger my-5">
         Oops! Looks like some pesky <i class="bi bi-bug-fill"></i><br>
@@ -11,18 +11,25 @@
     </h1>
 </div>
 <div class="container text-center my-5">
-    <p class="lead my-5">
-        We are sorry for the inconvenience.<br>
-        Our technical team will resolve the issue as soon as possible.<br>
-        In the meantime, you can try to go back to the previous page and try again later.
-    </p>
-
-    @if (Model?.ShowRequestId == true)
-    {
+    <div class="d-flex flex-column justify-content-center align-items-center">
         <p class="lead my-5">
-            Your issue has the following <strong>request id:</strong> <code>@Model.RequestId</code> <i class="bi bi-clipboard"></i>
+            @ViewData["ErrorMessage"]<br>
+            Our technical team will resolve the issue as soon as possible.<br>
+            In the meantime, you can try to go back to the previous page and try again later.
         </p>
-    }
+    </div>
+
+    <div class="d-flex flex-column justify-content-center align-items-center">
+        @if (Model?.ShowRequestId == true)
+        {
+            <p class="lead my-5">
+                Your issue has the following <strong>request id:</strong><br>
+                <code id="requestId">@Model.RequestId</code>
+                <i class="bi bi-clipboard cursor-pointer" onclick="copyRequestId()" style="cursor: pointer;" title="Copy to clipboard"></i>
+            </p>
+        }
+    </div>
+    
 </div>
 <!-- Go back buttons -->
 <div class="container text-center my-5">
@@ -31,3 +38,21 @@
         <a class="btn btn-primary" asp-controller="RoomServiceBooking" asp-action="Index">Go back to Room Service Bookings</a>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        function copyRequestId() {
+            const requestId = document.getElementById('requestId').textContent;
+            navigator.clipboard.writeText(requestId).then(() => {
+                // Visual feedback
+                const icon = document.querySelector('.bi-clipboard');
+                icon.classList.remove('bi-clipboard');
+                icon.classList.add('bi-clipboard-check-fill');
+                setTimeout(() => {
+                    icon.classList.remove('bi-clipboard-check-fill');
+                    icon.classList.add('bi-clipboard');
+                }, 5000);
+            });
+        }
+    </script>
+}
