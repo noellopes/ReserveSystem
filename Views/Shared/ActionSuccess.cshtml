@@ -1,0 +1,49 @@
+@{
+    ViewData["Action"] = ViewBag.Action;
+    if (ViewData["Action"]?.ToString() == "Create")
+    {
+        ViewData["Title"] = "Create Room Service Booking";
+        ViewData["Message"] = "Room service booking created successfully!";
+        ViewData["Info"] = "You can now view the booking details in the list below.";
+    }
+    else if (ViewData["Action"]?.ToString() == "Edit")
+    {
+        ViewData["Title"] = "Edit Room Service Booking";
+        ViewData["Message"] = "Room service booking updated successfully!";
+        ViewData["Info"] = "You can now view the updated booking details in the list below.";
+    }
+    else if (ViewData["Action"]?.ToString() == "Delete")
+    {
+        ViewData["Title"] = "Delete Room Service Booking";
+        ViewData["Message"] = "Room service booking deleted successfully!";
+        ViewData["Info"] = "You can now go back to the list of bookings.";
+    } 
+    else
+    {
+        ViewData["Action"] = "Index";
+        ViewData["Title"] = "";
+        ViewData["Message"] = "";
+        ViewData["Info"] = "";
+    }
+}
+
+<!-- Title -->
+<div class="container text-center my-5 mx-auto">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+<!-- Alert -->
+<div class="container text-center my-5 mx-auto">
+    <div class="alert alert-success mx-auto" role="alert">
+        <p>@ViewData["Message"] <i class="bi bi-check-circle-fill"></i></p>
+        <hr>
+        <p class="mb-2">@ViewData["Info"]</p>
+    </div>
+</div>
+
+<!-- Buttons -->
+<div class="container text-center my-5 mx-auto">
+    <div class="d-flex justify-content-center align-items-center mx-auto">
+        <a asp-controller="RoomServiceBooking" asp-action="Index" class="btn btn-outline-success mx-2">Return to HomePage <i class="bi bi-house-door-fill"></i></a>
+    </div>
+</div>

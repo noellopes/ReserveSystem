@@ -24,15 +24,15 @@ namespace ReserveSystem.Models
         [Required, ForeignKey("RoomId"), Display(Name = "Room ID")]
         public int RoomId { get; set; }
 
-        [DataType(DataType.DateTime), Display(Name = "Sys Date & Time"), DisplayFormat(DataFormatString = "{0:dd-MM-yyyy HH:mm}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.DateTime), Display(Name = "Sys Date & Time"), DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
         [Column(TypeName = "datetime")]
         public DateTime DateTime { get; set; }
 
-        [DataType(DataType.Date), Display(Name = "Service Start Date"), DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date), Display(Name = "Service Start Date"), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Column(TypeName = "date")]
         public DateOnly StartDate { get; set; }
 
-        [DataType(DataType.Date), Display(Name = "Service End Date"), DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date), Display(Name = "Service End Date"), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Column(TypeName = "date")]
         public DateOnly EndDate { get; set; }
 

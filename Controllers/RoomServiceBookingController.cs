@@ -89,21 +89,31 @@ namespace ReserveSystem.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [ValidateAntiForgeryToken] 
+        public IActionResult Create([Bind("Id,RoomServiceId,StaffId,ClientId,RoomId,DateTime,StartDate,EndDate,BookedState,StaffConfirmation,ClientFeedback,ValueToPay,PaymentDone")] RoomServiceBooking roomServiceBooking)
+        {
+            if (ModelState.IsValid)
+            {
+                // Instead of saving directly, show confirmation
+                ViewBag.Action = "Create";
+                return View("ConfirmAction", roomServiceBooking);
+            }
+            return View(roomServiceBooking);
+        }
+
+        // Add a new action to handle the confirmed create
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,RoomServiceId,StaffId,ClientId,RoomId,DateTime,StartDate,EndDate,BookedState,StaffConfirmation,ClientFeedback,ValueToPay,PaymentDone")] RoomServiceBooking roomServiceBooking)
+        public async Task<IActionResult> ConfirmCreate([Bind("Id,RoomServiceId,StaffId,ClientId,RoomId,DateTime,StartDate,EndDate,BookedState,StaffConfirmation,ClientFeedback,ValueToPay,PaymentDone")] RoomServiceBooking roomServiceBooking)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(roomServiceBooking);
                 await _context.SaveChangesAsync();
-                
-                @ViewBag.Title = "Creation Successfull!";
-                @ViewBag.Action = "Create";
-                @ViewBag.Message = "Your booking has been successfully created.";
-                
-                return View("CreateOrUpdate", roomServiceBooking);
+                ViewBag.Action = "Create";
+                return View("ActionSuccess");
             }
-            return View(roomServiceBooking);
+            return View("Create", roomServiceBooking);
         }
 
         // GET: RoomServiceBooking/Edit/5
@@ -127,7 +137,24 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,RoomServiceId,StaffId,ClientId,RoomId,DateTime,StartDate,EndDate,BookedState,StaffConfirmation,ClientFeedback,ValueToPay,PaymentDone")] RoomServiceBooking roomServiceBooking)
+        public IActionResult Edit(int id, [Bind("Id,RoomServiceId,StaffId,ClientId,RoomId,DateTime,StartDate,EndDate,BookedState,StaffConfirmation,ClientFeedback,ValueToPay,PaymentDone")] RoomServiceBooking roomServiceBooking)
+        {
+            if (id != roomServiceBooking.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                ViewBag.Action = "Edit"; 
+                return View("ConfirmAction", roomServiceBooking);
+            }
+            return View(roomServiceBooking);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ConfirmEdit(int id, [Bind("Id,RoomServiceId,StaffId,ClientId,RoomId,DateTime,StartDate,EndDate,BookedState,StaffConfirmation,ClientFeedback,ValueToPay,PaymentDone")] RoomServiceBooking roomServiceBooking)
         {
             if (id != roomServiceBooking.Id)
             {
@@ -140,9 +167,8 @@ namespace ReserveSystem.Controllers
                 {
                     _context.Update(roomServiceBooking);
                     await _context.SaveChangesAsync();
-                    @ViewBag.Title = "Edition Successfull!";
-                    @ViewBag.Action = "Edit";
-                    @ViewBag.Message = "Your booking has been successfully updated.";
+                    ViewBag.Action = "Edit";
+                    return View("ActionSuccess");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -155,10 +181,8 @@ namespace ReserveSystem.Controllers
                         throw;
                     }
                 }
-                //return RedirectToAction(nameof(Index));
-                return View("CreateOrUpdate", roomServiceBooking);
             }
-            return View(roomServiceBooking);
+            return View("Edit", roomServiceBooking);
         }
 
         // GET: RoomServiceBooking/Delete/5
@@ -176,23 +200,38 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            //return View(roomServiceBooking);
-            return View("DeletionSuccess", roomServiceBooking);
+            return View(roomServiceBooking);
         }
 
         // POST: RoomServiceBooking/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult Delete(int id)
+        {
+            var roomServiceBooking = _context.RoomServiceBooking.Find(id);
+            if (roomServiceBooking == null)
+            {
+                return NotFound();
+            }
+            
+            ViewBag.Action = "Delete";
+            return View("ConfirmAction", roomServiceBooking);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ConfirmDelete(int id)
         {
             var roomServiceBooking = await _context.RoomServiceBooking.FindAsync(id);
             if (roomServiceBooking != null)
             {
                 _context.RoomServiceBooking.Remove(roomServiceBooking);
+                await _context.SaveChangesAsync();
+                ViewBag.Action = "Delete";
+                return View("ActionSuccess"); 
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return NotFound();
         }
 
         private bool RoomServiceBookingExists(int id)
