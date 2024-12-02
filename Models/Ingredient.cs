@@ -12,7 +12,7 @@ namespace ReserveSystem.Models
         public string Name { get; set; }
 
         [Display(Name = "Unidade de Medida")]
-        [Required(ErrorMessage = "Unity of measure is required), StringLength(10)]
+        [Required(ErrorMessage = "Unity of measure is required"), StringLength(10)]
         public string UnityMeasure { get; set; }
 
     }
