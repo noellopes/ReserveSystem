@@ -8,11 +8,11 @@ namespace ReserveSystem.Models
         public int IngredientID { get; set; }
 
         [Display(Name = "Nome")]
-        [Required(ErrorMessage = "Nome do ingrediente é obrigatório"), StringLength(300)]
+        [Required(ErrorMessage = "Ingredient Name is required"), StringLength(300)]
         public string Name { get; set; }
 
         [Display(Name = "Unidade de Medida")]
-        [Required(ErrorMessage = "Unidade de medida é obrigatória"), StringLength(10)]
+        [Required(ErrorMessage = "Unity of measure is required), StringLength(10)]
         public string UnityMeasure { get; set; }
 
     }
