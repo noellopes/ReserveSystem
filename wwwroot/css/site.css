@@ -17,14 +17,14 @@ html {
     min-height: 100%;
 }
 
-/* Layout da página */
+/* Layout da pï¿½gina */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f3f4f6;
     color: #333;
 }
 
-/* Título do formulário */
+/* Tï¿½tulo do formulï¿½rio */
 h1 {
     color: #333;
     font-weight: 600;
@@ -33,7 +33,7 @@ h1 {
     margin-top: 20px;
 }
 
-/* Container do formulário */
+/* Container do formulï¿½rio */
 .form-container {
     background-color: #ffffff;
     border-radius: 10px;
@@ -42,8 +42,8 @@ h1 {
     margin: 20px auto;
     transition: all 0.3s ease;
     display: flex;
-    flex-wrap: wrap; /* Permite que os campos quebrem para a próxima linha */
-    gap: 20px; /* Espaçamento entre os elementos */
+    flex-wrap: wrap; /* Permite que os campos quebrem para a prï¿½xima linha */
+    gap: 20px; /* Espaï¿½amento entre os elementos */
 }
 
     /* Efeito hover para dar um leve destaque */
@@ -54,8 +54,8 @@ h1 {
 /* Ajuste dos grupos de campos para ficarem lado a lado */
 .form-group {
     flex: 1 1 calc(50% - 20px); /* Cada grupo ocupa 50% da largura, considerando o gap */
-    min-width: 300px; /* Define largura mínima para evitar colapso */
-    margin-bottom: 20px; /* Espaçamento entre os grupos */
+    min-width: 300px; /* Define largura mï¿½nima para evitar colapso */
+    margin-bottom: 20px; /* Espaï¿½amento entre os grupos */
 }
 
     .form-group.full-width {
@@ -87,7 +87,7 @@ h1 {
             background-color: #ffffff;
         }
 
-/* Botão de submissão */
+/* Botï¿½o de submissï¿½o */
 .btn-primary {
     background-color: #00bfa5;
     border: none;

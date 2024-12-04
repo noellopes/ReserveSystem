@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ReserveSystem.Models.JobModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.jobID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.jobName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.jobDescription)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.jobID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.jobName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.jobDescription)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.jobID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.jobID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.jobID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
