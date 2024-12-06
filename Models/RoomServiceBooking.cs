@@ -35,6 +35,7 @@ namespace ReserveSystem.Models
         [DataType(DataType.Date), Display(Name = "Service End Date"), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Column(TypeName = "date")]
         public DateOnly EndDate { get; set; }
+        // TODO: Add Cancel date and a new table for the cancellation history
 
         [Display(Name = "Service Booked")]
         [Column(TypeName = "bit")]
