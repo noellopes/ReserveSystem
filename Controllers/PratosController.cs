@@ -50,11 +50,9 @@ namespace ReserveSystem.Controllers
         }
 
         // POST: Pratos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PratoId,Nome,Descricao")] Prato prato)
+        public async Task<IActionResult> Create([Bind("PratoId,Nome,Descricao,Preco")] Prato prato)
         {
             if (ModelState.IsValid)
             {
@@ -82,11 +80,9 @@ namespace ReserveSystem.Controllers
         }
 
         // POST: Pratos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PratoId,Nome,Descricao")] Prato prato)
+        public async Task<IActionResult> Edit(int id, [Bind("PratoId,Nome,Descricao,Preco")] Prato prato)
         {
             if (id != prato.PratoId)
             {

@@ -53,6 +53,7 @@
             <tr>
                 <th>@Html.DisplayNameFor(model => model.First().Nome)</th>
                 <th>@Html.DisplayNameFor(model => model.First().Descricao)</th>
+                <th>@Html.DisplayNameFor(model => model.First().Preco)</th>
                 <th>Ações</th>
             </tr>
         </thead>
@@ -62,6 +63,7 @@
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.Nome)</td>
                     <td class="description-column">@Html.DisplayFor(modelItem => item.Descricao)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Preco)</td>
                     <td>
                         <div class="actions">
                             <a class="btn btn-sm btn-info btn-edit" asp-action="Edit" asp-route-id="@item.PratoId">Editar</a>
