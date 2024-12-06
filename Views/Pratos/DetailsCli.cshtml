@@ -1,12 +1,11 @@
 ﻿@model ReserveSystem.Models.Prato
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "DetailsCli";
 }
 
-<h1>Delete</h1>
+<h1>Details</h1>
 
-<h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>Prato</h4>
     <hr />
@@ -30,10 +29,7 @@
             @Html.DisplayFor(model => model.Descricao)
         </dd>
     </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="IdPrato" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="IndexFun" class="btn btn-dark">Back to List</a>
-    </form>
+</div>
+<div>
+    <a asp-action="IndexCli" class="btn btn-dark">Voltar para a ementat</a>
 </div>

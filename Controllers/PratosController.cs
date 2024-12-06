@@ -20,13 +20,35 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Pratos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Indexcli()
+        {
+            return View(await _context.Prato.ToListAsync());
+        }
+
+        public async Task<IActionResult> Indexfun()
         {
             return View(await _context.Prato.ToListAsync());
         }
 
         // GET: Pratos/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> DetailsFun(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var prato = await _context.Prato
+                .FirstOrDefaultAsync(m => m.IdPrato == id);
+            if (prato == null)
+            {
+                return NotFound();
+            }
+
+            return View(prato);
+        }
+
+        public async Task<IActionResult> DetailsCli(int? id)
         {
             if (id == null)
             {
