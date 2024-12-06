@@ -3,63 +3,48 @@
 @{
     ViewData["Title"] = "Index";
 }
+<style>
+    table {
+        text-align: center;
+    }
+</style>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="text-primary">@ViewData["Title"]</h1>
+        <a asp-action="Create" class="btn btn-success">Create New</a>
+    </div>
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Titulo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descricao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Data_Inicio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Data_Fim)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Preco)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Staff_Id)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Titulo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descricao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Data_Inicio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Data_Fim)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Preco)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Staff_Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Excursao_Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Excursao_Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Excursao_Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Titulo)</th>
+                    <th>@Html.DisplayNameFor(model => model.Descricao)</th>
+                    <th>@Html.DisplayNameFor(model => model.Data_Inicio)</th>
+                    <th>@Html.DisplayNameFor(model => model.Data_Fim)</th>
+                    <th>@Html.DisplayNameFor(model => model.Preco)</th>
+                    <th>@Html.DisplayNameFor(model => model.Staff_Id)</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Titulo)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Descricao)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Data_Inicio)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Data_Fim)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Preco)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Staff_Id)</td>
+                        <td class="text-center">
+                            <a asp-action="Edit" asp-route-id="@item.Excursao_Id" class="btn btn-primary btn-sm me-1">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.Excursao_Id" class="btn btn-info btn-sm me-1">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.Excursao_Id" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
