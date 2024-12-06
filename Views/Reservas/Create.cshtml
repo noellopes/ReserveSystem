@@ -17,11 +17,6 @@
                 <select asp-for="IdCliente" class="form-control" asp-items="ViewBag.IdCliente"></select>
             </div>
             <div class="form-group">
-                <label asp-for="NumeroMesa" class="control-label"></label>
-                <input asp-for="NumeroMesa" class="form-control" />
-                <span asp-validation-for="NumeroMesa" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="NumeroPessoas" class="control-label"></label>
                 <input asp-for="NumeroPessoas" class="form-control" />
                 <span asp-validation-for="NumeroPessoas" class="text-danger"></span>
@@ -45,10 +40,6 @@
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index" class="btn btn-dark">Back to List</a>
 </div>
 
 @section Scripts {

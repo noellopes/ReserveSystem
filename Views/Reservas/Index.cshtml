@@ -6,17 +6,11 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-success">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.IdCliente)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NumeroMesa)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.NumeroPessoas)
@@ -38,9 +32,6 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.IdCliente)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumeroMesa)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.NumeroPessoas)

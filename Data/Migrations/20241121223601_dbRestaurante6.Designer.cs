@@ -309,12 +309,6 @@ namespace ReserveSystem.Data.Migrations
                     b.Property<int>("IdPrato")
                         .HasColumnType("int");
 
-                    b.Property<int>("NumeroMesa")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NumeroPessoas")
-                        .HasColumnType("int");
-
                     b.Property<string>("Observacao")
                         .HasColumnType("nvarchar(max)");
 

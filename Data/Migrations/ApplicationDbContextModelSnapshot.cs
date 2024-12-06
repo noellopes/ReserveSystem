@@ -285,6 +285,9 @@ namespace ReserveSystem.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Preco")
+                        .HasColumnType("int");
+
                     b.HasKey("IdPrato");
 
                     b.ToTable("Prato");
@@ -308,9 +311,6 @@ namespace ReserveSystem.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("IdPrato")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NumeroMesa")
                         .HasColumnType("int");
 
                     b.Property<int>("NumeroPessoas")

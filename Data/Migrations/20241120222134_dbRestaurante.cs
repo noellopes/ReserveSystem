@@ -18,7 +18,6 @@ namespace ReserveSystem.Data.Migrations
                     IdReserva = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NomeCliente = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NumeroMesa = table.Column<int>(type: "int", nullable: false),
                     NumeroPessoas = table.Column<int>(type: "int", nullable: false),
                     DataHora = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Observacao = table.Column<string>(type: "nvarchar(max)", nullable: false)
