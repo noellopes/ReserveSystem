@@ -1,0 +1,31 @@
+﻿@model ReserveSystem.Models.SpaceModel
+
+@{
+    ViewData["Title"] = "Excluir Espaço";
+}
+
+<h1 class="text-center my-4 text-danger">Excluir Espaço</h1>
+
+<div class="container">
+    <p class="text-center text-danger">Tem certeza de que deseja excluir este Espaço?</p>
+
+    <!-- Detalhes do Personal Trainer -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">@Model.Name</h5>
+            <p class="card-text"><strong>Type:</strong> @Model.Type</p>
+            <p class="card-text"><strong>Capacidade:</strong> @Model.Capacity</p>
+        </div>
+    </div>
+
+    <!-- Formulário para exclusão -->
+    <form asp-action="Delete" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id" />
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>

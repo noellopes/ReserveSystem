@@ -50,7 +50,7 @@ namespace ReserveSystem.Controllers
         public IActionResult Create()
         {
             // Passa uma nova instância do modelo para a view
-            return View(new PersonalTrainerModel());
+            return View(new PersonalTrainerModel { Name = "", Email = ""});
         }
 
         // POST: PersonalTrainer/Create

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserveSystem.Data;
 
@@ -11,9 +12,11 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ReserveSystemUsersDbContext))]
-    partial class ReserveSystemUsersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241206122621_EspacoTableee")]
+    partial class EspacoTableee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -288,40 +291,20 @@ namespace ReserveSystem.Data.Migrations
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
 
-                    b.Property<string>("FeedBackComment")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("FeedbackTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("FeedbackValue")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Hour")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("PersonalTrainerId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SpaceId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<TimeSpan>("endTime")
-                        .HasColumnType("time");
-
-                    b.Property<TimeSpan>("startTime")
-                        .HasColumnType("time");
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
 
                     b.HasIndex("PersonalTrainerId");
-
-                    b.HasIndex("SpaceId");
 
                     b.ToTable("Reserva");
                 });
@@ -412,17 +395,9 @@ namespace ReserveSystem.Data.Migrations
                         .WithMany()
                         .HasForeignKey("PersonalTrainerId");
 
-                    b.HasOne("ReserveSystem.Models.SpaceModel", "Space")
-                        .WithMany()
-                        .HasForeignKey("SpaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Client");
 
                     b.Navigation("PersonalTrainer");
-
-                    b.Navigation("Space");
                 });
 #pragma warning restore 612, 618
         }

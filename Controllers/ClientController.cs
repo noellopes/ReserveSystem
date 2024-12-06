@@ -49,7 +49,7 @@ namespace ReserveSystem.Controllers
         public IActionResult Create()
         {
             // Passa uma nova instância do modelo para a View
-            return View(new ClientModel());
+            return View(new ClientModel { Name = "", Email="" });
         }
 
         // POST: Client/Create

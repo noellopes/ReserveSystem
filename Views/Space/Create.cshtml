@@ -1,0 +1,58 @@
+﻿﻿
+@model ReserveSystem.Models.SpaceModel
+
+@{
+    ViewData["Title"] = "Criar espaço";
+}
+
+<!-- Título da Página -->
+<h1 class="text-center my-4">Criar novo espaço</h1>
+
+<!-- Formulário de Criação -->
+<div class="container">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+
+        <!-- Resumo de Validação (Erros Globais) -->
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <!-- Campo Nome -->
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <!-- Campo Capacidade -->
+        <div class="form-group">
+            <label asp-for="Capacity" class="control-label"></label>
+            <input asp-for="Capacity" class="form-control" />
+            <span asp-validation-for="Capacity" class="text-danger"></span>
+        </div>
+
+        <!-- Campo Tipo (Dropdown) -->
+        <div class="form-group">
+            <label asp-for="Type" class="control-label"></label>
+            <select asp-for="Type" class="form-control" asp-items="ViewBag.SpaceTypes"></select>
+            <span asp-validation-for="Type" class="text-danger"></span>
+        </div>
+
+        <!-- Botão de Submissão -->
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success">Criar espaço</button>
+        </div>
+    </form>
+</div>
+
+<!-- Voltar para a Lista -->
+<div class="text-center mt-3">
+    <a asp-action="Index" class="btn btn-primary">Voltar para a Lista</a>
+</div>
+
+<!-- Scripts de Validação -->
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+﻿
