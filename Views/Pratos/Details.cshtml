@@ -5,52 +5,58 @@
 }
 
 <style>
-    .btn-primary {
-        background-color: #007bff;
-        color: white;
-        border: none;
+    .details-container {
+        margin-top: 2rem;
     }
 
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-    .text-danger {
-        font-size: 0.9em;
-    }
-
-    a {
+    .details-header {
         color: #007bff;
-        text-decoration: none;
+        text-align: center;
     }
 
-        a:hover {
-            color: #0056b3;
-            text-decoration: underline;
+    .details-list dt {
+        font-weight: bold;
+        text-align: right;
+    }
+
+    .details-list dd {
+        text-align: left;
+    }
+
+    .btn-custom {
+        background-color: #28a745;
+        color: white;
+    }
+
+        .btn-custom:hover {
+            background-color: #218838;
         }
 
-    .dl-horizontal dt {
-        font-weight: bold;
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
     }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
 </style>
 
-<div class="container mt-4">
-    <h1 class="text-center text-primary">Detalhes do Prato</h1>
+<div class="container details-container">
+    <h1 class="details-header">Detalhes do Prato</h1>
     <hr />
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <h4 class="text-primary">Informações do Prato</h4>
-            <dl class="row mt-4">
-                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Nome)</dt>
-                <dd class="col-sm-9">@Html.DisplayFor(model => model.Nome)</dd>
-
-                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Descricao)</dt>
-                <dd class="col-sm-9">@Html.DisplayFor(model => model.Descricao)</dd>
+        <div class="col-md-6">
+            <dl class="row details-list">
+                <dt class="col-sm-4">Nome</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Nome)</dd>
+                <dt class="col-sm-4">Descrição</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Descricao)</dd>
             </dl>
         </div>
     </div>
-    <div class="text-center mt-4">
-        <a asp-action="Edit" asp-route-id="@Model?.PratoId" class="btn btn-primary">Editar</a>
-        <a asp-action="Index" class="btn btn-secondary ml-3">Voltar à Lista</a>
+    <div class="d-flex justify-content-center mt-4">
+        <a class="btn btn-sm btn-custom me-2" asp-action="Edit" asp-route-id="@Model?.PratoId">Editar</a>
+        <a class="btn btn-sm btn-secondary" asp-action="Index">Voltar à Lista</a>
     </div>
 </div>
