@@ -15,7 +15,7 @@ namespace ReserveSystem.Models
         [Required(ErrorMessage = "Unity of measure is required"), StringLength(10)]
         public string UnityMeasure { get; set; }
 
-        public ICollection<Stock> Stocks { get; set; }
+        //public ICollection<Stock> Stocks { get; set; }
 
     }
 }
