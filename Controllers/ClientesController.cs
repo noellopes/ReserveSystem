@@ -34,7 +34,7 @@ namespace ReserveSystem.Controllers
             }
 
             var cliente = await _context.Cliente
-                .FirstOrDefaultAsync(m => m.ClienteId == id);
+                .FirstOrDefaultAsync(m => m.IdCliente == id);
             if (cliente == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClienteId,CC,telemovel")] Cliente cliente)
+        public async Task<IActionResult> Create([Bind("IdCliente,NomeCliente,CC,Telemovel")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
@@ -86,9 +86,9 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,CC,telemovel")] Cliente cliente)
+        public async Task<IActionResult> Edit(int id, [Bind("IdCliente,NomeCliente,CC,Telemovel")] Cliente cliente)
         {
-            if (id != cliente.ClienteId)
+            if (id != cliente.IdCliente)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace ReserveSystem.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ClienteExists(cliente.ClienteId))
+                    if (!ClienteExists(cliente.IdCliente))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace ReserveSystem.Controllers
             }
 
             var cliente = await _context.Cliente
-                .FirstOrDefaultAsync(m => m.ClienteId == id);
+                .FirstOrDefaultAsync(m => m.IdCliente == id);
             if (cliente == null)
             {
                 return NotFound();
@@ -151,7 +151,7 @@ namespace ReserveSystem.Controllers
 
         private bool ClienteExists(int id)
         {
-            return _context.Cliente.Any(e => e.ClienteId == id);
+            return _context.Cliente.Any(e => e.IdCliente == id);
         }
     }
 }

@@ -226,23 +226,27 @@ namespace ReserveSystem.Data.Migrations
 
             modelBuilder.Entity("ReserveSystem.Models.Cliente", b =>
                 {
-                    b.Property<int>("ClienteId")
+                    b.Property<int>("IdCliente")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClienteId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCliente"));
 
                     b.Property<string>("CC")
                         .IsRequired()
                         .HasMaxLength(8)
                         .HasColumnType("nvarchar(8)");
 
-                    b.Property<string>("telemovel")
+                    b.Property<string>("NomeCliente")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telemovel")
                         .IsRequired()
                         .HasMaxLength(9)
                         .HasColumnType("nvarchar(9)");
 
-                    b.HasKey("ClienteId");
+                    b.HasKey("IdCliente");
 
                     b.ToTable("Cliente");
                 });
@@ -281,6 +285,9 @@ namespace ReserveSystem.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Preco")
+                        .HasColumnType("int");
+
                     b.HasKey("IdPrato");
 
                     b.ToTable("Prato");
@@ -294,17 +301,16 @@ namespace ReserveSystem.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdReserva"));
 
+                    b.Property<int?>("ClienteIdCliente")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DataHora")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdPrato")
+                    b.Property<int>("IdCliente")
                         .HasColumnType("int");
 
-                    b.Property<string>("NomeCliente")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("NumeroMesa")
+                    b.Property<int>("IdPrato")
                         .HasColumnType("int");
 
                     b.Property<int>("NumeroPessoas")
@@ -317,6 +323,8 @@ namespace ReserveSystem.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("IdReserva");
+
+                    b.HasIndex("ClienteIdCliente");
 
                     b.HasIndex("PratoIdPrato");
 
@@ -376,9 +384,15 @@ namespace ReserveSystem.Data.Migrations
 
             modelBuilder.Entity("ReserveSystem.Models.Reserva", b =>
                 {
+                    b.HasOne("ReserveSystem.Models.Cliente", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteIdCliente");
+
                     b.HasOne("ReserveSystem.Models.Prato", "Prato")
                         .WithMany("Reservas")
                         .HasForeignKey("PratoIdPrato");
+
+                    b.Navigation("Cliente");
 
                     b.Navigation("Prato");
                 });

@@ -7,19 +7,19 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-success">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ClienteId)
+                @Html.DisplayNameFor(model => model.NomeCliente)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CC)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.telemovel)
+                @Html.DisplayNameFor(model => model.Telemovel)
             </th>
             <th></th>
         </tr>
@@ -28,19 +28,18 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                    @Html.DisplayFor(modelItem => item.ClienteId)
+                @Html.DisplayFor(modelItem => item.NomeCliente)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CC)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.telemovel)
+                @Html.DisplayFor(modelItem => item.Telemovel)
             </td>
             <td>
-                    <a asp-action="Edit" asp-route-id="@item.ClienteId" class="btn btn-warning">Edit</a>
- |
-                    <a asp-action="Details" asp-route-id="@item.ClienteId class=" btn btn-info">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ClienteId class="btn btn-danger>Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.IdCliente" class="btn btn-warning">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.IdCliente" class="btn btn-info">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdCliente" class="btn btn-danger">Delete</a>
             </td>
         </tr>
 }

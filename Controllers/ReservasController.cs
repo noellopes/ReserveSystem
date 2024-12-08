@@ -27,7 +27,7 @@ namespace ReserveSystem.Controllers
         public async Task<IActionResult> Index()
         {
 
-            var applicationDbContext = _context.Reserva.Include(b => b.Prato);
+            var applicationDbContext = _context.Reserva.Include(b => b.Prato).Include(c => c.Cliente);
             return View(await applicationDbContext.ToListAsync());
 
         }
@@ -42,7 +42,7 @@ namespace ReserveSystem.Controllers
 
             var reserva = await _context.Reserva
 
-                .Include(b => b.Prato)
+                .Include(b => b.Prato).Include(c => c.Cliente)
 
                 .FirstOrDefaultAsync(m => m.IdReserva == id);
             if (reserva == null)
@@ -56,7 +56,8 @@ namespace ReserveSystem.Controllers
         // GET: Reservas/Create
         public IActionResult Create()
         {
-            ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome");
+            ViewData["IdCliente"] = new SelectList(_context.Cliente?.ToList() ?? new List<Cliente>(), "IdCliente", "NomeCliente");
+            ViewData["IdPrato"] = new SelectList(_context.Prato?.ToList() ?? new List<Prato>(), "IdPrato", "PratoNome");
             return View();
         }
 
@@ -66,7 +67,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdReserva,NomeCliente,NumeroMesa,NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva)
+        public async Task<IActionResult> Create([Bind("IdReserva,IdCliente, NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva)
         {
             if (ModelState.IsValid)
             {
@@ -74,6 +75,7 @@ namespace ReserveSystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["IdCliente"] = new SelectList(_context.Cliente, "IdCliente", "NomeCliente", reserva.IdCliente);
             ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome", reserva.IdPrato);
             return View(reserva);
         }
@@ -91,7 +93,7 @@ namespace ReserveSystem.Controllers
             {
                 return NotFound();
             }
-
+            ViewData["IdCliente"] = new SelectList(_context.Cliente, "IdCliente", "NomeCliente", reserva.IdCliente);
             ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome", reserva.IdPrato);
             return View(reserva);
         }
@@ -101,7 +103,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdReserva,NomeCliente,NumeroMesa,NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva)
+        public async Task<IActionResult> Edit(int id, [Bind("IdReserva,IdCliente, NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva)
 
         {
             if (id != reserva.IdReserva)
@@ -160,7 +162,7 @@ namespace ReserveSystem.Controllers
 
             var reserva = await _context.Reserva
 
-                .Include(b => b.Prato)
+                .Include(b => b.Prato).Include(c => c.Cliente)
 
                 .FirstOrDefaultAsync(m => m.IdReserva == id);
             if (reserva == null)

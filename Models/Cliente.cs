@@ -8,20 +8,17 @@ namespace ReserveSystem.Models
     {
 
         [Key]
-        [Required]
-        public int ClienteId { get; set; }
+        public int IdCliente { get; set; }
+
+        public string NomeCliente { get; set; }
 
         [Required]
         [MaxLength(8)]
-
         public  string CC { get; set; }
 
         [Required]
         [MaxLength(9)]
-
-        public  string telemovel { get; set; }
-
-
+        public string Telemovel { get; set; }
 
     }
 }
