@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Landing Page";
+}
+
+<div class="d-flex flex-column justify-content-center align-items-center vh-100">
+    <h1 class="mb-4 text-center">Bem-vindo à Gestão do Abastecimento do Restaurante</h1>
+    <p class="text-center">Escolha uma das opções abaixo para navegar para as funcionalidades:</p>
+
+    <div class="d-flex justify-content-center flex-wrap gap-3 mt-3">
+        <a asp-controller="Ingredients" class="btn btn-primary">Gerir Ingredientes</a>
+        <a asp-controller="Pratos" class="btn btn-primary">Composição de Pratos</a>
+        <a asp-controller="Buffets" class="btn btn-primary">Gerir Buffets</a>
+        <a asp-controller="Stocks" class="btn btn-primary">Gerir Stock</a>
+        <a asp-controller="PedidosAbastecimento" class="btn btn-primary">Gesrir Pedidos de Abastecimento</a>
+    </div>
+</div>

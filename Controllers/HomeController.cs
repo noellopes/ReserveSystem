@@ -15,7 +15,7 @@ namespace ReserveSystem.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View("~/Views/LandingPage/Index.cshtml");
         }
 
         public IActionResult Privacy()
