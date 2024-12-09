@@ -22,6 +22,7 @@ namespace ReserveSystem.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+
             modelBuilder.Entity("ReserveSystem.Models.ExcursaoModel", b =>
                 {
                     b.Property<int>("Excursao_Id")
@@ -94,6 +95,35 @@ namespace ReserveSystem.Migrations
                     b.HasKey("Staff_Id");
 
                     b.ToTable("StaffTestModel");
+
+            modelBuilder.Entity("ReserveSystem.Models.ClienteTestModel", b =>
+                {
+                    b.Property<int>("ClienteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClienteId"));
+
+                    b.Property<DateTime>("DataNascimento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Telefone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ClienteId");
+
+                    b.ToTable("ClienteTestModel");
+
                 });
 #pragma warning restore 612, 618
         }
