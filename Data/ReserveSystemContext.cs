@@ -11,6 +11,9 @@ namespace ReserveSystem.Data
         public DbSet<ReserveSystem.Models.StaffTestModel> StaffTestModel { get; set; } = default!;
         public DbSet<ReserveSystem.Models.ExcursaoModel> ExcursaoModel { get; set; } = default!;
         public DbSet<ReserveSystem.Models.ClienteTestModel> ClienteTestModel { get; set; } = default!;
+        public DbSet<ReserveSystem.Models.ReservaExcursaoModel> ReservaExcursaoModel { get; set; } = default!;
+
+
 
     }
 }

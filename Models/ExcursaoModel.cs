@@ -28,8 +28,10 @@ namespace ReserveSystem.Models
 		[Column(TypeName = "INTEGER")]
 		public int Staff_Id { get; set; }
 
-		//public StaffTestModel? Staff { get; set; }
+        //public StaffTestModel? Staff { get; set; }
 
-	}
+        public virtual ICollection<ReservaExcursaoModel>? ReservaExcursoes { get; set; }
+
+    }
 
 }
