@@ -1,0 +1,65 @@
+﻿@model ReserveSystem.Models.ExcursaoModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center text-primary">Edit Excursão</h1>
+    <hr />
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form asp-action="Edit" class="shadow p-4 bg-light rounded">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <input type="hidden" asp-for="Excursao_Id" />
+
+                <div class="mb-3">
+                    <label asp-for="Titulo" class="form-label"></label>
+                    <input asp-for="Titulo" class="form-control" />
+                    <span asp-validation-for="Titulo" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Descricao" class="form-label"></label>
+                    <input asp-for="Descricao" class="form-control" />
+                    <span asp-validation-for="Descricao" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Data_Inicio" class="form-label"></label>
+                    <input asp-for="Data_Inicio" class="form-control" />
+                    <span asp-validation-for="Data_Inicio" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Data_Fim" class="form-label"></label>
+                    <input asp-for="Data_Fim" class="form-control" />
+                    <span asp-validation-for="Data_Fim" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Preco" class="form-label"></label>
+                    <input asp-for="Preco" class="form-control" />
+                    <span asp-validation-for="Preco" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Staff_Id" class="form-label"></label>
+                    <input asp-for="Staff_Id" class="form-control" />
+                    <span asp-validation-for="Staff_Id" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
