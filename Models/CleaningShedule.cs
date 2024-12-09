@@ -6,7 +6,6 @@
         public DateTime DateServices { get; set; }
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
-
         public int CleaningId { get; set; }
         public Cleaning cleaning { get; set; }
 

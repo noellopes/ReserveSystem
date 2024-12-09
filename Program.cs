@@ -34,8 +34,39 @@ else
         using (var servicesScope = app.Services.CreateScope())
         {
             var db = servicesScope.ServiceProvider.GetService<ReserveSystemContext>();
-            SeedData.PopulateBooking(db);
-        }
+        // Adicionar tipos de quartos primeiro
+        SeedData.PopulateRoomType(db);
+
+        // Adicionar os quartos
+        SeedData.PopulateRoom(db);
+
+        // Adicionar itens antes de associá-los a quartos
+        SeedData.PopulateItems(db);
+
+        // Adicionar cargos dos funcionários antes dos funcionários
+        SeedData.PopulateJob(db);
+
+        // Adicionar os funcionários
+        SeedData.PopulateStaff(db);
+
+        // Adicionar clientes
+        SeedData.PopulateClients(db);
+
+        //Adicionar Bookings
+        SeedData.PopulateBooking(db);
+
+        // Adicionar as reservas de quartos
+        SeedData.PopulateRoomBooking(db);
+
+        // Adicionar itens em salas (associados a quartos)
+        SeedData.PopulateItemRooms(db);
+
+        // Adicionar serviços de limpeza
+        SeedData.PopulateCleaning(db);
+
+        // Agendar limpezas
+        SeedData.PopulateCleaningShedule(db);
+    }
     }
 
 app.UseHttpsRedirection();

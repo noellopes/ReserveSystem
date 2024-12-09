@@ -51,8 +51,8 @@ namespace ReserveSystem.Controllers
         public IActionResult Create()
         {
             ViewData["CleaningId"] = new SelectList(_context.Cleaning, "CleaningId", "CleaningId");
-            ViewData["RoomBookingId"] = new SelectList(_context.Set<RoomBooking>(), "RoomBookingId", "RoomBookingId");
-            ViewData["StaffId"] = new SelectList(_context.Set<Staff>(), "StaffId", "StaffId");
+            ViewData["RoomBookingId"] = new SelectList(_context.RoomBooking, "RoomBookingId", "RoomBookingId");
+            ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffId");
             return View();
         }
 
@@ -70,8 +70,8 @@ namespace ReserveSystem.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CleaningId"] = new SelectList(_context.Cleaning, "CleaningId", "CleaningId", cleaningShedule.CleaningId);
-            ViewData["RoomBookingId"] = new SelectList(_context.Set<RoomBooking>(), "RoomBookingId", "RoomBookingId", cleaningShedule.RoomBookingId);
-            ViewData["StaffId"] = new SelectList(_context.Set<Staff>(), "StaffId", "StaffId", cleaningShedule.StaffId);
+            ViewData["RoomBookingId"] = new SelectList(_context.RoomBooking, "RoomBookingId", "RoomBookingId", cleaningShedule.RoomBookingId);
+            ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffId", cleaningShedule.StaffId);
             return View(cleaningShedule);
         }
 
@@ -89,8 +89,8 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
             ViewData["CleaningId"] = new SelectList(_context.Cleaning, "CleaningId", "CleaningId", cleaningShedule.CleaningId);
-            ViewData["RoomBookingId"] = new SelectList(_context.Set<RoomBooking>(), "RoomBookingId", "RoomBookingId", cleaningShedule.RoomBookingId);
-            ViewData["StaffId"] = new SelectList(_context.Set<Staff>(), "StaffId", "StaffId", cleaningShedule.StaffId);
+            ViewData["RoomBookingId"] = new SelectList(_context.RoomBooking, "RoomBookingId", "RoomBookingId", cleaningShedule.RoomBookingId);
+            ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffId", cleaningShedule.StaffId);
             return View(cleaningShedule);
         }
 
@@ -127,8 +127,8 @@ namespace ReserveSystem.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CleaningId"] = new SelectList(_context.Cleaning, "CleaningId", "CleaningId", cleaningShedule.CleaningId);
-            ViewData["RoomBookingId"] = new SelectList(_context.Set<RoomBooking>(), "RoomBookingId", "RoomBookingId", cleaningShedule.RoomBookingId);
-            ViewData["StaffId"] = new SelectList(_context.Set<Staff>(), "StaffId", "StaffId", cleaningShedule.StaffId);
+            ViewData["RoomBookingId"] = new SelectList(_context.RoomBooking, "RoomBookingId", "RoomBookingId", cleaningShedule.RoomBookingId);
+            ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffId", cleaningShedule.StaffId);
             return View(cleaningShedule);
         }
 

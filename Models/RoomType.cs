@@ -4,7 +4,7 @@
     {
         public int RoomTypeId { get; set; }
         public bool HasView { get; set; }
-        public string Type { get; set; }
+        public required string Type { get; set; }
         public int Capacity { get; set; }
         public int RoomCapacity { get; set; }
         public bool AccessibilityRoom { get; set; }
