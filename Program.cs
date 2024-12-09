@@ -50,6 +50,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(
     }
 )
 .AddEntityFrameworkStores<ReserveSystemUsersDbContext>()
+//.AddDefaultTokenProviders()
 .AddDefaultUI();
 
 builder.Services.AddControllersWithViews();
