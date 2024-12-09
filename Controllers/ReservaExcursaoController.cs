@@ -67,7 +67,7 @@ namespace ReserveSystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.ClienteTestModel, "ClienteId", "Email", reservaExcursaoModel.ClienteId);
+            ViewData["ClienteId"] = new SelectList(_context.ClienteTestModel, "ClienteId", "Nome", reservaExcursaoModel.ClienteId);
             ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "Excursao_Id", "Descricao", reservaExcursaoModel.ExcursaoId);
             return View(reservaExcursaoModel);
         }
@@ -85,7 +85,7 @@ namespace ReserveSystem.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClienteId"] = new SelectList(_context.ClienteTestModel, "ClienteId", "Email", reservaExcursaoModel.ClienteId);
+            ViewData["ClienteId"] = new SelectList(_context.ClienteTestModel, "ClienteId", "Nome", reservaExcursaoModel.ClienteId);
             ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "Excursao_Id", "Descricao", reservaExcursaoModel.ExcursaoId);
             return View(reservaExcursaoModel);
         }
@@ -122,7 +122,7 @@ namespace ReserveSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.ClienteTestModel, "ClienteId", "Email", reservaExcursaoModel.ClienteId);
+            ViewData["ClienteId"] = new SelectList(_context.ClienteTestModel, "ClienteId", "Nome", reservaExcursaoModel.ClienteId);
             ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "Excursao_Id", "Descricao", reservaExcursaoModel.ExcursaoId);
             return View(reservaExcursaoModel);
         }
