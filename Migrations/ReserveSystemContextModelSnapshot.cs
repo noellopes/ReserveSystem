@@ -22,80 +22,6 @@ namespace ReserveSystem.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-
-            modelBuilder.Entity("ReserveSystem.Models.ExcursaoModel", b =>
-                {
-                    b.Property<int>("Excursao_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Excursao_Id"));
-
-                    b.Property<DateTime>("Data_Fim")
-                        .HasColumnType("DATE");
-
-                    b.Property<DateTime>("Data_Inicio")
-                        .HasColumnType("DATETIME");
-
-                    b.Property<string>("Descricao")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<double>("Preco")
-                        .HasColumnType("FLOAT");
-
-                    b.Property<int>("Staff_Id")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Titulo")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Excursao_Id");
-
-                    b.ToTable("ExcursaoModel");
-                });
-
-            modelBuilder.Entity("ReserveSystem.Models.JobTestModel", b =>
-                {
-                    b.Property<int>("Job_ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Job_ID"));
-
-                    b.Property<string>("Job_Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Job_Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Job_ID");
-
-                    b.ToTable("JobTestModel");
-                });
-
-            modelBuilder.Entity("ReserveSystem.Models.StaffTestModel", b =>
-                {
-                    b.Property<int>("Staff_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Staff_Id"));
-
-                    b.Property<int>("Job_ID")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Staff_Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Staff_Id");
-
-                    b.ToTable("StaffTestModel");
-
             modelBuilder.Entity("ReserveSystem.Models.ClienteTestModel", b =>
                 {
                     b.Property<int>("ClienteId")
@@ -123,7 +49,6 @@ namespace ReserveSystem.Migrations
                     b.HasKey("ClienteId");
 
                     b.ToTable("ClienteTestModel");
-
                 });
 #pragma warning restore 612, 618
         }
