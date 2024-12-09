@@ -30,8 +30,28 @@ else
         options.UseSqlite(builder.Configuration.GetConnectionString("ReserveSystemSqlite") ?? throw new InvalidOperationException("Connection string 'ReserveSystemSqlite' not found.")));
 }
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ReserveSystemUsersDbContext>();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(
+    options => {
+        // sign in
+        options.SignIn.RequireConfirmedAccount = false;
+
+        // password
+        options.Password.RequireDigit = true;
+        options.Password.RequireLowercase = true;
+        options.Password.RequiredLength = 8;
+        options.Password.RequiredUniqueChars = 6;
+        options.Password.RequireNonAlphanumeric = true;
+        options.Password.RequireUppercase = true;
+
+        // Lockout
+        options.Lockout.AllowedForNewUsers = true;
+        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+        options.Lockout.MaxFailedAccessAttempts = 5;
+    }
+)
+.AddEntityFrameworkStores<ReserveSystemUsersDbContext>()
+.AddDefaultUI();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

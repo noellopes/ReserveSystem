@@ -11,6 +11,8 @@ namespace ReserveSystem.Models
     {
         public static void Initialize(IServiceProvider serviceProvider)
         {
+            return;
+
             using (var context = new ReserveSystemContext(
                 serviceProvider.GetRequiredService<
                     DbContextOptions<ReserveSystemContext>>()))
