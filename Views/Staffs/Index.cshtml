@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<ReserveSystem.Models.Staff>
 
-<h1>Staff Index</h1>
+<h1 class="text-center my-4">Staff Index</h1>
 
-<p>
-    <a asp-action="Create">Create New Staff</a>
-</p>
+<div class="d-flex justify-content-end mb-3">
+    <a asp-action="Create" class="btn btn-primary">Create New Staff</a>
+</div>
 
-<table class="table">
-    <thead>
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
         <tr>
             <th>Staff ID</th>
             <th>Job ID</th>
@@ -17,7 +17,7 @@
             <th>Start Date</th>
             <th>End Date</th>
             <th>Days Off</th>
-            <th></th>
+            <th class="text-center">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -30,12 +30,20 @@
                 <td>@item.StaffEmail</td>
                 <td>@item.StaffPhone</td>
                 <td>@item.StartFunctionsDate.ToShortDateString()</td>
-                <td>@item.EndFunctionsDate?.ToShortDateString()</td>
+                <td>@(item.EndFunctionsDate?.ToShortDateString() ?? "N/A")</td>
                 <td>@item.DaysOffVacation</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.StaffID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.StaffID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.StaffID">Delete</a>
+                <td class="text-center">
+                    <div class="btn-group" role="group">
+                        <a asp-action="Edit" asp-route-id="@item.StaffID" class="btn btn-outline-warning" title="Edit">
+                            <i class="bi bi-pencil-fill"></i> Edit
+                        </a>
+                        <a asp-action="Details" asp-route-id="@item.StaffID" class="btn btn-outline-primary" title="Details">
+                            <i class="bi bi-eye-fill"></i> Details
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.StaffID" class="btn btn-outline-danger" title="Delete">
+                            <i class="bi bi-trash-fill"></i> Delete
+                        </a>
+                    </div>
                 </td>
             </tr>
         }
