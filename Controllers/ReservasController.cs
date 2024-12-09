@@ -58,6 +58,8 @@ namespace ReserveSystem.Controllers
         {
             ViewData["IdCliente"] = new SelectList(_context.Cliente?.ToList() ?? new List<Cliente>(), "IdCliente", "NomeCliente");
             ViewData["IdPrato"] = new SelectList(_context.Prato?.ToList() ?? new List<Prato>(), "IdPrato", "PratoNome");
+
+            
             return View();
         }
 
@@ -66,20 +68,41 @@ namespace ReserveSystem.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]//REFACTORED
         public async Task<IActionResult> Create([Bind("IdReserva,IdCliente, NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva)
         {
+            int maximoLugar = _context.Mesa.Max(t => t.NumeroLugares);
+
+
+            int? idMesa = _context.Mesa
+            .Where(t => t.NumeroLugares == maximoLugar)
+            .Select(t => t.IdMesa)
+            .FirstOrDefault();
+
+            if (reserva.NumeroPessoas > maximoLugar)
+            {
+                ModelState.AddModelError("NumeroPessoas", $"O número de pessoas ({reserva.NumeroPessoas}) excede o máximo permitido ({maximoLugar}).");
+            }
+
+            
             if (ModelState.IsValid)
             {
+                if (idMesa != null)
+                {
+                    reserva.IdMesa = idMesa.Value; 
+                }
+
                 _context.Add(reserva);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            
             ViewData["IdCliente"] = new SelectList(_context.Cliente, "IdCliente", "NomeCliente", reserva.IdCliente);
             ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome", reserva.IdPrato);
             return View(reserva);
         }
-
+        //REFACTORED
         // GET: Reservas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

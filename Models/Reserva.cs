@@ -15,6 +15,7 @@ namespace ReserveSystem.Models
 
         [Required(ErrorMessage = "O número da mesa é obrigatório.")]
         [Range(1, 20)]
+        public int? IdMesa { get; set; }
         public int NumeroPessoas { get; set; }
 
         [Required]
