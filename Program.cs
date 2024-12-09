@@ -56,25 +56,32 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Seed the database
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-
-    SeedData.Initialize(services);
-}
+var isDevelopment = app.Environment.IsDevelopment();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+if (isDevelopment) {
     app.UseMigrationsEndPoint();
-}
-else
-{
+} else { 
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+using (var servicesScope = app.Services.CreateScope()) {
+    // Seed Admin
+    var userManager = servicesScope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    SeedData.PopulateDefaultAdmin(userManager);
+
+    if (isDevelopment) {
+        // Seed users
+        SeedData.PopulateUsers(userManager);
+
+        // Seed the database
+        var db = servicesScope.ServiceProvider.GetService<ReserveSystemContext>();
+        SeedData.Populate(db);
+    }
+}
+
 
 app.UseHttpsRedirection();
 

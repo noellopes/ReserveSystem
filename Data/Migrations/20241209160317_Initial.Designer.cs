@@ -12,7 +12,7 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    [Migration("20241209154812_Initial")]
+    [Migration("20241209160317_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -80,55 +80,6 @@ namespace ReserveSystem.Data.Migrations
                     b.HasKey("EmployeeId");
 
                     b.ToTable("Employee");
-                });
-
-            modelBuilder.Entity("ReserveSystem.Models.RoomServiceBooking", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("BookedState")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ClientFeedback")
-                        .HasColumnType("INTEGER(1)");
-
-                    b.Property<int>("ClientId")
-                        .HasColumnType("INTEGER(11)");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime");
-
-                    b.Property<DateOnly>("EndDate")
-                        .HasColumnType("date");
-
-                    b.Property<bool>("PaymentDone")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("RoomId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoomServiceId")
-                        .HasColumnType("INTEGER(11)");
-
-                    b.Property<bool>("StaffConfirmation")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("StaffId")
-                        .HasColumnType("INTEGER(11)");
-
-                    b.Property<DateOnly>("StartDate")
-                        .HasColumnType("date");
-
-                    b.Property<decimal>("ValueToPay")
-                        .HasColumnType("decimal(8, 2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RoomServiceBooking");
                 });
 #pragma warning restore 612, 618
         }
