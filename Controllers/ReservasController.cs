@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Books.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.Elfie.Diagnostics;
@@ -8,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging; // Added for logging
 using ReserveSystem.Data;
 using ReserveSystem.Models;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace ReserveSystem.Controllers
 {
