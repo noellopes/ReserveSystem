@@ -1,77 +1,43 @@
 ﻿@model IEnumerable<ReserveSystem.Models.Staff>
 
-@{
-    ViewData["Title"] = "Index";
-}
-
-<h1>Index</h1>
+<h1>Staff Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create New Staff</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.JobId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffEmail)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffPhone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffPassword)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartFunctionsDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndFunctionsDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DaysOffVacation)
-            </th>
+            <th>Staff ID</th>
+            <th>Job ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Days Off</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.JobId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StaffName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StaffEmail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StaffPhone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StaffPassword)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartFunctionsDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndFunctionsDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DaysOffVacation)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.StaffID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.StaffID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.StaffID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.StaffID</td>
+                <td>@item.JobId</td>
+                <td>@item.StaffName</td>
+                <td>@item.StaffEmail</td>
+                <td>@item.StaffPhone</td>
+                <td>@item.StartFunctionsDate.ToShortDateString()</td>
+                <td>@item.EndFunctionsDate?.ToShortDateString()</td>
+                <td>@item.DaysOffVacation</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.StaffID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.StaffID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.StaffID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

@@ -1,68 +1,48 @@
 ﻿@model ReserveSystem.Models.Staff
 
-@{
-    ViewData["Title"] = "Create";
-}
+<h1>Create Staff</h1>
 
-<h1>Create</h1>
-
-<h4>Staff</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="JobId" class="control-label"></label>
-                <input asp-for="JobId" class="form-control" />
-                <span asp-validation-for="JobId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StaffName" class="control-label"></label>
-                <input asp-for="StaffName" class="form-control" />
-                <span asp-validation-for="StaffName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StaffEmail" class="control-label"></label>
-                <input asp-for="StaffEmail" class="form-control" />
-                <span asp-validation-for="StaffEmail" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StaffPhone" class="control-label"></label>
-                <input asp-for="StaffPhone" class="form-control" />
-                <span asp-validation-for="StaffPhone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StaffPassword" class="control-label"></label>
-                <input asp-for="StaffPassword" class="form-control" />
-                <span asp-validation-for="StaffPassword" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StartFunctionsDate" class="control-label"></label>
-                <input asp-for="StartFunctionsDate" class="form-control" />
-                <span asp-validation-for="StartFunctionsDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EndFunctionsDate" class="control-label"></label>
-                <input asp-for="EndFunctionsDate" class="form-control" />
-                <span asp-validation-for="EndFunctionsDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DaysOffVacation" class="control-label"></label>
-                <input asp-for="DaysOffVacation" class="form-control" />
-                <span asp-validation-for="DaysOffVacation" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<form asp-action="Create">
+    <div class="form-group">
+        <label asp-for="JobId"></label>
+        <input asp-for="JobId" class="form-control" />
+        <span asp-validation-for="JobId" class="text-danger"></span>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    <div class="form-group">
+        <label asp-for="StaffName"></label>
+        <input asp-for="StaffName" class="form-control" />
+        <span asp-validation-for="StaffName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="StaffEmail"></label>
+        <input asp-for="StaffEmail" class="form-control" />
+        <span asp-validation-for="StaffEmail" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="StaffPhone"></label>
+        <input asp-for="StaffPhone" class="form-control" />
+        <span asp-validation-for="StaffPhone" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="StaffPassword"></label>
+        <input asp-for="StaffPassword" type="password" class="form-control" />
+        <span asp-validation-for="StaffPassword" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="StartFunctionsDate"></label>
+        <input asp-for="StartFunctionsDate" type="date" class="form-control" />
+        <span asp-validation-for="StartFunctionsDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EndFunctionsDate"></label>
+        <input asp-for="EndFunctionsDate" type="date" class="form-control" />
+        <span asp-validation-for="EndFunctionsDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="DaysOffVacation"></label>
+        <input asp-for="DaysOffVacation" class="form-control" />
+        <span asp-validation-for="DaysOffVacation" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
