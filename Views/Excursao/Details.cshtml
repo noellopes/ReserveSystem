@@ -1,0 +1,40 @@
+﻿@model ReserveSystem.Models.ExcursaoModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container mt-5">
+    <h1 class="text-primary text-center">Details</h1>
+
+    <div class="card shadow mt-4">
+        <div class="card-header bg-primary text-white">
+            <h4>Excursão Details</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3 font-weight-bold">@Html.DisplayNameFor(model => model.Titulo)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Titulo)</dd>
+
+                <dt class="col-sm-3 font-weight-bold">@Html.DisplayNameFor(model => model.Descricao)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Descricao)</dd>
+
+                <dt class="col-sm-3 font-weight-bold">@Html.DisplayNameFor(model => model.Data_Inicio)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Data_Inicio)</dd>
+
+                <dt class="col-sm-3 font-weight-bold">@Html.DisplayNameFor(model => model.Data_Fim)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Data_Fim)</dd>
+
+                <dt class="col-sm-3 font-weight-bold">@Html.DisplayNameFor(model => model.Preco)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Preco)</dd>
+
+                <dt class="col-sm-3 font-weight-bold">@Html.DisplayNameFor(model => model.Staff_Id)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Staff_Id)</dd>
+            </dl>
+        </div>
+        <div class="card-footer text-center">
+            <a asp-action="Edit" asp-route-id="@Model?.Excursao_Id" class="btn btn-warning me-2">Edit</a>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</div>
