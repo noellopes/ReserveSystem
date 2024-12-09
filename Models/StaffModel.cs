@@ -30,9 +30,9 @@
 
             [Required]
             [ForeignKey("Job")]
-            public int Job_Id { get; set; }
+            public int jobId { get; set; }
 
-            //public JobModel? Job { get; set; }
+            public JobModel? Job { get; set; }
 
 
         public List<string>? DrivingLicenseGrades { get; set; }

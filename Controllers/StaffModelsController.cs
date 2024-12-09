@@ -23,7 +23,7 @@ namespace ReserveSystem.Controllers
         public async Task<IActionResult> Index()
         {
             var staffList = await _context.StaffModel
-                                  //.Include(s => s.Job) 
+                                  .Include(s => s.Job) 
                                   .ToListAsync();
             return View(staffList);
         }
@@ -37,6 +37,7 @@ namespace ReserveSystem.Controllers
             }
 
             var staffModel = await _context.StaffModel
+                .Include(s => s.Job)
                 .FirstOrDefaultAsync(m => m.Staff_Id == id);
             if (staffModel == null)
             {
@@ -50,7 +51,7 @@ namespace ReserveSystem.Controllers
         public IActionResult Create()
         {
 
-            //ViewBag.Jobs = new SelectList(_context.Jobs.ToList(), "JobId", "Name");
+            ViewBag.Jobs = new SelectList(_context.JobModel.ToList(), "jobId", "jobName");
             ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G" };
 
             var model = new StaffModel
@@ -67,7 +68,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Staff_Id,Staff_Name,BirthDate,Staff_Email,Staff_Phone,Staff_Password,Job_Id,DriverLicenseExpirationDate,DrivingLicenseGrades")] StaffModel staffModel, List<string>? DrivingLicenseGrades)
+        public async Task<IActionResult> Create([Bind("Staff_Id,Staff_Name,BirthDate,Staff_Email,Staff_Phone,Staff_Password,jobId,DriverLicenseExpirationDate,DrivingLicenseGrades")] StaffModel staffModel, List<string>? DrivingLicenseGrades)
         {
            
             if (ModelState.IsValid)
@@ -79,7 +80,7 @@ namespace ReserveSystem.Controllers
                 
                 
             }
-            //ViewBag.Jobs = new SelectList(_context.Jobs.ToList(), "Job_Id", "Job_Name", staffModel.Job_Id);
+            ViewBag.Jobs = new SelectList(_context.JobModel.ToList(), "jobId", "jobName", staffModel.jobId);
             ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G" };
             return View(staffModel);
 
@@ -99,7 +100,7 @@ namespace ReserveSystem.Controllers
             {
                 return NotFound();
             }
-            //ViewBag.Jobs = new SelectList(_context.Jobs.ToList(), "Job_Id", "Job_Name", staffModel.Job_Id);
+            ViewBag.Jobs = new SelectList(_context.JobModel.ToList(), "jobId", "jobName", staffModel.jobId);
             ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G" };
 
             return View(staffModel);
@@ -110,7 +111,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Staff_Id,Staff_Name,BirthDate,Staff_Email,Staff_Phone,Staff_Password,Job_Id,DriverLicenseExpirationDate,DrivingLicenseGrades")] StaffModel staffModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Staff_Id,Staff_Name,BirthDate,Staff_Email,Staff_Phone,Staff_Password,jobId,DriverLicenseExpirationDate,DrivingLicenseGrades")] StaffModel staffModel)
         {
             
             
@@ -142,7 +143,7 @@ namespace ReserveSystem.Controllers
                 
                 return RedirectToAction(nameof(Index));
             }
-            //ViewBag.Jobs = new SelectList(_context.Jobs.ToList(), "Job_Id", "Job_Name", staffModel.Job_Id);
+            ViewBag.Jobs = new SelectList(_context.JobModel.ToList(), "jobId", "jobName");
             ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G" };
             return View(staffModel);
         }
