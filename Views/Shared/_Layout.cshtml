@@ -10,16 +10,13 @@
 </head>
 <body>
     <header>
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-sm navbar-light bg-light border-bottom shadow-sm">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ReserveSystem</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
-                <!-- Nav Links -->
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
@@ -28,36 +25,23 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <!--Meter Butao pro grupo-->
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="HomeGrupo10" asp-action="Index">HomeGrupo10</a>
-                        </li>
-                        
                     </ul>
-                    <!-- Login Partial -->
                     <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
     </header>
-
-    <!-- Page Content -->
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <!-- Footer -->
-    <footer class="border-top bg-light text-muted py-3">
-        <div class="container text-center">
-            <span>&copy; 2024 - ReserveSystem</span>
-            <span class="text-primary fw-bold d-block mt-1">Grupo 10</span>
-            <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-secondary text-decoration-none">Privacy Policy</a>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - ReserveSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-
-    <!-- Scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
