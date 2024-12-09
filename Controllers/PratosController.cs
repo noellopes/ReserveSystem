@@ -58,6 +58,9 @@ namespace ReserveSystem.Controllers
             {
                 _context.Add(prato);
                 await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Prato criado com sucesso!";
+
                 return RedirectToAction(nameof(Index));
             }
             return View(prato);
@@ -95,6 +98,8 @@ namespace ReserveSystem.Controllers
                 {
                     _context.Update(prato);
                     await _context.SaveChangesAsync();
+
+                    TempData["SuccessMessage"] = "Prato atualizado com sucesso!";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -142,6 +147,9 @@ namespace ReserveSystem.Controllers
             }
 
             await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Prato excluído com sucesso!";
+
             return RedirectToAction(nameof(Index));
         }
 
