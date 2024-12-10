@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
+using PagedList;
 
 namespace ReserveSystem.Controllers
 {
@@ -20,19 +21,36 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: ReservaExcursao
-        public async Task<IActionResult> Index(string searchString, string filterBy, string sortOrder )
+        public async Task<IActionResult> Index(string searchString, string filterBy, string sortOrder,int? page,string currentFilter )
+
         {
+
+            ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = sortOrder == "Name" ? "Name_desc" : "Name";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-            
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
 
             var reservas = from r in _context.ReservaExcursaoModel
                            .Include(r => r.Cliente)
                            .Include(r => r.Excursao)
                            select r;
 
+            
+
+            
             if (!string.IsNullOrEmpty(searchString) && !string.IsNullOrEmpty(filterBy))
             {
+                
                 switch (filterBy.ToLower())
                 {
                     case "titulo":
@@ -57,6 +75,7 @@ namespace ReserveSystem.Controllers
                         break;
                 }
             }
+          
 
             switch (sortOrder)
             {
@@ -77,7 +96,11 @@ namespace ReserveSystem.Controllers
 
             }
 
-            return View(await reservas.ToListAsync());
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(reservas.ToPagedList(pageNumber, pageSize));
+            // return View(await reservas.ToListAsync());
         }
 
 
