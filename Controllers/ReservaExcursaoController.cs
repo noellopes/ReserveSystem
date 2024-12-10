@@ -20,18 +20,66 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: ReservaExcursao
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, string filterBy, string sortOrder )
         {
+            ViewBag.NameSortParm = sortOrder == "Name" ? "Name_desc" : "Name";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
             
-            var reservas = from  r in _context.ReservaExcursaoModel.Include(r => r.Cliente).Include(r => r.Excursao)
+
+            var reservas = from r in _context.ReservaExcursaoModel
+                           .Include(r => r.Cliente)
+                           .Include(r => r.Excursao)
                            select r;
-            
-            if (!String.IsNullOrEmpty(searchString))
+
+            if (!string.IsNullOrEmpty(searchString) && !string.IsNullOrEmpty(filterBy))
             {
-                reservas = reservas.Where(s => s.Excursao.Titulo.Contains(searchString));
+                switch (filterBy.ToLower())
+                {
+                    case "titulo":
+                        reservas = reservas.Where(r => r.Excursao.Titulo.Contains(searchString));
+                        break;
+                    case "cliente":
+                        reservas = reservas.Where(r => r.Cliente.Nome.Contains(searchString));
+                        break;
+                    case "data":
+                        if (int.TryParse(searchString, out int searchNumber))
+                        {
+                            reservas = reservas.Where(r => r.DataReserva.Day == searchNumber ||
+                                                           r.DataReserva.Month == searchNumber ||
+                                                           r.DataReserva.Year.ToString().Contains(searchString));
+                        }
+                        break;
+
+
+
+                    // Adicione mais casos conforme necessário
+                    default:
+                        break;
+                }
             }
+
+            switch (sortOrder)
+            {
+                case "Name_desc":
+                    reservas = reservas.OrderByDescending(r => r.Cliente.Nome);
+                    break;
+                case "Date":
+                    reservas=reservas.OrderBy(r=>r.DataReserva);
+                    break;
+                case "date_desc":
+                    reservas = reservas.OrderByDescending(r => r.DataReserva);
+                    break;
+
+                
+                default :
+                    reservas = reservas.OrderBy(r => r.Cliente.Nome);
+                    break;
+
+            }
+
             return View(await reservas.ToListAsync());
         }
+
 
         // GET: ReservaExcursao/Details/5
         public async Task<IActionResult> Details(int? id)
