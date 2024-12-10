@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserveSystem.Data;
 
@@ -11,9 +12,11 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    partial class ReserveSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20241210122133_AddTestData")]
+    partial class AddTestData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -249,8 +252,8 @@ namespace ReserveSystem.Migrations
                         new
                         {
                             Excursao_Id = 20,
-                            Data_Fim = new DateTime(2024, 12, 12, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(6862),
-                            Data_Inicio = new DateTime(2024, 12, 11, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(6845),
+                            Data_Fim = new DateTime(2024, 12, 12, 12, 21, 33, 510, DateTimeKind.Utc).AddTicks(786),
+                            Data_Inicio = new DateTime(2024, 12, 11, 12, 21, 33, 510, DateTimeKind.Utc).AddTicks(771),
                             Descricao = "Exploração cultural pela cidade",
                             Preco = 50.0,
                             Staff_Id = 1,
@@ -259,8 +262,8 @@ namespace ReserveSystem.Migrations
                         new
                         {
                             Excursao_Id = 21,
-                            Data_Fim = new DateTime(2024, 12, 13, 16, 35, 33, 990, DateTimeKind.Utc).AddTicks(6866),
-                            Data_Inicio = new DateTime(2024, 12, 13, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(6865),
+                            Data_Fim = new DateTime(2024, 12, 13, 16, 21, 33, 510, DateTimeKind.Utc).AddTicks(788),
+                            Data_Inicio = new DateTime(2024, 12, 13, 12, 21, 33, 510, DateTimeKind.Utc).AddTicks(787),
                             Descricao = "Passeio pelas águas tranquilas",
                             Preco = 80.0,
                             Staff_Id = 2,
@@ -269,8 +272,8 @@ namespace ReserveSystem.Migrations
                         new
                         {
                             Excursao_Id = 22,
-                            Data_Fim = new DateTime(2024, 12, 15, 18, 35, 33, 990, DateTimeKind.Utc).AddTicks(6868),
-                            Data_Inicio = new DateTime(2024, 12, 15, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(6867),
+                            Data_Fim = new DateTime(2024, 12, 15, 18, 21, 33, 510, DateTimeKind.Utc).AddTicks(790),
+                            Data_Inicio = new DateTime(2024, 12, 15, 12, 21, 33, 510, DateTimeKind.Utc).AddTicks(789),
                             Descricao = "Uma aventura entre as montanhas",
                             Preco = 120.0,
                             Staff_Id = 3,
@@ -279,8 +282,8 @@ namespace ReserveSystem.Migrations
                         new
                         {
                             Excursao_Id = 23,
-                            Data_Fim = new DateTime(2024, 12, 16, 15, 35, 33, 990, DateTimeKind.Utc).AddTicks(6870),
-                            Data_Inicio = new DateTime(2024, 12, 16, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(6869),
+                            Data_Fim = new DateTime(2024, 12, 16, 15, 21, 33, 510, DateTimeKind.Utc).AddTicks(792),
+                            Data_Inicio = new DateTime(2024, 12, 16, 12, 21, 33, 510, DateTimeKind.Utc).AddTicks(791),
                             Descricao = "Caminhada e observação da fauna e flora do parque",
                             Preco = 40.0,
                             Staff_Id = 4,
@@ -289,8 +292,8 @@ namespace ReserveSystem.Migrations
                         new
                         {
                             Excursao_Id = 24,
-                            Data_Fim = new DateTime(2024, 12, 17, 17, 35, 33, 990, DateTimeKind.Utc).AddTicks(6872),
-                            Data_Inicio = new DateTime(2024, 12, 17, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(6871),
+                            Data_Fim = new DateTime(2024, 12, 17, 17, 21, 33, 510, DateTimeKind.Utc).AddTicks(793),
+                            Data_Inicio = new DateTime(2024, 12, 17, 12, 21, 33, 510, DateTimeKind.Utc).AddTicks(793),
                             Descricao = "Exploração subaquática em recifes de corais",
                             Preco = 150.0,
                             Staff_Id = 5,
@@ -299,8 +302,8 @@ namespace ReserveSystem.Migrations
                         new
                         {
                             Excursao_Id = 25,
-                            Data_Fim = new DateTime(2024, 12, 18, 15, 35, 33, 990, DateTimeKind.Utc).AddTicks(6874),
-                            Data_Inicio = new DateTime(2024, 12, 18, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(6873),
+                            Data_Fim = new DateTime(2024, 12, 18, 15, 21, 33, 510, DateTimeKind.Utc).AddTicks(795),
+                            Data_Inicio = new DateTime(2024, 12, 18, 12, 21, 33, 510, DateTimeKind.Utc).AddTicks(795),
                             Descricao = "Uma experiência única para ver o mundo de cima",
                             Preco = 200.0,
                             Staff_Id = 6,
@@ -309,8 +312,8 @@ namespace ReserveSystem.Migrations
                         new
                         {
                             Excursao_Id = 26,
-                            Data_Fim = new DateTime(2024, 12, 19, 18, 35, 33, 990, DateTimeKind.Utc).AddTicks(6876),
-                            Data_Inicio = new DateTime(2024, 12, 19, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(6875),
+                            Data_Fim = new DateTime(2024, 12, 19, 18, 21, 33, 510, DateTimeKind.Utc).AddTicks(798),
+                            Data_Inicio = new DateTime(2024, 12, 19, 12, 21, 33, 510, DateTimeKind.Utc).AddTicks(798),
                             Descricao = "Tour por vinícolas e degustação de vinhos finos",
                             Preco = 120.0,
                             Staff_Id = 7,
@@ -319,8 +322,8 @@ namespace ReserveSystem.Migrations
                         new
                         {
                             Excursao_Id = 27,
-                            Data_Fim = new DateTime(2024, 12, 20, 20, 35, 33, 990, DateTimeKind.Utc).AddTicks(6877),
-                            Data_Inicio = new DateTime(2024, 12, 20, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(6877),
+                            Data_Fim = new DateTime(2024, 12, 20, 20, 21, 33, 510, DateTimeKind.Utc).AddTicks(802),
+                            Data_Inicio = new DateTime(2024, 12, 20, 12, 21, 33, 510, DateTimeKind.Utc).AddTicks(802),
                             Descricao = "Aventura no deserto com passeio de camelo e visita a oásis",
                             Preco = 250.0,
                             Staff_Id = 8,
@@ -329,8 +332,8 @@ namespace ReserveSystem.Migrations
                         new
                         {
                             Excursao_Id = 28,
-                            Data_Fim = new DateTime(2024, 12, 22, 0, 35, 33, 990, DateTimeKind.Utc).AddTicks(6879),
-                            Data_Inicio = new DateTime(2024, 12, 21, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(6879),
+                            Data_Fim = new DateTime(2024, 12, 22, 0, 21, 33, 510, DateTimeKind.Utc).AddTicks(804),
+                            Data_Inicio = new DateTime(2024, 12, 21, 12, 21, 33, 510, DateTimeKind.Utc).AddTicks(804),
                             Descricao = "Safari em reserva natural com guia especializado",
                             Preco = 500.0,
                             Staff_Id = 9,
@@ -339,8 +342,8 @@ namespace ReserveSystem.Migrations
                         new
                         {
                             Excursao_Id = 29,
-                            Data_Fim = new DateTime(2024, 12, 22, 22, 35, 33, 990, DateTimeKind.Utc).AddTicks(6881),
-                            Data_Inicio = new DateTime(2024, 12, 22, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(6880),
+                            Data_Fim = new DateTime(2024, 12, 22, 22, 21, 33, 510, DateTimeKind.Utc).AddTicks(806),
+                            Data_Inicio = new DateTime(2024, 12, 22, 12, 21, 33, 510, DateTimeKind.Utc).AddTicks(805),
                             Descricao = "Aventura no Ártico para ver as luzes do norte",
                             Preco = 350.0,
                             Staff_Id = 10,
@@ -349,8 +352,8 @@ namespace ReserveSystem.Migrations
                         new
                         {
                             Excursao_Id = 30,
-                            Data_Fim = new DateTime(2024, 12, 23, 21, 35, 33, 990, DateTimeKind.Utc).AddTicks(6883),
-                            Data_Inicio = new DateTime(2024, 12, 23, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(6882),
+                            Data_Fim = new DateTime(2024, 12, 23, 21, 21, 33, 510, DateTimeKind.Utc).AddTicks(810),
+                            Data_Inicio = new DateTime(2024, 12, 23, 12, 21, 33, 510, DateTimeKind.Utc).AddTicks(809),
                             Descricao = "Exploração pela floresta amazônica com guias especializados",
                             Preco = 180.0,
                             Staff_Id = 11,
@@ -359,8 +362,8 @@ namespace ReserveSystem.Migrations
                         new
                         {
                             Excursao_Id = 31,
-                            Data_Fim = new DateTime(2024, 12, 24, 17, 35, 33, 990, DateTimeKind.Utc).AddTicks(6885),
-                            Data_Inicio = new DateTime(2024, 12, 24, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(6885),
+                            Data_Fim = new DateTime(2024, 12, 24, 17, 21, 33, 510, DateTimeKind.Utc).AddTicks(812),
+                            Data_Inicio = new DateTime(2024, 12, 24, 12, 21, 33, 510, DateTimeKind.Utc).AddTicks(811),
                             Descricao = "Passeio pelas trilhas que levam às maiores cataratas do mundo",
                             Preco = 90.0,
                             Staff_Id = 12,
@@ -369,8 +372,8 @@ namespace ReserveSystem.Migrations
                         new
                         {
                             Excursao_Id = 32,
-                            Data_Fim = new DateTime(2024, 12, 25, 16, 35, 33, 990, DateTimeKind.Utc).AddTicks(6887),
-                            Data_Inicio = new DateTime(2024, 12, 25, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(6887),
+                            Data_Fim = new DateTime(2024, 12, 25, 16, 21, 33, 510, DateTimeKind.Utc).AddTicks(813),
+                            Data_Inicio = new DateTime(2024, 12, 25, 12, 21, 33, 510, DateTimeKind.Utc).AddTicks(813),
                             Descricao = "Aventura subaquática com mergulho em recifes de corais",
                             Preco = 130.0,
                             Staff_Id = 13,
@@ -379,8 +382,8 @@ namespace ReserveSystem.Migrations
                         new
                         {
                             Excursao_Id = 33,
-                            Data_Fim = new DateTime(2024, 12, 26, 17, 35, 33, 990, DateTimeKind.Utc).AddTicks(6889),
-                            Data_Inicio = new DateTime(2024, 12, 26, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(6889),
+                            Data_Fim = new DateTime(2024, 12, 26, 17, 21, 33, 510, DateTimeKind.Utc).AddTicks(815),
+                            Data_Inicio = new DateTime(2024, 12, 26, 12, 21, 33, 510, DateTimeKind.Utc).AddTicks(815),
                             Descricao = "Tour pelas principais atrações históricas da cidade",
                             Preco = 60.0,
                             Staff_Id = 14,
@@ -389,8 +392,8 @@ namespace ReserveSystem.Migrations
                         new
                         {
                             Excursao_Id = 34,
-                            Data_Fim = new DateTime(2024, 12, 27, 18, 35, 33, 990, DateTimeKind.Utc).AddTicks(6891),
-                            Data_Inicio = new DateTime(2024, 12, 27, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(6890),
+                            Data_Fim = new DateTime(2024, 12, 27, 18, 21, 33, 510, DateTimeKind.Utc).AddTicks(817),
+                            Data_Inicio = new DateTime(2024, 12, 27, 12, 21, 33, 510, DateTimeKind.Utc).AddTicks(816),
                             Descricao = "Tour histórico pelas antigas missões dos Jesuítas",
                             Preco = 80.0,
                             Staff_Id = 15,
@@ -399,8 +402,8 @@ namespace ReserveSystem.Migrations
                         new
                         {
                             Excursao_Id = 35,
-                            Data_Fim = new DateTime(2024, 12, 28, 16, 35, 33, 990, DateTimeKind.Utc).AddTicks(6892),
-                            Data_Inicio = new DateTime(2024, 12, 28, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(6892),
+                            Data_Fim = new DateTime(2024, 12, 28, 16, 21, 33, 510, DateTimeKind.Utc).AddTicks(818),
+                            Data_Inicio = new DateTime(2024, 12, 28, 12, 21, 33, 510, DateTimeKind.Utc).AddTicks(818),
                             Descricao = "Passeio de bicicleta pelas trilhas montanhosas",
                             Preco = 70.0,
                             Staff_Id = 16,
@@ -409,8 +412,8 @@ namespace ReserveSystem.Migrations
                         new
                         {
                             Excursao_Id = 36,
-                            Data_Fim = new DateTime(2024, 12, 29, 17, 35, 33, 990, DateTimeKind.Utc).AddTicks(6894),
-                            Data_Inicio = new DateTime(2024, 12, 29, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(6894),
+                            Data_Fim = new DateTime(2024, 12, 29, 17, 21, 33, 510, DateTimeKind.Utc).AddTicks(820),
+                            Data_Inicio = new DateTime(2024, 12, 29, 12, 21, 33, 510, DateTimeKind.Utc).AddTicks(820),
                             Descricao = "Aventura de rafting em um dos rios mais desafiadores",
                             Preco = 110.0,
                             Staff_Id = 17,
@@ -419,8 +422,8 @@ namespace ReserveSystem.Migrations
                         new
                         {
                             Excursao_Id = 37,
-                            Data_Fim = new DateTime(2024, 12, 30, 19, 35, 33, 990, DateTimeKind.Utc).AddTicks(6896),
-                            Data_Inicio = new DateTime(2024, 12, 30, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(6895),
+                            Data_Fim = new DateTime(2024, 12, 30, 19, 21, 33, 510, DateTimeKind.Utc).AddTicks(823),
+                            Data_Inicio = new DateTime(2024, 12, 30, 12, 21, 33, 510, DateTimeKind.Utc).AddTicks(823),
                             Descricao = "Experiência gastronômica por diferentes restaurantes locais",
                             Preco = 150.0,
                             Staff_Id = 18,
@@ -429,8 +432,8 @@ namespace ReserveSystem.Migrations
                         new
                         {
                             Excursao_Id = 38,
-                            Data_Fim = new DateTime(2024, 12, 31, 21, 35, 33, 990, DateTimeKind.Utc).AddTicks(6898),
-                            Data_Inicio = new DateTime(2024, 12, 31, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(6897),
+                            Data_Fim = new DateTime(2024, 12, 31, 21, 21, 33, 510, DateTimeKind.Utc).AddTicks(825),
+                            Data_Inicio = new DateTime(2024, 12, 31, 12, 21, 33, 510, DateTimeKind.Utc).AddTicks(824),
                             Descricao = "Caminhada até a cratera de um vulcão ativo",
                             Preco = 180.0,
                             Staff_Id = 19,
@@ -439,8 +442,8 @@ namespace ReserveSystem.Migrations
                         new
                         {
                             Excursao_Id = 39,
-                            Data_Fim = new DateTime(2025, 1, 1, 20, 35, 33, 990, DateTimeKind.Utc).AddTicks(6899),
-                            Data_Inicio = new DateTime(2025, 1, 1, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(6899),
+                            Data_Fim = new DateTime(2025, 1, 1, 20, 21, 33, 510, DateTimeKind.Utc).AddTicks(826),
+                            Data_Inicio = new DateTime(2025, 1, 1, 12, 21, 33, 510, DateTimeKind.Utc).AddTicks(826),
                             Descricao = "Uma experiência no globo de neve para explorar as regiões geladas",
                             Preco = 220.0,
                             Staff_Id = 20,
@@ -499,188 +502,6 @@ namespace ReserveSystem.Migrations
                     b.HasIndex("ExcursaoId");
 
                     b.ToTable("ReservaExcursaoModel");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 41,
-                            ClienteId = 22,
-                            DataReserva = new DateTime(2024, 12, 12, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(7060),
-                            ExcursaoId = 23,
-                            NumPessoas = 1,
-                            ValorTotal = 50
-                        },
-                        new
-                        {
-                            Id = 42,
-                            ClienteId = 33,
-                            DataReserva = new DateTime(2024, 12, 13, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(7062),
-                            ExcursaoId = 21,
-                            NumPessoas = 4,
-                            ValorTotal = 200
-                        },
-                        new
-                        {
-                            Id = 43,
-                            ClienteId = 24,
-                            DataReserva = new DateTime(2024, 12, 14, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(7064),
-                            ExcursaoId = 25,
-                            NumPessoas = 3,
-                            ValorTotal = 150
-                        },
-                        new
-                        {
-                            Id = 44,
-                            ClienteId = 35,
-                            DataReserva = new DateTime(2024, 12, 15, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(7065),
-                            ExcursaoId = 26,
-                            NumPessoas = 5,
-                            ValorTotal = 250
-                        },
-                        new
-                        {
-                            Id = 45,
-                            ClienteId = 36,
-                            DataReserva = new DateTime(2024, 12, 16, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(7066),
-                            ExcursaoId = 34,
-                            NumPessoas = 2,
-                            ValorTotal = 120
-                        },
-                        new
-                        {
-                            Id = 46,
-                            ClienteId = 27,
-                            DataReserva = new DateTime(2024, 12, 17, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(7067),
-                            ExcursaoId = 27,
-                            NumPessoas = 1,
-                            ValorTotal = 60
-                        },
-                        new
-                        {
-                            Id = 47,
-                            ClienteId = 28,
-                            DataReserva = new DateTime(2024, 12, 18, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(7068),
-                            ExcursaoId = 38,
-                            NumPessoas = 6,
-                            ValorTotal = 300
-                        },
-                        new
-                        {
-                            Id = 48,
-                            ClienteId = 29,
-                            DataReserva = new DateTime(2024, 12, 19, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(7069),
-                            ExcursaoId = 39,
-                            NumPessoas = 3,
-                            ValorTotal = 180
-                        },
-                        new
-                        {
-                            Id = 49,
-                            ClienteId = 31,
-                            DataReserva = new DateTime(2024, 12, 20, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(7071),
-                            ExcursaoId = 32,
-                            NumPessoas = 2,
-                            ValorTotal = 110
-                        },
-                        new
-                        {
-                            Id = 50,
-                            ClienteId = 21,
-                            DataReserva = new DateTime(2024, 12, 21, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(7072),
-                            ExcursaoId = 25,
-                            NumPessoas = 4,
-                            ValorTotal = 200
-                        },
-                        new
-                        {
-                            Id = 51,
-                            ClienteId = 32,
-                            DataReserva = new DateTime(2024, 12, 22, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(7073),
-                            ExcursaoId = 21,
-                            NumPessoas = 1,
-                            ValorTotal = 50
-                        },
-                        new
-                        {
-                            Id = 52,
-                            ClienteId = 33,
-                            DataReserva = new DateTime(2024, 12, 23, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(7074),
-                            ExcursaoId = 33,
-                            NumPessoas = 5,
-                            ValorTotal = 250
-                        },
-                        new
-                        {
-                            Id = 53,
-                            ClienteId = 34,
-                            DataReserva = new DateTime(2024, 12, 24, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(7075),
-                            ExcursaoId = 26,
-                            NumPessoas = 2,
-                            ValorTotal = 120
-                        },
-                        new
-                        {
-                            Id = 54,
-                            ClienteId = 35,
-                            DataReserva = new DateTime(2024, 12, 25, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(7076),
-                            ExcursaoId = 24,
-                            NumPessoas = 3,
-                            ValorTotal = 150
-                        },
-                        new
-                        {
-                            Id = 55,
-                            ClienteId = 23,
-                            DataReserva = new DateTime(2024, 12, 26, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(7077),
-                            ExcursaoId = 37,
-                            NumPessoas = 2,
-                            ValorTotal = 100
-                        },
-                        new
-                        {
-                            Id = 56,
-                            ClienteId = 21,
-                            DataReserva = new DateTime(2024, 12, 27, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(7078),
-                            ExcursaoId = 28,
-                            NumPessoas = 4,
-                            ValorTotal = 200
-                        },
-                        new
-                        {
-                            Id = 57,
-                            ClienteId = 28,
-                            DataReserva = new DateTime(2024, 12, 28, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(7079),
-                            ExcursaoId = 29,
-                            NumPessoas = 6,
-                            ValorTotal = 300
-                        },
-                        new
-                        {
-                            Id = 58,
-                            ClienteId = 29,
-                            DataReserva = new DateTime(2024, 12, 29, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(7080),
-                            ExcursaoId = 22,
-                            NumPessoas = 2,
-                            ValorTotal = 110
-                        },
-                        new
-                        {
-                            Id = 59,
-                            ClienteId = 40,
-                            DataReserva = new DateTime(2024, 12, 30, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(7081),
-                            ExcursaoId = 33,
-                            NumPessoas = 3,
-                            ValorTotal = 150
-                        },
-                        new
-                        {
-                            Id = 60,
-                            ClienteId = 21,
-                            DataReserva = new DateTime(2024, 12, 11, 12, 35, 33, 990, DateTimeKind.Utc).AddTicks(7082),
-                            ExcursaoId = 22,
-                            NumPessoas = 2,
-                            ValorTotal = 100
-                        });
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.StaffTestModel", b =>
