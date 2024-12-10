@@ -50,16 +50,17 @@ namespace ReserveSystem.Controllers
         }
 
         // POST: Pratos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PratoId,Nome,Descricao")] Prato prato)
+        public async Task<IActionResult> Create([Bind("PratoId,Nome,Descricao,Preco")] Prato prato)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(prato);
                 await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Prato criado com sucesso!";
+
                 return RedirectToAction(nameof(Index));
             }
             return View(prato);
@@ -82,11 +83,9 @@ namespace ReserveSystem.Controllers
         }
 
         // POST: Pratos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PratoId,Nome,Descricao")] Prato prato)
+        public async Task<IActionResult> Edit(int id, [Bind("PratoId,Nome,Descricao,Preco")] Prato prato)
         {
             if (id != prato.PratoId)
             {
@@ -99,6 +98,8 @@ namespace ReserveSystem.Controllers
                 {
                     _context.Update(prato);
                     await _context.SaveChangesAsync();
+
+                    TempData["SuccessMessage"] = "Prato atualizado com sucesso!";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -146,6 +147,9 @@ namespace ReserveSystem.Controllers
             }
 
             await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Prato excluído com sucesso!";
+
             return RedirectToAction(nameof(Index));
         }
 
