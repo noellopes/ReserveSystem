@@ -11,6 +11,13 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="text-primary">@ViewData["Title"]</h1>
+        @using (Html.BeginForm())
+        {
+            <p>
+                Title: @Html.TextBox("SearchString") <br />
+                <input type="submit" value="Filter" />
+            </p>
+        }
         <a asp-action="Create" class="btn btn-success">Create New</a>
     </div>
 
@@ -34,7 +41,7 @@
                         <td>@Html.DisplayFor(modelItem => item.NumPessoas)</td>
                         <td>@Html.DisplayFor(modelItem => item.ValorTotal)</td>
                         <td>@Html.DisplayFor(modelItem => item.Cliente.Nome)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Excursao.Descricao)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Excursao.Titulo)</td>
                         <td class="text-center">
                             <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm me-1">Edit</a>
                             <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm me-1">Details</a>

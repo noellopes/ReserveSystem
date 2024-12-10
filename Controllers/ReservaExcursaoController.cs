@@ -20,10 +20,17 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: ReservaExcursao
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var reserveSystemContext = _context.ReservaExcursaoModel.Include(r => r.Cliente).Include(r => r.Excursao);
-            return View(await reserveSystemContext.ToListAsync());
+            
+            var reservas = from  r in _context.ReservaExcursaoModel.Include(r => r.Cliente).Include(r => r.Excursao)
+                           select r;
+            
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                reservas = reservas.Where(s => s.Excursao.Titulo.Contains(searchString));
+            }
+            return View(await reservas.ToListAsync());
         }
 
         // GET: ReservaExcursao/Details/5
