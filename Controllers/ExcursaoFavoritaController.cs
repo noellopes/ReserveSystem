@@ -39,6 +39,9 @@ namespace ReserveSystem.Controllers
             }
 
             ViewBag.CurrentFilter = searchString;
+            ViewBag.FilterBy = filterBy ?? "titulo";
+            ViewBag.SearchString = searchString;
+
             var favoritas = from f in _context.ExcursaoFavoritaModel
                             .Include(f=>f.Cliente)
                             .Include(f=>f.Excursao)

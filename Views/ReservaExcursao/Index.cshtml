@@ -84,7 +84,7 @@
             @if (Model.HasPreviousPage)
             {
                 <li class="page-item">
-                    <a class="page-link" href="@Url.Action("Index", new { page = Model.PageNumber - 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, filterBy = filterBy })" aria-label="Previous">
+                    <a class="page-link" href="@Url.Action("Index", new { page = Model.PageNumber - 1, sortOrder = ViewBag.CurrentSort, currentBy = ViewBag.CurrentFilter, filterBy = filterBy })" aria-label="Previous">
                         <i class="bi bi-arrow-left"></i>
                     </a>
                 </li>

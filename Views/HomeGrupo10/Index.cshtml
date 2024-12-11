@@ -10,9 +10,25 @@
             <a class="btn btn-success btn-lg" asp-controller="Excursao" asp-action="Index">Ver Excursão</a>
             <a class="btn btn-success btn-lg" asp-controller="ClienteTest" asp-action="Index">Ver Clientes</a>
             <a class="btn btn-success btn-lg" asp-controller="ReservaExcursao" asp-action="Index">Ver Reservas</a>
-            <a class="btn btn-warning btn-lg d-flex align-items-center justify-content-center" asp-controller="ExcursaoFavorita" asp-action="Index">
-                <i class="bi bi-star-fill me-2"></i> Ver Favoritas
-            </a>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <a asp-controller="ExcursaoFavorita" asp-action="Index" class="d-flex align-items-center justify-content-center text-decoration-none">
+                        <i class="bi bi-star-fill me-2" style="font-size: 2rem;"></i> Ver Favoritas
+                    </a>
+                </div>
+            </div>
+
+            <div class="card" style="width: 18rem;">
+                <div class="card-header text-center bg-warning">
+                    <h5 class="m-0 text-white">Ações Favoritas</h5>
+                </div>
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <a asp-controller="ExcursaoFavorita" asp-action="Index" class="d-flex align-items-center justify-content-center text-decoration-none">
+                        <i class="bi bi-star-fill me-2" style="font-size: 2rem;"></i> Ver Favoritas
+                    </a>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

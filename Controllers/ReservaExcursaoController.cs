@@ -24,7 +24,7 @@ namespace ReserveSystem.Controllers
         public async Task<IActionResult> Index(string searchString, string filterBy, string sortOrder,int? page,string currentFilter )
 
         {
-            Console.WriteLine($"filterBy: {filterBy}");
+           
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = sortOrder == "Name" ? "Name_desc" : "Name";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";

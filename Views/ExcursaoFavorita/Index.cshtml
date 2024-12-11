@@ -16,11 +16,14 @@
                 <a asp-action="Index" class="btn btn-link ms-2" title="Limpar Filtro">
                     <i class="bi bi-x-circle" style="font-size: 1.5rem; color: #dc3545;"></i>
                 </a>
-                <select class="form-select me-2" name="filterBy" style="max-width: 150px;">
-                    <option value="titulo">Título da Excursão</option>
-                    <option value="data">Data da Excursão</option>
-                </select>
-                <input type="text" class="form-control" name="searchString" placeholder="Pesquisar..." style="max-width: 200px;" />
+                @Html.DropDownList("filterBy",
+                         new SelectList(new[] {
+            new { Value = "titulo", Text = "Título da Excursão" },
+            
+            new { Value = "data", Text = "Data da Excursão" }
+            }, "Value", "Text", ViewBag.FilterBy),
+                         new { @class = "form-select me-2 w-100", style = "max-width: 100%;" })
+                <input type="text" class="form-control" name="searchString" placeholder="Pesquisar..." style="max-width: 200px;"; value="@ViewBag.SearchString" />
                 <button class="btn btn-primary ms-2" type="submit">Filtrar</button>
             </div>
             <a asp-action="Create" class="btn btn-success">Criar Nova</a>
@@ -69,12 +72,19 @@
         </table>
     </div>
 
+
+    @{
+        string filterBy = ViewContext.HttpContext.Request.Query.ContainsKey("filterBy")
+        ? ViewContext.HttpContext.Request.Query["filterBy"].ToString()
+        : "";
+    }
+
     <div class="pagination justify-content-center mt-4">
         <ul class="pagination">
             @if (Model.HasPreviousPage)
             {
                 <li class="page-item">
-                    <a class="page-link" href="@Url.Action("Index", new { page = Model.PageNumber - 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })" aria-label="Previous">
+                    <a class="page-link" href="@Url.Action("Index", new { page = Model.PageNumber - 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, filterBy = filterBy })" aria-label="Previous">
                         <i class="bi bi-arrow-left"></i>
                     </a>
                 </li>
@@ -89,14 +99,14 @@
             @for (int i = 1; i <= Model.PageCount; i++)
             {
                 <li class="page-item @(i == Model.PageNumber ? "active" : "")">
-                    <a class="page-link" href="@Url.Action("Index", new { page = i, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })">@i</a>
+                    <a class="page-link" href="@Url.Action("Index", new { page = i, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, filterBy = filterBy })">@i</a>
                 </li>
             }
 
             @if (Model.HasNextPage)
             {
                 <li class="page-item">
-                    <a class="page-link" href="@Url.Action("Index", new { page = Model.PageNumber + 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })" aria-label="Next">
+                    <a class="page-link" href="@Url.Action("Index", new { page = Model.PageNumber + 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, filterBy = filterBy })" aria-label="Next">
                         <i class="bi bi-arrow-right"></i>
                     </a>
                 </li>
