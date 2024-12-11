@@ -22,7 +22,7 @@ namespace ReserveSystem.Models
 
        [ Display(Name = "Valor Total")]
 
-            public int ValorTotal { get; set; }
+            public decimal ValorTotal { get; set; }
 
             // Navigation properties
             public virtual ClienteTestModel? Cliente { get; set; }

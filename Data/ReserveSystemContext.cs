@@ -18,7 +18,7 @@ namespace ReserveSystem.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<ExcursaoModel>().HasData(
+            _ = modelBuilder.Entity<ExcursaoModel>().HasData(
 
 
    new ExcursaoModel
@@ -28,7 +28,7 @@ namespace ReserveSystem.Data
        Descricao = "Exploração cultural pela cidade",
        Data_Inicio = DateTime.UtcNow.AddDays(1).ToUniversalTime(), // Especificando o tipo UTC
        Data_Fim = DateTime.UtcNow.AddDays(2).ToUniversalTime(),   // Especificando o tipo UTC
-       Preco = 50.0f,
+       Preco = 50.0m,
        Staff_Id = 1
    },
     new ExcursaoModel
@@ -38,7 +38,7 @@ namespace ReserveSystem.Data
         Descricao = "Passeio pelas águas tranquilas",
         Data_Inicio = DateTime.UtcNow.AddDays(3).ToUniversalTime(),
         Data_Fim = DateTime.UtcNow.AddDays(3).AddHours(4).ToUniversalTime(),
-        Preco = 80.0f,
+        Preco = 80.0m,
         Staff_Id = 2
     },
     new ExcursaoModel
@@ -48,19 +48,19 @@ namespace ReserveSystem.Data
         Descricao = "Uma aventura entre as montanhas",
         Data_Inicio = DateTime.UtcNow.AddDays(5).ToUniversalTime(),
         Data_Fim = DateTime.UtcNow.AddDays(5).AddHours(6).ToUniversalTime(),
-        Preco = 120.0f,
+        Preco = 120.0m,
         Staff_Id = 3
     },
    new ExcursaoModel
    {
-                Excursao_Id = 23,
-    Titulo = "Passeio no Parque",
-    Descricao = "Caminhada e observação da fauna e flora do parque",
-    Data_Inicio = DateTime.UtcNow.AddDays(6).ToUniversalTime(),
-    Data_Fim = DateTime.UtcNow.AddDays(6).AddHours(3).ToUniversalTime(),
-    Preco = 40.0f,
-    Staff_Id = 4
-},
+       Excursao_Id = 23,
+       Titulo = "Passeio no Parque",
+       Descricao = "Caminhada e observação da fauna e flora do parque",
+       Data_Inicio = DateTime.UtcNow.AddDays(6).ToUniversalTime(),
+       Data_Fim = DateTime.UtcNow.AddDays(6).AddHours(3).ToUniversalTime(),
+       Preco = 40.0m,
+       Staff_Id = 4
+   },
 new ExcursaoModel
 {
     Excursao_Id = 24,
@@ -68,7 +68,7 @@ new ExcursaoModel
     Descricao = "Exploração subaquática em recifes de corais",
     Data_Inicio = DateTime.UtcNow.AddDays(7).ToUniversalTime(),
     Data_Fim = DateTime.UtcNow.AddDays(7).AddHours(5).ToUniversalTime(),
-    Preco = 150.0f,
+    Preco = 150.0m,
     Staff_Id = 5
 },
 new ExcursaoModel
@@ -78,7 +78,7 @@ new ExcursaoModel
     Descricao = "Uma experiência única para ver o mundo de cima",
     Data_Inicio = DateTime.UtcNow.AddDays(8).ToUniversalTime(),
     Data_Fim = DateTime.UtcNow.AddDays(8).AddHours(3).ToUniversalTime(),
-    Preco = 200.0f,
+    Preco = 200.0m,
     Staff_Id = 6
 },
 new ExcursaoModel
@@ -88,7 +88,7 @@ new ExcursaoModel
     Descricao = "Tour por vinícolas e degustação de vinhos finos",
     Data_Inicio = DateTime.UtcNow.AddDays(9).ToUniversalTime(),
     Data_Fim = DateTime.UtcNow.AddDays(9).AddHours(6).ToUniversalTime(),
-    Preco = 120.0f,
+    Preco = 120.0m,
     Staff_Id = 7
 },
 new ExcursaoModel
@@ -98,7 +98,7 @@ new ExcursaoModel
     Descricao = "Aventura no deserto com passeio de camelo e visita a oásis",
     Data_Inicio = DateTime.UtcNow.AddDays(10).ToUniversalTime(),
     Data_Fim = DateTime.UtcNow.AddDays(10).AddHours(8).ToUniversalTime(),
-    Preco = 250.0f,
+    Preco = 250.0m,
     Staff_Id = 8
 },
 new ExcursaoModel
@@ -108,7 +108,7 @@ new ExcursaoModel
     Descricao = "Safari em reserva natural com guia especializado",
     Data_Inicio = DateTime.UtcNow.AddDays(11).ToUniversalTime(),
     Data_Fim = DateTime.UtcNow.AddDays(11).AddHours(12).ToUniversalTime(),
-    Preco = 500.0f,
+    Preco = 500.00m,
     Staff_Id = 9
 },
 new ExcursaoModel
@@ -118,7 +118,7 @@ new ExcursaoModel
     Descricao = "Aventura no Ártico para ver as luzes do norte",
     Data_Inicio = DateTime.UtcNow.AddDays(12).ToUniversalTime(),
     Data_Fim = DateTime.UtcNow.AddDays(12).AddHours(10).ToUniversalTime(),
-    Preco = 350.0f,
+    Preco = 350.0m,
     Staff_Id = 10
 },
 new ExcursaoModel
@@ -128,7 +128,7 @@ new ExcursaoModel
     Descricao = "Exploração pela floresta amazônica com guias especializados",
     Data_Inicio = DateTime.UtcNow.AddDays(13).ToUniversalTime(),
     Data_Fim = DateTime.UtcNow.AddDays(13).AddHours(9).ToUniversalTime(),
-    Preco = 180.0f,
+    Preco = 180.0m,
     Staff_Id = 11
 },
 new ExcursaoModel
@@ -138,7 +138,7 @@ new ExcursaoModel
     Descricao = "Passeio pelas trilhas que levam às maiores cataratas do mundo",
     Data_Inicio = DateTime.UtcNow.AddDays(14).ToUniversalTime(),
     Data_Fim = DateTime.UtcNow.AddDays(14).AddHours(5).ToUniversalTime(),
-    Preco = 90.0f,
+    Preco = 90.0m,
     Staff_Id = 12
 },
 new ExcursaoModel
@@ -148,7 +148,7 @@ new ExcursaoModel
     Descricao = "Aventura subaquática com mergulho em recifes de corais",
     Data_Inicio = DateTime.UtcNow.AddDays(15).ToUniversalTime(),
     Data_Fim = DateTime.UtcNow.AddDays(15).AddHours(4).ToUniversalTime(),
-    Preco = 130.0f,
+    Preco = 130.0m,
     Staff_Id = 13
 },
 new ExcursaoModel
@@ -158,7 +158,7 @@ new ExcursaoModel
     Descricao = "Tour pelas principais atrações históricas da cidade",
     Data_Inicio = DateTime.UtcNow.AddDays(16).ToUniversalTime(),
     Data_Fim = DateTime.UtcNow.AddDays(16).AddHours(5).ToUniversalTime(),
-    Preco = 60.0f,
+    Preco = 60.0m,
     Staff_Id = 14
 },
 new ExcursaoModel
@@ -168,7 +168,7 @@ new ExcursaoModel
     Descricao = "Tour histórico pelas antigas missões dos Jesuítas",
     Data_Inicio = DateTime.UtcNow.AddDays(17).ToUniversalTime(),
     Data_Fim = DateTime.UtcNow.AddDays(17).AddHours(6).ToUniversalTime(),
-    Preco = 80.0f,
+    Preco = 80.0m,
     Staff_Id = 15
 },
 new ExcursaoModel
@@ -178,7 +178,7 @@ new ExcursaoModel
     Descricao = "Passeio de bicicleta pelas trilhas montanhosas",
     Data_Inicio = DateTime.UtcNow.AddDays(18).ToUniversalTime(),
     Data_Fim = DateTime.UtcNow.AddDays(18).AddHours(4).ToUniversalTime(),
-    Preco = 70.0f,
+    Preco = 70.0m,
     Staff_Id = 16
 },
 new ExcursaoModel
@@ -188,7 +188,7 @@ new ExcursaoModel
     Descricao = "Aventura de rafting em um dos rios mais desafiadores",
     Data_Inicio = DateTime.UtcNow.AddDays(19).ToUniversalTime(),
     Data_Fim = DateTime.UtcNow.AddDays(19).AddHours(5).ToUniversalTime(),
-    Preco = 110.0f,
+    Preco = 110.0m,
     Staff_Id = 17
 },
 new ExcursaoModel
@@ -198,7 +198,7 @@ new ExcursaoModel
     Descricao = "Experiência gastronômica por diferentes restaurantes locais",
     Data_Inicio = DateTime.UtcNow.AddDays(20).ToUniversalTime(),
     Data_Fim = DateTime.UtcNow.AddDays(20).AddHours(7).ToUniversalTime(),
-    Preco = 150.0f,
+    Preco = 150.0m,
     Staff_Id = 18
 }, new ExcursaoModel
 {
@@ -207,7 +207,7 @@ new ExcursaoModel
     Descricao = "Caminhada até a cratera de um vulcão ativo",
     Data_Inicio = DateTime.UtcNow.AddDays(21).ToUniversalTime(),
     Data_Fim = DateTime.UtcNow.AddDays(21).AddHours(9).ToUniversalTime(),
-    Preco = 180.0f,
+    Preco = 180.0m,
     Staff_Id = 19
 },
 new ExcursaoModel
@@ -217,7 +217,7 @@ new ExcursaoModel
     Descricao = "Uma experiência no globo de neve para explorar as regiões geladas",
     Data_Inicio = DateTime.UtcNow.AddDays(22).ToUniversalTime(),
     Data_Fim = DateTime.UtcNow.AddDays(22).AddHours(8).ToUniversalTime(),
-    Preco = 220.0f,
+    Preco = 220.0m,
     Staff_Id = 20
 }
 
@@ -416,5 +416,6 @@ new ClienteTestModel
      new ReservaExcursaoModel { Id = 60, ClienteId = 21, ExcursaoId = 22, DataReserva = DateTime.UtcNow.AddDays(1), NumPessoas = 2, ValorTotal = 100 }
                 );
         }
+        public DbSet<ReserveSystem.Models.ExcursaoFavoritaModel> ExcursaoFavoritaModel { get; set; } = default!;
     }
 }

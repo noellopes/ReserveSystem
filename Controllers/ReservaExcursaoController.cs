@@ -137,14 +137,32 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ClienteId,ExcursaoId,DataReserva,NumPessoas,ValorTotal")] ReservaExcursaoModel reservaExcursaoModel)
+        public async Task<IActionResult> Create([Bind("Id,ClienteId,ExcursaoId,DataReserva,NumPessoas")] ReservaExcursaoModel reservaExcursaoModel)
         {
             if (ModelState.IsValid)
             {
+                var excursao = await _context.ExcursaoModel.FindAsync(reservaExcursaoModel.ExcursaoId);
+
+
+                if (excursao == null) {
+                    ModelState.AddModelError("ExcursaoId", "A excursão selecionada não existe.");
+                    ViewBag.ClienteId = new SelectList(_context.ClienteTestModel, "ClienteId", "Nome", reservaExcursaoModel.ClienteId);
+                    ViewBag.ExcursaoId = new SelectList(_context.ExcursaoModel, "Excursao_Id", "Titulo", reservaExcursaoModel.ExcursaoId);
+                    return View(reservaExcursaoModel);
+
+                }
+
+                reservaExcursaoModel.ValorTotal = reservaExcursaoModel.NumPessoas * excursao.Preco;
+
                 _context.Add(reservaExcursaoModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+
+
             }
+
+            
+
             ViewData["ClienteId"] = new SelectList(_context.ClienteTestModel, "ClienteId", "Nome", reservaExcursaoModel.ClienteId);
             ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "Excursao_Id", "Descricao", reservaExcursaoModel.ExcursaoId);
             return View(reservaExcursaoModel);
