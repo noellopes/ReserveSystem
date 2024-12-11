@@ -24,7 +24,7 @@ namespace ReserveSystem.Controllers
         public async Task<IActionResult> Index(string searchString, string filterBy, string sortOrder,int? page,string currentFilter )
 
         {
-
+            Console.WriteLine($"filterBy: {filterBy}");
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = sortOrder == "Name" ? "Name_desc" : "Name";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
@@ -39,6 +39,8 @@ namespace ReserveSystem.Controllers
             }
 
             ViewBag.CurrentFilter = searchString;
+            ViewBag.FilterBy = filterBy ?? "titulo";
+            ViewBag.SearchString = searchString;
 
             var reservas = from r in _context.ReservaExcursaoModel
                            .Include(r => r.Cliente)
@@ -175,12 +177,14 @@ namespace ReserveSystem.Controllers
             {
                 return NotFound();
             }
-
             var reservaExcursaoModel = await _context.ReservaExcursaoModel.FindAsync(id);
+            
+           
             if (reservaExcursaoModel == null)
             {
                 return NotFound();
             }
+            
             ViewData["ClienteId"] = new SelectList(_context.ClienteTestModel, "ClienteId", "Nome", reservaExcursaoModel.ClienteId);
             ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "Excursao_Id", "Descricao", reservaExcursaoModel.ExcursaoId);
             return View(reservaExcursaoModel);
@@ -200,8 +204,11 @@ namespace ReserveSystem.Controllers
 
             if (ModelState.IsValid)
             {
+                var excursao = await _context.ExcursaoModel.FindAsync(reservaExcursaoModel.ExcursaoId);
+
                 try
                 {
+                    reservaExcursaoModel.ValorTotal = reservaExcursaoModel.NumPessoas * excursao.Preco;
                     _context.Update(reservaExcursaoModel);
                     await _context.SaveChangesAsync();
                 }
