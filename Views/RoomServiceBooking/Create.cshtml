@@ -18,7 +18,7 @@
         <h4>New Room Service Booking</h4>
     </div>
     <div class="card-body bg-dark text-light">
-        <form asp-action="Create">
+        <form asp-action="Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
 
             <!-- Two-Column Layout -->
@@ -28,7 +28,9 @@
                     <label asp-for="RoomServiceId" class="form-label">Room Service ID:</label>
                     <div class="input-group">
                         <span class="input-group-text bg-dark text-light">🏠</span>
-                        <input asp-for="RoomServiceId" class="form-control bg-dark text-light" style="border: 1px solid white;" />
+                        <select asp-for="RoomServiceId" class="form-control bg-dark text-light" style="border: 1px solid white;" asp-items="ViewBag.RoomServices">
+                            <option value="">Select Room Service</option>
+                        </select>
                     </div>
                     <span asp-validation-for="RoomServiceId" class="text-danger"></span>
                 </div>
@@ -37,7 +39,9 @@
                     <label asp-for="StaffId" class="form-label">Staff ID:</label>
                     <div class="input-group">
                         <span class="input-group-text bg-dark text-light">👤</span>
-                        <input asp-for="StaffId" class="form-control bg-dark text-light" style="border: 1px solid white;" />
+                        <select asp-for="StaffId" class="form-control bg-dark text-light" style="border: 1px solid white;" asp-items="ViewBag.Staffs">
+                            <option value="">Select Staff</option>
+                        </select>
                     </div>
                     <span asp-validation-for="StaffId" class="text-danger"></span>
                 </div>
@@ -46,7 +50,9 @@
                     <label asp-for="ClientId" class="form-label">Client ID:</label>
                     <div class="input-group">
                         <span class="input-group-text bg-dark text-light">👤</span>
-                        <input asp-for="ClientId" class="form-control bg-dark text-light" style="border: 1px solid white;" />
+                        <select asp-for="ClientId" class="form-control bg-dark text-light" style="border: 1px solid white;" asp-items="ViewBag.Clients">
+                            <option value="">Select Client</option>
+                        </select>
                     </div>
                     <span asp-validation-for="ClientId" class="text-danger"></span>
                 </div>
@@ -55,18 +61,11 @@
                     <label asp-for="RoomId" class="form-label">Room ID:</label>
                     <div class="input-group">
                         <span class="input-group-text bg-dark text-light">🏠</span>
-                        <input asp-for="RoomId" class="form-control bg-dark text-light" style="border: 1px solid white;" />
+                        <select asp-for="RoomId" class="form-control bg-dark text-light" style="border: 1px solid white;" asp-items="ViewBag.Rooms">
+                            <option value="">Select Room</option>
+                        </select>
                     </div>
                     <span asp-validation-for="RoomId" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-6 mb-4">
-                    <label asp-for="DateTime" class="form-label">Booking Date & Time:</label>
-                    <div class="input-group">
-                        <span class="input-group-text bg-dark text-light">📅 🕒</span>
-                        <input asp-for="DateTime" class="form-control bg-dark text-light" style="border: 1px solid white;" />
-                    </div>
-                    <span asp-validation-for="DateTime" class="text-danger"></span>
                 </div>
 
                 <div class="col-md-6 mb-4">
@@ -88,21 +87,21 @@
                 </div>
 
                 <div class="col-md-6 mb-4">
-                    <label asp-for="ClientFeedback" class="form-label">Client Feedback:</label>
-                    <div class="input-group">
-                        <span class="input-group-text bg-dark text-light">🎙️</span>
-                        <input asp-for="ClientFeedback" class="form-control bg-dark text-light" style="border: 1px solid white;" />
-                    </div>
-                    <span asp-validation-for="ClientFeedback" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-6 mb-4">
                     <label asp-for="ValueToPay" class="form-label">Price:</label>
                     <div class="input-group">
                         <span class="input-group-text bg-dark text-light">💵</span>
                         <input asp-for="ValueToPay" type="number" class="form-control bg-dark text-light" style="border: 1px solid white;" />
                     </div>
                     <span asp-validation-for="ValueToPay" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label asp-for="ClientFeedback" class="form-label">Client Feedback:</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-dark text-light">🎙️</span>
+                        <input asp-for="ClientFeedback" class="form-control bg-dark text-light" style="border: 1px solid white;" />
+                    </div>
+                    <span asp-validation-for="ClientFeedback" class="text-danger"></span>
                 </div>
             </div>
 

@@ -82,6 +82,11 @@ namespace ReserveSystem.Controllers
         // GET: RoomServiceBooking/Create
         public IActionResult Create()
         {
+            ViewBag.RoomServices = new SelectList(_context.RoomService, "Id", "Name");
+            ViewBag.Staffs = new SelectList(_context.Staff, "Id", "StaffName");
+            ViewBag.Clients = new SelectList(_context.Client, "Id", "Name");
+            ViewBag.Rooms = new SelectList(_context.Room, "Id", "RoomNumber");
+
             return View();
         }
 
@@ -98,6 +103,13 @@ namespace ReserveSystem.Controllers
                 ViewBag.Action = "Create";
                 return View("ConfirmAction", roomServiceBooking);
             }
+            
+            // Reinitialize ViewBag properties if model state is invalid
+            ViewBag.RoomServices = new SelectList(_context.RoomService, "Id", "Name");
+            ViewBag.Staffs = new SelectList(_context.Staff, "Id", "StaffName");
+            ViewBag.Clients = new SelectList(_context.Client, "Id", "Name");
+            ViewBag.Rooms = new SelectList(_context.Room, "Id", "RoomNumber");
+
             return View(roomServiceBooking);
         }
 
@@ -108,11 +120,25 @@ namespace ReserveSystem.Controllers
         {
             if (ModelState.IsValid)
             {
+                roomServiceBooking.DateTime = DateTime.Now;
+                roomServiceBooking.BookedState = true;
                 _context.Add(roomServiceBooking);
                 await _context.SaveChangesAsync();
+
+                ViewBag.RoomServices = new SelectList(_context.RoomService, "Id", "Name", roomServiceBooking.RoomServiceId);
+                ViewBag.Staffs = new SelectList(_context.Staff, "Id", "Name", roomServiceBooking.StaffId);
+                ViewBag.Clients = new SelectList(_context.Client, "Id", "Name", roomServiceBooking.ClientId);
+                ViewBag.Rooms = new SelectList(_context.Room, "Id", "RoomNumber", roomServiceBooking.RoomId);
                 ViewBag.Action = "Create";
+            
                 return View("ActionSuccess");
             }
+            
+            ViewBag.RoomServices = new SelectList(_context.RoomService, "Id", "Name", roomServiceBooking.RoomServiceId);
+            ViewBag.Staffs = new SelectList(_context.Staff, "Id", "Name", roomServiceBooking.StaffId);
+            ViewBag.Clients = new SelectList(_context.Client, "Id", "Name", roomServiceBooking.ClientId);
+            ViewBag.Rooms = new SelectList(_context.Room, "Id", "RoomNumber", roomServiceBooking.RoomId);
+            
             return View("Create", roomServiceBooking);
         }
 
@@ -129,7 +155,14 @@ namespace ReserveSystem.Controllers
             {
                 return RedirectToAction(nameof(Error));
             }
+            
+            ViewBag.RoomServices = new SelectList(_context.RoomService, "Id", "Name", roomServiceBooking.RoomServiceId);
+            ViewBag.Staffs = new SelectList(_context.Staff, "Id", "Name", roomServiceBooking.StaffId);
+            ViewBag.Clients = new SelectList(_context.Client, "Id", "Name", roomServiceBooking.ClientId);
+            ViewBag.Rooms = new SelectList(_context.Room, "Id", "RoomNumber", roomServiceBooking.RoomId);
+            
             return View(roomServiceBooking);
+
         }
 
         // POST: RoomServiceBooking/Edit/5
@@ -149,6 +182,12 @@ namespace ReserveSystem.Controllers
                 ViewBag.Action = "Edit"; 
                 return View("ConfirmAction", roomServiceBooking);
             }
+            
+            ViewBag.RoomServices = new SelectList(_context.RoomService, "Id", "Name");
+            ViewBag.Staffs = new SelectList(_context.Staff, "Id", "StaffName");
+            ViewBag.Clients = new SelectList(_context.Client, "Id", "Name");
+            ViewBag.Rooms = new SelectList(_context.Room, "Id", "RoomNumber");
+            
             return View(roomServiceBooking);
         }
 
@@ -167,6 +206,10 @@ namespace ReserveSystem.Controllers
                 {
                     _context.Update(roomServiceBooking);
                     await _context.SaveChangesAsync();
+                    ViewBag.RoomServices = new SelectList(_context.RoomService, "Id", "Name", roomServiceBooking.RoomServiceId);
+                    ViewBag.Staffs = new SelectList(_context.Staff, "Id", "Name", roomServiceBooking.StaffId);
+                    ViewBag.Clients = new SelectList(_context.Client, "Id", "Name", roomServiceBooking.ClientId);
+                    ViewBag.Rooms = new SelectList(_context.Room, "Id", "RoomNumber", roomServiceBooking.RoomId);
                     ViewBag.Action = "Edit";
                     return View("ActionSuccess");
                 }
@@ -182,6 +225,10 @@ namespace ReserveSystem.Controllers
                     }
                 }
             }
+            ViewBag.RoomServices = new SelectList(_context.RoomService, "Id", "Name", roomServiceBooking.RoomServiceId);
+            ViewBag.Staffs = new SelectList(_context.Staff, "Id", "Name", roomServiceBooking.StaffId);
+            ViewBag.Clients = new SelectList(_context.Client, "Id", "Name", roomServiceBooking.ClientId);
+            ViewBag.Rooms = new SelectList(_context.Room, "Id", "RoomNumber", roomServiceBooking.RoomId);
             return View("Edit", roomServiceBooking);
         }
 
