@@ -10,7 +10,7 @@ namespace ReserveSystem.Models
 		public int Excursao_Id { get; set; }
 
 		[Required, Display(Name = "Titulo")]
-		[Column(TypeName = "TEXT")]
+		[Column(TypeName = "NVARCHAR")]
 		public string Titulo { get; set; }
 		[Required, Display(Name = "Descrição")]
 		[Column(TypeName = "TEXT")]

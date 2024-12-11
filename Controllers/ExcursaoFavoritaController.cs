@@ -4,9 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using PagedList;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
+using PagedList;
 
 namespace ReserveSystem.Controllers
 {
@@ -20,10 +23,72 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: ExcursaoFavorita
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, string filterBy, string sortOrder, string currentFilter, int? page)
         {
-            var reserveSystemContext = _context.ExcursaoFavoritaModel.Include(e => e.Cliente).Include(e => e.Excursao);
-            return View(await reserveSystemContext.ToListAsync());
+
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.TituloSortParm = sortOrder == "Titulo" ? "Titulo_desc" : "Titulo";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null) { 
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+            var favoritas = from f in _context.ExcursaoFavoritaModel
+                            .Include(f=>f.Cliente)
+                            .Include(f=>f.Excursao)
+                            select f;
+
+            if (!string.IsNullOrEmpty(searchString) && !string.IsNullOrEmpty(filterBy))
+            {
+                switch (filterBy.ToLower()) {
+
+                    case "titulo":
+                        favoritas = favoritas.Where(f => f.Excursao.Titulo.Contains(searchString));
+                        break;
+
+                    case "data":
+                       if(int.TryParse(searchString,out int searchNumber))
+                        {
+                            favoritas = favoritas.Where(f=>f.Excursao.Data_Fim.Day==searchNumber||
+                                                        f.Excursao.Data_Fim.Month==searchNumber||
+                                                        f.Excursao.Data_Fim.Year.ToString().Contains(searchString));
+                        }
+                       break;
+                    default: 
+                        break;
+                
+                }
+
+            }
+
+            switch (sortOrder)
+            {
+                case "Titulo_desc":
+                    favoritas = favoritas.OrderByDescending(f => f.Excursao.Titulo);
+                    break;
+                case "Date":
+                    favoritas = favoritas.OrderBy(f => f.Excursao.Data_Fim);
+                    break;
+                case "Date_desc":
+                    favoritas = favoritas.OrderByDescending(f => f.Excursao.Data_Fim);
+                    break;
+                default :
+                    favoritas = favoritas.OrderBy(f => f.Excursao.Titulo);
+                    break;
+            }
+
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+
+            return View(favoritas.ToPagedList(pageNumber,pageSize));
+                        
+            //return View(await favoritas.ToListAsync());
         }
 
         // GET: ExcursaoFavorita/Details/5
@@ -49,8 +114,9 @@ namespace ReserveSystem.Controllers
         // GET: ExcursaoFavorita/Create
         public IActionResult Create()
         {
-            ViewData["ClienteId"] = new SelectList(_context.ClienteTestModel, "ClienteId", "Email");
-            ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "Excursao_Id", "Descricao");
+            ViewData["ClienteId"] = new SelectList(_context.ClienteTestModel, "ClienteId", "Nome");
+            ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "Excursao_Id", "Titulo");
+            
             return View();
         }
 
@@ -67,8 +133,8 @@ namespace ReserveSystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.ClienteTestModel, "ClienteId", "Email", excursaoFavoritaModel.ClienteId);
-            ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "Excursao_Id", "Descricao", excursaoFavoritaModel.ExcursaoId);
+            ViewData["ClienteId"] = new SelectList(_context.ClienteTestModel, "ClienteId", "Nome", excursaoFavoritaModel.ClienteId);
+            ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "Excursao_Id", "Titulo", excursaoFavoritaModel.ExcursaoId);
             return View(excursaoFavoritaModel);
         }
 
@@ -85,8 +151,8 @@ namespace ReserveSystem.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClienteId"] = new SelectList(_context.ClienteTestModel, "ClienteId", "Email", excursaoFavoritaModel.ClienteId);
-            ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "Excursao_Id", "Descricao", excursaoFavoritaModel.ExcursaoId);
+            ViewData["ClienteId"] = new SelectList(_context.ClienteTestModel, "ClienteId", "Nome", excursaoFavoritaModel.ClienteId);
+            ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "Excursao_Id", "Titulo", excursaoFavoritaModel.ExcursaoId);
             return View(excursaoFavoritaModel);
         }
 
@@ -122,8 +188,8 @@ namespace ReserveSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.ClienteTestModel, "ClienteId", "Email", excursaoFavoritaModel.ClienteId);
-            ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "Excursao_Id", "Descricao", excursaoFavoritaModel.ExcursaoId);
+            ViewData["ClienteId"] = new SelectList(_context.ClienteTestModel, "ClienteId", "Nome", excursaoFavoritaModel.ClienteId);
+            ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "Excursao_Id", "Titulo", excursaoFavoritaModel.ExcursaoId);
             return View(excursaoFavoritaModel);
         }
 
