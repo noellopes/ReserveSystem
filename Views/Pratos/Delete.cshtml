@@ -5,67 +5,65 @@
 }
 
 <style>
-    .btn-primary {
-        background-color: #007bff;
-        color: white;
-        border: none;
+    .delete-container {
+        margin-top: 2rem;
     }
 
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
+    .delete-header {
+        color: #dc3545;
+        text-align: center;
+    }
 
-    .btn-danger {
+    .delete-list dt {
+        font-weight: bold;
+        text-align: right;
+    }
+
+    .delete-list dd {
+        text-align: left;
+    }
+
+    .btn-danger-custom {
         background-color: #dc3545;
         color: white;
-        border: none;
     }
 
-        .btn-danger:hover {
+        .btn-danger-custom:hover {
             background-color: #c82333;
         }
 
-    .text-danger {
-        font-size: 0.9em;
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
     }
 
-    a {
-        color: #007bff;
-        text-decoration: none;
-    }
-
-        a:hover {
-            color: #0056b3;
-            text-decoration: underline;
+        .btn-secondary:hover {
+            background-color: #5a6268;
         }
 
-    .dl-horizontal dt {
-        font-weight: bold;
-    }
 </style>
 
-<div class="container mt-4">
-    <h1 class="text-center text-primary">Excluir Prato</h1>
+<div class="container delete-container">
+    <h1 class="delete-header">Excluir Prato</h1>
     <hr />
-    <h3 class="text-center text-danger">Tem certeza que deseja excluir este item?</h3>
+    <h3 class="text-center" style="font-size: medium">Tem certeza que deseja excluir este item?</h3>
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <h4 class="text-primary">Detalhes do Prato</h4>
-            <dl class="row mt-4">
-                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Nome)</dt>
-                <dd class="col-sm-9">@Html.DisplayFor(model => model.Nome)</dd>
-
-                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Descricao)</dt>
-                <dd class="col-sm-9">@Html.DisplayFor(model => model.Descricao)</dd>
+        <div class="col-md-6">
+            <dl class="row delete-list">
+                <dt class="col-sm-4">Nome</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Nome)</dd>
+                <dt class="col-sm-4">Descrição</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Descricao)</dd>
+                <dt class="col-sm-4">Preço</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Preco)</dd>
             </dl>
-
-            <form asp-action="Delete" class="mt-4">
-                <input type="hidden" asp-for="PratoId" />
-                <div class="text-center">
-                    <input type="submit" value="Excluir" class="btn btn-danger" />
-                    <a asp-action="Index" class="btn btn-primary ml-3">Voltar à Lista</a>
-                </div>
-            </form>
         </div>
+    </div>
+    <div class="d-flex justify-content-center mt-4">
+        <form asp-action="Delete" class="me-2">
+            <input type="hidden" asp-for="PratoId" />
+            <input type="submit" value="Excluir" class="btn btn-sm btn-danger-custom" />
+        </form>
+        <a class="btn btn-sm btn-secondary" asp-action="Index">Voltar à Lista</a>
     </div>
 </div>

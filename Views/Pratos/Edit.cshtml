@@ -55,6 +55,12 @@
                     <span asp-validation-for="Descricao" class="text-danger"></span>
                 </div>
 
+                <div class="form-group">
+                    <label asp-for="Preco" class="control-label"></label>
+                    <input asp-for="Preco" class="form-control" type="number" step="0.01" />
+                    <span asp-validation-for="Preco" class="text-danger"></span>
+                </div>
+
                 <div class="form-group text-center">
                     <input type="submit" value="Salvar" class="btn btn-primary" />
                     <a asp-action="Index" class="btn btn-secondary ml-3">Voltar à Lista</a>
