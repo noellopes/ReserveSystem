@@ -62,12 +62,20 @@ namespace ReserveSystem.Controllers
                         reservas = reservas.Where(r => r.Cliente.Nome.Contains(searchString));
                         break;
                     case "data":
-                        if (int.TryParse(searchString, out int searchNumber))
+
+                        if (!string.IsNullOrEmpty(searchString) && int.TryParse(searchString, out int searchNumber))
                         {
+
                             reservas = reservas.Where(r => r.DataReserva.Day == searchNumber ||
-                                                           r.DataReserva.Month == searchNumber ||
-                                                           r.DataReserva.Year.ToString().Contains(searchString));
+                                                          r.DataReserva.Month == searchNumber ||
+                                                          r.DataReserva.Year.ToString().Contains(searchString));
                         }
+                        else
+                        {
+                            ViewBag.ErrorMessage = "Por favor, insira um valor válido.";
+                        }
+
+                        
                         break;
 
 

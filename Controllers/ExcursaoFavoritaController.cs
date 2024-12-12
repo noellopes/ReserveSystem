@@ -56,12 +56,20 @@ namespace ReserveSystem.Controllers
                         break;
 
                     case "data":
-                       if(int.TryParse(searchString,out int searchNumber))
+
+                        if (!string.IsNullOrEmpty(searchString) && int.TryParse(searchString, out int searchNumber))
                         {
-                            favoritas = favoritas.Where(f=>f.Excursao.Data_Fim.Day==searchNumber||
-                                                        f.Excursao.Data_Fim.Month==searchNumber||
-                                                        f.Excursao.Data_Fim.Year.ToString().Contains(searchString));
+                           
+                            favoritas = favoritas.Where(f => f.Excursao.Data_Fim.Day == searchNumber ||
+                                                       f.Excursao.Data_Fim.Month == searchNumber ||
+                                                       f.Excursao.Data_Fim.Year.ToString().Contains(searchString));
                         }
+                        else
+                        {
+                            ViewBag.ErrorMessage = "Por favor, insira um valor válido.";
+                        }
+
+                       
                        break;
                     default: 
                         break;

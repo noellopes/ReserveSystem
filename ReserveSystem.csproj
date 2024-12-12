@@ -26,4 +26,8 @@
     <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\images\favoritas.png" />
+  </ItemGroup>
+
 </Project>
