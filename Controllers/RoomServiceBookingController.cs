@@ -19,23 +19,23 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: RoomServiceBooking
-        public async Task<IActionResult> Index(int roomServiceId = 0, int searchInt = 0, int page=1)
+        public async Task<IActionResult> Index(int page = 1, string searchService = "", string searchRoom = "")
         {
             if (_context.RoomServiceBooking == null)
             {
                 return Problem("Entity set 'ReserveSystemContext.RoomServiceBooking' is null.");
             }
 
-            var bookings = from b in _context.RoomServiceBooking select b;
+            var bookings = from b in _context.RoomServiceBooking.Include(b => b.RoomService) select b;
 
-            if (roomServiceId != 0)
+            if (searchService != "")
             {
-                bookings = bookings.Where(b => b.RoomServiceId == roomServiceId);
+                bookings = from s in bookings where s.RoomService.Name.Contains(searchService) select s;
             }
 
-            if (searchInt != 0)
+            if (searchRoom != "")
             {
-                bookings = bookings.Where(b => b.Id == searchInt);
+                bookings = from r in bookings where r.Room.Id.ToString().Contains(searchRoom) select r;
             }
 
             var model = new RoomServiceViewModel
@@ -49,14 +49,17 @@ namespace ReserveSystem.Controllers
                 }
             };
 
-            var roomServiceBookingList = await bookings
-                                    .OrderBy(b => b.Id)
+            model.RoomServiceBookings = await bookings
+                                    .OrderBy(b => b.Room)
                                     .Skip((model.PagingInfo.CurrentPage - 1) * model.PagingInfo.PageSize)
                                     .Take(model.PagingInfo.PageSize)
                                     .ToListAsync();
 
-            model.RoomServicesIds = new SelectList(await bookings.Select(b => b.RoomServiceId).Distinct().ToListAsync());
-            model.RoomServiceBookings = roomServiceBookingList;
+            model.RoomServices = new SelectList(_context.RoomService, "Id", "Name");
+            model.Rooms = new SelectList(_context.Room, "Id", "Id");
+
+            model.SearchService = searchService;
+            model.SearchRoom = searchRoom;
 
             return View(model);
         }
@@ -70,6 +73,10 @@ namespace ReserveSystem.Controllers
             }
 
             var roomServiceBooking = await _context.RoomServiceBooking
+                .Include(r => r.Client)
+                .Include(r => r.Room)
+                .Include(r => r.RoomService)
+                .Include(r => r.Staff)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (roomServiceBooking == null)
             {
@@ -82,6 +89,12 @@ namespace ReserveSystem.Controllers
         // GET: RoomServiceBooking/Create
         public IActionResult Create()
         {
+
+            ViewData["ClientId"] = new SelectList(_context.Client, "Id", "Name");
+            ViewData["RoomId"] = new SelectList(_context.Room, "Id", "Id");
+            ViewData["RoomServiceId"] = new SelectList(_context.RoomService, "Id", "Name");
+            ViewData["StaffId"] = new SelectList(_context.Staff, "Id", "Name");
+
             return View();
         }
 
@@ -98,6 +111,10 @@ namespace ReserveSystem.Controllers
                 ViewBag.Action = "Create";
                 return View("ConfirmAction", roomServiceBooking);
             }
+            ViewData["ClientId"] = new SelectList(_context.Client, "Id", "Name", roomServiceBooking.ClientId);
+            ViewData["RoomId"] = new SelectList(_context.Room, "Id", "Id", roomServiceBooking.RoomId);
+            ViewData["RoomServiceId"] = new SelectList(_context.RoomService, "Id", "Name", roomServiceBooking.RoomServiceId);
+            ViewData["StaffId"] = new SelectList(_context.Staff, "Id", "Name", roomServiceBooking.StaffId);
             return View(roomServiceBooking);
         }
 
@@ -113,6 +130,10 @@ namespace ReserveSystem.Controllers
                 ViewBag.Action = "Create";
                 return View("ActionSuccess");
             }
+            ViewData["ClientId"] = new SelectList(_context.Client, "Id", "Name", roomServiceBooking.ClientId);
+            ViewData["RoomId"] = new SelectList(_context.Room, "Id", "Id", roomServiceBooking.RoomId);
+            ViewData["RoomServiceId"] = new SelectList(_context.RoomService, "Id", "Name", roomServiceBooking.RoomServiceId);
+            ViewData["StaffId"] = new SelectList(_context.Staff, "Id", "Name", roomServiceBooking.StaffId);
             return View("Create", roomServiceBooking);
         }
 
@@ -129,6 +150,10 @@ namespace ReserveSystem.Controllers
             {
                 return RedirectToAction(nameof(Error));
             }
+            ViewData["ClientId"] = new SelectList(_context.Client, "Id", "Name", roomServiceBooking.ClientId);
+            ViewData["RoomId"] = new SelectList(_context.Room, "Id", "Id", roomServiceBooking.RoomId);
+            ViewData["RoomServiceId"] = new SelectList(_context.RoomService, "Id", "Name", roomServiceBooking.RoomServiceId);
+            ViewData["StaffId"] = new SelectList(_context.Staff, "Id", "Name", roomServiceBooking.StaffId);
             return View(roomServiceBooking);
         }
 
@@ -149,6 +174,10 @@ namespace ReserveSystem.Controllers
                 ViewBag.Action = "Edit"; 
                 return View("ConfirmAction", roomServiceBooking);
             }
+            ViewData["ClientId"] = new SelectList(_context.Client, "Id", "Name", roomServiceBooking.ClientId);
+            ViewData["RoomId"] = new SelectList(_context.Room, "Id", "Id", roomServiceBooking.RoomId);
+            ViewData["RoomServiceId"] = new SelectList(_context.RoomService, "Id", "Name", roomServiceBooking.RoomServiceId);
+            ViewData["StaffId"] = new SelectList(_context.Staff, "Id", "Name", roomServiceBooking.StaffId);
             return View(roomServiceBooking);
         }
 
@@ -182,6 +211,10 @@ namespace ReserveSystem.Controllers
                     }
                 }
             }
+            ViewData["ClientId"] = new SelectList(_context.Client, "Id", "Name", roomServiceBooking.ClientId);
+            ViewData["RoomId"] = new SelectList(_context.Room, "Id", "Id", roomServiceBooking.RoomId);
+            ViewData["RoomServiceId"] = new SelectList(_context.RoomService, "Id", "Name", roomServiceBooking.RoomServiceId);
+            ViewData["StaffId"] = new SelectList(_context.Staff, "Id", "Name", roomServiceBooking.StaffId);
             return View("Edit", roomServiceBooking);
         }
 
@@ -194,6 +227,10 @@ namespace ReserveSystem.Controllers
             }
 
             var roomServiceBooking = await _context.RoomServiceBooking
+                .Include(r => r.Client)
+                .Include(r => r.Room)
+                .Include(r => r.RoomService)
+                .Include(r => r.Staff)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (roomServiceBooking == null)
             {
