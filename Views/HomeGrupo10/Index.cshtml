@@ -29,6 +29,28 @@
 
     <div class="container py-4">
 
+
+        <article class="postcard dark blue">
+            <a class="postcard__img_link" asp-controller="ClienteTest" asp-action="Index">
+                <img class="postcard__img" src="/images/DefaultImage.jpg" alt="Image Title" />
+            </a>
+            <div class="postcard__text">
+                <h1 class="postcard__title blue"><a class="postcard__img_link" asp-controller="ClienteTest" asp-action="Index">Clientes</a></h1>
+                <div class="postcard__bar"></div>
+                <div class="postcard__preview-txt">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi, fugiat asperiores inventore beatae accusamus odit minima enim, commodi quia, doloribus eius! Ducimus nemo accusantium maiores velit corrupti tempora reiciendis molestiae repellat vero. Eveniet ipsam adipisci illo iusto quibusdam, sunt neque nulla unde ipsum dolores nobis enim quidem excepturi, illum quos!
+                </div>
+                <ul class="postcard__tagbox">
+
+
+                    <li class="tag__item play blue">
+                        <a asp-controller="ReservaExcursao" asp-action="Create"><i class="bi bi-plus-lg mr-2 me-2"></i>Adicionar Cliente</a>
+                    </li>
+                </ul>
+            </div>
+
+        </article>
+
         <article class="postcard dark blue">
             <a class="postcard__img_link" asp-controller="ReservaExcursao" asp-action="Index">
                 <img class="postcard__img" src="/images/ReservaExcursão.jpg" alt="Image Title" />
