@@ -39,23 +39,28 @@ namespace ReserveSystem.Models
 
         [Display(Name = "Service Booked")]
         [Column(TypeName = "bit")]
-        public bool BookedState { get; set; }
+        public bool BookedState { get; set; } = true;
 
         [Display(Name = "Staff Confirmed")]
         [Column(TypeName = "bit")]
-        public bool StaffConfirmation { get; set; }
+        public bool StaffConfirmation { get; set; } = false;
 
         [Range(1, 5), Display(Name = "Client Feedback")]
         [Column(TypeName = "INTEGER(1)")]
-        public int ClientFeedback { get; set; }
+        public int? ClientFeedback { get; set; } = null;
 
         [Required, DataType(DataType.Currency), Display(Name = "Price"), DisplayFormat(DataFormatString = "{0:C}"), Range(0, 999999.99)]
         [Column(TypeName = "decimal(8, 2)")]
-        public decimal ValueToPay { get; set; }
+        public decimal ValueToPay { get; set; } = 0;
 
         [Display(Name = "Is Paid")]
         [Column(TypeName = "bit")]
-        public bool PaymentDone { get; set; }
+        public bool PaymentDone { get; set; } = false;
 
+        // Navigation properties
+        public Staff? Staff { get; set; }
+        public Room? Room { get; set; }
+        public Client? Client { get; set; }
+        public RoomService? RoomService { get; set; }
     }
 }

@@ -30,7 +30,7 @@
                             </div>
                         </div>
                         <div class="col-12 col-sm-4">
-                            <select asp-for="RoomServiceId" asp-items="Model.RoomServicesIds" class="form-select">
+                            <select asp-for="RoomServiceId" asp-items="Model.RoomServices" class="form-select">
                                 <option value="">All Room Services</option>
                             </select>
                         </div>
@@ -105,12 +105,13 @@
                             <div class="col-12">
                                 <div class="d-flex align-items-center mb-2">
                                     <i class="bi bi-house-door-fill text-primary me-2"></i>
-                                    <span>Room Service #@item.RoomServiceId | Room #@item.RoomId</span>
+                                    <span>Room Service: @item.RoomService?.Name | Room: @item.Room?.Number</span>
                                 </div>
                                 <div class="d-flex align-items-center mb-2">
                                     <i class="bi bi-people-fill text-info me-2"></i>
-                                    <span>Staff #@item.StaffId | Client #@item.ClientId</span>
+                                    <span>Staff: @item.Staff?.Name | Client: @item.Client?.Name</span>
                                 </div>
+
                             </div>
 
                             <!-- Dates -->

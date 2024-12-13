@@ -19,14 +19,19 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: RoomServiceBooking
-        public async Task<IActionResult> Index(int roomServiceId = 0, int searchInt = 0, int page=1)
+        public async Task<IActionResult> Index(int roomServiceId = 0, int searchInt = 0, int page = 1)
         {
             if (_context.RoomServiceBooking == null)
             {
                 return Problem("Entity set 'ReserveSystemContext.RoomServiceBooking' is null.");
             }
 
-            var bookings = from b in _context.RoomServiceBooking select b;
+            var bookings = from b in _context.RoomServiceBooking
+                        .Include(b => b.RoomService)
+                        .Include(b => b.Staff)
+                        .Include(b => b.Client)
+                        .Include(b => b.Room)
+                        select b;
 
             if (roomServiceId != 0)
             {
@@ -40,22 +45,22 @@ namespace ReserveSystem.Controllers
 
             var model = new RoomServiceViewModel
             {
-                // Apply pagination
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = page,
-                    // Get total items count after applying filters
                     TotalItems = await bookings.CountAsync()
-                }
+                },
+                // Get room services for dropdown
+                RoomServices = new SelectList(await _context.RoomService.ToListAsync(), "Id", "Name")
             };
 
+            // Get paginated results
             var roomServiceBookingList = await bookings
-                                    .OrderBy(b => b.Id)
-                                    .Skip((model.PagingInfo.CurrentPage - 1) * model.PagingInfo.PageSize)
-                                    .Take(model.PagingInfo.PageSize)
-                                    .ToListAsync();
+                .OrderBy(b => b.Id)
+                .Skip((model.PagingInfo.CurrentPage - 1) * model.PagingInfo.PageSize)
+                .Take(model.PagingInfo.PageSize)
+                .ToListAsync();
 
-            model.RoomServicesIds = new SelectList(await bookings.Select(b => b.RoomServiceId).Distinct().ToListAsync());
             model.RoomServiceBookings = roomServiceBookingList;
 
             return View(model);

@@ -21,131 +21,175 @@ namespace ReserveSystem.Models
                     return;   // DB has already been seeded
                 }
 
-                // Add RoomServiceBooking data
+                PopulateJobs(context);
+                PopulateStaffs(context);
+                PopulateSchedules(context);
+                PopulateClients(context);
+                PopulateRooms(context);
+                PopulateRoomServices(context);
+                PopulateRoomServiceBookings(context);
+            }
+        }
+
+        private static void PopulateJobs(ReserveSystemContext context)
+        {
+            context.Job.AddRange(
+                new Job
+                {
+                    Name = "Room Cleaner",
+                    Description = "Responsible for cleaning and maintaining guest rooms"
+                },
+                new Job
+                {
+                    Name = "Room Service Attendant",
+                    Description = "Handles food and beverage delivery to rooms"
+                },
+                new Job
+                {
+                    Name = "Maintenance Technician",
+                    Description = "Maintains and repairs hotel facilities and equipment"
+                }
+            );
+            context.SaveChanges();
+        }
+
+        private static void PopulateStaffs(ReserveSystemContext context)
+        {
+            var job = context.Job.FirstOrDefault();
+            if (job != null)
+            {
+                context.Staff.AddRange(
+                    new Staff
+                    {
+                        Name = "Robert Anderson",
+                        JobId = job.Id,
+                        ContractStartDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-1)),
+                        ContractExpiryDate = DateOnly.FromDateTime(DateTime.Today.AddYears(1)),
+                        VacationDays = 21,
+                        Email = "robert.anderson@email.com",
+                        Phone = "555-0104",
+                        Password = "p#ssW0rD19"
+                    },
+                    new Staff
+                    {
+                        Name = "Lisa Martinez",
+                        JobId = job.Id,
+                        ContractStartDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-2)),
+                        ContractExpiryDate = DateOnly.FromDateTime(DateTime.Today.AddMonths(6)),
+                        VacationDays = 21,
+                        Email = "lisa.martinez@email.com",
+                        Phone = "555-0105",
+                        Password = "p$wE2ord"
+                    }
+                );
+                context.SaveChanges();
+            }
+        }
+
+        private static void PopulateSchedules(ReserveSystemContext context)
+        {
+            // Get first staff member for demo
+            var staff = context.Staff.FirstOrDefault();
+            if (staff != null)
+            {
+                context.Schedule.AddRange(
+                    new Schedule
+                    {
+                        StaffId = staff.Id,
+                        Date = DateOnly.FromDateTime(DateTime.Today),
+                        ShiftStart = new TimeSpan(9, 0, 0),
+                        ShiftEnd = new TimeSpan(17, 0, 0),
+                        Available = true,
+                        Present = true
+                    },
+                    new Schedule
+                    {
+                        StaffId = staff.Id,
+                        Date = DateOnly.FromDateTime(DateTime.Today.AddDays(1)),
+                        ShiftStart = new TimeSpan(9, 0, 0),
+                        ShiftEnd = new TimeSpan(17, 0, 0),
+                        Available = true,
+                        Present = false
+                    }
+                );
+                context.SaveChanges();
+            }
+        }
+
+        private static void PopulateClients(ReserveSystemContext context)
+        {
+            context.Client.AddRange(
+                new Client { Name = "John Smith", Email = "john.smith@email.com", Phone = "555-0101", Address = "123 Main St", Nif = "123456789" },
+                new Client { Name = "Emma Davis", Email = "emma.davis@email.com", Phone = "555-0102", Address = "456 Elm St", Nif = "987654321" },
+                new Client { Name = "Michael Wilson", Email = "michael.w@email.com", Phone = "555-0103", Address = "789 Oak St", Nif = "456789123" }
+            );
+            context.SaveChanges();
+        }
+
+        private static void PopulateRooms(ReserveSystemContext context)
+        {
+            context.Room.AddRange(
+                new Room { Number = "101", Type = "Standard" },
+                new Room { Number = "201", Type = "Deluxe" },
+                new Room { Number = "301", Type = "Suite" }
+            );
+            context.SaveChanges();
+        }
+        private static void PopulateRoomServices(ReserveSystemContext context)
+        {
+            var job = context.Job.FirstOrDefault();
+            if (job != null)
+            {
+                context.RoomService.AddRange(
+                    new RoomService
+                    {
+                        Name = "Room Cleaning",
+                        Description = "Standard daily room cleaning service",
+                        JobId = job.Id,
+                        Price = 30.00m,
+                        ServiceActive = true,
+                        ServiceLimitHours = 1
+                    },
+                    new RoomService
+                    {
+                        Name = "Room Service",
+                        Description = "Food and beverage delivery",
+                        JobId = job.Id,
+                        Price = 0.00m,
+                        ServiceActive = true,
+                        ServiceLimitHours = 0
+                    }
+                );
+                context.SaveChanges();
+            }
+        }
+
+        private static void PopulateRoomServiceBookings(ReserveSystemContext context)
+        {
+            var service = context.RoomService.FirstOrDefault();
+            var staff = context.Staff.FirstOrDefault();
+            var client = context.Client.FirstOrDefault();
+            var room = context.Room.FirstOrDefault();
+
+            if (service != null && staff != null && client != null && room != null)
+            {
                 context.RoomServiceBooking.AddRange(
                     new RoomServiceBooking
                     {
-                        RoomServiceId = 1,  // Breakfast Service
-                        StaffId = 1,        // Staff member 1
-                        ClientId = 1,       // Client 1
-                        RoomId = 101,       // Room 101
-                        DateTime = DateTime.Now.AddMinutes(-15),
-                        StartDate = DateOnly.FromDateTime(DateTime.Now.AddDays(1)),
-                        EndDate = DateOnly.FromDateTime(DateTime.Now.AddDays(1)),
+                        RoomServiceId = service.Id,
+                        StaffId = staff.Id,
+                        ClientId = client.Id,
+                        RoomId = room.Id,
+                        DateTime = DateTime.Now,
+                        StartDate = DateOnly.FromDateTime(DateTime.Today),
+                        EndDate = DateOnly.FromDateTime(DateTime.Today),
                         BookedState = true,
                         StaffConfirmation = true,
                         ClientFeedback = 5,
-                        ValueToPay = 45.00m,
+                        ValueToPay = service.Price,
                         PaymentDone = true
-                    },
-                    new RoomServiceBooking
-                    {
-                        RoomServiceId = 2,  // Dinner Service
-                        StaffId = 2,        // Staff member 2
-                        ClientId = 2,       // Client 2
-                        RoomId = 102,       // Room 102
-                        DateTime = DateTime.Now.AddHours(-1),
-                        StartDate = DateOnly.FromDateTime(DateTime.Now.AddDays(2)),
-                        EndDate = DateOnly.FromDateTime(DateTime.Now.AddDays(2)),
-                        BookedState = true,
-                        StaffConfirmation = false,
-                        ClientFeedback = 4,
-                        ValueToPay = 120.50m,
-                        PaymentDone = false
-                    },
-                    new RoomServiceBooking
-                    {
-                        RoomServiceId = 3,  // Spa Service
-                        StaffId = 3,        // Staff member 3
-                        ClientId = 3,       // Client 3
-                        RoomId = 103,       // Room 103
-                        DateTime = DateTime.Now.AddDays(-2),
-                        StartDate = DateOnly.FromDateTime(DateTime.Now.AddDays(3)),
-                        EndDate = DateOnly.FromDateTime(DateTime.Now.AddDays(3)),
-                        BookedState = false,
-                        StaffConfirmation = false,
-                        ClientFeedback = 0,
-                        ValueToPay = 180.00m,
-                        PaymentDone = false
-                    },
-                    new RoomServiceBooking
-                    {
-                        RoomServiceId = 4,  // Housekeeping
-                        StaffId = 4,        // Staff member 4
-                        ClientId = 4,       // Client 4
-                        RoomId = 104,       // Room 104
-                        DateTime = DateTime.Now.AddMinutes(-30),
-                        StartDate = DateOnly.FromDateTime(DateTime.Now.AddDays(1)),
-                        EndDate = DateOnly.FromDateTime(DateTime.Now.AddDays(1)),
-                        BookedState = true,
-                        StaffConfirmation = true,
-                        ClientFeedback = 3,
-                        ValueToPay = 35.00m,
-                        PaymentDone = true
-                    },
-                    new RoomServiceBooking
-                    {
-                        RoomServiceId = 5,  // Laundry Service
-                        StaffId = 5,        // Staff member 5
-                        ClientId = 5,       // Client 5
-                        RoomId = 105,       // Room 105
-                        DateTime = DateTime.Now.AddHours(-4),
-                        StartDate = DateOnly.FromDateTime(DateTime.Now.AddDays(1)),
-                        EndDate = DateOnly.FromDateTime(DateTime.Now.AddDays(1)),
-                        BookedState = true,
-                        StaffConfirmation = true,
-                        ClientFeedback = 5,
-                        ValueToPay = 25.75m,
-                        PaymentDone = true
-                    },
-                    new RoomServiceBooking
-                    {
-                        RoomServiceId = 6,  // Room Service (General)
-                        StaffId = 6,        // Staff member 6
-                        ClientId = 6,       // Client 6
-                        RoomId = 106,       // Room 106
-                        DateTime = DateTime.Now.AddMinutes(-45),
-                        StartDate = DateOnly.FromDateTime(DateTime.Now.AddDays(5)),
-                        EndDate = DateOnly.FromDateTime(DateTime.Now.AddDays(5)),
-                        BookedState = true,
-                        StaffConfirmation = false,
-                        ClientFeedback = 2,
-                        ValueToPay = 50.00m,
-                        PaymentDone = false
-                    },
-                    new RoomServiceBooking
-                    {
-                        RoomServiceId = 7,  // VIP Service
-                        StaffId = 7,        // Staff member 7
-                        ClientId = 7,       // Client 7
-                        RoomId = 107,       // Room 107
-                        DateTime = DateTime.Now.AddHours(-3),
-                        StartDate = DateOnly.FromDateTime(DateTime.Now.AddDays(6)),
-                        EndDate = DateOnly.FromDateTime(DateTime.Now.AddDays(6)),
-                        BookedState = true,
-                        StaffConfirmation = true,
-                        ClientFeedback = 5,
-                        ValueToPay = 250.00m,
-                        PaymentDone = true
-                    },
-                    new RoomServiceBooking
-                    {
-                        RoomServiceId = 8,  // Breakfast in bed
-                        StaffId = 8,        // Staff member 8
-                        ClientId = 8,       // Client 8
-                        RoomId = 108,       // Room 108
-                        DateTime = DateTime.Now.AddMinutes(-10),
-                        StartDate = DateOnly.FromDateTime(DateTime.Now.AddDays(7)),
-                        EndDate = DateOnly.FromDateTime(DateTime.Now.AddDays(7)),
-                        BookedState = true,
-                        StaffConfirmation = false,
-                        ClientFeedback = 3,
-                        ValueToPay = 60.00m,
-                        PaymentDone = false
                     }
                 );
-
-                // Save changes to the context
                 context.SaveChanges();
             }
         }
