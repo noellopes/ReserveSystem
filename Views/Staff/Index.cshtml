@@ -19,7 +19,7 @@
             <th>Email</th>
             <th>Phone</th>
             <th>Password</th>
-            <th>Id</th>
+            <th>Job</th>
             <th>Driving License Grades</th>
             <th>Driver License Expiration Date</th>
             <th>Actions</th>
@@ -36,11 +36,8 @@
                 <td>@Html.DisplayFor(modelItem => staff.Staff_Phone)</td>
                 <td>@Html.DisplayFor(modelItem => staff.Staff_Password)</td>
                 <td>@Html.DisplayFor(modelItem => staff.Job_Id)</td>
-                @*
-            <td>
-            @ViewBag.Jobs.FirstOrDefault(job => job.Value == staff.Job_Id.ToString())?.Text
-            </td>
-                *@
+                @*<td>@Html.DisplayFor(modelItem => staff.Job.Job_Name)</td>*@
+                
                 
                 <td>
                     @if (staff.DrivingLicenseGrades != null && staff.DrivingLicenseGrades.Any())

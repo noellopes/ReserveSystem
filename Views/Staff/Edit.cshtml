@@ -10,10 +10,11 @@
 
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Staff_Id" />
+            <div class="row">
             <div class="form-group">
                 <label asp-for="Staff_Name" class="control-label"></label>
                 <input asp-for="Staff_Name" class="form-control" />
@@ -44,7 +45,8 @@
                 </div>
                 <span asp-validation-for="Staff_Password" class="text-danger"></span>
             </div>
-
+            </div>
+            <div class="row">
             <div class="form-group">
                 <label asp-for="Job_Id" class="control-label">Job</label>
                 <input asp-for="Job_Id" class="form-control" />
@@ -88,6 +90,7 @@
                 <input type="submit" value="Save" class="btn btn-primary" />
                 
                     <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
             </div>
         </form>
     </div>
