@@ -10,22 +10,25 @@ using ReserveSystem.Models;
 
 namespace ReserveSystem.Controllers
 {
-    public class StaffModelsController : Controller
+    public class StaffController : Controller
     {
         private readonly ReserveSystemContext _context;
 
-        public StaffModelsController(ReserveSystemContext context)
+        public StaffController(ReserveSystemContext context)
         {
             _context = context;
         }
 
-        // GET: StaffModels
+        // GET: Staff
         public async Task<IActionResult> Index()
         {
-            return View(await _context.StaffModel.ToListAsync());
+            var staffList = await _context.StaffModel
+                                  //.Include(s => s.Job) 
+                                  .ToListAsync();
+            return View(staffList);
         }
 
-        // GET: StaffModels/Details/5
+        // GET: Staff/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,49 +46,41 @@ namespace ReserveSystem.Controllers
             return View(staffModel);
         }
 
-        // GET: StaffModels/Create
+        // GET: Staff/Create
         public IActionResult Create()
         {
-
-            //ViewBag.Jobs = new SelectList(_context.Jobs, "JobId", "Name");
+            //ViewBag.Jobs = new SelectList(_context.Jobs.ToList(), "JobId", "Name");
             ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G" };
 
             var model = new StaffModel
             {
-                Staff_Password = "defaultpassword" // Definir o valor padrão
+                Staff_Password = "defaultpassword"
             };
             return View(model);
-            
         }
 
-
-        // POST: StaffModels/Create
+        // POST: Staff/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Staff_Id,Staff_Name,BirthDate,Staff_Email,Staff_Phone,Staff_Password,Job_Id,DriverLicenseExpirationDate,DrivingLicenseGrades")] StaffModel staffModel, List<string>? DrivingLicenseGrades)
+        public async Task<IActionResult> Create([Bind("Staff_Id,Staff_Name,BirthDate,Staff_Email,Staff_Phone,Staff_Password,Job_Id,DrivingLicenseGrades,DriverLicenseExpirationDate")] StaffModel staffModel, List<string>? DrivingLicenseGrades)
         {
-           
             if (ModelState.IsValid)
             {
                 staffModel.DrivingLicenseGrades = DrivingLicenseGrades;
-                //ViewBag.Jobs = new SelectList(_context.Jobs.ToList(), "Job_Id", "Job_Name", staff.Job_Id);
                 _context.Add(staffModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-                
-                
             }
+            //ViewBag.Jobs = new SelectList(_context.Jobs.ToList(), "Job_Id", "Job_Name", staffModel.Job_Id);
             ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G" };
             return View(staffModel);
-
         }
 
-        // GET: StaffModels/Edit/5
+        // GET: Staff/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G"};
             if (id == null)
             {
                 return NotFound();
@@ -96,29 +91,27 @@ namespace ReserveSystem.Controllers
             {
                 return NotFound();
             }
+            //ViewBag.Jobs = new SelectList(_context.Jobs.ToList(), "Job_Id", "Job_Name", staffModel.Job_Id);
+            ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G" };
             return View(staffModel);
         }
 
-        // POST: StaffModels/Edit/5
+        // POST: Staff/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Staff_Id,Staff_Name,BirthDate,Staff_Email,Staff_Phone,Staff_Password,Job_Id,DriverLicenseExpirationDate,DrivingLicenseGrades")] StaffModel staffModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Staff_Id,Staff_Name,BirthDate,Staff_Email,Staff_Phone,Staff_Password,Job_Id,DrivingLicenseGrades,DriverLicenseExpirationDate")] StaffModel staffModel)
         {
-            
-            
             if (id != staffModel.Staff_Id)
             {
                 return NotFound();
             }
-            
+
             if (ModelState.IsValid)
             {
-             
                 try
                 {
-                    ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G"};
                     _context.Update(staffModel);
                     await _context.SaveChangesAsync();
                 }
@@ -133,13 +126,14 @@ namespace ReserveSystem.Controllers
                         throw;
                     }
                 }
-                
                 return RedirectToAction(nameof(Index));
             }
+            //ViewBag.Jobs = new SelectList(_context.Jobs.ToList(), "Job_Id", "Job_Name", staffModel.Job_Id);
+            ViewBag.DrivingLicenseGrades = new List<string> { "AM", "A1", "A2", "A", "B", "B1", "C", "C1", "D", "D1", "E", "F", "G" };
             return View(staffModel);
         }
 
-        // GET: StaffModels/Delete/5
+        // GET: Staff/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -148,6 +142,7 @@ namespace ReserveSystem.Controllers
             }
 
             var staffModel = await _context.StaffModel
+                //.Include(s => s.Job)
                 .FirstOrDefaultAsync(m => m.Staff_Id == id);
             if (staffModel == null)
             {
@@ -157,7 +152,7 @@ namespace ReserveSystem.Controllers
             return View(staffModel);
         }
 
-        // POST: StaffModels/Delete/5
+        // POST: Staff/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
