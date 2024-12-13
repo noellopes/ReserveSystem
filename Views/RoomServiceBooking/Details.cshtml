@@ -15,49 +15,123 @@
 <!-- Details Section -->
 <div class="card border-secondary shadow-lg mx-auto" style="width: 75%;">
     <div class="card-header bg-dark text-light text-center">
-        <h4>Booking Nº @Model?.Id details</h4>
+        <h4>Booking Nº @Model?.Id Details</h4>
     </div>
-    <div class="card-body bg-dark text-light mx-auto">
-        <dl class="row">
-            <dt class="col-sm-4">Room Service ID:</dt>
-            <dd class="col-sm-8">@Html.DisplayFor(model => model.RoomServiceId)</dd>
+    <div class="card-body bg-dark text-light">
+        <div class="row">
+            <!-- Service Details -->
+            <div class="col-md-6 mb-4">
+                <label class="form-label">Room Service:</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-dark text-light"><i class="bi bi-gear-fill"></i></span>
+                    <input type="text" class="form-control bg-dark text-light" value="@Model?.RoomService?.Name" readonly />
+                </div>
+            </div>
 
-            <dt class="col-sm-4">Staff ID:</dt>
-            <dd class="col-sm-8">@Html.DisplayFor(model => model.StaffId)</dd>
+            <!-- Staff Details -->
+            <div class="col-md-6 mb-4">
+                <label class="form-label">Staff Member:</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-dark text-light"><i class="bi bi-person-badge-fill"></i></span>
+                    <input type="text" class="form-control bg-dark text-light" value="@Model?.Staff?.Name" readonly />
+                </div>
+            </div>
 
-            <dt class="col-sm-4">Client ID:</dt>
-            <dd class="col-sm-8">@Html.DisplayFor(model => model.ClientId)</dd>
+            <!-- Client Details -->
+            <div class="col-md-6 mb-4">
+                <label class="form-label">Client:</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-dark text-light"><i class="bi bi-person-fill"></i></span>
+                    <input type="text" class="form-control bg-dark text-light" value="@Model?.Client?.Name" readonly />
+                </div>
+            </div>
 
-            <dt class="col-sm-4">Room ID:</dt>
-            <dd class="col-sm-8">@Html.DisplayFor(model => model.RoomId)</dd>
+            <!-- Room Details -->
+            <div class="col-md-6 mb-4">
+                <label class="form-label">Room:</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-dark text-light"><i class="bi bi-door-closed-fill"></i></span>
+                    <input type="text" class="form-control bg-dark text-light" value="@Model?.Room?.Number" readonly />
+                </div>
+            </div>
 
-            <dt class="col-sm-4">Booking Date & Time:</dt>
-            <dd class="col-sm-8">@Html.DisplayFor(model => model.DateTime)</dd>
+            <!-- Dates -->
+            <div class="col-md-6 mb-4">
+                <label class="form-label">Reservation Date:</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-dark text-light"><i class="bi bi-calendar-event-fill"></i></span>
+                    <input type="text" class="form-control bg-dark text-light" value="@Model?.DateTime.ToString("dd/MM/yyyy HH:mm")" readonly />
+                </div>
+            </div>
 
-            <dt class="col-sm-4">Start Date:</dt>
-            <dd class="col-sm-8">@Html.DisplayFor(model => model.StartDate)</dd>
+            <div class="col-md-6 mb-4">
+                <label class="form-label">Service Period:</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-dark text-light"><i class="bi bi-calendar-range"></i></span>
+                    <input type="text" class="form-control bg-dark text-light" 
+                           value="@Model?.StartDate.ToString("dd/MM/yyyy") - @Model?.EndDate.ToString("dd/MM/yyyy")" readonly />
+                </div>
+            </div>
 
-            <dt class="col-sm-4">End Date:</dt>
-            <dd class="col-sm-8">@Html.DisplayFor(model => model.EndDate)</dd>
+            <!-- Price & Feedback -->
+            <div class="col-md-6 mb-4">
+                <label class="form-label">Price:</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-dark text-light"><i class="bi bi-currency-euro"></i></span>
+                    <input type="text" class="form-control bg-dark text-light" 
+                           value="@Model?.ValueToPay.ToString("C", new System.Globalization.CultureInfo("pt-PT"))" readonly />
+                </div>
+            </div>
 
-            <dt class="col-sm-4">Booking Status:</dt>
-            <dd class="col-sm-8">@Html.DisplayFor(model => model.BookedState)</dd>
+            <div class="col-md-6 mb-4">
+                <label class="form-label">Client Feedback:</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-dark text-light"><i class="bi bi-star-fill"></i></span>
+                    <div class="form-control bg-dark text-light d-flex align-items-center">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <i class="bi bi-star-fill @(i <= Model?.ClientFeedback ? "text-warning" : "text-secondary") me-1"></i>
+                        }
+                    </div>
+                </div>
+            </div>
 
-            <dt class="col-sm-4">Staff Confirmation:</dt>
-            <dd class="col-sm-8">@Html.DisplayFor(model => model.StaffConfirmation)</dd>
-
-            <dt class="col-sm-4">Client Feedback:</dt>
-            <dd class="col-sm-8">@Html.DisplayFor(model => model.ClientFeedback)</dd>
-
-            <dt class="col-sm-4">Price:</dt>
-            <dd class="col-sm-8">@Model?.ValueToPay.ToString("C", new System.Globalization.CultureInfo("pt-PT"))</dd>
-
-            <dt class="col-sm-4 text-right text-dark">Payment Status:</dt>
-            <dd class="col-sm-8">@Html.DisplayFor(model => model.PaymentDone)</dd>
-        </dl>
+            <!-- Status Badges -->
+            <div class="col-12 mt-4">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center">
+                            <span class="badge @(Model?.BookedState == true ? "bg-success" : "bg-secondary") p-2 flex-grow-1">
+                                <i class="bi bi-calendar-check me-2"></i>@(Model?.BookedState == true ? "Booked" : "Not Booked")
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center">
+                            <span class="badge @(Model?.StaffConfirmation == true ? "bg-info" : "bg-warning") p-2 flex-grow-1">
+                                <i class="bi bi-person-check me-2"></i>@(Model?.StaffConfirmation == true ? "Staff Confirmed" : "Pending Confirmation")
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center">
+                            <span class="badge @(Model?.PaymentDone == true ? "bg-success" : "bg-danger") p-2 flex-grow-1">
+                                <i class="bi bi-credit-card me-2"></i>@(Model?.PaymentDone == true ? "Paid" : "Payment Pending")
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Action Buttons -->
     <div class="card-footer bg-dark text-center">
-        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-outline-warning mx-2">Edit</a>
-        <a asp-action="Index" class="btn btn-outline-success mx-2">Back to List</a>
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-outline-warning mx-2">
+            <i class="bi bi-pencil-fill me-2"></i>Edit
+        </a>
+        <a asp-action="Index" class="btn btn-outline-light mx-2">
+            <i class="bi bi-x-circle-fill me-2"></i>Back to List
+        </a>
     </div>
 </div>

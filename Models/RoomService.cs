@@ -43,10 +43,10 @@ namespace ReserveSystem.Models
 
         [Required]
         [Column(TypeName = "bit")]
-        [Display(Name = "Service Active")]
-        // If is 0 -> No, if is 1 -> Yes
-        [DisplayFormat(DataFormatString = "{0:Yes;No}")]
-        [RegularExpression(@"^[01]$", ErrorMessage = "Service Active must be 0 or 1")]
+        [Display(Name = "Service Status")]
+        // If is 0 -> Deactivated, if is 1 -> Active
+        [DisplayFormat(DataFormatString = "{0:Deactivated;Active}")]
+        [RegularExpression(@"^[01]$", ErrorMessage = "Service Status must be 0 or 1")]
         public required bool ServiceActive { get; set; }
 
         // Service limit hours

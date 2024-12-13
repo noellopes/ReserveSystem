@@ -44,14 +44,23 @@ namespace ReserveSystem.Controllers
             }
 
             var model = new RoomServiceViewModel
-            {
+            {   
+                RoomServiceId = roomServiceId, // Preserve room service filter
+                SearchInt = searchInt,         // Preserve search filter
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = page,
                     TotalItems = await bookings.CountAsync()
                 },
                 // Get room services for dropdown
-                RoomServices = new SelectList(await _context.RoomService.ToListAsync(), "Id", "Name")
+                RoomServices = new SelectList(
+                    await _context.RoomService
+                        .OrderBy(rs => rs.Name)
+                        .ToListAsync(), 
+                    "Id", 
+                    "Name", 
+                    roomServiceId  // Set selected value
+                )
             };
 
             // Get paginated results
@@ -75,7 +84,12 @@ namespace ReserveSystem.Controllers
             }
 
             var roomServiceBooking = await _context.RoomServiceBooking
+                .Include(b => b.RoomService)
+                .Include(b => b.Staff)
+                .Include(b => b.Client)
+                .Include(b => b.Room)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (roomServiceBooking == null)
             {
                 return RedirectToAction(nameof(Error));
@@ -85,8 +99,14 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: RoomServiceBooking/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            // Set default values for hidden fields
+            PopulateHiddenFields();
+
+            // Populate select lists
+            await PopulateSelectLists();
+
             return View();
         }
 
@@ -95,14 +115,20 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken] 
-        public IActionResult Create([Bind("Id,RoomServiceId,StaffId,ClientId,RoomId,DateTime,StartDate,EndDate,BookedState,StaffConfirmation,ClientFeedback,ValueToPay,PaymentDone")] RoomServiceBooking roomServiceBooking)
+        public async Task<IActionResult> Create([Bind("Id,RoomServiceId,StaffId,ClientId,RoomId,DateTime,StartDate,EndDate,BookedState,StaffConfirmation,ClientFeedback,ValueToPay,PaymentDone")] RoomServiceBooking roomServiceBooking)
         {
+            // Set default values for hidden fields
+            PopulateHiddenFields();
+
             if (ModelState.IsValid)
             {
                 // Instead of saving directly, show confirmation
                 ViewBag.Action = "Create";
                 return View("ConfirmAction", roomServiceBooking);
             }
+
+            // If we got this far, something failed, redisplay form
+            await PopulateSelectLists();
             return View(roomServiceBooking);
         }
 
@@ -129,11 +155,30 @@ namespace ReserveSystem.Controllers
                 return RedirectToAction(nameof(Error));
             }
 
-            var roomServiceBooking = await _context.RoomServiceBooking.FindAsync(id);
+            // Include related entities when loading the booking
+            var roomServiceBooking = await _context.RoomServiceBooking
+                .Include(b => b.RoomService)
+                .Include(b => b.Staff)
+                .Include(b => b.Client)
+                .Include(b => b.Room)
+                .FirstOrDefaultAsync(b => b.Id == id);
+
             if (roomServiceBooking == null)
             {
                 return RedirectToAction(nameof(Error));
             }
+
+            // Populate select lists
+            await PopulateSelectLists();
+
+            // Pass the existing data to the view
+            ViewBag.DateTime = roomServiceBooking.DateTime;
+            ViewBag.ClientFeedback = roomServiceBooking.ClientFeedback;
+            ViewBag.Price = roomServiceBooking.ValueToPay;
+            ViewBag.BookingStatus = roomServiceBooking.BookedState;
+            ViewBag.StaffConfirmation = roomServiceBooking.StaffConfirmation;
+            ViewBag.PaymentStatus = roomServiceBooking.PaymentDone;
+
             return View(roomServiceBooking);
         }
 
@@ -199,7 +244,12 @@ namespace ReserveSystem.Controllers
             }
 
             var roomServiceBooking = await _context.RoomServiceBooking
+                .Include(b => b.RoomService)
+                .Include(b => b.Staff)
+                .Include(b => b.Client)
+                .Include(b => b.Room)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (roomServiceBooking == null)
             {
                 return RedirectToAction(nameof(Error));
@@ -242,6 +292,41 @@ namespace ReserveSystem.Controllers
         private bool RoomServiceBookingExists(int id)
         {
             return _context.RoomServiceBooking.Any(e => e.Id == id);
+        }
+
+        // Helper method to populate select lists
+        private async Task PopulateSelectLists()
+        {
+            ViewBag.RoomServices = new SelectList(await _context.RoomService
+                .Where(rs => rs.ServiceActive)
+                .OrderBy(rs => rs.Name)
+                .Distinct()
+                .ToListAsync(), "Id", "Name");
+
+            ViewBag.Staff = new SelectList(await _context.Staff
+                .OrderBy(s => s.Name)
+                .Distinct()
+                .ToListAsync(), "Id", "Name");
+
+            ViewBag.Clients = new SelectList(await _context.Client
+                .OrderBy(c => c.Name)
+                .Distinct()
+                .ToListAsync(), "Id", "Name");
+
+            ViewBag.Rooms = new SelectList(await _context.Room
+                .OrderBy(r => r.Number)
+                .Distinct()
+                .ToListAsync(), "Id", "Number");
+        }
+
+        private void PopulateHiddenFields()
+        {
+            ViewBag.DateTime = DateTime.Now;
+            ViewBag.ClientFeedback = null;
+            ViewBag.Price = 0.00m;
+            ViewBag.BookingStatus = true;
+            ViewBag.StaffConfirmation = false;
+            ViewBag.PaymentStatus = false;
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -21,114 +21,129 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="DateTime" value="@DateTime.Now" />
 
             <!-- Two-Column Layout -->
             <div class="row">
-                <!-- Input Group -->
+                <!-- Service Details -->
                 <div class="col-md-6 mb-4">
-                    <label asp-for="RoomServiceId" class="form-label">Room Service ID:</label>
+                    <label asp-for="RoomServiceId" class="form-label">Room Service:</label>
                     <div class="input-group">
-                        <span class="input-group-text bg-dark text-light">🏠</span>
-                        <input asp-for="RoomServiceId" class="form-control bg-dark text-light" style="border: 1px solid white;" aria-describedby="RoomServiceIdHelp" />
+                        <span class="input-group-text bg-dark text-light"><i class="bi bi-gear-fill"></i></span>
+                        <select asp-for="RoomServiceId" class="form-select bg-dark text-light" asp-items="ViewBag.RoomServices">
+                            <option value="">Select a Room Service</option>
+                        </select>
                     </div>
                     <span asp-validation-for="RoomServiceId" class="text-danger"></span>
                 </div>
 
+                <!-- Staff Details -->
                 <div class="col-md-6 mb-4">
-                    <label asp-for="ClientId" class="form-label">Client ID:</label>
+                    <label asp-for="StaffId" class="form-label">Staff Member:</label>
                     <div class="input-group">
-                        <span class="input-group-text bg-dark text-light">👤</span>
-                        <input asp-for="ClientId" class="form-control bg-dark text-light" style="border: 1px solid white;" aria-describedby="ClientIdHelp" />
-                    </div>
-                    <span asp-validation-for="ClientId" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-6 mb-4">
-                    <label asp-for="RoomId" class="form-label">Room ID:</label>
-                    <div class="input-group">
-                        <span class="input-group-text bg-dark text-light">🏠</span>
-                        <input asp-for="RoomId" class="form-control bg-dark text-light" style="border: 1px solid white;" aria-describedby="RoomIdHelp" />
-                    </div>
-                    <span asp-validation-for="RoomId" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-6 mb-4">
-                    <label asp-for="StaffId" class="form-label">Staff ID:</label>
-                    <div class="input-group">
-                        <span class="input-group-text bg-dark text-light">👤</span>
-                        <input asp-for="StaffId" class="form-control bg-dark text-light" style="border: 1px solid white;" aria-describedby="StaffIdHelp" />
+                        <span class="input-group-text bg-dark text-light"><i class="bi bi-person-badge-fill"></i></span>
+                        <select asp-for="StaffId" class="form-select bg-dark text-light" asp-items="ViewBag.Staff">
+                            <option value="">Select a Staff Member</option>
+                        </select>
                     </div>
                     <span asp-validation-for="StaffId" class="text-danger"></span>
                 </div>
 
+                <!-- Client Details -->
+                <div class="col-md-6 mb-4">
+                    <label asp-for="ClientId" class="form-label">Client:</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-dark text-light"><i class="bi bi-person-fill"></i></span>
+                        <select asp-for="ClientId" class="form-select bg-dark text-light" asp-items="ViewBag.Clients">
+                            <option value="">Select a Client</option>
+                        </select>
+                    </div>
+                    <span asp-validation-for="ClientId" class="text-danger"></span>
+                </div>
+
+                <!-- Room Details -->
+                <div class="col-md-6 mb-4">
+                    <label asp-for="RoomId" class="form-label">Room:</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-dark text-light"><i class="bi bi-door-closed-fill"></i></span>
+                        <select asp-for="RoomId" class="form-select bg-dark text-light" asp-items="ViewBag.Rooms">
+                            <option value="">Select a Room</option>
+                        </select>
+                    </div>
+                    <span asp-validation-for="RoomId" class="text-danger"></span>
+                </div>
+
+                <!-- Date Fields -->
                 <div class="col-md-6 mb-4">
                     <label asp-for="StartDate" class="form-label">Start Date:</label>
                     <div class="input-group">
-                        <span class="input-group-text bg-dark text-light">📅</span>
-                        <input asp-for="StartDate" class="form-control bg-dark text-light" style="border: 1px solid white;" aria-describedby="StartDateHelp" />
+                        <span class="input-group-text bg-dark text-light"><i class="bi bi-calendar-event-fill"></i></span>
+                        <input asp-for="StartDate" type="date" class="form-control bg-dark text-light" style="border: 1px solid white;" />
                     </div>
                     <span asp-validation-for="StartDate" class="text-danger"></span>
                 </div>
 
                 <div class="col-md-6 mb-4">
-                    <label asp-for="DateTime" class="form-label">System Date & Time:</label>
-                    <div class="input-group">
-                        <span class="input-group-text bg-dark text-light">📅 🕒</span>
-                        <input asp-for="DateTime" class="form-control bg-dark text-light" style="border: 1px solid white;" aria-describedby="DateTimeHelp" />
-                    </div>
-                    <span asp-validation-for="DateTime" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-6 mb-4">
                     <label asp-for="EndDate" class="form-label">End Date:</label>
                     <div class="input-group">
-                        <span class="input-group-text bg-dark text-light">📅</span>
-                        <input asp-for="EndDate" class="form-control bg-dark text-light" style="border: 1px solid white;" aria-describedby="EndDateHelp" />
+                        <span class="input-group-text bg-dark text-light"><i class="bi bi-calendar-check-fill"></i></span>
+                        <input asp-for="EndDate" type="date" class="form-control bg-dark text-light" style="border: 1px solid white;" />
                     </div>
                     <span asp-validation-for="EndDate" class="text-danger"></span>
                 </div>
 
+                <!-- Price & Feedback -->
                 <div class="col-md-6 mb-4">
-                    <label asp-for="ClientFeedback" class="form-label">Client Feedback:</label>
+                    <label asp-for="ValueToPay" class="form-label">Price:</label>
                     <div class="input-group">
-                        <span class="input-group-text bg-dark text-light">🎙️</span>
-                        <input asp-for="ClientFeedback" class="form-control bg-dark text-light" style="border: 1px solid white;" aria-describedby="ClientFeedbackHelp" />
+                        <span class="input-group-text bg-dark text-light"><i class="bi bi-currency-euro"></i></span>
+                        <input asp-for="ValueToPay" type="number" min="0.00" step="0.01" max="99999999.99" class="form-control bg-dark text-light" style="border: 1px solid white;" />
+                    </div>
+                    <span asp-validation-for="ValueToPay" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label asp-for="ClientFeedback" class="form-label">Client Feedback (1-5):</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-dark text-light"><i class="bi bi-star-fill"></i></span>
+                        <input asp-for="ClientFeedback" type="number" min="1" max="5" class="form-control bg-dark text-light" style="border: 1px solid white;" />
                     </div>
                     <span asp-validation-for="ClientFeedback" class="text-danger"></span>
                 </div>
 
-                <div class="col-md-6 mb-4">
-                    <label asp-for="ValueToPay" class="form-label">Price:</label>
-                    <div class="input-group">
-                        <span class="input-group-text bg-dark text-light">💵</span>
-                        <input asp-for="ValueToPay" type="number" class="form-control bg-dark text-light" style="border: 1px solid white;" aria-describedby="ValueToPayHelp" />
-                    </div>
-                    <span asp-validation-for="ValueToPay" class="text-danger"></span>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <!-- Checkboxes -->
-                    <div class="form-group d-flex justify-content-evenly my-4">
-                        <div class="form-check">
-                            <input class="form-check-input" asp-for="BookedState" />
-                            <label class="form-check-label text-light" asp-for="BookedState">Booking State</label>
+                <!-- Status Toggles -->
+                <div class="col-12 mt-4">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" asp-for="BookedState" role="switch" />
+                                <label class="form-check-label" asp-for="BookedState">Booking State</label>
+                            </div>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" asp-for="StaffConfirmation" />
-                            <label class="form-check-label text-light" asp-for="StaffConfirmation">Staff Confirmation</label>
+                        <div class="col-md-4">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" asp-for="StaffConfirmation" role="switch" />
+                                <label class="form-check-label" asp-for="StaffConfirmation">Staff Confirmation</label>
+                            </div>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" asp-for="PaymentDone" />
-                            <label class="form-check-label text-light" asp-for="PaymentDone">Payment Done</label>
+                        <div class="col-md-4">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" asp-for="PaymentDone" role="switch" />
+                                <label class="form-check-label" asp-for="PaymentDone">Payment Status</label>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-
             <!-- Action Buttons -->
             <div class="form-group text-center mt-4">
-                <input type="submit" value="Save Changes" class="btn btn-outline-light mx-2" aria-label="Save Changes">
-                <a asp-action="Index" class="btn btn-outline-light mx-2" aria-label="Cancel">Cancel</a>
+                <button type="submit" class="btn btn-outline-success mx-2">
+                    <i class="bi bi-check-circle-fill me-2"></i>Save Changes
+                </button>
+                <a asp-action="Index" class="btn btn-outline-light mx-2">
+                    <i class="bi bi-x-circle-fill me-2"></i>Cancel
+                </a>
             </div>
         </form>
     </div>

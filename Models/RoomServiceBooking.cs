@@ -24,24 +24,24 @@ namespace ReserveSystem.Models
         [Required, ForeignKey("RoomId"), Display(Name = "Room ID")]
         public int RoomId { get; set; }
 
-        [DataType(DataType.DateTime), Display(Name = "Sys Date & Time"), DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.DateTime), Display(Name = "Reservation Date"), DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
         [Column(TypeName = "datetime")]
         public DateTime DateTime { get; set; }
 
-        [DataType(DataType.Date), Display(Name = "Service Start Date"), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date), Display(Name = "Start Date"), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Column(TypeName = "date")]
         public DateOnly StartDate { get; set; }
 
-        [DataType(DataType.Date), Display(Name = "Service End Date"), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date), Display(Name = "End Date"), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Column(TypeName = "date")]
         public DateOnly EndDate { get; set; }
         // TODO: Add Cancel date and a new table for the cancellation history
 
-        [Display(Name = "Service Booked")]
+        [Display(Name = "Service Status")]
         [Column(TypeName = "bit")]
         public bool BookedState { get; set; } = true;
 
-        [Display(Name = "Staff Confirmed")]
+        [Display(Name = "Staff Confirmation")]
         [Column(TypeName = "bit")]
         public bool StaffConfirmation { get; set; } = false;
 
@@ -53,7 +53,7 @@ namespace ReserveSystem.Models
         [Column(TypeName = "decimal(8, 2)")]
         public decimal ValueToPay { get; set; } = 0;
 
-        [Display(Name = "Is Paid")]
+        [Display(Name = "Payment Status")]
         [Column(TypeName = "bit")]
         public bool PaymentDone { get; set; } = false;
 

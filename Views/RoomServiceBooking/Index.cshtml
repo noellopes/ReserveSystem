@@ -57,9 +57,11 @@
                     <ul class="pagination pagination-sm justify-content-center mb-0">
                         <!-- First Page -->
                         <li class="page-item @(Model.PagingInfo.CurrentPage == 1 ? "disabled" : "")">
-                            <a class="page-link" asp-action="Index" asp-route-page="1"
-                                asp-route-searchInt="@Model.SearchInt" asp-route-roomServiceId="@Model.RoomServiceId"
-                                aria-label="First">
+                            <a class="page-link" asp-action="Index" 
+                            asp-route-page="1"
+                            asp-route-searchInt="@Model.SearchInt" 
+                            asp-route-roomServiceId="@Model.RoomServiceId"
+                            aria-label="First">
                                 <i class="bi bi-chevron-double-left"></i>
                             </a>
                         </li>
@@ -68,17 +70,22 @@
                         @for (int i = Model.PagingInfo.StartPage; i <= Model.PagingInfo.EndPage; i++)
                         {
                             <li class="page-item @(i == Model.PagingInfo.CurrentPage ? "active" : "")">
-                                <a class="page-link" asp-action="Index" asp-route-page="@i"
-                                    asp-route-searchInt="@Model.SearchInt" asp-route-roomServiceId="@Model.RoomServiceId">@i</a>
+                                <a class="page-link" asp-action="Index" 
+                                asp-route-page="@i"
+                                asp-route-searchInt="@Model.SearchInt" 
+                                asp-route-roomServiceId="@Model.RoomServiceId">
+                                    @i
+                                </a>
                             </li>
                         }
 
                         <!-- Last Page -->
-                        <li
-                            class="page-item @(Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages ? "disabled" : "")">
-                            <a class="page-link" asp-action="Index" asp-route-page="@Model.PagingInfo.TotalPages"
-                                asp-route-searchInt="@Model.SearchInt" asp-route-roomServiceId="@Model.RoomServiceId"
-                                aria-label="Last">
+                        <li class="page-item @(Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages ? "disabled" : "")">
+                            <a class="page-link" asp-action="Index" 
+                            asp-route-page="@Model.PagingInfo.TotalPages"
+                            asp-route-searchInt="@Model.SearchInt" 
+                            asp-route-roomServiceId="@Model.RoomServiceId"
+                            aria-label="Last">
                                 <i class="bi bi-chevron-double-right"></i>
                             </a>
                         </li>
