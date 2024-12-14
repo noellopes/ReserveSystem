@@ -47,11 +47,12 @@
             </div>
             </div>
             <div class="row">
-            <div class="form-group">
-                <label asp-for="Job_Id" class="control-label">Job</label>
-                <input asp-for="Job_Id" class="form-control" />
-                <span asp-validation-for="Job_Id" class="text-danger"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="jobID_FK" class="control-label">Job</label>
+                    <select asp-for="jobID_FK" class="form-control" asp-items="@(ViewData["jobID_FK"] as SelectList)"></select>
+                    <span asp-validation-for="jobID_FK" class="text-danger"></span>
+                </div>
+
 
             <div class="form-group">
                 <label class="control-label">Driving License Grades</label>

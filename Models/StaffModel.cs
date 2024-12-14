@@ -28,9 +28,12 @@
             [DataType(DataType.Password)]
             public string Staff_Password { get; set; } = "defaultpassword";
 
-            [Required]
-                public int Job_Id { get; set; }
-
+           
+                public int jobID_FK { get; set; }
+        
+        
+        [ForeignKey("jobID_FK ")]
+            public JobModel? Job { get; set; }
         
             public List<string>? DrivingLicenseGrades { get; set; }
             
