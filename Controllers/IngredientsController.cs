@@ -100,7 +100,7 @@ namespace ReserveSystem.Controllers
             {
                 try
                 {
-                    ingredient.LastModificationDate = DateTime.Now; // Atualizar a data da modificação
+                    ingredient.LastModificationDate = DateTime.Now; // Atualizar data da modificação
                     _context.Update(ingredient);
                     await _context.SaveChangesAsync();
                 }
