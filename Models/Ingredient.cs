@@ -20,13 +20,13 @@ namespace ReserveSystem.Models
         public int StockMin { get; set; }
 
         [Display(Name = "Quantidade Disponível")]
-        [Required(ErrorMessage = "A quantidade disponível é obrigatória"), StringLength(20)]
+        [Required(ErrorMessage = "A quantidade disponível é obrigatória")]
         [Range(0, int.MaxValue, ErrorMessage = "A quantidade disponível deve ser maior ou igual a 0.")]
         public int QuantityAvailable { get; set; }
 
         [DataType(DataType.Date)]
         [Display(Name = "Data de Última Modificação")]
-        public DateTime LastModificationDate { get; set; }
+        public DateTime LastModificationDate { get; set; } = DateTime.Now;
 
     }
 }
