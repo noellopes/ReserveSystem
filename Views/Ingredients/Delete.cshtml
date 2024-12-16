@@ -51,8 +51,18 @@
             <dl class="row delete-list">
                 <dt class="col-sm-4">Nome</dt>
                 <dd class="col-sm-8">@Html.DisplayFor(model => model.Name)</dd>
+
                 <dt class="col-sm-4">Unidade de Medida</dt>
                 <dd class="col-sm-8">@Html.DisplayFor(model => model.UnityMeasure)</dd>
+
+                <dt class="col-sm-4">Stock Mínimo</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.StockMin)</dd>
+
+                <dt class="col-sm-4">Quantidade Disponível</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.QuantityAvailable)</dd>
+
+                <dt class="col-sm-4">Última Modificação</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.LastModificationDate)</dd>
             </dl>
         </div>
     </div>

@@ -40,6 +40,9 @@
             <tr>
                 <th>@Html.DisplayNameFor(model => model.Name)</th>
                 <th>@Html.DisplayNameFor(model => model.UnityMeasure)</th>
+                <th>@Html.DisplayNameFor(model => model.StockMin)</th>
+                <th>@Html.DisplayNameFor(model => model.QuantityAvailable)</th>
+                <th>@Html.DisplayNameFor(model => model.LastModificationDate)</th>
                 <th>Opções</th>
             </tr>
         </thead>
@@ -49,6 +52,9 @@
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.Name)</td>
                     <td>@Html.DisplayFor(modelItem => item.UnityMeasure)</td>
+                    <td>@Html.DisplayFor(modelItem => item.StockMin)</td>
+                    <td>@Html.DisplayFor(modelItem => item.QuantityAvailable)</td>
+                    <td>@item.LastModificationDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
                     <td>
                         <a class="btn btn-sm btn-info btn-edit" asp-action="Edit" asp-route-id="@item.IngredientID">Editar</a>
                         <a class="btn btn-sm btn-primary btn-details" asp-action="Details" asp-route-id="@item.IngredientID">Detalhes</a>
@@ -58,7 +64,10 @@
             }
         </tbody>
     </table>
+
+    <div class="text-center mt-3">
+        <a asp-controller="LandingPage" asp-action="Index" class="btn btn-secondary">Voltar ao Início</a>
+    </div>
 </div>
-<div class="text-center mt-3">
-    <a asp-controller="LandingPage" asp-action="Index">Voltar ao Início</a>
-</div>
+
+

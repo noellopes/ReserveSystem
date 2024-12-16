@@ -54,10 +54,13 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IngredientID,Name,UnityMeasure")] Ingredient ingredient)
+        public async Task<IActionResult> Create([Bind("IngredientID,Name,UnityMeasure,StockMin,QuantityAvailable")] Ingredient ingredient)
         {
             if (ModelState.IsValid)
             {
+                // Define a data atual para LastModificationDate
+                ingredient.LastModificationDate = DateTime.Now;
+
                 _context.Add(ingredient);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -86,7 +89,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IngredientID,Name,UnityMeasure")] Ingredient ingredient)
+        public async Task<IActionResult> Edit(int id, [Bind("IngredientID,Name,UnityMeasure,StockMin,QuantityAvailable,LastModificationDate")] Ingredient ingredient)
         {
             if (id != ingredient.IngredientID)
             {
@@ -97,6 +100,7 @@ namespace ReserveSystem.Controllers
             {
                 try
                 {
+                    ingredient.LastModificationDate = DateTime.Now; // Atualizar data da modificação
                     _context.Update(ingredient);
                     await _context.SaveChangesAsync();
                 }

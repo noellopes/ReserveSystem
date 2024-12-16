@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserveSystem.Data;
 
@@ -11,9 +12,11 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    partial class ReserveSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20241216100216_Add_stock_attributes_to_ingredient_table")]
+    partial class Add_stock_attributes_to_ingredient_table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,6 +42,7 @@ namespace ReserveSystem.Migrations
                         .HasColumnType("nvarchar(300)");
 
                     b.Property<int>("QuantityAvailable")
+                        .HasMaxLength(20)
                         .HasColumnType("int");
 
                     b.Property<int>("StockMin")
@@ -78,6 +82,41 @@ namespace ReserveSystem.Migrations
                     b.HasKey("PratoId");
 
                     b.ToTable("Prato");
+                });
+
+            modelBuilder.Entity("ReserveSystem.Models.Stock", b =>
+                {
+                    b.Property<int>("StockID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StockID"));
+
+                    b.Property<double>("AvailableQuantity")
+                        .HasColumnType("float");
+
+                    b.Property<int>("IngredientID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastModificationDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("StockID");
+
+                    b.HasIndex("IngredientID");
+
+                    b.ToTable("Stock");
+                });
+
+            modelBuilder.Entity("ReserveSystem.Models.Stock", b =>
+                {
+                    b.HasOne("ReserveSystem.Models.Ingredient", "Ingredient")
+                        .WithMany()
+                        .HasForeignKey("IngredientID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ingredient");
                 });
 #pragma warning restore 612, 618
         }
