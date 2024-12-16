@@ -93,5 +93,92 @@ namespace ReserveSystem.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        // GET: Space/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var space = await _context.Spaces.FirstOrDefaultAsync(m => m.Id == id);
+            if (space == null)
+            {
+                return NotFound();
+            }
+
+            return View(space);
+        }
+
+        // GET: Space/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var space = await _context.Spaces.FindAsync(id);
+            if (space == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.SpaceTypes = Enum.GetValues(typeof(SpaceType))
+                                     .Cast<SpaceType>()
+                                     .Select(e => new SelectListItem
+                                     {
+                                         Value = e.ToString(),
+                                         Text = e.ToString()
+                                     })
+                                     .ToList();
+
+            return View(space);
+        }
+
+        // POST: Space/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, SpaceModel space)
+        {
+            if (id != space.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(space);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!_context.Spaces.Any(e => e.Id == space.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+
+            ViewBag.SpaceTypes = Enum.GetValues(typeof(SpaceType))
+                                     .Cast<SpaceType>()
+                                     .Select(e => new SelectListItem
+                                     {
+                                         Value = e.ToString(),
+                                         Text = e.ToString()
+                                     })
+                                     .ToList();
+
+            return View(space);
+        }
+
     }
 }

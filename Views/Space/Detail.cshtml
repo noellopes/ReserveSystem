@@ -1,0 +1,25 @@
+﻿@model ReserveSystem.Models.SpaceModel
+
+@{
+    ViewData["Title"] = "Space Details";
+}
+
+<h1>Space Details</h1>
+
+<div class="form-group">
+    <label>Name:</label>
+    <p>@Model.Name</p>
+</div>
+
+<div class="form-group">
+    <label>Capacity:</label>
+    <p>@Model.Capacity</p>
+</div>
+
+<div class="form-group">
+    <label>Type:</label>
+    <p>@Model.Type</p>
+</div>
+
+<a asp-action="Index" class="btn btn-secondary">Back to List</a>
+<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>

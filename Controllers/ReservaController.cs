@@ -27,27 +27,51 @@ namespace ReserveSystem.Controllers
         public async Task<IActionResult> Create()
         {
             // Carrega Personal Trainers e Clientes
-            ViewData["PersonalTrainers"] = await _context.PersonalTrainer.ToListAsync();
-            ViewData["Clients"] = await _context.Client.ToListAsync();
+            ViewData["Spaces"] = await _context.Spaces.ToListAsync() ?? new List<SpaceModel>();
+            ViewData["PersonalTrainers"] = await _context.PersonalTrainer.ToListAsync() ?? new List<PersonalTrainerModel>();
+            ViewData["Clients"] = await _context.Client.ToListAsync() ?? new List<ClientModel>();
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ReservaModel reserva)
+        public IActionResult Create(ReservaModel reserva)
         {
-            if (ModelState.IsValid)
+            // Verificar se a data é válida
+            if (reserva.ReservationDate < DateTime.Today)
             {
-                _context.Add(reserva);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError("ReservationDate", "A data da reserva não pode ser no passado.");
             }
 
-            // Caso a validação falhe, recarregue os dados para os dropdowns
-            ViewData["PersonalTrainers"] = await _context.PersonalTrainer.ToListAsync();
-            ViewData["Clients"] = await _context.Client.ToListAsync();
-            return View(reserva);
+            // Verificar se o horário final é maior que o inicial
+            if (reserva.StartTime >= reserva.EndTime)
+            {
+                ModelState.AddModelError("EndTime", "O horário de término deve ser após o horário de início.");
+            }
+
+            // Verificar o intervalo mínimo de 30 minutos
+            if ((reserva.EndTime - reserva.StartTime).TotalMinutes < 30)
+            {
+                ModelState.AddModelError("EndTime", "O intervalo mínimo entre os horários deve ser de 30 minutos.");
+            }
+
+            // Retorna à view se houver erros de validação
+            if (!ModelState.IsValid)
+            {
+                // Recarregar listas de espaços, personal trainers e clientes para a view
+                ViewData["Spaces"] = _context.Spaces.ToList();
+                ViewData["PersonalTrainers"] = _context.PersonalTrainer.ToList();
+                ViewData["Clients"] = _context.Client.ToList();
+                return View(reserva);
+            }
+
+            // Salvar a reserva
+            _context.Reserva.Add(reserva);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
         }
+
 
 
         // GET: WorkoutSchedule/Delete/5

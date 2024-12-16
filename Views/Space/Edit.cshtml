@@ -1,0 +1,36 @@
+﻿@model ReserveSystem.Models.SpaceModel
+
+@{
+    ViewData["Title"] = "Edit Space";
+}
+
+<h1>Edit Space</h1>
+
+<form asp-action="Edit" method="post">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Capacity"></label>
+        <input asp-for="Capacity" class="form-control" type="number" />
+        <span asp-validation-for="Capacity" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Type"></label>
+        <select asp-for="Type" asp-items="@(new SelectList(Enum.GetValues(typeof(ReserveSystem.Models.SpaceType)).Cast<SpaceType>()))" class="form-control">
+            <option value="">-- Select Space Type --</option>
+        </select>
+        <span asp-validation-for="Type" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

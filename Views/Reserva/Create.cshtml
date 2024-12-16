@@ -1,28 +1,32 @@
-﻿@model ReserveSystem.Models.ReservaModel
+﻿@* CreateReservation.cshtml *@
+@model ReserveSystem.Models.ReservaModel
 
 @{
-    ViewData["Title"] = "Adicionar Agendamento";
+    ViewData["Title"] = "Adicionar Nova Reserva";
 }
 
-<h1 class="text-center my-4">Adicionar Novo Agendamento</h1>
+<h1 class="text-center my-4">Adicionar Nova Reserva</h1>
 
 <div class="container">
     <form asp-action="Create" method="post">
         @Html.AntiForgeryToken()
 
-        <!-- Campo Data e Hora -->
+        <!-- Dropdown de Espaço -->
         <div class="form-group">
-            <label asp-for="Hour" class="control-label">Data e Horário</label>
-            <input asp-for="Hour" type="datetime-local" class="form-control" />
-            <span asp-validation-for="Hour" class="text-danger"></span>
+            <label for="SpaceId" class="control-label">Espaço</label>
+            <select asp-for="SpaceId" class="form-control"
+                    asp-items="@(new SelectList(ViewData["Spaces"] as List<ReserveSystem.Models.SpaceModel>, "Id", "Name"))">
+                <option value="">-- Selecione um Espaço --</option>
+            </select>
+            <span asp-validation-for="SpaceId" class="text-danger"></span>
         </div>
 
         <!-- Dropdown de Personal Trainers -->
         <div class="form-group">
-            <label for="PersonalTrainerId" class="control-label">Personal Trainer</label>
+            <label for="PersonalTrainerId" class="control-label">Personal Trainer (Opcional)</label>
             <select asp-for="PersonalTrainerId" class="form-control"
                     asp-items="@(new SelectList(ViewData["PersonalTrainers"] as List<ReserveSystem.Models.PersonalTrainerModel>, "Id", "Name"))">
-                <option value="">Selecione um Personal Trainer</option>
+                <option value="">Nenhum</option>
             </select>
             <span asp-validation-for="PersonalTrainerId" class="text-danger"></span>
         </div>
@@ -34,9 +38,28 @@
                     asp-items="@(new SelectList(ViewData["Clients"] as List<ReserveSystem.Models.ClientModel>, "Id", "Name"))">
                 <option value="">Selecione um Cliente</option>
             </select>
-            <span asp-validation-for="ClientId" class="text-danger"></span> <!-- Mensagem de erro aparece aqui -->
+            <span asp-validation-for="ClientId" class="text-danger"></span>
         </div>
 
+        <div class="form-group">
+            <label for="ReservationDate" class="control-label">Dia da Reserva</label>
+            <input id="ReservationDate" name="ReservationDate" type="text" class="form-control date-picker" />
+            <span asp-validation-for="ReservationDate" class="text-danger"></span>
+        </div>
+
+        <!-- Campo Horário de Início -->
+        <div class="form-group">
+            <label for="StartTime" class="control-label">Horário de Início</label>
+            <input id="StartTime" name="StartTime" type="text" class="form-control time-picker" />
+            <span asp-validation-for="StartTime" class="text-danger"></span>
+        </div>
+
+        <!-- Campo Horário de Término -->
+        <div class="form-group">
+            <label for="EndTime" class="control-label">Horário de Término</label>
+            <input id="EndTime" name="EndTime" type="text" class="form-control time-picker" />
+            <span asp-validation-for="EndTime" class="text-danger"></span>
+        </div>
 
         <!-- Botões -->
         <button type="submit" class="btn btn-success">Salvar</button>
@@ -53,4 +76,34 @@
             await Html.RenderPartialAsync("_ValidationScriptsPartial");
         }
     }
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Inicializa o datepicker para o campo de dia
+            const reservationDatePicker = flatpickr('#ReservationDate', {
+                dateFormat: "Y-m-d", // Apenas a data
+                minDate: "today",    // Não permitir datas no passado
+            });
+
+            // Inicializa o timepicker para o horário de início
+            const startTimePicker = flatpickr('#StartTime', {
+                enableTime: true,
+                noCalendar: true,    // Apenas horário
+                dateFormat: "H:i",
+                time_24hr: true,
+            });
+
+            // Inicializa o timepicker para o horário de término
+            const endTimePicker = flatpickr('#EndTime', {
+                enableTime: true,
+                noCalendar: true,    // Apenas horário
+                dateFormat: "H:i",
+                time_24hr: true,
+            });
+        });
+    </script>
+
+
+
+
 </div>

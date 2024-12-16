@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserveSystem.Data;
 
@@ -11,9 +12,11 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ReserveSystemUsersDbContext))]
-    partial class ReserveSystemUsersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241214234252_PTBug")]
+    partial class PTBug
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -308,9 +311,6 @@ namespace ReserveSystem.Data.Migrations
 
                     b.Property<int?>("PersonalTrainerId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("ReservationDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("SpaceId")
                         .HasColumnType("int");

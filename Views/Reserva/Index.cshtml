@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<ReserveSystem.Models.ReservaModel>
 
+
 @{
     ViewData["Title"] = "Agendamentos de Treino";
 }
@@ -9,7 +10,8 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>Data</th>
+            <th>Dia</th>
+            <th>Horário</th>
             <th>Personal Trainer</th>
             <th>Cliente</th>
             <th>Ações</th>
@@ -19,7 +21,11 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.Hour.ToString("dd/MM/yyyy HH:mm")</td>
+                    <!-- Exibe apenas o dia formatado -->
+                    <td>@item.ReservationDate.ToString("dd/MM/yyyy")</td>
+
+                    <!-- Exibe o horário de início e término -->
+                    <td>@item.StartTime.ToString(@"hh\:mm") - @item.EndTime.ToString(@"hh\:mm")</td>
                 <td>@item.PersonalTrainer.Name</td>
                 <td>@item.Client.Name</td>
                 <td>

@@ -1,0 +1,20 @@
+﻿@model ReserveSystem.Models.ClientModel
+
+@{
+    ViewData["Title"] = "Client Details";
+}
+
+<h1>Client Details</h1>
+
+<div class="form-group">
+    <label>Name:</label>
+    <p>@Model.Name</p>
+</div>
+
+<div class="form-group">
+    <label>Email:</label>
+    <p>@Model.Email</p>
+</div>
+
+<a asp-action="Index" class="btn btn-secondary">Back to List</a>
+<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>

@@ -19,16 +19,18 @@ namespace ReserveSystem.Models
         [Required(ErrorMessage = "O Espaço é obrigatório.")]
         [ForeignKey("Space")]
         public int SpaceId { get; set; }
-        public required SpaceModel Space { get; set; } // Relacionamento com o espaço
+        public SpaceModel? Space { get; set; } // Relacionamento com o espaço
 
         [Required(ErrorMessage = "O Cliente é obrigatório.")]
         [ForeignKey("Client")]
         public int ClientId { get; set; }
-        public required ClientModel Client { get; set; } // Relacionamento com o cliente
+        public ClientModel? Client { get; set; } // Relacionamento com o cliente
 
         [ForeignKey("PersonalTrainer")]
         public int? PersonalTrainerId { get; set; } // PT é opcional
         public PersonalTrainerModel? PersonalTrainer { get; set; } // Agora permite valores nulos
+
+        public DateTime ReservationDate { get; set; } // Apenas o dia
 
         [Required]
         public TimeSpan StartTime { get; set; } // Horário de abertura
