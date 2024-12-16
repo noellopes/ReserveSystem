@@ -71,6 +71,10 @@ if (isDevelopment) {
 }
 
 using (var servicesScope = app.Services.CreateScope()) {
+    // Seed Roles
+    var roleManager = servicesScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    SeedData.PopulateRoles(roleManager);
+
     // Seed Admin
     var userManager = servicesScope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
     SeedData.PopulateDefaultAdmin(userManager);
