@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
+using ReserveSystem.ViewModels;
 
 namespace ReserveSystem.Controllers
 {
@@ -20,9 +21,31 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Pratos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            return View(await _context.Prato.ToListAsync());
+            int itemsPerPage = 15; // Número de itens por página
+            var totalItems = await _context.Prato.CountAsync(); // Total de pratos
+
+            var pratos = await _context.Prato
+                .Skip((page - 1) * itemsPerPage)
+                .Take(itemsPerPage)
+                .ToListAsync(); // Pratos para a página atual
+
+            var pagingInfo = new PagingInfo
+            {
+                TotalItems = totalItems,
+                ItemsPerPage = itemsPerPage,
+                CurrentPage = page
+            };
+
+            // ViewModel para passar os pratos e a paginação
+            var model = new PratoListViewModel
+            {
+                Pratos = pratos,
+                PagingInfo = pagingInfo
+            };
+
+            return View(model);
         }
 
         // GET: Pratos/Details/5
