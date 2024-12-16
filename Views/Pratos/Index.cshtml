@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ReserveSystem.Models.Prato>
+﻿@model ReserveSystem.ViewModels.PratoListViewModel
 
 @{
     ViewData["Title"] = "Lista de Pratos";
@@ -59,14 +59,14 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>@Html.DisplayNameFor(model => model.First().Nome)</th>
-                <th>@Html.DisplayNameFor(model => model.First().Descricao)</th>
-                <th>@Html.DisplayNameFor(model => model.First().Preco)</th>
+                <th>@Html.DisplayNameFor(model => model.Pratos.First().Nome)</th>
+                <th>@Html.DisplayNameFor(model => model.Pratos.First().Descricao)</th>
+                <th>@Html.DisplayNameFor(model => model.Pratos.First().Preco)</th>
                 <th>Ações</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.Pratos)
             {
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.Nome)</td>
@@ -83,7 +83,57 @@
             }
         </tbody>
     </table>
-    <div class="text-center mt-3">
-        <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+    <nav aria-label="pratosPagination">
+        <ul class="pagination">
+            @{
+                var cssStyle = "page-item";
+                // Desabilitar o botão "Primeiro" na primeira página
+                if (Model.PagingInfo.CurrentPage == 1)
+                {
+                    cssStyle += " disabled";
+                }
+            }
+            <!-- Link para a Primeira Página -->
+            <li class="@cssStyle">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="1">Primeiro</a>
+            </li>
+
+            <!-- Links para as Páginas Intermediárias -->
+            @for (int p = Model.PagingInfo.FirstPageShow; p <= Model.PagingInfo.LastPageShow; p++)
+            {
+                cssStyle = "page-item";
+                // Marcar a página atual como "ativa"
+                if (p == Model.PagingInfo.CurrentPage)
+                {
+                    cssStyle += " active";
+                }
+
+                <li class="@cssStyle">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-page="@p">@p</a>
+                </li>
+            }
+
+            @{
+                cssStyle = "page-item";
+                // Desabilitar o botão "Último" na última página
+                if (Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages)
+                {
+                    cssStyle += " disabled";
+                }
+            }
+            <!-- Link para a Última Página -->
+            <li class="@cssStyle">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@Model.PagingInfo.TotalPages">Último</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="text-center mt-3 mb-5">
+        <a asp-controller="LandingPage" asp-action="Index">Voltar ao Início</a>
     </div>
 </div>
