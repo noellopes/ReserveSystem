@@ -23,80 +23,85 @@ namespace ReserveSystem.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            // Staff Entity Configuration
             modelBuilder.Entity("ReserveSystem.Models.Staff", b =>
+            {
+                b.Property<int>("StaffID")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StaffID"));
+
+                b.Property<string>("StaffEmail")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("StaffName")
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnType("nvarchar(50)");
+
+                b.Property<string>("StaffPassword")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("StaffPhone")
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnType("nvarchar(50)");
+
+                b.Property<bool>("StaffConfirmation")
+                    .HasColumnType("bit");
+
+                b.HasKey("StaffID");
+
+                b.ToTable("Staff");
+            });
+
+            // RoomServiceBooking Entity Configuration
             modelBuilder.Entity("ReserveSystem.Models.RoomServiceBooking", b =>
-                {
-                    b.Property<int>("StaffID")
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-                        .HasColumnType("INTEGER");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StaffID"));
-                    b.Property<bool>("BookedState")
-                        .HasColumnType("bit");
+                b.Property<int>("ClientId")
+                    .HasColumnType("int");
 
-                    b.Property<int>("DaysOffVacation")
-                        .HasColumnType("int");
-                    b.Property<int>("ClientFeedback")
-                        .HasColumnType("INTEGER(1)");
+                b.Property<int>("JobId")
+                    .HasColumnType("int");
 
-                    b.Property<DateTime?>("EndFunctionsDate")
-                        .HasColumnType("datetime2");
-                    b.Property<int>("ClientId")
-                        .HasColumnType("INTEGER(11)");
+                b.Property<DateTime>("DateTime")
+                    .HasColumnType("datetime");
 
-                    b.Property<int>("JobId")
-                        .HasColumnType("int");
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime");
+                b.Property<DateOnly>("EndDate")
+                    .HasColumnType("date");
 
-                    b.Property<DateOnly>("EndDate")
-                        .HasColumnType("date");
+                b.Property<bool>("PaymentDone")
+                    .HasColumnType("bit");
 
-                    b.Property<bool>("PaymentDone")
-                        .HasColumnType("bit");
+                b.Property<int>("RoomId")
+                    .HasColumnType("int");
 
-                    b.Property<int>("RoomId")
-                        .HasColumnType("INTEGER");
+                b.Property<int>("RoomServiceId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("StaffEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-                    b.Property<int>("RoomServiceId")
-                        .HasColumnType("INTEGER(11)");
+                b.Property<decimal>("ValueToPay")
+                    .HasColumnType("decimal(8, 2)");
 
-                    b.Property<string>("StaffName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-                    b.Property<bool>("StaffConfirmation")
-                        .HasColumnType("bit");
+                b.Property<int>("StaffID")
+                    .HasColumnType("int"); // Foreign Key to Staff table
 
-                    b.Property<string>("StaffPassword")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-                    b.Property<int>("StaffId")
-                        .HasColumnType("INTEGER(11)");
+                b.HasKey("Id");
 
-                    b.Property<string>("StaffPhone")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-                    b.Property<DateOnly>("StartDate")
-                        .HasColumnType("date");
+                b.HasOne("ReserveSystem.Models.Staff", "Staff")
+                    .WithMany()
+                    .HasForeignKey("StaffID")
+                    .OnDelete(DeleteBehavior.Cascade); // Assuming cascade delete
 
-                    b.Property<DateTime>("StartFunctionsDate")
-                        .HasColumnType("datetime2");
-                    b.Property<decimal>("ValueToPay")
-                        .HasColumnType("decimal(8, 2)");
+                b.ToTable("RoomServiceBooking");
+            });
 
-                    b.HasKey("StaffID");
-                    b.HasKey("Id");
-
-                    b.ToTable("Staff");
-                    b.ToTable("RoomServiceBooking");
-                });
 #pragma warning restore 612, 618
         }
     }

@@ -6,46 +6,64 @@
     <a asp-action="Create" class="btn btn-primary">Create New Staff</a>
 </div>
 
-<table class="table table-striped table-hover">
-    <thead class="table-dark">
-        <tr>
-            <th>Staff ID</th>
-            <th>Job ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Days Off</th>
-            <th class="text-center">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<!-- Search Input -->
+<div class="d-flex justify-content-start mb-3">
+    <input type="text" class="form-control" placeholder="Search Staff..." id="staffSearch" />
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover" id="staffTable">
+        <thead class="table-dark">
             <tr>
-                <td>@item.StaffID</td>
-                <td>@item.JobId</td>
-                <td>@item.StaffName</td>
-                <td>@item.StaffEmail</td>
-                <td>@item.StaffPhone</td>
-                <td>@item.StartFunctionsDate.ToShortDateString()</td>
-                <td>@(item.EndFunctionsDate?.ToShortDateString() ?? "N/A")</td>
-                <td>@item.DaysOffVacation</td>
-                <td class="text-center">
-                    <div class="btn-group" role="group">
-                        <a asp-action="Edit" asp-route-id="@item.StaffID" class="btn btn-outline-warning" title="Edit">
-                            <i class="bi bi-pencil-fill"></i> Edit
-                        </a>
-                        <a asp-action="Details" asp-route-id="@item.StaffID" class="btn btn-outline-primary" title="Details">
-                            <i class="bi bi-eye-fill"></i> Details
-                        </a>
-                        <a asp-action="Delete" asp-route-id="@item.StaffID" class="btn btn-outline-danger" title="Delete">
-                            <i class="bi bi-trash-fill"></i> Delete
-                        </a>
-                    </div>
-                </td>
+                <th>Staff ID</th>
+                <th>Job ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Days Off</th>
+                <th class="text-center">Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.StaffID</td>
+                    <td>@item.JobId</td>
+                    <td>@item.StaffName</td>
+                    <td>@item.StaffEmail</td>
+                    <td>@item.StaffPhone</td>
+                    <td>@item.StartFunctionsDate.ToShortDateString()</td>
+                    <td>@(item.EndFunctionsDate?.ToShortDateString() ?? "N/A")</td>
+                    <td>@item.DaysOffVacation</td>
+                    <td class="text-center">
+                        <div class="btn-group" role="group">
+                            <a asp-action="Edit" asp-route-id="@item.StaffID" class="btn btn-outline-warning" title="Edit">
+                                <i class="bi bi-pencil-fill"></i> Edit
+                            </a>
+                            <a asp-action="Details" asp-route-id="@item.StaffID" class="btn btn-outline-primary" title="Details">
+                                <i class="bi bi-eye-fill"></i> Details
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.StaffID" class="btn btn-outline-danger" title="Delete" onclick="return confirm('Are you sure you want to delete this staff member?');">
+                                <i class="bi bi-trash-fill"></i> Delete
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    document.getElementById('staffSearch').addEventListener('input', function () {
+        var filter = this.value.toLowerCase();
+        var rows = document.querySelectorAll('#staffTable tbody tr');
+        rows.forEach(function (row) {
+            var text = row.textContent.toLowerCase();
+            row.style.display = text.includes(filter) ? '' : 'none';
+        });
+    });
+</script>

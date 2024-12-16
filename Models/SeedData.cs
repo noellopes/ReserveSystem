@@ -15,6 +15,77 @@ namespace ReserveSystem.Models
                 serviceProvider.GetRequiredService<
                     DbContextOptions<ReserveSystemContext>>()))
             {
+                // Look for any Staff data.
+                if (!context.Staff.Any())
+                {
+                    // Add Staff data if no Staff exists
+                    context.Staff.AddRange(
+                        new Staff
+                        {
+                            StaffID = 1,
+                            JobId = 1, // Example JobId
+                            StaffName = "John Doe",
+                            StaffEmail = "john.doe@example.com",
+                            StaffPhone = "123-456-7890",
+                            StaffPassword = "password123",
+                            StartFunctionsDate = DateTime.Now.AddYears(-2),
+                            EndFunctionsDate = null,
+                            DaysOffVacation = 10
+                        },
+                        new Staff
+                        {
+                            StaffID = 2,
+                            JobId = 1, // Example JobId
+                            StaffName = "Jane Smith",
+                            StaffEmail = "jane.smith@example.com",
+                            StaffPhone = "098-765-4321",
+                            StaffPassword = "password456",
+                            StartFunctionsDate = DateTime.Now.AddYears(-1),
+                            EndFunctionsDate = null,
+                            DaysOffVacation = 15
+                        },
+                        new Staff
+                        {
+                            StaffID = 3,
+                            JobId = 2, // Example JobId
+                            StaffName = "Michael Brown",
+                            StaffEmail = "michael.brown@example.com",
+                            StaffPhone = "234-567-8901",
+                            StaffPassword = "password789",
+                            StartFunctionsDate = DateTime.Now.AddMonths(-6),
+                            EndFunctionsDate = null,
+                            DaysOffVacation = 5
+                        },
+                        new Staff
+                        {
+                            StaffID = 4,
+                            JobId = 3, // Example JobId
+                            StaffName = "Emily White",
+                            StaffEmail = "emily.white@example.com",
+                            StaffPhone = "345-678-9012",
+                            StaffPassword = "password101",
+                            StartFunctionsDate = DateTime.Now.AddMonths(-3),
+                            EndFunctionsDate = null,
+                            DaysOffVacation = 7
+                        },
+                        new Staff
+                        {
+                            StaffID = 5,
+                            JobId = 2, // Example JobId
+                            StaffName = "Chris Green",
+                            StaffEmail = "chris.green@example.com",
+                            StaffPhone = "456-789-0123",
+                            StaffPassword = "password112",
+                            StartFunctionsDate = DateTime.Now.AddMonths(-1),
+                            EndFunctionsDate = null,
+                            DaysOffVacation = 12
+                        }
+                    );
+
+                    // Save changes to the context
+                    context.SaveChanges();
+                }
+
                 // Look for any RoomServiceBookings.
                 if (context.RoomServiceBooking.Any())
                 {

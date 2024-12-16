@@ -1,25 +1,51 @@
-﻿@model ReserveSystem.Models.Staff
+﻿@model IEnumerable<ReserveSystem.Models.Staff>
 
-<h1>Delete Staff</h1>
+<h1 class="text-center my-4">Staff Index</h1>
 
-<h3>Are you sure you want to delete this staff member?</h3>
-
-<div>
-    <h4>Staff</h4>
-    <dl class="row">
-        <dt class="col-sm-2">Staff ID</dt>
-        <dd class="col-sm-10">@Model.StaffID</dd>
-        <dt class="col-sm-2">Name</dt>
-        <dd class="col-sm-10">@Model.StaffName</dd>
-        <dt class="col-sm-2">Email</dt>
-        <dd class="col-sm-10">@Model.StaffEmail</dd>
-        <dt class="col-sm-2">Phone</dt>
-        <dd class="col-sm-10">@Model.StaffPhone</dd>
-    </dl>
+<div class="d-flex justify-content-end mb-3">
+    <a asp-action="Create" class="btn btn-primary">Create New Staff</a>
 </div>
 
-<form asp-action="Delete" method="post">
-    <input type="hidden" asp-for="StaffID" />
-    <button type="submit" class="btn btn-danger">Delete</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-</form>
+<table class="table table-striped table-hover table-responsive">
+    <thead class="table-dark">
+        <tr>
+            <th>Staff ID</th>
+            <th>Job Title</th> <!-- Displaying job title instead of JobId -->
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Days Off</th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.StaffID</td>
+                <td>@item.Job?.JobTitle</td> <!-- Display job title -->
+                <td>@item.StaffName</td>
+                <td>@item.StaffEmail</td>
+                <td>@item.StaffPhone</td>
+                <td>@item.StartFunctionsDate.ToString("yyyy-MM-dd")</td> <!-- Date format -->
+                <td>@(item.EndFunctionsDate?.ToString("yyyy-MM-dd") ?? "N/A")</td> <!-- Date format with fallback -->
+                <td>@item.DaysOffVacation</td>
+                <td class="text-center">
+                    <div class="btn-group" role="group">
+                        <a asp-action="Edit" asp-route-id="@item.StaffID" class="btn btn-outline-warning" title="Edit" aria-label="Edit Staff">
+                            <i class="bi bi-pencil-fill"></i> Edit
+                        </a>
+                        <a asp-action="Details" asp-route-id="@item.StaffID" class="btn btn-outline-primary" title="Details" aria-label="View Staff Details">
+                            <i class="bi bi-eye-fill"></i> Details
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.StaffID" class="btn btn-outline-danger" title="Delete" aria-label="Delete Staff" onclick="return confirm('Are you sure you want to delete this staff member?');">
+                            <i class="bi bi-trash-fill"></i> Delete
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

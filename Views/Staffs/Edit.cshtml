@@ -4,46 +4,67 @@
 
 <form asp-action="Edit">
     <input type="hidden" asp-for="StaffID" />
+
+    <!-- Job Selection (Dropdown) -->
     <div class="form-group">
         <label asp-for="JobId"></label>
-        <input asp-for="JobId" class="form-control" />
+        <select asp-for="JobId" class="form-control" asp-items="@(new SelectList(Model.JobList, "JobId", "JobTitle"))">
+            <option value="">Select Job</option>
+        </select>
         <span asp-validation-for="JobId" class="text-danger"></span>
     </div>
+
+    <!-- Staff Name -->
     <div class="form-group">
         <label asp-for="StaffName"></label>
         <input asp-for="StaffName" class="form-control" />
         <span asp-validation-for="StaffName" class="text-danger"></span>
     </div>
+
+    <!-- Staff Email -->
     <div class="form-group">
         <label asp-for="StaffEmail"></label>
         <input asp-for="StaffEmail" class="form-control" />
         <span asp-validation-for="StaffEmail" class="text-danger"></span>
     </div>
+
+    <!-- Staff Phone -->
     <div class="form-group">
         <label asp-for="StaffPhone"></label>
         <input asp-for="StaffPhone" class="form-control" />
         <span asp-validation-for="StaffPhone" class="text-danger"></span>
     </div>
+
+    <!-- Staff Password (Optional) -->
     <div class="form-group">
         <label asp-for="StaffPassword"></label>
         <input asp-for="StaffPassword" type="password" class="form-control" />
+        <span class="form-text text-muted">Leave blank to keep the current password</span>
         <span asp-validation-for="StaffPassword" class="text-danger"></span>
     </div>
+
+    <!-- Start Date -->
     <div class="form-group">
         <label asp-for="StartFunctionsDate"></label>
         <input asp-for="StartFunctionsDate" type="date" class="form-control" />
         <span asp-validation-for="StartFunctionsDate" class="text-danger"></span>
     </div>
+
+    <!-- End Date -->
     <div class="form-group">
         <label asp-for="EndFunctionsDate"></label>
         <input asp-for="EndFunctionsDate" type="date" class="form-control" />
         <span asp-validation-for="EndFunctionsDate" class="text-danger"></span>
     </div>
+
+    <!-- Days Off -->
     <div class="form-group">
         <label asp-for="DaysOffVacation"></label>
         <input asp-for="DaysOffVacation" class="form-control" />
         <span asp-validation-for="DaysOffVacation" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Save</button>
+
+    <!-- Action Buttons -->
+    <button type="submit" class="btn btn-primary mr-2">Save</button>
     <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>
