@@ -1,0 +1,66 @@
+﻿@model ReserveSystem.Models.TQePreco
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>TQePreco</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="id_RTPrice" />
+            <div class="form-group">
+                <label asp-for="type" class="control-label"></label>
+                <input asp-for="type" class="form-control" />
+                <span asp-validation-for="type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="capacity" class="control-label"></label>
+                <input asp-for="capacity" class="form-control" />
+                <span asp-validation-for="capacity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RoomQuantity" class="control-label"></label>
+                <input asp-for="RoomQuantity" class="form-control" />
+                <span asp-validation-for="RoomQuantity" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="AcessibilityRoom" /> @Html.DisplayNameFor(model => model.AcessibilityRoom)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="View" /> @Html.DisplayNameFor(model => model.View)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="BasePrice" class="control-label"></label>
+                <input asp-for="BasePrice" class="form-control" />
+                <span asp-validation-for="BasePrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CancelationFee" class="control-label"></label>
+                <input asp-for="CancelationFee" class="form-control" />
+                <span asp-validation-for="CancelationFee" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdicionalBeds" class="control-label"></label>
+                <input asp-for="AdicionalBeds" class="form-control" />
+                <span asp-validation-for="AdicionalBeds" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
