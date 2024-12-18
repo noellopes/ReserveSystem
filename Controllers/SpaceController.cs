@@ -53,19 +53,52 @@ namespace ReserveSystem.Controllers
         }
 
         // POST: Client/Create
+        // POST: Space/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SpaceModel space)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(space);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    // Salva o espaço no banco de dados
+                    _context.Add(space);
+                    await _context.SaveChangesAsync(); // Certifique-se de salvar antes de usar o ID gerado
+
+                    // Criar horários padrão
+                    var horarios = new List<HorarioModel>
+            {
+                new HorarioModel { spaceId = space.Id, Day = DayOfWeek.Monday, OpenTime = new TimeSpan(8, 30, 0), CloseTime = new TimeSpan(17, 30, 0), IsClosed=false },
+                new HorarioModel { spaceId = space.Id, Day = DayOfWeek.Tuesday, OpenTime = new TimeSpan(8, 30, 0), CloseTime = new TimeSpan(17, 30, 0),IsClosed=false },
+                new HorarioModel { spaceId = space.Id, Day = DayOfWeek.Wednesday, OpenTime = new TimeSpan(8, 30, 0), CloseTime = new TimeSpan(17, 30, 0),IsClosed=false },
+                new HorarioModel { spaceId = space.Id, Day = DayOfWeek.Thursday, OpenTime = new TimeSpan(8, 30, 0), CloseTime = new TimeSpan(17, 30, 0),IsClosed=false },
+                new HorarioModel { spaceId = space.Id, Day = DayOfWeek.Friday, OpenTime = new TimeSpan(8, 30, 0), CloseTime = new TimeSpan(17, 30, 0),IsClosed=false },
+                new HorarioModel { spaceId = space.Id, Day = DayOfWeek.Saturday, OpenTime = new TimeSpan(8, 30, 0), CloseTime = new TimeSpan(17, 30, 0),IsClosed=false },
+                new HorarioModel { spaceId = space.Id, Day = DayOfWeek.Sunday, OpenTime = new TimeSpan(0, 0, 0), CloseTime = new TimeSpan(0, 0, 0),IsClosed=true } // Domingo fechado
+            };
+
+                    // Adiciona os horários ao contexto
+                    _context.HorarioModel.AddRange(horarios);
+
+                    // Salva as alterações no banco de dados
+                    await _context.SaveChangesAsync();
+
+                    // Redireciona para a página de índice
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    // Lida com possíveis erros
+                    Console.WriteLine($"Erro ao criar o espaço: {ex.Message}");
+                    ModelState.AddModelError("", "Ocorreu um erro ao criar o espaço. Tente novamente.");
+                }
             }
 
+            // Se o ModelState for inválido ou ocorrer erro, retorna a view de criação
             return View(space);
         }
+
 
         public async Task<IActionResult> Delete(int? id)
         {

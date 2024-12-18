@@ -1,0 +1,68 @@
+﻿@model IEnumerable<ReserveSystem.Models.HorarioModel>
+@{
+    ViewData["Title"] = $"Horários Semanais - {ViewData["SpaceName"]}";
+
+    // Tradução dos dias da semana em português, começando pela segunda-feira
+    var diasDaSemana = new Dictionary<DayOfWeek, string>
+    {
+        { DayOfWeek.Monday, "Segunda-feira" },
+        { DayOfWeek.Tuesday, "Terça-feira" },
+        { DayOfWeek.Wednesday, "Quarta-feira" },
+        { DayOfWeek.Thursday, "Quinta-feira" },
+        { DayOfWeek.Friday, "Sexta-feira" },
+        { DayOfWeek.Saturday, "Sábado" },
+        { DayOfWeek.Sunday, "Domingo" }
+    };
+
+    // Ordena os horários começando na segunda-feira
+    var horariosOrdenados = Model.OrderBy(h => (int)(h.Day == DayOfWeek.Sunday ? 7 : (int)h.Day));
+}
+
+<div class="container mt-5">
+    <h2 class="text-center">Horários Semanais de @ViewData["SpaceName"]</h2>
+    <table class="table table-striped table-hover mt-4">
+        <thead class="table-dark">
+            <tr>
+                <th>Dia da Semana</th>
+                <th>Horário de Abertura</th>
+                <th>Horário de Fechamento</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var horario in horariosOrdenados)
+            {
+                <tr>
+                    <td>@diasDaSemana[horario.Day]</td>
+                    <td>
+                        @if (horario.OpenTime == TimeSpan.Zero && horario.CloseTime == TimeSpan.Zero)
+                        {
+                            <span class="text-danger">Fechado</span>
+                        }
+                        else
+                        {
+                            @horario.OpenTime
+                        }
+                    </td>
+                    <td>
+                        @if (horario.OpenTime == TimeSpan.Zero && horario.CloseTime == TimeSpan.Zero)
+                        {
+                            <span class="text-danger">Fechado</span>
+                        }
+                        else
+                        {
+                            @horario.CloseTime
+                        }
+                    </td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" asp-action="Edit" asp-controller="Calendar" asp-route-id="@horario.Id">Editar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="text-center mt-4">
+        <a class="btn btn-primary" asp-controller="Space" asp-action="Index">Voltar para Espaços</a>
+    </div>
+</div>

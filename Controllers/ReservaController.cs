@@ -14,6 +14,38 @@ namespace ReserveSystem.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetSpaceHours(int spaceId, string date)
+        {
+            var parsedDate = DateTime.Parse(date);
+            var dayOfWeek = parsedDate.DayOfWeek;
+
+            var space = await _context.Spaces.FindAsync(spaceId);
+            if (space == null)
+            {
+                return NotFound(new { message = "Espaço não encontrado." });
+            }
+
+            var horario = await _context.HorarioModel
+                .FirstOrDefaultAsync(h => h.spaceId == spaceId && h.Day == dayOfWeek);
+
+            if (horario == null || horario.IsClosed)
+            {
+                return Json(new { isClosed = true, spaceName = space.Name });
+            }
+
+            return Json(new
+            {
+                isClosed = false,
+                spaceName = space.Name,
+                dayOfWeek = horario.Day.ToString(),
+                openTime = horario.OpenTime.ToString(@"hh\:mm"),
+                closeTime = horario.CloseTime.ToString(@"hh\:mm")
+            });
+        }
+
+
+
         // GET: WorkoutSchedule/Index
         public async Task<IActionResult> Index()
         {
@@ -106,4 +138,7 @@ namespace ReserveSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
     }
+
+
 }
+

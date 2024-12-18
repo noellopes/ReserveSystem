@@ -1,0 +1,97 @@
+﻿@model ReserveSystem.Models.HorarioModel
+
+<form asp-action="Edit" method="post" id="editForm">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="spaceId" />
+
+    <div class="form-check mb-3">
+        <input type="checkbox" class="form-check-input" id="isClosedCheckbox"
+               asp-for="IsClosed"
+               checked="@Model.IsClosed"
+               onchange="toggleHorarioFields()" />
+        <label class="form-check-label" for="isClosedCheckbox">Fechado neste dia</label>
+    </div>
+
+    <div id="horarioFields" style="display: @(Model.IsClosed ? "none" : "block");">
+        <div class="mb-3">
+            <label asp-for="OpenTime" class="form-label">Horário de Abertura</label>
+            <input asp-for="OpenTime" class="form-control" type="time" id="openTimeField"
+                   data-val="true"
+                   data-val-required="O horário de abertura é obrigatório quando o estabelecimento não está fechado."
+                   data-val-comparetime-other="CloseTime"
+                   data-val-comparetime="Horário de abertura deve ser menor que horário de fechamento" />
+            <span asp-validation-for="OpenTime" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="CloseTime" class="form-label">Horário de Fechamento</label>
+            <input asp-for="CloseTime" class="form-control" type="time" id="closeTimeField"
+                   data-val="true"
+                   data-val-required="O horário de fechamento é obrigatório quando o estabelecimento não está fechado."
+                   data-val-comparetime-other="OpenTime"
+                   data-val-comparetime="Horário de fechamento deve ser maior que horário de abertura" />
+            <span asp-validation-for="CloseTime" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a asp-action="Index" asp-route-id="@Model.spaceId" class="btn btn-secondary">Cancelar</a>
+    </div>
+</form>
+
+<script>
+    function toggleHorarioFields() {
+        const isClosed = document.getElementById("isClosedCheckbox").checked;
+        const horarioFields = document.getElementById("horarioFields");
+        const openTimeField = document.getElementById("openTimeField");
+        const closeTimeField = document.getElementById("closeTimeField");
+
+        if (isClosed) {
+            horarioFields.style.display = 'none';
+            openTimeField.value = '00:00:00';
+            closeTimeField.value = '00:00:00';
+        } else {
+            horarioFields.style.display = 'block';
+        }
+    }
+
+    $(document).ready(function () {
+        // Adicionar método de validação personalizado
+        $.validator.addMethod("comparetime", function (value, element, params) {
+            const otherField = $(`#${params}`);
+            const otherValue = otherField.val();
+
+            // Se um dos campos estiver vazio, não valida
+            if (!value || !otherValue) return true;
+
+            // Converte para minutos
+            const convertToMinutes = (time) => {
+                const [hours, minutes] = time.split(':').map(Number);
+                return hours * 60 + minutes;
+            };
+
+            const thisMinutes = convertToMinutes(value);
+            const otherMinutes = convertToMinutes(otherValue);
+
+            // Para o campo de abertura, deve ser menor que o de fechamento
+            if ($(element).attr('id') === 'openTimeField') {
+                return thisMinutes < otherMinutes;
+            }
+
+            // Para o campo de fechamento, deve ser maior que o de abertura
+            return thisMinutes > otherMinutes;
+        });
+
+        // Configurar validação do formulário
+        $("#editForm").validate({
+            errorClass: "text-danger",
+            errorElement: "span",
+            highlight: function (element) {
+                $(element).addClass("is-invalid");
+            },
+            unhighlight: function (element) {
+                $(element).removeClass("is-invalid");
+            }
+        });
+    });
+</script>

@@ -33,6 +33,7 @@ namespace ReserveSystem.Models
         public DateTime ReservationDate { get; set; } // Apenas o dia
 
         [Required]
+
         public TimeSpan StartTime { get; set; } // Horário de abertura
 
         [Required]

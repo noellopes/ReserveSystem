@@ -11,14 +11,14 @@
     <form asp-action="Create" method="post">
         @Html.AntiForgeryToken()
 
-        <!-- Dropdown de Espaço -->
+        <!-- Dropdown de Clientes -->
         <div class="form-group">
-            <label for="SpaceId" class="control-label">Espaço</label>
-            <select asp-for="SpaceId" class="form-control"
-                    asp-items="@(new SelectList(ViewData["Spaces"] as List<ReserveSystem.Models.SpaceModel>, "Id", "Name"))">
-                <option value="">-- Selecione um Espaço --</option>
+            <label for="ClientId" class="control-label">Cliente</label>
+            <select asp-for="ClientId" class="form-control"
+                    asp-items="@(new SelectList(ViewData["Clients"] as List<ReserveSystem.Models.ClientModel>, "Id", "Name"))">
+                <option value="">Selecione um Cliente</option>
             </select>
-            <span asp-validation-for="SpaceId" class="text-danger"></span>
+            <span asp-validation-for="ClientId" class="text-danger"></span>
         </div>
 
         <!-- Dropdown de Personal Trainers -->
@@ -31,44 +31,47 @@
             <span asp-validation-for="PersonalTrainerId" class="text-danger"></span>
         </div>
 
-        <!-- Dropdown de Clientes -->
+        <!-- Dropdown de Espaço -->
         <div class="form-group">
-            <label for="ClientId" class="control-label">Cliente</label>
-            <select asp-for="ClientId" class="form-control"
-                    asp-items="@(new SelectList(ViewData["Clients"] as List<ReserveSystem.Models.ClientModel>, "Id", "Name"))">
-                <option value="">Selecione um Cliente</option>
+            <label for="SpaceId" class="control-label">Espaço</label>
+            <select asp-for="SpaceId" class="form-control" onchange="updateSpaceDetails()"
+                    asp-items="@(new SelectList(ViewData["Spaces"] as List<ReserveSystem.Models.SpaceModel>, "Id", "Name"))">
+                <option value="">-- Selecione um Espaço --</option>
             </select>
-            <span asp-validation-for="ClientId" class="text-danger"></span>
+            <span asp-validation-for="SpaceId" class="text-danger"></span>
         </div>
 
+        <!-- Campo de Dia da Reserva -->
         <div class="form-group">
             <label for="ReservationDate" class="control-label">Dia da Reserva</label>
-            <input id="ReservationDate" name="ReservationDate" type="text" class="form-control date-picker" />
+            <input id="ReservationDate" name="ReservationDate" type="text" class="form-control date-picker" onchange="updateSpaceDetails()" />
             <span asp-validation-for="ReservationDate" class="text-danger"></span>
         </div>
 
-        <!-- Campo Horário de Início -->
-        <div class="form-group">
-            <label for="StartTime" class="control-label">Horário de Início</label>
-            <input id="StartTime" name="StartTime" type="text" class="form-control time-picker" />
-            <span asp-validation-for="StartTime" class="text-danger"></span>
-        </div>
+        <!-- Detalhes do Espaço e Horário -->
+        <section id="spaceDetails" style="display: none; margin-top: 20px;">
+            <h1 id="spaceName"></h1>
+            <p id="spaceHours"></p>
 
-        <!-- Campo Horário de Término -->
-        <div class="form-group">
-            <label for="EndTime" class="control-label">Horário de Término</label>
-            <input id="EndTime" name="EndTime" type="text" class="form-control time-picker" />
-            <span asp-validation-for="EndTime" class="text-danger"></span>
-        </div>
+            <!-- Campos de Horário (Apenas exibidos se o espaço estiver aberto) -->
+            <div id="timeInputs" style="display: none;">
+                <div class="form-group">
+                    <label for="StartTime" class="control-label">Horário de Início</label>
+                    <input id="StartTime" name="StartTime" type="text" class="form-control time-picker" />
+                    <span asp-validation-for="StartTime" class="text-danger"></span>
+                </div>
 
-        <!-- Botões -->
+                <div class="form-group">
+                    <label for="EndTime" class="control-label">Horário de Término</label>
+                    <input id="EndTime" name="EndTime" type="text" class="form-control time-picker" />
+                    <span asp-validation-for="EndTime" class="text-danger"></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Botão de Submissão -->
         <button type="submit" class="btn btn-success">Salvar</button>
     </form>
-
-    <!-- Voltar para a Lista -->
-    <div class="text-center mt-3">
-        <a asp-action="Index" class="btn btn-primary">Voltar para a Lista</a>
-    </div>
 
     <!-- Scripts de Validação -->
     @section Scripts {
@@ -79,29 +82,66 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Inicializa o datepicker para o campo de dia
-            const reservationDatePicker = flatpickr('#ReservationDate', {
-                dateFormat: "Y-m-d", // Apenas a data
-                minDate: "today",    // Não permitir datas no passado
+            // Inicializa o datepicker
+            flatpickr('#ReservationDate', {
+                dateFormat: "Y-m-d",
+                minDate: "today"
             });
 
-            // Inicializa o timepicker para o horário de início
-            const startTimePicker = flatpickr('#StartTime', {
-                enableTime: true,
-                noCalendar: true,    // Apenas horário
-                dateFormat: "H:i",
-                time_24hr: true,
-            });
-
-            // Inicializa o timepicker para o horário de término
-            const endTimePicker = flatpickr('#EndTime', {
-                enableTime: true,
-                noCalendar: true,    // Apenas horário
-                dateFormat: "H:i",
-                time_24hr: true,
-            });
+            // Inicializa timepickers
+            flatpickr('#StartTime', { enableTime: true, noCalendar: true, dateFormat: "H:i", time_24hr: true });
+            flatpickr('#EndTime', { enableTime: true, noCalendar: true, dateFormat: "H:i", time_24hr: true });
         });
+
+        function updateSpaceDetails() {
+            const spaceId = document.querySelector('#SpaceId').value;
+            const date = document.querySelector('#ReservationDate').value;
+
+            if (!spaceId || !date) {
+                document.getElementById('spaceDetails').style.display = 'none';
+                return;
+            }
+
+            fetch(`/Reserva/GetSpaceHours?spaceId=${spaceId}&date=${date}`)
+                .then(response => response.json())
+                .then(data => {
+                    const spaceDetails = document.getElementById('spaceDetails');
+                    const timeInputs = document.getElementById('timeInputs');
+                    const spaceName = document.getElementById('spaceName');
+                    const spaceHours = document.getElementById('spaceHours');
+
+                    // Mostra o nome do espaço
+                    spaceName.innerText = data.spaceName;
+
+                    if (data.isClosed) {
+                        // Se o espaço estiver fechado
+                        spaceHours.innerText = "Esse dia está fechado.";
+                        timeInputs.style.display = 'none';
+                    } else {
+                        // Mostra o horário de abertura e fechamento
+                        spaceHours.innerText = `${data.dayOfWeek}: ${data.openTime} - ${data.closeTime}`;
+                        timeInputs.style.display = 'block';
+
+                        // Atualiza as restrições dos timepickers
+                        const startTimePicker = document.getElementById('StartTime')._flatpickr;
+                        const endTimePicker = document.getElementById('EndTime')._flatpickr;
+
+                        startTimePicker.set('minTime', data.openTime);
+                        startTimePicker.set('maxTime', data.closeTime);
+
+                        endTimePicker.set('minTime', data.openTime);
+                        endTimePicker.set('maxTime', data.closeTime);
+                    }
+
+                    spaceDetails.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error("Erro ao buscar os horários do espaço:", error);
+                    alert("Erro ao buscar os horários do espaço. Tente novamente.");
+                });
+        }
     </script>
+
 
 
 
