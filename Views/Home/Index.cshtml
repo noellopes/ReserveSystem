@@ -4,8 +4,10 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <a href="Clients/Index" class="btn btn-primary">Clients</a>
+    <div class="text-center " style="width: 100%; font-family: 'Arial Rounded MT';">
+        <h1 class="display-4">Welcome To Our Hotel</h1>
+        <a asp-controller="Client" asp-action="Create" class="btn btn-success" >Registe-se</a>
+    </div>
 
     @if (User.IsInRole("manager")) {
         <a href="Employees/Index" class="btn btn-primary">Employees</a>

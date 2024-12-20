@@ -1,0 +1,72 @@
+﻿@model IEnumerable<ReserveSystem.Models.ClientModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+        <i class="bi bi-check-circle"></i> @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+        <i class="bi bi-exclamation-circle"></i> @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<p>
+    <a asp-action="Create" class="btn btn-primary"><i class="bi bi-person-plus"></i> Adicionar Cliente</a>
+</p>
+<form method="get" action="@Url.Action("Index")">
+    <div class="input-group mb-3">
+        <input type="text" name="searchQuery" class="form-control"
+               placeholder="Search by Email or Identification"
+               value="@ViewData["SearchQuery"]" />
+        <button class="btn btn-primary" type="submit">Search</button>
+    </div>
+</form>
+<table class="table table-striped">
+    <thead class="fs-2">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>          
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>            
+            <th>
+                @Html.DisplayNameFor(model => model.Identification) Number
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="clientTableBody">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>               
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>              
+                <td>
+                    @Html.DisplayFor(modelItem => item.Identification)
+                </td>
+
+                <td class="d-flex justify-content-end">
+                    <a asp-action="Edit" asp-route-id="@item.ClienteId" class="btn btn-primary ms-2">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.ClienteId" class="btn btn-secondary ms-2">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.ClienteId" class="btn btn-danger ms-2">Delete</a>
+                    <a asp-action="Create" asp-controller="Booking" class="btn btn-success ms-2">Book</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

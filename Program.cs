@@ -57,6 +57,9 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(
 
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddScoped<PasswordHasher<ClientModel>>();
+
+
 var app = builder.Build();
 
 var isDevelopment = app.Environment.IsDevelopment();
@@ -89,6 +92,12 @@ using (var servicesScope = app.Services.CreateScope()) {
     }
 }
 
+//seed data
+using (var serviceScope = app.Services.CreateScope())
+{
+    var db = serviceScope.ServiceProvider.GetService<ReserveSystemContext>();
+    SeedData.Populate(db);
+}
 
 app.UseHttpsRedirection();
 
@@ -105,3 +114,5 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+
+

@@ -1,0 +1,57 @@
+﻿@model ReserveSystem.Models.BookingModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+
+@if (ViewBag.Saved is true)
+{
+    <div class="container mt-5">
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">Success</h4>
+            <p>The Booking information has been successfully saved.</p>
+        </div>
+    </div>
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Reserva</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CHECKIN_DATE)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CHECKIN_DATE)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CHECKOUT_DATE)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CHECKOUT_DATE)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TOTAL_PERSONS_NUMBER)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TOTAL_PERSONS_NUMBER)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Client)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Client.Email)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.ID_BOOKING">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+
