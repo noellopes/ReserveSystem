@@ -12,7 +12,7 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Data.UserMigrations
 {
     [DbContext(typeof(ReserveSystemUsersDbContext))]
-    [Migration("20241209160353_Initial")]
+    [Migration("20241220112716_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
