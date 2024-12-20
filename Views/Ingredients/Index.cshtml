@@ -1,7 +1,15 @@
-﻿@model IEnumerable<ReserveSystem.Models.Ingredient>
+﻿@model ReserveSystem.ViewModels.IngredientListViewModel
 
 @{
     ViewData["Title"] = "Index";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 }
 
 <style>
@@ -26,6 +34,12 @@
     .btn-edit, .btn-details, .btn-delete {
         margin: 0 5px;
     }
+
+    .actions {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+    }
 </style>
 
 <div class="container mt-4">
@@ -38,16 +52,16 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>@Html.DisplayNameFor(model => model.Name)</th>
-                <th>@Html.DisplayNameFor(model => model.UnityMeasure)</th>
-                <th>@Html.DisplayNameFor(model => model.StockMin)</th>
-                <th>@Html.DisplayNameFor(model => model.QuantityAvailable)</th>
-                <th>@Html.DisplayNameFor(model => model.LastModificationDate)</th>
+                <th>@Html.DisplayNameFor(model => model.Ingredient.First().Name)</th>
+                <th>@Html.DisplayNameFor(model => model.Ingredient.First().UnityMeasure)</th>
+                <th>@Html.DisplayNameFor(model => model.Ingredient.First().StockMin)</th>
+                <th>@Html.DisplayNameFor(model => model.Ingredient.First().QuantityAvailable)</th>
+                <th>@Html.DisplayNameFor(model => model.Ingredient.First().LastModificationDate)</th>
                 <th>Opções</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.Ingredient)
             {
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.Name)</td>
@@ -56,16 +70,69 @@
                     <td>@Html.DisplayFor(modelItem => item.QuantityAvailable)</td>
                     <td>@item.LastModificationDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
                     <td>
-                        <a class="btn btn-sm btn-info btn-edit" asp-action="Edit" asp-route-id="@item.IngredientID">Editar</a>
-                        <a class="btn btn-sm btn-primary btn-details" asp-action="Details" asp-route-id="@item.IngredientID">Detalhes</a>
-                        <a class="btn btn-sm btn-danger btn-delete" asp-action="Delete" asp-route-id="@item.IngredientID">Excluir</a>
+                        <div class="actions">
+                            <a class="btn btn-sm btn-info btn-edit" asp-action="Edit" asp-route-id="@item.IngredientID">Editar</a>
+                            <a class="btn btn-sm btn-primary btn-details" asp-action="Details" asp-route-id="@item.IngredientID">Detalhes</a>
+                            <a class="btn btn-sm btn-danger btn-delete" asp-action="Delete" asp-route-id="@item.IngredientID">Excluir</a>
+                        </div>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 
-    <div class="text-center mt-3">
+    <nav aria-label="ingredientPagination">
+        <ul class="pagination">
+            @{
+                var cssStyle = "page-item";
+                // Desabilitar o botão "Primeiro" na primeira página
+                if (Model.PagingInfo.CurrentPage == 1)
+                {
+                    cssStyle += " disabled";
+                }
+            }
+            <!-- Link para a Primeira Página -->
+            <li class="@cssStyle">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="1">Primeiro</a>
+            </li>
+
+            <!-- Links para as Páginas Intermediárias -->
+            @for (int p = Model.PagingInfo.FirstPageShow; p <= Model.PagingInfo.LastPageShow; p++)
+            {
+                cssStyle = "page-item";
+                // Marcar a página atual como "ativa"
+                if (p == Model.PagingInfo.CurrentPage)
+                {
+                    cssStyle += " active";
+                }
+
+                <li class="@cssStyle">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-page="@p">@p</a>
+                </li>
+            }
+
+            @{
+                cssStyle = "page-item";
+                // Desabilitar o botão "Último" na última página
+                if (Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages)
+                {
+                    cssStyle += " disabled";
+                }
+            }
+            <!-- Link para a Última Página -->
+            <li class="@cssStyle">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@Model.PagingInfo.TotalPages">Último</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="text-center mt-3 mb-5">
         <a asp-controller="LandingPage" asp-action="Index" class="btn btn-secondary">Voltar ao Início</a>
     </div>
 </div>

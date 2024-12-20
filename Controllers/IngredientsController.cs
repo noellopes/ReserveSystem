@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
+using ReserveSystem.ViewModels;
 
 namespace ReserveSystem.Controllers
 {
@@ -20,9 +21,31 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Ingredients
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            return View(await _context.Ingredient.ToListAsync());
+            int itemsPerPage = 15; // Número de itens por página
+            var totalItems = await _context.Ingredient.CountAsync(); // Total de ingredientes
+
+            var ingredients = await _context.Ingredient
+                .Skip((page - 1) * itemsPerPage)
+                .Take(itemsPerPage)
+                .ToListAsync(); // Ingredients para a página atual
+
+            var pagingInfo = new PagingInfo
+            {
+                TotalItems = totalItems,
+                ItemsPerPage = itemsPerPage,
+                CurrentPage = page
+            };
+
+            // ViewModel para passar os ingredients e a paginação
+            var model = new IngredientListViewModel
+            {
+                Ingredient = ingredients,
+                PagingInfo = pagingInfo
+            };
+
+            return View(model);
         }
 
         // GET: Ingredients/Details/5
@@ -63,6 +86,9 @@ namespace ReserveSystem.Controllers
 
                 _context.Add(ingredient);
                 await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Prato criado com sucesso!";
+
                 return RedirectToAction(nameof(Index));
             }
             return View(ingredient);
@@ -103,6 +129,9 @@ namespace ReserveSystem.Controllers
                     ingredient.LastModificationDate = DateTime.Now; // Atualizar data da modificação
                     _context.Update(ingredient);
                     await _context.SaveChangesAsync();
+
+                    TempData["SuccessMessage"] = "Prato atualizado com sucesso!";
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -150,6 +179,9 @@ namespace ReserveSystem.Controllers
             }
 
             await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Prato excluído com sucesso!";
+
             return RedirectToAction(nameof(Index));
         }
 
