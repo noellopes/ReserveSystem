@@ -1,0 +1,141 @@
+﻿@model ReserveSystem.ViewModels.BuffetListViewModel
+
+@{
+    ViewData["Title"] = "Lista de Buffets";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<style>
+    .table th, .table td {
+        text-align: center;
+    }
+
+    .table th {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn-custom {
+        background-color: #28a745;
+        color: white;
+    }
+
+        .btn-custom:hover {
+            background-color: #218838;
+        }
+
+    .btn-edit, .btn-details, .btn-delete {
+        margin: 0 5px;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .description-column {
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+</style>
+
+<div class="container mt-4">
+    <h1 class="text-center text-primary">Lista de Buffets</h1>
+
+    <div class="d-flex justify-content-between mb-3">
+        <a class="btn btn-primary" asp-action="Create">Criar Novo Buffet</a>
+    </div>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Buffets.First().Nome)</th>
+                <th>@Html.DisplayNameFor(model => model.Buffets.First().Descricao)</th>
+                <th>@Html.DisplayNameFor(model => model.Buffets.First().Data)</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Buffets)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Nome)</td>
+                    <td class="description-column">@Html.DisplayFor(modelItem => item.Descricao)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Data)</td>
+                    <td>
+                        <div class="actions">
+                            <a class="btn btn-sm btn-info btn-edit" asp-action="Edit" asp-route-id="@item.BuffetId">Editar</a>
+                            <a class="btn btn-sm btn-primary btn-details" asp-action="Details" asp-route-id="@item.BuffetId">Detalhes</a>
+                            <a class="btn btn-sm btn-danger btn-delete" asp-action="Delete" asp-route-id="@item.BuffetId">Excluir</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <nav aria-label="buffetsPagination">
+        <ul class="pagination">
+            @{
+                var cssStyle = "page-item";
+                // Desabilitar o botão "Primeiro" na primeira página
+                if (Model.PagingInfo.CurrentPage == 1)
+                {
+                    cssStyle += " disabled";
+                }
+            }
+            <!-- Link para a Primeira Página -->
+            <li class="@cssStyle">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="1">Primeiro</a>
+            </li>
+
+            <!-- Links para as Páginas Intermediárias -->
+            @for (int p = Model.PagingInfo.FirstPageShow; p <= Model.PagingInfo.LastPageShow; p++)
+            {
+                cssStyle = "page-item";
+                // Marcar a página atual como "ativa"
+                if (p == Model.PagingInfo.CurrentPage)
+                {
+                    cssStyle += " active";
+                }
+
+                <li class="@cssStyle">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-page="@p">@p</a>
+                </li>
+            }
+
+            @{
+                cssStyle = "page-item";
+                // Desabilitar o botão "Último" na última página
+                if (Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages)
+                {
+                    cssStyle += " disabled";
+                }
+            }
+            <!-- Link para a Última Página -->
+            <li class="@cssStyle">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@Model.PagingInfo.TotalPages">Último</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="text-center mt-3 mb-5">
+        <a asp-controller="LandingPage" asp-action="Index">Voltar ao Início</a>
+    </div>
+</div>
