@@ -82,7 +82,7 @@ namespace ReserveSystem.Controllers
                 buffet.Pratos.Add(prato);
                 await _context.SaveChangesAsync();
             }
-
+            TempData["SuccessMessage"] = "Prato adicionado com sucesso!"; // Mensagem de sucesso
             return RedirectToAction(nameof(ManagePratos), new { id = buffetId });
         }
 
@@ -101,7 +101,7 @@ namespace ReserveSystem.Controllers
                 buffet.Pratos.Remove(prato);
                 await _context.SaveChangesAsync();
             }
-
+            TempData["SuccessMessage"] = "Prato removido com sucesso!"; // Mensagem de sucesso
             return RedirectToAction(nameof(ManagePratos), new { id = buffetId });
         }
 
