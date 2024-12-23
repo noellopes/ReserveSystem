@@ -84,6 +84,16 @@
         </tbody>
     </table>
 
+    @foreach (var buffet in Model.Buffets)
+    {
+        <tr>
+            <td>@buffet.Nome</td>
+            <td>
+                <a asp-action="ManagePratos" asp-route-id="@buffet.BuffetId">Gerenciar Pratos</a>
+            </td>
+        </tr>
+    }
+
     <nav aria-label="buffetsPagination">
         <ul class="pagination">
             @{

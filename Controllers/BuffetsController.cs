@@ -47,6 +47,64 @@ namespace ReserveSystem.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> ManagePratos(int id)
+        {
+            var buffet = await _context.Buffet
+                .Include(b => b.Pratos)
+                .FirstOrDefaultAsync(b => b.BuffetId == id);
+
+            if (buffet == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new BuffetPratosViewModel
+            {
+                Buffet = buffet,
+                AvailablePratos = await _context.Prato.ToListAsync()
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddPrato(int buffetId, int pratoId)
+        {
+            var buffet = await _context.Buffet
+                .Include(b => b.Pratos)
+                .FirstOrDefaultAsync(b => b.BuffetId == buffetId);
+
+            var prato = await _context.Prato.FindAsync(pratoId);
+
+            if (buffet != null && prato != null && !buffet.Pratos.Contains(prato))
+            {
+                buffet.Pratos.Add(prato);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(ManagePratos), new { id = buffetId });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemovePrato(int buffetId, int pratoId)
+        {
+            var buffet = await _context.Buffet
+                .Include(b => b.Pratos)
+                .FirstOrDefaultAsync(b => b.BuffetId == buffetId);
+
+            var prato = buffet?.Pratos.FirstOrDefault(p => p.PratoId == pratoId);
+
+            if (prato != null)
+            {
+                buffet.Pratos.Remove(prato);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(ManagePratos), new { id = buffetId });
+        }
+
         // GET: Buffets/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -78,6 +136,7 @@ namespace ReserveSystem.Controllers
         {
             if (ModelState.IsValid)
             {
+                buffet.Data = DateTime.Now;
                 _context.Add(buffet);
                 await _context.SaveChangesAsync();
 
@@ -118,6 +177,7 @@ namespace ReserveSystem.Controllers
             {
                 try
                 {
+                    buffet.Data = DateTime.Now;
                     _context.Update(buffet);
                     await _context.SaveChangesAsync();
 

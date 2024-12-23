@@ -1,0 +1,30 @@
+﻿@model ReserveSystem.ViewModels.BuffetPratosViewModel
+
+<h1>Gerenciar Pratos do Buffet: @Model.Buffet.Nome</h1>
+
+<h2>Pratos Adicionados</h2>
+<ul>
+    @foreach (var prato in Model.Buffet.Pratos)
+    {
+        <li>
+            @prato.Nome
+            <form asp-action="RemovePrato" method="post" style="display:inline;">
+                <input type="hidden" name="buffetId" value="@Model.Buffet.BuffetId" />
+                <input type="hidden" name="pratoId" value="@prato.PratoId" />
+                <button type="submit">Remover</button>
+            </form>
+        </li>
+    }
+</ul>
+
+<h2>Adicionar Novo Prato</h2>
+<form asp-action="AddPrato" method="post">
+    <input type="hidden" name="buffetId" value="@Model.Buffet.BuffetId" />
+    <select name="pratoId" asp-for="SelectedPratoId">
+        @foreach (var prato in Model.AvailablePratos)
+        {
+            <option value="@prato.PratoId">@prato.Nome</option>
+        }
+    </select>
+    <button type="submit">Adicionar</button>
+</form>
