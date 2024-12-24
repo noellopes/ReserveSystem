@@ -69,35 +69,47 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]//REFACTORED
-        public async Task<IActionResult> Create([Bind("IdReserva,IdCliente, NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva)
+        public async Task<IActionResult> Create([Bind("IdReserva,IdCliente,NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva)
         {
-            int maximoLugar = _context.Mesa.Max(t => t.NumeroLugares);
-
-
-            int? idMesa = _context.Mesa
-            .Where(t => t.NumeroLugares == maximoLugar)
-            .Select(t => t.IdMesa)
-            .FirstOrDefault();
-
-            if (reserva.NumeroPessoas > maximoLugar)
+            if (!_context.Mesa.Any())
             {
-                ModelState.AddModelError("NumeroPessoas", $"O número de pessoas ({reserva.NumeroPessoas}) excede o máximo permitido ({maximoLugar}).");
+                ModelState.AddModelError("", "Não existem mesas disponíveis no momento.");
+            }
+            else
+            {
+                int maximoLugar = _context.Mesa.Max(t => t.NumeroLugares);
+
+                if (reserva.NumeroPessoas > maximoLugar)
+                {
+                    ModelState.AddModelError("NumeroPessoas", $"O número de pessoas ({reserva.NumeroPessoas}) excede o máximo de lugares disponíveis ({maximoLugar}).");
+                }
+                else
+                {
+                    int? idMesa = _context.Mesa
+                        .Where(t => t.NumeroLugares >= reserva.NumeroPessoas)
+                        .OrderBy(t => t.NumeroLugares)
+                        .Select(t => t.IdMesa)
+                        .FirstOrDefault();
+
+                    if (idMesa != null)
+                    {
+                        reserva.IdMesa = idMesa.Value;
+                        reserva.NumeroMesa = idMesa.Value; // Definir o valor de NumeroMesa
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("IdMesa", "Nenhuma mesa disponível suporta o número de pessoas especificado.");
+                    }
+                }//Funciona mas não entedo o porquê (O NumeroMesa não faz literalmente nada, mas sem ele isto não funciona ¯\_(ツ)_/¯)
             }
 
-            
             if (ModelState.IsValid)
             {
-                if (idMesa != null)
-                {
-                    reserva.IdMesa = idMesa.Value; 
-                }
-
                 _context.Add(reserva);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
-            
             ViewData["IdCliente"] = new SelectList(_context.Cliente, "IdCliente", "NomeCliente", reserva.IdCliente);
             ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome", reserva.IdPrato);
             return View(reserva);
@@ -126,7 +138,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdReserva,IdCliente, NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva)
+        public async Task<IActionResult> Edit(int id, [Bind("IdReserva,IdCliente,IdMesa, NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva)
 
         {
             if (id != reserva.IdReserva)
@@ -140,6 +152,7 @@ namespace ReserveSystem.Controllers
                 {
                     _context.Update(reserva);
                     await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Reserva criada com sucesso!";
                 }
 
                 catch (DbUpdateConcurrencyException)
@@ -167,10 +180,14 @@ namespace ReserveSystem.Controllers
                     ModelState.AddModelError(string.Empty, "An error occurred while saving the reservation. Please try again.");
                     return View(reserva);
                 }
+
+                
                 return RedirectToAction(nameof(Index));
             }
 
             ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome", reserva.IdPrato);
+
+
 
             return View(reserva);
         }
@@ -205,6 +222,7 @@ namespace ReserveSystem.Controllers
             if (reserva != null)
             {
                 _context.Reserva.Remove(reserva);
+                await _context.SaveChangesAsync();
 
 
             }

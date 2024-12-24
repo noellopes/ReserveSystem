@@ -27,6 +27,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.IdPrato)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Aprovacao)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -50,6 +53,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IdPrato)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aprovacao)
             </td>
             <td>
                     <a asp-action="Edit" asp-route-id="@item.IdReserva" class="btn btn-warning">Edit</a> |
