@@ -15,17 +15,10 @@ namespace ReserveSystem.Controllers
 {
     public class ClientController : Controller
     {
-        private readonly ReserveSystemContext _context;
-        //private readonly SignInManager<IdentityUser> _signInManager;
-        //private readonly UserManager<IdentityUser> _userManager;
-        //private readonly PasswordHasher<ClientModel> passwordHasher;
-
+        private readonly ReserveSystemContext _context;      
         public ClientController(ReserveSystemContext context, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
         {
-            _context = context;
-            //_signInManager = signInManager;
-            //_userManager = userManager;
-            //this.passwordHasher = passwordHasher;
+            _context = context;            
         }
 
         // GET: Client
@@ -38,7 +31,7 @@ namespace ReserveSystem.Controllers
             {
                 clients = clients.Where(c =>
                     c.Email.Contains(searchQuery) ||
-                    c.Identification.Contains(searchQuery));
+                    c.NIF.Contains(searchQuery));
             }
             var clientList = await clients.ToListAsync();
 
@@ -70,7 +63,7 @@ namespace ReserveSystem.Controllers
                 ViewBag.Action = "Index";
                 return View("EntityNoLongerExists");
             }
-            _context.Client.Remove(clientModel);
+            //_context.Client.Remove(clientModel);
             await _context.SaveChangesAsync();
             return View(clientModel);
         }
@@ -86,7 +79,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClienteId,Name,Phone,Address,Email,Identification,Password, IdentificationType")] ClientModel cliente)
+        public async Task<IActionResult> Create([Bind("ClienteId,Name,Phone,Address,Email,NIF,Login,Status")] ClientModel cliente)
         {
             if (ModelState.IsValid)
             {
@@ -108,36 +101,21 @@ namespace ReserveSystem.Controllers
                         ModelState.AddModelError("Email", "Invalid email. Please verify and try again.");
                         return View(cliente);
                     }
-                    if (cliente.IdentificationType == "NIF")
-                    {
-                        if (!Validator.IsNifValid(cliente.Identification))
-                        {
-                            ModelState.AddModelError("Identification", "Identification Invalid or NIF cannot be less or greater than 9 digits");
-                            return View(cliente);
-                        }
-                    }
-                    else if(cliente.IdentificationType == "IDCard")
-                    {
-                        if (!Validator.IsIDCardValid(cliente.Identification))
-                        {
-                            ModelState.AddModelError("Identification", "Identification Invalid or ID Card number cannot be lesser than 8 or greater than 18 digits");
-                            return View(cliente);
-                        }
-                    }
-                    else if(cliente.IdentificationType == "Passport")
-                    {
-                        if (!Validator.IsPassportValid(cliente.Identification))
-                        {
-                            ModelState.AddModelError("Identification", "Identification Invalid or Passport number cannot be lesser than 8 digits or greater than 12 digits");
-                            return View(cliente);
-                        }
-                    }
-                    var isDuplicate = await _context.Client.AnyAsync(c => c.Identification == cliente.Identification);
-                    if (isDuplicate)
-                    {
-                        ModelState.AddModelError("Identification", "Invalid identification details. Please verify and try again.");
-                        return View(cliente);
-                    }
+                    //if (cliente.NIF == "NIF")
+                    //{
+                    //    if (!Validator.IsNifValid(cliente.Identification))
+                    //    {
+                    //        ModelState.AddModelError("Identification", "Identification Invalid or NIF cannot be less or greater than 9 digits");
+                    //        return View(cliente);
+                    //    }
+                    //}
+                    
+                    //var isDuplicate = await _context.Client.AnyAsync(c => c.Identification == cliente.Identification);
+                    //if (isDuplicate)
+                    //{
+                    //    ModelState.AddModelError("Identification", "Invalid identification details. Please verify and try again.");
+                    //    return View(cliente);
+                    //}
 
                     _context.Add(cliente);
                     await _context.SaveChangesAsync();
@@ -174,7 +152,7 @@ namespace ReserveSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Name,Phone,Address,Email,Identification,Password,IdentificationType")] ClientModel clientModel)
+        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Name,Phone,Address,Email,NIF,Login,Status")] ClientModel clientModel)
         {
             if (id != clientModel.ClienteId)
             {
@@ -236,7 +214,7 @@ namespace ReserveSystem.Controllers
                 ViewBag.Action = "Index";
                 return View("DeletedSuccess");
             }
-            _context.Client.Remove(cliente);
+            //_context.Client.Remove(cliente);
             await _context.SaveChangesAsync();
             return View(cliente);
         }
@@ -249,7 +227,7 @@ namespace ReserveSystem.Controllers
             var cliente = await _context.Client.FindAsync(id);
             if (cliente != null)
             {
-                _context.Client.Remove(cliente);
+                //_context.Client.Remove(cliente);
                 
             }
             ViewBag.Entity = "Cliente";

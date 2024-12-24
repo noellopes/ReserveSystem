@@ -1,31 +1,26 @@
 ﻿@model ReserveSystem.Models.ClientModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Client Page";
 }
-
-
 
 <h3 class="text-center">
     <i class="bi bi-person-plus"></i> Cliente
 </h3>
 <div class="d-flex justify-content-center">
     <div class="col-md-6">
-        <form asp-action="Create" method="post" class="border p-5 rounded shadow-sm">
+        <form asp-action="Create" class="border p-5 rounded shadow-sm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <span asp-validation-for="Name" class="text-danger"></span>
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control bg-light " type="text" />
             </div>
-
             <div class="form-group mb-3">
                 <span asp-validation-for="Phone" class="text-danger"></span>
                 <label asp-for="Phone" id="" class="control-label "></label>
                 <input asp-for="Phone" class="form-control bg-light" type="text" />
-                @* <span id="phoneError" class="text-danger" style="display: none;">Número de telefone Invalido. Por favor, certifique-se de que o número tenha o comprimento correto para o país selecionado.</span> *@
             </div>
-
             <div class="form-group mb-3">
                 <span asp-validation-for="Address" class="text-danger"></span>
                 <label asp-for="Address" class="control-label"></label>
@@ -37,26 +32,22 @@
                 <input asp-for="Email" class="form-control bg-light " type="email" />
             </div>
             <div class="form-group mb-3">
-                <label asp-for="IdentificationType" class="control-label">Identification Number</label>
-                <div class="input-group">
-                    <select asp-for="IdentificationType" id="IdentificationType" class="form-control bg-light">
-                        <option value="" disabled selected>Select an option</option>
-                        <option value="NIF">Tax Identification Number/Número de Identificação Fiscal(NIF)</option>
-                        <option value="IDCard">Identification Card/Bilhete de Identification(BI)</option>
-                        <option value="Passport">Passport/Passaporte</option>
-                    </select>
-                </div>
-                <div id="IdentificationInputWrapper" style="display: none;">
-                    @* <input id="IdentificationNumber" asp-for="Identification" class="form-control bg-light" type="text" placeholder="Enter your identification number" /> *@
-                </div>
-                <span asp-validation-for="Identification" class="text-danger"></span>
-                <input asp-for="Identification" class="form-control bg-light" type="text" />
+                <span asp-validation-for="NIF" class="text-danger"></span>
+                <label asp-for="NIF" class="control-label">NIF</label>
+                <input asp-for="NIF" class="form-control bg-light" type="text" />
             </div>
-
-            <div class="form-group mb-3">
-                <span asp-validation-for="Password" class="text-danger"></span>
-                <label asp-for="Password" class="control-label">Password</label>
-                <input asp-for="Password" class="form-control bg-light" type="password" />
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Login" /> @Html.DisplayNameFor(model => model.Login)
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="Status">@Html.DisplayNameFor(model => model.Status)</label>
+                <select class="form-control bg-light" asp-for="Status">
+                    <option value="" disabled selected>Select a status</option>
+                    <option value="true">Active</option>
+                    <option value="false">Inactive</option>
+                </select>
             </div>
             <div class="d-flex justify-content-between m-3">
                 <div class="form-group">

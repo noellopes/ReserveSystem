@@ -1,9 +1,8 @@
 ﻿@model IEnumerable<ReserveSystem.Models.ClientModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Client list";
 }
-
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
@@ -26,7 +25,7 @@
 <form method="get" action="@Url.Action("Index")">
     <div class="input-group mb-3">
         <input type="text" name="searchQuery" class="form-control"
-               placeholder="Search by Email or Identification"
+               placeholder="Search by Email or NIF"
                value="@ViewData["SearchQuery"]" />
         <button class="btn btn-primary" type="submit">Search</button>
     </div>
@@ -36,37 +35,35 @@
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
-            </th>          
+            </th>                     
             <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>            
-            <th>
-                @Html.DisplayNameFor(model => model.Identification) Number
+                @Html.DisplayNameFor(model => model.Email)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NIF)
+            </th>            
             <th></th>
         </tr>
     </thead>
-    <tbody id="clientTableBody">
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>               
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </td>              
-                <td>
-                    @Html.DisplayFor(modelItem => item.Identification)
-                </td>
-
-                <td class="d-flex justify-content-end">
-                    <a asp-action="Edit" asp-route-id="@item.ClienteId" class="btn btn-primary ms-2">Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.ClienteId" class="btn btn-secondary ms-2">Details</a>
-                    <a asp-action="Delete" asp-route-id="@item.ClienteId" class="btn btn-danger ms-2">Delete</a>
-                    <a asp-action="Create" asp-controller="Booking" class="btn btn-success ms-2">Book</a>
-                </td>
-            </tr>
-        }
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NIF)
+            </td>
+            <td class="d-flex justify-content-end">
+               <a asp-action="Edit" asp-route-id="@item.ClienteId" class="btn btn-primary ms-2">Edit</a>
+               <a asp-action="Details" asp-route-id="@item.ClienteId" class="btn btn-secondary ms-2">Details</a>
+               <a asp-action="Delete" asp-route-id="@item.ClienteId" class="btn btn-danger ms-2">Delete</a>
+               <a asp-action="Create" asp-controller="Booking" class="btn btn-success ms-2">Book</a>
+            </td>
+        </tr>
+}
     </tbody>
 </table>

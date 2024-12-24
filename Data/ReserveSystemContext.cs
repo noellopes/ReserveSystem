@@ -14,7 +14,7 @@ namespace ReserveSystem.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ClientModel>()
-                .HasIndex(c => c.Identification)
+                .HasIndex(c => c.NIF)
                 .IsUnique();
 
             base.OnModelCreating(modelBuilder);
