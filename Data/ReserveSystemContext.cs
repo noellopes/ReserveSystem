@@ -10,5 +10,6 @@ namespace ReserveSystem.Data
         public DbSet<ReserveSystem.Models.Staff> Staff { get; set; } = default!;
         public DbSet<ReserveSystem.Models.Client> Client { get; set; } = default!;
         public DbSet<ReserveSystem.Models.Booking> Booking { get; set; } = default!;
+        public DbSet<ReserveSystem.Models.Room_Booking> Room_Booking { get; set; } = default!;
     }
 }
