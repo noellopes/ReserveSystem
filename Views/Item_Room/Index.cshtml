@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ReserveSystem.Models.Item_Room>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RoomTypeId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoomQuantity)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RoomTypeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RoomQuantity)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ItemRoomId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ItemRoomId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ItemRoomId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

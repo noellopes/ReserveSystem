@@ -18,5 +18,6 @@ namespace ReserveSystem.Data
         public DbSet<ReserveSystem.Models.Cleaning_Schedule> Cleaning_Schedule { get; set; } = default!;
         public DbSet<ReserveSystem.Models.Client> Client { get; set; } = default!;
         public DbSet<ReserveSystem.Models.Consumptions> Consumptions { get; set; } = default!;
+        public DbSet<ReserveSystem.Models.Item_Room> Item_Room { get; set; } = default!;
     }
 }
