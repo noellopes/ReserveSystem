@@ -15,5 +15,10 @@ namespace ReserveSystem.Data
         public DbSet<ReserveSystem.Models.Room_Booking> Room_Booking { get; set; } = default!;
         public DbSet<ReserveSystem.Models.Room> Room { get; set; } = default!;
         public DbSet<ReserveSystem.Models.Room_Type> Room_Type { get; set; } = default!;
+        public DbSet<ReserveSystem.Models.Item_Room> Item_Room { get; set; } = default!;
+        public DbSet<ReserveSystem.Models.Items> Items { get; set; } = default!;
+        public DbSet<ReserveSystem.Models.Consumptions> Consumptions { get; set; } = default!;
+        public DbSet<ReserveSystem.Models.Client> Client { get; set; } = default!;
+        public DbSet<ReserveSystem.Models.Cleaning_Schedule> Cleaning_Schedule { get; set; } = default!;
     }
 }
