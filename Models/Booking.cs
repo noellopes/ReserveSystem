@@ -5,6 +5,7 @@ namespace ReserveSystem.Models
 {
     public class Booking
     {
+        [Key]
         public int BookingId { get; set; }
 
         [Required(ErrorMessage = "Client ID is required.")]
@@ -26,7 +27,7 @@ namespace ReserveSystem.Models
         public bool Booked { get; set; }
 
         [Required(ErrorMessage = "Total number of persons is required.")]
-        [Range(1, 50, ErrorMessage = "The number of persons must be between 1 and 50.")]
+        [Range(1, 10, ErrorMessage = "The number of persons must be between 1 and 10.")]
         public int Total_Persons_Number { get; set; }
 
         [Required(ErrorMessage = "Payment status is required.")]

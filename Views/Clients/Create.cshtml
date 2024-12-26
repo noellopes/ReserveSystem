@@ -1,0 +1,63 @@
+﻿@model ReserveSystem.Models.Client
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Client</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Client_Name" class="control-label"></label>
+                <input asp-for="Client_Name" class="form-control" />
+                <span asp-validation-for="Client_Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Client_Phone" class="control-label"></label>
+                <input asp-for="Client_Phone" class="form-control" />
+                <span asp-validation-for="Client_Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Client_Adress" class="control-label"></label>
+                <input asp-for="Client_Adress" class="form-control" />
+                <span asp-validation-for="Client_Adress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Client_Email" class="control-label"></label>
+                <input asp-for="Client_Email" class="form-control" />
+                <span asp-validation-for="Client_Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Client_Nif" class="control-label"></label>
+                <input asp-for="Client_Nif" class="form-control" />
+                <span asp-validation-for="Client_Nif" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Client_Login" /> @Html.DisplayNameFor(model => model.Client_Login)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Client_Status" /> @Html.DisplayNameFor(model => model.Client_Status)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

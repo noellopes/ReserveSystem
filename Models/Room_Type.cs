@@ -4,6 +4,7 @@ namespace ReserveSystem.Models
 {
     public class Room_Type
     {
+        [Key]
         public int RoomTypeId { get; set; }
 
         [Required(ErrorMessage = "Please specify if the room has a view.")]
@@ -14,7 +15,7 @@ namespace ReserveSystem.Models
         public string Type { get; set; }
 
         [Required(ErrorMessage = "Capacity is required.")]
-        [Range(1, 20, ErrorMessage = "Capacity must be between 1 and 20.")]
+        [Range(1, 10, ErrorMessage = "Capacity must be between 1 and 10.")]
         public int Capacity { get; set; }
 
         [Required(ErrorMessage = "Room capacity is required.")]

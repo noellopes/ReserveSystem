@@ -5,6 +5,7 @@ namespace ReserveSystem.Models
 {
     public class Room
     {
+        [Key]
         public int RoomId { get; set; }
 
         [Required(ErrorMessage = "Room Type ID is required.")]

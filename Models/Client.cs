@@ -4,6 +4,7 @@ namespace ReserveSystem.Models
 {
     public class Client
     {
+        [Key]
         public int ClientId { get; set; }
 
         [Required(ErrorMessage = "Client name is required.")]
