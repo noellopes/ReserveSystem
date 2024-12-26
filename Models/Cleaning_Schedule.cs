@@ -4,6 +4,7 @@ namespace ReserveSystem.Models
 {
     public class Cleaning_Schedule
     {
+        [Key]
         public int CleaningScheduleId { get; set; } 
         public int RoomBookingId { get; set; }
         public int ClientId { get; set; }
