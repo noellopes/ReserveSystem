@@ -1,0 +1,101 @@
+﻿@model IEnumerable<ReserveSystem.Models.Staff>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffDriversLicense)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffDriversLicenseExpiringDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffDateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffPassword)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartFunctionsDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndFunctionsDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DaysOfVacationCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.job)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StaffName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StaffEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StaffPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StaffDriversLicense)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StaffDriversLicenseExpiringDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StaffDateOfBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StaffPassword)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartFunctionsDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndFunctionsDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DaysOfVacationCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.job.JobDescription)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.StaffId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.StaffId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.StaffId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
