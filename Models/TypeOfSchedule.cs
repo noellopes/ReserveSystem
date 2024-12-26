@@ -15,5 +15,6 @@ namespace ReserveSystem.Models
         public string JobDescription { get; set; }
 
         public ICollection<Schedules> schedules { get; set; }
+
     }
 }
