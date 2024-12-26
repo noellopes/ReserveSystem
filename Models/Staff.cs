@@ -18,6 +18,8 @@
         public int JobId { get; set; }
         public Job job { get; set; }
 
+        public ICollection<Schedules> schedules { get; set; }
+
         //public ICollection<CleaningShedule> cleaningSchedules { get; set; }
     }
 }
