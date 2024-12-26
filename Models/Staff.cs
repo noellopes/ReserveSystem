@@ -6,44 +6,44 @@ namespace ReserveSystem.Models
     {
         public int StaffId { get; set; }
 
-        [Required(ErrorMessage = "O nome do funcionário é obrigatório.")]
-        [StringLength(100, ErrorMessage = "O nome deve ter no máximo 100 caracteres.")]
+        [Required(ErrorMessage = "StaffName is required.")]
+        [StringLength(100, ErrorMessage = "StaffName must be 100 chars max.")]
         public required string StaffName { get; set; }
 
-        [Required(ErrorMessage = "O email do funcionário é obrigatório.")]
-        [EmailAddress(ErrorMessage = "O email fornecido não é válido.")]
+        [Required(ErrorMessage = "StaffEmail is required.")]
+        [EmailAddress(ErrorMessage = "StaffEmail not valid.")]
         public required string StaffEmail { get; set; }
 
-        [Required(ErrorMessage = "O telefone do funcionário é obrigatório.")]
-        [Phone(ErrorMessage = "O número de telefone fornecido não é válido.")]
+        [Required(ErrorMessage = "StaffPhone is required.")]
+        [Phone(ErrorMessage = "StaffPhone not valid.")]
         public required string StaffPhone { get; set; }
 
-        [Required(ErrorMessage = "A carta de condução do funcionário é obrigatória.")]
-        [StringLength(50, ErrorMessage = "O número da carta de condução deve ter no máximo 50 caracteres.")]
+        [Required(ErrorMessage = "StaffDriversLicense is required.")]
+        [StringLength(50, ErrorMessage = "StaffDriversLicense must be 50 chars max.")]
         public required string StaffDriversLicense { get; set; }
 
-        [Required(ErrorMessage = "A data de validade da carta de condução é obrigatória.")]
-        [DataType(DataType.Date, ErrorMessage = "Formato de data inválido.")]
+        [Required(ErrorMessage = "StaffDriversLicenseExpiringDate is required.")]
+        [DataType(DataType.Date, ErrorMessage = "StaffDriversLicenseExpiringDate not valid.")]
         public DateTime StaffDriversLicenseExpiringDate { get; set; }
 
-        [Required(ErrorMessage = "A data de nascimento do funcionário é obrigatória.")]
-        [DataType(DataType.Date, ErrorMessage = "Formato de data inválido.")]
+        [Required(ErrorMessage = "StaffDateOfBirth is required.")]
+        [DataType(DataType.Date, ErrorMessage = "StaffDateOfBirth not valid.")]
         public DateTime StaffDateOfBirth { get; set; }
 
-        [Required(ErrorMessage = "A senha é obrigatória.")]
-        [StringLength(100, MinimumLength = 8, ErrorMessage = "A senha deve ter entre 8 e 100 caracteres.")]
+        [Required(ErrorMessage = "StaffPassword is required.")]
+        [StringLength(100, MinimumLength = 8, ErrorMessage = "StaffPassword must be 8 to 100 chars max.")]
         [DataType(DataType.Password)]
         public required string StaffPassword { get; set; }
 
-        [Required(ErrorMessage = "A data de início das funções é obrigatória.")]
-        [DataType(DataType.Date, ErrorMessage = "Formato de data inválido.")]
+        [Required(ErrorMessage = "StartFunctionsDate is required.")]
+        [DataType(DataType.Date, ErrorMessage = "StartFunctionsDate not valid.")]
         public DateTime StartFunctionsDate { get; set; }
 
-        [DataType(DataType.Date, ErrorMessage = "Formato de data inválido.")]
+        [DataType(DataType.Date, ErrorMessage = "EndFunctionsDate not valid.")]
         public DateTime EndFunctionsDate { get; set; }
 
         [Required(ErrorMessage = "DaysOfVacationCount is required.")]
-        [Range(0, 365, ErrorMessage = "DaysOfVacationCount must be 0 to 365.")]
+        [Range(0, 30, ErrorMessage = "DaysOfVacationCount must be 0 to 30 max.")]
         public required int DaysOfVacationCount { get; set; }
 
         public bool IsActive { get; set; }
