@@ -1,0 +1,54 @@
+﻿@model ReserveSystem.Models.Schedules
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Schedules</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StartShiftTime)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StartShiftTime)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EndShiftTime)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EndShiftTime)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.isPrecense)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.isPrecense)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.isAvailable)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.isAvailable)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.staff)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.staff.StaffDriversLicense)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.typeOfSchedule)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.typeOfSchedule.JobDescription)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.SchedulesId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
