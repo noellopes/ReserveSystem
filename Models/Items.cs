@@ -4,6 +4,7 @@ namespace ReserveSystem.Models
 {
     public class Items
     {
+        [Key]
         public int ItemId { get; set; }
         [Required(ErrorMessage = "Name is required.")]
         [StringLength(100, ErrorMessage = "Name cannot exceed 100 characters.")]

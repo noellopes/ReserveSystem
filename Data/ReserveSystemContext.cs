@@ -5,7 +5,7 @@ namespace ReserveSystem.Data
 {
     public class ReserveSystemContext : DbContext
     {
-   
+
         public ReserveSystemContext(DbContextOptions<ReserveSystemContext> options) : base(options) { }
         public DbSet<ReserveSystem.Models.Job> Job { get; set; } = default!;
         public DbSet<ReserveSystem.Models.Staff> Staff { get; set; } = default!;
@@ -15,5 +15,8 @@ namespace ReserveSystem.Data
         public DbSet<ReserveSystem.Models.Room_Booking> Room_Booking { get; set; } = default!;
         public DbSet<ReserveSystem.Models.Room> Room { get; set; } = default!;
         public DbSet<ReserveSystem.Models.Room_Type> Room_Type { get; set; } = default!;
+        public DbSet<ReserveSystem.Models.Cleaning_Schedule> Cleaning_Schedule { get; set; } = default!;
+        public DbSet<ReserveSystem.Models.Client> Client { get; set; } = default!;
+        public DbSet<ReserveSystem.Models.Consumptions> Consumptions { get; set; } = default!;
     }
 }

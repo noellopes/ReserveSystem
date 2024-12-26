@@ -4,6 +4,7 @@ namespace ReserveSystem.Models
 {
     public class Consumptions
     {
+        [Key]
         public int ConsumptionId { get; set; } 
         public int RoomId { get; set; } 
         public int ItemId { get; set; }

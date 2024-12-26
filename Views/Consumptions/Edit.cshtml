@@ -1,0 +1,49 @@
+﻿@model ReserveSystem.Models.Consumptions
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Consumptions</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ConsumptionId" />
+            <div class="form-group">
+                <label asp-for="RoomId" class="control-label"></label>
+                <input asp-for="RoomId" class="form-control" />
+                <span asp-validation-for="RoomId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ItemId" class="control-label"></label>
+                <input asp-for="ItemId" class="form-control" />
+                <span asp-validation-for="ItemId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="QuantityConsumed" class="control-label"></label>
+                <input asp-for="QuantityConsumed" class="form-control" />
+                <span asp-validation-for="QuantityConsumed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConsumedDate" class="control-label"></label>
+                <input asp-for="ConsumedDate" class="form-control" />
+                <span asp-validation-for="ConsumedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
