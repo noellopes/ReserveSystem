@@ -55,7 +55,7 @@ namespace ReserveSystem.Migrations
 
                     b.HasIndex("ID_CLIENT");
 
-                    b.ToTable("Booking");
+                    b.ToTable("Booking", (string)null);
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.ClientModel", b =>
@@ -100,7 +100,7 @@ namespace ReserveSystem.Migrations
                     b.HasIndex("Identification")
                         .IsUnique();
 
-                    b.ToTable("Client");
+                    b.ToTable("Client", (string)null);
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.RoomModel", b =>
@@ -129,7 +129,7 @@ namespace ReserveSystem.Migrations
 
                     b.HasKey("RoomTypeId");
 
-                    b.ToTable("Room");
+                    b.ToTable("Room", (string)null);
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.BookingModel", b =>

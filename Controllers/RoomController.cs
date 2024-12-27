@@ -34,7 +34,9 @@ namespace ReserveSystem.Controllers
             }
 
             var roomModel = await _context.Room
-                .FirstOrDefaultAsync(m => m.RoomTypeId == id);
+                .Include(r => r.RoomType) // Inclui os dados da tabela RoomType
+                .FirstOrDefaultAsync(m => m.ID_ROOM == id); // Filtra pelo ID do quarto
+
             if (roomModel == null)
             {
                 return NotFound();

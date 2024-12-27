@@ -11,35 +11,35 @@
     <h4>RoomModel</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <!-- Exibindo o tipo de quarto -->
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.RoomType)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RoomType)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RoomType.Type)  <!-- Acesso ao nome do tipo de quarto -->
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Capacity)
+
+        <!-- Exibindo a capacidade do quarto -->
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RoomType.RoomCapacity)  <!-- Acesso à capacidade no RoomType -->
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Capacity)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RoomType.RoomCapacity)  <!-- Exibindo a capacidade do quarto -->
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NumberOfRooms)
+        <!-- Exibindo se o quarto tem vista -->
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RoomType.HasView)  <!-- Acesso à vista no RoomType -->
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NumberOfRooms)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RoomType.HasView)  <!-- Exibindo se o quarto tem vista -->
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.HasView)
+
+        <!-- Exibindo se o quarto é adaptado -->
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RoomType.AcessibilityRoom)  <!-- Acesso ao RoomType para a adaptação -->
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.HasView)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AdaptedRoom)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AdaptedRoom)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RoomType.AcessibilityRoom)  <!-- Exibindo se o quarto é adaptado -->
         </dd>
     </dl>
     

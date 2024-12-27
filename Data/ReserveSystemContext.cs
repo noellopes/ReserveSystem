@@ -15,9 +15,15 @@ namespace ReserveSystem.Data
                 .HasIndex(c => c.Identification)
                 .IsUnique();
 
+            modelBuilder.Entity<RoomModel>()
+           .HasOne(r => r.RoomType)           // Um Quarto apenas tem um tipo 
+           .WithMany(rt => rt.Rooms)          // Um RoomType pode ter muitos quartos 
+           .HasForeignKey(r => r.RoomTypeId); // Chave estrangeira para RoomType
+
+            
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<RoomModel> Room { get; set; }
-
+        public DbSet<RoomType> RoomTypes { get; set; }
     }
 }

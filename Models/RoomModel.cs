@@ -1,19 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ReserveSystem.Models
 {
     public class RoomModel
     {
-        [Key][Required] public int RoomTypeId { get; set; }
+        [Key][Required] public int ID_ROOM { get; set; }
 
-        [Required] public string RoomType { get; set; }
+        [Required][ForeignKey("RoomType")] public int RoomTypeId { get; set; }
 
-        [Required] public int Capacity { get; set; }
-
-        [Required] public int NumberOfRooms { get; set; }
-
-        [Required] public bool HasView { get; set; }
-
-        [Required] public bool AdaptedRoom { get; set; }
+       public RoomType RoomType { get; set; }
     }
 }

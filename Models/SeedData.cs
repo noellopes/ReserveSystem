@@ -54,38 +54,33 @@ namespace ReserveSystem.Models
             db.Room.AddRange(
                 new List<RoomModel>
                 {
-            new RoomModel { RoomType = "Standard", Capacity = 2, NumberOfRooms = 10, HasView = true, AdaptedRoom = false },
-            new RoomModel { RoomType = "Standard", Capacity = 2, NumberOfRooms = 8, HasView = false, AdaptedRoom = true },
-            new RoomModel { RoomType = "Suite", Capacity = 4, NumberOfRooms = 7, HasView = true, AdaptedRoom = false },
-            new RoomModel { RoomType = "Suite", Capacity = 4, NumberOfRooms = 5, HasView = false, AdaptedRoom = true },
-            new RoomModel { RoomType = "Deluxe", Capacity = 3, NumberOfRooms = 6, HasView = true, AdaptedRoom = true },
-            new RoomModel { RoomType = "Deluxe", Capacity = 3, NumberOfRooms = 8, HasView = false, AdaptedRoom = false },
-            new RoomModel { RoomType = "Executive", Capacity = 2, NumberOfRooms = 5, HasView = true, AdaptedRoom = false },
-            new RoomModel { RoomType = "Executive", Capacity = 2, NumberOfRooms = 4, HasView = false, AdaptedRoom = true },
-            new RoomModel { RoomType = "Family", Capacity = 5, NumberOfRooms = 3, HasView = true, AdaptedRoom = true },
-            new RoomModel { RoomType = "Family", Capacity = 5, NumberOfRooms = 4, HasView = false, AdaptedRoom = false },
-            new RoomModel { RoomType = "Presidential", Capacity = 6, NumberOfRooms = 2, HasView = true, AdaptedRoom = false },
-            new RoomModel { RoomType = "Presidential", Capacity = 6, NumberOfRooms = 1, HasView = false, AdaptedRoom = true },
-            new RoomModel{ RoomType = "Penthouse", Capacity = 4, NumberOfRooms = 2, HasView = true, AdaptedRoom = true },
-            new RoomModel { RoomType = "Studio", Capacity = 2, NumberOfRooms = 10, HasView = false, AdaptedRoom = false },
-            new RoomModel { RoomType = "Loft", Capacity = 3, NumberOfRooms = 3, HasView = true, AdaptedRoom = false },
-            new RoomModel { RoomType = "Loft", Capacity = 3, NumberOfRooms = 4, HasView = false, AdaptedRoom = true },
-            new RoomModel { RoomType = "Villa", Capacity = 8, NumberOfRooms = 2, HasView = true, AdaptedRoom = false },
-            new RoomModel { RoomType = "Villa", Capacity = 8, NumberOfRooms = 3, HasView = false, AdaptedRoom = true },
-            new RoomModel { RoomType = "Bungalow", Capacity = 4, NumberOfRooms = 5, HasView = true, AdaptedRoom = false },
-            new RoomModel { RoomType = "Bungalow", Capacity = 4, NumberOfRooms = 6, HasView = false, AdaptedRoom = true },
-            new RoomModel { RoomType = "Single", Capacity = 1, NumberOfRooms = 15, HasView = false, AdaptedRoom = false },
-            new RoomModel { RoomType = "Single", Capacity = 1, NumberOfRooms = 12, HasView = true, AdaptedRoom = true },
-            new RoomModel { RoomType = "Double", Capacity = 2, NumberOfRooms = 20, HasView = false, AdaptedRoom = false },
-            new RoomModel { RoomType = "Double", Capacity = 2, NumberOfRooms = 15, HasView = true, AdaptedRoom = true },
-            new RoomModel { RoomType = "Cottage", Capacity = 5, NumberOfRooms = 4, HasView = true, AdaptedRoom = false },
-            new RoomModel { RoomType = "Cottage", Capacity = 5, NumberOfRooms = 3, HasView = false, AdaptedRoom = true },
-            new RoomModel { RoomType = "Cabin", Capacity = 3, NumberOfRooms = 7, HasView = true, AdaptedRoom = false },
-            new RoomModel { RoomType = "Cabin", Capacity = 3, NumberOfRooms = 6, HasView = false, AdaptedRoom = true }
-                }
+            new RoomModel { RoomTypeId =0 },
+            new RoomModel { RoomTypeId =1 },
+            new RoomModel { RoomTypeId =2 },
+            new RoomModel { RoomTypeId =0 },
+            new RoomModel { RoomTypeId =1 },
+            new RoomModel { RoomTypeId =2 },
+            new RoomModel { RoomTypeId =0 },
+            new RoomModel { RoomTypeId =0 },
+            new RoomModel { RoomTypeId =1 },
+            new RoomModel { RoomTypeId =2 },
+            new RoomModel { RoomTypeId =0 }}
             );
-
             db.SaveChanges();
+        }
+
+        private static void PopulateRoomType(ReserveSystemContext db)
+        {
+            if (db.RoomTypes.Any()) return;
+
+            db.RoomTypes.AddRange(
+                new List<RoomType>
+                {
+                    new RoomType { HasView = false, Type = "Standard", RoomCapacity = 2, AcessibilityRoom = false },
+                    new RoomType { HasView = true, Type = "Deluxe", RoomCapacity = 3, AcessibilityRoom = false },
+                    new RoomType { HasView = true, Type = "Suite", RoomCapacity = 4, AcessibilityRoom = true },
+                    new RoomType { HasView = false, Type = "Economy", RoomCapacity = 1, AcessibilityRoom = true }
+                });
         }
     }
 }

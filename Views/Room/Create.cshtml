@@ -12,31 +12,36 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Dropdown para selecionar o tipo de quarto -->
             <div class="form-group">
-                <label asp-for="RoomType" class="control-label"></label>
-                <input asp-for="RoomType" class="form-control" />
-                <span asp-validation-for="RoomType" class="text-danger"></span>
+                <label asp-for="RoomTypeId" class="control-label"></label>
+                <select asp-for="RoomTypeId" class="form-control" asp-items="ViewBag.RoomTypes"></select>
+                <span asp-validation-for="RoomTypeId" class="text-danger"></span>
             </div>
+
+            <!-- Capacidade do quarto -->
             <div class="form-group">
-                <label asp-for="Capacity" class="control-label"></label>
-                <input asp-for="Capacity" class="form-control" />
-                <span asp-validation-for="Capacity" class="text-danger"></span>
+                <label asp-for="RoomType.RoomCapacity" class="control-label"></label>
+                <input asp-for="RoomType.RoomCapacity" class="form-control" readonly />
+                <span asp-validation-for="RoomType.RoomCapacity" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="NumberOfRooms" class="control-label"></label>
-                <input asp-for="NumberOfRooms" class="form-control" />
-                <span asp-validation-for="NumberOfRooms" class="text-danger"></span>
-            </div>
+
+
+            <!-- Se o quarto tem vista -->
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="HasView" /> @Html.DisplayNameFor(model => model.HasView)
+                    <input class="form-check-input" asp-for="RoomType.HasView" /> @Html.DisplayNameFor(model => model.RoomType.HasView)
                 </label>
             </div>
+
+            <!-- Se o quarto é adaptado -->
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="AdaptedRoom" /> @Html.DisplayNameFor(model => model.AdaptedRoom)
+                    <input class="form-check-input" asp-for="RoomType.AcessibilityRoom" /> @Html.DisplayNameFor(model => model.RoomType.AcessibilityRoom)
                 </label>
             </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

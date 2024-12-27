@@ -10,35 +10,34 @@
     <h4>RoomModel</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RoomType)
+      
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RoomType.Type) <!-- Acessa o 'Type' de RoomType -->
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RoomType)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RoomType.Type) <!-- Exibe o 'Type' -->
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Capacity)
+
+      
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RoomType.RoomCapacity) <!-- Acessa o 'RoomCapacity' de RoomType -->
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Capacity)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RoomType.RoomCapacity) <!-- Exibe o 'RoomCapacity' -->
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NumberOfRooms)
+      
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RoomType.HasView) <!-- Acessa 'HasView' de RoomType -->
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NumberOfRooms)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RoomType.HasView) <!-- Exibe 'HasView' -->
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.HasView)
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RoomType.AcessibilityRoom) <!-- Acessa 'AcessibilityRoom' de RoomType -->
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.HasView)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AdaptedRoom)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AdaptedRoom)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RoomType.AcessibilityRoom) <!-- Exibe 'AcessibilityRoom' -->
         </dd>
     </dl>
 </div>

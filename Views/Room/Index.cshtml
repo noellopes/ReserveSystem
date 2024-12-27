@@ -17,16 +17,13 @@
                 @Html.DisplayNameFor(model => model.RoomType)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Capacity)
+                @Html.DisplayNameFor(model => model.RoomType.RoomCapacity)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NumberOfRooms)
+                @Html.DisplayNameFor(model => model.RoomType.HasView)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.HasView)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AdaptedRoom)
+                @Html.DisplayNameFor(model => model.RoomType.AcessibilityRoom)
             </th>
             <th></th>
         </tr>
@@ -36,25 +33,24 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.RoomType)
+                    @Html.DisplayFor(modelItem => item.RoomType.Type) <!-- Exibindo o nome do tipo de quarto -->
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Capacity)
+                    @Html.DisplayFor(modelItem => item.RoomType.RoomCapacity) <!-- Exibindo a capacidade -->
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.NumberOfRooms)
+                    @Html.DisplayFor(modelItem => item.RoomType.HasView) <!-- Exibindo se o quarto tem vista -->
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.HasView)
+                    @Html.DisplayFor(modelItem => item.RoomType.AcessibilityRoom) <!-- Exibindo se o quarto é adaptado -->
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.AdaptedRoom)
-                </td>
-                <td>
-                    <a asp-controller="Reservas" asp-action="Create" asp-route-id="@item.RoomTypeId" class="btn btn-primary" style="background-color: #6f42c1; border-color: #6f42c1;"><i class="bi bi-journal-plus"></i> Adicionar a reserva</a> |
+                    <a asp-controller="Reservas" asp-action="Create" asp-route-id="@item.RoomTypeId" class="btn btn-primary" style="background-color: #6f42c1; border-color: #6f42c1;">
+                        <i class="bi bi-journal-plus"></i> Adicionar a reserva
+                    </a> |
                 </td>
             </tr>
         }
-
+    </tbody>
 </table>
  </tbody>
