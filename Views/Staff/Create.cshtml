@@ -25,7 +25,7 @@
 
                     <div class="form-group">
                         <label asp-for="BirthDate" class="control-label">BirthDate</label>
-                        <input asp-for="BirthDate" class="form-control" type="date" />
+                        <input asp-for="BirthDate" class="form-control" type="date" value="@Model.DriverLicenseExpirationDate.ToString("dd/MM/yyyy")" />
                         <span asp-validation-for="BirthDate" class="text-danger"></span>
                     </div>
 
@@ -86,23 +86,22 @@
 
                     <div class="form-group">
                         <label asp-for="DriverLicenseExpirationDate" class="control-label">Driver License Expiration Date</label>
-                        <input asp-for="DriverLicenseExpirationDate" class="form-control" type="date" />
+                        <input asp-for="DriverLicenseExpirationDate" class="form-control" type="date" value="@Model.DriverLicenseExpirationDate.ToString("dd/MM/yyyy")"/>
                         <span asp-validation-for="DriverLicenseExpirationDate" class="text-danger"></span>
                     </div>
                 </div>
             </div>
 
             <!-- Botão de envio -->
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group text-center">
+                <input type="submit" value="Create" class="btn btn-create" />
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

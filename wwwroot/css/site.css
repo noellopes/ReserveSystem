@@ -67,6 +67,7 @@ h1 {
     font-size: 15px;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
     background-color: #f9f9f9;
+
 }
 
     .form-group .form-control:focus {
@@ -76,7 +77,7 @@ h1 {
     }
 
 /* Bot�o de submiss�o */
-.btn-primary {
+.btn-index {
     background-color: #00bfa5;
     border: none;
     border-radius: 8px;
@@ -85,17 +86,41 @@ h1 {
     font-weight: 600;
     color: #fff;
     transition: background-color 0.3s ease, transform 0.1s ease;
-    width: 100%;
+    width: 30%;
     cursor: pointer;
     display: block;
     text-align: center;
+    
 }
 
-    .btn-primary:hover {
+.btn-create {
+    background-color: #00bfa5;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    width: 50%; /* Largura do botão */
+    cursor: pointer;
+    display: block; 
+    text-align: center; 
+    
+}
+
+
+    .btn-index:hover {
         background-color: #008f7a;
         transform: translateY(-2px);
         box-shadow: 0 4px 10px rgba(0, 143, 122, 0.3);
     }
+
+.btn-create:hover {
+    background-color: #008f7a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 143, 122, 0.3);
+}
 
 /* Links */
 .form-container a {
