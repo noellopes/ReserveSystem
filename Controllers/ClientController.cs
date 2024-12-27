@@ -16,17 +16,16 @@ namespace ReserveSystem.Controllers
     public class ClientController : Controller
     {
         private readonly ReserveSystemContext _context;      
-        public ClientController(ReserveSystemContext context, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+        public ClientController(ReserveSystemContext context)
         {
             _context = context;            
         }
 
         // GET: Client
-        public async Task<IActionResult> Index(string searchQuery)
+        public async Task<IActionResult> Index(string searchQuery, int page = 1)
         {
             var clients = _context.Client.AsQueryable();
 
-            // If searchQuery is provided, filter by Email or Identification
             if (!string.IsNullOrEmpty(searchQuery))
             {
                 clients = clients.Where(c =>
@@ -35,12 +34,18 @@ namespace ReserveSystem.Controllers
             }
             var clientList = await clients.ToListAsync();
 
-            if (Request.Headers.XRequestedWith == "XMLHttpRequest")
+            var bookmodel = new ClientViewModel();
+            bookmodel.PagingInfo = new PagingInfo
             {
-                // Return only the table rows as a partial view for AJAX requests
-                return PartialView("_ClientTableBody", clientList);
-            }
-            return View(clientList);
+                CurrentPage = page,
+                TotalItems = await clients.CountAsync(),
+            };
+            bookmodel.clientModels = await clients
+                .OrderBy(c => c.Name)
+                .Skip((bookmodel.PagingInfo.CurrentPage - 1) * bookmodel.PagingInfo.PageSize)
+                .Take(bookmodel.PagingInfo.PageSize)
+                .ToListAsync();
+            return View(bookmodel);
         }
 
         // GET: Client/Details/5
@@ -67,7 +72,6 @@ namespace ReserveSystem.Controllers
             await _context.SaveChangesAsync();
             return View(clientModel);
         }
-
         // GET: Client/Create
         public IActionResult Create()
         {
@@ -109,13 +113,13 @@ namespace ReserveSystem.Controllers
                     //        return View(cliente);
                     //    }
                     //}
-                    
-                    //var isDuplicate = await _context.Client.AnyAsync(c => c.Identification == cliente.Identification);
-                    //if (isDuplicate)
-                    //{
-                    //    ModelState.AddModelError("Identification", "Invalid identification details. Please verify and try again.");
-                    //    return View(cliente);
-                    //}
+
+                    var isDuplicate = await _context.Client.AnyAsync(c => c.NIF == cliente.NIF);
+                    if (isDuplicate)
+                    {
+                        ModelState.AddModelError("NIF", "Invalid identification details. Please verify and try again.");
+                        return View(cliente);
+                    }
 
                     _context.Add(cliente);
                     await _context.SaveChangesAsync();
@@ -237,7 +241,6 @@ namespace ReserveSystem.Controllers
             await _context.SaveChangesAsync();
             return View("DeletedSuccess");
         }
-
         private bool ClientModelExists(int id)
         {
             return _context.Client.Any(e => e.ClienteId == id);

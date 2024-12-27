@@ -1,4 +1,7 @@
-﻿//document.getElementById("countrySelect").addEventListener("change", function () {
+﻿
+
+
+//document.getElementById("countrySelect").addEventListener("change", function () {
 //    const selectedOption = this.options[this.selectedIndex];
 //    const countryCode = selectedOption.getAttribute("data-code");
 //    const countryFlagCode = selectedOption.getAttribute("data-flag");
@@ -88,50 +91,50 @@
 
 // Event listener for changes in the Identification Type
 // Event listener for changes in the Identification Type
-document.getElementById("IdentificationType").addEventListener("change", function () {
-    var identificationType = this.value;
-    var identificationInputWrapper = document.getElementById("IdentificationInputWrapper");
-    var identificationInput = document.getElementById("IdentificationNumber");
+//document.getElementById("IdentificationType").addEventListener("change", function () {
+//    var identificationType = this.value;
+//    var identificationInputWrapper = document.getElementById("IdentificationInputWrapper");
+//    var identificationInput = document.getElementById("IdentificationNumber");
 
-    // Show or hide the Identification Number input based on the selected identification type
-    if (identificationType) {
-        identificationInputWrapper.style.display = "block";  // Show the input field
-        identificationInput.removeAttribute("disabled");  // Enable the input field
-    } else {
-        identificationInputWrapper.style.display = "none";  // Hide the input field if no type is selected
-        identificationInput.setAttribute("disabled", "true");  // Disable the input field
-    }
-    if (identificationType === "NIF") {
-        isValid = IsNifValid(inputValue);
-    } else if (identificationType === "IDCard") {
-        isValid = IsIDCardValid(inputValue);
-    } else if (identificationType === "Passport") {
-        isValid = IsPassportValid(inputValue);
-    }
+//    // Show or hide the Identification Number input based on the selected identification type
+//    if (identificationType) {
+//        identificationInputWrapper.style.display = "block";  // Show the input field
+//        identificationInput.removeAttribute("disabled");  // Enable the input field
+//    } else {
+//        identificationInputWrapper.style.display = "none";  // Hide the input field if no type is selected
+//        identificationInput.setAttribute("disabled", "true");  // Disable the input field
+//    }
+//    if (identificationType === "NIF") {
+//        isValid = IsNifValid(inputValue);
+//    } else if (identificationType === "IDCard") {
+//        isValid = IsIDCardValid(inputValue);
+//    } else if (identificationType === "Passport") {
+//        isValid = IsPassportValid(inputValue);
+//    }
 
-    // Add an event listener to validate the identification number when it changes
-    identificationInput.removeEventListener("input", validateIdentificationNumber);
-    identificationInput.addEventListener("input", validateIdentificationNumber);   
-});
+//    // Add an event listener to validate the identification number when it changes
+//    identificationInput.removeEventListener("input", validateIdentificationNumber);
+//    identificationInput.addEventListener("input", validateIdentificationNumber);   
+//});
 
-// Trigger the change event on page load to set the initial state (optional)
-document.getElementById("IdentificationType").dispatchEvent(new Event("change"));
+//// Trigger the change event on page load to set the initial state (optional)
+//document.getElementById("IdentificationType").dispatchEvent(new Event("change"));
 
 
-$(document).ready(function () {
-    // When the user types in the search bar
-    $("#searchQuery").on("input", function () {
-        var query = $(this).val();
+//$(document).ready(function () {
+//    // When the user types in the search bar
+//    $("#searchQuery").on("input", function () {
+//        var query = $(this).val();
 
-        // Send AJAX request to the server
-        $.ajax({
-            url: "@Url.Action("Index", "Client")", // The Index action that returns the filtered data
-            type: "GET",
-            data: { searchQuery: query }, // Send the query parameter
-            success: function (data) {
-                // Replace the table body with the filtered data (updated rows)
-                $("#clientTableBody").html(data);
-            }
-        });
-    });
-});
+//        // Send AJAX request to the server
+//        $.ajax({
+//            url: "@Url.Action("Index", "Client")", // The Index action that returns the filtered data
+//            type: "GET",
+//            data: { searchQuery: query }, // Send the query parameter
+//            success: function (data) {
+//                // Replace the table body with the filtered data (updated rows)
+//                $("#clientTableBody").html(data);
+//            }
+//        });
+//    });
+//});

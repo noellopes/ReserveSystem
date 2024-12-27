@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ReserveSystem.Models.ClientModel>
+﻿@model ReserveSystem.Models.ClientViewModel
 
 @{
     ViewData["Title"] = "Client list";
@@ -34,19 +34,19 @@
     <thead class="fs-2">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.clientModels.First().Name)
             </th>                     
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                @Html.DisplayNameFor(model => model.clientModels.First().Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NIF)
+                @Html.DisplayNameFor(model => model.clientModels.First().NIF)
             </th>            
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.clientModels) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -67,3 +67,48 @@
 }
     </tbody>
 </table>
+<nav aria-label="Pagination">
+    <ul class="pagination">
+        @{
+            var cssStyle = "page-item";
+            if (Model.PagingInfo.CurrentPage == 1)
+            {
+                cssStyle += " disabled";
+            }
+        }
+        <li class="@cssStyle">
+            <a class="page-link"
+               asp-action="Index"
+               asp-route-page="@(Model.PagingInfo.CurrentPage - 1)">&laquo;</a>
+        </li>
+
+        @for (int p = Model.PagingInfo.FirstPageShow; p <= Model.PagingInfo.LastPageShow; p++)
+        {
+            cssStyle = "page-item";
+            if (p == Model.PagingInfo.CurrentPage)
+            {
+                cssStyle += " active";
+            }
+
+            <li class="@cssStyle">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@p"
+                   >@p</a>
+            </li>
+        }
+
+        @{
+            cssStyle = "page-item";
+            if (Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages)
+            {
+                cssStyle += " disabled";
+            }
+        }
+        <li class="@cssStyle">
+            <a class="page-link"
+               asp-action="Index"
+               asp-route-page="@(Model.PagingInfo.CurrentPage + 1)">&raquo;</a>
+        </li>
+    </ul>
+</nav>
