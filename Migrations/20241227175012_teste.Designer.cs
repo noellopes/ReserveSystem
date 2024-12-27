@@ -12,7 +12,7 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    [Migration("20241227154329_teste")]
+    [Migration("20241227175012_teste")]
     partial class teste
     {
         /// <inheritdoc />
@@ -119,11 +119,17 @@ namespace ReserveSystem.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("DaysOffVacationCount")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DriverLicenseExpirationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DrivingLicenseGrades")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndFunctionsDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Staff_Email")
                         .IsRequired()
@@ -142,6 +148,9 @@ namespace ReserveSystem.Migrations
                         .IsRequired()
                         .HasMaxLength(9)
                         .HasColumnType("nvarchar(9)");
+
+                    b.Property<DateTime>("StartFunctionsDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("jobID_FK")
                         .HasColumnType("int");
