@@ -6,38 +6,46 @@
     {
         public class StaffModel
         {
-                [Key]
-                [Required]
-                public int Staff_Id { get; set; }
+            [Key]
+            [Required]
+            [Display(Name = "ID")]
+            public int Staff_Id { get; set; }
 
-                [Required]
-                [StringLength(100)]
-                public string Staff_Name { get; set; }
-                [Required]
-                public DateTime BirthDate { get; set; }
+            [Required]
+            [StringLength(100)]
+            [Display(Name = "Name")]
+            public string Staff_Name { get; set; }
 
-                [Required]
-                [EmailAddress]
-                public string Staff_Email { get; set; }
+
+            [Required]
+            [Display(Name = "Birthdate")]
+            public DateTime BirthDate { get; set; }
+
+            [Required]
+            [EmailAddress]
+            [Display(Name = "Email")]
+            public string Staff_Email { get; set; }
             
             [Required]
             [StringLength(9)]
-                public string Staff_Phone { get; set; }
+            [Display(Name = "Email")]
+            public string Staff_Phone { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
+            [Display(Name = "Password")]
             public string Staff_Password { get; set; } = "defaultpassword";
 
-           
-                public int jobID_FK { get; set; }
+            [Display(Name = "Job")]
+            public int jobID_FK { get; set; }
         
         
-        [ForeignKey("jobID_FK ")]
+            [ForeignKey("jobID_FK ")]
             public JobModel? Job { get; set; }
         
             public List<string>? DrivingLicenseGrades { get; set; }
             
-                public DateTime DriverLicenseExpirationDate { get; set; }
+            public DateTime DriverLicenseExpirationDate { get; set; }
         }
     
     }

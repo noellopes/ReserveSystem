@@ -37,6 +37,7 @@ namespace ReserveSystem.Controllers
             }
 
             var staffModel = await _context.StaffModel
+                .Include(s => s.Job)
                 .FirstOrDefaultAsync(m => m.Staff_Id == id);
             if (staffModel == null)
             {
@@ -55,6 +56,8 @@ namespace ReserveSystem.Controllers
             var model = new StaffModel
             {
                 Staff_Password = "defaultpassword"
+                
+
             };
             return View(model);
         }
