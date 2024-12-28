@@ -137,7 +137,7 @@ ReserveSystem/
 ## 👥 Team Group 3:
 
 - Ana Antunes
-- Marta Almeida
-- Pedro Nunes
 - Kerem
+- Marta Almeida
 - Mehmet
+- Pedro Nunes
