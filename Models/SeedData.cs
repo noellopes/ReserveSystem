@@ -1,33 +1,43 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
 using System;
 using System.Linq;
+using ReserveSystem.Utils;
 
 namespace ReserveSystem.Models
 {
     public static class SeedData
     {
-        public static void Initialize(IServiceProvider serviceProvider)
-        {
-            using (var context = new ReserveSystemContext(
-                serviceProvider.GetRequiredService<
-                    DbContextOptions<ReserveSystemContext>>()))
-            {
-                // Look for any RoomServiceBookings.
-                if (context.RoomServiceBooking.Any())
-                {
-                    return;   // DB has already been seeded
-                }
+        internal static void Populate(ReserveSystemContext? db) {
+            if (db == null) return;
+            db.Database.EnsureCreated();
 
-                PopulateJobs(context);
-                PopulateStaffs(context);
-                PopulateSchedules(context);
-                PopulateClients(context);
-                PopulateRooms(context);
-                PopulateRoomServices(context);
-                PopulateRoomServiceBookings(context);
+            PopulateJobs(db);
+            PopulateStaffs(db);
+            PopulateSchedules(db);
+            PopulateClients(db);
+            PopulateRooms(db);
+            PopulateRoomServices(db);
+            PopulateRoomServiceBookings(db);
+        }
+
+        internal static async void PopulateUsers(UserManager<IdentityUser> userManager) {
+            await EnsureUserIsCreatedAsync(userManager, "john@ipg.pt", "Secret$123");
+        }
+
+        internal static void PopulateDefaultAdmin(UserManager<IdentityUser> userManager) {
+            EnsureUserIsCreatedAsync(userManager, "admin@ipg.pt", "Secret$123").Wait();
+        }
+
+        private static async Task EnsureUserIsCreatedAsync(UserManager<IdentityUser> userManager, string username, string password) {
+            var user = await userManager.FindByNameAsync(username);
+
+            if (user == null) {
+                user = new IdentityUser(username);
+                await userManager.CreateAsync(user, password);
             }
         }
 
@@ -66,14 +76,15 @@ namespace ReserveSystem.Models
                 {
                     var startDate = DateOnly.FromDateTime(DateTime.Today.AddYears(random.Next(-5, 0)).AddMonths(random.Next(-11, 0)));
                     var contractLength = random.Next(1, 4); // 1-3 year contracts
+                    var name = $"{firstNames[random.Next(firstNames.Length)]} {lastNames[random.Next(lastNames.Length)]}";
 
                     staffList.Add(new Staff
                     {
-                        Name = $"{firstNames[random.Next(firstNames.Length)]} {lastNames[random.Next(lastNames.Length)]}",
+                        Name = name,
                         JobId = jobs[random.Next(jobs.Count)].Id,
-                        Email = $"staff{i + 1}@hotel.com",
+                        Email = $"{name}{i + 1}@hotel.com",
                         Phone = $"+351 9{random.Next(10, 99)} {random.Next(100, 999)} {random.Next(100, 999)}",
-                        Password = "StaffPass123!",
+                        Password = PasswordGenerator.GenerateSecurePassword(),
                         ContractStartDate = startDate,
                         ContractExpiryDate = startDate.AddYears(contractLength),
                         VacationDays = random.Next(15, 26)  // 15-25 vacation days

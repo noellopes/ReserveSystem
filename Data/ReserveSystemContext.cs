@@ -13,6 +13,8 @@ namespace ReserveSystem.Data
         
         public DbSet<Room> Room { get; set; } = default!;
         
+        public DbSet<Employee> Employee { get; set; } = default!;
+
         public DbSet<Staff> Staff { get; set; } = default!;
         
         public DbSet<RoomService> RoomService { get; set; } = default!;
