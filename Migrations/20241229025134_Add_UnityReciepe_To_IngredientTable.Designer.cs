@@ -12,8 +12,8 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    [Migration("20241222183957_UpdateSuppliersModel")]
-    partial class UpdateSuppliersModel
+    [Migration("20241229025134_Add_UnityReciepe_To_IngredientTable")]
+    partial class Add_UnityReciepe_To_IngredientTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,32 @@ namespace ReserveSystem.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ReserveSystem.Models.ComposicaoPrato", b =>
+                {
+                    b.Property<int>("ComposicaoPratoID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ComposicaoPratoID"));
+
+                    b.Property<int>("IngredientID")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("IngredientQuantity")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("PratoID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ComposicaoPratoID");
+
+                    b.HasIndex("IngredientID");
+
+                    b.HasIndex("PratoID");
+
+                    b.ToTable("ComposicaoPrato");
+                });
 
             modelBuilder.Entity("ReserveSystem.Models.Ingredient", b =>
                 {
@@ -48,6 +74,11 @@ namespace ReserveSystem.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UnityMeasure")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("UnityReciepe")
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
@@ -108,12 +139,35 @@ namespace ReserveSystem.Migrations
 
                     b.Property<string>("SupplierPhone")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("SupplierID");
 
                     b.ToTable("Supplier");
+                });
+
+            modelBuilder.Entity("ReserveSystem.Models.ComposicaoPrato", b =>
+                {
+                    b.HasOne("ReserveSystem.Models.Ingredient", "Ingredient")
+                        .WithMany()
+                        .HasForeignKey("IngredientID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ReserveSystem.Models.Prato", "Prato")
+                        .WithMany("ComposicaoPratos")
+                        .HasForeignKey("PratoID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ingredient");
+
+                    b.Navigation("Prato");
+                });
+
+            modelBuilder.Entity("ReserveSystem.Models.Prato", b =>
+                {
+                    b.Navigation("ComposicaoPratos");
                 });
 #pragma warning restore 612, 618
         }

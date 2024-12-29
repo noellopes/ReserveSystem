@@ -57,10 +57,25 @@ namespace ReserveSystem.Controllers
             }
 
             var prato = await _context.Prato
+                .Include(p => p.ComposicaoPratos)
+                .ThenInclude(cp => cp.Ingredient)
                 .FirstOrDefaultAsync(m => m.PratoId == id);
+
             if (prato == null)
             {
                 return NotFound();
+            }
+
+            if (prato.ComposicaoPratos != null && prato.ComposicaoPratos.Any())
+            {
+                foreach (var composicao in prato.ComposicaoPratos)
+                {
+                    Console.WriteLine($"Ingrediente: {composicao.Ingredient.Name}, Quantidade: {composicao.IngredientQuantity}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Nenhum ingrediente encontrado para o prato.");
             }
 
             return View(prato);

@@ -54,6 +54,7 @@
             <tr>
                 <th>@Html.DisplayNameFor(model => model.Ingredient.First().Name)</th>
                 <th>@Html.DisplayNameFor(model => model.Ingredient.First().UnityMeasure)</th>
+                <th>@Html.DisplayNameFor(model => model.Ingredient.First().UnityRecipe)</th>
                 <th>@Html.DisplayNameFor(model => model.Ingredient.First().StockMin)</th>
                 <th>@Html.DisplayNameFor(model => model.Ingredient.First().QuantityAvailable)</th>
                 <th>@Html.DisplayNameFor(model => model.Ingredient.First().LastModificationDate)</th>
@@ -66,6 +67,7 @@
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.Name)</td>
                     <td>@Html.DisplayFor(modelItem => item.UnityMeasure)</td>
+                    <td>@Html.DisplayFor(modelItem => item.UnityRecipe)</td>
                     <td>@Html.DisplayFor(modelItem => item.StockMin)</td>
                     <td>@Html.DisplayFor(modelItem => item.QuantityAvailable)</td>
                     <td>@item.LastModificationDate.ToString("dd/MM/yyyy HH:mm:ss")</td>

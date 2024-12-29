@@ -18,5 +18,8 @@ namespace ReserveSystem.Models
         [Required(ErrorMessage = "O preço é obrigatório")]
         [Range(0.01, 10000, ErrorMessage = "O preço deve estar entre 0,01 e 10.000")]
         public decimal Preco { get; set; }
+
+        // Relacionamento
+        public ICollection<ComposicaoPrato> ComposicaoPratos { get; set; }
     }
 }
