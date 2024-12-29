@@ -7,7 +7,6 @@ namespace ReserveSystem.Data
     {
         public ReserveSystemContext(DbContextOptions<ReserveSystemContext> options) : base(options) {}
         public DbSet<ReserveSystem.Models.Ingredient> Ingredient { get; set; } = default!;
-
         public DbSet<ReserveSystem.Models.Prato> Prato { get; set; } = default!;
         public DbSet<ReserveSystem.Models.Supplier> Supplier { get; set; } = default!;
 
