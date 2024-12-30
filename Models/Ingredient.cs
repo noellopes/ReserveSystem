@@ -15,6 +15,10 @@ namespace ReserveSystem.Models
         [Required(ErrorMessage = "A unidade de medida é obrigatória"), StringLength(10)]
         public string UnityMeasure { get; set; }
 
+        [Display(Name = "Unidade a Usar nas Receitas")]
+        [Required(ErrorMessage = "A unidade a usar nas receitas é obrigatória"), StringLength(10)]
+        public string UnityRecipe { get; set; }
+
         [Display(Name = "Stock Mínimo")]
         [Range(0, int.MaxValue, ErrorMessage = "O stock mínimo deve ser maior ou igual a 0.")]
         public int StockMin { get; set; }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserveSystem.Data;
 
@@ -11,9 +12,11 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    partial class ReserveSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20241229030157_Edit_SeedData")]
+    partial class Edit_SeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,43 +24,7 @@ namespace ReserveSystem.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-            modelBuilder.Entity("BuffetPrato", b =>
-                {
-                    b.Property<int>("BuffetId")
-                        .HasColumnType("int");
 
-                    b.Property<int>("PratosPratoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BuffetId", "PratosPratoId");
-
-                    b.HasIndex("PratosPratoId");
-
-                    b.ToTable("BuffetPrato");
-                });
-
-            modelBuilder.Entity("ReserveSystem.Models.Buffet", b =>
-                {
-                    b.Property<int>("BuffetId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BuffetId"));
-
-                    b.Property<DateTime>("Data")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Descricao")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("BuffetId");
-
-                    b.ToTable("Buffet");
             modelBuilder.Entity("ReserveSystem.Models.ComposicaoPrato", b =>
                 {
                     b.Property<int>("ComposicaoPratoID")
@@ -146,19 +113,7 @@ namespace ReserveSystem.Migrations
 
                     b.ToTable("Prato");
                 });
-            modelBuilder.Entity("BuffetPrato", b =>
-                {
-                    b.HasOne("ReserveSystem.Models.Buffet", null)
-                        .WithMany()
-                        .HasForeignKey("BuffetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
-                    b.HasOne("ReserveSystem.Models.Prato", null)
-                        .WithMany()
-                        .HasForeignKey("PratosPratoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
             modelBuilder.Entity("ReserveSystem.Models.Supplier", b =>
                 {
                     b.Property<int>("SupplierID")

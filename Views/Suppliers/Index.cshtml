@@ -1,4 +1,4 @@
-﻿@model ReserveSystem.ViewModels.IngredientListViewModel
+﻿@model ReserveSystem.ViewModels.SuppliersListViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -43,39 +43,35 @@
 </style>
 
 <div class="container mt-4">
-    <h1 class="text-center text-primary">Ingredients</h1>
+    <h1 class="text-center text-primary">Lista de Fornecedores</h1>
 
     <div class="d-flex justify-content-between mb-3">
-        <a class="btn btn-primary" asp-action="Create">Criar Novo Ingrediente</a>
+        <a class="btn btn-primary" asp-action="Create">Criar Novo Fornecedor</a>
     </div>
 
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>@Html.DisplayNameFor(model => model.Ingredient.First().Name)</th>
-                <th>@Html.DisplayNameFor(model => model.Ingredient.First().UnityMeasure)</th>
-                <th>@Html.DisplayNameFor(model => model.Ingredient.First().UnityRecipe)</th>
-                <th>@Html.DisplayNameFor(model => model.Ingredient.First().StockMin)</th>
-                <th>@Html.DisplayNameFor(model => model.Ingredient.First().QuantityAvailable)</th>
-                <th>@Html.DisplayNameFor(model => model.Ingredient.First().LastModificationDate)</th>
+                <th>@Html.DisplayNameFor(model => model.Supplier.First().SupplierName)</th>
+                <th>@Html.DisplayNameFor(model => model.Supplier.First().SupplierAddress)</th>
+                <th>@Html.DisplayNameFor(model => model.Supplier.First().SupplierPhone)</th>
+                <th>@Html.DisplayNameFor(model => model.Supplier.First().SupplierEmail)</th>
                 <th>Opções</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.Ingredient)
+            @foreach (var item in Model.Supplier)
             {
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                    <td>@Html.DisplayFor(modelItem => item.UnityMeasure)</td>
-                    <td>@Html.DisplayFor(modelItem => item.UnityRecipe)</td>
-                    <td>@Html.DisplayFor(modelItem => item.StockMin)</td>
-                    <td>@Html.DisplayFor(modelItem => item.QuantityAvailable)</td>
-                    <td>@item.LastModificationDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                    <td>@Html.DisplayFor(modelItem => item.SupplierName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SupplierAddress)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SupplierPhone)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SupplierEmail)</td>
                     <td>
                         <div class="actions">
-                            <a class="btn btn-sm btn-info btn-edit" asp-action="Edit" asp-route-id="@item.IngredientID">Editar</a>
-                            <a class="btn btn-sm btn-primary btn-details" asp-action="Details" asp-route-id="@item.IngredientID">Detalhes</a>
-                            <a class="btn btn-sm btn-danger btn-delete" asp-action="Delete" asp-route-id="@item.IngredientID">Excluir</a>
+                            <a class="btn btn-sm btn-info btn-edit" asp-action="Edit" asp-route-id="@item.SupplierID">Editar</a>
+                            <a class="btn btn-sm btn-primary btn-details" asp-action="Details" asp-route-id="@item.SupplierID">Detalhes</a>
+                            <a class="btn btn-sm btn-danger btn-delete" asp-action="Delete" asp-route-id="@item.SupplierID">Excluir</a>
                         </div>
                     </td>
                 </tr>
@@ -83,7 +79,7 @@
         </tbody>
     </table>
 
-    <nav aria-label="ingredientPagination">
+    <nav aria-label="supplierPagination">
         <ul class="pagination">
             @{
                 var cssStyle = "page-item";
@@ -138,5 +134,3 @@
         <a asp-controller="LandingPage" asp-action="Index" class="btn btn-secondary">Voltar ao Início</a>
     </div>
 </div>
-
-

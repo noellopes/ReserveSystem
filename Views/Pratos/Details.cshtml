@@ -16,11 +16,13 @@
 
     .details-list dt {
         font-weight: bold;
-        text-align: right;
+        text-align: left;
+        margin-bottom: 5px; /* Reduzir o espaço entre o título e o conteúdo */
     }
 
     .details-list dd {
         text-align: left;
+        margin-bottom: 15px; /* Reduzir o espaço entre as linhas de dados */
     }
 
     .btn-custom {
@@ -40,25 +42,75 @@
         .btn-secondary:hover {
             background-color: #5a6268;
         }
+
+    /* Custom styles for the two-column layout */
+    .details-column {
+        padding: 20px;
+        border: 1px solid #ddd; /* Borda suave nas colunas */
+        border-radius: 5px; /* Bordas arredondadas para um efeito mais suave */
+    }
+
+        .details-column + .details-column {
+            margin-left: 20px; /* Espaço entre as colunas */
+        }
 </style>
 
 <div class="container details-container">
-    <h1 class="details-header">Detalhes do Prato</h1>
-    <hr />
+    <h1 class="details-header pb-5">Detalhes do Prato</h1>
+
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <!-- Detalhes do prato à esquerda -->
+        <div class="col-md-5 details-column">
+            <h3 class="details-header">Detalhes</h3>
             <dl class="row details-list">
-                <dt class="col-sm-4">Nome</dt>
+                <dt class="col-sm-4">Nome:</dt>
                 <dd class="col-sm-8">@Html.DisplayFor(model => model.Nome)</dd>
-                <dt class="col-sm-4">Descrição</dt>
+                <dt class="col-sm-4">Descrição:</dt>
                 <dd class="col-sm-8">@Html.DisplayFor(model => model.Descricao)</dd>
-                <dt class="col-sm-4">Preço</dt>
+                <dt class="col-sm-4">Preço:</dt>
                 <dd class="col-sm-8">@Html.DisplayFor(model => model.Preco)</dd>
             </dl>
+            <a class="btn btn-sm btn-custom me-2" asp-action="Edit" asp-route-id="@Model?.PratoId">Editar Detalhes</a>
+
+        </div>
+
+        <!-- Composição do prato à direita -->
+        <div class="col-md-5 details-column">
+            <h3 class="details-header">Composição</h3>
+            @if (Model.ComposicaoPratos != null && Model.ComposicaoPratos.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Ingrediente</th>
+                                <th>Quantidade</th>
+                                <th>Unidade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var composicao in Model.ComposicaoPratos)
+                            {
+                                <tr>
+                                    <td>@composicao.Ingredient.Name</td>
+                                    <td>@composicao.IngredientQuantity</td>
+                                    <td>@composicao.Ingredient.UnityRecipe</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <a class="btn btn-sm btn-custom me-2" asp-controller="ComposicaoPrato" asp-action="Edit" asp-route-id="@Model?.PratoId">Editar Composição</a>
+
+            }
+            else
+            {
+                <p class="text-center text-muted mt-3">Este prato ainda não tem ingredientes associados.</p>
+            }
         </div>
     </div>
+
     <div class="d-flex justify-content-center mt-4">
-        <a class="btn btn-sm btn-custom me-2" asp-action="Edit" asp-route-id="@Model?.PratoId">Editar</a>
         <a class="btn btn-sm btn-secondary" asp-action="Index">Voltar à Lista</a>
     </div>
 </div>

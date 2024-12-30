@@ -11,25 +11,25 @@ using ReserveSystem.ViewModels;
 
 namespace ReserveSystem.Controllers
 {
-    public class PratosController : Controller
+    public class SuppliersController : Controller
     {
         private readonly ReserveSystemContext _context;
 
-        public PratosController(ReserveSystemContext context)
+        public SuppliersController(ReserveSystemContext context)
         {
             _context = context;
         }
 
-        // GET: Pratos
+        // GET: Suppliers
         public async Task<IActionResult> Index(int page = 1)
         {
             int itemsPerPage = 15; // Número de itens por página
-            var totalItems = await _context.Prato.CountAsync(); // Total de pratos
+            var totalItems = await _context.Supplier.CountAsync(); // Total de fornecedores
 
-            var pratos = await _context.Prato
+            var supplier = await _context.Supplier
                 .Skip((page - 1) * itemsPerPage)
                 .Take(itemsPerPage)
-                .ToListAsync(); // Pratos para a página atual
+                .ToListAsync(); // Fornecedores para a página atual
 
             var pagingInfo = new PagingInfo
             {
@@ -38,17 +38,16 @@ namespace ReserveSystem.Controllers
                 CurrentPage = page
             };
 
-            // ViewModel para passar os pratos e a paginação
-            var model = new PratoListViewModel
+            // ViewModel para passar os fornecedores e a paginação
+            var model = new SuppliersListViewModel
             {
-                Pratos = pratos,
+                Supplier = supplier,
                 PagingInfo = pagingInfo
             };
-
             return View(model);
         }
 
-        // GET: Pratos/Details/5
+        // GET: Suppliers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -56,55 +55,39 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var prato = await _context.Prato
-                .Include(p => p.ComposicaoPratos)
-                .ThenInclude(cp => cp.Ingredient)
-                .FirstOrDefaultAsync(m => m.PratoId == id);
-
-            if (prato == null)
+            var supplier = await _context.Supplier
+                .FirstOrDefaultAsync(m => m.SupplierID == id);
+            if (supplier == null)
             {
                 return NotFound();
             }
 
-            if (prato.ComposicaoPratos != null && prato.ComposicaoPratos.Any())
-            {
-                foreach (var composicao in prato.ComposicaoPratos)
-                {
-                    Console.WriteLine($"Ingrediente: {composicao.Ingredient.Name}, Quantidade: {composicao.IngredientQuantity}");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Nenhum ingrediente encontrado para o prato.");
-            }
-
-            return View(prato);
+            return View(supplier);
         }
 
-        // GET: Pratos/Create
+        // GET: Suppliers/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Pratos/Create
+        // POST: Suppliers/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PratoId,Nome,Descricao,Preco")] Prato prato)
+        public async Task<IActionResult> Create([Bind("SupplierID,SupplierName,SupplierAddress,SupplierPhone,SupplierEmail")] Supplier supplier)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(prato);
+                _context.Add(supplier);
                 await _context.SaveChangesAsync();
-
-                TempData["SuccessMessage"] = "Prato criado com sucesso!";
-
                 return RedirectToAction(nameof(Index));
             }
-            return View(prato);
+            return View(supplier);
         }
 
-        // GET: Pratos/Edit/5
+        // GET: Suppliers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -112,20 +95,22 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var prato = await _context.Prato.FindAsync(id);
-            if (prato == null)
+            var supplier = await _context.Supplier.FindAsync(id);
+            if (supplier == null)
             {
                 return NotFound();
             }
-            return View(prato);
+            return View(supplier);
         }
 
-        // POST: Pratos/Edit/5
+        // POST: Suppliers/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PratoId,Nome,Descricao,Preco")] Prato prato)
+        public async Task<IActionResult> Edit(int id, [Bind("SupplierID,SupplierName,SupplierAddress,SupplierPhone,SupplierEmail")] Supplier supplier)
         {
-            if (id != prato.PratoId)
+            if (id != supplier.SupplierID)
             {
                 return NotFound();
             }
@@ -134,14 +119,12 @@ namespace ReserveSystem.Controllers
             {
                 try
                 {
-                    _context.Update(prato);
+                    _context.Update(supplier);
                     await _context.SaveChangesAsync();
-
-                    TempData["SuccessMessage"] = "Prato atualizado com sucesso!";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PratoExists(prato.PratoId))
+                    if (!SupplierExists(supplier.SupplierID))
                     {
                         return NotFound();
                     }
@@ -152,10 +135,10 @@ namespace ReserveSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(prato);
+            return View(supplier);
         }
 
-        // GET: Pratos/Delete/5
+        // GET: Suppliers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -163,37 +146,34 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var prato = await _context.Prato
-                .FirstOrDefaultAsync(m => m.PratoId == id);
-            if (prato == null)
+            var supplier = await _context.Supplier
+                .FirstOrDefaultAsync(m => m.SupplierID == id);
+            if (supplier == null)
             {
                 return NotFound();
             }
 
-            return View(prato);
+            return View(supplier);
         }
 
-        // POST: Pratos/Delete/5
+        // POST: Suppliers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var prato = await _context.Prato.FindAsync(id);
-            if (prato != null)
+            var supplier = await _context.Supplier.FindAsync(id);
+            if (supplier != null)
             {
-                _context.Prato.Remove(prato);
+                _context.Supplier.Remove(supplier);
             }
 
             await _context.SaveChangesAsync();
-
-            TempData["SuccessMessage"] = "Prato excluído com sucesso!";
-
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PratoExists(int id)
+        private bool SupplierExists(int id)
         {
-            return _context.Prato.Any(e => e.PratoId == id);
+            return _context.Supplier.Any(e => e.SupplierID == id);
         }
     }
 }
