@@ -12,8 +12,8 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    [Migration("20241214164357_teste1")]
-    partial class teste1
+    [Migration("20241230163605_teste")]
+    partial class teste
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -125,6 +125,9 @@ namespace ReserveSystem.Migrations
                     b.Property<string>("DrivingLicenseGrades")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("EndFunctionsDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Staff_Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -142,6 +145,9 @@ namespace ReserveSystem.Migrations
                         .IsRequired()
                         .HasMaxLength(9)
                         .HasColumnType("nvarchar(9)");
+
+                    b.Property<DateTime>("StartFunctionsDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("jobID_FK")
                         .HasColumnType("int");

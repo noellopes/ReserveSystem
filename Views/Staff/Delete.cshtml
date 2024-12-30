@@ -51,15 +51,25 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Staff_Password)
         </dd>
-
         
         <dt class="col-sm-2">
             Job
         </dt>
         <dd class="col-sm-10">
-            @Model.Job?.jobName ?? "No Job Assigned"
+            @Model.Job?.jobName
         </dd>
-
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StartFunctionsDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.BirthDate.ToString("dd/MM/yyyy")
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EndFunctionsDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.BirthDate.ToString("dd/MM/yyyy")
+        </dd>
         <dt class="col-sm-2">
             Driving License Grades
         </dt>

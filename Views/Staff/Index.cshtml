@@ -20,6 +20,8 @@
             <th>Phone</th>
             <th>Password</th>
             <th>Job</th>
+            <th>StartFunctionsDate</th>
+            <th>EndFunctionsDate</th>
             <th>Driving License Grades</th>
             <th>Driver License Expiration Date</th>
             <th>Actions</th>
@@ -36,8 +38,8 @@
                 <td>@Html.DisplayFor(modelItem => staff.Staff_Phone)</td>
                 <td>@Html.DisplayFor(modelItem => staff.Staff_Password)</td>
                 <td>@Html.DisplayFor(modelItem => staff.Job.jobName)</td>
-                
-                
+                <td>@staff.StartFunctionsDate.ToString("dd/MM/yyyy")</td>
+                <td>@staff.EndFunctionsDate.ToString("dd/MM/yyyy")</td>
                 
                 <td>
                     @if (staff.DrivingLicenseGrades != null && staff.DrivingLicenseGrades.Any())

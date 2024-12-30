@@ -87,7 +87,6 @@ namespace ReserveSystem.Migrations
                     jobID_FK = table.Column<int>(type: "int", nullable: false),
                     StartFunctionsDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndFunctionsDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DaysOffVacationCount = table.Column<int>(type: "int", nullable: false),
                     DrivingLicenseGrades = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DriverLicenseExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -111,7 +110,20 @@ namespace ReserveSystem.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            
+            migrationBuilder.DropTable(
+                name: "DaysOffAndVacations");
+
+            migrationBuilder.DropTable(
+                name: "Schedule");
+
+            migrationBuilder.DropTable(
+                name: "StaffModel");
+
+            migrationBuilder.DropTable(
+                name: "TypeOfSchedule");
+
+            migrationBuilder.DropTable(
+                name: "JobModel");
         }
     }
 }

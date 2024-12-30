@@ -11,11 +11,7 @@ namespace ReserveSystem.Data
         public DbSet<ReserveSystem.Models.JobModel> JobModel { get; set; } = default!;
         public DbSet<ReserveSystem.Models.Schedule> Schedule { get; set; } = default!;
         public DbSet<ReserveSystem.Models.TypeOfSchedule> TypeOfSchedule { get; set; } = default!;
-        
+        public DbSet<ReserveSystem.Models.DaysOffAndVacations> DaysOffAndVacations { get; set; } = default!;
 
-
-
-        public DbSet<DaysOffAndVacations> DaysOffAndVacations { get; set; }
-      //  public DbSet<Staff> Staff { get; set; }
     }
 }

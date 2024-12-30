@@ -28,7 +28,7 @@
             
             [Required]
             [StringLength(9, ErrorMessage = "O número de telemóvel deve conter exatamente 9 dígitos.")]
-        [RegularExpression(@"^\d{9}$", ErrorMessage = "O número de telemóvel deve conter apenas números e ter exatamente 9 dígitos.")]
+        [RegularExpression(@"^\d{9}$", ErrorMessage = "O número de telemóvel deve conter apenas números e ter exatamente 9 dígitoswhashim.")]
         [Display(Name = "Phone")]
             public string Staff_Phone { get; set; }
 
@@ -43,8 +43,15 @@
         
             [ForeignKey("jobID_FK ")]
             public JobModel? Job { get; set; }
-        
-            public List<string>? DrivingLicenseGrades { get; set; }
+
+        [Required]
+        [Display(Name = "StartFunctionsDate")]
+        public DateTime StartFunctionsDate { get; set; }
+
+        [Required]
+        [Display(Name = "EndFunctionsDate")]
+        public DateTime EndFunctionsDate { get; set; }
+        public List<string>? DrivingLicenseGrades { get; set; }
             
             public DateTime DriverLicenseExpirationDate { get; set; }
         }

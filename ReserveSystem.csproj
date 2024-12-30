@@ -27,4 +27,8 @@
     <_ContentIncludedByDefault Remove="Views\Ingredientes\Index.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>
