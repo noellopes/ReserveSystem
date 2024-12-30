@@ -8,5 +8,6 @@ namespace ReserveSystem.ViewModels
         public Buffet Buffet { get; set; }
         public List<Prato> AvailablePratos { get; set; }
         public int SelectedPratoId { get; set; } // Para selecionar um prato para adicionar
+        public Dictionary<string, (double Quantidade, string Unidade)> RequisitosIngredientes { get; set; } // Ingredientes necessários e suas quantidades
     }
 }

@@ -49,8 +49,11 @@ namespace ReserveSystem.Controllers
 
         public async Task<IActionResult> ManagePratos(int id)
         {
+            // Buscar o buffet, seus pratos e os ingredientes de cada prato
             var buffet = await _context.Buffet
                 .Include(b => b.Pratos)
+                    .ThenInclude(p => p.ComposicaoPratos)
+                        .ThenInclude(cp => cp.Ingredient)
                 .FirstOrDefaultAsync(b => b.BuffetId == id);
 
             if (buffet == null)
@@ -58,10 +61,36 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
+            // Calcular os requisitos de ingredientes totais
+            var requisitosIngredientes = new Dictionary<string, (double Quantidade, string Unidade)>();
+
+            foreach (var prato in buffet.Pratos)
+            {
+                foreach (var composicao in prato.ComposicaoPratos)
+                {
+                    var ingrediente = composicao.Ingredient;
+
+                    // Acumula a quantidade do ingrediente
+                    if (requisitosIngredientes.ContainsKey(ingrediente.Name))
+                    {
+                        requisitosIngredientes[ingrediente.Name] = (
+                            requisitosIngredientes[ingrediente.Name].Quantidade + composicao.IngredientQuantity,
+                            ingrediente.UnityRecipe
+                        );
+                    }
+                    else
+                    {
+                        requisitosIngredientes.Add(ingrediente.Name, (composicao.IngredientQuantity, ingrediente.UnityRecipe));
+                    }
+                }
+            }
+
+            // Criar o ViewModel com as informações do buffet, pratos e requisitos de ingredientes
             var viewModel = new BuffetPratosViewModel
             {
                 Buffet = buffet,
-                AvailablePratos = await _context.Prato.ToListAsync()
+                AvailablePratos = await _context.Prato.ToListAsync(),
+                RequisitosIngredientes = requisitosIngredientes
             };
 
             return View(viewModel);

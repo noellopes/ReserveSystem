@@ -75,6 +75,10 @@
     .alert-success {
         margin-top: 20px;
     }
+
+    .table th, .table td {
+        text-align: center;
+    }
 </style>
 
 <div class="container">
@@ -89,6 +93,7 @@
         </div>
     }
 
+    <!-- Pratos a Servir -->
     <h2>Pratos a Servir</h2>
     <ul class="list-group">
         @foreach (var prato in Model.Buffet.Pratos)
@@ -104,6 +109,7 @@
         }
     </ul>
 
+    <!-- Adicionar Novo Prato -->
     <div class="mt-4">
         <h2>Adicionar Novo Prato</h2>
         <form asp-action="AddPrato" method="post">
@@ -119,6 +125,30 @@
             </div>
             <button type="submit" class="btn btn-primary">Adicionar</button>
         </form>
+    </div>
+
+    <!-- Ingredientes Necessários -->
+    <div class="mt-4">
+        <h2>Ingredientes Necessários</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Ingrediente</th>
+                    <th>Quantidade</th>
+                    <th>Unidade</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ingrediente in Model.RequisitosIngredientes)
+                {
+                    <tr>
+                        <td>@ingrediente.Key</td>
+                        <td>@ingrediente.Value.Quantidade</td>
+                        <td>@ingrediente.Value.Unidade</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 
     <div class="text-center mt-3">
