@@ -1,0 +1,127 @@
+﻿@model ReserveSystem.ViewModels.BuffetPratosViewModel
+
+@{
+    ViewData["Title"] = "Gerir Pratos do Buffet";
+}
+
+<style>
+    .container {
+        margin-top: 20px;
+    }
+
+    .h1, .h2 {
+        text-align: center;
+        color: #007bff;
+    }
+
+    .list-group {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+    .list-group-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        margin-bottom: 5px;
+        padding: 10px;
+    }
+
+        .list-group-item button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+            .list-group-item button:hover {
+                background-color: #c82333;
+            }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .text-danger {
+        color: red;
+    }
+
+    .alert-success {
+        margin-top: 20px;
+    }
+</style>
+
+<div class="container">
+    <h1>Pratos do Buffet: @Model.Buffet.Nome</h1>
+
+    <!-- Exibir mensagem de sucesso -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <h2>Pratos a Servir</h2>
+    <ul class="list-group">
+        @foreach (var prato in Model.Buffet.Pratos)
+        {
+            <li class="list-group-item">
+                @prato.Nome
+                <form asp-action="RemovePrato" method="post" style="display:inline;">
+                    <input type="hidden" name="buffetId" value="@Model.Buffet.BuffetId" />
+                    <input type="hidden" name="pratoId" value="@prato.PratoId" />
+                    <button type="submit" class="btn btn-sm btn-danger">Remover</button>
+                </form>
+            </li>
+        }
+    </ul>
+
+    <div class="mt-4">
+        <h2>Adicionar Novo Prato</h2>
+        <form asp-action="AddPrato" method="post">
+            <input type="hidden" name="buffetId" value="@Model.Buffet.BuffetId" />
+            <div class="form-group">
+                <label for="SelectedPratoId">Escolha um prato</label>
+                <select id="SelectedPratoId" name="pratoId" class="form-control" asp-for="SelectedPratoId">
+                    @foreach (var prato in Model.AvailablePratos)
+                    {
+                        <option value="@prato.PratoId">@prato.Nome</option>
+                    }
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Adicionar</button>
+        </form>
+    </div>
+
+    <div class="text-center mt-3">
+        <a href="@Url.Action("Index", "Buffets")" class="btn btn-secondary">Voltar ao Buffet</a>
+    </div>
+</div>

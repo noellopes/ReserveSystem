@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserveSystem.Data;
 
@@ -11,9 +12,11 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    partial class ReserveSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20241223152943_BuffetPratos")]
+    partial class BuffetPratos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,7 @@ namespace ReserveSystem.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
             modelBuilder.Entity("BuffetPrato", b =>
                 {
                     b.Property<int>("BuffetId")
@@ -58,30 +62,6 @@ namespace ReserveSystem.Migrations
                     b.HasKey("BuffetId");
 
                     b.ToTable("Buffet");
-            modelBuilder.Entity("ReserveSystem.Models.ComposicaoPrato", b =>
-                {
-                    b.Property<int>("ComposicaoPratoID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ComposicaoPratoID"));
-
-                    b.Property<int>("IngredientID")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("IngredientQuantity")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("PratoID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ComposicaoPratoID");
-
-                    b.HasIndex("IngredientID");
-
-                    b.HasIndex("PratoID");
-
-                    b.ToTable("ComposicaoPrato");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.Ingredient", b =>
@@ -107,11 +87,6 @@ namespace ReserveSystem.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UnityMeasure")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("UnityRecipe")
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
@@ -146,6 +121,7 @@ namespace ReserveSystem.Migrations
 
                     b.ToTable("Prato");
                 });
+
             modelBuilder.Entity("BuffetPrato", b =>
                 {
                     b.HasOne("ReserveSystem.Models.Buffet", null)
@@ -159,60 +135,6 @@ namespace ReserveSystem.Migrations
                         .HasForeignKey("PratosPratoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-            modelBuilder.Entity("ReserveSystem.Models.Supplier", b =>
-                {
-                    b.Property<int>("SupplierID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SupplierID"));
-
-                    b.Property<string>("SupplierAddress")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<string>("SupplierEmail")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<string>("SupplierName")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<string>("SupplierPhone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("SupplierID");
-
-                    b.ToTable("Supplier");
-                });
-
-            modelBuilder.Entity("ReserveSystem.Models.ComposicaoPrato", b =>
-                {
-                    b.HasOne("ReserveSystem.Models.Ingredient", "Ingredient")
-                        .WithMany()
-                        .HasForeignKey("IngredientID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ReserveSystem.Models.Prato", "Prato")
-                        .WithMany("ComposicaoPratos")
-                        .HasForeignKey("PratoID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Ingredient");
-
-                    b.Navigation("Prato");
-                });
-
-            modelBuilder.Entity("ReserveSystem.Models.Prato", b =>
-                {
-                    b.Navigation("ComposicaoPratos");
                 });
 #pragma warning restore 612, 618
         }

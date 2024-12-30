@@ -1,7 +1,7 @@
-﻿@model ReserveSystem.ViewModels.PratoListViewModel
+﻿@model ReserveSystem.ViewModels.BuffetListViewModel
 
 @{
-    ViewData["Title"] = "Lista de Pratos";
+    ViewData["Title"] = "Lista de Buffets";
 }
 
 @if (TempData["SuccessMessage"] != null)
@@ -50,41 +50,42 @@
 </style>
 
 <div class="container mt-4">
-    <h1 class="text-center text-primary">Lista de Pratos</h1>
+    <h1 class="text-center text-primary">Lista de Buffets</h1>
 
     <div class="d-flex justify-content-between mb-3">
-        <a class="btn btn-primary" asp-action="Create">Criar Novo Prato</a>
+        <a class="btn btn-primary" asp-action="Create">Criar Novo Buffet</a>
     </div>
 
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>@Html.DisplayNameFor(model => model.Pratos.First().Nome)</th>
-                <th>@Html.DisplayNameFor(model => model.Pratos.First().Descricao)</th>
-                <th>@Html.DisplayNameFor(model => model.Pratos.First().Preco)</th>
+                <th>@Html.DisplayNameFor(model => model.Buffets.First().Nome)</th>
+                <th>@Html.DisplayNameFor(model => model.Buffets.First().Descricao)</th>
+                <th>@Html.DisplayNameFor(model => model.Buffets.First().Data)</th>
                 <th>Ações</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.Pratos)
+            @foreach (var item in Model.Buffets)
             {
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.Nome)</td>
                     <td class="description-column">@Html.DisplayFor(modelItem => item.Descricao)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Preco)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Data)</td>
                     <td>
                         <div class="actions">
-                            <a class="btn btn-sm btn-info btn-edit" asp-action="Edit" asp-route-id="@item.PratoId">Editar</a>
-                            <a class="btn btn-sm btn-primary btn-details" asp-action="Details" asp-route-id="@item.PratoId">Detalhes</a>
-                            <a class="btn btn-sm btn-danger btn-delete" asp-action="Delete" asp-route-id="@item.PratoId">Excluir</a>
-							<a class="btn btn-sm btn-warning" asp-action="Edit" asp-controller="ComposicaoPrato" asp-route-id="@item.PratoId">Composição</a>
+                            <a class="btn btn-sm btn-info btn-edit" asp-action="Edit" asp-route-id="@item.BuffetId">Editar</a>
+                            <a class="btn btn-sm btn-primary btn-details" asp-action="Details" asp-route-id="@item.BuffetId">Detalhes</a>
+                            <a class="btn btn-sm btn-danger btn-delete" asp-action="Delete" asp-route-id="@item.BuffetId">Excluir</a>
+                            <a class="btn btn-sm btn-secondary btn-manage" asp-action="ManagePratos" asp-route-id="@item.BuffetId">Ver/Gerir Pratos</a>
                         </div>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-    <nav aria-label="pratosPagination">
+
+    <nav aria-label="buffetsPagination">
         <ul class="pagination">
             @{
                 var cssStyle = "page-item";
@@ -134,6 +135,7 @@
             </li>
         </ul>
     </nav>
+
     <div class="text-center mt-3 mb-5">
         <a asp-controller="LandingPage" asp-action="Index" class="btn btn-secondary">Voltar ao Início</a>
     </div>
