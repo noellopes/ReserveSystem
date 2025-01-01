@@ -1,4 +1,4 @@
-﻿@model ReserveSystem.Models.RoomModel
+﻿@model ReserveSystem.Models.RoomType
 
 @{
     ViewData["Title"] = "Create";
@@ -12,31 +12,31 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group">
-                <label asp-for="RoomType" class="control-label"></label>
-                <input asp-for="RoomType" class="form-control" />
-                <span asp-validation-for="RoomType" class="text-danger"></span>
+                <label asp-for="Type" class="control-label"></label>
+                <input asp-for="Type" class="form-control" />
+                <span asp-validation-for="Type" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Capacity" class="control-label"></label>
-                <input asp-for="Capacity" class="form-control" />
-                <span asp-validation-for="Capacity" class="text-danger"></span>
+                <label asp-for="RoomCapacity" class="control-label"></label>
+                <input asp-for="RoomCapacity" class="form-control" />
+                <span asp-validation-for="RoomCapacity" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="NumberOfRooms" class="control-label"></label>
-                <input asp-for="NumberOfRooms" class="form-control" />
-                <span asp-validation-for="NumberOfRooms" class="text-danger"></span>
-            </div>
+
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="HasView" /> @Html.DisplayNameFor(model => model.HasView)
                 </label>
             </div>
+
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="AdaptedRoom" /> @Html.DisplayNameFor(model => model.AdaptedRoom)
+                    <input class="form-check-input" asp-for="AcessibilityRoom" /> @Html.DisplayNameFor(model => model.AcessibilityRoom)
                 </label>
             </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
