@@ -20,9 +20,10 @@ namespace ReserveSystem.Models
         [Required(ErrorMessage = "Email is mandatory")]
         [EmailAddress(ErrorMessage = "Invalid Email format")]
         public string Email { get; set; }        
-        public string ?NIF  { get; set; } 
+        public string ?NIF  { get; set; }
+        public bool Login { get; set; }
         public bool Status { get; set; }
-        public ICollection<BookingModel>? Booking { get; set; }
+        public ICollection<Booking>? Booking { get; set; }
 
 
     }
