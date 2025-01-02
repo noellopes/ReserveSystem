@@ -101,17 +101,25 @@ namespace ReserveSystem.Data
 
         private static void PopulateRoomType(ReserveSystemContext db)
         {
-            if (db.RoomType.Any()) return;
+            // Tipos de quartos pré-definidos
+            var predefinedRoomTypes = new List<RoomType>
+    {
+        new RoomType { HasView = false, Type = "Standard", RoomCapacity = 2, AcessibilityRoom = false },
+        new RoomType { HasView = true, Type = "Deluxe", RoomCapacity = 3, AcessibilityRoom = false },
+        new RoomType { HasView = true, Type = "Suite", RoomCapacity = 4, AcessibilityRoom = true },
+        new RoomType { HasView = false, Type = "Presidential", RoomCapacity = 2, AcessibilityRoom = false },
+        new RoomType { HasView = false, Type = "Luxury Room", RoomCapacity = 3, AcessibilityRoom = false }
+    };
 
-            db.RoomType.AddRange(
-                new List<RoomType>
+            // Adicionar apenas os tipos ausentes
+            foreach (var roomType in predefinedRoomTypes)
+            {
+                if (!db.RoomType.Any(rt => rt.Type == roomType.Type))
                 {
-            new RoomType { HasView = false, Type = "Standard", RoomCapacity = 2, AcessibilityRoom = false },
-            new RoomType { HasView = false, Type = "Salamalecom", RoomCapacity = 2, AcessibilityRoom = false },
-            new RoomType { HasView = true, Type = "Deluxe", RoomCapacity = 3, AcessibilityRoom = false },
-            new RoomType { HasView = true, Type = "Suite", RoomCapacity = 4, AcessibilityRoom = true },
-            new RoomType { HasView = false, Type = "Economy", RoomCapacity = 1, AcessibilityRoom = true }
-                });
+                    db.RoomType.Add(roomType);
+                }
+            }
+
             db.SaveChanges();
         }
 
@@ -119,30 +127,21 @@ namespace ReserveSystem.Data
         {
             if (!db.Room.Any())
             {
-                var requiredTypes = new[] { "Standard", "Deluxe", "Suite", "Economy" };
+                // Garantir que os tipos de quarto estão preenchidos
+                PopulateRoomType(db);
+
+                // Recuperar os IDs dos tipos de quarto
                 var existingRoomTypes = db.RoomType.ToDictionary(rt => rt.Type, rt => rt.RoomTypeId);
 
-                // Adiciona tipos de quarto ausentes
-                foreach (var type in requiredTypes)
-                {
-                    if (!existingRoomTypes.ContainsKey(type))
-                    {
-                        var newRoomType = new RoomType { Type = type, RoomCapacity = 2, HasView = false, AcessibilityRoom = false };
-                        db.RoomType.Add(newRoomType);
-                        db.SaveChanges();
-
-                        // Atualiza o dicionário com o novo tipo de quarto
-                        existingRoomTypes[type] = newRoomType.RoomTypeId;
-                    }
-                }
-
+                // Criar quartos com base nos tipos existentes
                 db.Room.AddRange(
                     new List<RoomModel>
                     {
                 new RoomModel { RoomTypeId = existingRoomTypes["Standard"] },
                 new RoomModel { RoomTypeId = existingRoomTypes["Deluxe"] },
                 new RoomModel { RoomTypeId = existingRoomTypes["Suite"] },
-                new RoomModel { RoomTypeId = existingRoomTypes["Economy"] }
+                new RoomModel { RoomTypeId = existingRoomTypes["Presidential"] },
+                new RoomModel { RoomTypeId = existingRoomTypes["Luxury Room"] }
                     });
 
                 db.SaveChanges();

@@ -63,28 +63,46 @@ namespace ReserveSystem.Controllers
         // GET: Room/Create
         public IActionResult Create()
         {
-            // Carregar os tipos de quarto disponíveis para o dropdown
+            // Carregar os tipos de quarto para o dropdown
             ViewBag.RoomTypes = _context.RoomType.ToList();
             return View();
         }
 
+        // Método POST - Salva o quarto no banco de dados
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(RoomModel room)
+        public async Task<IActionResult> Create(RoomModel room)
         {
             if (ModelState.IsValid)
             {
-                var roomType = _context.RoomType.FirstOrDefault(rt => rt.RoomTypeId == room.RoomTypeId);
+                try
+                {
+                    // Verifica se o tipo de quarto existe
+                    var roomType = await _context.RoomType.FirstOrDefaultAsync(rt => rt.RoomTypeId == room.RoomTypeId);
+                    if (roomType == null)
+                    {
+                        ModelState.AddModelError("RoomTypeId", "O tipo de quarto selecionado não é válido.");
+                        ViewBag.RoomTypes = _context.RoomType.ToList();
+                        return View(room);
+                    }
 
-                _context.Room.Add(room); // Adiciona o novo quarto no banco de dados
-                _context.SaveChanges(); // Salva as mudanças no banco de dados
+                    // Associa o tipo de quarto e salva no banco
+                    room.RoomType = roomType;
+                    _context.Room.Add(room);
+                    await _context.SaveChangesAsync();
 
-                // Redireciona para a página de listagem de quartos após a criação
-                TempData["SuccessMessage"] = "Room created successfully!";
-                return RedirectToAction("Index");
+                    // Redireciona para a página de índice
+                    TempData["SuccessMessage"] = "Quarto criado com sucesso!";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Ocorreu um erro ao tentar criar o quarto. Tente novamente.");
+                    Console.WriteLine($"Erro: {ex.Message}");
+                }
             }
 
-            // Se o modelo for inválido, recarrega a página com os tipos de quarto disponíveis
+            // Se a validação falhar, recarrega a página com mensagens de erro
             ViewBag.RoomTypes = _context.RoomType.ToList();
             return View(room);
         }
