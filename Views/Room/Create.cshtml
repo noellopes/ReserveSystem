@@ -1,53 +1,67 @@
 ﻿@model ReserveSystem.Models.RoomModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Room";
 }
 
-<h1>Create</h1>
-
-<h4>RoomModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+<h3 class="text-center">
+    <i class="bi bi-house-door"></i> Criar Quarto
+</h3>
+<div class="d-flex justify-content-center">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post" class="border p-5 rounded shadow-sm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="RoomType" class="control-label"></label>
-                <input asp-for="RoomType" class="form-control" />
-                <span asp-validation-for="RoomType" class="text-danger"></span>
+
+            <!-- Tipo de Quarto -->
+            <div class="form-group mb-3">
+                <span asp-validation-for="RoomTypeId" class="text-danger"></span>
+                <label asp-for="RoomTypeId" class="control-label">Tipo de Quarto</label>
+                <select asp-for="RoomTypeId" class="form-control bg-light">
+                    <option value="" disabled selected>Selecione o Tipo de Quarto</option>
+                    @foreach (var item in ViewBag.RoomTypes as List<RoomType>)
+
+                    {
+                        <option value="@item.RoomTypeId">@item.Type</option>
+                    }
+                </select>
             </div>
-            <div class="form-group">
-                <label asp-for="Capacity" class="control-label"></label>
-                <input asp-for="Capacity" class="form-control" />
-                <span asp-validation-for="Capacity" class="text-danger"></span>
+
+            <!-- Capacidade do Quarto -->
+            <div class="form-group mb-3">
+                <span asp-validation-for="RoomType.RoomCapacity" class="text-danger"></span>
+                <label asp-for="RoomType.RoomCapacity" class="control-label">Capacidade</label>
+                <input asp-for="RoomType.RoomCapacity" class="form-control bg-light" />
             </div>
-            <div class="form-group">
-                <label asp-for="NumberOfRooms" class="control-label"></label>
-                <input asp-for="NumberOfRooms" class="form-control" />
-                <span asp-validation-for="NumberOfRooms" class="text-danger"></span>
+
+            <!-- Visibilidade -->
+            <div class="form-group form-check mb-3">
+                <input class="form-check-input" asp-for="RoomType.HasView" />
+                <label asp-for="RoomType.HasView" class="form-check-label">Vista</label>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="HasView" /> @Html.DisplayNameFor(model => model.HasView)
-                </label>
+
+            <!-- Acessibilidade -->
+            <div class="form-group form-check mb-3">
+                <input class="form-check-input" asp-for="RoomType.AcessibilityRoom" />
+                <label asp-for="RoomType.AcessibilityRoom" class="form-check-label">Acessibilidade</label>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="AdaptedRoom" /> @Html.DisplayNameFor(model => model.AdaptedRoom)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+
+            <!-- Botões de Ação -->
+            <div class="d-flex justify-content-between m-3">
+                <div class="form-group">
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left-circle"></i> Voltar à Lista
+                    </a>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Criar Quarto" class="btn btn-primary" />
+                </div>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

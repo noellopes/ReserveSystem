@@ -10,6 +10,7 @@ namespace ReserveSystem.Data
         public DbSet<Employee> Employee { get; set; } = default!;
         public DbSet<Booking> Booking { get; set; }
         public DbSet<RoomModel> Room { get; set; }
+        public DbSet<RoomType> RoomType { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
