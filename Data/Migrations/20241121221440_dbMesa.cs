@@ -5,23 +5,23 @@
 namespace ReserveSystem.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class dbPrato : Migration
+    public partial class dbMesa : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Prato",
+                name: "Mesa",
                 columns: table => new
                 {
-                    IdPrato = table.Column<int>(type: "int", nullable: false)
+                    IdMesa = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PratoNome = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    NumeroLugares = table.Column<int>(type: "int", nullable: false),
+                    Reservado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Prato", x => x.IdPrato);
+                    table.PrimaryKey("PK_Mesa", x => x.IdMesa);
                 });
         }
 
@@ -29,7 +29,7 @@ namespace ReserveSystem.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Prato");
+                name: "Mesa");
         }
     }
 }

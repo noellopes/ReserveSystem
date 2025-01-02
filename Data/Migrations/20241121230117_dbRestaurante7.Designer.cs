@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserveSystem.Data;
 
@@ -11,9 +12,11 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241121230117_dbRestaurante7")]
+    partial class dbRestaurante7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -285,9 +288,6 @@ namespace ReserveSystem.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Preco")
-                        .HasColumnType("int");
-
                     b.HasKey("IdPrato");
 
                     b.ToTable("Prato");
@@ -301,9 +301,6 @@ namespace ReserveSystem.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdReserva"));
 
-                    b.Property<bool>("Aprovacao")
-                        .HasColumnType("bit");
-
                     b.Property<int?>("ClienteIdCliente")
                         .HasColumnType("int");
 
@@ -313,16 +310,7 @@ namespace ReserveSystem.Data.Migrations
                     b.Property<int>("IdCliente")
                         .HasColumnType("int");
 
-                    b.Property<int?>("IdMesa")
-                        .HasColumnType("int");
-
                     b.Property<int>("IdPrato")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("NumeroMesa")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NumeroPessoas")
                         .HasColumnType("int");
 
                     b.Property<string>("Observacao")

@@ -1,10 +1,11 @@
-ï»¿@{
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Bem-vindo ao nosso Restaurante</h1>
     
-    <a asp-controller="Reservas" asp-action="Index">Reservas</a>
-    <a asp-controller="Pratos" asp-action="Index">Pratos</a>
+    <a asp-controller="Home" asp-action="ClienteHome" class="btn btn-secondary">Cliente</a>
+    <a asp-controller="Home" asp-action="FuncionarioHome" class="btn btn-secondary">Funcionário</a>
+
 </div>

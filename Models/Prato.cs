@@ -10,9 +10,11 @@ namespace ReserveSystem.Models
         [Required]
         public string PratoNome { get; set; }
 
-        [Required]
-        public string Descricao { get; set; }
+        public int Preco { get; set; }
 
+        public string? Descricao { get; set; }
+
+        public ICollection<Reserva>? Reservas { get; set; }
     }
 }
 

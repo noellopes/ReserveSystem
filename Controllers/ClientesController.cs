@@ -10,22 +10,22 @@ using ReserveSystem.Models;
 
 namespace ReserveSystem.Controllers
 {
-    public class PratosController : Controller
+    public class ClientesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public PratosController(ApplicationDbContext context)
+        public ClientesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Pratos
+        // GET: Clientes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Prato.ToListAsync());
+            return View(await _context.Cliente.ToListAsync());
         }
 
-        // GET: Pratos/Details/5
+        // GET: Clientes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var prato = await _context.Prato
-                .FirstOrDefaultAsync(m => m.IdPrato == id);
-            if (prato == null)
+            var cliente = await _context.Cliente
+                .FirstOrDefaultAsync(m => m.IdCliente == id);
+            if (cliente == null)
             {
                 return NotFound();
             }
 
-            return View(prato);
+            return View(cliente);
         }
 
-        // GET: Pratos/Create
+        // GET: Clientes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Pratos/Create
+        // POST: Clientes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdPrato,PratoNome,Preco,Descricao")] Prato prato)
+        public async Task<IActionResult> Create([Bind("IdCliente,NomeCliente,CC,Telemovel")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(prato);
+                _context.Add(cliente);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(prato);
+            return View(cliente);
         }
 
-        // GET: Pratos/Edit/5
+        // GET: Clientes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var prato = await _context.Prato.FindAsync(id);
-            if (prato == null)
+            var cliente = await _context.Cliente.FindAsync(id);
+            if (cliente == null)
             {
                 return NotFound();
             }
-            return View(prato);
+            return View(cliente);
         }
 
-        // POST: Pratos/Edit/5
+        // POST: Clientes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdPrato,PratoNome,Preco,Descricao")] Prato prato)
+        public async Task<IActionResult> Edit(int id, [Bind("IdCliente,NomeCliente,CC,Telemovel")] Cliente cliente)
         {
-            if (id != prato.IdPrato)
+            if (id != cliente.IdCliente)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace ReserveSystem.Controllers
             {
                 try
                 {
-                    _context.Update(prato);
+                    _context.Update(cliente);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PratoExists(prato.IdPrato))
+                    if (!ClienteExists(cliente.IdCliente))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace ReserveSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(prato);
+            return View(cliente);
         }
 
-        // GET: Pratos/Delete/5
+        // GET: Clientes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,34 +124,34 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var prato = await _context.Prato
-                .FirstOrDefaultAsync(m => m.IdPrato == id);
-            if (prato == null)
+            var cliente = await _context.Cliente
+                .FirstOrDefaultAsync(m => m.IdCliente == id);
+            if (cliente == null)
             {
                 return NotFound();
             }
 
-            return View(prato);
+            return View(cliente);
         }
 
-        // POST: Pratos/Delete/5
+        // POST: Clientes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var prato = await _context.Prato.FindAsync(id);
-            if (prato != null)
+            var cliente = await _context.Cliente.FindAsync(id);
+            if (cliente != null)
             {
-                _context.Prato.Remove(prato);
+                _context.Cliente.Remove(cliente);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PratoExists(int id)
+        private bool ClienteExists(int id)
         {
-            return _context.Prato.Any(e => e.IdPrato == id);
+            return _context.Cliente.Any(e => e.IdCliente == id);
         }
     }
 }

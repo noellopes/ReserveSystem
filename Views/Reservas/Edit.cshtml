@@ -14,14 +14,14 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="IdReserva" />
             <div class="form-group">
-                <label asp-for="NomeCliente" class="control-label"></label>
-                <input asp-for="NomeCliente" class="form-control" />
-                <span asp-validation-for="NomeCliente" class="text-danger"></span>
+                <label asp-for="IdCliente" class="control-label"></label>
+                <select asp-for="IdCliente" class="form-control" asp-items="ViewBag.IdCliente"></select>
+                <span asp-validation-for="IdCliente" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="NumeroMesa" class="control-label"></label>
-                <input asp-for="NumeroMesa" class="form-control" />
-                <span asp-validation-for="NumeroMesa" class="text-danger"></span>
+                <label asp-for="IdMesa" class="control-label"></label>
+                <input asp-for="IdMesa" class="form-control" />
+                <span asp-validation-for="IdMesa" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="NumeroPessoas" class="control-label"></label>
@@ -39,6 +39,16 @@
                 <span asp-validation-for="Observacao" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="IdPrato" class="control-label"></label>
+                <select asp-for="IdPrato" class="form-control" asp-items="ViewBag.IdPrato"></select>
+                <span asp-validation-for="IdPrato" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Aprovacao" class="control-label"></label>
+                <select asp-for="Aprovacao" class=""> </select>
+                
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -46,7 +56,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-dark">Back to List</a>
 </div>
 
 @section Scripts {

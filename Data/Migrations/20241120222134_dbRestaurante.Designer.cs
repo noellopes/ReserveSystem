@@ -12,8 +12,8 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241117184811_bdRestaurante")]
-    partial class bdRestaurante
+    [Migration("20241120222134_dbRestaurante")]
+    partial class dbRestaurante
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -227,6 +227,46 @@ namespace ReserveSystem.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ReserveSystem.Models.Mesa", b =>
+                {
+                    b.Property<int>("IdMesa")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdMesa"));
+
+                    b.Property<int>("NumeroLugares")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Reservado")
+                        .HasColumnType("bit");
+
+                    b.HasKey("IdMesa");
+
+                    b.ToTable("Mesa");
+                });
+
+            modelBuilder.Entity("ReserveSystem.Models.Prato", b =>
+                {
+                    b.Property<int>("IdPrato")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdPrato"));
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PratoNome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdPrato");
+
+                    b.ToTable("Prato");
+                });
+
             modelBuilder.Entity("ReserveSystem.Models.Reserva", b =>
                 {
                     b.Property<int>("IdReserva")
@@ -241,9 +281,6 @@ namespace ReserveSystem.Data.Migrations
                     b.Property<string>("NomeCliente")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("NumeroMesa")
-                        .HasColumnType("int");
 
                     b.Property<int>("NumeroPessoas")
                         .HasColumnType("int");

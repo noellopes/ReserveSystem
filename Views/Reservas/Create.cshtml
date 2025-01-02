@@ -3,6 +3,19 @@
 @{
     ViewData["Title"] = "Create";
 }
+@if (ViewData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @ViewData["SuccessMessage"]
+    </div>
+}
+
+@if (ViewData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @ViewData["ErrorMessage"]
+    </div>
+}
 
 <h1>Create</h1>
 
@@ -13,15 +26,10 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="NomeCliente" class="control-label"></label>
-                <input asp-for="NomeCliente" class="form-control" />
-                <span asp-validation-for="NomeCliente" class="text-danger"></span>
+                <label asp-for="IdCliente" class="control-label"></label>
+                <select asp-for="IdCliente" class="form-control" asp-items="ViewBag.IdCliente"></select>
             </div>
-            <div class="form-group">
-                <label asp-for="NumeroMesa" class="control-label"></label>
-                <input asp-for="NumeroMesa" class="form-control" />
-                <span asp-validation-for="NumeroMesa" class="text-danger"></span>
-            </div>
+          
             <div class="form-group">
                 <label asp-for="NumeroPessoas" class="control-label"></label>
                 <input asp-for="NumeroPessoas" class="form-control" />
@@ -38,14 +46,15 @@
                 <span asp-validation-for="Observacao" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <label asp-for="IdPrato" class="control-label"></label>
+                <select asp-for="IdPrato" class ="form-control" asp-items="ViewBag.IdPrato"></select>
             </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+            <span asp-validation-for="IdMesa" class="text-danger"></span>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

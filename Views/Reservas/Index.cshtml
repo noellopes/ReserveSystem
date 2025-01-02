@@ -6,17 +6,14 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.NomeCliente)
+                @Html.DisplayNameFor(model => model.IdCliente)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NumeroMesa)
+                @Html.DisplayNameFor(model => model.IdMesa)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.NumeroPessoas)
@@ -27,6 +24,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Observacao)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdPrato)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Aprovacao)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -34,10 +37,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.NomeCliente)
+                @Html.DisplayFor(modelItem => item.IdCliente)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NumeroMesa)
+                @Html.DisplayFor(modelItem => item.IdMesa)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.NumeroPessoas)
@@ -49,9 +52,15 @@
                 @Html.DisplayFor(modelItem => item.Observacao)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdReserva">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdReserva">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdReserva">Delete</a>
+                @Html.DisplayFor(modelItem => item.IdPrato)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aprovacao)
+            </td>
+            <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdReserva" class="btn btn-warning">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.IdReserva" class="btn btn-info">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdReserva" class="btn btn-danger">Delete</a>
             </td>
         </tr>
 }

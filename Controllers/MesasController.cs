@@ -10,22 +10,22 @@ using ReserveSystem.Models;
 
 namespace ReserveSystem.Controllers
 {
-    public class PratosController : Controller
+    public class MesasController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public PratosController(ApplicationDbContext context)
+        public MesasController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Pratos
+        // GET: Mesas
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Prato.ToListAsync());
+            return View(await _context.Mesa.ToListAsync());
         }
 
-        // GET: Pratos/Details/5
+        // GET: Mesas/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var prato = await _context.Prato
-                .FirstOrDefaultAsync(m => m.IdPrato == id);
-            if (prato == null)
+            var mesa = await _context.Mesa
+                .FirstOrDefaultAsync(m => m.IdMesa == id);
+            if (mesa == null)
             {
                 return NotFound();
             }
 
-            return View(prato);
+            return View(mesa);
         }
 
-        // GET: Pratos/Create
+        // GET: Mesas/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Pratos/Create
+        // POST: Mesas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdPrato,PratoNome,Preco,Descricao")] Prato prato)
+        public async Task<IActionResult> Create([Bind("IdMesa,NumeroLugares,Reservado")] Mesa mesa)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(prato);
+                _context.Add(mesa);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(prato);
+            return View(mesa);
         }
 
-        // GET: Pratos/Edit/5
+        // GET: Mesas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var prato = await _context.Prato.FindAsync(id);
-            if (prato == null)
+            var mesa = await _context.Mesa.FindAsync(id);
+            if (mesa == null)
             {
                 return NotFound();
             }
-            return View(prato);
+            return View(mesa);
         }
 
-        // POST: Pratos/Edit/5
+        // POST: Mesas/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdPrato,PratoNome,Preco,Descricao")] Prato prato)
+        public async Task<IActionResult> Edit(int id, [Bind("IdMesa,NumeroLugares,Reservado")] Mesa mesa)
         {
-            if (id != prato.IdPrato)
+            if (id != mesa.IdMesa)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace ReserveSystem.Controllers
             {
                 try
                 {
-                    _context.Update(prato);
+                    _context.Update(mesa);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PratoExists(prato.IdPrato))
+                    if (!MesaExists(mesa.IdMesa))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace ReserveSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(prato);
+            return View(mesa);
         }
 
-        // GET: Pratos/Delete/5
+        // GET: Mesas/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,34 +124,34 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var prato = await _context.Prato
-                .FirstOrDefaultAsync(m => m.IdPrato == id);
-            if (prato == null)
+            var mesa = await _context.Mesa
+                .FirstOrDefaultAsync(m => m.IdMesa == id);
+            if (mesa == null)
             {
                 return NotFound();
             }
 
-            return View(prato);
+            return View(mesa);
         }
 
-        // POST: Pratos/Delete/5
+        // POST: Mesas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var prato = await _context.Prato.FindAsync(id);
-            if (prato != null)
+            var mesa = await _context.Mesa.FindAsync(id);
+            if (mesa != null)
             {
-                _context.Prato.Remove(prato);
+                _context.Mesa.Remove(mesa);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PratoExists(int id)
+        private bool MesaExists(int id)
         {
-            return _context.Prato.Any(e => e.IdPrato == id);
+            return _context.Mesa.Any(e => e.IdMesa == id);
         }
     }
 }
