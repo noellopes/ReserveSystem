@@ -13,6 +13,9 @@
                 @Html.DisplayNameFor(model => model.IdCliente)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.IdMesa)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.NumeroPessoas)
             </th>
             <th>
@@ -24,6 +27,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.IdPrato)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Aprovacao)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -32,6 +38,9 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.IdCliente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdMesa)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.NumeroPessoas)
@@ -44,6 +53,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IdPrato)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aprovacao)
             </td>
             <td>
                     <a asp-action="Edit" asp-route-id="@item.IdReserva" class="btn btn-warning">Edit</a> |
