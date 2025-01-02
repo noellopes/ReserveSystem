@@ -3,10 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ReserveSystem.Models
 {
-    public class BookingModel
+    public class Booking
     {
         [Key]
         public int ID_BOOKING { get; set; }
+
+        public int ID_CLIENT { get; set; }
 
         [ForeignKey("ID_CLIENT")]
         public ClientModel? Client { get; set; }
