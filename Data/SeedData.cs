@@ -116,6 +116,7 @@ namespace ReserveSystem.Data
 
         private static void PopulateRoomType(ReserveSystemContext db)
         {
+            
             if (db.RoomType.Any()) return;
 
             db.RoomType.AddRange(
