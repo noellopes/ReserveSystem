@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +13,9 @@ using ReserveSystem.Models;
 
 namespace ReserveSystem.Controllers
 {
+
+
+    [Authorize]
     public class BookingController : Controller
     {
         private readonly ReserveSystemContext _context;
@@ -20,9 +26,17 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Booking
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1, string searchRoomType = "")
         {
-            return View(await _context.Booking.ToListAsync());
+
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get logged-in user ID
+            var bookings = await _context.Booking
+                                          .Where(b => b.ID_CLIENT.ToString() == userId) // Filter by user ID
+                                          .ToListAsync();
+            return View(bookings);
+
+
         }
 
         // GET: Booking/Details/5
@@ -59,7 +73,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClientID,ID_BOOKING,CHECKIN_DATE,CHECKOUT_DATE,BOOKING_DATE,TOTAL_PERSONS_NUMBER,BOOKED,PAYMENT_STATUS")] BookingModel bookingModel)
+        public async Task<IActionResult> Create([Bind("ClientID,ID_BOOKING,CHECKIN_DATE,CHECKOUT_DATE,BOOKING_DATE,TOTAL_PERSONS_NUMBER,BOOKED,PAYMENT_STATUS")] Booking bookingModel)
         {
            
                 if (ModelState.IsValid)
@@ -102,7 +116,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID_BOOKING,CHECKIN_DATE,CHECKOUT_DATE,BOOKING_DATE,TOTAL_PERSONS_NUMBER,BOOKED,PAYMENT_STATUS")] BookingModel bookingModel)
+        public async Task<IActionResult> Edit(int id, [Bind("ID_BOOKING,CHECKIN_DATE,CHECKOUT_DATE,BOOKING_DATE,TOTAL_PERSONS_NUMBER,BOOKED,PAYMENT_STATUS")] Booking bookingModel)
         {
             if (id != bookingModel.ID_BOOKING)
             {

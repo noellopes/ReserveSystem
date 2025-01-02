@@ -20,9 +20,26 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Room
-        public async Task<IActionResult> Index()
+        public IActionResult Index(string roomSearchQuery)
         {
-            return View(await _context.Room.ToListAsync());
+            var rooms = _context.Room.Include(r => r.RoomType).AsQueryable(); // Inclui RoomType associado ao Room
+
+            // Filtra pela pesquisa, se houver
+            if (!string.IsNullOrEmpty(roomSearchQuery))
+            {
+                // Verifica se o valor de pesquisa é numérico
+                if (int.TryParse(roomSearchQuery, out int roomNumber))
+                {
+                    rooms = rooms.Where(r => r.ID_ROOM == roomNumber); // Pesquisa pelo número do quarto (ID_ROOM)
+                }
+                else
+                {
+                    rooms = rooms.Where(r => r.RoomType.Type.Contains(roomSearchQuery)); // Pesquisa pelo tipo de quarto
+                }
+            }
+
+            // Passa o modelo correto para a View (IEnumerable<Room>)
+            return View(rooms.ToList());
         }
 
         // GET: Room/Details/5
@@ -46,23 +63,30 @@ namespace ReserveSystem.Controllers
         // GET: Room/Create
         public IActionResult Create()
         {
+            // Carregar os tipos de quarto disponíveis para o dropdown
+            ViewBag.RoomTypes = _context.RoomType.ToList();
             return View();
         }
 
-        // POST: Room/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RoomTypeId,RoomType,Capacity,NumberOfRooms,HasView,AdaptedRoom")] RoomModel roomModel)
+        public IActionResult Create(RoomModel room)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(roomModel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var roomType = _context.RoomType.FirstOrDefault(rt => rt.RoomTypeId == room.RoomTypeId);
+
+                _context.Room.Add(room); // Adiciona o novo quarto no banco de dados
+                _context.SaveChanges(); // Salva as mudanças no banco de dados
+
+                // Redireciona para a página de listagem de quartos após a criação
+                TempData["SuccessMessage"] = "Room created successfully!";
+                return RedirectToAction("Index");
             }
-            return View(roomModel);
+
+            // Se o modelo for inválido, recarrega a página com os tipos de quarto disponíveis
+            ViewBag.RoomTypes = _context.RoomType.ToList();
+            return View(room);
         }
 
         // GET: Room/Edit/5
@@ -124,14 +148,16 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var roomModel = await _context.Room
-                .FirstOrDefaultAsync(m => m.RoomTypeId == id);
-            if (roomModel == null)
+            var room = await _context.Room
+                .Include(r => r.RoomType)
+                .FirstOrDefaultAsync(m => m.ID_ROOM == id);
+
+            if (room == null)
             {
                 return NotFound();
             }
 
-            return View(roomModel);
+            return View(room); // Retorna para a página de confirmação
         }
 
         // POST: Room/Delete/5
@@ -139,13 +165,18 @@ namespace ReserveSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var roomModel = await _context.Room.FindAsync(id);
-            if (roomModel != null)
+            var room = await _context.Room.FindAsync(id);
+            if (room != null)
             {
-                _context.Room.Remove(roomModel);
+                _context.Room.Remove(room);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Room deleted successfully!";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Room not found!";
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

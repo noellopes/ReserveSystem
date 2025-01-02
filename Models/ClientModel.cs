@@ -33,7 +33,7 @@ namespace ReserveSystem.Models
         [Required(ErrorMessage = "Identification type is mandatory")]
         public string IdentificationType { get; set; }
 
-        public ICollection<BookingModel>? Booking { get; set; }
+        public ICollection<Booking>? Booking { get; set; }
 
 
     }
