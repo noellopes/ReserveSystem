@@ -1,56 +1,67 @@
-﻿@model IEnumerable<ReserveSystem.Models.RoomType>
+﻿@model IEnumerable<ReserveSystem.Models.RoomModel>
 
-@{
-    ViewData["Title"] = "Index";
+<h1>Lista de Quartos</h1>
+
+@if (TempData["SuccessMessage"] != null)
+
+{
+    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+        <i class="bi bi-check-circle"></i> @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 }
 
+<form method="get" action="@Url.Action("Index")">
+    <!-- Campo de Pesquisa por Número ou Tipo de Quarto -->
+    <input type="text" name="roomSearchQuery" class="form-control"
+           placeholder="Search by Room Number or Type"
+           value="@ViewData["RoomSearchQuery"]" />
+    <button class="btn btn-primary" type="submit">Search</button>
+</form>
 
-<h1 style="width: 100%; font-family: 'Arial Rounded MT';">Escolha o seu quarto</h1>
-
-<br>
-<br />
-
-<table class="table text-center" style="width: 100%; font-family: 'Arial Rounded MT';">
+<table class="table text-center mt-4">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Type)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RoomCapacity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HasView)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AcessibilityRoom)
-            </th>
-            <th></th>
+            
+            <th>@Html.DisplayNameFor(model => model.RoomType.Type)</th> <!-- Tipo de Quarto -->
+            <th>@Html.DisplayNameFor(model => model.RoomType.RoomCapacity)</th> <!-- Capacidade do Quarto -->
+            <th>@Html.DisplayNameFor(model => model.RoomType.HasView)</th> <!-- Vista do Quarto -->
+            <th>@Html.DisplayNameFor(model => model.RoomType.AcessibilityRoom)</th> <!-- Acessibilidade -->
+            <th></th> <!-- Botão de Editar -->
+            <th></th> <!-- Botão de Adicionar Reserva -->
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
+
         {
             <tr>
+                
+                <td>@item.RoomType?.Type</td> <!-- Tipo de Quarto -->
+                <td>@item.RoomType?.RoomCapacity</td> <!-- Capacidade -->
+                <td>@item.RoomType?.HasView</td> <!-- Vista -->
+                <td>@item.RoomType?.AcessibilityRoom</td> <!-- Acessibilidade -->
                 <td>
-                    @Html.DisplayFor(modelItem => item.Type)
-                </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.RoomCapacity)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HasView)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AcessibilityRoom)
-                </td>
-                <td>
-                    <a asp-controller="Reservas" asp-action="Create" asp-route-id="@item.RoomTypeId" class="btn btn-primary" style="background-color: #6f42c1; border-color: #6f42c1;">
-                        <i class="bi bi-journal-plus"></i> Adicionar a reserva
+                    <a asp-action="Delete" asp-route-id="@item.ID_ROOM" class="btn btn-danger">
+                        Delete
                     </a>
+                </td>
+                </td>
+                <td>
+                    <!-- Botão de Adicionar Reserva -->
+                    <button type="submit" class="btn btn-warning" disabled>
+                        <i class="bi bi-calendar-plus"></i> Add Reservation
+                    </button>
                 </td>
             </tr>
         }
     </tbody>
 </table>
- </tbody>
+
+<!-- Botão para Criar um Novo Quarto -->
+<div class="text-center mt-3">
+    <a asp-action="Create" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i> Add New Room
+    </a>
+</div>

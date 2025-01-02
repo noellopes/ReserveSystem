@@ -107,64 +107,49 @@ namespace ReserveSystem.Data
                 new List<RoomType>
                 {
             new RoomType { HasView = false, Type = "Standard", RoomCapacity = 2, AcessibilityRoom = false },
+            new RoomType { HasView = false, Type = "Salamalecom", RoomCapacity = 2, AcessibilityRoom = false },
             new RoomType { HasView = true, Type = "Deluxe", RoomCapacity = 3, AcessibilityRoom = false },
             new RoomType { HasView = true, Type = "Suite", RoomCapacity = 4, AcessibilityRoom = true },
             new RoomType { HasView = false, Type = "Economy", RoomCapacity = 1, AcessibilityRoom = true }
                 });
-            db.SaveChanges(); // Salvar as mudanças após a inserção
+            db.SaveChanges();
         }
 
         private static void PopulateRoom(ReserveSystemContext db)
         {
-            if (db.Room.Any()) return;
-
-            var roomTypes = db.RoomType.ToList();
-
-            if (!roomTypes.Any())
+            if (!db.Room.Any())
             {
-                db.RoomType.AddRange(
-                    new List<RoomType>
+                var requiredTypes = new[] { "Standard", "Deluxe", "Suite", "Economy" };
+                var existingRoomTypes = db.RoomType.ToDictionary(rt => rt.Type, rt => rt.RoomTypeId);
+
+                // Adiciona tipos de quarto ausentes
+                foreach (var type in requiredTypes)
+                {
+                    if (!existingRoomTypes.ContainsKey(type))
                     {
-                new RoomType { Type = "Standard" },
-                new RoomType { Type = "Deluxe" },
-                new RoomType { Type = "Suite" }
+                        var newRoomType = new RoomType { Type = type, RoomCapacity = 2, HasView = false, AcessibilityRoom = false };
+                        db.RoomType.Add(newRoomType);
+                        db.SaveChanges();
+
+                        // Atualiza o dicionário com o novo tipo de quarto
+                        existingRoomTypes[type] = newRoomType.RoomTypeId;
                     }
-                );
+                }
+
+                db.Room.AddRange(
+                    new List<RoomModel>
+                    {
+                new RoomModel { RoomTypeId = existingRoomTypes["Standard"] },
+                new RoomModel { RoomTypeId = existingRoomTypes["Deluxe"] },
+                new RoomModel { RoomTypeId = existingRoomTypes["Suite"] },
+                new RoomModel { RoomTypeId = existingRoomTypes["Economy"] }
+                    });
+
                 db.SaveChanges();
-                roomTypes = db.RoomType.ToList();
             }
-
-            RoomType GetRoomTypeByName(string roomTypeName)
-            {
-                var roomType = roomTypes.FirstOrDefault(rt => rt.Type == roomTypeName);
-                if (roomType == null)
-                {
-                    throw new InvalidOperationException($"Tipo de quarto '{roomTypeName}' não encontrado no banco de dados.");
-                }
-                return roomType;
-            }
-
-            db.Room.AddRange(
-                new List<RoomModel>
-                {
-            new RoomModel { RoomTypeId = GetRoomTypeByName("Standard").RoomTypeId },
-            new RoomModel { RoomTypeId = GetRoomTypeByName("Deluxe").RoomTypeId },
-            new RoomModel { RoomTypeId = GetRoomTypeByName("Suite").RoomTypeId },
-            new RoomModel { RoomTypeId = GetRoomTypeByName("Standard").RoomTypeId },
-            new RoomModel { RoomTypeId = GetRoomTypeByName("Deluxe").RoomTypeId },
-            new RoomModel { RoomTypeId = GetRoomTypeByName("Suite").RoomTypeId },
-            new RoomModel { RoomTypeId = GetRoomTypeByName("Standard").RoomTypeId },
-            new RoomModel { RoomTypeId = GetRoomTypeByName("Standard").RoomTypeId },
-            new RoomModel { RoomTypeId = GetRoomTypeByName("Deluxe").RoomTypeId },
-            new RoomModel { RoomTypeId = GetRoomTypeByName("Suite").RoomTypeId }
-                }
-            );
-
-            db.SaveChanges();
         }
-
-
     }
 }
+ 
 
 
