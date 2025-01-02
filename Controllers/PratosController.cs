@@ -82,7 +82,7 @@ namespace ReserveSystem.Controllers
             {
                 _context.Add(prato);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Indexfun));
             }
             return View(prato);
         }
@@ -133,7 +133,7 @@ namespace ReserveSystem.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Indexfun));
             }
             return View(prato);
         }
@@ -168,7 +168,7 @@ namespace ReserveSystem.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Indexfun));
         }
 
         private bool PratoExists(int id)
