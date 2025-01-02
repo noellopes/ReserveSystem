@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
+using ReserveSystem.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,24 +15,49 @@ builder.Services.AddDbContext<ReserveSystemContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(
+    options => {
+        //sign in
+        options.SignIn.RequireConfirmedAccount = false;
+        //password
+        options.Password.RequireDigit = true;
+        options.Password.RequireLowercase = true;
+        options.Password.RequireUppercase = true;
+        options.Password.RequiredLength = 8;
+        options.Password.RequiredUniqueChars = 6;
+        options.Password.RequireNonAlphanumeric = true;
+        //lockout
+        options.Lockout.AllowedForNewUsers = true;
+        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+        options.Lockout.MaxFailedAccessAttempts = 5;
 
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    })
     .AddEntityFrameworkStores<ReserveSystemUsersDbContext>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+
+
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (!app.Environment.IsDevelopment())
 {
-    app.UseMigrationsEndPoint();
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
 }
 else
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    // Seed the database
+    using (var servicesScope = app.Services.CreateScope())
+    {
+        //Seed Roles
+        
+
+        var db = servicesScope.ServiceProvider.GetService<ReserveSystemContext>();
+        SeedData.Populate(db);
+    }
 }
 
 app.UseHttpsRedirection();

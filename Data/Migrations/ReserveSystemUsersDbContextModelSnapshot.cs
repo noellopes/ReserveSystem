@@ -17,7 +17,7 @@ namespace ReserveSystem.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.11")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -222,40 +222,6 @@ namespace ReserveSystem.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("ReserveSystem.Models.RoomService", b =>
-                {
-                    b.Property<int>("ID_RoomService")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_RoomService"));
-
-                    b.Property<int>("Job_ID")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Room_Service_Active")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Room_Service_Description")
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<int>("Room_Service_Limit_Hour")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Room_Service_Name")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<double>("Room_Service_Price")
-                        .HasColumnType("float");
-
-                    b.HasKey("ID_RoomService");
-
-                    b.ToTable("RoomService");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

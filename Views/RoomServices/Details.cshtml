@@ -1,20 +1,27 @@
-﻿@* @model ReserveSystem.Models.RoomService
+﻿@model ReserveSystem.Models.RoomService
 
 @{
-    ViewData["Title"] = "Details";
+    Layout = null;
 }
 
-<h1>Details</h1>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
 
 <div>
     <h4>RoomService</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Job_ID)
+            @Html.DisplayNameFor(model => model.Job)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Job_ID)
+            @Html.DisplayFor(model => model.Job.Job_ID)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Room_Service_Name)
@@ -29,54 +36,16 @@
             @Html.DisplayFor(model => model.Room_Service_Description)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Room_Service_Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Room_Service_Price)
-        </dd>
-        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Room_Service_Active)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Room_Service_Active)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Room_Service_Limit_Hour)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Room_Service_Limit_Hour)
-        </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.ID_RoomService">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model?.ID_Room_Service">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
- *@
-
-@model ReserveSystem.Models.RoomService
-
-@{
-    ViewData["Title"] = "Details";
-}
-
-<div class="d-flex justify-content-center mt-5">
-    <div class="card" style="width: 30rem;">
-        <div class="card-body">
-            <h5 class="card-title">Room Service Details</h5>
-            <h6 class="card-subtitle mb-3 text-muted">ID: @Model?.ID_RoomService</h6>
-
-            <p><strong>Job ID:</strong> @Model?.Job_ID</p>
-            <p><strong>Name:</strong> @Model?.Room_Service_Name</p>
-            <p><strong>Description:</strong> @Model?.Room_Service_Description</p>
-            <p><strong>Price:</strong> €@Model?.Room_Service_Price</p>
-            <p><strong>Active:</strong> @(Model.Room_Service_Active ? "Yes" : "No")</p>
-            <p><strong>Limit Hour:</strong> @Model?.Room_Service_Limit_Hour</p>
-
-            <div class="d-flex justify-content-around mt-4">
-                <a asp-action="Edit" asp-route-id="@Model?.ID_RoomService" class="btn btn-primary">Edit</a>
-                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-            </div>
-        </div>
-    </div>
-</div>
+</body>
+</html>

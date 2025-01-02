@@ -10,23 +10,23 @@ using ReserveSystem.Models;
 
 namespace ReserveSystem.Controllers
 {
-    public class RoomServicesController : Controller
+    public class RoomServicePricesController : Controller
     {
         private readonly ReserveSystemContext _context;
 
-        public RoomServicesController(ReserveSystemContext context)
+        public RoomServicePricesController(ReserveSystemContext context)
         {
             _context = context;
         }
 
-        // GET: RoomServices
+        // GET: RoomServicePrices
         public async Task<IActionResult> Index()
         {
-            var reserveSystemContext = _context.RoomService.Include(r => r.Job);
+            var reserveSystemContext = _context.RoomServicePrice.Include(r => r.RoomService);
             return View(await reserveSystemContext.ToListAsync());
         }
 
-        // GET: RoomServices/Details/5
+        // GET: RoomServicePrices/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,42 +34,42 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var roomService = await _context.RoomService
-                .Include(r => r.Job)
-                .FirstOrDefaultAsync(m => m.ID_Room_Service == id);
-            if (roomService == null)
+            var roomServicePrice = await _context.RoomServicePrice
+                .Include(r => r.RoomService)
+                .FirstOrDefaultAsync(m => m.ID_Room_Service_Price == id);
+            if (roomServicePrice == null)
             {
                 return NotFound();
             }
 
-            return View(roomService);
+            return View(roomServicePrice);
         }
 
-        // GET: RoomServices/Create
+        // GET: RoomServicePrices/Create
         public IActionResult Create()
         {
-            ViewData["Job_ID"] = new SelectList(_context.Job, "Job_ID", "Job_ID");
+            ViewData["ID_Room_Service"] = new SelectList(_context.RoomService, "ID_Room_Service", "Room_Service_Name");
             return View();
         }
 
-        // POST: RoomServices/Create
+        // POST: RoomServicePrices/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID_Room_Service,Job_ID,Room_Service_Name,Room_Service_Description,Room_Service_Active")] RoomService roomService)
+        public async Task<IActionResult> Create([Bind("ID_Room_Service_Price,ID_Room_Service,Start_Date,End_Date,Room_Service_Price")] RoomServicePrice roomServicePrice)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(roomService);
+                _context.Add(roomServicePrice);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Job_ID"] = new SelectList(_context.Job, "Job_ID", "Job_ID", roomService.Job_ID);
-            return View(roomService);
+            ViewData["ID_Room_Service"] = new SelectList(_context.RoomService, "ID_Room_Service", "Room_Service_Name", roomServicePrice.ID_Room_Service);
+            return View(roomServicePrice);
         }
 
-        // GET: RoomServices/Edit/5
+        // GET: RoomServicePrices/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,23 +77,23 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var roomService = await _context.RoomService.FindAsync(id);
-            if (roomService == null)
+            var roomServicePrice = await _context.RoomServicePrice.FindAsync(id);
+            if (roomServicePrice == null)
             {
                 return NotFound();
             }
-            ViewData["Job_ID"] = new SelectList(_context.Job, "Job_ID", "Job_ID", roomService.Job_ID);
-            return View(roomService);
+            ViewData["ID_Room_Service"] = new SelectList(_context.RoomService, "ID_Room_Service", "Room_Service_Name", roomServicePrice.ID_Room_Service);
+            return View(roomServicePrice);
         }
 
-        // POST: RoomServices/Edit/5
+        // POST: RoomServicePrices/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID_Room_Service,Job_ID,Room_Service_Name,Room_Service_Description,Room_Service_Active")] RoomService roomService)
+        public async Task<IActionResult> Edit(int id, [Bind("ID_Room_Service_Price,ID_Room_Service,Start_Date,End_Date,Room_Service_Price")] RoomServicePrice roomServicePrice)
         {
-            if (id != roomService.ID_Room_Service)
+            if (id != roomServicePrice.ID_Room_Service_Price)
             {
                 return NotFound();
             }
@@ -102,12 +102,12 @@ namespace ReserveSystem.Controllers
             {
                 try
                 {
-                    _context.Update(roomService);
+                    _context.Update(roomServicePrice);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RoomServiceExists(roomService.ID_Room_Service))
+                    if (!RoomServicePriceExists(roomServicePrice.ID_Room_Service_Price))
                     {
                         return NotFound();
                     }
@@ -118,11 +118,11 @@ namespace ReserveSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Job_ID"] = new SelectList(_context.Job, "Job_ID", "Job_ID", roomService.Job_ID);
-            return View(roomService);
+            ViewData["ID_Room_Service"] = new SelectList(_context.RoomService, "ID_Room_Service", "Room_Service_Name", roomServicePrice.ID_Room_Service);
+            return View(roomServicePrice);
         }
 
-        // GET: RoomServices/Delete/5
+        // GET: RoomServicePrices/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -130,35 +130,35 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var roomService = await _context.RoomService
-                .Include(r => r.Job)
-                .FirstOrDefaultAsync(m => m.ID_Room_Service == id);
-            if (roomService == null)
+            var roomServicePrice = await _context.RoomServicePrice
+                .Include(r => r.RoomService)
+                .FirstOrDefaultAsync(m => m.ID_Room_Service_Price == id);
+            if (roomServicePrice == null)
             {
                 return NotFound();
             }
 
-            return View(roomService);
+            return View(roomServicePrice);
         }
 
-        // POST: RoomServices/Delete/5
+        // POST: RoomServicePrices/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var roomService = await _context.RoomService.FindAsync(id);
-            if (roomService != null)
+            var roomServicePrice = await _context.RoomServicePrice.FindAsync(id);
+            if (roomServicePrice != null)
             {
-                _context.RoomService.Remove(roomService);
+                _context.RoomServicePrice.Remove(roomServicePrice);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RoomServiceExists(int id)
+        private bool RoomServicePriceExists(int id)
         {
-            return _context.RoomService.Any(e => e.ID_Room_Service == id);
+            return _context.RoomServicePrice.Any(e => e.ID_Room_Service_Price == id);
         }
     }
 }

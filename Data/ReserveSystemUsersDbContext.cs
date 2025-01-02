@@ -10,6 +10,6 @@ namespace ReserveSystem.Data
             : base(options)
         {
         }
-        public DbSet<ReserveSystem.Models.RoomService> RoomService { get; set; } = default!;
+
     }
 }
