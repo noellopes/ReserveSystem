@@ -143,15 +143,15 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var author = await _context.Client.FindAsync(id);
-            if (author == null)
+            var client = await _context.Client.FindAsync(id);
+            if (client == null)
             {
-                ViewBag.Entity = "Cliente";
+                ViewBag.Entity = "Client";
                 ViewBag.Controller = "Client";
                 ViewBag.Action = "Index";
                 return View("EntityNoLongerExists");
             }
-            return View(author);
+            return View(client);
         }
 
         [HttpPost]
@@ -160,7 +160,10 @@ namespace ReserveSystem.Controllers
         {
             if (id != clientModel.ClienteId)
             {
-                return NotFound();
+                ViewBag.Entity = "Client";
+                ViewBag.Controller = "Client";
+                ViewBag.Action = "Index";
+                return View("EntityNoLongerExists");
             }
 
             if (ModelState.IsValid)
@@ -171,29 +174,41 @@ namespace ReserveSystem.Controllers
 
                     if (existingClient == null)
                     {
-                        ViewBag.Entity = "Cliente";
+                        ViewBag.Entity = "Client";
                         ViewBag.Controller = "Client";
                         ViewBag.Action = "Index";
                         return View("EntityNoLongerExists");
                     }
+                    existingClient.Name = clientModel.Name;
+                    existingClient.Phone = clientModel.Phone;
+                    existingClient.Address = clientModel.Address;
+                    existingClient.Email = clientModel.Email;
+                    existingClient.NIF = clientModel.NIF;
+                    existingClient.Login = clientModel.Login;
+                    existingClient.Status = clientModel.Status;
 
-                    _context.Update(clientModel);
-                    await _context.SaveChangesAsync();
+                    _context.Update(existingClient);
+                    await _context.SaveChangesAsync();                  
                 }
 
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!ClientModelExists(clientModel.ClienteId))
                     {
-                        return NotFound();
-
+                        ViewBag.Entity = "Client";
+                        ViewBag.Controller = "Client";
+                        ViewBag.Action = "Index";
+                        return View("EntityNoLongerExists");
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                ViewBag.Entity = "Client";
+                ViewBag.Controller = "Client";
+                ViewBag.Action = "Index";
+                return View("Successfully");               
             }
             return View(clientModel);
         }
@@ -203,23 +218,21 @@ namespace ReserveSystem.Controllers
         {
             if (id == null)
             {
-                ViewBag.Entity = "Cliente";
+                ViewBag.Entity = "Client";
                 ViewBag.Controller = "Client";
                 ViewBag.Action = "Index";
-                return View("DeletedSuccess");
+                return View("EntityNoLongerExists");
             }
 
             var cliente = await _context.Client
                 .FirstOrDefaultAsync(m => m.ClienteId == id);
             if (cliente == null)
             {
-                ViewBag.Entity = "Cliente";
+                ViewBag.Entity = "Client";
                 ViewBag.Controller = "Client";
                 ViewBag.Action = "Index";
-                return View("DeletedSuccess");
-            }
-            //_context.Client.Remove(cliente);
-            await _context.SaveChangesAsync();
+                return View("EntityNoLongerExists");
+            }           
             return View(cliente);
         }
 
@@ -231,13 +244,11 @@ namespace ReserveSystem.Controllers
             var cliente = await _context.Client.FindAsync(id);
             if (cliente != null)
             {
-                //_context.Client.Remove(cliente);
-                
+                _context.Client.Remove(cliente);                
             }
             ViewBag.Entity = "Cliente";
             ViewBag.Controller = "Client";
-            ViewBag.Action = "Index";
-            
+            ViewBag.Action = "Index";            
             await _context.SaveChangesAsync();
             return View("DeletedSuccess");
         }
