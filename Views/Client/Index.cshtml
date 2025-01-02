@@ -1,9 +1,8 @@
-﻿@model IEnumerable<ReserveSystem.Models.ClientModel>
+﻿@model ReserveSystem.Models.ClientViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Client list";
 }
-
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
@@ -21,12 +20,12 @@
 }
 
 <p>
-    <a asp-action="Create" class="btn btn-primary"><i class="bi bi-person-plus"></i> Adicionar Cliente</a>
+    <a asp-action="Create" class="btn btn-primary"><i class="bi bi-person-plus"></i> Add a Client</a>
 </p>
 <form method="get" action="@Url.Action("Index")">
     <div class="input-group mb-3">
         <input type="text" name="searchQuery" class="form-control"
-               placeholder="Search by Email or Identification"
+               placeholder="Search by Email or NIF"
                value="@ViewData["SearchQuery"]" />
         <button class="btn btn-primary" type="submit">Search</button>
     </div>
@@ -35,38 +34,81 @@
     <thead class="fs-2">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>          
+                @Html.DisplayNameFor(model => model.clientModels.First().Name)
+            </th>                     
             <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>            
-            <th>
-                @Html.DisplayNameFor(model => model.Identification) Number
+                @Html.DisplayNameFor(model => model.clientModels.First().Email)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.clientModels.First().NIF)
+            </th>            
             <th></th>
         </tr>
     </thead>
-    <tbody id="clientTableBody">
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>               
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </td>              
-                <td>
-                    @Html.DisplayFor(modelItem => item.Identification)
-                </td>
-
-                <td class="d-flex justify-content-end">
-                    <a asp-action="Edit" asp-route-id="@item.ClienteId" class="btn btn-primary ms-2">Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.ClienteId" class="btn btn-secondary ms-2">Details</a>
-                    <a asp-action="Delete" asp-route-id="@item.ClienteId" class="btn btn-danger ms-2">Delete</a>
-                    <a asp-action="Create" asp-controller="Booking" class="btn btn-success ms-2">Book</a>
-                </td>
-            </tr>
-        }
+    <tbody>
+@foreach (var item in Model.clientModels) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NIF)
+            </td>
+            <td class="d-flex justify-content-end">
+               <a asp-action="Edit" asp-route-id="@item.ClienteId" class="btn btn-primary ms-2">Edit</a>
+               <a asp-action="Details" asp-route-id="@item.ClienteId" class="btn btn-secondary ms-2">Details</a>
+               <a asp-action="Delete" asp-route-id="@item.ClienteId" class="btn btn-danger ms-2">Delete</a>
+               <a asp-action="Create" asp-controller="Booking" class="btn btn-success ms-2">Book</a>
+            </td>
+        </tr>
+}
     </tbody>
 </table>
+<nav aria-label="Pagination">
+    <ul class="pagination">
+        @{
+            var cssStyle = "page-item";
+            if (Model.PagingInfo.CurrentPage == 1)
+            {
+                cssStyle += " disabled";
+            }
+        }
+        <li class="@cssStyle">
+            <a class="page-link"
+               asp-action="Index"
+               asp-route-page="@(Model.PagingInfo.CurrentPage - 1)">&laquo;</a>
+        </li>
+
+        @for (int p = Model.PagingInfo.FirstPageShow; p <= Model.PagingInfo.LastPageShow; p++)
+        {
+            cssStyle = "page-item";
+            if (p == Model.PagingInfo.CurrentPage)
+            {
+                cssStyle += " active";
+            }
+
+            <li class="@cssStyle">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@p"
+                   >@p</a>
+            </li>
+        }
+
+        @{
+            cssStyle = "page-item";
+            if (Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages)
+            {
+                cssStyle += " disabled";
+            }
+        }
+        <li class="@cssStyle">
+            <a class="page-link"
+               asp-action="Index"
+               asp-route-page="@(Model.PagingInfo.CurrentPage + 1)">&raquo;</a>
+        </li>
+    </ul>
+</nav>

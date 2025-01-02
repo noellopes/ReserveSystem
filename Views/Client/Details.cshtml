@@ -1,8 +1,10 @@
 ﻿@model ReserveSystem.Models.ClientModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Client Details";
 }
+
+<h1>Details</h1>
 
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -14,50 +16,54 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-center">
                         <dl class="row w-100">
-                            <div class="mb-3">
-                                <dt class="col-sm-4 text-muted">
-                                    <i class="bi bi-person"></i> @Html.DisplayNameFor(model => model.Name)
-                                </dt>
-                                <dd class="col-sm-8 text-dark fw-bold">
-                                    @Html.DisplayFor(model => model.Name)
-                                </dd>
-                            </div>
+                            <dt class="col-sm-2 text-muted">
+                                <i class="bi bi-person"></i> @Html.DisplayNameFor(model => model.Name)
+                            </dt>
+                            <dd class="col-sm-10 text-dark fw-bold">
+                                @Html.DisplayFor(model => model.Name)
+                            </dd>
 
-                            <div class="mb-3">
-                                <dt class="col-sm-4 text-muted">
-                                    <i class="bi bi-telephone"></i> @Html.DisplayNameFor(model => model.Phone)
-                                </dt>
-                                <dd class="col-sm-8 text-dark fw-bold">
-                                    @Html.DisplayFor(model => model.Phone)
-                                </dd>
-                            </div>
+                            <dt class="col-sm-2 text-muted">
+                                <i class="bi bi-telephone"></i> @Html.DisplayNameFor(model => model.Phone)
+                            </dt>
+                            <dd class="col-sm-10 text-dark fw-bold">
+                                @Html.DisplayFor(model => model.Phone)
+                            </dd>
 
-                            <div class="mb-3">
-                                <dt class="col-sm-4 text-muted">
-                                    <i class="bi bi-house-door"></i> @Html.DisplayNameFor(model => model.Address)
-                                </dt>
-                                <dd class="col-sm-8 text-dark fw-bold">
-                                    @Html.DisplayFor(model => model.Address)
-                                </dd>
-                            </div>
+                            <dt class="col-sm-2 text-muted">
+                                <i class="bi bi-house-door"></i> @Html.DisplayNameFor(model => model.Address)
+                            </dt>
+                            <dd class="col-sm-10 text-dark fw-bold">
+                                @Html.DisplayFor(model => model.Address)
+                            </dd>
 
-                            <div class="mb-3">
-                                <dt class="col-sm-4 text-muted">
-                                    <i class="bi bi-envelope"></i> @Html.DisplayNameFor(model => model.Email)
-                                </dt>
-                                <dd class="col-sm-8 text-dark fw-bold">
-                                    @Html.DisplayFor(model => model.Email)
-                                </dd>
-                            </div>
+                            <dt class="col-sm-2 text-muted">
+                                <i class="bi bi-envelope"></i> @Html.DisplayNameFor(model => model.Email)
+                            </dt>
+                            <dd class="col-sm-10 text-dark fw-bold">
+                                @Html.DisplayFor(model => model.Email)
+                            </dd>
 
-                            <div class="mb-3">
-                                <dt class="col-sm-4 text-muted">
-                                    <i class="bi bi-card-text"></i> @Html.DisplayNameFor(model => model.Identification)
-                                </dt>
-                                <dd class="col-sm-8 text-dark fw-bold">
-                                    @Html.DisplayFor(model => model.Identification)
-                                </dd>
-                            </div>
+                            <dt class="col-sm-2 text-muted">
+                                <i class="bi bi-card-text"></i> @Html.DisplayNameFor(model => model.NIF)
+                            </dt>
+                            <dd class="col-sm-10 text-dark fw-bold">
+                                @Html.DisplayFor(model => model.NIF)
+                            </dd>
+
+                            <dt class="col-sm-2 text-muted">
+                                <i class="bi bi-person-lock"></i> @Html.DisplayNameFor(model => model.Login)
+                            </dt>
+                            <dd class="col-sm-10 text-dark fw-bold">
+                                @Html.DisplayFor(model => model.Login)
+                            </dd>
+
+                            <dt class="col-sm-2 text-muted">
+                                <i class="bi bi-check-circle"></i> @Html.DisplayNameFor(model => model.Status)
+                            </dt>
+                            <dd class="col-sm-10 text-dark fw-bold">
+                                @Html.DisplayFor(model => model.Status)
+                            </dd>
                         </dl>
                     </div>
 
@@ -74,3 +80,4 @@
         </div>
     </div>
 </div>
+

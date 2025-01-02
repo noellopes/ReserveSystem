@@ -15,39 +15,37 @@ namespace ReserveSystem.Controllers
 {
     public class ClientController : Controller
     {
-        private readonly ReserveSystemContext _context;
-        //private readonly SignInManager<IdentityUser> _signInManager;
-        //private readonly UserManager<IdentityUser> _userManager;
-        //private readonly PasswordHasher<ClientModel> passwordHasher;
-
-        public ClientController(ReserveSystemContext context, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+        private readonly ReserveSystemContext _context;      
+        public ClientController(ReserveSystemContext context)
         {
-            _context = context;
-            //_signInManager = signInManager;
-            //_userManager = userManager;
-            //this.passwordHasher = passwordHasher;
+            _context = context;            
         }
 
         // GET: Client
-        public async Task<IActionResult> Index(string searchQuery)
+        public async Task<IActionResult> Index(string searchQuery, int page = 1)
         {
             var clients = _context.Client.AsQueryable();
 
-            // If searchQuery is provided, filter by Email or Identification
             if (!string.IsNullOrEmpty(searchQuery))
             {
                 clients = clients.Where(c =>
                     c.Email.Contains(searchQuery) ||
-                    c.Identification.Contains(searchQuery));
+                    c.NIF.Contains(searchQuery));
             }
             var clientList = await clients.ToListAsync();
 
-            if (Request.Headers.XRequestedWith == "XMLHttpRequest")
+            var bookmodel = new ClientViewModel();
+            bookmodel.PagingInfo = new PagingInfo
             {
-                // Return only the table rows as a partial view for AJAX requests
-                return PartialView("_ClientTableBody", clientList);
-            }
-            return View(clientList);
+                CurrentPage = page,
+                TotalItems = await clients.CountAsync(),
+            };
+            bookmodel.clientModels = await clients
+                .OrderBy(c => c.Name)
+                .Skip((bookmodel.PagingInfo.CurrentPage - 1) * bookmodel.PagingInfo.PageSize)
+                .Take(bookmodel.PagingInfo.PageSize)
+                .ToListAsync();
+            return View(bookmodel);
         }
 
         // GET: Client/Details/5
@@ -70,11 +68,10 @@ namespace ReserveSystem.Controllers
                 ViewBag.Action = "Index";
                 return View("EntityNoLongerExists");
             }
-            _context.Client.Remove(clientModel);
+            //_context.Client.Remove(clientModel);
             await _context.SaveChangesAsync();
             return View(clientModel);
         }
-
         // GET: Client/Create
         public IActionResult Create()
         {
@@ -86,7 +83,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClienteId,Name,Phone,Address,Email,Identification,Password, IdentificationType")] ClientModel cliente)
+        public async Task<IActionResult> Create([Bind("ClienteId,Name,Phone,Address,Email,NIF,Login,Status")] ClientModel cliente)
         {
             if (ModelState.IsValid)
             {
@@ -108,34 +105,19 @@ namespace ReserveSystem.Controllers
                         ModelState.AddModelError("Email", "Invalid email. Please verify and try again.");
                         return View(cliente);
                     }
-                    if (cliente.IdentificationType == "NIF")
-                    {
-                        if (!Validator.IsNifValid(cliente.Identification))
-                        {
-                            ModelState.AddModelError("Identification", "Identification Invalid or NIF cannot be less or greater than 9 digits");
-                            return View(cliente);
-                        }
-                    }
-                    else if(cliente.IdentificationType == "IDCard")
-                    {
-                        if (!Validator.IsIDCardValid(cliente.Identification))
-                        {
-                            ModelState.AddModelError("Identification", "Identification Invalid or ID Card number cannot be lesser than 8 or greater than 18 digits");
-                            return View(cliente);
-                        }
-                    }
-                    else if(cliente.IdentificationType == "Passport")
-                    {
-                        if (!Validator.IsPassportValid(cliente.Identification))
-                        {
-                            ModelState.AddModelError("Identification", "Identification Invalid or Passport number cannot be lesser than 8 digits or greater than 12 digits");
-                            return View(cliente);
-                        }
-                    }
-                    var isDuplicate = await _context.Client.AnyAsync(c => c.Identification == cliente.Identification);
+                    //if (cliente.NIF == "NIF")
+                    //{
+                    //    if (!Validator.IsNifValid(cliente.Identification))
+                    //    {
+                    //        ModelState.AddModelError("Identification", "Identification Invalid or NIF cannot be less or greater than 9 digits");
+                    //        return View(cliente);
+                    //    }
+                    //}
+
+                    var isDuplicate = await _context.Client.AnyAsync(c => c.NIF == cliente.NIF);
                     if (isDuplicate)
                     {
-                        ModelState.AddModelError("Identification", "Invalid identification details. Please verify and try again.");
+                        ModelState.AddModelError("NIF", "Invalid identification details. Please verify and try again.");
                         return View(cliente);
                     }
 
@@ -161,24 +143,27 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var author = await _context.Client.FindAsync(id);
-            if (author == null)
+            var client = await _context.Client.FindAsync(id);
+            if (client == null)
             {
-                ViewBag.Entity = "Cliente";
+                ViewBag.Entity = "Client";
                 ViewBag.Controller = "Client";
                 ViewBag.Action = "Index";
                 return View("EntityNoLongerExists");
             }
-            return View(author);
+            return View(client);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Name,Phone,Address,Email,Identification,Password,IdentificationType")] ClientModel clientModel)
+        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Name,Phone,Address,Email,NIF,Login,Status")] ClientModel clientModel)
         {
             if (id != clientModel.ClienteId)
             {
-                return NotFound();
+                ViewBag.Entity = "Client";
+                ViewBag.Controller = "Client";
+                ViewBag.Action = "Index";
+                return View("EntityNoLongerExists");
             }
 
             if (ModelState.IsValid)
@@ -189,29 +174,41 @@ namespace ReserveSystem.Controllers
 
                     if (existingClient == null)
                     {
-                        ViewBag.Entity = "Cliente";
+                        ViewBag.Entity = "Client";
                         ViewBag.Controller = "Client";
                         ViewBag.Action = "Index";
                         return View("EntityNoLongerExists");
                     }
+                    existingClient.Name = clientModel.Name;
+                    existingClient.Phone = clientModel.Phone;
+                    existingClient.Address = clientModel.Address;
+                    existingClient.Email = clientModel.Email;
+                    existingClient.NIF = clientModel.NIF;
+                    existingClient.Login = clientModel.Login;
+                    existingClient.Status = clientModel.Status;
 
-                    _context.Update(clientModel);
-                    await _context.SaveChangesAsync();
+                    _context.Update(existingClient);
+                    await _context.SaveChangesAsync();                  
                 }
 
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!ClientModelExists(clientModel.ClienteId))
                     {
-                        return NotFound();
-
+                        ViewBag.Entity = "Client";
+                        ViewBag.Controller = "Client";
+                        ViewBag.Action = "Index";
+                        return View("EntityNoLongerExists");
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                ViewBag.Entity = "Client";
+                ViewBag.Controller = "Client";
+                ViewBag.Action = "Index";
+                return View("Successfully");               
             }
             return View(clientModel);
         }
@@ -221,23 +218,21 @@ namespace ReserveSystem.Controllers
         {
             if (id == null)
             {
-                ViewBag.Entity = "Cliente";
+                ViewBag.Entity = "Client";
                 ViewBag.Controller = "Client";
                 ViewBag.Action = "Index";
-                return View("DeletedSuccess");
+                return View("EntityNoLongerExists");
             }
 
             var cliente = await _context.Client
                 .FirstOrDefaultAsync(m => m.ClienteId == id);
             if (cliente == null)
             {
-                ViewBag.Entity = "Cliente";
+                ViewBag.Entity = "Client";
                 ViewBag.Controller = "Client";
                 ViewBag.Action = "Index";
-                return View("DeletedSuccess");
-            }
-            _context.Client.Remove(cliente);
-            await _context.SaveChangesAsync();
+                return View("EntityNoLongerExists");
+            }           
             return View(cliente);
         }
 
@@ -249,17 +244,14 @@ namespace ReserveSystem.Controllers
             var cliente = await _context.Client.FindAsync(id);
             if (cliente != null)
             {
-                _context.Client.Remove(cliente);
-                
+                _context.Client.Remove(cliente);                
             }
             ViewBag.Entity = "Cliente";
             ViewBag.Controller = "Client";
-            ViewBag.Action = "Index";
-            
+            ViewBag.Action = "Index";            
             await _context.SaveChangesAsync();
             return View("DeletedSuccess");
         }
-
         private bool ClientModelExists(int id)
         {
             return _context.Client.Any(e => e.ClienteId == id);
