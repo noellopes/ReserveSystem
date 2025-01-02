@@ -31,11 +31,14 @@ namespace ReserveSystem.Models
         [Required(ErrorMessage = "Please enter the base price for this room type")]
         public float BasePrice { get; set; }
 
-       [Required(ErrorMessage = "Please enter the cancelation fee for this room type")]
-        public float CancelationFee { get; set; }
+
+        public float CancelationFee => BasePrice / 2;
 
        [Required(ErrorMessage = "Please enter the price of additional beds for this room type")]
         public float AdicionalBeds { get; set; }
+
+        [Required]
+        public bool InUse {  get; set; }
 
         
 
