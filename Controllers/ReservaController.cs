@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -19,98 +16,84 @@ namespace ReserveSystem.Controllers
             _context = context;
         }
 
-        // GET: Reserva
+        // GET: ReservaController
         public async Task<IActionResult> Index()
         {
-            //var reserveSystemContext = _context.ReservaModel.Include(r => r.ClienteId);
-            return View(await _context.ReservaModel.ToListAsync());
+            var reservas = await _context.Reserva
+                .Include(r => r.TipoReserva)
+                .Include(r => r.Client)
+                .ToListAsync();
+            return View(reservas);
         }
 
-        // GET: Reserva/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: ReservaController/Details/5
+        public async Task<IActionResult> Details(long id)
         {
-            if (id == null)
+            var reserva = await _context.Reserva
+                .Include(r => r.TipoReserva)
+                .Include(r => r.Client)
+                .FirstOrDefaultAsync(m => m.IdReserva == id);
+            if (reserva == null)
             {
                 return NotFound();
             }
-
-            var Reserva = await _context.ReservaModel
-                .Include(r => r.ClienteId)
-                .FirstOrDefaultAsync(m => m.ReservaID == id);
-            if (Reserva == null)
-            {
-                return NotFound();
-            }
-
-            return View(Reserva);
+            return View(reserva);
         }
 
-        // GET: Reserva/Create
+        // GET: ReservaController/Create
         public IActionResult Create()
         {
-            //ViewData["ClienteId"] = new SelectList(_context.ReservaModel, "ClienteId");
-            var clienteIds = _context.ClientModel.Select(r => r.ClienteId).ToList();
-            ViewData["ClienteId"] = new SelectList(clienteIds);
-
+            PopulateViewData();
             return View();
         }
 
-        // POST: Reserva/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: ReservaController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ReservaID,TipoReserva,DataReserva,DataInicio,DataFim,Partcipantes,PrecoTotal,ClienteId")] ReservaModel Reserva)
+        public async Task<IActionResult> Create(Reserva model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(Reserva);
+                model.DataReserva = DateTime.Now; // Set the current date and time
+                _context.Add(model);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["ClienteId"] = new SelectList(_context.ClientModel, "ClienteId", "Email", ReservaModel.C);
-            return View(Reserva);
+            PopulateViewData();
+            return View(model);
         }
 
-        // GET: Reserva/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        // GET: ReservaController/Edit/5
+        public async Task<IActionResult> Edit(long id)
         {
-            if (id == null)
+            var reserva = await _context.Reserva.FindAsync(id);
+            if (reserva == null)
             {
                 return NotFound();
             }
-
-            var Reserva = await _context.ReservaModel.FindAsync(id);
-            if (Reserva == null)
-            {
-                return NotFound();
-            }
-            //ViewData["ClienteId"] = new SelectList(_context.ClientModel, "ClienteId", "Email", ReservaModel.ClienteId);
-            return View(Reserva);
+            PopulateViewData();
+            return View(reserva);
         }
 
-        // POST: Reserva/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: ReservaController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ReservaID,TipoReserva,DataReserva,DataInicio,DataFim,Partcipantes,PrecoTotal,ClienteId")] ReservaModel Reserva)
+        public async Task<IActionResult> Edit(long id, Reserva model)
         {
-            if (id != Reserva.ReservaID)
+            if (id != model.IdReserva)
             {
-                return NotFound();
+                return BadRequest();
             }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(Reserva);
+                    _context.Update(model);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ReservaExists(Reserva.ReservaID))
+                    if (!ReservaExists(model.IdReserva))
                     {
                         return NotFound();
                     }
@@ -121,47 +104,52 @@ namespace ReserveSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["ClienteId"] = new SelectList(_context.ClientModel, "ClienteId", "Email", reservaModel.ClienteId);
-            return View(Reserva);
+            PopulateViewData();
+            return View(model);
         }
 
-        // GET: Reserva/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: ReservaController/Delete/5
+        public async Task<IActionResult> Delete(long id)
         {
-            if (id == null)
+            var reserva = await _context.Reserva
+                .Include(r => r.TipoReserva)
+                .Include(r => r.Client)
+                .FirstOrDefaultAsync(m => m.IdReserva == id);
+            if (reserva == null)
             {
                 return NotFound();
             }
-
-            var Reserva = await _context.ReservaModel
-                .Include(r => r.ClienteId)
-                .FirstOrDefaultAsync(m => m.ReservaID == id);
-            if (Reserva == null)
-            {
-                return NotFound();
-            }
-
-            return View(Reserva);
+            return View(reserva);
         }
 
-        // POST: Reserva/Delete/5
+        // POST: ReservaController/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            var Reserva = await _context.ReservaModel.FindAsync(id);
-            if (Reserva != null)
-            {
-                _context.ReservaModel.Remove(Reserva);
-            }
-
+            var reserva = await _context.Reserva.FindAsync(id);
+            _context.Reserva.Remove(reserva);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ReservaExists(int id)
+        private void PopulateViewData()
         {
-            return _context.ReservaModel.Any(e => e.ReservaID == id);
+            var tipoReservaList = _context.TipoReserva
+                .Select(tr => new SelectListItem
+                {
+                    Value = tr.idTipoReserva.ToString(),
+                    Text = tr.NomeReserva
+                }).ToList();
+
+            tipoReservaList.Insert(0, new SelectListItem { Value = "", Text = "-- Choose Type -- " });
+
+            ViewData["TipoReserva"] = tipoReservaList;
+            ViewData["ClientId"] = new SelectList(_context.ClientModel, "ClienteId", "NomeCliente");
+        }
+        private bool ReservaExists(long id)
+        {
+            return _context.Reserva.Any(e => e.IdReserva == id);
         }
     }
 }

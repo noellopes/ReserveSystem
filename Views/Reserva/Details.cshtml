@@ -1,60 +1,73 @@
-﻿@model ReserveSystem.Models.ReservaModel
+﻿@model ReserveSystem.Models.Reserva
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Reservation Details";
 }
 
-<h1>Details</h1>
+<h2>Reservation Details</h2>
 
 <div>
-    <h4>ReservaModel</h4>
+    <h4>Reservation</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TipoReserva)
+        <dt class="col-sm-2">
+            Reservation Date
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TipoReserva)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DataReserva)
-        </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.DataReserva)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DataInicio)
+        <dt class="col-sm-2">
+            Start Date
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.DataInicio)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DataFim)
+        <dt class="col-sm-2">
+            End Date
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.DataFim)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Partcipantes)
+        <dt class="col-sm-2">
+            Participants
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Partcipantes)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotalParticipantes)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PrecoTotal)
+        <dt class="col-sm-2">
+            Total Price
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PrecoTotal)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ClienteId)
+        <dt class="col-sm-2">
+            Status
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ClienteId)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Estado)
+        </dd>
+        <dt class="col-sm-2">
+            Status Date
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DataEstado)
+        </dd>
+        <dt class="col-sm-2">
+            Reservation Type
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TipoReserva.NomeReserva)
+        </dd>
+        <dt class="col-sm-2">
+            Client ID
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NumeroCliente)
         </dd>
     </dl>
 </div>
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.ReservaID">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.IdReserva">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

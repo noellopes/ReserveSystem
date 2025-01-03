@@ -30,7 +30,7 @@ namespace ReserveSystem.Models
             //[StringLength(9, MinimumLength = 9, ErrorMessage = "O NIF deve ter exatamente 9 dígitos.")]
             //[RegularExpression(@"^\d+$", ErrorMessage = "O NIF deve conter apenas números.")]
 
-            public ICollection<ReservaModel>? ReservaModel { get; set; }
+            public ICollection<Reserva>? Reserva { get; set; }
         }
     }
 

@@ -146,8 +146,8 @@ namespace ReserveSystem.Data
 
             var reservas = new[]
             {
-                    new Reserva { dataReserva = DateTime.Now, DataInicio = DateTime.Now.AddDays(1), DataFim = DateTime.Now.AddDays(1).AddHours(2), Participantes = 10, precoTotal = 100, estado = "Pending", dataEstado = DateTime.Now, idTipoReserva = 1, ClientId = 1 },
-                    new Reserva { dataReserva = DateTime.Now, DataInicio = DateTime.Now.AddDays(2), DataFim = DateTime.Now.AddDays(2).AddHours(3), Participantes = 20, precoTotal = 200, estado = "Pending", dataEstado = DateTime.Now, idTipoReserva = 2, ClientId = 2 }
+                    new Reserva { DataReserva = DateTime.Now, DataInicio = DateTime.Now.AddDays(1), DataFim = DateTime.Now.AddDays(1).AddHours(2), TotalParticipantes = 10, PrecoTotal = 100, Estado = "Pending", DataEstado = DateTime.Now, IdTipoReserva = 1, NumeroCliente = 1 },
+                    new Reserva { DataReserva = DateTime.Now, DataInicio = DateTime.Now.AddDays(2), DataFim = DateTime.Now.AddDays(2).AddHours(3), TotalParticipantes = 20, PrecoTotal = 200, Estado = "Pending", DataEstado = DateTime.Now, IdTipoReserva = 2, NumeroCliente = 2 }
                 };
 
             await context.Reserva.AddRangeAsync(reservas);
