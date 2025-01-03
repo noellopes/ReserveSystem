@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserveSystem.Data;
 
@@ -11,9 +12,11 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    partial class ReserveSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20250102221910_CreateRoomBookingTable")]
+    partial class CreateRoomBookingTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,10 +149,6 @@ namespace ReserveSystem.Data.Migrations
 
                     b.HasKey("ID_ROOM_BOOKING");
 
-                    b.HasIndex("ID_BOOKING");
-
-                    b.HasIndex("ID_ROOM");
-
                     b.ToTable("RoomBooking");
                 });
 
@@ -206,25 +205,6 @@ namespace ReserveSystem.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Client");
-                });
-
-            modelBuilder.Entity("ReserveSystem.Models.RoomBooking", b =>
-                {
-                    b.HasOne("ReserveSystem.Models.Booking", "Booking")
-                        .WithMany()
-                        .HasForeignKey("ID_BOOKING")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ReserveSystem.Models.RoomModel", "RoomModel")
-                        .WithMany()
-                        .HasForeignKey("ID_ROOM")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Booking");
-
-                    b.Navigation("RoomModel");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.RoomModel", b =>
