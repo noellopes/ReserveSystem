@@ -1,25 +1,26 @@
 ﻿@model ReserveSystem.Models.Equipamento
 
+<h2>Add Equipment</h2>
 
-<div class="container mt-4">
-    <h1>Add new equipment</h1>
-    <form asp-action="AddEquipment" method="post" enctype="multipart/form-data">
-        <div class="form-group">
-            <label asp-for="NomeEquipamento" class="control-label">Equipment name</label>
-            <input asp-for="NomeEquipamento" class="form-control" />
-            <span asp-validation-for="NomeEquipamento" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="TipoEquipamento" class="control-label">Equipment type</label>
-            <input asp-for="TipoEquipamento" class="form-control" />
-            <span asp-validation-for="TipoEquipamento" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Quantidade" class="control-label">Quantity</label>
-            <input asp-for="Quantidade" class="form-control" />
-            <span asp-validation-for="Quantidade" class="text-danger"></span>
-        </div>
-        <button type="submit" class="btn btn-primary">Add</button>
+<form asp-action="AddEquipment">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="NomeEquipamento" class="control-label">Equipment Name</label>
+        <input asp-for="NomeEquipamento" class="form-control" />
+        <span asp-validation-for="NomeEquipamento" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Quantidade" class="control-label">Quantity</label>
+        <input asp-for="Quantidade" class="form-control" />
+        <span asp-validation-for="Quantidade" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="IdTipoEquipamento" class="control-label">Equipment Type</label>
+        <select asp-for="IdTipoEquipamento" class="form-control" asp-items="ViewBag.TipoEquipamento"></select>
+        <span asp-validation-for="IdTipoEquipamento" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Add" class="btn btn-primary" />
         <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-    </form>
-</div>
+    </div>
+</form>

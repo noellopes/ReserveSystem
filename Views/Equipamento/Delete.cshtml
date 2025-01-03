@@ -1,6 +1,5 @@
 ﻿@model ReserveSystem.Models.Equipamento
 
-
 <div class="container mt-4">
     <h1>Delete Equipment</h1>
     <div>
@@ -14,7 +13,7 @@
                     <h5 class="card-title">@Model.NomeEquipamento</h5> 
                     <p class="card-text"> 
                         <strong>Id:</strong> @Model.IdEquipamento<br> 
-                        <strong>Tipo:</strong> @Model.TipoEquipamento<br> 
+                        <strong>Tipo:</strong> @(ViewBag.TipoEquipamentoDict != null && ViewBag.TipoEquipamentoDict.ContainsKey(Model.IdTipoEquipamento) ? ViewBag.TipoEquipamentoDict[Model.IdTipoEquipamento] : "N/A")<br> 
                         <strong>Quantidade:</strong> @Model.Quantidade 
                     </p> 
                     <form asp-action="Delete"> 

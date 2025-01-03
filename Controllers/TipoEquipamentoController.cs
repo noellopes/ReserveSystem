@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
@@ -162,6 +163,14 @@ namespace ReserveSystem.Controllers
                 TempData["Message"] = "An unexpected error occurred while deleting the equipment type.";
                 return RedirectToAction(nameof(Index));
             }
+        }
+
+        public void populateViewData()
+        {
+            var tipoEquipamentoQuery = from d in _context.TipoEquipamento
+                                       orderby d.NomeTipoEquipamento
+                                       select d;
+            ViewBag.IdTipoEquipamento = new SelectList(tipoEquipamentoQuery.AsNoTracking(), "IdTipoEquipamento", "NomeTipoEquipamento");
         }
     }
 }

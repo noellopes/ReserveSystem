@@ -43,27 +43,27 @@ namespace ReserveSystem.Data
 
             var equipment = new[]
             {
-                    new Equipamento { NomeEquipamento = "Projector", IdTipoEquipamento = 1, Quantidade = 3 },
-                    new Equipamento { NomeEquipamento = "Sound System", IdTipoEquipamento = 1, Quantidade = 8 },
-                    new Equipamento { NomeEquipamento = "Microphone", IdTipoEquipamento = 1, Quantidade = 30 },
-                    new Equipamento { NomeEquipamento = "Whiteboard", IdTipoEquipamento = 1, Quantidade = 7 },
-                    new Equipamento { NomeEquipamento = "Conference Table", IdTipoEquipamento = 1, Quantidade = 10 },
-                    new Equipamento { NomeEquipamento = "Chairs", IdTipoEquipamento = 1, Quantidade = 500 },
-                    new Equipamento { NomeEquipamento = "Podium", IdTipoEquipamento = 2, Quantidade = 5 },
-                    new Equipamento { NomeEquipamento = "Video Conferencing System", IdTipoEquipamento = 1, Quantidade = 2 },
-                    new Equipamento { NomeEquipamento = "Stage Lighting", IdTipoEquipamento = 3, Quantidade = 10 },
-                    new Equipamento { NomeEquipamento = "Sound Mixer", IdTipoEquipamento = 1, Quantidade = 1 },
-                    new Equipamento { NomeEquipamento = "Projection Screen", IdTipoEquipamento = 2, Quantidade = 5 },
-                    new Equipamento { NomeEquipamento = "Flipcharts", IdTipoEquipamento = 2, Quantidade = 4 },
-                    new Equipamento { NomeEquipamento = "Wi-Fi Router", IdTipoEquipamento = 1, Quantidade = 5 },
-                    new Equipamento { NomeEquipamento = "Laptop", IdTipoEquipamento = 1, Quantidade = 10 },
-                    new Equipamento { NomeEquipamento = "Power Strips", IdTipoEquipamento = 5, Quantidade = 10 },
-                    new Equipamento { NomeEquipamento = "HDMI Cables", IdTipoEquipamento = 5, Quantidade = 13 },
-                    new Equipamento { NomeEquipamento = "Portable Speaker", IdTipoEquipamento = 1, Quantidade = 3 },
-                    new Equipamento { NomeEquipamento = "Laser Pointer", IdTipoEquipamento = 5, Quantidade = 5 },
-                    new Equipamento { NomeEquipamento = "Coffee Maker", IdTipoEquipamento = 4, Quantidade = 11 },
-                    new Equipamento { NomeEquipamento = "Thermos", IdTipoEquipamento = 4, Quantidade = 5 }
-                };
+                new Equipamento { NomeEquipamento = "Projector", IdTipoEquipamento = 1, Quantidade = 3 },
+                new Equipamento { NomeEquipamento = "Sound System", IdTipoEquipamento = 1, Quantidade = 8 },
+                new Equipamento { NomeEquipamento = "Microphone", IdTipoEquipamento = 1, Quantidade = 30 },
+                new Equipamento { NomeEquipamento = "Whiteboard", IdTipoEquipamento = 2, Quantidade = 7 },
+                new Equipamento { NomeEquipamento = "Conference Table", IdTipoEquipamento = 2, Quantidade = 10 },
+                new Equipamento { NomeEquipamento = "Chairs", IdTipoEquipamento = 2, Quantidade = 500 },
+                new Equipamento { NomeEquipamento = "Podium", IdTipoEquipamento = 2, Quantidade = 5 },
+                new Equipamento { NomeEquipamento = "Video Conferencing System", IdTipoEquipamento = 1, Quantidade = 2 },
+                new Equipamento { NomeEquipamento = "Stage Lighting", IdTipoEquipamento = 3, Quantidade = 10 },
+                new Equipamento { NomeEquipamento = "Sound Mixer", IdTipoEquipamento = 1, Quantidade = 1 },
+                new Equipamento { NomeEquipamento = "Projection Screen", IdTipoEquipamento = 2, Quantidade = 5 },
+                new Equipamento { NomeEquipamento = "Flipcharts", IdTipoEquipamento = 2, Quantidade = 4 },
+                new Equipamento { NomeEquipamento = "Wi-Fi Router", IdTipoEquipamento = 1, Quantidade = 5 },
+                new Equipamento { NomeEquipamento = "Laptop", IdTipoEquipamento = 1, Quantidade = 10 },
+                new Equipamento { NomeEquipamento = "Power Strips", IdTipoEquipamento = 5, Quantidade = 10 },
+                new Equipamento { NomeEquipamento = "HDMI Cables", IdTipoEquipamento = 5, Quantidade = 13 },
+                new Equipamento { NomeEquipamento = "Portable Speaker", IdTipoEquipamento = 1, Quantidade = 3 },
+                new Equipamento { NomeEquipamento = "Laser Pointer", IdTipoEquipamento = 5, Quantidade = 5 },
+                new Equipamento { NomeEquipamento = "Coffee Maker", IdTipoEquipamento = 4, Quantidade = 11 },
+                new Equipamento { NomeEquipamento = "Thermos", IdTipoEquipamento = 4, Quantidade = 5 }
+            };
 
             await context.Equipamento.AddRangeAsync(equipment);
             await context.SaveChangesAsync();
