@@ -1,0 +1,29 @@
+﻿@model IEnumerable<TipoEquipamento>
+
+<h2>Equipment Types</h2>
+
+<div class="d-flex justify-content-end mb-3">
+    <a asp-action="Create" class="btn btn-primary">Create New Equipment Type</a>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Equipment Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NomeTipoEquipamento)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdTipoEquipamento" class="btn btn-outline-dark">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdTipoEquipamento" class="btn btn-outline-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

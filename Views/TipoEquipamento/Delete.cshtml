@@ -1,0 +1,23 @@
+﻿@model TipoEquipamento
+
+<h2>Delete Equipment Type</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>TipoEquipamento</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NomeTipoEquipamento)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NomeTipoEquipamento)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="IdTipoEquipamento" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index" class="bbtn btn-secondary">Back to List</a>
+    </form>
+</div>
