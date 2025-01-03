@@ -14,10 +14,10 @@ namespace ReserveSystem.Models
         public RoomService RoomService { get; set; } // Propriedade de Navegação
 
         [Required, Display(Name = "Start Date")]
-        public DateOnly Start_Date { get; set; }
+        public DateTime Start_Date { get; set; }
 
         [Required, Display(Name = "End Date")]
-        public DateOnly? End_Date { get; set; }
+        public DateTime? End_Date { get; set; }
 
         [Required(ErrorMessage = "Room Service Price is required."), Display(Name = "Price")]
         [Range(0.01, double.MaxValue, ErrorMessage = "Room Service Price must be greater than 0.")]
