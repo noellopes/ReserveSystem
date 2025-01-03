@@ -36,6 +36,11 @@
                 <span asp-validation-for="TotalParticipantes" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="IdEquipamento" class="control-label">Equipment Type</label>
+                <select asp-for="IdEquipamento" class="form-control" asp-items="ViewBag.TipoEquipamento"></select>
+                <span asp-validation-for="IdEquipamento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Estado" class="control-label"></label>
                 <input asp-for="Estado" class="form-control" value="Pending" readonly />
                 <span asp-validation-for="Estado" class="text-danger"></span>

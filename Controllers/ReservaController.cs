@@ -146,6 +146,17 @@ namespace ReserveSystem.Controllers
 
             ViewData["TipoReserva"] = tipoReservaList;
             ViewData["ClientId"] = new SelectList(_context.ClientModel, "ClienteId", "NomeCliente");
+
+            var EquipamentoList = _context.Equipamento
+                .Select(te => new SelectListItem
+                {
+                    Value = te.IdEquipamento.ToString(),
+                    Text = te.NomeEquipamento
+                }).ToList();
+
+            EquipamentoList.Insert(0, new SelectListItem { Value = "", Text = "-- Choose Equipment -- " });
+
+            ViewData["TipoEquipamento"] = EquipamentoList;
         }
         private bool ReservaExists(long id)
         {
