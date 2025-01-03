@@ -50,8 +50,11 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
+            // Carregar o Room junto com o RoomType
             var roomModel = await _context.Room
-                .FirstOrDefaultAsync(m => m.RoomTypeId == id);
+                .Include(r => r.RoomType)  // Carregar a propriedade RoomType associada
+                .FirstOrDefaultAsync(m => m.ID_ROOM == id);
+
             if (roomModel == null)
             {
                 return NotFound();
@@ -63,48 +66,54 @@ namespace ReserveSystem.Controllers
         // GET: Room/Create
         public IActionResult Create()
         {
-            // Carregar os tipos de quarto para o dropdown
-            ViewBag.RoomTypes = _context.RoomType.ToList();
-            return View();
+            try
+            {
+                var roomTypes = _context.RoomType.ToList();
+
+                if (!roomTypes.Any())
+                {
+                    TempData["ErrorMessage"] = "Nenhum tipo de quarto está disponível. Por favor, adicione tipos de quarto antes de criar um quarto.";
+                    return RedirectToAction("Index");
+                }
+
+                // Passa os tipos de quarto (ID e Nome) para a view
+                ViewData["RoomTypeId"] = new SelectList(roomTypes, "RoomTypeId", "Type");
+                return View();
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Erro ao carregar tipos de quarto: {ex.Message}";
+                return RedirectToAction("Index");
+            }
         }
 
-        // Método POST - Salva o quarto no banco de dados
+        // POST: Room/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(RoomModel room)
+        public async Task<IActionResult> Create([Bind("ID_ROOM,RoomTypeId,HasView,AcessibilityRoom")] RoomModel roomModel)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    // Verifica se o tipo de quarto existe
-                    var roomType = await _context.RoomType.FirstOrDefaultAsync(rt => rt.RoomTypeId == room.RoomTypeId);
-                    if (roomType == null)
-                    {
-                        ModelState.AddModelError("RoomTypeId", "O tipo de quarto selecionado não é válido.");
-                        ViewBag.RoomTypes = _context.RoomType.ToList();
-                        return View(room);
-                    }
-
-                    // Associa o tipo de quarto e salva no banco
-                    room.RoomType = roomType;
-                    _context.Room.Add(room);
+                    // Adiciona o novo quarto ao banco de dados
+                    _context.Add(roomModel);
                     await _context.SaveChangesAsync();
 
-                    // Redireciona para a página de índice
+                    // Se o quarto for criado com sucesso, exibe uma mensagem de sucesso
                     TempData["SuccessMessage"] = "Quarto criado com sucesso!";
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index)); // Redireciona para a lista de quartos
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("", "Ocorreu um erro ao tentar criar o quarto. Tente novamente.");
-                    Console.WriteLine($"Erro: {ex.Message}");
+                    // Se houver um erro ao criar o quarto, exibe uma mensagem de erro
+                    TempData["ErrorMessage"] = $"Houve um erro ao criar o quarto: {ex.Message}";
                 }
             }
 
-            // Se a validação falhar, recarrega a página com mensagens de erro
-            ViewBag.RoomTypes = _context.RoomType.ToList();
-            return View(room);
+            // Caso o modelo não seja válido, refaz o SelectList para manter o valor selecionado
+            ViewData["RoomTypeId"] = new SelectList(_context.RoomType, "RoomTypeId", "Type", roomModel.RoomTypeId);
+            return View(roomModel); // Retorna à view com o modelo atual
         }
 
         // GET: Room/Edit/5
@@ -115,48 +124,83 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var roomModel = await _context.Room.FindAsync(id);
+            var roomModel = await _context.Room
+                                          .Include(r => r.RoomType)  // Certifique-se de incluir RoomType, se necessário
+                                          .FirstOrDefaultAsync(m => m.ID_ROOM == id);
+
             if (roomModel == null)
             {
                 return NotFound();
             }
-            return View(roomModel);
+
+            return View(roomModel);  // Retorna os dados do quarto para a view
         }
 
-        // POST: Room/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Método POST para salvar as alterações
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RoomTypeId,RoomType,Capacity,NumberOfRooms,HasView,AdaptedRoom")] RoomModel roomModel)
+        public async Task<IActionResult> Edit(int id, [Bind("ID_ROOM, RoomType, RoomType.Type, RoomType.RoomCapacity, RoomType.HasView, RoomType.AcessibilityRoom")] RoomModel roomModel)
         {
-            if (id != roomModel.RoomTypeId)
+            if (id != roomModel.ID_ROOM)
             {
-                return NotFound();
+                ViewBag.Entity = "Room";
+                ViewBag.Controller = "Room";
+                ViewBag.Action = "Index";
+                return View("EntityNoLongerExists");
             }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(roomModel);
-                    await _context.SaveChangesAsync();
+                    var existingRoom = await _context.Room
+                                                      .Include(r => r.RoomType)  // Certifique-se de incluir RoomType ao buscar o quarto
+                                                      .FirstOrDefaultAsync(r => r.ID_ROOM == id);
+
+                    if (existingRoom == null)
+                    {
+                        ViewBag.Entity = "Room";
+                        ViewBag.Controller = "Room";
+                        ViewBag.Action = "Index";
+                        return View("EntityNoLongerExists");
+                    }
+
+                    // Atualiza os campos do quarto com os dados recebidos no formulário
+                    existingRoom.RoomType.Type = roomModel.RoomType.Type;
+                    existingRoom.RoomType.RoomCapacity = roomModel.RoomType.RoomCapacity;
+                    existingRoom.RoomType.HasView = roomModel.RoomType.HasView;
+                    existingRoom.RoomType.AcessibilityRoom = roomModel.RoomType.AcessibilityRoom;
+
+                    _context.Update(existingRoom);  // Atualiza o quarto no banco
+                    await _context.SaveChangesAsync();  // Salva as alterações no banco de dados
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RoomModelExists(roomModel.RoomTypeId))
+                    if (!RoomModelExists(roomModel.ID_ROOM))
                     {
-                        return NotFound();
+                        ViewBag.Entity = "Room";
+                        ViewBag.Controller = "Room";
+                        ViewBag.Action = "Index";
+                        return View("EntityNoLongerExists");
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                // Redireciona para a página de sucesso ou para a listagem de quartos
+                ViewBag.Entity = "Room";
+                ViewBag.Controller = "Room";
+                ViewBag.Action = "Index";
+                return View("Successfully");  // Pode ser substituído por RedirectToAction("Index") se preferir redirecionar.
             }
+
+            // Se ModelState não for válido, retorna a view de edição com os erros
             return View(roomModel);
         }
+
+
 
         // GET: Room/Delete/5
         public async Task<IActionResult> Delete(int? id)

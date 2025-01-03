@@ -1,11 +1,10 @@
 ﻿@model ReserveSystem.Models.RoomModel
-
 @{
-    ViewData["Title"] = "Create Room";
+    ViewData["Title"] = "Criar Quarto";
 }
 
 <h3 class="text-center">
-    <i class="bi bi-house-door"></i> Criar Quarto
+    <i class="bi bi-house-door"></i> Criar Tipo Quarto
 </h3>
 
 <!-- Exibe mensagens de sucesso ou erro -->
@@ -26,12 +25,25 @@
             <!-- Tipo de Quarto -->
             <div class="form-group mb-3">
                 <span asp-validation-for="RoomTypeId" class="text-danger"></span>
-                <label asp-for="RoomTypeId" class="control-label">Tipo de Quarto</label>
+                <label asp-for="RoomTypeId" class="control-label">Room Type</label>
                 <select asp-for="RoomTypeId" class="form-control bg-light">
-                    <option value="" disabled selected>Selecione o Tipo de Quarto</option>
-                    @foreach (var item in ViewBag.RoomTypes as List<RoomType>)
+                    <option value="" disabled selected>Select the Room Type</option>
+                    @if (ViewData["RoomTypeId"] != null)
+
                     {
-                        <option value="@item.RoomTypeId">@item.Type</option>
+                        var roomTypes = (SelectList)ViewData["RoomTypeId"];
+
+                        foreach (var item in roomTypes)
+
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    }
+
+                    else
+
+                    {
+                        <option value="" disabled>Não há tipos de quarto disponíveis</option>
                     }
                 </select>
             </div>
@@ -39,26 +51,26 @@
             <!-- Capacidade do Quarto -->
             <div class="form-group mb-3">
                 <span asp-validation-for="RoomType.RoomCapacity" class="text-danger"></span>
-                <label asp-for="RoomType.RoomCapacity" class="control-label">Capacidade</label>
+                <label asp-for="RoomType.RoomCapacity" class="control-label">Capacity</label>
                 <input asp-for="RoomType.RoomCapacity" class="form-control bg-light" />
             </div>
 
             <!-- Visibilidade -->
             <div class="form-group form-check mb-3">
                 <input class="form-check-input" asp-for="RoomType.HasView" />
-                <label asp-for="RoomType.HasView" class="form-check-label">Vista</label>
+                <label asp-for="RoomType.HasView" class="form-check-label">View</label>
             </div>
 
             <!-- Acessibilidade -->
             <div class="form-group form-check mb-3">
                 <input class="form-check-input" asp-for="RoomType.AcessibilityRoom" />
-                <label asp-for="RoomType.AcessibilityRoom" class="form-check-label">Acessibilidade</label>
+                <label asp-for="RoomType.AcessibilityRoom" class="form-check-label">Adapted Room</label>
             </div>
 
             <div class="d-flex justify-content-between m-3">
                 <div class="form-group">
                     <a asp-action="Index" class="btn btn-secondary">
-                        <i class="bi bi-arrow-left-circle"></i> Voltar à Lista
+                        <i class="bi bi-arrow-left-circle"></i> Back to List
                     </a>
                 </div>
                 <div class="form-group">

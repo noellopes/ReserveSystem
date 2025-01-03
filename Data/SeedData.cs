@@ -116,50 +116,93 @@ namespace ReserveSystem.Data
 
         private static void PopulateRoomType(ReserveSystemContext db)
         {
+            if (db == null)
+                throw new ArgumentNullException(nameof(db), "O contexto do banco de dados não pode ser nulo.");
+
             // Tipos de quartos pré-definidos
             var predefinedRoomTypes = new List<RoomType>
-    {
-        new RoomType { HasView = false, Type = "Standard", RoomCapacity = 2, AcessibilityRoom = false },
-        new RoomType { HasView = true, Type = "Deluxe", RoomCapacity = 3, AcessibilityRoom = false },
-        new RoomType { HasView = true, Type = "Suite", RoomCapacity = 4, AcessibilityRoom = true },
-        new RoomType { HasView = false, Type = "Presidential", RoomCapacity = 2, AcessibilityRoom = false },
-        new RoomType { HasView = false, Type = "Luxury Room", RoomCapacity = 3, AcessibilityRoom = false }
-    };
+                {
+                    new RoomType { HasView = false, Type = "Standard", RoomCapacity = 2, AcessibilityRoom = false },
+                    new RoomType { HasView = true, Type = "Deluxe", RoomCapacity = 3, AcessibilityRoom = false },
+                    new RoomType { HasView = true, Type = "Suite", RoomCapacity = 4, AcessibilityRoom = true },
+                    new RoomType { HasView = false, Type = "Presidential", RoomCapacity = 2, AcessibilityRoom = false },
+                    new RoomType { HasView = false, Type = "Luxury Room", RoomCapacity = 3, AcessibilityRoom = false }
+                };
 
-            // Adicionar apenas os tipos ausentes
+            // Adicionar apenas os tipos que não existem
             foreach (var roomType in predefinedRoomTypes)
             {
                 if (!db.RoomType.Any(rt => rt.Type == roomType.Type))
                 {
                     db.RoomType.Add(roomType);
+                    Console.WriteLine($"Adicionando tipo de quarto: {roomType.Type}");
                 }
             }
-
             db.SaveChanges();
         }
 
         private static void PopulateRoom(ReserveSystemContext db)
         {
+            if (db == null) throw new ArgumentNullException(nameof(db), "O contexto do banco de dados não pode ser nulo.");
+
             if (!db.Room.Any())
             {
+                Console.WriteLine("Nenhum quarto encontrado. Criando novos quartos...");
+
                 // Garantir que os tipos de quarto estão preenchidos
                 PopulateRoomType(db);
 
                 // Recuperar os IDs dos tipos de quarto
                 var existingRoomTypes = db.RoomType.ToDictionary(rt => rt.Type, rt => rt.RoomTypeId);
 
-                // Criar quartos com base nos tipos existentes
-                db.Room.AddRange(
-                    new List<RoomModel>
-                    {
-                new RoomModel { RoomTypeId = existingRoomTypes["Standard"] },
-                new RoomModel { RoomTypeId = existingRoomTypes["Deluxe"] },
-                new RoomModel { RoomTypeId = existingRoomTypes["Suite"] },
-                new RoomModel { RoomTypeId = existingRoomTypes["Presidential"] },
-                new RoomModel { RoomTypeId = existingRoomTypes["Luxury Room"] }
-                    });
+                if (existingRoomTypes.Count == 0)
+                {
+                    throw new InvalidOperationException("Nenhum tipo de quarto foi encontrado no banco de dados.");
+                }
 
-                db.SaveChanges();
+                // Verificar se todos os tipos esperados estão presentes
+                var expectedTypes = new[] { "Standard", "Deluxe", "Suite", "Presidential", "Luxury Room" };
+                foreach (var type in expectedTypes)
+                {
+                    if (!existingRoomTypes.ContainsKey(type))
+                    {
+                        throw new InvalidOperationException($"Tipo de quarto esperado não encontrado: {type}");
+                    }
+                }
+
+                // Criar quartos com base nos tipos existentes e associar o RoomTypeId corretamente
+                var rooms = new List<RoomModel>
+        {
+            new RoomModel { RoomTypeId = existingRoomTypes["Standard"] },
+            new RoomModel { RoomTypeId = existingRoomTypes["Deluxe"] },
+            new RoomModel { RoomTypeId = existingRoomTypes["Suite"] },
+            new RoomModel { RoomTypeId = existingRoomTypes["Presidential"] },
+            new RoomModel { RoomTypeId = existingRoomTypes["Luxury Room"] }
+        };
+
+                // Aqui estamos garantindo que o RoomTypeId foi atribuído corretamente
+                foreach (var room in rooms)
+                {
+                    if (room.RoomTypeId == 0)
+                    {
+                        throw new InvalidOperationException("O RoomTypeId não foi atribuído corretamente.");
+                    }
+                }
+
+                try
+                {
+                    db.Room.AddRange(rooms);
+                    db.SaveChanges();
+                    Console.WriteLine("Quartos criados com sucesso.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Erro ao salvar quartos no banco de dados: {ex.Message}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Quartos já existentes no banco. Nenhuma ação foi tomada.");
             }
         }
     }
