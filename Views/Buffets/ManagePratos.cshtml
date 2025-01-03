@@ -5,20 +5,140 @@
 }
 
 <style>
+    /* Configuração geral */
     .container {
+        max-width: 1000px;
+        margin-top: 30px;
+    }
+
+    /* Títulos */
+    h2 {
+        font-size: 2rem;
+        color: #007bff;
+        text-align: center;
+        margin-bottom: 15px;
+        font-weight: bold;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+        margin-top: 15px;
+        color: #333;
+        font-weight: bold;
+    }
+
+    /* Tabelas */
+    .table {
+        margin-top: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+
+        .table th, .table td {
+            text-align: center;
+            padding: 8px;
+            font-size: 1rem;
+            vertical-align: middle;
+        }
+
+        .table th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .table td {
+            background-color: #fff;
+        }
+
+    /* Botões */
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        font-size: 0.9rem;
+        transition: background-color 0.3s;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        font-size: 0.9rem;
+        transition: background-color 0.3s;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+    .btn-success {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        font-size: 0.9rem;
+        transition: background-color 0.3s;
+    }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+    /* Inputs e selects */
+    .form-control {
+        margin-bottom: 15px;
+        font-size: 1rem;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+    }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+    .form-group label {
+        font-size: 1rem;
+        color: #333;
+        font-weight: bold;
+    }
+
+    /* Formulário */
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    /* Seção de Adicionar Ingrediente */
+    .btn-group {
+        display: flex;
+        justify-content: center;
+    }
+
+    .btn-lg {
+        padding: 10px 20px;
+        font-size: 1rem;
+        width: 140px;
+    }
+
+    /* Mensagens de erro */
+    .text-danger {
+        font-size: 0.8em;
+        color: #dc3545;
+    }
+
+    .alert-success {
         margin-top: 20px;
     }
 
-    .h1, .h2 {
-        text-align: center;
-        color: #007bff;
-    }
-
-    .list-group {
-        list-style-type: none;
-        padding-left: 0;
-    }
-
+    /* Lista de pratos */
     .list-group-item {
         display: flex;
         justify-content: space-between;
@@ -40,45 +160,10 @@
             .list-group-item button:hover {
                 background-color: #c82333;
             }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    .form-control {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ced4da;
-        border-radius: 5px;
-    }
-
-    .btn-primary {
-        background-color: #007bff;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        cursor: pointer;
-    }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-    .text-center {
-        text-align: center;
-    }
-
-    .text-danger {
-        color: red;
-    }
-
-    .alert-success {
-        margin-top: 20px;
-    }
 </style>
 
 <div class="container">
-    <h1>Pratos do Buffet: @Model.Buffet.Nome</h1>
+    <h2>Pratos do Buffet: @Model.Buffet.Nome</h2>
 
     <!-- Exibir mensagem de sucesso -->
     @if (TempData["SuccessMessage"] != null)
@@ -89,7 +174,8 @@
         </div>
     }
 
-    <h2>Pratos a Servir</h2>
+    <!-- Pratos a Servir -->
+    <h3>Pratos a Servir</h3>
     <ul class="list-group">
         @foreach (var prato in Model.Buffet.Pratos)
         {
@@ -98,14 +184,15 @@
                 <form asp-action="RemovePrato" method="post" style="display:inline;">
                     <input type="hidden" name="buffetId" value="@Model.Buffet.BuffetId" />
                     <input type="hidden" name="pratoId" value="@prato.PratoId" />
-                    <button type="submit" class="btn btn-sm btn-danger">Remover</button>
+                    <button type="submit" class="btn btn-danger btn-sm">Remover</button>
                 </form>
             </li>
         }
     </ul>
 
+    <!-- Adicionar Novo Prato -->
     <div class="mt-4">
-        <h2>Adicionar Novo Prato</h2>
+        <h3>Adicionar Novo Prato</h3>
         <form asp-action="AddPrato" method="post">
             <input type="hidden" name="buffetId" value="@Model.Buffet.BuffetId" />
             <div class="form-group">
@@ -117,11 +204,35 @@
                     }
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Adicionar</button>
+            <button type="submit" class="btn btn-success">Adicionar</button>
         </form>
     </div>
 
-    <div class="text-center mt-3">
+    <!-- Ingredientes Necessários -->
+    <div class="mt-4">
+        <h3>Ingredientes Necessários</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Ingrediente</th>
+                    <th>Quantidade</th>
+                    <th>Unidade</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ingrediente in Model.RequisitosIngredientes)
+                {
+                    <tr>
+                        <td>@ingrediente.Key</td>
+                        <td>@ingrediente.Value.Quantidade</td>
+                        <td>@ingrediente.Value.Unidade</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="text-center mt-3 mt-5">
         <a href="@Url.Action("Index", "Buffets")" class="btn btn-secondary">Voltar ao Buffet</a>
     </div>
 </div>
