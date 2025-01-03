@@ -17,6 +17,8 @@ namespace ReserveSystem.Data
             //PopulateCliente(db);
             PopulateRoom(db);
             PopulateRoomType(db);
+            PopulateCliente(db);
+            PopulateBookings(db);
         }
 
         internal static void PopulateUsers(UserManager<IdentityUser> userManager)
@@ -111,6 +113,108 @@ namespace ReserveSystem.Data
             new RoomType { HasView = true, Type = "Deluxe", RoomCapacity = 3, AcessibilityRoom = false },
             new RoomType { HasView = true, Type = "Suite", RoomCapacity = 4, AcessibilityRoom = true },
             new RoomType { HasView = false, Type = "Economy", RoomCapacity = 1, AcessibilityRoom = true }
+                });
+            db.SaveChanges();
+        }
+
+        private static void PopulateBookings(ReserveSystemContext db)
+        {
+            if (db.Booking.Any()) return;
+
+            db.Booking.AddRange(
+                new List<Booking>
+                {
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 1, 10), CHECKOUT_DATE = new DateTime(2025, 1, 15), BOOKING_DATE = new DateTime(2024, 12, 15), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 2, 5), CHECKOUT_DATE = new DateTime(2025, 2, 10), BOOKING_DATE = new DateTime(2025, 1, 20), TOTAL_PERSONS_NUMBER = 1, BOOKED = true, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 3, 12), CHECKOUT_DATE = new DateTime(2025, 3, 18), BOOKING_DATE = new DateTime(2025, 2, 10), TOTAL_PERSONS_NUMBER = 3, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 4, 1), CHECKOUT_DATE = new DateTime(2025, 4, 5), BOOKING_DATE = new DateTime(2025, 3, 15), TOTAL_PERSONS_NUMBER = 4, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 5, 10), CHECKOUT_DATE = new DateTime(2025, 5, 15), BOOKING_DATE = new DateTime(2025, 4, 12), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 6, 20), CHECKOUT_DATE = new DateTime(2025, 6, 25), BOOKING_DATE = new DateTime(2025, 5, 25), TOTAL_PERSONS_NUMBER = 1, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 7, 15), CHECKOUT_DATE = new DateTime(2025, 7, 20), BOOKING_DATE = new DateTime(2025, 6, 10), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 8, 5), CHECKOUT_DATE = new DateTime(2025, 8, 12), BOOKING_DATE = new DateTime(2025, 7, 10), TOTAL_PERSONS_NUMBER = 3, BOOKED = true, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 9, 1), CHECKOUT_DATE = new DateTime(2025, 9, 7), BOOKING_DATE = new DateTime(2025, 8, 15), TOTAL_PERSONS_NUMBER = 4, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 10, 10), CHECKOUT_DATE = new DateTime(2025, 10, 17), BOOKING_DATE = new DateTime(2025, 9, 12), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 1, 10), CHECKOUT_DATE = new DateTime(2025, 1, 15), BOOKING_DATE = new DateTime(2024, 12, 15), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 2, 5), CHECKOUT_DATE = new DateTime(2025, 2, 10), BOOKING_DATE = new DateTime(2025, 1, 20), TOTAL_PERSONS_NUMBER = 1, BOOKED = true, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 3, 12), CHECKOUT_DATE = new DateTime(2025, 3, 18), BOOKING_DATE = new DateTime(2025, 2, 10), TOTAL_PERSONS_NUMBER = 3, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 4, 1), CHECKOUT_DATE = new DateTime(2025, 4, 5), BOOKING_DATE = new DateTime(2025, 3, 15), TOTAL_PERSONS_NUMBER = 4, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 5, 10), CHECKOUT_DATE = new DateTime(2025, 5, 15), BOOKING_DATE = new DateTime(2025, 4, 12), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 6, 20), CHECKOUT_DATE = new DateTime(2025, 6, 25), BOOKING_DATE = new DateTime(2025, 5, 25), TOTAL_PERSONS_NUMBER = 1, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 7, 15), CHECKOUT_DATE = new DateTime(2025, 7, 20), BOOKING_DATE = new DateTime(2025, 6, 10), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 8, 5), CHECKOUT_DATE = new DateTime(2025, 8, 12), BOOKING_DATE = new DateTime(2025, 7, 10), TOTAL_PERSONS_NUMBER = 3, BOOKED = true, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 9, 1), CHECKOUT_DATE = new DateTime(2025, 9, 7), BOOKING_DATE = new DateTime(2025, 8, 15), TOTAL_PERSONS_NUMBER = 4, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 10, 10), CHECKOUT_DATE = new DateTime(2025, 10, 17), BOOKING_DATE = new DateTime(2025, 9, 12), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 1, 10), CHECKOUT_DATE = new DateTime(2025, 1, 15), BOOKING_DATE = new DateTime(2024, 12, 15), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 2, 5), CHECKOUT_DATE = new DateTime(2025, 2, 10), BOOKING_DATE = new DateTime(2025, 1, 20), TOTAL_PERSONS_NUMBER = 1, BOOKED = true, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 3, 12), CHECKOUT_DATE = new DateTime(2025, 3, 18), BOOKING_DATE = new DateTime(2025, 2, 10), TOTAL_PERSONS_NUMBER = 3, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 4, 1), CHECKOUT_DATE = new DateTime(2025, 4, 5), BOOKING_DATE = new DateTime(2025, 3, 15), TOTAL_PERSONS_NUMBER = 4, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 5, 10), CHECKOUT_DATE = new DateTime(2025, 5, 15), BOOKING_DATE = new DateTime(2025, 4, 12), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 6, 20), CHECKOUT_DATE = new DateTime(2025, 6, 25), BOOKING_DATE = new DateTime(2025, 5, 25), TOTAL_PERSONS_NUMBER = 1, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 7, 15), CHECKOUT_DATE = new DateTime(2025, 7, 20), BOOKING_DATE = new DateTime(2025, 6, 10), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 8, 5), CHECKOUT_DATE = new DateTime(2025, 8, 12), BOOKING_DATE = new DateTime(2025, 7, 10), TOTAL_PERSONS_NUMBER = 3, BOOKED = true, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 9, 1), CHECKOUT_DATE = new DateTime(2025, 9, 7), BOOKING_DATE = new DateTime(2025, 8, 15), TOTAL_PERSONS_NUMBER = 4, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 10, 10), CHECKOUT_DATE = new DateTime(2025, 10, 17), BOOKING_DATE = new DateTime(2025, 9, 12), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 1, 10), CHECKOUT_DATE = new DateTime(2025, 1, 15), BOOKING_DATE = new DateTime(2024, 12, 15), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 2, 5), CHECKOUT_DATE = new DateTime(2025, 2, 10), BOOKING_DATE = new DateTime(2025, 1, 20), TOTAL_PERSONS_NUMBER = 1, BOOKED = true, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 3, 12), CHECKOUT_DATE = new DateTime(2025, 3, 18), BOOKING_DATE = new DateTime(2025, 2, 10), TOTAL_PERSONS_NUMBER = 3, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 4, 1), CHECKOUT_DATE = new DateTime(2025, 4, 5), BOOKING_DATE = new DateTime(2025, 3, 15), TOTAL_PERSONS_NUMBER = 4, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 5, 10), CHECKOUT_DATE = new DateTime(2025, 5, 15), BOOKING_DATE = new DateTime(2025, 4, 12), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 6, 20), CHECKOUT_DATE = new DateTime(2025, 6, 25), BOOKING_DATE = new DateTime(2025, 5, 25), TOTAL_PERSONS_NUMBER = 1, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 7, 15), CHECKOUT_DATE = new DateTime(2025, 7, 20), BOOKING_DATE = new DateTime(2025, 6, 10), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 8, 5), CHECKOUT_DATE = new DateTime(2025, 8, 12), BOOKING_DATE = new DateTime(2025, 7, 10), TOTAL_PERSONS_NUMBER = 3, BOOKED = true, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 9, 1), CHECKOUT_DATE = new DateTime(2025, 9, 7), BOOKING_DATE = new DateTime(2025, 8, 15), TOTAL_PERSONS_NUMBER = 4, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 10, 30), CHECKOUT_DATE = new DateTime(2025, 11, 30), BOOKING_DATE = new DateTime(2025, 9, 12), TOTAL_PERSONS_NUMBER = 20, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 1, 10), CHECKOUT_DATE = new DateTime(2025, 1, 15), BOOKING_DATE = new DateTime(2024, 12, 15), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 2, 5), CHECKOUT_DATE = new DateTime(2025, 2, 10), BOOKING_DATE = new DateTime(2025, 1, 20), TOTAL_PERSONS_NUMBER = 1, BOOKED = true, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 3, 12), CHECKOUT_DATE = new DateTime(2025, 3, 18), BOOKING_DATE = new DateTime(2025, 2, 10), TOTAL_PERSONS_NUMBER = 3, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 4, 1), CHECKOUT_DATE = new DateTime(2025, 4, 5), BOOKING_DATE = new DateTime(2025, 3, 15), TOTAL_PERSONS_NUMBER = 4, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 5, 10), CHECKOUT_DATE = new DateTime(2025, 5, 15), BOOKING_DATE = new DateTime(2025, 4, 12), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 6, 20), CHECKOUT_DATE = new DateTime(2025, 6, 25), BOOKING_DATE = new DateTime(2025, 5, 25), TOTAL_PERSONS_NUMBER = 1, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 7, 15), CHECKOUT_DATE = new DateTime(2025, 7, 20), BOOKING_DATE = new DateTime(2025, 6, 10), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 8, 5), CHECKOUT_DATE = new DateTime(2025, 8, 12), BOOKING_DATE = new DateTime(2025, 7, 10), TOTAL_PERSONS_NUMBER = 3, BOOKED = true, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 9, 1), CHECKOUT_DATE = new DateTime(2025, 9, 7), BOOKING_DATE = new DateTime(2025, 8, 15), TOTAL_PERSONS_NUMBER = 4, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 10, 10), CHECKOUT_DATE = new DateTime(2025, 10, 17), BOOKING_DATE = new DateTime(2025, 9, 12), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 1, 10), CHECKOUT_DATE = new DateTime(2025, 1, 15), BOOKING_DATE = new DateTime(2024, 12, 15), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 2, 5), CHECKOUT_DATE = new DateTime(2025, 2, 10), BOOKING_DATE = new DateTime(2025, 1, 20), TOTAL_PERSONS_NUMBER = 1, BOOKED = true, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 3, 12), CHECKOUT_DATE = new DateTime(2025, 3, 18), BOOKING_DATE = new DateTime(2025, 2, 10), TOTAL_PERSONS_NUMBER = 3, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 4, 1), CHECKOUT_DATE = new DateTime(2025, 4, 5), BOOKING_DATE = new DateTime(2025, 3, 15), TOTAL_PERSONS_NUMBER = 4, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 5, 10), CHECKOUT_DATE = new DateTime(2025, 5, 15), BOOKING_DATE = new DateTime(2025, 4, 12), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 6, 20), CHECKOUT_DATE = new DateTime(2025, 6, 25), BOOKING_DATE = new DateTime(2025, 5, 25), TOTAL_PERSONS_NUMBER = 1, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 7, 15), CHECKOUT_DATE = new DateTime(2025, 7, 20), BOOKING_DATE = new DateTime(2025, 6, 10), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 8, 5), CHECKOUT_DATE = new DateTime(2025, 8, 12), BOOKING_DATE = new DateTime(2025, 7, 10), TOTAL_PERSONS_NUMBER = 3, BOOKED = true, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 1, 10), CHECKOUT_DATE = new DateTime(2025, 1, 15), BOOKING_DATE = new DateTime(2024, 12, 15), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 2, 5), CHECKOUT_DATE = new DateTime(2025, 2, 10), BOOKING_DATE = new DateTime(2025, 1, 20), TOTAL_PERSONS_NUMBER = 1, BOOKED = true, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 3, 12), CHECKOUT_DATE = new DateTime(2025, 3, 18), BOOKING_DATE = new DateTime(2025, 2, 10), TOTAL_PERSONS_NUMBER = 3, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 4, 1), CHECKOUT_DATE = new DateTime(2025, 4, 5), BOOKING_DATE = new DateTime(2025, 3, 15), TOTAL_PERSONS_NUMBER = 4, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 5, 10), CHECKOUT_DATE = new DateTime(2025, 5, 15), BOOKING_DATE = new DateTime(2025, 4, 12), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 6, 20), CHECKOUT_DATE = new DateTime(2025, 6, 25), BOOKING_DATE = new DateTime(2025, 5, 25), TOTAL_PERSONS_NUMBER = 1, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 7, 15), CHECKOUT_DATE = new DateTime(2025, 7, 20), BOOKING_DATE = new DateTime(2025, 6, 10), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 8, 5), CHECKOUT_DATE = new DateTime(2025, 8, 12), BOOKING_DATE = new DateTime(2025, 7, 10), TOTAL_PERSONS_NUMBER = 3, BOOKED = true, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 9, 1), CHECKOUT_DATE = new DateTime(2025, 9, 7), BOOKING_DATE = new DateTime(2025, 8, 15), TOTAL_PERSONS_NUMBER = 4, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 10, 10), CHECKOUT_DATE = new DateTime(2025, 10, 17), BOOKING_DATE = new DateTime(2025, 9, 12), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 1, 10), CHECKOUT_DATE = new DateTime(2025, 1, 15), BOOKING_DATE = new DateTime(2024, 12, 15), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 2, 5), CHECKOUT_DATE = new DateTime(2025, 2, 10), BOOKING_DATE = new DateTime(2025, 1, 20), TOTAL_PERSONS_NUMBER = 1, BOOKED = true, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 3, 12), CHECKOUT_DATE = new DateTime(2025, 3, 18), BOOKING_DATE = new DateTime(2025, 2, 10), TOTAL_PERSONS_NUMBER = 3, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 4, 1), CHECKOUT_DATE = new DateTime(2025, 4, 5), BOOKING_DATE = new DateTime(2025, 3, 15), TOTAL_PERSONS_NUMBER = 4, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 5, 10), CHECKOUT_DATE = new DateTime(2025, 5, 15), BOOKING_DATE = new DateTime(2025, 4, 12), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 6, 20), CHECKOUT_DATE = new DateTime(2025, 6, 25), BOOKING_DATE = new DateTime(2025, 5, 25), TOTAL_PERSONS_NUMBER = 1, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 7, 15), CHECKOUT_DATE = new DateTime(2025, 7, 20), BOOKING_DATE = new DateTime(2025, 6, 10), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 8, 5), CHECKOUT_DATE = new DateTime(2025, 8, 12), BOOKING_DATE = new DateTime(2025, 7, 10), TOTAL_PERSONS_NUMBER = 3, BOOKED = true, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 9, 1), CHECKOUT_DATE = new DateTime(2025, 9, 7), BOOKING_DATE = new DateTime(2025, 8, 15), TOTAL_PERSONS_NUMBER = 4, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 10, 10), CHECKOUT_DATE = new DateTime(2025, 10, 17), BOOKING_DATE = new DateTime(2025, 9, 12), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 1, 10), CHECKOUT_DATE = new DateTime(2025, 1, 15), BOOKING_DATE = new DateTime(2024, 12, 15), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 2, 5), CHECKOUT_DATE = new DateTime(2025, 2, 10), BOOKING_DATE = new DateTime(2025, 1, 20), TOTAL_PERSONS_NUMBER = 1, BOOKED = true, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 3, 12), CHECKOUT_DATE = new DateTime(2025, 3, 18), BOOKING_DATE = new DateTime(2025, 2, 10), TOTAL_PERSONS_NUMBER = 3, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 4, 1), CHECKOUT_DATE = new DateTime(2025, 4, 5), BOOKING_DATE = new DateTime(2025, 3, 15), TOTAL_PERSONS_NUMBER = 4, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 5, 10), CHECKOUT_DATE = new DateTime(2025, 5, 15), BOOKING_DATE = new DateTime(2025, 4, 12), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 6, 20), CHECKOUT_DATE = new DateTime(2025, 6, 25), BOOKING_DATE = new DateTime(2025, 5, 25), TOTAL_PERSONS_NUMBER = 1, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 7, 15), CHECKOUT_DATE = new DateTime(2025, 7, 20), BOOKING_DATE = new DateTime(2025, 6, 10), TOTAL_PERSONS_NUMBER = 2, BOOKED = true, PAYMENT_STATUS = true },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 8, 5), CHECKOUT_DATE = new DateTime(2025, 8, 12), BOOKING_DATE = new DateTime(2025, 7, 10), TOTAL_PERSONS_NUMBER = 3, BOOKED = true, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 9, 1), CHECKOUT_DATE = new DateTime(2025, 9, 7), BOOKING_DATE = new DateTime(2025, 8, 15), TOTAL_PERSONS_NUMBER = 4, BOOKED = false, PAYMENT_STATUS = false },
+                        new Booking {ID_CLIENT = 1, CHECKIN_DATE = new DateTime(2025, 9, 1), CHECKOUT_DATE = new DateTime(2025, 9, 7), BOOKING_DATE = new DateTime(2025, 8, 15), TOTAL_PERSONS_NUMBER = 4, BOOKED = false, PAYMENT_STATUS = false }
+
+
+
                 });
             db.SaveChanges();
         }
