@@ -19,6 +19,17 @@ if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 
     builder.Services.AddDbContext<ReserveSystemContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("ReserveSystem") ?? throw new InvalidOperationException("Connection string 'ReserveSystem' not found.")));
+
+    builder.Services.AddDbContext<ReserveSystemContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("ReserveSystem"),
+        sqlServerOptions => sqlServerOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(30),
+            errorNumbersToAdd: null
+        )
+    )
+);
 }
 else
 {
@@ -51,6 +62,8 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(
         options.Lockout.MaxFailedAccessAttempts = 5;
     }
 )
+    
+
 .AddEntityFrameworkStores<ReserveSystemUsersDbContext>()
 //.AddDefaultTokenProviders()
 .AddDefaultUI();

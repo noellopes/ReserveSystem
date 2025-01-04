@@ -25,6 +25,7 @@ namespace ReserveSystem.Models
         [Required(ErrorMessage = "NIF/Identification is mandatory")]
         public string NIF  { get; set; }
         [Required(ErrorMessage = "Please select an identification type.")]
+        [StringLength(30, MinimumLength = 4, ErrorMessage = "Identification number cannot be less than 4 characters")]
         public string IdentificationType { get; set; }
         public bool Login { get; set; }
         public bool Status { get; set; }
