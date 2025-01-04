@@ -37,10 +37,12 @@ namespace ReserveSystem.Models
 
         [Required(ErrorMessage = "StartFunctionsDate is required.")]
         [DataType(DataType.Date, ErrorMessage = "StartFunctionsDate not valid.")]
+        [Range(typeof(DateTime), "1/1/2000", "12/31/9999", ErrorMessage = "StartFunctionsDate must be between 01/01/2000 and 31/12/9999.")]
         public DateTime StartFunctionsDate { get; set; }
 
         [DataType(DataType.Date, ErrorMessage = "EndFunctionsDate not valid.")]
-        public DateTime EndFunctionsDate { get; set; }
+        [Compare("StartFunctionsDate", ErrorMessage = "EndFunctionsDate must be later than StartFunctionsDate.")]
+        public DateTime? EndFunctionsDate { get; set; }
 
         [Required(ErrorMessage = "DaysOfVacationCount is required.")]
         [Range(0, 30, ErrorMessage = "DaysOfVacationCount must be 0 to 30 max.")]
