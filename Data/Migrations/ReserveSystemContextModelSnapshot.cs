@@ -337,14 +337,14 @@ namespace ReserveSystem.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SchedulesId"));
 
-                    b.Property<DateTime>("EndShiftTime")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeSpan>("EndShiftTime")
+                        .HasColumnType("time");
 
                     b.Property<int>("StaffId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("StartShiftTime")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeSpan>("StartShiftTime")
+                        .HasColumnType("time");
 
                     b.Property<int>("TypeOfScheduleId")
                         .HasColumnType("int");

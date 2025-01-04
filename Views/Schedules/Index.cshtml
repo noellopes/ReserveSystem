@@ -25,7 +25,7 @@
                 @Html.DisplayNameFor(model => model.isAvailable)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.staff)
+                @Html.DisplayNameFor(model => model.staff.StaffName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.typeOfSchedule)
@@ -49,7 +49,7 @@
                 @Html.DisplayFor(modelItem => item.isAvailable)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.staff.StaffDriversLicense)
+                @Html.DisplayFor(modelItem => item.staff.StaffName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.typeOfSchedule.TypeOfScheduleDescription)

@@ -152,8 +152,8 @@ namespace ReserveSystem.Data.Migrations
                 {
                     SchedulesId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StartShiftTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndShiftTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartShiftTime = table.Column<TimeSpan>(type: "time", nullable: false),
+                    EndShiftTime = table.Column<TimeSpan>(type: "time", nullable: false),
                     isPrecense = table.Column<bool>(type: "bit", nullable: false),
                     isAvailable = table.Column<bool>(type: "bit", nullable: false),
                     StaffId = table.Column<int>(type: "int", nullable: false),
