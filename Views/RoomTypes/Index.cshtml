@@ -116,6 +116,8 @@
         .btn-danger:hover {
             background-color: #c82333;
         }
+
+       
     </style>
 </head>
 
@@ -196,6 +198,7 @@
                             <a asp-action="Edit" asp-route-id="@item.RoomTypeId" class="btn btn-primary ms-2">Edit</a>
                             <a asp-action="Details" asp-route-id="@item.RoomTypeId" class="btn btn-warning ms-2">Details</a>
                             <a asp-action="Delete" asp-route-id="@item.RoomTypeId" class="btn btn-danger ms-2">Delete</a>
+                            <a asp-action="Cart" asp-route-id="@item.RoomTypeId" class="btn btn-success ms-2"><i class="bi bi-journal-bookmark-fill"></i>Book it</a>
                         </div>
                     </div>
                 </div>
