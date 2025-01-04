@@ -10,9 +10,9 @@ namespace ReserveSystem.Models
         [StringLength(100, ErrorMessage = "TypeOfScheduleName must be 100 chars max.")]
         public required string TypeOfScheduleName { get; set; }
 
-        [Required(ErrorMessage = "JobDescription is required.")]
-        [StringLength(500, ErrorMessage = "JobDescription must be 500 chars max.")]
-        public required string JobDescription { get; set; }
+        [Required(ErrorMessage = "TypeOfScheduleDescription is required.")]
+        [StringLength(500, ErrorMessage = "TypeOfScheduleDescription must be 500 chars max.")]
+        public required string TypeOfScheduleDescription { get; set; }
 
         public ICollection<Schedules> ? schedules { get; set; }
 

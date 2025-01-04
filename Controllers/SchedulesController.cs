@@ -50,7 +50,7 @@ namespace ReserveSystem.Controllers
         public IActionResult Create()
         {
             ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffDriversLicense");
-            ViewData["TypeOfScheduleId"] = new SelectList(_context.Set<TypeOfSchedule>(), "TypeOfScheduleId", "JobDescription");
+            ViewData["TypeOfScheduleId"] = new SelectList(_context.TypeOfSchedule, "TypeOfScheduleId", "TypeOfScheduleDescription");
             return View();
         }
 
@@ -68,7 +68,7 @@ namespace ReserveSystem.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffDriversLicense", schedules.StaffId);
-            ViewData["TypeOfScheduleId"] = new SelectList(_context.Set<TypeOfSchedule>(), "TypeOfScheduleId", "JobDescription", schedules.TypeOfScheduleId);
+            ViewData["TypeOfScheduleId"] = new SelectList(_context.TypeOfSchedule, "TypeOfScheduleId", "TypeOfScheduleDescription", schedules.TypeOfScheduleId);
             return View(schedules);
         }
 
@@ -86,7 +86,7 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
             ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffDriversLicense", schedules.StaffId);
-            ViewData["TypeOfScheduleId"] = new SelectList(_context.Set<TypeOfSchedule>(), "TypeOfScheduleId", "JobDescription", schedules.TypeOfScheduleId);
+            ViewData["TypeOfScheduleId"] = new SelectList(_context.TypeOfSchedule, "TypeOfScheduleId", "TypeOfScheduleDescription", schedules.TypeOfScheduleId);
             return View(schedules);
         }
 
@@ -123,7 +123,7 @@ namespace ReserveSystem.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffDriversLicense", schedules.StaffId);
-            ViewData["TypeOfScheduleId"] = new SelectList(_context.Set<TypeOfSchedule>(), "TypeOfScheduleId", "JobDescription", schedules.TypeOfScheduleId);
+            ViewData["TypeOfScheduleId"] = new SelectList(_context.TypeOfSchedule, "TypeOfScheduleId", "TypeOfScheduleDescription", schedules.TypeOfScheduleId);
             return View(schedules);
         }
 

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ReserveSystem.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Inital : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -63,7 +63,7 @@ namespace ReserveSystem.Data.Migrations
                     TypeOfScheduleId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TypeOfScheduleName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    JobDescription = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
+                    TypeOfScheduleDescription = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
                 },
                 constraints: table =>
                 {

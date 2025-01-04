@@ -54,7 +54,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TypeOfScheduleId,TypeOfScheduleName,JobDescription")] TypeOfSchedule typeOfSchedule)
+        public async Task<IActionResult> Create([Bind("TypeOfScheduleId,TypeOfScheduleName,TypeOfScheduleDescription")] TypeOfSchedule typeOfSchedule)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TypeOfScheduleId,TypeOfScheduleName,JobDescription")] TypeOfSchedule typeOfSchedule)
+        public async Task<IActionResult> Edit(int id, [Bind("TypeOfScheduleId,TypeOfScheduleName,TypeOfScheduleDescription")] TypeOfSchedule typeOfSchedule)
         {
             if (id != typeOfSchedule.TypeOfScheduleId)
             {
