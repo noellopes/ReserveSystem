@@ -7,59 +7,27 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.StartShiftTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndShiftTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.isPrecense)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.isAvailable)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.staff.StaffName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.typeOfSchedule)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartShiftTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndShiftTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.isPrecense)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.isAvailable)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.staff.StaffName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.typeOfSchedule.TypeOfScheduleDescription)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.SchedulesId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.SchedulesId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.SchedulesId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Shift: @Html.DisplayFor(modelItem => item.StartShiftTime) - @Html.DisplayFor(modelItem => item.EndShiftTime)</h5>
+                    <p class="card-text">
+                        <strong>Presence:</strong> @Html.DisplayFor(modelItem => item.isPrecense) <br />
+                        <strong>Available:</strong> @Html.DisplayFor(modelItem => item.isAvailable) <br />
+                        <strong>Staff:</strong> @Html.DisplayFor(modelItem => item.staff.StaffName) <br />
+                        <strong>Schedule Type:</strong> @Html.DisplayFor(modelItem => item.typeOfSchedule.TypeOfScheduleDescription)
+                    </p>
+                    <a href="@Url.Action("Edit", "Schedules", new { id = item.SchedulesId })" class="btn btn-warning">Edit</a>
+                    <a href="@Url.Action("Details", "Schedules", new { id = item.SchedulesId })" class="btn btn-info">Details</a>
+                    <a href="@Url.Action("Delete", "Schedules", new { id = item.SchedulesId })" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
