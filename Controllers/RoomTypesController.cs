@@ -24,7 +24,7 @@ namespace ReserveSystem.Controllers
         public async Task<IActionResult> Index(int page = 1, string searchQuery = "")
         {
             // Define o tamanho da página
-            var pageSize = 10;
+            var pageSize = 9;
 
             // Cria a consulta inicial
             var roomTypes = from rt in _context.RoomType

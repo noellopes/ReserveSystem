@@ -7,6 +7,118 @@
     var searchQuery = ViewData["SearchQuery"] != null ? (string)ViewData["SearchQuery"] : "";
 }
 
+<head>
+    <style>
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Alinhamento da barra de pesquisa à esquerda */
+        .search-bar-container {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 30px;
+        }
+
+        .search-box {
+            display: flex;
+        }
+
+        .input-search {
+            padding: 10px;
+            width: 250px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+            transition: border-color 0.3s ease;
+        }
+
+            .input-search:focus {
+                border-color: #007bff;
+            }
+
+        .btn-search {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .btn-search:hover {
+                background-color: #0056b3;
+            }
+
+        /* Estilos das cards */
+        .custom-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+            .custom-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .card-text {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        /* Estilo dos botões dentro da card */
+        .btn {
+            border-radius: 5px;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border: none;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
@@ -31,64 +143,66 @@
     </div>
 }
 
-<p>
-    <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add Room Type</a>
-</p>
 
-<form method="get" action="@Url.Action("Index")">
-    <div class="input-group mb-3">
-        <input type="text" name="searchQuery" class="form-control"
-               placeholder="Search by Type or Capacity"
-               value="@ViewData["SearchQuery"]" />
-        <button class="btn btn-primary" type="submit">Search</button>
+<div class="container">
+    <!-- Search Bar Alinhada à Esquerda -->
+    <p>
+        <a asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i> Add Room Type</a>
+    </p>
+
+    <div class="search-bar-container mb-4">
+        <form method="get" action="@Url.Action("Index")" class="search-container d-flex justify-content-start">
+            <div class="search-box d-flex">
+                <input type="text" name="searchQuery" class="input-search" placeholder="Search by Type or Capacity" value="@ViewData["SearchQuery"]" />
+                <button type="submit" class="btn-search">
+                    <i class="fa fa-search"></i> <!-- ícone de pesquisa -->
+                </button>
+            </div>
+        </form>
     </div>
-</form>
 
-<table class="table table-striped">
-    <thead class="fs-2">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.First().HasView)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.First().Type)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.First().RoomCapacity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.First().AcessibilityRoom)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+    <!-- Cards -->
+    <div class="row">
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HasView)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Type)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RoomCapacity)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AcessibilityRoom)
-                </td>
-                <td class="d-flex justify-content-end">
-                    <a asp-action="Edit" asp-route-id="@item.RoomTypeId" class="btn btn-primary ms-2">Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.RoomTypeId" class="btn btn-secondary ms-2">Details</a>
-                    <a asp-action="Delete" asp-route-id="@item.RoomTypeId" class="btn btn-danger ms-2">Delete</a>
-                </td>
-            </tr>
+            <div class="col-md-4 mb-4">
+                <div class="card custom-card">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Type</h5>
+                        <p class="card-text">Capacity: @item.RoomCapacity</p>
+                        <p class="card-text">
+                            Accessibility:
+                            @if (item.AcessibilityRoom)
+                            {
+                                <i class="fa fa-check text-success"></i> <!-- Ícone de visto (verde) -->
+                            }
+                            else
+                            {
+                                <i class="fa fa-times text-danger"></i> <!-- Ícone de cruz (vermelho) -->
+                            }
+                        </p>
+                        <p class="card-text">
+                            Has View:
+                            @if (item.HasView)
+                            {
+                                <i class="fa fa-check text-success"></i> <!-- Ícone de visto (verde) -->
+                            }
+                            else
+                            {
+                                <i class="fa fa-times text-danger"></i> <!-- Ícone de cruz (vermelho) -->
+                            }
+                        </p>
+                        <div class="d-flex justify-content-end">
+                            <a asp-action="Edit" asp-route-id="@item.RoomTypeId" class="btn btn-primary ms-2">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.RoomTypeId" class="btn btn-warning ms-2">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.RoomTypeId" class="btn btn-danger ms-2">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-
-</table>
-
+    </div>
+</div>
 
 <ul class="pagination justify-content-center">
     <!-- Página Anterior -->
