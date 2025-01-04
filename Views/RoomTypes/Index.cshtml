@@ -2,6 +2,9 @@
 
 @{
     ViewData["Title"] = "Room Type List";
+    var currentPage = ViewData["CurrentPage"] != null ? (int)ViewData["CurrentPage"] : 1;
+    var totalPages = ViewData["TotalPages"] != null ? (int)ViewData["TotalPages"] : 1;
+    var searchQuery = ViewData["SearchQuery"] != null ? (string)ViewData["SearchQuery"] : "";
 }
 
 @if (TempData["SuccessMessage"] != null)
@@ -83,5 +86,52 @@
             </tr>
         }
     </tbody>
+
 </table>
 
+
+<ul class="pagination justify-content-center">
+    <!-- Página Anterior -->
+    @if (currentPage > 1)
+    {
+        <li class="page-item">
+            <a class="page-link" asp-action="Index" asp-route-page="@(currentPage - 1)" asp-route-searchQuery="@searchQuery">
+                <i class="bi bi-chevron-left"></i> <!-- Ícone de seta para a esquerda -->
+            </a>
+        </li>
+    }
+    else
+    {
+        <li class="page-item disabled">
+            <a class="page-link" href="#">
+                <i class="bi bi-chevron-left"></i> <!-- Ícone de seta para a esquerda -->
+            </a>
+        </li>
+    }
+
+    <!-- Páginas numéricas -->
+    @for (int i = 1; i <= totalPages; i++)
+    {
+        <li class="page-item @(i == currentPage ? "active" : "")">
+            <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-searchQuery="@searchQuery">@i</a>
+        </li>
+    }
+
+    <!-- Próxima Página -->
+    @if (currentPage < totalPages)
+    {
+        <li class="page-item">
+            <a class="page-link" asp-action="Index" asp-route-page="@(currentPage + 1)" asp-route-searchQuery="@searchQuery">
+                <i class="bi bi-chevron-right"></i> <!-- Ícone de seta para a direita -->
+            </a>
+        </li>
+    }
+    else
+    {
+        <li class="page-item disabled">
+            <a class="page-link" href="#">
+                <i class="bi bi-chevron-right"></i> <!-- Ícone de seta para a direita -->
+            </a>
+        </li>
+    }
+</ul>

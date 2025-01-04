@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace ReserveSystem.Controllers
 {
@@ -20,22 +21,48 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: RoomTypes
-        public async Task<IActionResult> Index(string searchQuery)
+        public async Task<IActionResult> Index(int page = 1, string searchQuery = "")
         {
-            // Verifica se há um valor no parâmetro de busca
+            // Define o tamanho da página
+            var pageSize = 10;
+
+            // Cria a consulta inicial
             var roomTypes = from rt in _context.RoomType
                             select rt;
 
+            // Aplica o filtro de busca, se houver
             if (!string.IsNullOrEmpty(searchQuery))
             {
-                // Aplica o filtro por Tipo ou Capacidade
                 roomTypes = roomTypes.Where(rt => rt.Type.Contains(searchQuery) || rt.RoomCapacity.ToString().Contains(searchQuery));
             }
 
             // Passa o valor de busca para a ViewData para manter o valor no campo de busca
             ViewData["SearchQuery"] = searchQuery;
 
-            return View(await roomTypes.ToListAsync());
+            // Calcula o número total de itens
+            var totalItems = await roomTypes.CountAsync();
+
+            // Calcula o número total de páginas
+            var totalPages = (int)Math.Ceiling((decimal)totalItems / pageSize);
+
+            // Verifica se a página solicitada é válida
+            if (page < 1) page = 1;
+            if (page > totalPages) page = totalPages;
+
+            // Obtém os itens da página atual
+            var roomTypesPaged = await roomTypes
+                .OrderBy(rt => rt.Type)  // Ordena por tipo ou outro critério
+                .Skip((page - 1) * pageSize)  // Pula as páginas anteriores
+                .Take(pageSize)  // Pega o número de itens correspondente ao tamanho da página
+                .ToListAsync();
+
+            // Passa as informações de paginação para a ViewData
+            ViewData["TotalItems"] = totalItems;
+            ViewData["CurrentPage"] = page;
+            ViewData["TotalPages"] = totalPages;
+
+            // Retorna os dados para a view
+            return View(roomTypesPaged);
         }
 
         // GET: RoomTypes/Details/5
