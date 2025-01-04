@@ -19,10 +19,19 @@
                 </label>
             </div>
 
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <span asp-validation-for="Type" class="text-danger"></span>
-                <label asp-for="Type" class="control-label"></label>
-                <input asp-for="Type" class="form-control bg-light" />
+                <label asp-for="Type" class="control-label">Room Type</label>
+                <select asp-for="Type" class="form-control bg-light">
+                    <option value="" disabled selected>Select a Room Type</option>
+                    <option value="Standard">Standard</option>
+                    <option value="Deluxe">Deluxe</option>
+                    <option value="Suite">Suite</option>
+                    <option value="Presidential">Presidential</option>
+                    <option value="Luxury Room">Luxury Room</option>
+                    <option value="Penthouse">Penthouse</option>
+                    <option value="Family Room">Family Room</option>
+                </select>
             </div>
 
             <div class="form-group">

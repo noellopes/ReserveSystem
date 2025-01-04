@@ -84,7 +84,7 @@ namespace ReserveSystem.Controllers
                 _context.Room.Add(room);
                 await _context.SaveChangesAsync();
 
-                TempData["SuccessMessage"] = "Tipo de quarto criado com sucesso, e um quarto foi associado automaticamente.";
+                TempData["SuccessMessage"] = "Room Type created successfully!";
                 return RedirectToAction(nameof(Index));
             }
             return View(roomType);
@@ -111,7 +111,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("HasView,Type,RoomCapacity,AcessibilityRoom")] RoomType roomType)
+        public async Task<IActionResult> Edit(int id, [Bind("RoomTypeId,HasView,Type,RoomCapacity,AcessibilityRoom")] RoomType roomType)
         {
             if (id != roomType.RoomTypeId)
             {
@@ -124,6 +124,8 @@ namespace ReserveSystem.Controllers
                 {
                     _context.Update(roomType);
                     await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Room Type updated successfully!";
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -168,6 +170,7 @@ namespace ReserveSystem.Controllers
             if (roomType != null)
             {
                 _context.RoomType.Remove(roomType);
+                TempData["WarningMessage"] = "Room Type deleted successfully!";
             }
 
             await _context.SaveChangesAsync();
