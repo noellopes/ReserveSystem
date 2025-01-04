@@ -20,9 +20,10 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Events
-        public async Task<IActionResult> Show()
+        public IActionResult Show()
         {
-            return View(await _context.Events.ToListAsync());
+            var events = _context.Events.Where(e=>e.inUse==true).ToList();
+            return View(events);
         }
 
         // GET: Events/Details/5
@@ -49,26 +50,34 @@ namespace ReserveSystem.Controllers
             return View();
         }
 
-        // POST: Events/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("event_id,nameEv,startDate,endDate,fee,anual,level,municipal,national")] Events events)
-        {
-            if (ModelState.IsValid)
+		// POST: Events/Create
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Create([Bind("event_id,nameEv,startDate,endDate,fee,anual,level,municipal,national,inUse")] Events events)
+		{
+            if ((events.endDate - events.startDate).TotalDays > 7)
             {
-                _context.Add(events);
-                await _context.SaveChangesAsync();
-                ViewBag.Entity = "Event";
-                ViewBag.Controller = "Events";
-                ViewBag.Action = "Details";
-                ViewBag.EventId = events.event_id;
-                return View("CreateSuccess");
+                // Adiciona um erro ao ModelState se a validação falhar
+                ModelState.AddModelError("endDate", "The date diference has to be a maximum of 1 week!");
             }
-            return View(events);
-        }
 
-        // GET: Events/Edit/5
-        [HttpGet]
+            if (ModelState.IsValid)
+			{
+				events.inUse = true;
+				_context.Add(events);
+				await _context.SaveChangesAsync();
+				ViewBag.Entity = "Event";
+				ViewBag.Controller = "Events";
+				ViewBag.Action = "Details";
+				ViewBag.EventId = events.event_id;
+				return View("CreateSuccess");
+			}
+			return View(events);
+		}
+
+
+		// GET: Events/Edit/5
+		[HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -148,26 +157,29 @@ namespace ReserveSystem.Controllers
             return View(events);
         }
 
-        // POST: Events/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var events = await _context.Events.FindAsync(id);
-            if (events != null)
-            {
-                _context.Events.Remove(events);
-                await _context.SaveChangesAsync();
-            }
+		// POST: Events/Delete/5
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DeleteConfirmed(int id)
+		{
+			var events = await _context.Events.FindAsync(id);
+			if (events != null)
+			{
+				events.inUse = false;
 
-            ViewBag.Entity = "Event";
-            ViewBag.Controller = "Events";
-            ViewBag.Action = "Show";
-            return View("DeleteSuccess");
+				// Atualizar o evento no banco de dados
+				_context.Update(events);
+				await _context.SaveChangesAsync();
+			}
 
-        }
+			ViewBag.Entity = "Event";
+			ViewBag.Controller = "Events";
+			ViewBag.Action = "Show";
+			return View("DeleteSuccess");
+		}
 
-        private bool EventsExists(int id)
+
+		private bool EventsExists(int id)
         {
             return _context.Events.Any(e => e.event_id == id);
         }

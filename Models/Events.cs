@@ -29,5 +29,7 @@ namespace ReserveSystem.Models
         [Required]
         public bool national { get; set; }
 
+        public bool inUse { get; set; }
+
     }
 }
