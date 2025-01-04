@@ -6,42 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ReserveSystem.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Inital : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Consumptions",
-                columns: table => new
-                {
-                    ConsumptionId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoomId = table.Column<int>(type: "int", nullable: false),
-                    ItemId = table.Column<int>(type: "int", nullable: false),
-                    QuantityConsumed = table.Column<int>(type: "int", nullable: false),
-                    ConsumedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Consumptions", x => x.ConsumptionId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Item_Room",
-                columns: table => new
-                {
-                    ItemRoomId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoomTypeId = table.Column<int>(type: "int", nullable: false),
-                    ItemId = table.Column<int>(type: "int", nullable: false),
-                    RoomQuantity = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Item_Room", x => x.ItemRoomId);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Items",
                 columns: table => new
@@ -132,46 +101,48 @@ namespace ReserveSystem.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Item_Room",
+                columns: table => new
+                {
+                    ItemRoomId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoomTypeId = table.Column<int>(type: "int", nullable: false),
+                    ItemId = table.Column<int>(type: "int", nullable: false),
+                    itemsItemId = table.Column<int>(type: "int", nullable: true),
+                    RoomQuantity = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Item_Room", x => x.ItemRoomId);
+                    table.ForeignKey(
+                        name: "FK_Item_Room_Items_itemsItemId",
+                        column: x => x.itemsItemId,
+                        principalTable: "Items",
+                        principalColumn: "ItemId");
+                    table.ForeignKey(
+                        name: "FK_Item_Room_Room_Type_RoomTypeId",
+                        column: x => x.RoomTypeId,
+                        principalTable: "Room_Type",
+                        principalColumn: "RoomTypeId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Room",
                 columns: table => new
                 {
                     RoomId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoomTypeId = table.Column<int>(type: "int", nullable: false),
-                    Room_TypeRoomTypeId = table.Column<int>(type: "int", nullable: true)
+                    RoomTypeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Room", x => x.RoomId);
                     table.ForeignKey(
-                        name: "FK_Room_Room_Type_Room_TypeRoomTypeId",
-                        column: x => x.Room_TypeRoomTypeId,
+                        name: "FK_Room_Room_Type_RoomTypeId",
+                        column: x => x.RoomTypeId,
                         principalTable: "Room_Type",
-                        principalColumn: "RoomTypeId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Cleaning_Schedule",
-                columns: table => new
-                {
-                    CleaningScheduleId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoomBookingId = table.Column<int>(type: "int", nullable: false),
-                    ClientId = table.Column<int>(type: "int", nullable: false),
-                    StaffId = table.Column<int>(type: "int", nullable: false),
-                    DateServices = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CleaningDone = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cleaning_Schedule", x => x.CleaningScheduleId);
-                    table.ForeignKey(
-                        name: "FK_Cleaning_Schedule_Staff_StaffId",
-                        column: x => x.StaffId,
-                        principalTable: "Staff",
-                        principalColumn: "StaffId",
+                        principalColumn: "RoomTypeId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -206,20 +177,27 @@ namespace ReserveSystem.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Room_Booking",
+                name: "Consumptions",
                 columns: table => new
                 {
-                    RoomBookingId = table.Column<int>(type: "int", nullable: false)
+                    ConsumptionId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    BookingId = table.Column<int>(type: "int", nullable: false),
                     RoomId = table.Column<int>(type: "int", nullable: false),
-                    Persons_Number = table.Column<int>(type: "int", nullable: false)
+                    ItemId = table.Column<int>(type: "int", nullable: false),
+                    itemsItemId = table.Column<int>(type: "int", nullable: true),
+                    QuantityConsumed = table.Column<int>(type: "int", nullable: false),
+                    ConsumedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Room_Booking", x => x.RoomBookingId);
+                    table.PrimaryKey("PK_Consumptions", x => x.ConsumptionId);
                     table.ForeignKey(
-                        name: "FK_Room_Booking_Room_RoomId",
+                        name: "FK_Consumptions_Items_itemsItemId",
+                        column: x => x.itemsItemId,
+                        principalTable: "Items",
+                        principalColumn: "ItemId");
+                    table.ForeignKey(
+                        name: "FK_Consumptions_Room_RoomId",
                         column: x => x.RoomId,
                         principalTable: "Room",
                         principalColumn: "RoomId",
@@ -244,11 +222,6 @@ namespace ReserveSystem.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Booking", x => x.BookingId);
-                    table.ForeignKey(
-                        name: "FK_Booking_Room_Booking_Room_BookingRoomBookingId",
-                        column: x => x.Room_BookingRoomBookingId,
-                        principalTable: "Room_Booking",
-                        principalColumn: "RoomBookingId");
                 });
 
             migrationBuilder.CreateTable(
@@ -276,10 +249,84 @@ namespace ReserveSystem.Data.Migrations
                         principalColumn: "BookingId");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Room_Booking",
+                columns: table => new
+                {
+                    RoomBookingId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BookingId = table.Column<int>(type: "int", nullable: false),
+                    RoomId = table.Column<int>(type: "int", nullable: false),
+                    Persons_Number = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Room_Booking", x => x.RoomBookingId);
+                    table.ForeignKey(
+                        name: "FK_Room_Booking_Booking_BookingId",
+                        column: x => x.BookingId,
+                        principalTable: "Booking",
+                        principalColumn: "BookingId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Room_Booking_Room_RoomId",
+                        column: x => x.RoomId,
+                        principalTable: "Room",
+                        principalColumn: "RoomId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Cleaning_Schedule",
+                columns: table => new
+                {
+                    CleaningScheduleId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoomBookingId = table.Column<int>(type: "int", nullable: false),
+                    room_BookingRoomBookingId = table.Column<int>(type: "int", nullable: true),
+                    ClientId = table.Column<int>(type: "int", nullable: false),
+                    StaffId = table.Column<int>(type: "int", nullable: false),
+                    DateServices = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CleaningDone = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cleaning_Schedule", x => x.CleaningScheduleId);
+                    table.ForeignKey(
+                        name: "FK_Cleaning_Schedule_Client_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Client",
+                        principalColumn: "ClientId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Cleaning_Schedule_Room_Booking_room_BookingRoomBookingId",
+                        column: x => x.room_BookingRoomBookingId,
+                        principalTable: "Room_Booking",
+                        principalColumn: "RoomBookingId");
+                    table.ForeignKey(
+                        name: "FK_Cleaning_Schedule_Staff_StaffId",
+                        column: x => x.StaffId,
+                        principalTable: "Staff",
+                        principalColumn: "StaffId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Booking_Room_BookingRoomBookingId",
                 table: "Booking",
                 column: "Room_BookingRoomBookingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cleaning_Schedule_ClientId",
+                table: "Cleaning_Schedule",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cleaning_Schedule_room_BookingRoomBookingId",
+                table: "Cleaning_Schedule",
+                column: "room_BookingRoomBookingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cleaning_Schedule_StaffId",
@@ -292,9 +339,34 @@ namespace ReserveSystem.Data.Migrations
                 column: "BookingId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Room_Room_TypeRoomTypeId",
+                name: "IX_Consumptions_itemsItemId",
+                table: "Consumptions",
+                column: "itemsItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Consumptions_RoomId",
+                table: "Consumptions",
+                column: "RoomId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Item_Room_itemsItemId",
+                table: "Item_Room",
+                column: "itemsItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Item_Room_RoomTypeId",
+                table: "Item_Room",
+                column: "RoomTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Room_RoomTypeId",
                 table: "Room",
-                column: "Room_TypeRoomTypeId");
+                column: "RoomTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Room_Booking_BookingId",
+                table: "Room_Booking",
+                column: "BookingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Room_Booking_RoomId",
@@ -315,16 +387,24 @@ namespace ReserveSystem.Data.Migrations
                 name: "IX_Staff_JobId",
                 table: "Staff",
                 column: "JobId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Booking_Room_Booking_Room_BookingRoomBookingId",
+                table: "Booking",
+                column: "Room_BookingRoomBookingId",
+                principalTable: "Room_Booking",
+                principalColumn: "RoomBookingId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Cleaning_Schedule");
+            migrationBuilder.DropForeignKey(
+                name: "FK_Booking_Room_Booking_Room_BookingRoomBookingId",
+                table: "Booking");
 
             migrationBuilder.DropTable(
-                name: "Client");
+                name: "Cleaning_Schedule");
 
             migrationBuilder.DropTable(
                 name: "Consumptions");
@@ -333,13 +413,13 @@ namespace ReserveSystem.Data.Migrations
                 name: "Item_Room");
 
             migrationBuilder.DropTable(
-                name: "Items");
-
-            migrationBuilder.DropTable(
                 name: "Schedules");
 
             migrationBuilder.DropTable(
-                name: "Booking");
+                name: "Client");
+
+            migrationBuilder.DropTable(
+                name: "Items");
 
             migrationBuilder.DropTable(
                 name: "Staff");
@@ -348,10 +428,13 @@ namespace ReserveSystem.Data.Migrations
                 name: "TypeOfSchedule");
 
             migrationBuilder.DropTable(
+                name: "Job");
+
+            migrationBuilder.DropTable(
                 name: "Room_Booking");
 
             migrationBuilder.DropTable(
-                name: "Job");
+                name: "Booking");
 
             migrationBuilder.DropTable(
                 name: "Room");

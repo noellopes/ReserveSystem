@@ -33,6 +33,6 @@ namespace ReserveSystem.Models
         [Required(ErrorMessage = "Payment status is required.")]
         public bool Payment_Status { get; set; }
 
-        public ICollection<Client> clients { get; set; }
+        public ICollection<Client> ? clients { get; set; }
     }
 }

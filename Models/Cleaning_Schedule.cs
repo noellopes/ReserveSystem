@@ -7,8 +7,11 @@ namespace ReserveSystem.Models
         [Key]
         public int CleaningScheduleId { get; set; } 
         public int RoomBookingId { get; set; }
+        public Room_Booking ? room_Booking {  get; set; }
         public int ClientId { get; set; }
+        public Client ? client { get; set; }
         public int StaffId { get; set; }
+        public Staff ? staffMembers { get; set; }
 
         [Required(ErrorMessage = "DateServices is required.")]
         [DataType(DataType.Date, ErrorMessage = "Invalid format for DateServices.")]

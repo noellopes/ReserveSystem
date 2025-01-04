@@ -22,7 +22,8 @@ namespace ReserveSystem.Controllers
         // GET: Cleaning_Schedule
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Cleaning_Schedule.ToListAsync());
+            var reserveSystemContext = _context.Cleaning_Schedule.Include(c => c.client).Include(c => c.staffMembers);
+            return View(await reserveSystemContext.ToListAsync());
         }
 
         // GET: Cleaning_Schedule/Details/5
@@ -34,6 +35,8 @@ namespace ReserveSystem.Controllers
             }
 
             var cleaning_Schedule = await _context.Cleaning_Schedule
+                .Include(c => c.client)
+                .Include(c => c.staffMembers)
                 .FirstOrDefaultAsync(m => m.CleaningScheduleId == id);
             if (cleaning_Schedule == null)
             {
@@ -46,6 +49,8 @@ namespace ReserveSystem.Controllers
         // GET: Cleaning_Schedule/Create
         public IActionResult Create()
         {
+            ViewData["ClientId"] = new SelectList(_context.Client, "ClientId", "Client_Adress");
+            ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffDriversLicense");
             return View();
         }
 
@@ -62,6 +67,8 @@ namespace ReserveSystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ClientId"] = new SelectList(_context.Client, "ClientId", "Client_Adress", cleaning_Schedule.ClientId);
+            ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffDriversLicense", cleaning_Schedule.StaffId);
             return View(cleaning_Schedule);
         }
 
@@ -78,6 +85,8 @@ namespace ReserveSystem.Controllers
             {
                 return NotFound();
             }
+            ViewData["ClientId"] = new SelectList(_context.Client, "ClientId", "Client_Adress", cleaning_Schedule.ClientId);
+            ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffDriversLicense", cleaning_Schedule.StaffId);
             return View(cleaning_Schedule);
         }
 
@@ -113,6 +122,8 @@ namespace ReserveSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ClientId"] = new SelectList(_context.Client, "ClientId", "Client_Adress", cleaning_Schedule.ClientId);
+            ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffDriversLicense", cleaning_Schedule.StaffId);
             return View(cleaning_Schedule);
         }
 
@@ -125,6 +136,8 @@ namespace ReserveSystem.Controllers
             }
 
             var cleaning_Schedule = await _context.Cleaning_Schedule
+                .Include(c => c.client)
+                .Include(c => c.staffMembers)
                 .FirstOrDefaultAsync(m => m.CleaningScheduleId == id);
             if (cleaning_Schedule == null)
             {

@@ -50,10 +50,10 @@ namespace ReserveSystem.Models
 
         public int JobId { get; set; }
 
-        public Job job { get; set; }
+        public Job ? job { get; set; }
 
-        public ICollection<Schedules> schedules { get; set; }
+        public ICollection<Schedules> ? schedules { get; set; }
 
-        public ICollection<Cleaning_Schedule> cleaningSchedules { get; set; }
+        public ICollection<Cleaning_Schedule> ? cleaningSchedules { get; set; }
     }
 }

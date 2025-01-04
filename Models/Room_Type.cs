@@ -12,7 +12,7 @@ namespace ReserveSystem.Models
 
         [Required(ErrorMessage = "Room type is required.")]
         [StringLength(50, ErrorMessage = "Room type cannot exceed 50 characters.")]
-        public string Type { get; set; }
+        public required string Type { get; set; }
 
         [Required(ErrorMessage = "Capacity is required.")]
         [Range(1, 10, ErrorMessage = "Capacity must be between 1 and 10.")]
@@ -25,7 +25,7 @@ namespace ReserveSystem.Models
         [Required(ErrorMessage = "Accessibility status is required.")]
         public bool AcessibilityRoom { get; set; }
 
-        public ICollection<Room> rooms { get; set; }
+        public ICollection<Room> ? rooms { get; set; }
 
     }
 }

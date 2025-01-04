@@ -16,7 +16,10 @@
                 @Html.DisplayNameFor(model => model.RoomBookingId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ClientId)
+                @Html.DisplayNameFor(model => model.client)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.staffMembers)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DateServices)
@@ -40,7 +43,10 @@
                 @Html.DisplayFor(modelItem => item.RoomBookingId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ClientId)
+                @Html.DisplayFor(modelItem => item.client.Client_Adress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.staffMembers.StaffDriversLicense)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DateServices)

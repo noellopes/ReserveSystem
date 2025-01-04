@@ -10,7 +10,8 @@ namespace ReserveSystem.Models
 
         [Required(ErrorMessage = "Room Type ID is required.")]
         public int RoomTypeId { get; set; }
+        public Room_Type ? roomType { get; set; }
 
-        public ICollection<Room_Booking> room_Bookings { get; set; }
+        public ICollection<Room_Booking> ? room_Bookings { get; set; }
     }
 }

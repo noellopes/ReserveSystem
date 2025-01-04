@@ -7,7 +7,9 @@ namespace ReserveSystem.Models
         [Key]
         public int ConsumptionId { get; set; } 
         public int RoomId { get; set; } 
+        public Room ? room { get; set; }
         public int ItemId { get; set; }
+        public Items ? items { get; set; }
 
         [Required(ErrorMessage = "QuantityConsumed is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "QuantityConsumed must be at least 1.")]

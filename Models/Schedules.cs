@@ -21,9 +21,9 @@ namespace ReserveSystem.Models
         public bool isAvailable { get; set; }
 
         public int StaffId { get; set; }
-        public Staff staff { get; set; }
+        public Staff ? staff { get; set; }
 
         public int TypeOfScheduleId { get; set; }
-        public TypeOfSchedule typeOfSchedule { get; set; }
+        public TypeOfSchedule ? typeOfSchedule { get; set; }
     }
 }

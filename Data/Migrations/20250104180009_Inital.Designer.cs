@@ -12,8 +12,8 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    [Migration("20250104165826_Initial")]
-    partial class Initial
+    [Migration("20250104180009_Inital")]
+    partial class Inital
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -93,9 +93,16 @@ namespace ReserveSystem.Data.Migrations
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("room_BookingRoomBookingId")
+                        .HasColumnType("int");
+
                     b.HasKey("CleaningScheduleId");
 
+                    b.HasIndex("ClientId");
+
                     b.HasIndex("StaffId");
+
+                    b.HasIndex("room_BookingRoomBookingId");
 
                     b.ToTable("Cleaning_Schedule");
                 });
@@ -166,7 +173,14 @@ namespace ReserveSystem.Data.Migrations
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("itemsItemId")
+                        .HasColumnType("int");
+
                     b.HasKey("ConsumptionId");
+
+                    b.HasIndex("RoomId");
+
+                    b.HasIndex("itemsItemId");
 
                     b.ToTable("Consumptions");
                 });
@@ -188,7 +202,14 @@ namespace ReserveSystem.Data.Migrations
                     b.Property<int>("RoomTypeId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("itemsItemId")
+                        .HasColumnType("int");
+
                     b.HasKey("ItemRoomId");
+
+                    b.HasIndex("RoomTypeId");
+
+                    b.HasIndex("itemsItemId");
 
                     b.ToTable("Item_Room");
                 });
@@ -248,12 +269,9 @@ namespace ReserveSystem.Data.Migrations
                     b.Property<int>("RoomTypeId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Room_TypeRoomTypeId")
-                        .HasColumnType("int");
-
                     b.HasKey("RoomId");
 
-                    b.HasIndex("Room_TypeRoomTypeId");
+                    b.HasIndex("RoomTypeId");
 
                     b.ToTable("Room");
                 });
@@ -276,6 +294,8 @@ namespace ReserveSystem.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("RoomBookingId");
+
+                    b.HasIndex("BookingId");
 
                     b.HasIndex("RoomId");
 
@@ -438,11 +458,27 @@ namespace ReserveSystem.Data.Migrations
 
             modelBuilder.Entity("ReserveSystem.Models.Cleaning_Schedule", b =>
                 {
-                    b.HasOne("ReserveSystem.Models.Staff", null)
+                    b.HasOne("ReserveSystem.Models.Client", "client")
+                        .WithMany("cleaningSchedules")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ReserveSystem.Models.Staff", "staffMembers")
                         .WithMany("cleaningSchedules")
                         .HasForeignKey("StaffId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("ReserveSystem.Models.Room_Booking", "room_Booking")
+                        .WithMany()
+                        .HasForeignKey("room_BookingRoomBookingId");
+
+                    b.Navigation("client");
+
+                    b.Navigation("room_Booking");
+
+                    b.Navigation("staffMembers");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.Client", b =>
@@ -452,20 +488,68 @@ namespace ReserveSystem.Data.Migrations
                         .HasForeignKey("BookingId");
                 });
 
+            modelBuilder.Entity("ReserveSystem.Models.Consumptions", b =>
+                {
+                    b.HasOne("ReserveSystem.Models.Room", "room")
+                        .WithMany()
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ReserveSystem.Models.Items", "items")
+                        .WithMany()
+                        .HasForeignKey("itemsItemId");
+
+                    b.Navigation("items");
+
+                    b.Navigation("room");
+                });
+
+            modelBuilder.Entity("ReserveSystem.Models.Item_Room", b =>
+                {
+                    b.HasOne("ReserveSystem.Models.Room_Type", "roomType")
+                        .WithMany()
+                        .HasForeignKey("RoomTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ReserveSystem.Models.Items", "items")
+                        .WithMany()
+                        .HasForeignKey("itemsItemId");
+
+                    b.Navigation("items");
+
+                    b.Navigation("roomType");
+                });
+
             modelBuilder.Entity("ReserveSystem.Models.Room", b =>
                 {
-                    b.HasOne("ReserveSystem.Models.Room_Type", null)
+                    b.HasOne("ReserveSystem.Models.Room_Type", "roomType")
                         .WithMany("rooms")
-                        .HasForeignKey("Room_TypeRoomTypeId");
+                        .HasForeignKey("RoomTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("roomType");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.Room_Booking", b =>
                 {
-                    b.HasOne("ReserveSystem.Models.Room", null)
+                    b.HasOne("ReserveSystem.Models.Booking", "booking")
+                        .WithMany()
+                        .HasForeignKey("BookingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ReserveSystem.Models.Room", "room")
                         .WithMany("room_Bookings")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("booking");
+
+                    b.Navigation("room");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.Schedules", b =>
@@ -501,6 +585,11 @@ namespace ReserveSystem.Data.Migrations
             modelBuilder.Entity("ReserveSystem.Models.Booking", b =>
                 {
                     b.Navigation("clients");
+                });
+
+            modelBuilder.Entity("ReserveSystem.Models.Client", b =>
+                {
+                    b.Navigation("cleaningSchedules");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.Job", b =>

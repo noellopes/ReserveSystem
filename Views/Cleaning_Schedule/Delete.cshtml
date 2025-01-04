@@ -18,10 +18,16 @@
             @Html.DisplayFor(model => model.RoomBookingId)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ClientId)
+            @Html.DisplayNameFor(model => model.client)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ClientId)
+            @Html.DisplayFor(model => model.client.Client_Adress)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.staffMembers)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.staffMembers.StaffDriversLicense)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.DateServices)
