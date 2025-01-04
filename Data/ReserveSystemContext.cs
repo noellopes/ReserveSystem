@@ -20,7 +20,9 @@ namespace ReserveSystem.Data
 
             base.OnModelCreating(modelBuilder);
 
+           
             modelBuilder.Entity<RoomModel>()
+            
             .HasOne(r => r.RoomType)
             .WithMany(rt => rt.Rooms)
             .HasForeignKey(r => r.RoomTypeId);

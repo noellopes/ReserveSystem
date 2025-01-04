@@ -129,6 +129,26 @@ namespace ReserveSystem.Data
                     new RoomType { RoomTypeId=5,HasView = false,Type = "Luxury Room", RoomCapacity = 3, AcessibilityRoom = false }
                 };
             db.SaveChanges();
+
+            foreach (var roomType in predefinedRoomTypes)
+            {
+                // Verifica se o RoomType já existe no banco
+                if (!db.RoomType.Any(rt => rt.Type == roomType.Type))
+                {
+                    db.RoomType.Add(roomType);
+                    db.SaveChanges();
+
+                    // Cria um quarto associado ao RoomTypeId recém-criado
+                    var room = new RoomModel
+                    {
+                        RoomTypeId = roomType.RoomTypeId
+                    };
+
+                    db.Room.Add(room);
+                    db.SaveChanges();
+                    Console.WriteLine($"Room associado ao RoomType: {roomType.Type}");
+                }
+            }
         }
 
         private static void PopulateRoom(ReserveSystemContext db)

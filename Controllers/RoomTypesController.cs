@@ -67,17 +67,24 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RoomTypeId,HasView,Type,RoomCapacity,AcessibilityRoom")] RoomType roomType)
+        public async Task<IActionResult> Create(RoomType roomType)
         {
             if (ModelState.IsValid)
             {
-                // Inicializar a coleção de Rooms (se necessário)
-                roomType.Rooms = new List<RoomModel>();
-
-                // Adicionar o RoomType no banco de dados
-                _context.Add(roomType);
+                // Adiciona o RoomType ao banco
+                _context.RoomType.Add(roomType);
                 await _context.SaveChangesAsync();
 
+                // Associa um quarto automaticamente ao RoomTypeId recém-criado
+                var room = new RoomModel
+                {
+                    RoomTypeId = roomType.RoomTypeId
+                };
+
+                _context.Room.Add(room);
+                await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Tipo de quarto criado com sucesso, e um quarto foi associado automaticamente.";
                 return RedirectToAction(nameof(Index));
             }
             return View(roomType);
