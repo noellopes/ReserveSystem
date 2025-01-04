@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
@@ -20,9 +17,39 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: TypeOfSchedules
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1, string searchTypeOfScheduleName = "", string searchTypeOfScheduleDescription = "")
         {
-            return View(await _context.TypeOfSchedule.ToListAsync());
+            var typeOfSchedules = from t in _context.TypeOfSchedule select t;
+
+            // Filtragem por nome e descrição
+            if (!string.IsNullOrEmpty(searchTypeOfScheduleName))
+            {
+                typeOfSchedules = typeOfSchedules.Where(t => t.TypeOfScheduleName.Contains(searchTypeOfScheduleName));
+            }
+
+            if (!string.IsNullOrEmpty(searchTypeOfScheduleDescription))
+            {
+                typeOfSchedules = typeOfSchedules.Where(t => t.TypeOfScheduleDescription.Contains(searchTypeOfScheduleDescription));
+            }
+
+            // Configuração do modelo de paginação
+            var model = new TypeOfScheduleViewModel
+            {
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    TotalItems = await typeOfSchedules.CountAsync()
+                },
+                TypeOfSchedules = await typeOfSchedules
+                    .OrderBy(t => t.TypeOfScheduleName)
+                    .Skip((page - 1) * 10) // Paginação (10 por página)
+                    .Take(10)
+                    .ToListAsync(),
+                SearchTypeOfScheduleName = searchTypeOfScheduleName,
+                SearchTypeOfScheduleDescription = searchTypeOfScheduleDescription
+            };
+
+            return View(model);
         }
 
         // GET: TypeOfSchedules/Details/5
@@ -50,8 +77,6 @@ namespace ReserveSystem.Controllers
         }
 
         // POST: TypeOfSchedules/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("TypeOfScheduleId,TypeOfScheduleName,TypeOfScheduleDescription")] TypeOfSchedule typeOfSchedule)
@@ -82,8 +107,6 @@ namespace ReserveSystem.Controllers
         }
 
         // POST: TypeOfSchedules/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("TypeOfScheduleId,TypeOfScheduleName,TypeOfScheduleDescription")] TypeOfSchedule typeOfSchedule)

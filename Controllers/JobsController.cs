@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
@@ -20,9 +15,37 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Jobs
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1, string searchJobName = "", string searchJobDescription = "")
         {
-            return View(await _context.Job.ToListAsync());
+            var jobs = from j in _context.Job select j;
+
+            if (!string.IsNullOrEmpty(searchJobName))
+            {
+                jobs = jobs.Where(j => j.JobName.Contains(searchJobName));
+            }
+
+            if (!string.IsNullOrEmpty(searchJobDescription))
+            {
+                jobs = jobs.Where(j => j.JobDescription.Contains(searchJobDescription));
+            }
+
+            var model = new JobsViewModel
+            {
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    TotalItems = await jobs.CountAsync()
+                },
+                Jobs = await jobs
+                    .OrderBy(j => j.JobName)
+                    .Skip((page - 1) * 10) // Paginação (10 jobs por página)
+                    .Take(10)
+                    .ToListAsync(),
+                SearchJobName = searchJobName,
+                SearchJobDescription = searchJobDescription
+            };
+
+            return View(model);
         }
 
         // GET: Jobs/Details/5
@@ -35,6 +58,7 @@ namespace ReserveSystem.Controllers
 
             var job = await _context.Job
                 .FirstOrDefaultAsync(m => m.JobId == id);
+
             if (job == null)
             {
                 return NotFound();
@@ -50,8 +74,6 @@ namespace ReserveSystem.Controllers
         }
 
         // POST: Jobs/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("JobId,JobName,JobDescription")] Job job)
@@ -82,8 +104,6 @@ namespace ReserveSystem.Controllers
         }
 
         // POST: Jobs/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("JobId,JobName,JobDescription")] Job job)
