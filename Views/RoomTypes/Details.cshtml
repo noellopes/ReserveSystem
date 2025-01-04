@@ -1,0 +1,61 @@
+﻿@model ReserveSystem.Models.RoomType
+
+@{
+    ViewData["Title"] = "Room Type Details";
+}
+
+<h1>Room Type Details</h1>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="border rounded shadow-sm">
+                <div class="card-header bg-light text-dark text-center">
+                    <h3 class="mb-0"><i class="bi bi-info-circle"></i> Room Type Details</h3>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-center">
+                        <dl class="row w-100">
+                            <dt class="col-sm-4 text-muted">
+                                <i class="bi bi-eye"></i> @Html.DisplayNameFor(model => model.HasView)
+                            </dt>
+                            <dd class="col-sm-8 text-dark fw-bold">
+                                @Html.DisplayFor(model => model.HasView)
+                            </dd>
+
+                            <dt class="col-sm-4 text-muted">
+                                <i class="bi bi-house-door"></i> @Html.DisplayNameFor(model => model.Type)
+                            </dt>
+                            <dd class="col-sm-8 text-dark fw-bold">
+                                @Html.DisplayFor(model => model.Type)
+                            </dd>
+
+                            <dt class="col-sm-4 text-muted">
+                                <i class="bi bi-people"></i> @Html.DisplayNameFor(model => model.RoomCapacity)
+                            </dt>
+                            <dd class="col-sm-8 text-dark fw-bold">
+                                @Html.DisplayFor(model => model.RoomCapacity)
+                            </dd>
+
+                            <dt class="col-sm-4 text-muted">
+                                <i class="bi bi-wheelchair"></i> @Html.DisplayNameFor(model => model.AcessibilityRoom)
+                            </dt>
+                            <dd class="col-sm-8 text-dark fw-bold">
+                                @Html.DisplayFor(model => model.AcessibilityRoom)
+                            </dd>
+                        </dl>
+                    </div>
+
+                    <div class="d-flex justify-content-between m-3">
+                        <a href="@Url.Action("Index")" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left-circle"></i> Back to List
+                        </a>
+                        <a href="@Url.Action("Edit", new { id = Model.RoomTypeId })" class="btn btn-primary">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

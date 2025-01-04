@@ -1,0 +1,79 @@
+﻿@model IEnumerable<ReserveSystem.Models.RoomType>
+
+@{
+    ViewData["Title"] = "Room Type List";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+        <i class="bi bi-check-circle"></i> @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+        <i class="bi bi-exclamation-circle"></i> @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<p>
+    <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add Room Type</a>
+</p>
+
+<form method="get" action="@Url.Action("Index")">
+    <div class="input-group mb-3">
+        <input type="text" name="searchQuery" class="form-control"
+               placeholder="Search by Type or Capacity"
+               value="@ViewData["SearchQuery"]" />
+        <button class="btn btn-primary" type="submit">Search</button>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead class="fs-2">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.First().HasView)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().RoomCapacity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().AcessibilityRoom)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HasView)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoomCapacity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AcessibilityRoom)
+                </td>
+                <td class="d-flex justify-content-end">
+                    <a asp-action="Edit" asp-route-id="@item.RoomTypeId" class="btn btn-primary ms-2">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.RoomTypeId" class="btn btn-secondary ms-2">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.RoomTypeId" class="btn btn-danger ms-2">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
