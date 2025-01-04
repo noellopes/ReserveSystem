@@ -92,6 +92,7 @@ input.form-control {
 .btn-primary {
     background-color: #007bff;
     color: #ffffff;
+    margin: 1px;
 }
 
     .btn-primary:hover {

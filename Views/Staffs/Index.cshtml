@@ -7,95 +7,29 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffEmail)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffPhone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffDriversLicense)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffDriversLicenseExpiringDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffDateOfBirth)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffPassword)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartFunctionsDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndFunctionsDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DaysOfVacationCount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.job)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.StaffName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StaffEmail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StaffPhone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StaffDriversLicense)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StaffDriversLicenseExpiringDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StaffDateOfBirth)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StaffPassword)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartFunctionsDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndFunctionsDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DaysOfVacationCount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.job.JobDescription)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.StaffId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.StaffId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.StaffId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="card-container" style="display: flex; flex-wrap: wrap; gap: 20px;">
+    @foreach (var item in Model)
+    {
+        <div class="card" style="width: 300px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); padding: 15px;">
+            <h4 style="margin-top: 0; color: #333;">@item.StaffName</h4>
+            <p><strong>Email:</strong> @item.StaffEmail</p>
+            <p><strong>Phone:</strong> @item.StaffPhone</p>
+            <p><strong>Driver's License:</strong> @item.StaffDriversLicense</p>
+            <p><strong>License Expiry:</strong> @item.StaffDriversLicenseExpiringDate.ToShortDateString()</p>
+            <p><strong>Date of Birth:</strong> @item.StaffDateOfBirth.ToShortDateString()</p>
+            <p><strong>Start Date:</strong> @item.StartFunctionsDate.ToShortDateString()</p>
+            <p><strong>End Date:</strong> @item.EndFunctionsDate.ToShortDateString()</p>
+            <p><strong>Vacation Days:</strong> @item.DaysOfVacationCount</p>
+            <p><strong>Status:</strong> @(item.IsActive ? "Active" : "Inactive")</p>
+            <p><strong>Job:</strong> @item.job?.JobDescription</p>
+            <div style="margin-top: 10px;">
+                <a asp-action="Edit" asp-route-id="@item.StaffId" class="btn btn-sm btn-warning" style="margin-right: 5px;">Edit</a>
+                <a asp-action="Details" asp-route-id="@item.StaffId" class="btn btn-sm btn-info" style="margin-right: 5px;">Details</a>
+                <a asp-action="Delete" asp-route-id="@item.StaffId" class="btn btn-sm btn-danger">Delete</a>
+            </div>
+        </div>
+    }
+</div>
