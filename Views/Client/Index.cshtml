@@ -28,6 +28,10 @@
                placeholder="Search by Email or Identification"
                value="@ViewData["SearchQuery"]" />
         <button class="btn btn-primary" type="submit">Search</button>
+        @if (!string.IsNullOrWhiteSpace(ViewData["SearchQuery"] as string))
+        {
+            <a href="@Url.Action("Index")" class="btn btn-secondary ms-0">Clear</a>
+        }
     </div>
 </form>
 <table class="table table-striped">

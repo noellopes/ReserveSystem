@@ -32,6 +32,7 @@ namespace ReserveSystem.Controllers
                     c.Email.Contains(searchQuery) ||
                     c.NIF.Contains(searchQuery));
             }
+            ViewData["SearchQuery"] = searchQuery;
             var clientList = await clients.ToListAsync();
 
             var bookmodel = new ClientViewModel();
@@ -148,7 +149,10 @@ namespace ReserveSystem.Controllers
             
             if (id == null)
             {
-                return NotFound();
+                ViewBag.Entity = "Client";
+                ViewBag.Controller = "Client";
+                ViewBag.Action = "Index";
+                return View("EntityNoLongerExists");
             }
 
             var client = await _context.Client.FindAsync(id);
@@ -192,6 +196,7 @@ namespace ReserveSystem.Controllers
                     existingClient.Address = clientModel.Address;
                     existingClient.Email = clientModel.Email;
                     existingClient.NIF = clientModel.NIF;
+                    existingClient.IdentificationType = clientModel.IdentificationType;
                     existingClient.Login = clientModel.Login;
                     existingClient.Status = clientModel.Status;
 
