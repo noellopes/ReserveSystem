@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ReserveSystem.Data;
+using ReserveSystem.Data.Migrations;
 using ReserveSystem.Models;
 
 namespace ReserveSystem.Controllers

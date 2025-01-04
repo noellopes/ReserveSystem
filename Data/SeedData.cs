@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using ReserveSystem.Data.Migrations;
 using ReserveSystem.Models;
 using System;
 using System.Linq;

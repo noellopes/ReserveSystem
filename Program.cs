@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
+using ReserveSystem.Data.Migrations;
+using ReserveSystem.Data.UserMigrations;
 using System.Runtime.InteropServices;
 
 var builder = WebApplication.CreateBuilder(args);

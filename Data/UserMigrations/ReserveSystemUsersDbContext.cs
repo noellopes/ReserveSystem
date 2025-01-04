@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace ReserveSystem.Data
+namespace ReserveSystem.Data.UserMigrations
 {
     public class ReserveSystemUsersDbContext : IdentityDbContext
     {
