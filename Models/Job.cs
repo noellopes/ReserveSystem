@@ -14,6 +14,6 @@ namespace ReserveSystem.Models
         [StringLength(500, ErrorMessage = "JobDescription must be 500 chars max.")]
         public required string JobDescription { get; set; }
 
-        public ICollection<Staff> staffMembers { get; set; }
+        public ICollection<Staff> ? staffMembers { get; set; }
     }
 }
