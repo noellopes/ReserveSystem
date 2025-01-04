@@ -7,35 +7,22 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.JobName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.JobDescription)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.JobName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.JobDescription)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.JobId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.JobId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.JobId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.JobName)</h5>
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.JobDescription)</p>
+                    <a href="@Url.Action("Edit", "Job", new { id = item.JobId })" class="btn btn-warning">Edit</a>
+                    <a href="@Url.Action("Details", "Job", new { id = item.JobId })" class="btn btn-info">Details</a>
+                    <a href="@Url.Action("Delete", "Job", new { id = item.JobId })" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
