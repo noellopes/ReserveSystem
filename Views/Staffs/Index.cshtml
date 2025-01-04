@@ -1,35 +1,96 @@
-﻿@model IEnumerable<ReserveSystem.Models.Staff>
+﻿@model ReserveSystem.Models.StaffViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Staff Index";
 }
 
-<h1>Index</h1>
+<h1>Staff Index</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Create New</a>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
+    <!-- Botão para abrir o form de pesquisa -->
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#searchModal">
+        Search
+    </button>
 </p>
 
-<div class="card-container" style="display: flex; flex-wrap: wrap; gap: 20px;">
-    @foreach (var item in Model)
-    {
-        <div class="card" style="width: 300px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); padding: 15px;">
-            <h4 style="margin-top: 0; color: #333;">@item.StaffName</h4>
-            <p><strong>Email:</strong> @item.StaffEmail</p>
-            <p><strong>Phone:</strong> @item.StaffPhone</p>
-            <p><strong>Driver's License:</strong> @item.StaffDriversLicense</p>
-            <p><strong>License Expiry:</strong> @item.StaffDriversLicenseExpiringDate.ToShortDateString()</p>
-            <p><strong>Date of Birth:</strong> @item.StaffDateOfBirth.ToShortDateString()</p>
-            <p><strong>Start Date:</strong> @item.StartFunctionsDate.ToShortDateString()</p>
-            <p><strong>End Date:</strong> @item.EndFunctionsDate.ToShortDateString()</p>
-            <p><strong>Vacation Days:</strong> @item.DaysOfVacationCount</p>
-            <p><strong>Status:</strong> @(item.IsActive ? "Active" : "Inactive")</p>
-            <p><strong>Job:</strong> @item.job?.JobDescription</p>
-            <div style="margin-top: 10px;">
-                <a asp-action="Edit" asp-route-id="@item.StaffId" class="btn btn-sm btn-warning" style="margin-right: 5px;">Edit</a>
-                <a asp-action="Details" asp-route-id="@item.StaffId" class="btn btn-sm btn-info" style="margin-right: 5px;">Details</a>
-                <a asp-action="Delete" asp-route-id="@item.StaffId" class="btn btn-sm btn-danger">Delete</a>
+<!-- form de Pesquisa -->
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="searchModalLabel">Search by Staff Name</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <form asp-action="Index" method="get">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="searchName" class="control-label">Staff Name</label>
+                        <input type="text" class="form-control" name="searchName" value="@Model.SearchName" placeholder="Enter Staff Name" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
         </div>
+    </div>
+</div>
+
+<div class="card-container" style="display: flex; flex-wrap: wrap; gap: 20px;">
+    @foreach (var item in Model.Staffs)
+    {
+            <div class="card" style="width: 300px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); padding: 15px;">
+                <h4 style="margin-top: 0; color: #333;">@item.StaffName</h4>
+                <p><strong>Email:</strong> @item.StaffEmail</p>
+                <p><strong>Phone:</strong> @item.StaffPhone</p>
+                <p><strong>Driver's License:</strong> @item.StaffDriversLicense</p>
+                <p><strong>License Expiry:</strong> @item.StaffDriversLicenseExpiringDate.ToShortDateString()</p>
+                <p><strong>Date of Birth:</strong> @item.StaffDateOfBirth.ToShortDateString()</p>
+                <p><strong>Start Date:</strong> @item.StartFunctionsDate.ToShortDateString()</p>
+                <p><strong>End Date:</strong> @item.EndFunctionsDate.ToShortDateString()</p>
+                <p><strong>Vacation Days:</strong> @item.DaysOfVacationCount</p>
+                <p><strong>Status:</strong> @(item.IsActive ? "Active" : "Inactive")</p>
+                <p><strong>Job:</strong> @item.job?.JobDescription</p>
+                <div style="margin-top: 10px;">
+                    <a asp-action="Edit" asp-route-id="@item.StaffId" class="btn btn-sm btn-warning" style="margin-right: 5px;">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.StaffId" class="btn btn-sm btn-info" style="margin-right: 5px;">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.StaffId" class="btn btn-sm btn-danger">Delete</a>
+                </div>
+            </div>
     }
 </div>
+
+<!-- Paginação -->
+<nav aria-label="Staff Pagination">
+    <ul class="pagination">
+        <!-- First Page Button -->
+        <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+            <a class="page-link" href="@Url.Action("Index", "Staffs", new { page = 1, searchName = Model.SearchName })">First</a>
+        </li>
+
+        <!-- Previous Page Button -->
+        <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+            <a class="page-link" href="@Url.Action("Index", "Staffs", new { page = Model.CurrentPage - 1, searchName = Model.SearchName })">Previous</a>
+        </li>
+
+        <!-- Page Number Buttons -->
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+                <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("Index", "Staffs", new { page = i, searchName = Model.SearchName })">@i</a>
+                </li>
+        }
+
+        <!-- Next Page Button -->
+        <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+            <a class="page-link" href="@Url.Action("Index", "Staffs", new { page = Model.CurrentPage + 1, searchName = Model.SearchName })">Next</a>
+        </li>
+
+        <!-- Last Page Button -->
+        <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+            <a class="page-link" href="@Url.Action("Index", "Staffs", new { page = Model.TotalPages, searchName = Model.SearchName })">Last</a>
+        </li>
+    </ul>
+</nav>

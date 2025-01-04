@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -20,10 +19,35 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Staffs
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchName, int page = 1)
         {
-            var reserveSystemContext = _context.Staff.Include(s => s.job);
-            return View(await reserveSystemContext.ToListAsync());
+            var pageSize = 10; // Número de itens por página
+            var staffQuery = _context.Staff.Include(s => s.job).AsQueryable();
+
+            // Filtra pelo nome do staff se o parâmetro searchName for fornecido
+            if (!string.IsNullOrEmpty(searchName))
+            {
+                staffQuery = staffQuery.Where(s => s.StaffName.Contains(searchName));
+            }
+
+            var totalItems = await staffQuery.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            // Pega os itens da página atual
+            var staffList = await staffQuery
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var viewModel = new StaffViewModel
+            {
+                Staffs = staffList,
+                SearchName = searchName,
+                CurrentPage = page,
+                TotalPages = totalPages
+            };
+
+            return View(viewModel);
         }
 
         // GET: Staffs/Details/5
@@ -53,8 +77,6 @@ namespace ReserveSystem.Controllers
         }
 
         // POST: Staffs/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("StaffId,StaffName,StaffEmail,StaffPhone,StaffDriversLicense,StaffDriversLicenseExpiringDate,StaffDateOfBirth,StaffPassword,StartFunctionsDate,EndFunctionsDate,DaysOfVacationCount,IsActive,JobId")] Staff staff)
@@ -87,8 +109,6 @@ namespace ReserveSystem.Controllers
         }
 
         // POST: Staffs/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("StaffId,StaffName,StaffEmail,StaffPhone,StaffDriversLicense,StaffDriversLicenseExpiringDate,StaffDateOfBirth,StaffPassword,StartFunctionsDate,EndFunctionsDate,DaysOfVacationCount,IsActive,JobId")] Staff staff)

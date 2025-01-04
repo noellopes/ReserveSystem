@@ -20,10 +20,39 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Schedules
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1, string searchName = null)
         {
-            var reserveSystemContext = _context.Schedules.Include(s => s.staff).Include(s => s.typeOfSchedule);
-            return View(await reserveSystemContext.ToListAsync());
+            int pageSize = 3;
+
+            // Filtrar os agendamentos com base no nome do staff (se fornecido)
+            var query = _context.Schedules
+                .Include(s => s.staff)
+                .Include(s => s.typeOfSchedule)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchName))
+            {
+                query = query.Where(s => s.staff.StaffName.Contains(searchName));
+            }
+
+            var totalSchedules = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalSchedules / (double)pageSize);
+
+            var schedules = await query
+                .OrderBy(s => s.StartShiftTime)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var viewModel = new SchedulesViewModel
+            {
+                Schedules = schedules,
+                CurrentPage = page,
+                TotalPages = totalPages,
+                SearchName = searchName
+            };
+
+            return View(viewModel);
         }
 
         // GET: Schedules/Details/5
@@ -55,8 +84,6 @@ namespace ReserveSystem.Controllers
         }
 
         // POST: Schedules/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("SchedulesId,StartShiftTime,EndShiftTime,isPrecense,isAvailable,StaffId,TypeOfScheduleId")] Schedules schedules)
@@ -91,8 +118,6 @@ namespace ReserveSystem.Controllers
         }
 
         // POST: Schedules/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("SchedulesId,StartShiftTime,EndShiftTime,isPrecense,isAvailable,StaffId,TypeOfScheduleId")] Schedules schedules)
