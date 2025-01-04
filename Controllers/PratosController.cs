@@ -54,8 +54,9 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdPrato,PratoNome,Preco,Descricao")] Prato prato)
+        public async Task<IActionResult> Create([Bind("IdPrato,PratoNome,Dia,Preco,Descricao")] Prato prato)
         {
+            
             if (ModelState.IsValid)
             {
                 _context.Add(prato);
@@ -86,7 +87,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdPrato,PratoNome,Preco,Descricao")] Prato prato)
+        public async Task<IActionResult> Edit(int id, [Bind("IdPrato,PratoNome,Dia,Preco,Descricao")] Prato prato)
         {
             if (id != prato.IdPrato)
             {

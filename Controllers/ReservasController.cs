@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -54,12 +55,29 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Reservas/Create
-        public IActionResult Create()
+        public IActionResult Create(DateTime? DataHora)
         {
-            ViewData["IdCliente"] = new SelectList(_context.Cliente?.ToList() ?? new List<Cliente>(), "IdCliente", "NomeCliente");
-            ViewData["IdPrato"] = new SelectList(_context.Prato?.ToList() ?? new List<Prato>(), "IdPrato", "PratoNome");
+            // Obtém o dia atual da semana
+            var data = DataHora ?? DateTime.Now;
+            var diaReserva = data.DayOfWeek;
 
+
+            var pratosDoDia = _context.Prato
+                .Where(p => p.Dia == diaReserva) // Apenas pratos disponíveis no dia selecionado
+                .ToList();
             
+
+            // Por na ViewBag apenas os pratos filtrados
+            
+            ViewBag.IdPrato = new SelectList(pratosDoDia, "IdPrato", "PratoNome");
+            ViewBag.IdCliente = new SelectList(_context.Cliente, "IdCliente", "NomeCliente");
+
+           
+
+
+           
+            
+
             return View();
         }
 
@@ -69,8 +87,21 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]//REFACTORED
-        public async Task<IActionResult> Create([Bind("IdReserva,IdCliente,NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva)
+        public async Task<IActionResult> Create([Bind("IdReserva,IdCliente,NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva, DateTime? Dia)
         {
+
+            if(Dia.HasValue)
+    {
+                // Atualiza os pratos conforme o dia selecionado
+                var diaReserva = Dia.Value.DayOfWeek;
+
+                var pratosDoDia = _context.Prato
+                    .Where(p => p.Dia == diaReserva)
+                    .ToList();
+
+                ViewBag.IdPrato = new SelectList(pratosDoDia, "IdPrato", "PratoNome");
+                ViewBag.SelectedDate = Dia.Value;
+            }
             if (!_context.Mesa.Any())
             {
                 ModelState.AddModelError("", "Não existem mesas disponíveis no momento.");
@@ -105,9 +136,17 @@ namespace ReserveSystem.Controllers
 
             if (ModelState.IsValid)
             {
-                _context.Add(reserva);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Add(reserva);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Erro ao salvar reserva: {ex.Message}");
+                    ModelState.AddModelError("", "Ocorreu um erro ao salvar a reserva.");
+                }
             }
 
             ViewData["IdCliente"] = new SelectList(_context.Cliente, "IdCliente", "NomeCliente", reserva.IdCliente);
@@ -181,7 +220,7 @@ namespace ReserveSystem.Controllers
                     return View(reserva);
                 }
 
-                
+
                 return RedirectToAction(nameof(Index));
             }
 

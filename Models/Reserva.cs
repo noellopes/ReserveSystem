@@ -18,7 +18,6 @@ namespace ReserveSystem.Models
         public int? IdMesa { get; set; }
         public int NumeroPessoas { get; set; }
 
-        
         public DateTime DataHora { get; set; }
 
         public string? Observacao { get; set; }
