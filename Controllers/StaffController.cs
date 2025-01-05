@@ -10,22 +10,22 @@ using ReserveSystem.Models;
 
 namespace ReserveSystem.Controllers
 {
-    public class JobTestController : Controller
+    public class StaffController : Controller
     {
         private readonly ReserveSystemContext _context;
 
-        public JobTestController(ReserveSystemContext context)
+        public StaffController(ReserveSystemContext context)
         {
             _context = context;
         }
 
-        // GET: JobTestModels
+        // GET: Staff
         public async Task<IActionResult> Index()
         {
-            return View(await _context.JobTestModel.ToListAsync());
+            return View(await _context.StaffModel.ToListAsync());
         }
 
-        // GET: JobTestModels/Details/5
+        // GET: Staff/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var jobTestModel = await _context.JobTestModel
-                .FirstOrDefaultAsync(m => m.Job_ID == id);
-            if (jobTestModel == null)
+            var staffModel = await _context.StaffModel
+                .FirstOrDefaultAsync(m => m.StaffId == id);
+            if (staffModel == null)
             {
                 return NotFound();
             }
 
-            return View(jobTestModel);
+            return View(staffModel);
         }
 
-        // GET: JobTestModels/Create
+        // GET: Staff/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: JobTestModels/Create
+        // POST: Staff/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Job_ID,Job_Name,Job_Description")] JobTestModel jobTestModel)
+        public async Task<IActionResult> Create([Bind("StaffId,Staff_Name,Job_Name")] StaffModel staffModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(jobTestModel);
+                _context.Add(staffModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(jobTestModel);
+            return View(staffModel);
         }
 
-        // GET: JobTestModels/Edit/5
+        // GET: Staff/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var jobTestModel = await _context.JobTestModel.FindAsync(id);
-            if (jobTestModel == null)
+            var staffModel = await _context.StaffModel.FindAsync(id);
+            if (staffModel == null)
             {
                 return NotFound();
             }
-            return View(jobTestModel);
+            return View(staffModel);
         }
 
-        // POST: JobTestModels/Edit/5
+        // POST: Staff/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Job_ID,Job_Name,Job_Description")] JobTestModel jobTestModel)
+        public async Task<IActionResult> Edit(int id, [Bind("StaffId,Staff_Name,Job_Name")] StaffModel staffModel)
         {
-            if (id != jobTestModel.Job_ID)
+            if (id != staffModel.StaffId)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace ReserveSystem.Controllers
             {
                 try
                 {
-                    _context.Update(jobTestModel);
+                    _context.Update(staffModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!JobTestModelExists(jobTestModel.Job_ID))
+                    if (!StaffModelExists(staffModel.StaffId))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace ReserveSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(jobTestModel);
+            return View(staffModel);
         }
 
-        // GET: JobTestModels/Delete/5
+        // GET: Staff/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,34 +124,34 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var jobTestModel = await _context.JobTestModel
-                .FirstOrDefaultAsync(m => m.Job_ID == id);
-            if (jobTestModel == null)
+            var staffModel = await _context.StaffModel
+                .FirstOrDefaultAsync(m => m.StaffId == id);
+            if (staffModel == null)
             {
                 return NotFound();
             }
 
-            return View(jobTestModel);
+            return View(staffModel);
         }
 
-        // POST: JobTestModels/Delete/5
+        // POST: Staff/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var jobTestModel = await _context.JobTestModel.FindAsync(id);
-            if (jobTestModel != null)
+            var staffModel = await _context.StaffModel.FindAsync(id);
+            if (staffModel != null)
             {
-                _context.JobTestModel.Remove(jobTestModel);
+                _context.StaffModel.Remove(staffModel);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool JobTestModelExists(int id)
+        private bool StaffModelExists(int id)
         {
-            return _context.JobTestModel.Any(e => e.Job_ID == id);
+            return _context.StaffModel.Any(e => e.StaffId == id);
         }
     }
 }

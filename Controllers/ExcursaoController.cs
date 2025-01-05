@@ -22,7 +22,10 @@ namespace ReserveSystem.Controllers
         // GET: Excursao
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ExcursaoModel.ToListAsync());
+            var excursao = from e in _context.ExcursaoModel
+						   .Include(e => e.Staff)
+						   select e;
+			return View(excursao);
         }
 
         // GET: Excursao/Details/5
@@ -46,7 +49,8 @@ namespace ReserveSystem.Controllers
         // GET: Excursao/Create
         public IActionResult Create()
         {
-            return View();
+            ViewData["StaffId"] = new SelectList(_context.StaffModel, "StaffId", "Staff_Name");
+			return View();
         }
 
         // POST: Excursao/Create
@@ -54,7 +58,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Excursao_Id,Titulo,Descricao,Data_Inicio,Data_Fim,Preco,Staff_Id")] ExcursaoModel excursaoModel)
+        public async Task<IActionResult> Create([Bind("Excursao_Id,Titulo,Descricao,Data_Inicio,Data_Fim,Preco,StaffId")] ExcursaoModel excursaoModel)
         {
             if (ModelState.IsValid)
             {
@@ -62,7 +66,9 @@ namespace ReserveSystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(excursaoModel);
+			ViewData["StaffId"] = new SelectList(_context.StaffModel, "StaffId", "Staff_Name");
+
+			return View(excursaoModel);
         }
 
         // GET: Excursao/Edit/5

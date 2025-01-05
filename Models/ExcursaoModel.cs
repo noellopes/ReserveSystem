@@ -26,7 +26,9 @@ namespace ReserveSystem.Models
 		public float Preco {  get; set;}
 		[Required, Display(Name = "Staff ID")]
 		[Column(TypeName = "INTEGER")]
-		public int Staff_Id { get; set; }
+		public int StaffId { get; set; }
+
+		public virtual StaffModel? Staff { get; set; }
 
 		//public StaffTestModel? Staff { get; set; }
 
