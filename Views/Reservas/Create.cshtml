@@ -56,6 +56,13 @@
                 <input type="submit" value="Create" class="btn btn-success" />
             </div>
             <span asp-validation-for="IdMesa" class="text-danger"></span>
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
+            
         </form>
     </div>
 </div>

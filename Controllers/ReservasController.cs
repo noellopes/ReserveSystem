@@ -89,19 +89,6 @@ namespace ReserveSystem.Controllers
         [ValidateAntiForgeryToken]//REFACTORED
         public async Task<IActionResult> Create([Bind("IdReserva,IdCliente,NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva, DateTime? Dia)
         {
-
-            if(Dia.HasValue)
-    {
-                // Atualiza os pratos conforme o dia selecionado
-                var diaReserva = Dia.Value.DayOfWeek;
-
-                var pratosDoDia = _context.Prato
-                    .Where(p => p.Dia == diaReserva)
-                    .ToList();
-
-                ViewBag.IdPrato = new SelectList(pratosDoDia, "IdPrato", "PratoNome");
-                ViewBag.SelectedDate = Dia.Value;
-            }
             if (!_context.Mesa.Any())
             {
                 ModelState.AddModelError("", "Não existem mesas disponíveis no momento.");
@@ -116,31 +103,63 @@ namespace ReserveSystem.Controllers
                 }
                 else
                 {
+                   
                     int? idMesa = _context.Mesa
                         .Where(t => t.NumeroLugares >= reserva.NumeroPessoas)
+                        .Where(t => t.Reservado != true) 
                         .OrderBy(t => t.NumeroLugares)
-                        .Select(t => t.IdMesa)
+                        .Select(t => t.IdMesa) 
                         .FirstOrDefault();
+                   
 
                     if (idMesa != null)
                     {
-                        reserva.IdMesa = idMesa.Value;
-                        reserva.NumeroMesa = idMesa.Value; // Definir o valor de NumeroMesa
+                        
+                        var mesaSelecionada = _context.Mesa.FirstOrDefault(t => t.IdMesa == idMesa.Value);
+
+                        if (mesaSelecionada == null)
+                        {  
+                            ModelState.AddModelError("IdMesa", "Nenhuma mesa se encontra disponivel de momento por favor tente noutro horário.");
+                        }
+                        else
+                        {
+                            reserva.IdMesa = mesaSelecionada.IdMesa;
+                            reserva.NumeroMesa = mesaSelecionada.IdMesa;
+
+                            mesaSelecionada.Reservado = true;
+                            _context.Update(mesaSelecionada); 
+                        }
                     }
                     else
                     {
-                        ModelState.AddModelError("IdMesa", "Nenhuma mesa disponível suporta o número de pessoas especificado.");
+                        ModelState.AddModelError("", "Nenhuma mesa disponível suporta o número de pessoas especificado. Por favor, tente em outro horário.");
                     }
-                }//Funciona mas não entedo o porquê (O NumeroMesa não faz literalmente nada, mas sem ele isto não funciona ¯\_(ツ)_/¯)
+                }
             }
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    // Marcar mesa como reservada
+                    var mesaReservada = await _context.Mesa.FindAsync(reserva.IdMesa);
+                    if (mesaReservada != null)
+                    {
+                        mesaReservada.Reservado = true; 
+                        _context.Update(mesaReservada); 
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "De momento todas as mesas estão reservadas por favor tente noutro horário");
+                    }
+                
+
+                    // Salva a reserva
                     _context.Add(reserva);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+
+                    TempData["SuccessMessage"] = "Reserva criada com sucesso!";
+
                 }
                 catch (Exception ex)
                 {
@@ -149,6 +168,7 @@ namespace ReserveSystem.Controllers
                 }
             }
 
+            // Atualiza as ViewBags caso algo dê errado
             ViewData["IdCliente"] = new SelectList(_context.Cliente, "IdCliente", "NomeCliente", reserva.IdCliente);
             ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome", reserva.IdPrato);
             return View(reserva);
