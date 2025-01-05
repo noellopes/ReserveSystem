@@ -44,8 +44,8 @@
                 </div>
 
                 <div class="mb-3">
-                    <label asp-for="StaffId" class="form-label"></label>
-                    <input asp-for="StaffId" class="form-control" />
+                    <label class="form-label"> Staff Name</label>
+                    <select asp-for="StaffId" class="form-control" asp-items="ViewBag.StaffId"></select>
                     <span asp-validation-for="StaffId" class="text-danger"></span>
                 </div>
 

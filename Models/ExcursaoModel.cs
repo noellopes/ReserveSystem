@@ -30,7 +30,7 @@ namespace ReserveSystem.Models
 
 		public virtual StaffModel? Staff { get; set; }
 
-		//public StaffTestModel? Staff { get; set; }
+		
 
 	}
 

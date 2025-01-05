@@ -18,7 +18,7 @@ namespace ReserveSystem.Models
 		public virtual ICollection<ExcursaoModel>? Excursao { get; set; }
 
 
-		//public JobTestModel? JobTest { get; set; }
+		
 
 	}
 }

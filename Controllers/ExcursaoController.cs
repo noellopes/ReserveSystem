@@ -36,9 +36,10 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var excursaoModel = await _context.ExcursaoModel
-                .FirstOrDefaultAsync(m => m.Excursao_Id == id);
-            if (excursaoModel == null)
+			var excursaoModel = await _context.ExcursaoModel
+			   .Include(e => e.Staff)
+			   .FirstOrDefaultAsync(m => m.StaffId == id);
+			if (excursaoModel == null)
             {
                 return NotFound();
             }
@@ -84,7 +85,9 @@ namespace ReserveSystem.Controllers
             {
                 return NotFound();
             }
-            return View(excursaoModel);
+			ViewData["StaffId"] = new SelectList(_context.StaffModel, "StaffId", "Staff_Name");
+
+			return View(excursaoModel);
         }
 
         // POST: Excursao/Edit/5
@@ -92,7 +95,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Excursao_Id,Titulo,Descricao,Data_Inicio,Data_Fim,Preco,Staff_Id")] ExcursaoModel excursaoModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Excursao_Id,Titulo,Descricao,Data_Inicio,Data_Fim,Preco,StaffId")] ExcursaoModel excursaoModel)
         {
             if (id != excursaoModel.Excursao_Id)
             {
@@ -130,9 +133,10 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var excursaoModel = await _context.ExcursaoModel
-                .FirstOrDefaultAsync(m => m.Excursao_Id == id);
-            if (excursaoModel == null)
+			var excursaoModel = await _context.ExcursaoModel
+			   .Include(e => e.Staff)
+			   .FirstOrDefaultAsync(m => m.StaffId == id);
+			if (excursaoModel == null)
             {
                 return NotFound();
             }
@@ -145,6 +149,8 @@ namespace ReserveSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            
+
             var excursaoModel = await _context.ExcursaoModel.FindAsync(id);
             if (excursaoModel != null)
             {
