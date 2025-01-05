@@ -12,6 +12,8 @@ namespace ReserveSystem.Models
 
         public int Preco { get; set; }
 
+        public DayOfWeek Dia { get; set; }
+
         public string? Descricao { get; set; }
 
         public ICollection<Reserva>? Reservas { get; set; }
