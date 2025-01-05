@@ -1,0 +1,17 @@
+﻿@model ReserveSystem.Models.Job
+
+@{
+    ViewData["Title"] = "Job Registration Complete";
+}
+
+<h1>Job Registration Complete</h1>
+
+<h4>Job Details</h4>
+<hr />
+
+<div>
+    <div><strong>Job Name:</strong> @Model.JobName</div>
+    <div><strong>Job Description:</strong> @Model.JobDescription</div>
+</div>
+
+<a asp-action="Index">Back to List</a>

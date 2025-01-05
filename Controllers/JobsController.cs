@@ -82,11 +82,24 @@ namespace ReserveSystem.Controllers
             {
                 _context.Add(job);
                 await _context.SaveChangesAsync();
-                // Redireciona para a página "Registration Complete"
-                return RedirectToAction("RegistrationComplete", "Shared", new { entityName = "Job", entityController = "Jobs" });
+
+                // Redirecionar para a página de confirmação de registo
+                return RedirectToAction("RegistrationComplete", "Jobs", new { jobId = job.JobId });
             }
             return View(job);
         }
+
+        public async Task<IActionResult> RegistrationComplete(int jobId)
+        {
+            var job = await _context.Job.FirstOrDefaultAsync(j => j.JobId == jobId);
+            if (job == null)
+            {
+                return NotFound();
+            }
+
+            return View(job);
+        }
+
 
         // GET: Jobs/Edit/5
         public async Task<IActionResult> Edit(int? id)
