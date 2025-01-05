@@ -38,7 +38,7 @@ namespace ReserveSystem.Controllers
 
 			var excursaoModel = await _context.ExcursaoModel
 			   .Include(e => e.Staff)
-			   .FirstOrDefaultAsync(m => m.StaffId == id);
+			   .FirstOrDefaultAsync(m => m.ExcursaoId == id);
 			if (excursaoModel == null)
             {
                 return NotFound();
@@ -156,7 +156,7 @@ namespace ReserveSystem.Controllers
 
 			var excursaoModel = await _context.ExcursaoModel
 			   .Include(e => e.Staff)
-			   .FirstOrDefaultAsync(m => m.StaffId == id);
+			   .FirstOrDefaultAsync(m => m.ExcursaoId == id);
 			if (excursaoModel == null)
             {
                 return NotFound();
