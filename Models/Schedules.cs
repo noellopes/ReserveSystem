@@ -1,9 +1,11 @@
 ﻿using ReserveSystem.Models;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 [ShiftTimeValidation]
 public class Schedules
 {
+    [Key]
     public int SchedulesId { get; set; }
 
     [Required(ErrorMessage = "StartShiftTime is required.")]

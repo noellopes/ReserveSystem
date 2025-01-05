@@ -97,7 +97,7 @@ namespace ReserveSystem.Data.Migrations
                         column: x => x.JobId,
                         principalTable: "Job",
                         principalColumn: "JobId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -167,13 +167,13 @@ namespace ReserveSystem.Data.Migrations
                         column: x => x.StaffId,
                         principalTable: "Staff",
                         principalColumn: "StaffId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Schedules_TypeOfSchedule_TypeOfScheduleId",
                         column: x => x.TypeOfScheduleId,
                         principalTable: "TypeOfSchedule",
                         principalColumn: "TypeOfScheduleId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(

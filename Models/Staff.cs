@@ -4,6 +4,7 @@ namespace ReserveSystem.Models
 {
     public class Staff
     {
+        [Key]
         public int StaffId { get; set; }
 
         [Required(ErrorMessage = "StaffName is required.")]
@@ -54,7 +55,6 @@ namespace ReserveSystem.Models
         public bool IsActive { get; set; }
 
         public int JobId { get; set; }
-
         public Job? job { get; set; }
 
         public ICollection<Schedules>? schedules { get; set; }

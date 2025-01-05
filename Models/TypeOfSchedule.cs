@@ -4,6 +4,7 @@ namespace ReserveSystem.Models
 {
     public class TypeOfSchedule
     {
+        [Key]
         public int TypeOfScheduleId { get; set; }
 
         [Required(ErrorMessage = "TypeOfScheduleName is required.")]

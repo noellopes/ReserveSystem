@@ -4,6 +4,7 @@ namespace ReserveSystem.Models
 {
     public class Job
     {
+        [Key]
         public int JobId { get; set; }
 
         [Required(ErrorMessage = "JobName is required.")]

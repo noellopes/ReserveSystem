@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using ReserveSystem.Data.Migrations;
 
 #nullable disable
 
@@ -328,41 +329,6 @@ namespace ReserveSystem.Data.Migrations
                     b.ToTable("Room_Type");
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.Schedules", b =>
-                {
-                    b.Property<int>("SchedulesId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SchedulesId"));
-
-                    b.Property<TimeSpan>("EndShiftTime")
-                        .HasColumnType("time");
-
-                    b.Property<int>("StaffId")
-                        .HasColumnType("int");
-
-                    b.Property<TimeSpan>("StartShiftTime")
-                        .HasColumnType("time");
-
-                    b.Property<int>("TypeOfScheduleId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("isAvailable")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("isPrecense")
-                        .HasColumnType("bit");
-
-                    b.HasKey("SchedulesId");
-
-                    b.HasIndex("StaffId");
-
-                    b.HasIndex("TypeOfScheduleId");
-
-                    b.ToTable("Schedules");
-                });
-
             modelBuilder.Entity("ReserveSystem.Models.Staff", b =>
                 {
                     b.Property<int>("StaffId")
@@ -443,6 +409,41 @@ namespace ReserveSystem.Data.Migrations
                     b.HasKey("TypeOfScheduleId");
 
                     b.ToTable("TypeOfSchedule");
+                });
+
+            modelBuilder.Entity("Schedules", b =>
+                {
+                    b.Property<int>("SchedulesId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SchedulesId"));
+
+                    b.Property<TimeSpan>("EndShiftTime")
+                        .HasColumnType("time");
+
+                    b.Property<int>("StaffId")
+                        .HasColumnType("int");
+
+                    b.Property<TimeSpan>("StartShiftTime")
+                        .HasColumnType("time");
+
+                    b.Property<int>("TypeOfScheduleId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("isAvailable")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("isPrecense")
+                        .HasColumnType("bit");
+
+                    b.HasKey("SchedulesId");
+
+                    b.HasIndex("StaffId");
+
+                    b.HasIndex("TypeOfScheduleId");
+
+                    b.ToTable("Schedules");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.Booking", b =>
@@ -548,34 +549,34 @@ namespace ReserveSystem.Data.Migrations
                     b.Navigation("room");
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.Schedules", b =>
-                {
-                    b.HasOne("ReserveSystem.Models.Staff", "staff")
-                        .WithMany("schedules")
-                        .HasForeignKey("StaffId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ReserveSystem.Models.TypeOfSchedule", "typeOfSchedule")
-                        .WithMany("schedules")
-                        .HasForeignKey("TypeOfScheduleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("staff");
-
-                    b.Navigation("typeOfSchedule");
-                });
-
             modelBuilder.Entity("ReserveSystem.Models.Staff", b =>
                 {
                     b.HasOne("ReserveSystem.Models.Job", "job")
                         .WithMany("staffMembers")
                         .HasForeignKey("JobId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("job");
+                });
+
+            modelBuilder.Entity("Schedules", b =>
+                {
+                    b.HasOne("ReserveSystem.Models.Staff", "staff")
+                        .WithMany("schedules")
+                        .HasForeignKey("StaffId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ReserveSystem.Models.TypeOfSchedule", "typeOfSchedule")
+                        .WithMany("schedules")
+                        .HasForeignKey("TypeOfScheduleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("staff");
+
+                    b.Navigation("typeOfSchedule");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.Booking", b =>
