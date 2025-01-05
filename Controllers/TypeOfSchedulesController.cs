@@ -79,17 +79,18 @@ namespace ReserveSystem.Controllers
         // POST: TypeOfSchedule/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TypeOfScheduleId,Description")] TypeOfSchedule typeOfSchedule)
+        public async Task<IActionResult> Create([Bind("TypeOfScheduleId,TypeOfScheduleName,TypeOfScheduleDescription")] TypeOfSchedule typeOfSchedule)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(typeOfSchedule);
                 await _context.SaveChangesAsync();
                 // Redireciona para a página "Registration Complete"
-                return RedirectToAction("RegistrationComplete", "Shared", new { entityName = "Type of Schedule", entityController = "TypeOfSchedule" });
+                return RedirectToAction("RegistrationComplete", "Shared", new { entityName = "Type of Schedule", entityController = "TypeOfSchedules" });
             }
             return View(typeOfSchedule);
         }
+
 
 
         // GET: TypeOfSchedules/Edit/5

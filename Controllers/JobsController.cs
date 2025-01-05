@@ -76,7 +76,7 @@ namespace ReserveSystem.Controllers
         // POST: Jobs/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("JobId,JobDescription,Salary")] Job job)
+        public async Task<IActionResult> Create([Bind("JobId,JobName,JobDescription")] Job job)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +87,6 @@ namespace ReserveSystem.Controllers
             }
             return View(job);
         }
-
 
         // GET: Jobs/Edit/5
         public async Task<IActionResult> Edit(int? id)
