@@ -83,7 +83,7 @@ namespace ReserveSystem.Controllers
                 _context.Add(job);
                 await _context.SaveChangesAsync();
 
-                // Redirecionar para a página de confirmação de registo
+                // Redirecionar para a página de confirmação de registo, passando o Id do jov
                 return RedirectToAction("RegistrationComplete", "Jobs", new { jobId = job.JobId });
             }
             return View(job);

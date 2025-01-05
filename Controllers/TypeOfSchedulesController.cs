@@ -86,7 +86,7 @@ namespace ReserveSystem.Controllers
                 _context.Add(typeOfSchedule);
                 await _context.SaveChangesAsync();
 
-                // Redirecionar para a página de confirmação de registro
+                // Redirecionar para a página de confirmação de registo, passando o id do typeofSchedule
                 return RedirectToAction("RegistrationComplete", "TypeOfSchedules", new { typeOfScheduleId = typeOfSchedule.TypeOfScheduleId });
             }
             return View(typeOfSchedule);

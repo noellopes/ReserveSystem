@@ -1,0 +1,26 @@
+﻿@model ReserveSystem.Models.Staff
+
+@{
+    ViewData["Title"] = "Staff Registration Complete";
+}
+
+<h1>Staff Registration Complete</h1>
+
+<h4>Staff Details</h4>
+<hr />
+
+<div>
+    <div><strong>Name:</strong> @Model.StaffName</div>
+    <div><strong>Email:</strong> @Model.StaffEmail</div>
+    <div><strong>Phone:</strong> @Model.StaffPhone</div>
+    <div><strong>License Number:</strong> @Model.StaffDriversLicense</div>
+    <div><strong>License Expiry Date:</strong> @Model.StaffDriversLicenseExpiringDate</div>
+    <div><strong>Date of Birth:</strong> @Model.StaffDateOfBirth</div>
+    <div><strong>Job Description:</strong> @Model.job.JobDescription</div>
+    <div><strong>Start Functions Date:</strong> @Model.StartFunctionsDate</div>
+    <div><strong>End Functions Date:</strong> @Model.EndFunctionsDate</div>
+    <div><strong>Vacation Days:</strong> @Model.DaysOfVacationCount</div>
+    <div><strong>Active:</strong> @(Model.IsActive ? "Yes" : "No")</div>
+</div>
+
+<a asp-action="Index">Back to Staff List</a>
