@@ -45,25 +45,43 @@
     </div>
 </div>
 
+<!-- Show a message if no jobs are found after search -->
+@if (!Model.Jobs.Any() && (!string.IsNullOrEmpty(Model.SearchJobName) || !string.IsNullOrEmpty(Model.SearchJobDescription)))
+{
+    <div class="alert alert-info" role="alert">
+        No jobs found matching your search criteria.
+    </div>
+}
+
 <!-- Cards for Jobs -->
-<div class="row row-cols-1 row-cols-md-3 g-4">
-    @foreach (var item in Model.Jobs)
-    {
-        <div class="col">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.JobName)</h5>
-                    <p class="card-text">@Html.DisplayFor(modelItem => item.JobDescription)</p>
-                </div>
-                <div class="card-footer">
-                    <a asp-action="Edit" asp-route-id="@item.JobId" class="btn btn-warning btn-sm">Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.JobId" class="btn btn-info btn-sm">Details</a>
-                    <a asp-action="Delete" asp-route-id="@item.JobId" class="btn btn-danger btn-sm">Delete</a>
+@if (Model.Jobs.Any())
+{
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var item in Model.Jobs)
+        {
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.JobName)</h5>
+                        <p class="card-text">@Html.DisplayFor(modelItem => item.JobDescription)</p>
+                    </div>
+                    <div class="card-footer">
+                        <a asp-action="Edit" asp-route-id="@item.JobId" class="btn btn-warning btn-sm">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.JobId" class="btn btn-info btn-sm">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.JobId" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
+}
+else if (string.IsNullOrEmpty(Model.SearchJobName) && string.IsNullOrEmpty(Model.SearchJobDescription))
+{
+    <!-- This will show only if there are no jobs and no search was applied -->
+    <div class="alert alert-warning" role="alert">
+        No jobs available to display.
+    </div>
+}
 
 <!-- Pagination -->
 <nav aria-label="JobPagination">

@@ -8,13 +8,13 @@
 
 <p>
     <a class="btn btn-primary" asp-action="Create">Create New</a>
-    <!-- Botão para abrir o modal de pesquisa -->
+    <!-- Botão para abrir pesquisa -->
     <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#searchModal">
         Search
     </button>
 </p>
 
-<!-- Modal de Pesquisa -->
+<!-- Search -->
 <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -38,27 +38,46 @@
     </div>
 </div>
 
-<div class="row">
-    @foreach (var item in Model.Schedules)
-    {
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Shift: @Html.DisplayFor(modelItem => item.StartShiftTime) - @Html.DisplayFor(modelItem => item.EndShiftTime)</h5>
-                    <p class="card-text">
-                        <strong>Presence:</strong> @Html.DisplayFor(modelItem => item.isPrecense) <br />
-                        <strong>Available:</strong> @Html.DisplayFor(modelItem => item.isAvailable) <br />
-                        <strong>Staff:</strong> @Html.DisplayFor(modelItem => item.staff.StaffName) <br />
-                        <strong>Schedule Type:</strong> @Html.DisplayFor(modelItem => item.typeOfSchedule.TypeOfScheduleDescription)
-                    </p>
-                    <a href="@Url.Action("Edit", "Schedules", new { id = item.SchedulesId })" class="btn btn-warning">Edit</a>
-                    <a href="@Url.Action("Details", "Schedules", new { id = item.SchedulesId })" class="btn btn-info">Details</a>
-                    <a href="@Url.Action("Delete", "Schedules", new { id = item.SchedulesId })" class="btn btn-danger">Delete</a>
+<!-- Show a message if no items are found after search -->
+@if (!Model.Schedules.Any() && !string.IsNullOrEmpty(Model.SearchName))
+{
+    <div class="alert alert-info" role="alert">
+        No Schedules found for the staff name: "@Model.SearchName".
+    </div>
+}
+
+<!-- Cards for Schedules -->
+@if (Model.Schedules.Any())
+{
+    <div class="row">
+        @foreach (var item in Model.Schedules)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Shift: @Html.DisplayFor(modelItem => item.StartShiftTime) - @Html.DisplayFor(modelItem => item.EndShiftTime)</h5>
+                        <p class="card-text">
+                            <strong>Presence:</strong> @Html.DisplayFor(modelItem => item.isPrecense) <br />
+                            <strong>Available:</strong> @Html.DisplayFor(modelItem => item.isAvailable) <br />
+                            <strong>Staff:</strong> @Html.DisplayFor(modelItem => item.staff.StaffName) <br />
+                            <strong>Schedule Type:</strong> @Html.DisplayFor(modelItem => item.typeOfSchedule.TypeOfScheduleDescription)
+                        </p>
+                        <a href="@Url.Action("Edit", "Schedules", new { id = item.SchedulesId })" class="btn btn-warning">Edit</a>
+                        <a href="@Url.Action("Details", "Schedules", new { id = item.SchedulesId })" class="btn btn-info">Details</a>
+                        <a href="@Url.Action("Delete", "Schedules", new { id = item.SchedulesId })" class="btn btn-danger">Delete</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
+}
+else if (string.IsNullOrEmpty(Model.SearchName))
+{
+    <!-- This will show only if there are no schedules and no search was applied -->
+    <div class="alert alert-warning" role="alert">
+        No Schedules available to display.
+    </div>
+}
 
 <!-- Paginação -->
 <nav aria-label="Schedule Pagination">

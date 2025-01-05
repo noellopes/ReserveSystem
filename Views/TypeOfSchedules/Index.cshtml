@@ -45,23 +45,43 @@
     </div>
 </div>
 
-<div class="row">
-    @foreach (var item in Model.TypeOfSchedules)
-    {
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.TypeOfScheduleName)</h5>
-                    <p class="card-text">@Html.DisplayFor(modelItem => item.TypeOfScheduleDescription)</p>
-                    <a href="@Url.Action("Edit", "TypeOfSchedules", new { id = item.TypeOfScheduleId })" class="btn btn-warning">Edit</a>
-                    <a href="@Url.Action("Details", "TypeOfSchedules", new { id = item.TypeOfScheduleId })" class="btn btn-info">Details</a>
-                    <a href="@Url.Action("Delete", "TypeOfSchedules", new { id = item.TypeOfScheduleId })" class="btn btn-danger">Delete</a>
+<!-- Show a message if no items are found after search -->
+@if (!Model.TypeOfSchedules.Any() && (!string.IsNullOrEmpty(Model.SearchTypeOfScheduleName) || !string.IsNullOrEmpty(Model.SearchTypeOfScheduleDescription)))
+{
+    <div class="alert alert-info" role="alert">
+        No Type of Schedules found matching your search criteria.
+    </div>
+}
+
+<!-- Cards for Type of Schedules -->
+@if (Model.TypeOfSchedules.Any())
+{
+    <div class="row">
+        @foreach (var item in Model.TypeOfSchedules)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.TypeOfScheduleName)</h5>
+                        <p class="card-text">@Html.DisplayFor(modelItem => item.TypeOfScheduleDescription)</p>
+                        <a href="@Url.Action("Edit", "TypeOfSchedules", new { id = item.TypeOfScheduleId })" class="btn btn-warning">Edit</a>
+                        <a href="@Url.Action("Details", "TypeOfSchedules", new { id = item.TypeOfScheduleId })" class="btn btn-info">Details</a>
+                        <a href="@Url.Action("Delete", "TypeOfSchedules", new { id = item.TypeOfScheduleId })" class="btn btn-danger">Delete</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
+}
+else if (string.IsNullOrEmpty(Model.SearchTypeOfScheduleName) && string.IsNullOrEmpty(Model.SearchTypeOfScheduleDescription))
+{
+    <!-- This will show only if there are no Type of Schedules and no search was applied -->
+    <div class="alert alert-warning" role="alert">
+        No Type of Schedules available to display.
+    </div>
+}
 
+<!-- Pagination -->
 <nav aria-label="TypeOfSchedulePagination">
     <ul class="pagination">
         @{

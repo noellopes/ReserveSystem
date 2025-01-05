@@ -38,9 +38,20 @@
     </div>
 </div>
 
-<div class="card-container" style="display: flex; flex-wrap: wrap; gap: 20px;">
-    @foreach (var item in Model.Staffs)
-    {
+<!-- Mostrar mensagem caso não haja resultados após pesquisa -->
+@if (!Model.Staffs.Any() && !string.IsNullOrEmpty(Model.SearchName))
+{
+    <div class="alert alert-info" role="alert">
+        No staff members found for the name: "@Model.SearchName".
+    </div>
+}
+
+<!-- Cards for Staff -->
+@if (Model.Staffs.Any())
+{
+    <div class="card-container" style="display: flex; flex-wrap: wrap; gap: 20px;">
+        @foreach (var item in Model.Staffs)
+        {
             <div class="card" style="width: 300px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); padding: 15px;">
                 <h4 style="margin-top: 0; color: #333;">@item.StaffName</h4>
                 <p><strong>Email:</strong> @item.StaffEmail</p>
@@ -59,8 +70,16 @@
                     <a asp-action="Delete" asp-route-id="@item.StaffId" class="btn btn-sm btn-danger">Delete</a>
                 </div>
             </div>
-    }
-</div>
+        }
+    </div>
+}
+else if (string.IsNullOrEmpty(Model.SearchName))
+{
+    <!-- Exibir mensagem se não houver registros e nenhum filtro de pesquisa foi aplicado -->
+    <div class="alert alert-warning" role="alert">
+        No staff members available to display.
+    </div>
+}
 
 <!-- Paginação -->
 <nav aria-label="Staff Pagination">
@@ -78,9 +97,9 @@
         <!-- Page Number Buttons -->
         @for (int i = 1; i <= Model.TotalPages; i++)
         {
-                <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                    <a class="page-link" href="@Url.Action("Index", "Staffs", new { page = i, searchName = Model.SearchName })">@i</a>
-                </li>
+            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                <a class="page-link" href="@Url.Action("Index", "Staffs", new { page = i, searchName = Model.SearchName })">@i</a>
+            </li>
         }
 
         <!-- Next Page Button -->
