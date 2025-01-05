@@ -38,9 +38,9 @@
                         <td>@Html.DisplayFor(modelItem => item.Preco)</td>
                         <td>@Html.DisplayFor(modelItem => item.Staff.Staff_Name)</td>
                         <td class="text-center">
-                            <a asp-action="Edit" asp-route-id="@item.Excursao_Id" class="btn btn-primary btn-sm me-1">Edit</a>
-                            <a asp-action="Details" asp-route-id="@item.Excursao_Id" class="btn btn-info btn-sm me-1">Details</a>
-                            <a asp-action="Delete" asp-route-id="@item.Excursao_Id" class="btn btn-danger btn-sm">Delete</a>
+                            <a asp-action="Edit" asp-route-id="@item.ExcursaoId" class="btn btn-primary btn-sm me-1">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.ExcursaoId" class="btn btn-info btn-sm me-1">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.ExcursaoId" class="btn btn-danger btn-sm">Delete</a>
                         </td>
                     </tr>
                 }

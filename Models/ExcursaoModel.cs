@@ -7,7 +7,7 @@ namespace ReserveSystem.Models
 	{
 		[Required, Key, Display(Name = "Excursão ID"), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		[Column(TypeName = "INTEGER")]
-		public int Excursao_Id { get; set; }
+		public int ExcursaoId { get; set; }
 
 		[Required, Display(Name = "Titulo")]
 		[Column(TypeName = "TEXT")]
@@ -30,7 +30,7 @@ namespace ReserveSystem.Models
 
 		public virtual StaffModel? Staff { get; set; }
 
-		
+		public virtual ICollection<PrecarioModel>? Precario { get; set; }
 
 	}
 

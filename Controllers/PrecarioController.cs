@@ -10,25 +10,22 @@ using ReserveSystem.Models;
 
 namespace ReserveSystem.Controllers
 {
-    public class ExcursaoController : Controller
+    public class PrecarioController : Controller
     {
         private readonly ReserveSystemContext _context;
 
-        public ExcursaoController(ReserveSystemContext context)
+        public PrecarioController(ReserveSystemContext context)
         {
             _context = context;
         }
 
-        // GET: Excursao
+        // GET: Precario
         public async Task<IActionResult> Index()
         {
-            var excursao = from e in _context.ExcursaoModel
-						   .Include(e => e.Staff)
-						   select e;
-			return View(excursao);
+			return View(await _context.PrecarioModel.ToListAsync());
         }
 
-        // GET: Excursao/Details/5
+        // GET: Precario/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -36,43 +33,41 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-			var excursaoModel = await _context.ExcursaoModel
-			   .Include(e => e.Staff)
-			   .FirstOrDefaultAsync(m => m.StaffId == id);
-			if (excursaoModel == null)
+            var precarioModel = await _context.PrecarioModel
+                .FirstOrDefaultAsync(m => m.PrecoId == id);
+            if (precarioModel == null)
             {
                 return NotFound();
             }
 
-            return View(excursaoModel);
+            return View(precarioModel);
         }
 
-        // GET: Excursao/Create
+        // GET: Precario/Create
         public IActionResult Create()
         {
-            ViewData["StaffId"] = new SelectList(_context.StaffModel, "StaffId", "Staff_Name");
+			ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "ExcursaoId", "Titulo");
+
 			return View();
         }
 
-        // POST: Excursao/Create
+        // POST: Precario/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ExcursaoId,Titulo,Descricao,Data_Inicio,Data_Fim,Preco,StaffId")] ExcursaoModel excursaoModel)
+        public async Task<IActionResult> Create([Bind("PrecoId,Preco,Data_Inicio,ExcursaoId")] PrecarioModel precarioModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(excursaoModel);
+                _context.Add(precarioModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-			ViewData["StaffId"] = new SelectList(_context.StaffModel, "StaffId", "Staff_Name");
-
-			return View(excursaoModel);
+            return View(precarioModel);
         }
 
-        // GET: Excursao/Edit/5
+        // GET: Precario/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,24 +75,22 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var excursaoModel = await _context.ExcursaoModel.FindAsync(id);
-            if (excursaoModel == null)
+            var precarioModel = await _context.PrecarioModel.FindAsync(id);
+            if (precarioModel == null)
             {
                 return NotFound();
             }
-			ViewData["StaffId"] = new SelectList(_context.StaffModel, "StaffId", "Staff_Name");
-
-			return View(excursaoModel);
+            return View(precarioModel);
         }
 
-        // POST: Excursao/Edit/5
+        // POST: Precario/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ExcursaoId,Titulo,Descricao,Data_Inicio,Data_Fim,Preco,StaffId")] ExcursaoModel excursaoModel)
+        public async Task<IActionResult> Edit(int id, [Bind("PrecoId,Preco,Data_Inicio,ExcursaoId")] PrecarioModel precarioModel)
         {
-            if (id != excursaoModel.ExcursaoId)
+            if (id != precarioModel.PrecoId)
             {
                 return NotFound();
             }
@@ -106,12 +99,12 @@ namespace ReserveSystem.Controllers
             {
                 try
                 {
-                    _context.Update(excursaoModel);
+                    _context.Update(precarioModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ExcursaoModelExists(excursaoModel.ExcursaoId))
+                    if (!PrecarioModelExists(precarioModel.PrecoId))
                     {
                         return NotFound();
                     }
@@ -122,10 +115,10 @@ namespace ReserveSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(excursaoModel);
+            return View(precarioModel);
         }
 
-        // GET: Excursao/Delete/5
+        // GET: Precario/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -133,37 +126,34 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-			var excursaoModel = await _context.ExcursaoModel
-			   .Include(e => e.Staff)
-			   .FirstOrDefaultAsync(m => m.StaffId == id);
-			if (excursaoModel == null)
+            var precarioModel = await _context.PrecarioModel
+                .FirstOrDefaultAsync(m => m.PrecoId == id);
+            if (precarioModel == null)
             {
                 return NotFound();
             }
 
-            return View(excursaoModel);
+            return View(precarioModel);
         }
 
-        // POST: Excursao/Delete/5
+        // POST: Precario/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            
-
-            var excursaoModel = await _context.ExcursaoModel.FindAsync(id);
-            if (excursaoModel != null)
+            var precarioModel = await _context.PrecarioModel.FindAsync(id);
+            if (precarioModel != null)
             {
-                _context.ExcursaoModel.Remove(excursaoModel);
+                _context.PrecarioModel.Remove(precarioModel);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ExcursaoModelExists(int id)
+        private bool PrecarioModelExists(int id)
         {
-            return _context.ExcursaoModel.Any(e => e.ExcursaoId == id);
+            return _context.PrecarioModel.Any(e => e.PrecoId == id);
         }
     }
 }

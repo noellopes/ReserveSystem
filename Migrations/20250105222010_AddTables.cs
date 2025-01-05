@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ReserveSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class createTables : Migration
+    public partial class AddTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -29,7 +29,7 @@ namespace ReserveSystem.Migrations
                 name: "ExcursaoModel",
                 columns: table => new
                 {
-                    Excursao_Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    ExcursaoId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Titulo = table.Column<string>(type: "TEXT", nullable: false),
                     Descricao = table.Column<string>(type: "TEXT", nullable: false),
@@ -40,7 +40,7 @@ namespace ReserveSystem.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExcursaoModel", x => x.Excursao_Id);
+                    table.PrimaryKey("PK_ExcursaoModel", x => x.ExcursaoId);
                     table.ForeignKey(
                         name: "FK_ExcursaoModel_StaffModel_StaffId",
                         column: x => x.StaffId,
@@ -49,15 +49,44 @@ namespace ReserveSystem.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "PrecarioModel",
+                columns: table => new
+                {
+                    PrecoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Preco = table.Column<float>(type: "real", nullable: false),
+                    Data_Inicio = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ExcursaoId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PrecarioModel", x => x.PrecoId);
+                    table.ForeignKey(
+                        name: "FK_PrecarioModel_ExcursaoModel_ExcursaoId",
+                        column: x => x.ExcursaoId,
+                        principalTable: "ExcursaoModel",
+                        principalColumn: "ExcursaoId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_ExcursaoModel_StaffId",
                 table: "ExcursaoModel",
                 column: "StaffId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PrecarioModel_ExcursaoId",
+                table: "PrecarioModel",
+                column: "ExcursaoId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "PrecarioModel");
+
             migrationBuilder.DropTable(
                 name: "ExcursaoModel");
 
