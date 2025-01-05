@@ -85,13 +85,23 @@ namespace ReserveSystem.Controllers
             {
                 _context.Add(typeOfSchedule);
                 await _context.SaveChangesAsync();
-                // Redireciona para a página "Registration Complete"
-                return RedirectToAction("RegistrationComplete", "Shared", new { entityName = "Type of Schedule", entityController = "TypeOfSchedules" });
+
+                // Redirecionar para a página de confirmação de registro
+                return RedirectToAction("RegistrationComplete", "TypeOfSchedules", new { typeOfScheduleId = typeOfSchedule.TypeOfScheduleId });
             }
             return View(typeOfSchedule);
         }
 
+        public async Task<IActionResult> RegistrationComplete(int typeOfScheduleId)
+        {
+            var typeOfSchedule = await _context.TypeOfSchedule.FirstOrDefaultAsync(t => t.TypeOfScheduleId == typeOfScheduleId);
+            if (typeOfSchedule == null)
+            {
+                return NotFound();
+            }
 
+            return View(typeOfSchedule);
+        }
 
         // GET: TypeOfSchedules/Edit/5
         public async Task<IActionResult> Edit(int? id)

@@ -1,0 +1,17 @@
+﻿@model ReserveSystem.Models.TypeOfSchedule
+
+@{
+    ViewData["Title"] = "Type of Schedule Registration Complete";
+}
+
+<h1>Type of Schedule Registration Complete</h1>
+
+<h4>Type of Schedule Details</h4>
+<hr />
+
+<div>
+    <div><strong>Type of Schedule Name:</strong> @Model.TypeOfScheduleName</div>
+    <div><strong>Type of Schedule Description:</strong> @Model.TypeOfScheduleDescription</div>
+</div>
+
+<a asp-action="Index">Back to List</a>
