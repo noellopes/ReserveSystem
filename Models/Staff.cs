@@ -24,10 +24,12 @@ namespace ReserveSystem.Models
 
         [Required(ErrorMessage = "StaffDriversLicenseExpiringDate is required.")]
         [DataType(DataType.Date, ErrorMessage = "StaffDriversLicenseExpiringDate not valid.")]
+        [DriversLicenseExpirationDateValidation] // Expiring date validation
         public DateTime StaffDriversLicenseExpiringDate { get; set; }
 
         [Required(ErrorMessage = "StaffDateOfBirth is required.")]
         [DataType(DataType.Date, ErrorMessage = "StaffDateOfBirth not valid.")]
+        [AgeValidation] // Age Validation
         public DateTime StaffDateOfBirth { get; set; }
 
         [Required(ErrorMessage = "StaffPassword is required.")]
@@ -37,25 +39,26 @@ namespace ReserveSystem.Models
 
         [Required(ErrorMessage = "StartFunctionsDate is required.")]
         [DataType(DataType.Date, ErrorMessage = "StartFunctionsDate not valid.")]
-        [Range(typeof(DateTime), "1/1/2000", "12/31/9999", ErrorMessage = "StartFunctionsDate must be between 01/01/2000 and 31/12/9999.")]
         public DateTime StartFunctionsDate { get; set; }
 
         [DataType(DataType.Date, ErrorMessage = "EndFunctionsDate not valid.")]
         [Compare("StartFunctionsDate", ErrorMessage = "EndFunctionsDate must be later than StartFunctionsDate.")]
+        [EndFunctionsDateValidation] // Date Validations
         public DateTime EndFunctionsDate { get; set; }
 
         [Required(ErrorMessage = "DaysOfVacationCount is required.")]
         [Range(0, 30, ErrorMessage = "DaysOfVacationCount must be 0 to 30 max.")]
+        [VacationDaysValidation] // Vacation validation
         public required int DaysOfVacationCount { get; set; }
 
         public bool IsActive { get; set; }
 
         public int JobId { get; set; }
 
-        public Job ? job { get; set; }
+        public Job? job { get; set; }
 
-        public ICollection<Schedules> ? schedules { get; set; }
+        public ICollection<Schedules>? schedules { get; set; }
 
-        public ICollection<Cleaning_Schedule> ? cleaningSchedules { get; set; }
+        public ICollection<Cleaning_Schedule>? cleaningSchedules { get; set; }
     }
 }
