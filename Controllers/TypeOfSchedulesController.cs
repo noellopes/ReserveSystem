@@ -147,8 +147,22 @@ namespace ReserveSystem.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                // Redireciona para a página de sucesso passando o id do TypeOfSchedule
+                return RedirectToAction("EditSuccess", new { typeOfScheduleId = typeOfSchedule.TypeOfScheduleId });
             }
+            return View(typeOfSchedule);
+        }
+
+        public async Task<IActionResult> EditSuccess(int typeOfScheduleId)
+        {
+            var typeOfSchedule = await _context.TypeOfSchedule
+                .FirstOrDefaultAsync(t => t.TypeOfScheduleId == typeOfScheduleId);
+
+            if (typeOfSchedule == null)
+            {
+                return NotFound();
+            }
+
             return View(typeOfSchedule);
         }
 

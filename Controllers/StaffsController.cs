@@ -153,9 +153,24 @@ namespace ReserveSystem.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                // Redireciona para a página de sucesso passando o StaffId
+                return RedirectToAction("EditSuccess", new { staffId = staff.StaffId });
             }
             ViewData["JobId"] = new SelectList(_context.Job, "JobId", "JobDescription", staff.JobId);
+            return View(staff);
+        }
+
+        public async Task<IActionResult> EditSuccess(int staffId)
+        {
+            var staff = await _context.Staff
+                .Include(s => s.job)
+                .FirstOrDefaultAsync(s => s.StaffId == staffId);
+
+            if (staff == null)
+            {
+                return NotFound();
+            }
+
             return View(staff);
         }
 

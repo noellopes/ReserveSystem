@@ -150,6 +150,9 @@ namespace ReserveSystem.Controllers
                 {
                     _context.Update(schedules);
                     await _context.SaveChangesAsync();
+
+                    // Redireciona para a página de sucesso após a edição
+                    return RedirectToAction("EditSuccess", new { schedulesId = schedules.SchedulesId });
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -162,10 +165,29 @@ namespace ReserveSystem.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
+
+            // Se a model não for válida, mantemos os dados de Staff e TypeOfSchedule na view
             ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffDriversLicense", schedules.StaffId);
             ViewData["TypeOfScheduleId"] = new SelectList(_context.TypeOfSchedule, "TypeOfScheduleId", "TypeOfScheduleDescription", schedules.TypeOfScheduleId);
+            return View(schedules);
+        }
+
+        // GET: Schedules/EditSuccess
+        public async Task<IActionResult> EditSuccess(int schedulesId)
+        {
+            var schedules = await _context.Schedules
+                .Include(s => s.staff)
+                .Include(s => s.typeOfSchedule)
+                .FirstOrDefaultAsync(s => s.SchedulesId == schedulesId);
+
+            if (schedules == null)
+            {
+                return NotFound();
+            }
+
+            // Mensagem de sucesso
+            ViewBag.Message = "Schedule edited successfully!";
             return View(schedules);
         }
 

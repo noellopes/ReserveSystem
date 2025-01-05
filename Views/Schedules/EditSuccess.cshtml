@@ -1,0 +1,16 @@
+﻿@model ReserveSystem.Models.Schedules
+
+@{
+    ViewData["Title"] = "Schedule Edited Successfully";
+}
+
+<h1>@ViewBag.Message</h1>
+
+<p><strong>Start Shift Time:</strong> @Model.StartShiftTime</p>
+<p><strong>End Shift Time:</strong> @Model.EndShiftTime</p>
+<p><strong>Presence:</strong> @Model.isPrecense</p>
+<p><strong>Availability:</strong> @Model.isAvailable</p>
+<p><strong>Staff Name:</strong> @Model.staff.StaffName</p>
+<p><strong>Type of Schedule:</strong> @Model.typeOfSchedule.TypeOfScheduleDescription</p>
+
+<p><a href="Index" class="btn btn-primary">Back to List</a></p>
