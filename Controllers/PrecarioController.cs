@@ -22,7 +22,11 @@ namespace ReserveSystem.Controllers
         // GET: Precario
         public async Task<IActionResult> Index()
         {
-			return View(await _context.PrecarioModel.ToListAsync());
+
+			var precario = from e in _context.PrecarioModel
+						   .Include(e => e.Excursao)
+						   select e;
+			return View(precario);
         }
 
         // GET: Precario/Details/5
@@ -34,7 +38,8 @@ namespace ReserveSystem.Controllers
             }
 
             var precarioModel = await _context.PrecarioModel
-                .FirstOrDefaultAsync(m => m.PrecoId == id);
+				.Include(e => e.Excursao)
+				.FirstOrDefaultAsync(m => m.PrecoId == id);
             if (precarioModel == null)
             {
                 return NotFound();

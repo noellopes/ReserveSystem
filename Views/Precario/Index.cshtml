@@ -16,10 +16,10 @@
                 @Html.DisplayNameFor(model => model.Preco)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Data_Inicio)
+                Data Preço
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ExcursaoId)
+                Titulo
             </th>
             <th></th>
         </tr>
@@ -34,12 +34,10 @@
                 @Html.DisplayFor(modelItem => item.Data_Inicio)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ExcursaoId)
+                @Html.DisplayFor(modelItem => item.Excursao.Titulo)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.PrecoId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PrecoId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PrecoId">Delete</a>
+                <a asp-action="Details" asp-route-id="@item.PrecoId">Details</a>
             </td>
         </tr>
 }
