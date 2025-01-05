@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Registration Complete";
+}
+
+<h1>Registration Complete</h1>
+<p>The registration of @ViewData["EntityName"] was successful!</p>
+
+<div>
+    <a asp-action="Index" asp-controller="@ViewData["EntityController"]" class="btn btn-primary">
+        Back to List
+    </a>
+    <a asp-action="Create" asp-controller="@ViewData["EntityController"]" class="btn btn-secondary">
+        Add Another
+    </a>
+</div>

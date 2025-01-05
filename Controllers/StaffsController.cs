@@ -85,7 +85,8 @@ namespace ReserveSystem.Controllers
             {
                 _context.Add(staff);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // Redireciona para a página "Registration Complete"
+                return RedirectToAction("RegistrationComplete", "Shared", new { entityName = "Staff", entityController = "Staffs" });
             }
             ViewData["JobId"] = new SelectList(_context.Job, "JobId", "JobDescription", staff.JobId);
             return View(staff);

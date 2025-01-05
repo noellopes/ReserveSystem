@@ -76,16 +76,18 @@ namespace ReserveSystem.Controllers
         // POST: Jobs/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("JobId,JobName,JobDescription")] Job job)
+        public async Task<IActionResult> Create([Bind("JobId,JobDescription,Salary")] Job job)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(job);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // Redireciona para a página "Registration Complete"
+                return RedirectToAction("RegistrationComplete", "Shared", new { entityName = "Job", entityController = "Jobs" });
             }
             return View(job);
         }
+
 
         // GET: Jobs/Edit/5
         public async Task<IActionResult> Edit(int? id)

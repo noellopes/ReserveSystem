@@ -42,7 +42,7 @@ namespace ReserveSystem.Models
 
         [DataType(DataType.Date, ErrorMessage = "EndFunctionsDate not valid.")]
         [Compare("StartFunctionsDate", ErrorMessage = "EndFunctionsDate must be later than StartFunctionsDate.")]
-        public DateTime? EndFunctionsDate { get; set; }
+        public DateTime EndFunctionsDate { get; set; }
 
         [Required(ErrorMessage = "DaysOfVacationCount is required.")]
         [Range(0, 30, ErrorMessage = "DaysOfVacationCount must be 0 to 30 max.")]
