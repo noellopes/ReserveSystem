@@ -127,7 +127,8 @@ internal class SeedData
 
         // Criar preços para cada RoomService
         var roomServicePrices = new List<RoomServicePrice>();
-        var today = DateOnly.FromDateTime(DateTime.Now);
+        var today = DateTime.Now.Date;
+
 
         foreach (var roomService in roomServices)
         {
