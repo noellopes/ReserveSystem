@@ -92,12 +92,14 @@ namespace ReserveSystem.Controllers
             {
                 _context.Add(schedules);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // Redireciona para a página "Registration Complete"
+                return RedirectToAction("RegistrationComplete", "Shared", new { entityName = "Schedule", entityController = "Schedules" });
             }
-            ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffDriversLicense", schedules.StaffId);
-            ViewData["TypeOfScheduleId"] = new SelectList(_context.TypeOfSchedule, "TypeOfScheduleId", "TypeOfScheduleDescription", schedules.TypeOfScheduleId);
+            ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffName", schedules.StaffId);
+            ViewData["TypeOfScheduleId"] = new SelectList(_context.TypeOfSchedule, "TypeOfScheduleId", "Description", schedules.TypeOfScheduleId);
             return View(schedules);
         }
+
 
         // GET: Schedules/Edit/5
         public async Task<IActionResult> Edit(int? id)
