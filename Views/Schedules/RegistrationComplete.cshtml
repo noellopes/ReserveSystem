@@ -1,0 +1,22 @@
+﻿@model ReserveSystem.Models.Schedules
+
+@{
+    ViewData["Title"] = "Schedule Registration Complete";
+}
+
+<h1>Schedule Registration Complete</h1>
+
+<h4>Schedule Details</h4>
+<hr />
+
+<div>
+    <div><strong>Start Shift Time:</strong> @Model.StartShiftTime</div>
+    <div><strong>End Shift Time:</strong> @Model.EndShiftTime</div>
+    <div><strong>Presence Status:</strong> @(Model.isPrecense ? "Present" : "Not Present")</div>
+    <div><strong>Availability:</strong> @(Model.isAvailable ? "Available" : "Not Available")</div>
+    <div><strong>Staff Name:</strong> @Model.staff.StaffName</div>
+    <div><strong>Staff License:</strong> @Model.staff.StaffDriversLicense</div>
+    <div><strong>Schedule Type:</strong> @Model.typeOfSchedule.TypeOfScheduleDescription</div>
+</div>
+
+<a asp-action="Index">Back to List</a>

@@ -92,14 +92,29 @@ namespace ReserveSystem.Controllers
             {
                 _context.Add(schedules);
                 await _context.SaveChangesAsync();
-                // Redireciona para a página "Registration Complete"
-                return RedirectToAction("RegistrationComplete", "Shared", new { entityName = "Schedule", entityController = "Schedules" });
+
+                // Redireciona para a página "Registration Complete", passando o SchedulesId
+                return RedirectToAction("RegistrationComplete", "Schedules", new { schedulesId = schedules.SchedulesId });
             }
             ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffName", schedules.StaffId);
-            ViewData["TypeOfScheduleId"] = new SelectList(_context.TypeOfSchedule, "TypeOfScheduleId", "Description", schedules.TypeOfScheduleId);
+            ViewData["TypeOfScheduleId"] = new SelectList(_context.TypeOfSchedule, "TypeOfScheduleId", "TypeOfScheduleDescription", schedules.TypeOfScheduleId);
             return View(schedules);
         }
 
+        public async Task<IActionResult> RegistrationComplete(int schedulesId)
+        {
+            var schedules = await _context.Schedules
+                .Include(s => s.staff)
+                .Include(s => s.typeOfSchedule)
+                .FirstOrDefaultAsync(s => s.SchedulesId == schedulesId);
+
+            if (schedules == null)
+            {
+                return NotFound();
+            }
+
+            return View(schedules);
+        }
 
         // GET: Schedules/Edit/5
         public async Task<IActionResult> Edit(int? id)
