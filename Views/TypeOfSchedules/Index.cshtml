@@ -64,9 +64,9 @@
                     <div class="card-body">
                         <h5 class="card-title">@Html.DisplayFor(modelItem => item.TypeOfScheduleName)</h5>
                         <p class="card-text">@Html.DisplayFor(modelItem => item.TypeOfScheduleDescription)</p>
-                        <a href="@Url.Action("Edit", "TypeOfSchedules", new { id = item.TypeOfScheduleId })" class="btn btn-warning">Edit</a>
-                        <a href="@Url.Action("Details", "TypeOfSchedules", new { id = item.TypeOfScheduleId })" class="btn btn-info">Details</a>
-                        <a href="@Url.Action("Delete", "TypeOfSchedules", new { id = item.TypeOfScheduleId })" class="btn btn-danger">Delete</a>
+                        <a asp-action="Edit" asp-route-id="@item.TypeOfScheduleId" class="btn btn-sm btn-warning">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.TypeOfScheduleId" class="btn btn-sm btn-info">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.TypeOfScheduleId" class="btn btn-sm btn-danger">Delete</a>
                     </div>
                 </div>
             </div>

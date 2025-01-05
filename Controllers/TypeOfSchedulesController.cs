@@ -179,10 +179,18 @@ namespace ReserveSystem.Controllers
             if (typeOfSchedule != null)
             {
                 _context.TypeOfSchedule.Remove(typeOfSchedule);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            // Redireciona para a página de confirmação de exclusão
+            return RedirectToAction("DeleteSuccess", new { typeOfScheduleName = typeOfSchedule?.TypeOfScheduleName });
+        }
+
+        // GET: TypeOfSchedules/DeleteSuccess
+        public IActionResult DeleteSuccess(string typeOfScheduleName)
+        {
+            ViewBag.TypeOfScheduleName = typeOfScheduleName;
+            return View();
         }
 
         private bool TypeOfScheduleExists(int id)

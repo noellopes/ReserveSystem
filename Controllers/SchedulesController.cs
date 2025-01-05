@@ -198,10 +198,18 @@ namespace ReserveSystem.Controllers
             if (schedules != null)
             {
                 _context.Schedules.Remove(schedules);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            // Redireciona para a página de confirmação de exclusão
+            return RedirectToAction("DeleteSuccess", new { itemName = schedules?.StartShiftTime });
+        }
+
+        // GET: Schedules/DeleteSuccess
+        public IActionResult DeleteSuccess(string itemName)
+        {
+            ViewBag.ItemName = itemName;
+            return View();
         }
 
         private bool SchedulesExists(int id)

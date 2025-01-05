@@ -187,10 +187,18 @@ namespace ReserveSystem.Controllers
             if (staff != null)
             {
                 _context.Staff.Remove(staff);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            // Redireciona para a página de confirmação de exclusão
+            return RedirectToAction("DeleteSuccess", new { staffName = staff?.StaffName });
+        }
+
+        // GET: Staffs/DeleteSuccess
+        public IActionResult DeleteSuccess(string staffName)
+        {
+            ViewBag.StaffName = staffName;
+            return View();
         }
 
         private bool StaffExists(int id)

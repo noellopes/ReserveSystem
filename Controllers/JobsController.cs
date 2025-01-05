@@ -133,6 +133,9 @@ namespace ReserveSystem.Controllers
                 {
                     _context.Update(job);
                     await _context.SaveChangesAsync();
+
+                    // Redireciona para a página de sucesso com a mensagem e os dados atualizados
+                    return RedirectToAction("EditSuccess", new { jobId = job.JobId });
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -145,8 +148,23 @@ namespace ReserveSystem.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
+            return View(job);
+        }
+
+        // GET: Jobs/EditSuccess
+        public async Task<IActionResult> EditSuccess(int jobId)
+        {
+            var job = await _context.Job
+                .FirstOrDefaultAsync(j => j.JobId == jobId);
+
+            if (job == null)
+            {
+                return NotFound();
+            }
+
+            // Mensagem de sucesso
+            ViewBag.Message = "Job edited successfully!";
             return View(job);
         }
 
@@ -177,10 +195,18 @@ namespace ReserveSystem.Controllers
             if (job != null)
             {
                 _context.Job.Remove(job);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            // Redireciona para a página de confirmação de exclusão
+            return RedirectToAction("DeleteSuccess", new { itemName = job?.JobName });
+        }
+
+        // GET: Jobs/DeleteSuccess
+        public IActionResult DeleteSuccess(string itemName)
+        {
+            ViewBag.ItemName = itemName;
+            return View();
         }
 
         private bool JobExists(int id)
