@@ -66,11 +66,11 @@ namespace ReserveSystem.Controllers
 				_context.Add(excursaoModel);
 				await _context.SaveChangesAsync();
 
-				// Adicionando valores no PrecarioModel
+				
 				var precarioModel = new PrecarioModel
 				{
 					Preco = excursaoModel.Preco,
-					Data_Inicio = DateTime.Now, // Usando a data e hora atual do sistema
+					Data_Inicio = DateTime.Now,
 					ExcursaoId = excursaoModel.ExcursaoId
 				};
 				_context.PrecarioModel.Add(precarioModel);
@@ -128,13 +128,13 @@ namespace ReserveSystem.Controllers
 					_context.Update(excursaoModel);
 					await _context.SaveChangesAsync();
 
-					// Adicionando novo registro no PrecarioModel apenas se o preço mudar
+					
 					if (precoMudou)
 					{
 						var precarioModel = new PrecarioModel
 						{
 							Preco = excursaoModel.Preco,
-							Data_Inicio = DateTime.Now, // Usando a data e hora atual do sistema
+							Data_Inicio = DateTime.Now, 
 							ExcursaoId = excursaoModel.ExcursaoId
 						};
 						_context.PrecarioModel.Add(precarioModel);
