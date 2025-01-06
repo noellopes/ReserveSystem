@@ -277,5 +277,41 @@ namespace ReserveSystem.Controllers
         {
             return _context.ReservaExcursaoModel.Any(e => e.Id == id);
         }
+
+
+        // POST: ExcursaoFavorita/Delete/BulkDelete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BulkDelete(List<int> selectedIds)
+        {
+            if (selectedIds == null || !selectedIds.Any())
+            {
+                TempData["ErrorMessage"] = "No excursions were selected for deletion.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            try
+            {
+                // Fetch selected excursions and remove them
+                var excursaoFavoritas = _context.ExcursaoFavoritaModel.Where(e => selectedIds.Contains(e.Id));
+
+                if (excursaoFavoritas.Any())
+                {
+                    _context.ExcursaoFavoritaModel.RemoveRange(excursaoFavoritas);
+                    await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Selected excursions were successfully deleted.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "No valid excursions found for deletion.";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Error deleting excursions: {ex.Message}";
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

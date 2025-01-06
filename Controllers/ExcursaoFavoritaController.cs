@@ -30,7 +30,8 @@ namespace ReserveSystem.Controllers
             ViewBag.TituloSortParm = sortOrder == "Titulo" ? "Titulo_desc" : "Titulo";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
 
-            if (searchString != null) { 
+            if (searchString != null)
+            {
                 page = 1;
             }
             else
@@ -43,13 +44,14 @@ namespace ReserveSystem.Controllers
             ViewBag.SearchString = searchString;
 
             var favoritas = from f in _context.ExcursaoFavoritaModel
-                            .Include(f=>f.Cliente)
-                            .Include(f=>f.Excursao)
+                            .Include(f => f.Cliente)
+                            .Include(f => f.Excursao)
                             select f;
 
             if (!string.IsNullOrEmpty(searchString) && !string.IsNullOrEmpty(filterBy))
             {
-                switch (filterBy.ToLower()) {
+                switch (filterBy.ToLower())
+                {
 
                     case "titulo":
                         favoritas = favoritas.Where(f => f.Excursao.Titulo.Contains(searchString));
@@ -59,7 +61,7 @@ namespace ReserveSystem.Controllers
 
                         if (!string.IsNullOrEmpty(searchString) && int.TryParse(searchString, out int searchNumber))
                         {
-                           
+
                             favoritas = favoritas.Where(f => f.Excursao.Data_Fim.Day == searchNumber ||
                                                        f.Excursao.Data_Fim.Month == searchNumber ||
                                                        f.Excursao.Data_Fim.Year.ToString().Contains(searchString));
@@ -69,11 +71,11 @@ namespace ReserveSystem.Controllers
                             ViewBag.ErrorMessage = "Por favor, insira um valor válido.";
                         }
 
-                       
-                       break;
-                    default: 
+
                         break;
-                
+                    default:
+                        break;
+
                 }
 
             }
@@ -89,7 +91,7 @@ namespace ReserveSystem.Controllers
                 case "Date_desc":
                     favoritas = favoritas.OrderByDescending(f => f.Excursao.Data_Fim);
                     break;
-                default :
+                default:
                     favoritas = favoritas.OrderBy(f => f.Excursao.Titulo);
                     break;
             }
@@ -97,8 +99,8 @@ namespace ReserveSystem.Controllers
             int pageSize = 5;
             int pageNumber = (page ?? 1);
 
-            return View(favoritas.ToPagedList(pageNumber,pageSize));
-                        
+            return View(favoritas.ToPagedList(pageNumber, pageSize));
+
             //return View(await favoritas.ToListAsync());
         }
 
@@ -127,7 +129,7 @@ namespace ReserveSystem.Controllers
         {
             ViewData["ClienteId"] = new SelectList(_context.ClienteTestModel, "ClienteId", "Nome");
             ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "Excursao_Id", "Titulo");
-            
+
             return View();
         }
 
@@ -242,6 +244,41 @@ namespace ReserveSystem.Controllers
         private bool ExcursaoFavoritaModelExists(int id)
         {
             return _context.ExcursaoFavoritaModel.Any(e => e.Id == id);
+        }
+
+        // POST: ExcursaoFavorita/Delete/BulkDelete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BulkDelete(List<int> selectedIds)
+        {
+            if (selectedIds == null || !selectedIds.Any())
+            {
+                TempData["ErrorMessage"] = "No excursions were selected for deletion.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            try
+            {
+                // Fetch selected excursions and remove them
+                var excursaoFavoritas = _context.ExcursaoFavoritaModel.Where(e => selectedIds.Contains(e.Id));
+
+                if (excursaoFavoritas.Any())
+                {
+                    _context.ExcursaoFavoritaModel.RemoveRange(excursaoFavoritas);
+                    await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Selected excursions were successfully deleted.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "No valid excursions found for deletion.";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Error deleting excursions: {ex.Message}";
+            }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

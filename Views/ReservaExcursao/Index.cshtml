@@ -9,30 +9,30 @@
 <div class="container mt-4">
     @using (Html.BeginForm("Index", "ReservaExcursao", FormMethod.Get))
     {
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h1 class="text-primary">@ViewData["Title"]</h1>
-        <div class="d-flex justify-content-center w-50 mx-auto">
-            <a asp-action="Index" class="btn btn-link ms-2" title="Limpar Filtro">
-                <i class="bi bi-x-circle" style="font-size: 1.5rem; color: #dc3545;"></i>
-            </a>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="text-primary">@ViewData["Title"]</h1>
+            <div class="d-flex justify-content-center w-50 mx-auto">
+                <a asp-action="Index" class="btn btn-link ms-2" title="Limpar Filtro">
+                    <i class="bi bi-x-circle" style="font-size: 1.5rem; color: #dc3545;"></i>
+                </a>
                 @Html.DropDownList("filterBy",
-                         new SelectList(new[] {
+                                  new SelectList(new[] {
             new { Value = "titulo", Text = "Título da Excursão" },
             new { Value = "cliente", Text = "Nome do Cliente" },
             new { Value = "data", Text = "Data da Reserva" }
             }, "Value", "Text", ViewBag.FilterBy),
-                         new { @class = "form-select me-2 w-100", style = "max-width: 100%;" })
+                                  new { @class = "form-select me-2 w-100", style = "max-width: 100%;" })
 
 
-            <input type="text" class="form-control" name="searchString" placeholder="Pesquisar..." style="max-width: 200px;" value="@ViewBag.SearchString" />
-            <button class="btn btn-primary ms-2" type="submit">Filtrar</button>
+                <input type="text" class="form-control" name="searchString" placeholder="Pesquisar..." style="max-width: 200px;" value="@ViewBag.SearchString" />
+                <button class="btn btn-primary ms-2" type="submit">Filtrar</button>
+            </div>
+            <a asp-action="Create" class="btn btn-success">Criar Nova</a>
         </div>
-        <a asp-action="Create" class="btn btn-success">Criar Nova</a>
-    </div>
 
 
-       
-}
+
+    }
 
     @if (ViewBag.ErrorMessage != null)
     {
@@ -40,34 +40,41 @@
             @ViewBag.ErrorMessage
         </div>
     }
-
-    <div class="table-responsive">
-        <table class="table table-striped table-bordered">
-            <thead class="table-dark">
-                <tr>
-                    <th>
-                        Data Reserva
-                        <a href="@Url.Action("Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })" class="btn btn-link text-white p-0" title="Ordenar por Data">
-                            <i class="bi bi-arrow-down-up" style="font-size: 1.2rem;"></i>
-                        </a>
-                    </th>
-                    <th>
-                        Cliente
-                        <a href="@Url.Action("Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })" class="btn btn-link text-white p-0" title="Ordenar por Cliente">
-                            <i class="bi bi-arrow-down-up" style="font-size: 1.2rem;"></i>
-                        </a>
-                    </th>
-                    <th>Numero de Pessoas</th>
-                    <th>Valor Total</th>
-                    <th>Excursão</th>
-                    <th class="text-center">Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+    @using (Html.BeginForm("Index", "ExcursaoFavorita", FormMethod.Get))
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="table-dark">
                     <tr>
-                        <td>@Html.DisplayFor(modelItem => item.DataReserva)</td>
+                        <th>
+                            <input type="checkbox" id="selectAll" />
+                        </th>
+                        <th>
+                            Data Reserva
+                            <a href="@Url.Action("Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })" class="btn btn-link text-white p-0" title="Ordenar por Data">
+                                <i class="bi bi-arrow-down-up" style="font-size: 1.2rem;"></i>
+                            </a>
+                        </th>
+                        <th>
+                            Cliente
+                            <a href="@Url.Action("Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })" class="btn btn-link text-white p-0" title="Ordenar por Cliente">
+                                <i class="bi bi-arrow-down-up" style="font-size: 1.2rem;"></i>
+                            </a>
+                        </th>
+                        <th>Numero de Pessoas</th>
+                        <th>Valor Total</th>
+                        <th>Excursão</th>
+                        <th class="text-center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="selectedIds" value="@item.Id" />
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.DataReserva)</td>
                         <td>@Html.DisplayFor(modelItem => item.Cliente.Nome)</td>
                         <td>@Html.DisplayFor(modelItem => item.NumPessoas)</td>
                         <td>@Html.DisplayFor(modelItem => item.ValorTotal)</td>
@@ -82,6 +89,26 @@
             </tbody>
         </table>
     </div>
+        <!-- DELETE BUTTON -->
+        <div class="text-end">
+            <button type="submit" class="btn btn-danger mt-3">Delete Selected</button>
+        </div>
+
+    }
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success mt-2">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger mt-2">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
 
     @{
         string filterBy = ViewContext.HttpContext.Request.Query.ContainsKey("filterBy")
