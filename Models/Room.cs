@@ -13,8 +13,8 @@ namespace ReserveSystem.Models
 
 
 
-        //TODO mudar para RoomBookings
-        public IEnumerable<RoomBooking> RoomBookings { get; set; }
+        
+        
 
     }
 }
