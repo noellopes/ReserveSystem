@@ -20,3 +20,25 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+#flagIcon {
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+#telefone {
+    padding-left: 45px;
+}
+
+input[type="tel"] {
+    padding-left: 45px; 
+    width: 100%;
+}
+
+#countrySelect {
+    width: 2px;
+}
+
+span {
+    display:block;
+}
