@@ -1,0 +1,101 @@
+@model ReserveSystem.Models.RoomServiceViewModel
+
+@{
+    ViewData["Title"] = "Room Service Bookings";
+}
+
+<!-- Table -->
+<div class="table-responsive">
+    <table class="table table-dark table-striped table-borderless table-hover w-auto m-auto">
+        
+        <thead class="align-middle text-center text-nowrap">
+            <tr>
+                <th scope="col" colspan="15">
+                    <!-- Container for the buttons and search input -->
+                    <div class="d-flex justify-content-around align-content-center my-4">    
+                        <div class="w-100">
+                            <form asp-controller="RoomServiceBooking" asp-action="Index" method="get">
+                                <div class="form-group d-flex justify-content-between align-items-center px-2">
+                                    <div>
+                                        <a asp-action="Create" class="btn btn-outline-success" aria-label="Create New Booking">Create New Room Service Booking</a>
+                                    </div>
+                                    <div>
+                                        <label for="SearchInt" class="p-2 mx-2">Search by Room Service Booking ID's:</label>
+                                        <input type="number" class="text-center text-black bg-white btn btn-outline" id="SearchInt" name="SearchInt" value="0" style="width: 4rem;">
+                                    </div>
+                                    <div class="d-flex gap-1 align-items-center">
+                                        <div>
+                                            <select asp-for="RoomServiceId" asp-items="Model.RoomServicesIds" class="btn btn-outline-warning mx-2"> <option value="">All Room Service ID's</option> </select>
+                                        </div>
+                                        <div>
+                                            <input type="submit" value="Filter" class="btn btn-outline-success" aria-label="Filter">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <!-- Column Headers -->
+                <th scope="col">#</th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].Id) </th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].RoomServiceId) </th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].StaffId) </th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].ClientId) </th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].RoomId) </th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].DateTime) </th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].StartDate) </th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].EndDate) </th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].BookedState) </th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].StaffConfirmation) </th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].ClientFeedback) </th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].ValueToPay) </th>
+                <th scope="col"> @Html.DisplayNameFor(model => model.RoomServiceBookings![0].PaymentDone) </th>
+                <th scope="col">Actions</th>
+
+            </tr>
+        </thead>
+        <tbody class="align-middle text-center text-nowrap">
+            @{
+                <!-- Counter for the rows -->
+                var counter = 0;
+            }
+            @foreach (var item in Model.RoomServiceBookings!)
+            {
+                counter++;   
+                <tr>
+                    <th scope="row">@counter</th>
+                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                    <td>@Html.DisplayFor(modelItem => item.RoomServiceId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.StaffId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ClientId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.RoomId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.DateTime)</td>
+                    <td>@Html.DisplayFor(modelItem => item.StartDate)</td>
+                    <td>@Html.DisplayFor(modelItem => item.EndDate)</td>
+                    <td>@Html.DisplayFor(modelItem => item.BookedState)</td>
+                    <td>@Html.DisplayFor(modelItem => item.StaffConfirmation)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ClientFeedback)</td>
+                    <td>@item.ValueToPay.ToString("C", new System.Globalization.CultureInfo("pt-PT"))</td>
+                    <td>@Html.DisplayFor(modelItem => item.PaymentDone)</td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="Actions">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning rounded mx-2" aria-label="Edit Booking">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info rounded mx-2" aria-label="View Booking Details">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger rounded mx-2" aria-label="Delete Booking">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="15">
+                    <caption>List of Room Service Bookings</caption>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

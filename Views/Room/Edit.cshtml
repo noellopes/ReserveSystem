@@ -1,0 +1,61 @@
+﻿@model ReserveSystem.Models.RoomModel
+
+@{
+    ViewData["Title"] = "Edit Room Type";
+}
+
+<h1>Edit Room Type</h1>
+
+<h4>Room Type</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Campo de Tipo de Quarto -->
+            <div class="form-group">
+                <label asp-for="RoomType.Type" class="control-label"></label>
+                <input asp-for="RoomType.Type" class="form-control" />
+                <span asp-validation-for="RoomType.Type" class="text-danger"></span>
+            </div>
+
+            <!-- Campo de Capacidade do Quarto -->
+            <div class="form-group">
+                <label asp-for="RoomType.RoomCapacity" class="control-label"></label>
+                <input asp-for="RoomType.RoomCapacity" class="form-control" />
+                <span asp-validation-for="RoomType.RoomCapacity" class="text-danger"></span>
+            </div>
+
+            <!-- Campo de Visibilidade -->
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="RoomType.HasView" /> @Html.DisplayNameFor(model => model.RoomType.HasView)
+                </label>
+            </div>
+
+            <!-- Campo de Acessibilidade -->
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="RoomType.AcessibilityRoom" /> @Html.DisplayNameFor(model => model.RoomType.AcessibilityRoom)
+                </label>
+            </div>
+
+            <!-- Botão de Envio -->
+            <div class="form-group">
+                <input type="submit" value="Save Changes" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,57 @@
+﻿@model ReserveSystem.Models.RoomModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-danger text-white text-center">
+                    <h3 class="mb-0"><i class="bi bi-exclamation-triangle-fill"></i> Confirm Deletion</h3>
+                </div>
+                <div class="card-body">
+                    <h4 class="text-center">Are you sure you want to delete this room?</h4>
+                    <hr />
+                    <dl class="row p-4">
+                        <dt class="col-sm-4 text-muted">
+                            <i class="bi bi-door-open"></i> @Html.DisplayNameFor(model => model.RoomType.Type)
+                        </dt>
+                        <dd class="col-sm-8 text-dark fw-bold">
+                            @Html.DisplayFor(model => model.RoomType.Type)
+                        </dd>
+
+                        <dt class="col-sm-4 text-muted">
+                            <i class="bi bi-person-check"></i> @Html.DisplayNameFor(model => model.RoomType.RoomCapacity)
+                        </dt>
+                        <dd class="col-sm-8 text-dark fw-bold">
+                            @Html.DisplayFor(model => model.RoomType.RoomCapacity)
+                        </dd>
+
+                        <dt class="col-sm-4 text-muted">
+                            <i class="bi bi-eye"></i> @Html.DisplayNameFor(model => model.RoomType.HasView)
+                        </dt>
+                        <dd class="col-sm-8 text-dark fw-bold">
+                            @Html.DisplayFor(model => model.RoomType.HasView)
+                        </dd>
+
+                        <dt class="col-sm-4 text-muted">
+                            <i class="bi bi-accessibility"></i> @Html.DisplayNameFor(model => model.RoomType.AcessibilityRoom)
+                        </dt>
+                        <dd class="col-sm-8 text-dark fw-bold">
+                            @Html.DisplayFor(model => model.RoomType.AcessibilityRoom)
+                        </dd>
+                    </dl>
+                    <div class="text-center mt-4">
+                        <form asp-action="Delete">
+                            <input type="hidden" asp-for="RoomTypeId" />
+                            <input type="submit" value="Delete" class="btn btn-danger" />
+                            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
