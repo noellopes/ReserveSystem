@@ -50,8 +50,6 @@ namespace ReserveSystem.Controllers
         }
 
         // POST: Bookings/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("BookingId,ClientId,Checkin_date,Checkout_date,Booking_Date,Booked,Total_Persons_Number,Payment_Status")] Booking booking)
@@ -60,8 +58,24 @@ namespace ReserveSystem.Controllers
             {
                 _context.Add(booking);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                // Redireciona para a página de confirmação após o booking ser criado
+                return RedirectToAction("RegisterComplete", new { id = booking.BookingId });
             }
+            return View(booking);
+        }
+
+        // GET: Bookings/RegisterComplete/{id}
+        public async Task<IActionResult> RegisterComplete(int id)
+        {
+            var booking = await _context.Booking
+                .FirstOrDefaultAsync(b => b.BookingId == id);
+
+            if (booking == null)
+            {
+                return NotFound();
+            }
+
             return View(booking);
         }
 

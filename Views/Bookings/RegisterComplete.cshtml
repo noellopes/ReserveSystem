@@ -1,0 +1,49 @@
+﻿@model ReserveSystem.Models.Booking
+
+@{
+    ViewData["Title"] = "Booking Complete";
+}
+
+<div class="card" style="width: 18rem;">
+    <div class="card-header">
+        <h5 class="card-title text-success">Booking Complete</h5>
+        <h6 class="card-subtitle mb-2 text-muted text-success">Thank you for your booking</h6>
+    </div>
+    <div class="card-body">
+        <div class="mb-3">
+            <label asp-for="BookingId">Booking ID</label>
+            <div class="lead">@Model.BookingId</div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ClientId">Client ID</label>
+            <div class="lead">@Model.ClientId</div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Checkin_date">Check-in Date</label>
+            <div class="lead">@Model.Checkin_date.ToShortDateString()</div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Checkout_date">Check-out Date</label>
+            <div class="lead">@Model.Checkout_date.ToShortDateString()</div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Booking_Date">Booking Date</label>
+            <div class="lead">@Model.Booking_Date.ToShortDateString()</div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Booked">Booking Status</label>
+            <div class="lead">@(Model.Booked ? "Confirmed" : "Pending")</div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Total_Persons_Number">Total Persons</label>
+            <div class="lead">@Model.Total_Persons_Number</div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Payment_Status">Payment Status</label>
+            <div class="lead">@(Model.Payment_Status ? "Paid" : "Pending")</div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <a asp-action="Index" class="card-link">Ok</a>
+    </div>
+</div>

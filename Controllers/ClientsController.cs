@@ -50,8 +50,6 @@ namespace ReserveSystem.Controllers
         }
 
         // POST: Clients/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ClientId,Client_Name,Client_Phone,Client_Adress,Client_Email,Client_Nif,Client_Login,Client_Status")] Client client)
@@ -60,8 +58,24 @@ namespace ReserveSystem.Controllers
             {
                 _context.Add(client);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                // Redireciona para a página de confirmação após o cliente ser criado
+                return RedirectToAction("RegisterComplete", new { id = client.ClientId });
             }
+            return View(client);
+        }
+
+        // GET: Clients/RegisterComplete/{id}
+        public async Task<IActionResult> RegisterComplete(int id)
+        {
+            var client = await _context.Client
+                .FirstOrDefaultAsync(c => c.ClientId == id);
+
+            if (client == null)
+            {
+                return NotFound();
+            }
+
             return View(client);
         }
 
