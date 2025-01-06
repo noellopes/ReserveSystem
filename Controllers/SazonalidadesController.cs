@@ -30,7 +30,7 @@ namespace ReserveSystem.Controllers
         // GET: Sazonalidades
         public async Task<IActionResult> ViewSeasonList()
         {
-            return View(await _context.Sazonalidade.ToListAsync());
+            return View(_context.Sazonalidade.Where(e => e.InUse == true).ToList());
         }
 
         // GET: Sazonalidades/Details/5
@@ -79,6 +79,23 @@ namespace ReserveSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ConfigSeason([Bind("Id_saz,NameSeason,DateBegin,DateEnd,InUse,SeasonFee")] Sazonalidade sazonalidade)
         {
+
+            bool datesOverlap = await _context.Sazonalidade.AnyAsync(e => e.Id_saz != sazonalidade.Id_saz && // Ignorar a própria sazonalidade (no caso de edição)
+                                                                          e.InUse && // Apenas sazonalidades ativas
+            ((sazonalidade.DateBegin >= e.DateBegin && sazonalidade.DateBegin <= e.DateEnd) || // Data de início no intervalo
+            (sazonalidade.DateEnd >= e.DateBegin && sazonalidade.DateEnd <= e.DateEnd) ||   // Data de término no intervalo
+            (sazonalidade.DateBegin <= e.DateBegin && sazonalidade.DateEnd >= e.DateEnd))); // Nova sazonalidade cobre todo o intervalo existente
+
+            if (datesOverlap)
+            {
+                ModelState.AddModelError("DateBegin", "The dates of the new seasonality overlaps with an existing active one.");
+            }
+
+
+            bool seasonExists = await _context.Sazonalidade.AnyAsync(e => e.NameSeason == sazonalidade.NameSeason && sazonalidade.InUse == true);
+            if (seasonExists) ModelState.AddModelError("NameSeason", "There already exists a seasonality with this name. Please alter the name.");
+
+            if ((sazonalidade.DateEnd - sazonalidade.DateBegin).TotalDays > 124) ModelState.AddModelError("DateEnd", "The maximum time of a seasonality is roughly 4 months (124 days).");
 
             if (ModelState.IsValid)
             {
@@ -173,7 +190,11 @@ namespace ReserveSystem.Controllers
             var sazonalidade = await _context.Sazonalidade.FindAsync(id);
             if (sazonalidade != null)
             {
-                _context.Sazonalidade.Remove(sazonalidade);
+
+                sazonalidade.InUse = false;
+
+                //_context.Sazonalidade.Remove(sazonalidade);
+                _context.Update(sazonalidade);
                 await _context.SaveChangesAsync();
             }
             ViewBag.Entity = "Seasonality";
