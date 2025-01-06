@@ -45,7 +45,7 @@
             <form asp-action="Create">
                 <div class="form-group mt-2">
                     <label class="control-label">Escolha um ou vários quartos</label>
-                    @foreach (var room in (IEnumerable<RoomModel>) ViewBag.Rooms)
+                    @foreach (var room in (IEnumerable<Room>) ViewBag.Rooms)
                     {
 
                         
