@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data.Migrations;
 using ReserveSystem.Models;
@@ -50,8 +48,6 @@ namespace ReserveSystem.Controllers
         }
 
         // POST: Consumptions/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ConsumptionId,RoomId,ItemId,QuantityConsumed,ConsumedDate")] Consumptions consumptions)
@@ -63,6 +59,11 @@ namespace ReserveSystem.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(consumptions);
+        }
+
+        public IActionResult RegistrationSuccess(Consumptions consumption)
+        {
+            return View(consumption);
         }
 
         // GET: Consumptions/Edit/5
@@ -82,8 +83,6 @@ namespace ReserveSystem.Controllers
         }
 
         // POST: Consumptions/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ConsumptionId,RoomId,ItemId,QuantityConsumed,ConsumedDate")] Consumptions consumptions)
@@ -155,3 +154,4 @@ namespace ReserveSystem.Controllers
         }
     }
 }
+
