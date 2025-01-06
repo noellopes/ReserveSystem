@@ -1,0 +1,45 @@
+﻿@model ReserveSystem.Models.Client
+
+@{
+    ViewData["Title"] = "Registration Complete";
+}
+
+<div class="card" style="width: 18rem;">
+    <div class="card-header">
+        <h5 class="card-title text-success">Registration Complete</h5>
+        <h6 class="card-subtitle mb-2 text-muted text-success">Thank you for registering!</h6>
+    </div>
+    <div class="card-body">
+        <div class="mb-3">
+            <label asp-for="Client_Name"></label>
+            <div class="lead">@Model.Client_Name</div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Client_Email"></label>
+            <div class="lead">@Model.Client_Email</div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Client_Phone"></label>
+            <div class="lead">@Model.Client_Phone</div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Client_Adress"></label>
+            <div class="lead">@Model.Client_Adress</div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Client_Nif"></label>
+            <div class="lead">@Model.Client_Nif</div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Client_Login"></label>
+            <div class="lead">@(Model.Client_Login ? "Active" : "Inactive")</div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Client_Status"></label>
+            <div class="lead">@(Model.Client_Status ? "Enabled" : "Disabled")</div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <a asp-action="Index" class="card-link">Back to Clients</a>
+    </div>
+</div>
