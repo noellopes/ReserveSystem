@@ -13,6 +13,8 @@ namespace ReserveSystem.Models
 
         public string Job_Name { get; set; }
 
+        public string? TipoCarta { get; set; }
+
         public virtual ICollection<MotoristaTransporte>? MotoristaTransporte { get; set; }
     }
 }

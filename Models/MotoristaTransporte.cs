@@ -6,8 +6,10 @@ namespace ReserveSystem.Models
     {
         [Key]
         public int MotoristaTransporteId { get; set; }
-
+        [Required]
+        public int StaffId { get; set; }
         
-
+        [Required]
+        public int TransporteId { get; set; }
     }
 }

@@ -24,6 +24,8 @@ namespace ReserveSystem.Models
         [Display(Name = "Tipo de Transporte")]
         public string TipoTransporte { get; set; }
 
+        public String CartaTransporte { get; set; }
+
         [Required(ErrorMessage = "O ano de fabricação é obrigatório.")]
         [Range(1900, 2100, ErrorMessage = "O ano de fabricação deve estar entre 1900 e 2100.")]
         [Display(Name = "Ano de Fabricação")]
@@ -33,32 +35,33 @@ namespace ReserveSystem.Models
         public virtual ICollection<MotoristaTransporte>? MotoristaTransporte { get; set; }
 
         // Propriedade derivada que retorna uma descrição com base no tipo de transporte
-        public string DescricaoTipoTransporte
-        {
-            get
-            {
-                return TipoTransporte?.ToLower() switch
-                {
-                    "autocarro" => "Transporte Pesado de Passageiros",
-                    "carrinha" => "Transporte alternativo de passageiros ou turismo",
-                    _ => "Tipo de transporte desconhecido"
-                };
-            }
-            set
-            {
-                if (value == "Transporte Pesado de Passageiros")
-                {
-                    TipoTransporte = "Autocarro";
-                }
-                else if (value == "Transporte alternativo de passageiros ou turismo")
-                {
-                    TipoTransporte = "Carrinha";
-                }
-                else
-                {
-                    TipoTransporte = "Outro";
-                }
-            }
-        }
+     public string DescricaoTipoTransporte
+         {
+             get
+             {
+                 return TipoTransporte?.ToLower() switch
+                 {
+                     "autocarro" => "Transporte Pesado de Passageiros",
+                     "carrinha" => "Transporte alternativo de passageiros ou turismo",
+                     _ => "Tipo de transporte desconhecido"
+                 };
+             }
+             set
+             {
+                 if (value == "Transporte Pesado de Passageiros")
+                 {
+                     TipoTransporte = "Autocarro";
+                 }
+                 else if (value == "Transporte alternativo de passageiros ou turismo")
+                 {
+                     TipoTransporte = "Carrinha";
+                 }
+                 else
+                 {
+                     TipoTransporte = "Outro";
+                 }
+             }
+         }
+    
     }
-    }
+}
