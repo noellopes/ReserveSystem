@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container
+// Configure database connections
 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 {
     var connectionString = builder.Configuration.GetConnectionString("ReserveSystemsUsers")
@@ -35,77 +35,34 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
-    // Sign in options
-    options.SignIn.RequireConfirmedAccount = false;
-
-    // Password options
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
     options.Password.RequiredLength = 8;
     options.Password.RequiredUniqueChars = 6;
     options.Password.RequireNonAlphanumeric = true;
     options.Password.RequireUppercase = true;
-
-    // Lockout options
     options.Lockout.AllowedForNewUsers = true;
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
     options.Lockout.MaxFailedAccessAttempts = 5;
 })
 .AddEntityFrameworkStores<ReserveSystemUsersDbContext>()
-.AddRoleManager<RoleManager<IdentityRole>>() // Add RoleManager support
 .AddDefaultTokenProviders()
 .AddDefaultUI();
 
-builder.Services.AddControllersWithViews();
-
 var app = builder.Build();
 
-var isDevelopment = app.Environment.IsDevelopment();
+// Seed database
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ReserveSystemContext>();
+    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-// Configure the HTTP request pipeline.
-if (isDevelopment)
-{
-    app.UseMigrationsEndPoint();
-}
-else
-{
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
-}
-
-using (var servicesScope = app.Services.CreateScope())
-{
-    // Seed roles
-    var roleManager = servicesScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    SeedData.Populate(context);
     SeedData.PopulateRoles(roleManager);
-
-    // Seed admin user
-    var userManager = servicesScope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
     SeedData.PopulateDefaultAdmin(userManager);
-
-    if (isDevelopment)
-    {
-        // Seed additional users
-        SeedData.PopulateUsers(userManager);
-
-        // Seed the database
-        var db = servicesScope.ServiceProvider.GetService<ReserveSystemContext>();
-        SeedData.Populate(db);
-    }
+    SeedData.PopulateUsers(userManager);
 }
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseAuthentication(); // Ensure this is included
-app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-app.MapRazorPages();
 
 app.Run();
