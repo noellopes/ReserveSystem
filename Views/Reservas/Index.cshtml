@@ -50,10 +50,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdCliente)
+                @Html.DisplayNameFor(model => model.Reservas.First().IdCliente)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NumeroPessoas)
+                @Html.DisplayNameFor(model => model.Reservas.First().NumeroPessoas)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Reservas.First().Observacao)

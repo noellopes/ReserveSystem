@@ -12,9 +12,9 @@ namespace ReserveSystem.Controllers
 {
     public class PratosController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ReserveSystemContext _context;
 
-        public PratosController(ApplicationDbContext context)
+        public PratosController(ReserveSystemContext context)
         {
             _context = context;
         }

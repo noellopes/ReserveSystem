@@ -12,9 +12,9 @@ namespace ReserveSystem.Controllers
 {
     public class ClientesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ReserveSystemContext _context;
 
-        public ClientesController(ApplicationDbContext context)
+        public ClientesController(ReserveSystemContext context)
         {
             _context = context;
         }

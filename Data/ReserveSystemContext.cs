@@ -8,9 +8,14 @@ namespace ReserveSystem.Data
         public ReserveSystemContext(DbContextOptions<ReserveSystemContext> options) : base(options) { }
         public DbSet<ClientModel> Client { get; set; } = default!;
         public DbSet<Employee> Employee { get; set; } = default!;
-        public DbSet<Booking> Booking { get; set; }
-        public DbSet<RoomModel> Room { get; set; }
-        public DbSet<RoomType> RoomType { get; set; }
+        public DbSet<Booking> Booking { get; set; } = default!;
+        public DbSet<RoomModel> Room { get; set; } = default!;
+        public DbSet<RoomType> RoomType { get; set; } = default!;
+
+        public DbSet<Cliente> Cliente { get; set; } = default!;
+        public DbSet<Mesa> Mesa { get; set; } = default!;
+        public DbSet<Prato> Prato { get; set; } = default!;
+        public DbSet<Reserva> Reserva { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
