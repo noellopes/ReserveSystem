@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
 
@@ -55,6 +56,12 @@ namespace ReserveSystem.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create([Bind("event_id,nameEv,startDate,endDate,fee,anual,level,municipal,national,inUse")] Events events)
 		{
+            bool eventExists = await _context.Events.AnyAsync(e => (e.nameEv == events.nameEv)&&(e.inUse==true));
+            if (eventExists)
+            {
+                ModelState.AddModelError("nameEv", "An event with this name already exists.");
+            }
+
             if ((events.endDate - events.startDate).TotalDays > 7)
             {
                 // Adiciona um erro ao ModelState se a validação falhar
