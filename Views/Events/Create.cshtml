@@ -1,0 +1,239 @@
+﻿@model ReserveSystem.Models.Events
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<style>
+    /* General Body Styling */
+    body {
+        font-family: 'Georgia', serif;
+        background-color: #f9f9f6; 
+        color: #1a1a1a; 
+    }
+
+    /* Form Container Styles */
+    .form-container {
+        background: #ffffff; 
+        padding: 3rem;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); 
+        max-width: 600px;
+        margin: 3rem auto;
+        transition: all 0.3s ease;
+    }
+
+        .form-container:hover {
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); 
+        }
+
+    /* Heading Styles */
+    h1 {
+        color: #d4af37; 
+        font-size: 2rem;
+        font-weight: 700;
+    }
+
+    /* Form Group and Label Styles */
+    .form-group label {
+        font-size: 1.1rem;
+        color: #1a1a1a; 
+        font-weight: 600;
+    }
+
+    /* Input Field Styles */
+    .form-control {
+        border-radius: 8px;
+        border: 1px solid #cccccc;
+        padding: 12px 16px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background-color: #f9f9f9; 
+    }
+
+        .form-control:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.2);
+            background-color: #ffffff; 
+        }
+
+    /* Form Check Styles */
+    .form-check-input:checked {
+        background-color: #d4af37; 
+        border-color: #d4af37;
+    }
+
+    .form-check-label {
+        color: #555555; 
+        font-size: 1rem;
+    }
+
+    /* Error Text Styling */
+    .text-danger {
+        font-size: 0.875rem;
+        color: #cc0000; 
+    }
+
+    /* Primary Button Styles */
+    .btn_create {
+        background-color: #ffffff;
+        border-color: #d4af37;
+        color: #333333;
+        font-weight: 600;
+        padding: 14px 28px;
+        border-radius: 50px;
+        font-size: 1.125rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        width:50%;
+    }
+
+        .btn_create:hover {
+            background-color: #333333;
+            color: #F5F5F5;
+            border-color: #d4af37;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .btn_create:active {
+            background-color: #000000;
+            border-color: #000000;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+            transform: translateY(0); /* Button "presses" down */
+        }
+
+    /* Back Button Styling */
+    .btn_back {
+        background-color: #333333;
+        border-color: #d4af37;
+        color: #ffffff;
+        font-weight: 600;
+        padding: 14px 28px;
+        border-radius: 50px;
+        font-size: 1.125rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+        .btn_back:hover {
+            background-color: #ffffff;
+            color: #d4af37;
+            border-color: #d4af37;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+    /* Additional Input Field and Group Styling */
+    .form-group {
+        margin-bottom: 2rem; 
+    }
+
+    /* Enhancing the checkboxes */
+    .form-check {
+        margin-bottom: 1rem;
+    }
+
+    .hr {
+        border: none;
+        height: 2px;
+        background-color: #d4af37; 
+        width: 60%;
+        margin: 1rem auto;
+        opacity: 0.8;
+    }
+</style>
+
+<h1 class="text-center my-4 text-gold font-weight-bold">Create an Event</h1>
+<hr class="hr" />
+<div class="form-container">
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+        <!-- Event Name -->
+        <div class="form-group">
+            <label asp-for="nameEv" class="control-label">Event Name</label>
+            <input asp-for="nameEv" class="form-control" />
+            <span asp-validation-for="nameEv" class="text-danger"></span>
+        </div>
+
+        <!-- Start Date -->
+        <div class="form-group">
+            <label asp-for="startDate" class="control-label">Start Date</label>
+            <input asp-for="startDate" type="date" class="form-control" />
+            <span asp-validation-for="startDate" class="text-danger"></span>
+        </div>
+
+        <!-- End Date -->
+        <div class="form-group">
+            <label asp-for="endDate" class="control-label">End Date</label>
+            <input asp-for="endDate" type="date" class="form-control" />
+            <span asp-validation-for="endDate" class="text-danger"></span>
+        </div>
+
+        <!-- Fee -->
+        <div class="form-group">
+            <label asp-for="fee" class="control-label">Event Fee</label>
+            <input asp-for="fee" class="form-control" type="number" step="0.01" min="0" max="1" />
+            <span asp-validation-for="fee" class="text-danger"></span>
+        </div>
+
+        <!-- Annual Event Checkbox -->
+        <div class="form-group form-check">
+            <input class="form-check-input" asp-for="anual" />
+            <label class="form-check-label" asp-for="anual">Annual Event</label>
+        </div>
+
+        <!-- Municipal Checkbox -->
+        <div class="form-group form-check">
+            <input id="municipalCheckbox" class="form-check-input" asp-for="municipal" />
+            <label class="form-check-label" asp-for="municipal">Municipal</label>
+        </div>
+
+        <!-- National Checkbox -->
+        <div class="form-group form-check">
+            <input id="nacionalCheckbox" class="form-check-input" asp-for="national" />
+            <label class="form-check-label" asp-for="national">National</label>
+        </div>
+
+
+        <!-- Submit Button -->
+        <div class="form-group text-center">
+            <input type="submit" value="Create" class="btn btn_create" />
+        </div>
+    </form>
+
+    <div class="text-center mt-4">
+        <a asp-action="Show" class="btn btn_back">Back</a>
+    </div>
+</div>
+<hr class="hr" />
+
+@section Scripts {
+    <script>
+        // Função para desmarcar o outro checkbox se o primeiro for selecionado
+        document.addEventListener("DOMContentLoaded", function () {
+            const municipalCheckbox = document.getElementById('municipalCheckbox');
+            const nacionalCheckbox = document.getElementById('nacionalCheckbox');
+
+            // Quando o checkbox "Municipal" for alterado
+            municipalCheckbox.addEventListener('change', function () {
+                if (this.checked) {
+                    nacionalCheckbox.checked = false; // Desmarcar "National"
+                }
+            });
+
+            // Quando o checkbox "National" for alterado
+            nacionalCheckbox.addEventListener('change', function () {
+                if (this.checked) {
+                    municipalCheckbox.checked = false; // Desmarcar "Municipal"
+                }
+            });
+        });
+    </script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
