@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Books.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging; // Added for logging
 using ReserveSystem.Data;
 using ReserveSystem.Models;
 using static System.Reflection.Metadata.BlobBuilder;
@@ -16,22 +13,47 @@ namespace ReserveSystem.Controllers
     public class ReservasController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly ILogger<ReservasController> _logger; // Added for logging
 
-
-        public ReservasController(ApplicationDbContext context, ILogger<ReservasController> logger)
+        public ReservasController(ApplicationDbContext context)
         {
             _context = context;
-            _logger = logger; // Agora, o logger é inicializado corretamente
         }
 
         // GET: Reservas
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1, string searchCliente = "", string searchPrato = "")
         {
+            var reservas = from r in _context.Reserva.Include(r => r.Cliente).Include(r => r.Prato) select r;
 
-            var applicationDbContext = _context.Reserva.Include(b => b.Prato).Include(c => c.Cliente);
-            return View(await applicationDbContext.ToListAsync());
+            //if (searchCliente != "")
+            //{
+            //    reservas = from r in reservas where r.Cliente!.NomeCliente.Contains(searchCliente) select r;
+            //}
 
+            //if (searchPrato != "")
+            //{
+            //    reservas = from r in reservas where r.Prato!.PratoNome.Contains(searchPrato) select r;
+            //}
+
+            var model = new ReservasViewModel();
+
+            model.PagingInfo = new PagingInfo
+            {
+                CurrentPage = page,
+                TotalItems = await reservas.CountAsync(),
+            };
+
+            model.Reservas = reservas.ToList();
+
+            //model.Reservas = await reservas
+            //        .OrderBy(r => r.Cliente)
+            //        .Skip((model.PagingInfo.CurrentPage - 1) * model.PagingInfo.PageSize)
+            //        .Take(model.PagingInfo.PageSize)
+            //        .ToListAsync();
+
+            model.SearchCliente = searchCliente;
+            model.SearchPrato = searchPrato;
+
+            return View(model);
         }
 
         // GET: Reservas/Details/5
@@ -43,9 +65,7 @@ namespace ReserveSystem.Controllers
             }
 
             var reserva = await _context.Reserva
-
-                .Include(b => b.Prato).Include(c => c.Cliente)
-
+                .Include(r => r.Prato).Include(r => r.Cliente)
                 .FirstOrDefaultAsync(m => m.IdReserva == id);
             if (reserva == null)
             {
@@ -58,19 +78,14 @@ namespace ReserveSystem.Controllers
         // GET: Reservas/Create
         public IActionResult Create()
         {
-            ViewData["IdCliente"] = new SelectList(_context.Cliente?.ToList() ?? new List<Cliente>(), "IdCliente", "NomeCliente");
-            ViewData["IdPrato"] = new SelectList(_context.Prato?.ToList() ?? new List<Prato>(), "IdPrato", "PratoNome");
-
-            
+            ViewData["IdCliente"] = new SelectList(_context.Cliente, "IdCliente", "NomeCliente");
+            ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome");
             return View();
         }
 
-
         // POST: Reservas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]//REFACTORED
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdReserva,IdCliente,NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva)
         {
             if (!_context.Mesa.Any())
@@ -96,13 +111,13 @@ namespace ReserveSystem.Controllers
                     if (idMesa != null)
                     {
                         reserva.IdMesa = idMesa.Value;
-                        reserva.NumeroMesa = idMesa.Value; // Definir o valor de NumeroMesa
+                        reserva.NumeroMesa = idMesa.Value;
                     }
                     else
                     {
                         ModelState.AddModelError("IdMesa", "Nenhuma mesa disponível suporta o número de pessoas especificado.");
                     }
-                }//Funciona mas não entedo o porquê (O NumeroMesa não faz literalmente nada, mas sem ele isto não funciona ¯\_(ツ)_/¯)
+                }
             }
 
             if (ModelState.IsValid)
@@ -116,7 +131,7 @@ namespace ReserveSystem.Controllers
             ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome", reserva.IdPrato);
             return View(reserva);
         }
-        //REFACTORED
+
         // GET: Reservas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -136,12 +151,9 @@ namespace ReserveSystem.Controllers
         }
 
         // POST: Reservas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdReserva,IdCliente,IdMesa, NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva)
-
+        public async Task<IActionResult> Edit(int id, [Bind("IdReserva,IdCliente,IdMesa,NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva)
         {
             if (id != reserva.IdReserva)
             {
@@ -154,43 +166,21 @@ namespace ReserveSystem.Controllers
                 {
                     _context.Update(reserva);
                     await _context.SaveChangesAsync();
-                    TempData["SuccessMessage"] = "Reserva criada com sucesso!";
                 }
-
                 catch (DbUpdateConcurrencyException)
                 {
-
                     if (!ReservaExists(reserva.IdReserva))
                     {
                         return NotFound();
                     }
-
-                    // Provide user feedback (Optional)
-                    ModelState.AddModelError(string.Empty, "A concurrency error occurred. Please try again.");
-                    return View(reserva);
-                }
-                catch (DbUpdateException ex)
-                {
-                    // Log the exception details
-                    _logger.LogError($"Error while updating reservation: {ex.Message}");
-                    if (ex.InnerException != null)
+                    else
                     {
-                        _logger.LogError($"Inner exception: {ex.InnerException.Message}");
+                        throw;
                     }
-
-                    // Provide user feedback (Optional)
-                    ModelState.AddModelError(string.Empty, "An error occurred while saving the reservation. Please try again.");
-                    return View(reserva);
                 }
-
-                
                 return RedirectToAction(nameof(Index));
             }
-
             ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome", reserva.IdPrato);
-
-
-
             return View(reserva);
         }
 
@@ -203,9 +193,7 @@ namespace ReserveSystem.Controllers
             }
 
             var reserva = await _context.Reserva
-
-                .Include(b => b.Prato).Include(c => c.Cliente)
-
+                .Include(r => r.Prato).Include(r => r.Cliente)
                 .FirstOrDefaultAsync(m => m.IdReserva == id);
             if (reserva == null)
             {
@@ -224,11 +212,9 @@ namespace ReserveSystem.Controllers
             if (reserva != null)
             {
                 _context.Reserva.Remove(reserva);
-                await _context.SaveChangesAsync();
-
-
             }
 
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

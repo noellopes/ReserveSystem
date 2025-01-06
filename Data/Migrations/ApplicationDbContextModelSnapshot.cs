@@ -262,7 +262,7 @@ namespace ReserveSystem.Data.Migrations
                     b.Property<int>("NumeroLugares")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Reservado")
+                    b.Property<bool?>("Reservado")
                         .HasColumnType("bit");
 
                     b.HasKey("IdMesa");
@@ -304,7 +304,7 @@ namespace ReserveSystem.Data.Migrations
                     b.Property<bool>("Aprovacao")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ClienteIdCliente")
+                    b.Property<int>("ClienteIdCliente")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DataHora")
@@ -316,7 +316,7 @@ namespace ReserveSystem.Data.Migrations
                     b.Property<int?>("IdMesa")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdPrato")
+                    b.Property<int?>("IdPrato")
                         .HasColumnType("int");
 
                     b.Property<int?>("NumeroMesa")
@@ -326,7 +326,8 @@ namespace ReserveSystem.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Observacao")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<int?>("PratoIdPrato")
                         .HasColumnType("int");
@@ -395,7 +396,9 @@ namespace ReserveSystem.Data.Migrations
                 {
                     b.HasOne("ReserveSystem.Models.Cliente", "Cliente")
                         .WithMany()
-                        .HasForeignKey("ClienteIdCliente");
+                        .HasForeignKey("ClienteIdCliente")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ReserveSystem.Models.Prato", "Prato")
                         .WithMany("Reservas")

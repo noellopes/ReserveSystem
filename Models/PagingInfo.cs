@@ -1,4 +1,4 @@
-﻿namespace Books.Models
+﻿namespace ReserveSystem.Models
 {
     public class PagingInfo
     {
