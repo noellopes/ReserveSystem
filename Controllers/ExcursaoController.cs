@@ -116,18 +116,30 @@ namespace ReserveSystem.Controllers
 			{
 				try
 				{
+					var existingExcursao = await _context.ExcursaoModel.AsNoTracking().FirstOrDefaultAsync(e => e.ExcursaoId == id);
+					if (existingExcursao == null)
+					{
+						return NotFound();
+					}
+
+					// Verificando se o preço mudou
+					bool precoMudou = existingExcursao.Preco != excursaoModel.Preco;
+
 					_context.Update(excursaoModel);
 					await _context.SaveChangesAsync();
 
-					// Adicionando novo registro no PrecarioModel
-					var precarioModel = new PrecarioModel
+					// Adicionando novo registro no PrecarioModel apenas se o preço mudar
+					if (precoMudou)
 					{
-						Preco = excursaoModel.Preco,
-						Data_Inicio = DateTime.Now, // Usando a data e hora atual do sistema
-						ExcursaoId = excursaoModel.ExcursaoId
-					};
-					_context.PrecarioModel.Add(precarioModel);
-					await _context.SaveChangesAsync();
+						var precarioModel = new PrecarioModel
+						{
+							Preco = excursaoModel.Preco,
+							Data_Inicio = DateTime.Now, // Usando a data e hora atual do sistema
+							ExcursaoId = excursaoModel.ExcursaoId
+						};
+						_context.PrecarioModel.Add(precarioModel);
+						await _context.SaveChangesAsync();
+					}
 				}
 				catch (DbUpdateConcurrencyException)
 				{
