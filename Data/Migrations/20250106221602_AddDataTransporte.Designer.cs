@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserveSystem.Data;
 
@@ -10,9 +11,11 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    partial class ReserveSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20250106221602_AddDataTransporte")]
+    partial class AddDataTransporte
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,158 +45,6 @@ namespace ReserveSystem.Data.Migrations
                     b.HasIndex("TransporteId");
 
                     b.ToTable("MotoristaTransporte");
-
-                    b.HasData(
-                        new
-                        {
-                            MotoristaTransporteId = 26,
-                            StaffId = 26,
-                            TransporteId = 26
-                        },
-                        new
-                        {
-                            MotoristaTransporteId = 27,
-                            StaffId = 27,
-                            TransporteId = 27
-                        },
-                        new
-                        {
-                            MotoristaTransporteId = 28,
-                            StaffId = 28,
-                            TransporteId = 28
-                        },
-                        new
-                        {
-                            MotoristaTransporteId = 29,
-                            StaffId = 29,
-                            TransporteId = 29
-                        },
-                        new
-                        {
-                            MotoristaTransporteId = 30,
-                            StaffId = 30,
-                            TransporteId = 30
-                        },
-                        new
-                        {
-                            MotoristaTransporteId = 31,
-                            StaffId = 31,
-                            TransporteId = 31
-                        },
-                        new
-                        {
-                            MotoristaTransporteId = 32,
-                            StaffId = 32,
-                            TransporteId = 32
-                        },
-                        new
-                        {
-                            MotoristaTransporteId = 33,
-                            StaffId = 33,
-                            TransporteId = 33
-                        },
-                        new
-                        {
-                            MotoristaTransporteId = 34,
-                            StaffId = 34,
-                            TransporteId = 34
-                        },
-                        new
-                        {
-                            MotoristaTransporteId = 35,
-                            StaffId = 35,
-                            TransporteId = 35
-                        },
-                        new
-                        {
-                            MotoristaTransporteId = 36,
-                            StaffId = 36,
-                            TransporteId = 36
-                        },
-                        new
-                        {
-                            MotoristaTransporteId = 37,
-                            StaffId = 37,
-                            TransporteId = 37
-                        },
-                        new
-                        {
-                            MotoristaTransporteId = 38,
-                            StaffId = 38,
-                            TransporteId = 38
-                        },
-                        new
-                        {
-                            MotoristaTransporteId = 39,
-                            StaffId = 39,
-                            TransporteId = 39
-                        },
-                        new
-                        {
-                            MotoristaTransporteId = 40,
-                            StaffId = 40,
-                            TransporteId = 40
-                        },
-                        new
-                        {
-                            MotoristaTransporteId = 41,
-                            StaffId = 41,
-                            TransporteId = 41
-                        },
-                        new
-                        {
-                            MotoristaTransporteId = 42,
-                            StaffId = 42,
-                            TransporteId = 42
-                        },
-                        new
-                        {
-                            MotoristaTransporteId = 43,
-                            StaffId = 43,
-                            TransporteId = 43
-                        },
-                        new
-                        {
-                            MotoristaTransporteId = 44,
-                            StaffId = 44,
-                            TransporteId = 44
-                        },
-                        new
-                        {
-                            MotoristaTransporteId = 45,
-                            StaffId = 45,
-                            TransporteId = 45
-                        },
-                        new
-                        {
-                            MotoristaTransporteId = 46,
-                            StaffId = 46,
-                            TransporteId = 46
-                        },
-                        new
-                        {
-                            MotoristaTransporteId = 47,
-                            StaffId = 47,
-                            TransporteId = 47
-                        },
-                        new
-                        {
-                            MotoristaTransporteId = 48,
-                            StaffId = 48,
-                            TransporteId = 48
-                        },
-                        new
-                        {
-                            MotoristaTransporteId = 49,
-                            StaffId = 49,
-                            TransporteId = 49
-                        },
-                        new
-                        {
-                            MotoristaTransporteId = 50,
-                            StaffId = 50,
-                            TransporteId = 50
-                        });
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.Staff", b =>
