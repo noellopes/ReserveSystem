@@ -50,8 +50,6 @@ namespace ReserveSystem.Controllers
         }
 
         // POST: Items/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ItemId,Name,QuantityStock")] Items items)
@@ -60,8 +58,22 @@ namespace ReserveSystem.Controllers
             {
                 _context.Add(items);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                // Redireciona para a página de sucesso
+                return RedirectToAction(nameof(RegistrationSuccess), new { id = items.ItemId });
             }
+            return View(items);
+        }
+
+        // Ação de sucesso após a criação do item
+        public async Task<IActionResult> RegistrationSuccess(int id)
+        {
+            var items = await _context.Items.FindAsync(id);
+            if (items == null)
+            {
+                return NotFound();
+            }
+
             return View(items);
         }
 

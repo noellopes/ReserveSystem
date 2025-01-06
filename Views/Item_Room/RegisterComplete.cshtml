@@ -1,0 +1,27 @@
+﻿@model ReserveSystem.Models.Item_Room
+
+<h1>Registo Concluído</h1>
+
+<p>O registo foi criado com sucesso!</p>
+
+<table class="table">
+    <tr>
+        <th>ID do Item-Room</th>
+        <td>@Model.ItemRoomId</td>
+    </tr>
+    <tr>
+        <th>Tipo de Quarto</th>
+        <td>@Model.RoomTypeId</td>
+    </tr>
+    <tr>
+        <th>Item</th>
+        <td>@Model.ItemId</td>
+    </tr>
+    <tr>
+        <th>Quantidade de Quarto</th>
+        <td>@Model.RoomQuantity</td>
+    </tr>
+</table>
+
+<a asp-action="Index" class="btn btn-primary">Voltar à Lista</a>
+<a asp-action="Create" class="btn btn-secondary">Criar Novo</a>
