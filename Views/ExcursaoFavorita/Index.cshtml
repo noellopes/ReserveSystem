@@ -1,12 +1,15 @@
 ﻿@model PagedList.IPagedList<ReserveSystem.Models.ExcursaoFavoritaModel>
 @using PagedList.Mvc
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="~/css/ViewsGrupo10.css" />
 
 
 @{
     ViewData["Title"] = "Favoritas";
 }
-
+<div class=" top-0 start-0 bg-cover position-absolute bgImage" style="background-image: url('/images/excursaoFavorita.jpg');height: 70%;">
+    <div class="filter"></div>
+</div>
 <div class="container mt-4">
     @using (Html.BeginForm("Index", "ExcursaoFavorita", FormMethod.Get))
     {

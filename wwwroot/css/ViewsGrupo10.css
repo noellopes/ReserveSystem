@@ -1,10 +1,10 @@
 ﻿.bgImage {
-    background-image: url('/images/ReservaExcursao.jpg');
+    
     background-size: cover;
     background-position: center;
     width: 100%;
     background-attachment: fixed;
-    height: 90%;
+    
     z-index: -1;
 }
 
