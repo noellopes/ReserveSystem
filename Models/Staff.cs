@@ -13,6 +13,6 @@ namespace ReserveSystem.Models
 
         public string Job_Name { get; set; }
 
-        public virtual ICollection<ExcursaoModel>? Excursao { get; set; }
+        public virtual ICollection<MotoristaTransporte>? MotoristaTransporte { get; set; }
     }
 }

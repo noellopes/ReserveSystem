@@ -29,6 +29,9 @@ namespace ReserveSystem.Models
         [Display(Name = "Ano de Fabricação")]
         public int AnoFabricacao { get; set; }
 
+
+        public virtual ICollection<MotoristaTransporte>? MotoristaTransporte { get; set; }
+
         // Propriedade derivada que retorna uma descrição com base no tipo de transporte
         public string DescricaoTipoTransporte
         {
