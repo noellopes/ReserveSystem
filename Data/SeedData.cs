@@ -127,7 +127,7 @@ namespace ReserveSystem.Data
                     new RoomType {HasView = true, Type = "Deluxe", RoomCapacity = 3, AcessibilityRoom = false },
                     new RoomType {HasView = true, Type = "Suite", RoomCapacity = 4, AcessibilityRoom = true },
                     new RoomType {HasView = false,Type = "Presidential", RoomCapacity = 2, AcessibilityRoom = false },
-                    new RoomType {HasView = false,Type = "Luxury Room", RoomCapacity = 3, AcessibilityRoom = false }
+                    new RoomType {HasView = false,Type = "Luxury Room", RoomCapacity = 3, AcessibilityRoom = false } 
                 };
             db.SaveChanges();
 
