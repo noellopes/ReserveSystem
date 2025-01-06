@@ -9,7 +9,7 @@ namespace ReserveSystem.Models
         public int ID_BOOKING { get; set; }
 
 
-        [ForeignKey("ID_CLIENT")]
+        [ForeignKey("ClienteId")]
         public int ID_CLIENT { get; set; }
 
 
@@ -34,7 +34,7 @@ namespace ReserveSystem.Models
 
 
         //TODO mudar para RoomBookings
-        public IEnumerable<RoomServiceBooking> RoomServiceBookings { get; set; }
+        public IEnumerable<RoomBooking> RoomBookings { get; set; }
         public ClientModel? Client { get; set; }
 
 

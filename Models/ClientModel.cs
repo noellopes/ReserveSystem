@@ -8,7 +8,7 @@ namespace ReserveSystem.Models
         public int ClienteId { get; set; }
 
         [Required(ErrorMessage = "Name is mandatory")]
-        [StringLength(30, MinimumLength = 4, ErrorMessage = "Name must be between 4 and 30 characters.")]
+        [StringLength(30, MinimumLength = 4, ErrorMessage = "Name must be between 4 and 30 characters.")] 
         public string Name { get;set; }
 
         [Required(ErrorMessage = "Phone number is mandatory")]

@@ -1,0 +1,73 @@
+﻿@model ReserveSystem.Models.RoomType
+
+@{
+    ViewData["Title"] = "Create Room Type";
+}
+
+<h3 class="text-center">
+    <i class="bi bi-house-door"></i> Room Type
+</h3>
+<div class="d-flex justify-content-center">
+    <div class="col-md-6">
+        <form asp-action="Create" class="border p-5 rounded shadow-sm">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <!-- Campo de "Type" -->
+            <div class="form-group mb-3">
+                <span asp-validation-for="Type" class="text-danger"></span>
+                <label asp-for="Type" class="control-label">Room Type</label>
+                <select asp-for="Type" class="form-control bg-light">
+                    <option value="" disabled selected>Select a Room Type</option>
+                    <option value="Standard">Standard</option>
+                    <option value="Deluxe">Deluxe</option>
+                    <option value="Suite">Suite</option>
+                    <option value="Presidential">Presidential</option>
+                    <option value="Luxury Room">Luxury Room</option>
+                    <option value="Penthouse">Penthouse</option>
+                    <option value="Family Room">Family Room</option>
+                </select>
+            </div>
+
+            <!-- Campo de "RoomCapacity" -->
+            <div class="form-group mb-3">
+                <span asp-validation-for="RoomCapacity" class="text-danger"></span>
+                <label asp-for="RoomCapacity" class="control-label">Room Capacity</label>
+                <input asp-for="RoomCapacity" class="form-control bg-light" type="number" />
+            </div>
+
+            <!-- Campo de "AcessibilityRoom" -->
+            <div class="form-group form-check mb-3">
+                <span asp-validation-for="AcessibilityRoom" class="text-danger"></span>
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="AcessibilityRoom" />
+                    @Html.DisplayNameFor(model => model.AcessibilityRoom)
+                </label>
+            </div>
+
+            <!-- Campo de "HasView" -->
+            <div class="form-group form-check mb-3">
+                <span asp-validation-for="HasView" class="text-danger"></span>
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="HasView" />
+                    @Html.DisplayNameFor(model => model.HasView)
+                </label>
+            </div>
+
+            <!-- Botões -->
+            <div class="d-flex justify-content-between m-3">
+                <div class="form-group">
+                    <a asp-action="Index" class="btn btn-secondary"><i class="bi bi-arrow-left-circle"></i> Back to List</a>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
