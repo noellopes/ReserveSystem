@@ -1,0 +1,29 @@
+﻿@model ReserveSystem.Models.Room
+
+@{
+    ViewData["Title"] = "Room Registration Complete";
+}
+
+<div class="card" style="width: 18rem;">
+    <div class="card-header">
+        <h5 class="card-title text-success">Room Registered Successfully</h5>
+        <h6 class="card-subtitle mb-2 text-muted text-success">Thank you for registering the room</h6>
+    </div>
+    <div class="card-body">
+        <div class="mb-3">
+            <label>Room ID</label>
+            <div class="lead">@Model.RoomId</div>
+        </div>
+        <div class="mb-3">
+            <label>Room Type</label>
+            <div class="lead">@Model.roomType?.RoomTypeId</div>
+        </div>
+        <div class="mb-3">
+            <label>Room Type ID</label>
+            <div class="lead">@Model.RoomTypeId</div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <a asp-action="Index" class="card-link">Ok</a>
+    </div>
+</div>

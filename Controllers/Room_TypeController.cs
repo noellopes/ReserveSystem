@@ -49,20 +49,31 @@ namespace ReserveSystem.Controllers
             return View();
         }
 
-        // POST: Room_Type/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: RoomTypes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RoomTypeId,HasView,Type,Capacity,RoomCapacity,AcessibilityRoom")] Room_Type room_Type)
+        public async Task<IActionResult> Create([Bind("RoomTypeId,HasView,Type,Capacity,RoomCapacity,AcessibilityRoom")] Room_Type roomType)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(room_Type);
+                _context.Add(roomType);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // Redireciona para a página de confirmação após o registro
+                return RedirectToAction("RegisterComplete", new { id = roomType.RoomTypeId });
             }
-            return View(room_Type);
+            return View(roomType);
+        }
+
+
+        // GET: RoomTypes/RegisterComplete/5
+        public async Task<IActionResult> RegisterComplete(int id)
+        {
+            var roomType = await _context.Room_Type.FirstOrDefaultAsync(m => m.RoomTypeId == id);
+            if (roomType == null)
+            {
+                return NotFound();
+            }
+            return View(roomType);
         }
 
         // GET: Room_Type/Edit/5
