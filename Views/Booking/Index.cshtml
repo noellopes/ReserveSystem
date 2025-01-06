@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ReserveSystem.Models.Booking>
+﻿@model BookingViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -8,6 +8,7 @@
 <head>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
+
 <body>
     <h1>LISTA DE RESERVAS</h1>
     <div class="mt-3">
@@ -46,7 +47,8 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+
+            @foreach (var item in Model.Bookings) 
             {
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.Client.Name)</td>
@@ -66,5 +68,55 @@
             }
         </tbody>
     </table>
+
+
+
+    
+
+    <nav aria-label="booksPagination">
+        <ul class="pagination">
+            @{
+                var cssStyle = "page-item";
+                if (Model.BookingsIds.CurrentPage == 1)
+                {
+                    cssStyle += " disabled";
+                }
+            }
+            <li class="@cssStyle">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="1">First</a>
+            </li>
+
+            @for (int p = Model.BookingsIds.FirstPageShow; p <= Model.BookingsIds.LastPageShow; p++)
+            {
+                cssStyle = "page-item";
+                if (p == Model.BookingsIds.CurrentPage)
+                {
+                    cssStyle += " active";
+                }
+
+                <li class="@cssStyle">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-page="@p">@p</a>
+                </li>
+            }
+
+            @{
+                cssStyle = "page-item";
+                if (Model.BookingsIds.CurrentPage == Model.BookingsIds.TotalPages)
+                {
+                    cssStyle += " disabled";
+                }
+            }
+            <li class="@cssStyle">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@Model.BookingsIds.TotalPages">Last</a>
+            </li>
+        </ul>
+    </nav>
 </body>
 </html>
+

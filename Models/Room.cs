@@ -10,5 +10,11 @@ namespace ReserveSystem.Models
         [ForeignKey("RoomType")][Required] public int RoomTypeId { get; set; }
 
         public RoomType RoomType { get; set; }
+
+
+
+        //TODO mudar para RoomBookings
+        public IEnumerable<RoomServiceBooking> RoomServiceBookings { get; set; }
+
     }
 }
