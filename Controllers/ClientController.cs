@@ -104,7 +104,7 @@ namespace ReserveSystem.Controllers
                     {
                         ModelState.AddModelError("Email", "Invalid email. Please verify and try again.");
                         return View(cliente);
-                    }
+                    } 
                     if (cliente.IdentificationType == "NIF")
                     {
                         if (!Validator.IsNifValid(cliente.NIF))
