@@ -107,7 +107,7 @@ namespace ReserveSystem.Controllers
             }
 
 
-            int pageSize = 10;
+            int pageSize = 9;
             int pageNumber = (page ?? 1);
             return View(reservas.ToPagedList(pageNumber, pageSize));
             // return View(await reservas.ToListAsync());
@@ -293,11 +293,11 @@ namespace ReserveSystem.Controllers
             try
             {
                 // Fetch selected excursions and remove them
-                var excursaoFavoritas = _context.ExcursaoFavoritaModel.Where(e => selectedIds.Contains(e.Id));
+                var reservaExcursao = _context.ReservaExcursaoModel.Where(e => selectedIds.Contains(e.Id));
 
-                if (excursaoFavoritas.Any())
+                if (reservaExcursao.Any())
                 {
-                    _context.ExcursaoFavoritaModel.RemoveRange(excursaoFavoritas);
+                    _context.ReservaExcursaoModel.RemoveRange(reservaExcursao);
                     await _context.SaveChangesAsync();
                     TempData["SuccessMessage"] = "Selected excursions were successfully deleted.";
                 }
@@ -311,6 +311,63 @@ namespace ReserveSystem.Controllers
                 TempData["ErrorMessage"] = $"Error deleting excursions: {ex.Message}";
             }
 
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        // GET: ReservaExcursao/Favorita/5
+        public async Task<IActionResult> Favorita(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var reservaExcursaoModel = await _context.ReservaExcursaoModel
+                .Include(r => r.Cliente)
+                .Include(r => r.Excursao)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (reservaExcursaoModel == null)
+            {
+                return NotFound();
+            }
+
+            // Retorna a view com o modelo de reserva, onde o usuário pode adicionar um comentário
+            return View(reservaExcursaoModel);
+        }
+
+        // POST: ReservaExcursao/Favorita/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Favorita(int id, string? comentario)
+        {
+           
+
+            var reservaExcursaoModel = await _context.ReservaExcursaoModel
+                .Include(r => r.Cliente)
+                .Include(r => r.Excursao)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (reservaExcursaoModel == null)
+            {
+                return NotFound();
+            }
+
+            // Cria o objeto para adicionar à tabela ExcursaoFavorita
+            var favorita = new ExcursaoFavoritaModel
+            {
+                ClienteId = reservaExcursaoModel.ClienteId,
+                ExcursaoId = reservaExcursaoModel.ExcursaoId,
+                Comentario = comentario
+            };
+
+            // Adiciona à base de dados
+            _context.ExcursaoFavoritaModel.Add(favorita);
+            await _context.SaveChangesAsync();
+
+            // Redireciona para a lista de reservas
+            TempData["SuccessMessage"] = "Excursão adicionada aos favoritos com sucesso!";
             return RedirectToAction(nameof(Index));
         }
     }
