@@ -147,7 +147,8 @@ namespace ReserveSystem.Controllers
             var tQePreco = await _context.TQePreco.FindAsync(id);
             if (tQePreco != null)
             {
-                _context.TQePreco.Remove(tQePreco);
+                tQePreco.InUse = false;
+                //_context.TQePreco.Remove(tQePreco);
             }
 
             await _context.SaveChangesAsync();
