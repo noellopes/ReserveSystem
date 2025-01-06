@@ -56,6 +56,11 @@ namespace ReserveSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("RoomTypeId,type,capacity,RoomQuantity,AcessibilityRoom,View,BasePrice,AdicionalBeds,InUse")] TQePreco tQePreco)
         {
+            bool RtypeExists = await _context.TQePreco.AnyAsync(e  => e.type == tQePreco.type);
+            if (RtypeExists)
+            {
+                ModelState.AddModelError("type", "A room type with this name already exists");
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(tQePreco);
