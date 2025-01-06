@@ -31,6 +31,9 @@
                 @Html.DisplayNameFor(model => model.BasePrice)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.CancelationFee)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.AdicionalBeds)
             </th>
             <th>
@@ -60,6 +63,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.BasePrice)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CancelationFee)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AdicionalBeds)
             </td>

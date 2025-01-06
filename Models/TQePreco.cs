@@ -39,9 +39,5 @@ namespace ReserveSystem.Models
 
         [Required]
         public bool InUse {  get; set; }
-
-        
-
-
     }
 }

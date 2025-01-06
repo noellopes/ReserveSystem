@@ -12,8 +12,8 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ReserveSystemUsersDbContext))]
-    [Migration("20250106122644_TabelaTQePrecos")]
-    partial class TabelaTQePrecos
+    [Migration("20250106145708_TabTQeP")]
+    partial class TabTQeP
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
