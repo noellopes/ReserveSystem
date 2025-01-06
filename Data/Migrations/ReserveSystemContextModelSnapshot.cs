@@ -130,7 +130,7 @@ namespace ReserveSystem.Data.Migrations
                     b.ToTable("Employee");
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.Room", b =>
+            modelBuilder.Entity("ReserveSystem.Models.RoomModel", b =>
                 {
                     b.Property<int>("ID_ROOM")
                         .ValueGeneratedOnAdd()
@@ -209,7 +209,7 @@ namespace ReserveSystem.Data.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.Room", b =>
+            modelBuilder.Entity("ReserveSystem.Models.RoomModel", b =>
                 {
                     b.HasOne("ReserveSystem.Models.RoomType", "RoomType")
                         .WithMany("Rooms")
