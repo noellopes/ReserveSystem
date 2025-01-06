@@ -22,7 +22,11 @@ namespace ReserveSystem.Controllers
         // GET: MotoristaTransportes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.MotoristaTransporte.ToListAsync());
+            var motoristaTransporte = from t in _context.MotoristaTransporte
+                .Include(t => t.Staff)
+                .Include(t => t.Transporte)
+                           select t;
+            return View(motoristaTransporte);
         }
 
         // GET: MotoristaTransportes/Details/5
@@ -46,6 +50,8 @@ namespace ReserveSystem.Controllers
         // GET: MotoristaTransportes/Create
         public IActionResult Create()
         {
+            ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "Staff_Name");
+            ViewData["TransporteId"] = new SelectList(_context.Transporte, "TransporteId", "TipoTransporte");
             return View();
         }
 

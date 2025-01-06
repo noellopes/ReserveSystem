@@ -22,6 +22,7 @@ namespace ReserveSystem.Controllers
         // GET: Transportes
         public async Task<IActionResult> Index()
         {
+
             return View(await _context.Transporte.ToListAsync());
         }
 
@@ -54,7 +55,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TransporteId,Matricula,Capacidade,TipoTransporte,AnoFabricacao,DescricaoTipoTransporte")] Transporte transporte)
+        public async Task<IActionResult> Create([Bind("TransporteId,Matricula,Capacidade,CartaTransporte,TipoTransporte,AnoFabricacao,DescricaoTipoTransporte")] Transporte transporte)
         {
             if (ModelState.IsValid)
             {

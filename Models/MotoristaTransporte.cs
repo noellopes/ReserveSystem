@@ -11,5 +11,8 @@ namespace ReserveSystem.Models
         
         [Required]
         public int TransporteId { get; set; }
+
+        public virtual Staff? Staff { get; set; }
+        public virtual Transporte? Transporte { get; set; }
     }
 }

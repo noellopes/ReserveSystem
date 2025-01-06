@@ -35,8 +35,8 @@ namespace ReserveSystem.Models
         public virtual ICollection<MotoristaTransporte>? MotoristaTransporte { get; set; }
 
         // Propriedade derivada que retorna uma descrição com base no tipo de transporte
-     public string DescricaoTipoTransporte
-         {
+     public string DescricaoTipoTransporte { get; set; }
+         /*{
              get
              {
                  return TipoTransporte?.ToLower() switch
@@ -61,7 +61,8 @@ namespace ReserveSystem.Models
                      TipoTransporte = "Outro";
                  }
              }
-         }
+        }
     
     }
+    */}
 }
