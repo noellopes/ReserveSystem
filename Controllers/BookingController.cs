@@ -32,7 +32,7 @@ namespace ReserveSystem.Controllers
 
 
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get logged-in user ID
+            //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get logged-in user ID
 
             var bookings = from b in _context.Booking.Include(b => b.Client) select b;
 
@@ -95,7 +95,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClientID,ID_BOOKING,CHECKIN_DATE,CHECKOUT_DATE,BOOKING_DATE,TOTAL_PERSONS_NUMBER,BOOKED,PAYMENT_STATUS")] Booking bookingModel)
+        public async Task<IActionResult> Create([Bind("ID_CLIENT,ID_BOOKING,CHECKIN_DATE,CHECKOUT_DATE,BOOKING_DATE,TOTAL_PERSONS_NUMBER,BOOKED,PAYMENT_STATUS")] Booking bookingModel)
         {
            
 

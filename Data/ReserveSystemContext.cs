@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using ReserveSystem.Models;
 
 namespace ReserveSystem.Data
@@ -11,6 +12,7 @@ namespace ReserveSystem.Data
         public DbSet<Booking> Booking { get; set; }
         public DbSet<Room> Room { get; set; }
         public DbSet<RoomType> RoomType { get; set; }
+        public DbSet<RoomBooking> RoomBooking{ get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,6 +28,15 @@ namespace ReserveSystem.Data
             .HasOne(r => r.RoomType)
             .WithMany(rt => rt.Rooms)
             .HasForeignKey(r => r.RoomTypeId);
+
+            modelBuilder.Entity<Booking>()
+                .HasOne(b => b.Client)
+                .WithMany(c => c.Booking);
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.ConfigureWarnings(warnings =>
+                warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
         }
     }
 }
