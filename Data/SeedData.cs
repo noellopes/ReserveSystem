@@ -139,7 +139,7 @@ namespace ReserveSystem.Data
                     db.SaveChanges();
 
                     // Cria um quarto associado ao RoomTypeId recém-criado
-                    var room = new RoomModel
+                    var room = new Room
                     {
                         RoomTypeId = roomType.RoomTypeId
                     };
@@ -174,7 +174,7 @@ namespace ReserveSystem.Data
                 }
 
                 //Queremos criar associar quartos a tipos de quartos 
-                var rooms = roomTypes.Select(r => new RoomModel
+                var rooms = roomTypes.Select(r => new Room
                 {
                     
                     RoomTypeId = r.RoomTypeId,

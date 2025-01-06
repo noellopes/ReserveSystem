@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ReserveSystem.Models
 {
-    public class RoomModel
+    public class Room
     {
         [Key][Required] public int ID_ROOM { get; set; }
 

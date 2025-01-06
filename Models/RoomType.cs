@@ -20,6 +20,6 @@ namespace ReserveSystem.Models
         [Required]
         public bool AcessibilityRoom { get; set; } // Indica se o quarto é adaptado
 
-        public ICollection<RoomModel> Rooms { get; set; } = new List<RoomModel>(); // Relação de um para muitos com RoomModel
+        public ICollection<Room> Rooms { get; set; } = new List<Room>(); // Relação de um para muitos com RoomModel
     }
 }

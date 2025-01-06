@@ -103,7 +103,7 @@ namespace ReserveSystem.Controllers
                 await _context.SaveChangesAsync();
 
                 // Associa um quarto automaticamente ao RoomTypeId recém-criado
-                var room = new RoomModel
+                var room = new Room
                 {
                     RoomTypeId = roomType.RoomTypeId
                 };

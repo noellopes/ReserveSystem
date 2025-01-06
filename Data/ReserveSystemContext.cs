@@ -9,7 +9,7 @@ namespace ReserveSystem.Data
         public DbSet<ClientModel> Client { get; set; } = default!;
         public DbSet<Employee> Employee { get; set; } = default!;
         public DbSet<Booking> Booking { get; set; }
-        public DbSet<RoomModel> Room { get; set; }
+        public DbSet<Room> Room { get; set; }
         public DbSet<RoomType> RoomType { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -21,7 +21,7 @@ namespace ReserveSystem.Data
             base.OnModelCreating(modelBuilder);
 
            
-            modelBuilder.Entity<RoomModel>()
+            modelBuilder.Entity<Room>()
             
             .HasOne(r => r.RoomType)
             .WithMany(rt => rt.Rooms)
