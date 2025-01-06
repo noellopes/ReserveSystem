@@ -10,22 +10,22 @@ using ReserveSystem.Models;
 
 namespace ReserveSystem.Controllers
 {
-    public class TQePrecoController : Controller
+    public class TQePrecosController : Controller
     {
         private readonly ReserveSystemUsersDbContext _context;
 
-        public TQePrecoController(ReserveSystemUsersDbContext context)
+        public TQePrecosController(ReserveSystemUsersDbContext context)
         {
             _context = context;
         }
 
-        // GET: TQePreco
+        // GET: TQePrecos
         public async Task<IActionResult> Index()
         {
             return View(await _context.TQePreco.ToListAsync());
         }
 
-        // GET: TQePreco/Details/5
+        // GET: TQePrecos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,7 +34,7 @@ namespace ReserveSystem.Controllers
             }
 
             var tQePreco = await _context.TQePreco
-                .FirstOrDefaultAsync(m => m.id_RTPrice == id);
+                .FirstOrDefaultAsync(m => m.RoomTypeId == id);
             if (tQePreco == null)
             {
                 return NotFound();
@@ -43,18 +43,18 @@ namespace ReserveSystem.Controllers
             return View(tQePreco);
         }
 
-        // GET: TQePreco/Create
+        // GET: TQePrecos/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: TQePreco/Create
+        // POST: TQePrecos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id_RTPrice,type,capacity,RoomQuantity,AcessibilityRoom,View,BasePrice,CancelationFee,AdicionalBeds")] TQePreco tQePreco)
+        public async Task<IActionResult> Create([Bind("RoomTypeId,type,capacity,RoomQuantity,AcessibilityRoom,View,BasePrice,AdicionalBeds,InUse")] TQePreco tQePreco)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace ReserveSystem.Controllers
             return View(tQePreco);
         }
 
-        // GET: TQePreco/Edit/5
+        // GET: TQePrecos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,14 +81,14 @@ namespace ReserveSystem.Controllers
             return View(tQePreco);
         }
 
-        // POST: TQePreco/Edit/5
+        // POST: TQePrecos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id_RTPrice,type,capacity,RoomQuantity,AcessibilityRoom,View,BasePrice,CancelationFee,AdicionalBeds")] TQePreco tQePreco)
+        public async Task<IActionResult> Edit(int id, [Bind("RoomTypeId,type,capacity,RoomQuantity,AcessibilityRoom,View,BasePrice,AdicionalBeds,InUse")] TQePreco tQePreco)
         {
-            if (id != tQePreco.id_RTPrice)
+            if (id != tQePreco.RoomTypeId)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace ReserveSystem.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TQePrecoExists(tQePreco.id_RTPrice))
+                    if (!TQePrecoExists(tQePreco.RoomTypeId))
                     {
                         return NotFound();
                     }
@@ -116,7 +116,7 @@ namespace ReserveSystem.Controllers
             return View(tQePreco);
         }
 
-        // GET: TQePreco/Delete/5
+        // GET: TQePrecos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,7 +125,7 @@ namespace ReserveSystem.Controllers
             }
 
             var tQePreco = await _context.TQePreco
-                .FirstOrDefaultAsync(m => m.id_RTPrice == id);
+                .FirstOrDefaultAsync(m => m.RoomTypeId == id);
             if (tQePreco == null)
             {
                 return NotFound();
@@ -134,7 +134,7 @@ namespace ReserveSystem.Controllers
             return View(tQePreco);
         }
 
-        // POST: TQePreco/Delete/5
+        // POST: TQePrecos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -151,7 +151,7 @@ namespace ReserveSystem.Controllers
 
         private bool TQePrecoExists(int id)
         {
-            return _context.TQePreco.Any(e => e.id_RTPrice == id);
+            return _context.TQePreco.Any(e => e.RoomTypeId == id);
         }
     }
 }

@@ -12,8 +12,8 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ReserveSystemUsersDbContext))]
-    [Migration("20241216104503_TabelaPrecoETipoQuarto")]
-    partial class TabelaPrecoETipoQuarto
+    [Migration("20250106120322_TabelaTipoQuartoEPreco")]
+    partial class TabelaTipoQuartoEPreco
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -229,11 +229,11 @@ namespace ReserveSystem.Data.Migrations
 
             modelBuilder.Entity("ReserveSystem.Models.TQePreco", b =>
                 {
-                    b.Property<int>("id_RTPrice")
+                    b.Property<int>("RoomTypeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id_RTPrice"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomTypeId"));
 
                     b.Property<bool>("AcessibilityRoom")
                         .HasColumnType("bit");
@@ -244,8 +244,8 @@ namespace ReserveSystem.Data.Migrations
                     b.Property<float>("BasePrice")
                         .HasColumnType("real");
 
-                    b.Property<float>("CancelationFee")
-                        .HasColumnType("real");
+                    b.Property<bool>("InUse")
+                        .HasColumnType("bit");
 
                     b.Property<int>("RoomQuantity")
                         .HasColumnType("int");
@@ -261,7 +261,7 @@ namespace ReserveSystem.Data.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
-                    b.HasKey("id_RTPrice");
+                    b.HasKey("RoomTypeId");
 
                     b.ToTable("TQePreco");
                 });

@@ -11,5 +11,6 @@ namespace ReserveSystem.Data
         {
         }
         public DbSet<ReserveSystem.Models.TQePreco> TQePreco { get; set; } = default!;
+        
     }
 }

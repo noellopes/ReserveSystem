@@ -8,7 +8,7 @@ namespace ReserveSystem.Models
         [Key]
         [Required]
         
-        public int id_RTPrice { get; set; }
+        public int RoomTypeId { get; set; }
 
         [Required(ErrorMessage = "Please enter the name of the room type")]
         [MaxLength(25)]
