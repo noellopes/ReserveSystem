@@ -4,33 +4,40 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1 class="text-center my-4">Create MotoristaTransporte</h1>
 
-<h4>MotoristaTransporte</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="StaffId" class="control-label"></label>
-                <select asp-for="StaffId" class ="form-control" asp-items="ViewBag.StaffId"></select>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h4 class="card-title text-center">MotoristaTransporte Information</h4>
+                    <hr />
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="mb-3">
+                            <label asp-for="StaffId" class="form-label"></label>
+                            <select asp-for="StaffId" class="form-control" asp-items="ViewBag.StaffId"></select>
+                            <span asp-validation-for="StaffId" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="TransporteId" class="form-label"></label>
+                            <select asp-for="TransporteId" class="form-control" asp-items="ViewBag.TransporteId"></select>
+                            <span asp-validation-for="TransporteId" class="text-danger"></span>
+                        </div>
+                        <div class="d-flex justify-content-between mt-3">
+                            <button type="submit" class="btn btn-primary">Create</button>
+                            <a asp-action="Index" class="btn btn-link">Back to List</a>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="TransporteId" class="control-label"></label>
-                <select asp-for="TransporteId" class ="form-control" asp-items="ViewBag.TransporteId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

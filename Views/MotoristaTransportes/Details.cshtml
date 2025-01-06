@@ -4,15 +4,31 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1 class="text-center my-4">MotoristaTransporte Details</h1>
 
-<div>
-    <h4>MotoristaTransporte</h4>
-    <hr />
-    <dl class="row">
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.MotoristaTransporteId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h4 class="text-center">MotoristaTransporte Information</h4>
+                    <hr />
+                    <dl class="row">
+                        <dt class="col-sm-3">Motorista:</dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => model.StaffId) <!-- Adjust according to actual property -->
+                        </dd>
+                        <dt class="col-sm-3">Transporte:</dt>
+                        <dd class="col-sm-9">
+                            @Html.DisplayFor(model => model.TransporteId) <!-- Adjust according to actual property -->
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="mt-3 text-center">
+                <a asp-action="Edit" asp-route-id="@Model?.MotoristaTransporteId" class="btn btn-warning">Edit</a>
+                <a asp-action="Index" class="btn btn-link">Back to List</a>
+            </div>
+        </div>
+    </div>
 </div>
