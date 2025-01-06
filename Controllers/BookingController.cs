@@ -10,12 +10,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace ReserveSystem.Controllers
 {
 
 
-    [Authorize]
+    //[Authorize]
     public class BookingController : Controller
     {
         private readonly ReserveSystemContext _context;
@@ -26,15 +27,36 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Booking
-        public async Task<IActionResult> Index(int page = 1, string searchRoomType = "")
+        public async Task<IActionResult> Index(int page = 1)
         {
 
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get logged-in user ID
-            var bookings = await _context.Booking
-                                          .Where(b => b.ID_CLIENT.ToString() == userId) // Filter by user ID
-                                          .ToListAsync();
-            return View(bookings);
+
+            //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get logged-in user ID
+
+            var bookings = from b in _context.Booking.Include(b => b.Client) select b;
+
+            
+
+            var model = new BookingViewModel();
+
+            model.BookingsIds = new PagingInfo
+            {
+                CurrentPage = page,
+                TotalItems = await bookings.CountAsync(),
+            };
+
+
+
+            model.Bookings = await bookings
+                    .OrderBy(b => b.BOOKING_DATE)
+                    .Skip((model.BookingsIds.CurrentPage - 1) * model.BookingsIds.PageSize)
+                    .Take(model.BookingsIds.PageSize)
+                    .ToListAsync();
+
+
+            return View(model);
+
 
 
         }
@@ -73,11 +95,15 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClientID,ID_BOOKING,CHECKIN_DATE,CHECKOUT_DATE,BOOKING_DATE,TOTAL_PERSONS_NUMBER,BOOKED,PAYMENT_STATUS")] Booking bookingModel)
+        public async Task<IActionResult> Create([Bind("ID_CLIENT,ID_BOOKING,CHECKIN_DATE,CHECKOUT_DATE,BOOKING_DATE,TOTAL_PERSONS_NUMBER,BOOKED,PAYMENT_STATUS")] Booking bookingModel)
         {
            
+
+
+
                 if (ModelState.IsValid)
                 {
+                   
                     bookingModel.BOOKED = false;
                     bookingModel.PAYMENT_STATUS = false;
                     bookingModel.BOOKING_DATE = DateTime.Now;
@@ -85,6 +111,8 @@ namespace ReserveSystem.Controllers
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Details), new { id = bookingModel.ID_BOOKING, savedNow = true });
                 }
+
+
 
                 return View(bookingModel);
             }

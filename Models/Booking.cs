@@ -8,10 +8,10 @@ namespace ReserveSystem.Models
         [Key]
         public int ID_BOOKING { get; set; }
 
+
+        [ForeignKey("ClienteId")]
         public int ID_CLIENT { get; set; }
 
-        [ForeignKey("ID_CLIENT")]
-        public ClientModel? Client { get; set; }
 
         [Required(ErrorMessage = "Inserir Data de Check-In")]
         [DataType(DataType.Date)]
@@ -29,6 +29,15 @@ namespace ReserveSystem.Models
 
         public bool BOOKED { get; set; }
         public bool PAYMENT_STATUS { get; set; }
+
+
+
+
+        //TODO mudar para RoomBookings
+        public IEnumerable<RoomBooking> RoomBookings { get; set; }
+        public ClientModel? Client { get; set; }
+
+
 
     }
 }
