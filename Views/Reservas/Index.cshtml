@@ -50,16 +50,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Reservas.First().IdCliente)
+                @Html.DisplayNameFor(model => model.IdCliente)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Reservas.First().IdMesa)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Reservas.First().NumeroPessoas)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Reservas.First().DataHora)
+                @Html.DisplayNameFor(model => model.NumeroPessoas)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Reservas.First().Observacao)
@@ -80,9 +74,6 @@
                 @Html.DisplayFor(modelItem => item.Cliente.NomeCliente)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdMesa)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.NumeroPessoas)
             </td>
             <td>
@@ -93,9 +84,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Prato.PratoNome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Aprovacao)
             </td>
             <td>
                     <a asp-action="Edit" asp-route-id="@item.IdReserva" class="btn btn-warning">Edit</a> |

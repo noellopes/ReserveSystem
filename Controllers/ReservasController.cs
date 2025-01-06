@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -76,17 +77,36 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Reservas/Create
-        public IActionResult Create()
+        public IActionResult Create(DateTime? DataHora)
         {
-            ViewData["IdCliente"] = new SelectList(_context.Cliente, "IdCliente", "NomeCliente");
-            ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome");
+            // Obtém o dia atual da semana
+            var data = DataHora ?? DateTime.Now;
+            var diaReserva = data.DayOfWeek;
+
+
+            var pratosDoDia = _context.Prato
+                .Where(p => p.Dia == diaReserva) // Apenas pratos disponíveis no dia selecionado
+                .ToList();
+            
+
+            // Por na ViewBag apenas os pratos filtrados
+            
+            ViewBag.IdPrato = new SelectList(pratosDoDia, "IdPrato", "PratoNome");
+            ViewBag.IdCliente = new SelectList(_context.Cliente, "IdCliente", "NomeCliente");
+
+           
+
+
+           
+            
+
             return View();
         }
 
         // POST: Reservas/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdReserva,IdCliente,NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva)
+        [ValidateAntiForgeryToken]//REFACTORED
+        public async Task<IActionResult> Create([Bind("IdReserva,IdCliente,NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva, DateTime? Dia)
         {
             if (!_context.Mesa.Any())
             {
@@ -102,36 +122,77 @@ namespace ReserveSystem.Controllers
                 }
                 else
                 {
+                   
                     int? idMesa = _context.Mesa
                         .Where(t => t.NumeroLugares >= reserva.NumeroPessoas)
+                        .Where(t => t.Reservado != true) 
                         .OrderBy(t => t.NumeroLugares)
-                        .Select(t => t.IdMesa)
+                        .Select(t => t.IdMesa) 
                         .FirstOrDefault();
+                   
 
                     if (idMesa != null)
                     {
-                        reserva.IdMesa = idMesa.Value;
-                        reserva.NumeroMesa = idMesa.Value;
+                        
+                        var mesaSelecionada = _context.Mesa.FirstOrDefault(t => t.IdMesa == idMesa.Value);
+
+                        if (mesaSelecionada == null)
+                        {  
+                            ModelState.AddModelError("IdMesa", "Nenhuma mesa se encontra disponivel de momento por favor tente noutro horário.");
+                        }
+                        else
+                        {
+                            reserva.IdMesa = mesaSelecionada.IdMesa;
+                            reserva.NumeroMesa = mesaSelecionada.IdMesa;
+
+                            mesaSelecionada.Reservado = true;
+                            _context.Update(mesaSelecionada); 
+                        }
                     }
                     else
                     {
-                        ModelState.AddModelError("IdMesa", "Nenhuma mesa disponível suporta o número de pessoas especificado.");
+                        ModelState.AddModelError("", "Nenhuma mesa disponível suporta o número de pessoas especificado. Por favor, tente em outro horário.");
                     }
                 }
             }
 
             if (ModelState.IsValid)
             {
-                _context.Add(reserva);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    // Marcar mesa como reservada
+                    var mesaReservada = await _context.Mesa.FindAsync(reserva.IdMesa);
+                    if (mesaReservada != null)
+                    {
+                        mesaReservada.Reservado = true; 
+                        _context.Update(mesaReservada); 
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "De momento todas as mesas estão reservadas por favor tente noutro horário");
+                    }
+                
+
+                    // Salva a reserva
+                    _context.Add(reserva);
+                    await _context.SaveChangesAsync();
+
+                    TempData["SuccessMessage"] = "Reserva criada com sucesso!";
+
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Erro ao salvar reserva: {ex.Message}");
+                    ModelState.AddModelError("", "Ocorreu um erro ao salvar a reserva.");
+                }
             }
 
+            // Atualiza as ViewBags caso algo dê errado
             ViewData["IdCliente"] = new SelectList(_context.Cliente, "IdCliente", "NomeCliente", reserva.IdCliente);
             ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome", reserva.IdPrato);
             return View(reserva);
         }
-
+        //REFACTORED
         // GET: Reservas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -153,7 +214,8 @@ namespace ReserveSystem.Controllers
         // POST: Reservas/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdReserva,IdCliente,IdMesa,NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva)
+        public async Task<IActionResult> Edit(int id, [Bind("IdReserva,IdCliente,IdMesa, NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva)
+
         {
             if (id != reserva.IdReserva)
             {
@@ -166,6 +228,7 @@ namespace ReserveSystem.Controllers
                 {
                     _context.Update(reserva);
                     await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Reserva criada com sucesso!";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -178,9 +241,14 @@ namespace ReserveSystem.Controllers
                         throw;
                     }
                 }
+
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome", reserva.IdPrato);
+
+
+
             return View(reserva);
         }
 
@@ -212,9 +280,11 @@ namespace ReserveSystem.Controllers
             if (reserva != null)
             {
                 _context.Reserva.Remove(reserva);
+                await _context.SaveChangesAsync();
+
+
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

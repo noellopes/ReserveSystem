@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserveSystem.Data;
 
@@ -11,9 +12,11 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241224132605_dbRetaurante11")]
+    partial class dbRetaurante11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -262,7 +265,7 @@ namespace ReserveSystem.Data.Migrations
                     b.Property<int>("NumeroLugares")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("Reservado")
+                    b.Property<bool>("Reservado")
                         .HasColumnType("bit");
 
                     b.HasKey("IdMesa");
@@ -280,9 +283,6 @@ namespace ReserveSystem.Data.Migrations
 
                     b.Property<string>("Descricao")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Dia")
-                        .HasColumnType("int");
 
                     b.Property<string>("PratoNome")
                         .IsRequired()
@@ -307,7 +307,7 @@ namespace ReserveSystem.Data.Migrations
                     b.Property<bool>("Aprovacao")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ClienteIdCliente")
+                    b.Property<int?>("ClienteIdCliente")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DataHora")
@@ -316,18 +316,17 @@ namespace ReserveSystem.Data.Migrations
                     b.Property<int>("IdCliente")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdPrato")
+                    b.Property<int?>("IdMesa")
                         .HasColumnType("int");
 
-                    b.Property<int?>("NumeroMesa")
+                    b.Property<int>("IdPrato")
                         .HasColumnType("int");
 
                     b.Property<int>("NumeroPessoas")
                         .HasColumnType("int");
 
                     b.Property<string>("Observacao")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PratoIdPrato")
                         .HasColumnType("int");
@@ -396,9 +395,7 @@ namespace ReserveSystem.Data.Migrations
                 {
                     b.HasOne("ReserveSystem.Models.Cliente", "Cliente")
                         .WithMany()
-                        .HasForeignKey("ClienteIdCliente")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClienteIdCliente");
 
                     b.HasOne("ReserveSystem.Models.Prato", "Prato")
                         .WithMany("Reservas")
