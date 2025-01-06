@@ -1,0 +1,132 @@
+﻿@model IEnumerable<ReserveSystem.Models.Sazonalidade>
+@{
+    ViewData["Title"] = "ViewSeasonList";
+}
+<style>
+    body {
+        font-family: 'Georgia', serif;
+        background-color: #f9f9f6; /* Off-white background */
+        color: #1a1a1a; /* Deep black for text */
+    }
+
+    /* Overall table styles */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        background-color: #ffffff;
+    }
+
+        /* Table Header Styles */
+        .table thead {
+            background-color: #333333; /* Dark background for header */
+            color: white;
+        }
+
+        /* Table row hover effect */
+        .table tbody tr:hover {
+            background-color: #F5F5F5; /* Hover effect color */
+            color: #d4af37; /* Text color on hover */
+            cursor: pointer;
+        }
+
+        /* Table cell styles */
+        .table th, .table td {
+            padding: 18px 20px;
+            text-align: left;
+            font-size: 1.125rem;
+            font-weight: 500;
+        }
+
+    /* Button styles */
+    .btn {
+        background-color: #ffffff;
+        border-color: #d4af37;
+        color: #333333;
+        font-weight: 600;
+        padding: 14px 28px;
+        border-radius: 50px;
+        font-size: 1.125rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+        .btn:hover {
+            background-color: #333333;
+            color: #F5F5F5;
+            border-color: #333333;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .btn:active {
+            background-color: #000000; /* Darker effect when clicked */
+            border-color: #000000;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Return to original shadow */
+            transform: translateY(0); /* Button "presses" down */
+        }
+
+    .hr {
+        border: none;
+        height: 2px;
+        background-color: #d4af37; /* Gold */
+        width: 60%;
+        margin: 1rem auto;
+        opacity: 0.8;
+    }
+
+    /* Centered title */
+    h1 {
+        font-size: 2rem;
+        color: #d4af37; /* Gold for title */
+    }
+
+    /* Adjusting the paragraph style for centered 'Create' button */
+    p {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+</style>
+
+<h1 class="text-center my-4">Seasonalities</h1>
+<hr class="hr" />
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Begin date</th>
+            <th>End date</th>
+            <th>Season Fee</th>
+            <th>In use</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="clickable-row" data-href="@Url.Action("Details", new { id = item.Id_saz })">
+                <td>@Html.DisplayFor(modelItem => item.NameSeason)</td>
+                <td>@item.DateBegin.ToString("dd/MMM/yyyy")</td>
+                <td>@item.DateEnd.ToString("dd/MMM/yyyy")</td>
+                <td>@item.SeasonFee.ToString("F2")</td>
+                <td>@(item.InUse ? "Yes" : "No")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const rows = document.querySelectorAll(".clickable-row");
+        rows.forEach(row => {
+            row.addEventListener("click", function () {
+                window.location = this.dataset.href;
+            });
+        });
+    });
+</script>
+<p class="text-center">
+    <a class="btn" asp-action="ConfigSeason">Configure New Sazonalidade</a>
+</p>

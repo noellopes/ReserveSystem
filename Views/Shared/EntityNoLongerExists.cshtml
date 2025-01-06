@@ -1,10 +1,11 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewBag.Title = $"{ViewBag.Entity} no longer exists";
 }
 
 <style>
     h1 {
         color: #d4af37; /* Gold for heading */
+        text-align: center;
         font-size: 2rem;
         font-weight: 700;
     }
@@ -29,7 +30,7 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         transition: all 0.3s ease;
         width: 45%;
-        margin-top:6rem;
+        margin-top: 7rem;
     }
 
         .btn:hover {
@@ -47,10 +48,17 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Return to original shadow */
             transform: translateY(0); /* Button "presses" down */
         }
+
 </style>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <hr />
-    <a class="btn" asp-action="Index" asp-controller="Sazonalidades">Enter the Seasonality System</a>
+<h1>@ViewBag.Title</h1>
+<hr>
+
+<div class="container mt-5">
+    <div class="alert alert-warning text-center" role="alert" style="border-color:crimson">
+        <h4 class="alert-heading">Warning!</h4>
+        <p>The @ViewBag.Entity you are looking for no longer exists. It might have been deleted.</p>
+        <hr>
+    </div>
+    <a asp-action="@ViewBag.Action" asp-controller="@ViewBag.Controller" class="btn">Back to list</a>
 </div>

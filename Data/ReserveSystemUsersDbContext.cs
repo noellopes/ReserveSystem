@@ -10,5 +10,6 @@ namespace ReserveSystem.Data
             : base(options)
         {
         }
+        public DbSet<ReserveSystem.Models.Sazonalidade> Sazonalidade { get; set; } = default!;
     }
 }

@@ -1,5 +1,6 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model ReserveSystem.Models.Sazonalidade
+@{
+    ViewData["Title"] = "Index";
 }
 
 <style>
@@ -29,7 +30,7 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         transition: all 0.3s ease;
         width: 45%;
-        margin-top:6rem;
+        margin-top: 6rem;
     }
 
         .btn:hover {
@@ -50,7 +51,7 @@
 </style>
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">Seasonality's System</h1>
     <hr />
-    <a class="btn" asp-action="Index" asp-controller="Sazonalidades">Enter the Seasonality System</a>
+    <a class="btn" asp-action="ViewSeasonList" asp-controller="Sazonalidades">Configure Seasonalities</a>
 </div>
