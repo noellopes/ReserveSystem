@@ -80,6 +80,8 @@ using (var servicesScope = app.Services.CreateScope())
     SeedData.PopulateDefaultAdmin(userManager);
     if (isDevelopment)
     {
+        //Seed managers
+        SeedData.PopulateManagers(userManager);
         // Seed users
         SeedData.PopulateUsers(userManager);
         // Seed the database
