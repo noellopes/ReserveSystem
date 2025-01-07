@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
-using PagedList;
 
 namespace ReserveSystem.Controllers
 {
@@ -21,115 +20,98 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: ReservaExcursao
-        public async Task<IActionResult> Index(string searchString, string filterBy, string sortOrder,int? page,string currentFilter )
-
+        public async Task<IActionResult> Index(
+            string searchString,
+            string filterBy,
+            string sortOrder,
+            int page = 1,
+            int pageSize = 9)
         {
-           
+            // Parâmetros de ordenação
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = sortOrder == "Name" ? "Name_desc" : "Name";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
 
-            if (searchString != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
+            // Query inicial
+            var query = _context.ReservaExcursaoModel
+                .Include(r => r.Cliente)
+                .Include(r => r.Excursao)
+                .AsQueryable();
 
-            ViewBag.CurrentFilter = searchString;
-            ViewBag.FilterBy = filterBy ?? "titulo";
-            ViewBag.SearchString = searchString;
-
-            var reservas = from r in _context.ReservaExcursaoModel
-                           .Include(r => r.Cliente)
-                           .Include(r => r.Excursao)
-                           select r;
-
-            
-
-            
+            // Filtragem
             if (!string.IsNullOrEmpty(searchString) && !string.IsNullOrEmpty(filterBy))
             {
-                
                 switch (filterBy.ToLower())
                 {
                     case "titulo":
-                        reservas = reservas.Where(r => r.Excursao.Titulo.Contains(searchString));
+                        query = query.Where(r => r.Excursao.Titulo.Contains(searchString));
                         break;
                     case "cliente":
-                        reservas = reservas.Where(r => r.Cliente.Nome.Contains(searchString));
+                        query = query.Where(r => r.Cliente.Nome.Contains(searchString));
                         break;
                     case "data":
-
-                        if (!string.IsNullOrEmpty(searchString) && int.TryParse(searchString, out int searchNumber))
+                        if (DateTime.TryParse(searchString, out DateTime searchDate))
                         {
-
-                            reservas = reservas.Where(r => r.DataReserva.Day == searchNumber ||
-                                                          r.DataReserva.Month == searchNumber ||
-                                                          r.DataReserva.Year.ToString().Contains(searchString));
+                            query = query.Where(r => r.DataReserva.Date == searchDate.Date);
                         }
-                        else
-                        {
-                            ViewBag.ErrorMessage = "Por favor, insira um valor válido.";
-                        }
-
-                        
-                        break;
-
-
-
-                    // Adicione mais casos conforme necessário
-                    default:
                         break;
                 }
             }
-          
 
+            // Ordenação
             switch (sortOrder)
             {
                 case "Name_desc":
-                    reservas = reservas.OrderByDescending(r => r.Cliente.Nome);
+                    query = query.OrderByDescending(r => r.Cliente.Nome);
                     break;
                 case "Date":
-                    reservas=reservas.OrderBy(r=>r.DataReserva);
+                    query = query.OrderBy(r => r.DataReserva);
                     break;
                 case "date_desc":
-                    reservas = reservas.OrderByDescending(r => r.DataReserva);
+                    query = query.OrderByDescending(r => r.DataReserva);
                     break;
-
-                
-                default :
-                    reservas = reservas.OrderBy(r => r.Cliente.Nome);
+                default:
+                    query = query.OrderBy(r => r.Cliente.Nome);
                     break;
-
             }
 
+            // Contagem total para paginação
+            int totalItems = await query.CountAsync();
 
-            int pageSize = 9;
-            int pageNumber = (page ?? 1);
-            return View(reservas.ToPagedList(pageNumber, pageSize));
-            // return View(await reservas.ToListAsync());
+            // Paginação
+            var reservas = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            // Configurando ViewModel
+            var viewModel = new ReservaExcursaoViewModel
+            {
+                Reservas = reservas,
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    PageSize = pageSize,
+                    TotalItems = totalItems
+                },
+                SearchTitulo = filterBy == "titulo" ? searchString : string.Empty,
+                SearchCliente = filterBy == "cliente" ? searchString : string.Empty
+            };
+
+            return View(viewModel);
         }
-
 
         // GET: ReservaExcursao/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var reservaExcursaoModel = await _context.ReservaExcursaoModel
                 .Include(r => r.Cliente)
                 .Include(r => r.Excursao)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (reservaExcursaoModel == null)
-            {
-                return NotFound();
-            }
+
+            if (reservaExcursaoModel == null) return NotFound();
 
             return View(reservaExcursaoModel);
         }
@@ -143,8 +125,6 @@ namespace ReserveSystem.Controllers
         }
 
         // POST: ReservaExcursao/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ClienteId,ExcursaoId,DataReserva,NumPessoas")] ReservaExcursaoModel reservaExcursaoModel)
@@ -153,13 +133,10 @@ namespace ReserveSystem.Controllers
             {
                 var excursao = await _context.ExcursaoModel.FindAsync(reservaExcursaoModel.ExcursaoId);
 
-
-                if (excursao == null) {
+                if (excursao == null)
+                {
                     ModelState.AddModelError("ExcursaoId", "A excursão selecionada não existe.");
-                    ViewBag.ClienteId = new SelectList(_context.ClienteTestModel, "ClienteId", "Nome", reservaExcursaoModel.ClienteId);
-                    ViewBag.ExcursaoId = new SelectList(_context.ExcursaoModel, "Excursao_Id", "Titulo", reservaExcursaoModel.ExcursaoId);
                     return View(reservaExcursaoModel);
-
                 }
 
                 reservaExcursaoModel.ValorTotal = reservaExcursaoModel.NumPessoas * excursao.Preco;
@@ -167,11 +144,7 @@ namespace ReserveSystem.Controllers
                 _context.Add(reservaExcursaoModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-
-
             }
-
-            
 
             ViewData["ClienteId"] = new SelectList(_context.ClienteTestModel, "ClienteId", "Nome", reservaExcursaoModel.ClienteId);
             ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "Excursao_Id", "Descricao", reservaExcursaoModel.ExcursaoId);
@@ -181,194 +154,40 @@ namespace ReserveSystem.Controllers
         // GET: ReservaExcursao/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
+
             var reservaExcursaoModel = await _context.ReservaExcursaoModel.FindAsync(id);
-            
-           
-            if (reservaExcursaoModel == null)
-            {
-                return NotFound();
-            }
-            
+            if (reservaExcursaoModel == null) return NotFound();
+
             ViewData["ClienteId"] = new SelectList(_context.ClienteTestModel, "ClienteId", "Nome", reservaExcursaoModel.ClienteId);
             ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "Excursao_Id", "Descricao", reservaExcursaoModel.ExcursaoId);
             return View(reservaExcursaoModel);
         }
 
         // POST: ReservaExcursao/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,ClienteId,ExcursaoId,DataReserva,NumPessoas,ValorTotal")] ReservaExcursaoModel reservaExcursaoModel)
         {
-            if (id != reservaExcursaoModel.Id)
-            {
-                return NotFound();
-            }
+            if (id != reservaExcursaoModel.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
                 var excursao = await _context.ExcursaoModel.FindAsync(reservaExcursaoModel.ExcursaoId);
 
-                try
-                {
-                    reservaExcursaoModel.ValorTotal = reservaExcursaoModel.NumPessoas * excursao.Preco;
-                    _context.Update(reservaExcursaoModel);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ReservaExcursaoModelExists(reservaExcursaoModel.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                reservaExcursaoModel.ValorTotal = reservaExcursaoModel.NumPessoas * excursao.Preco;
+                _context.Update(reservaExcursaoModel);
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClienteId"] = new SelectList(_context.ClienteTestModel, "ClienteId", "Nome", reservaExcursaoModel.ClienteId);
-            ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "Excursao_Id", "Descricao", reservaExcursaoModel.ExcursaoId);
-            return View(reservaExcursaoModel);
-        }
-
-        // GET: ReservaExcursao/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var reservaExcursaoModel = await _context.ReservaExcursaoModel
-                .Include(r => r.Cliente)
-                .Include(r => r.Excursao)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (reservaExcursaoModel == null)
-            {
-                return NotFound();
-            }
 
             return View(reservaExcursaoModel);
-        }
-
-        // POST: ReservaExcursao/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var reservaExcursaoModel = await _context.ReservaExcursaoModel.FindAsync(id);
-            if (reservaExcursaoModel != null)
-            {
-                _context.ReservaExcursaoModel.Remove(reservaExcursaoModel);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         private bool ReservaExcursaoModelExists(int id)
         {
             return _context.ReservaExcursaoModel.Any(e => e.Id == id);
-        }
-
-
-        // POST: ExcursaoFavorita/Delete/BulkDelete
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> BulkDelete(List<int> selectedIds)
-        {
-            if (selectedIds == null || !selectedIds.Any())
-            {
-                TempData["ErrorMessage"] = "No excursions were selected for deletion.";
-                return RedirectToAction(nameof(Index));
-            }
-
-            try
-            {
-                // Fetch selected excursions and remove them
-                var reservaExcursao = _context.ReservaExcursaoModel.Where(e => selectedIds.Contains(e.Id));
-
-                if (reservaExcursao.Any())
-                {
-                    _context.ReservaExcursaoModel.RemoveRange(reservaExcursao);
-                    await _context.SaveChangesAsync();
-                    TempData["SuccessMessage"] = "Selected excursions were successfully deleted.";
-                }
-                else
-                {
-                    TempData["ErrorMessage"] = "No valid excursions found for deletion.";
-                }
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = $"Error deleting excursions: {ex.Message}";
-            }
-
-            return RedirectToAction(nameof(Index));
-        }
-
-
-        // GET: ReservaExcursao/Favorita/5
-        public async Task<IActionResult> Favorita(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var reservaExcursaoModel = await _context.ReservaExcursaoModel
-                .Include(r => r.Cliente)
-                .Include(r => r.Excursao)
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (reservaExcursaoModel == null)
-            {
-                return NotFound();
-            }
-
-            // Retorna a view com o modelo de reserva, onde o usuário pode adicionar um comentário
-            return View(reservaExcursaoModel);
-        }
-
-        // POST: ReservaExcursao/Favorita/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Favorita(int id, string? comentario)
-        {
-           
-
-            var reservaExcursaoModel = await _context.ReservaExcursaoModel
-                .Include(r => r.Cliente)
-                .Include(r => r.Excursao)
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (reservaExcursaoModel == null)
-            {
-                return NotFound();
-            }
-
-            // Cria o objeto para adicionar à tabela ExcursaoFavorita
-            var favorita = new ExcursaoFavoritaModel
-            {
-                ClienteId = reservaExcursaoModel.ClienteId,
-                ExcursaoId = reservaExcursaoModel.ExcursaoId,
-                Comentario = comentario
-            };
-
-            // Adiciona à base de dados
-            _context.ExcursaoFavoritaModel.Add(favorita);
-            await _context.SaveChangesAsync();
-
-            // Redireciona para a lista de reservas
-            TempData["SuccessMessage"] = "Excursão adicionada aos favoritos com sucesso!";
-            return RedirectToAction(nameof(Index));
         }
     }
 }
