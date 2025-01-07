@@ -96,7 +96,12 @@
         <dd class="col-sm-10">
             @Model.DriverLicenseExpirationDate.ToString("dd/MM/yyyy")
         </dd>
-
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DaysOffVacationCount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DaysOffVacationCount)
+        </dd>
     </dl>
 </div>
 

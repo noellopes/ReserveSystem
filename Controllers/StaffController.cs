@@ -94,7 +94,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Staff_Id,Staff_Name,BirthDate,Staff_Email,Staff_Phone,Staff_Password,jobID_FK,StartFunctionsDate,EndFunctionsDate,DrivingLicenseGrades,DriverLicenseExpirationDate")] StaffModel staffModel, List<string>? DrivingLicenseGrades)
+        public async Task<IActionResult> Create([Bind("Staff_Id,Staff_Name,BirthDate,Staff_Email,Staff_Phone,Staff_Password,jobID_FK,StartFunctionsDate,EndFunctionsDate,DrivingLicenseGrades,DriverLicenseExpirationDate,DaysOffVacationCount")] StaffModel staffModel, List<string>? DrivingLicenseGrades)
         {
             if (ModelState.IsValid)
             {
@@ -131,7 +131,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Staff_Id,Staff_Name,BirthDate,Staff_Email,Staff_Phone,Staff_Password,jobID_FK,StartFunctionsDate,EndFunctionsDate,DrivingLicenseGrades,DriverLicenseExpirationDate")] StaffModel staffModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Staff_Id,Staff_Name,BirthDate,Staff_Email,Staff_Phone,Staff_Password,jobID_FK,StartFunctionsDate,EndFunctionsDate,DrivingLicenseGrades,DriverLicenseExpirationDate,DaysOffVacationCount")] StaffModel staffModel)
         {
             if (id != staffModel.Staff_Id)
             {

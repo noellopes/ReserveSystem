@@ -54,7 +54,12 @@
         public List<string>? DrivingLicenseGrades { get; set; }
             
             public DateTime DriverLicenseExpirationDate { get; set; }
-        }
+
+        [Display(Name = "DaysOffVacationCount")]
+        public int DaysOffVacationCount { get; set; }
+
+    }
+
     
     }
 

@@ -32,6 +32,7 @@
             <th>EndFunctionsDate</th>
             <th>Driving License Grades</th>
             <th>Driver License Expiration Date</th>
+            <th>Days Off Vacation Count</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -60,11 +61,14 @@
                     }
                 </td>
                 <td>@staff.DriverLicenseExpirationDate.ToString("dd/MM/yyyy")</td>
+                <td>@Html.DisplayFor(modelItem => staff.DaysOffVacationCount)</td>
                 <td>
                     <a asp-action="Details" asp-route-id="@staff.Staff_Id" class="btn btn-info">Details</a>
                     <a asp-action="Edit" asp-route-id="@staff.Staff_Id" class="btn btn-warning">Edit</a>
                     <a asp-action="Delete" asp-route-id="@staff.Staff_Id" class="btn btn-danger">Delete</a>
                 </td>
+                
+
             </tr>
         }
     </tbody>
