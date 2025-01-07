@@ -23,7 +23,8 @@ namespace ReserveSystem.Models
             MinimumLength = 3)]
         [Display(Name = "Tipo de Transporte")]
         public string TipoTransporte { get; set; }
-
+        [Required(ErrorMessage = "Colocar habilitação necessária para este tipo de transporte")]
+        [Display(Name = "Tipo de Carta Necessária")]
         public String CartaTransporte { get; set; }
 
         [Required(ErrorMessage = "O ano de fabricação é obrigatório.")]
@@ -34,8 +35,9 @@ namespace ReserveSystem.Models
 
         public virtual ICollection<MotoristaTransporte>? MotoristaTransporte { get; set; }
 
-        // Propriedade derivada que retorna uma descrição com base no tipo de transporte
-     public string DescricaoTipoTransporte { get; set; }
+        [Display(Name = "Descrição do Transporte")]
+        [Required(ErrorMessage = "A descrição do Transporte é obrigatória")]
+        public string DescricaoTipoTransporte { get; set; }
          /*{
              get
              {

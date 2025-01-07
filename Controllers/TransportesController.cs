@@ -59,6 +59,10 @@ namespace ReserveSystem.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (transporte.AnoFabricacao > DateTime.Now.Year)
+                {
+                    ModelState.AddModelError("AnoFabricacao", "O ano de fabricação não pode ser no futuro.");
+                }
                 _context.Add(transporte);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

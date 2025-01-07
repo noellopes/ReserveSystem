@@ -1,7 +1,7 @@
 ﻿@model ReserveSystem.Models.Transporte
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Criar Novo Transporte";
 }
 
 <div class="container mt-5">
@@ -9,7 +9,7 @@
         <div class="col-lg-6">
             <div class="card shadow">
                 <div class="card-header bg-primary text-white text-center">
-                    <h3 class="card-title">Create Transporte</h3>
+                    <h3 class="card-title">Criar Transporte</h3>
                 </div>
                 <div class="card-body">
                     <form asp-action="Create">
@@ -51,12 +51,13 @@
                         </div>
 
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Create</button>
+                            <button type="submit" class="btn btn-primary">Criar</button>
+                           
                         </div>
                     </form>
                 </div>
                 <div class="card-footer text-center">
-                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                    <a asp-action="Index" class="btn btn-secondary">Voltar</a>
                 </div>
             </div>
         </div>

@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<ReserveSystem.Models.Transporte>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Transportes";
 }
 
 <h1 class="text-center my-4">Index</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Criar novo Transporte</a>
 </p>
 
 <div class="table-responsive">
@@ -18,8 +18,8 @@
                 <th>@Html.DisplayNameFor(model => model.Capacidade)</th>
                 <th>@Html.DisplayNameFor(model => model.TipoTransporte)</th>
                 <th>@Html.DisplayNameFor(model => model.AnoFabricacao)</th>
-                <th>@Html.DisplayNameFor(model => model.DescricaoTipoTransporte)</th>
-                <th>Actions</th>
+                <th>Descrição do Transporte</th> 
+                <th>Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -32,9 +32,9 @@
                     <td>@Html.DisplayFor(modelItem => item.AnoFabricacao)</td>
                     <td>@Html.DisplayFor(modelItem => item.DescricaoTipoTransporte)</td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.TransporteId" class="btn btn-sm btn-warning">Edit</a>
-                        <a asp-action="Details" asp-route-id="@item.TransporteId" class="btn btn-sm btn-info text-white">Details</a>
-                        <a asp-action="Delete" asp-route-id="@item.TransporteId" class="btn btn-sm btn-danger">Delete</a>
+                        <a asp-action="Edit" asp-route-id="@item.TransporteId" class="btn btn-sm btn-warning">Editar</a>
+                        <a asp-action="Details" asp-route-id="@item.TransporteId" class="btn btn-sm btn-info text-white">Detalhes</a>
+                        <a asp-action="Delete" asp-route-id="@item.TransporteId" class="btn btn-sm btn-danger">Eliminar</a>
                     </td>
                 </tr>
             }
