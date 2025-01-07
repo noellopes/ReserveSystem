@@ -10,6 +10,7 @@ using PagedList;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
 using PagedList;
+using ReserveSystem.Migrations;
 
 namespace ReserveSystem.Controllers
 {
@@ -23,30 +24,34 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: ExcursaoFavorita
-        public async Task<IActionResult> Index(string searchString, string filterBy, string sortOrder, string currentFilter, int? page)
+        public async Task<IActionResult> Index(
+            string searchString,
+            string filterBy,
+            string sortOrder,
+            int page = 1,
+            int pageSize = 9)
         {
+            ViewBag.FilterBy = filterBy ?? "titulo";
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.TituloSortParm = sortOrder == "Titulo" ? "Titulo_desc" : "Titulo";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
 
-            if (searchString != null)
+            var query = _context.ExcursaoFavoritaModel
+               .Include(r => r.Cliente)
+               .Include(r => r.Excursao)
+               .AsQueryable();
+
+            /*if (searchString != null)
             {
                 page = 1;
             }
             else
             {
                 searchString = currentFilter;
-            }
+            }*/
 
-            ViewBag.CurrentFilter = searchString;
-            ViewBag.FilterBy = filterBy ?? "titulo";
-            ViewBag.SearchString = searchString;
-
-            var favoritas = from f in _context.ExcursaoFavoritaModel
-                            .Include(f => f.Cliente)
-                            .Include(f => f.Excursao)
-                            select f;
+            //FILTRO
 
             if (!string.IsNullOrEmpty(searchString) && !string.IsNullOrEmpty(filterBy))
             {
@@ -54,7 +59,7 @@ namespace ReserveSystem.Controllers
                 {
 
                     case "titulo":
-                        favoritas = favoritas.Where(f => f.Excursao.Titulo.Contains(searchString));
+                        query = query.Where(f => f.Excursao.Titulo.Contains(searchString));
                         break;
 
                     case "data":
@@ -62,7 +67,7 @@ namespace ReserveSystem.Controllers
                         if (!string.IsNullOrEmpty(searchString) && int.TryParse(searchString, out int searchNumber))
                         {
 
-                            favoritas = favoritas.Where(f => f.Excursao.Data_Fim.Day == searchNumber ||
+                            query = query.Where(f => f.Excursao.Data_Fim.Day == searchNumber ||
                                                        f.Excursao.Data_Fim.Month == searchNumber ||
                                                        f.Excursao.Data_Fim.Year.ToString().Contains(searchString));
                         }
@@ -73,33 +78,52 @@ namespace ReserveSystem.Controllers
 
 
                         break;
-                    default:
-                        break;
+                    
 
                 }
 
             }
 
+            //SORTING
+
             switch (sortOrder)
             {
                 case "Titulo_desc":
-                    favoritas = favoritas.OrderByDescending(f => f.Excursao.Titulo);
+                    query = query.OrderByDescending(f => f.Excursao.Titulo);
                     break;
                 case "Date":
-                    favoritas = favoritas.OrderBy(f => f.Excursao.Data_Fim);
+                    query = query.OrderBy(f => f.Excursao.Data_Fim);
                     break;
                 case "Date_desc":
-                    favoritas = favoritas.OrderByDescending(f => f.Excursao.Data_Fim);
+                    query = query.OrderByDescending(f => f.Excursao.Data_Fim);
                     break;
                 default:
-                    favoritas = favoritas.OrderBy(f => f.Excursao.Titulo);
+                    query = query.OrderBy(f => f.Excursao.Titulo);
                     break;
             }
 
-            int pageSize = 10;
-            int pageNumber = (page ?? 1);
+            int totalItems = await query.CountAsync();
 
-            return View(favoritas.ToPagedList(pageNumber, pageSize));
+            var favoritas = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+
+            var viewModel = new ExcursaoFavoritaViewModel
+            {
+                ExcursaoFavoritas = favoritas,
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    PageSize = pageSize,
+                    TotalItems = totalItems
+                },
+                SearchTitulo = filterBy == "titulo" ? searchString : string.Empty,
+                SearchData = filterBy == "data" ? searchString : string.Empty
+            };
+
+            return View(viewModel);
 
             //return View(await favoritas.ToListAsync());
         }

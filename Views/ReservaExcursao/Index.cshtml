@@ -1,6 +1,5 @@
-﻿@model ReserveSystem.Models.ReservaExcursaoViewModel
+﻿
 
-@using PagedList.Mvc
 <link rel="stylesheet" href="~/css/ViewsGrupo10.css" />
 @{
     ViewData["Title"] = "Reservas";
@@ -11,7 +10,7 @@
 <div class="container mt-4">
     @using (Html.BeginForm("Index", "ReservaExcursao", FormMethod.Get))
     {
-        <div class="d-flex justify-content-between align-items-center mb-2">
+        <div class="d-flex justify-content-between align-items-center mb-5">
             <h1 class="text-primary">@ViewData["Title"]</h1>
             <div class="d-flex justify-content-center w-50 mx-auto">
                 <a asp-action="Index" class="btn btn-link ms-2" title="Limpar Filtro">
@@ -25,6 +24,7 @@
             }, "Value", "Text", ViewBag.FilterBy),
                          new { @class = "form-select me-2 w-100", style = "max-width: 100%;" })
                 <input type="text" class="form-control" name="searchString" placeholder="Pesquisar..." style="max-width: 200px;" value="@ViewBag.SearchString" />
+                
                 <button class="btn btn-primary ms-2" type="submit">Filtrar</button>
             </div>
             <a asp-action="Create" class="btn btn-success">Criar Nova</a>
@@ -51,49 +51,96 @@
         </div>
     }
 
+   
+
+
     @using (Html.BeginForm("BulkDelete", "ReservaExcursao", FormMethod.Post))
     {
-        <div class="text-end mb-2">
-            <button type="submit" class="btn btn-danger">
-                <i class="bi bi-trash" style="font-size: 1.5rem;" title="Eliminar Selecionados"></i>
-            </button>
-        </div>
+        
+            <div class="d-flex justify-content-between align-items-end ">
+            <div class="d-flex justify-content-start mb-3" style="height:fit-content;">
+                
+                <a class="btn btn-primary me-3"  href="@Url.Action("Index", new { sortOrder = ViewBag.TituloSortParm })">
+                        Titulo da Reserva
+                        @if (ViewBag.CurrentSort == "Titulo")
+                        {
+                            <i class="bi bi-arrow-up"></i>
+                        }
+                        else
+                        {
+                            <i class="bi bi-arrow-down"></i>
+                        }
+                    </a>
 
-        <div class="row">
-            @foreach (var item in Model.Reservas)
-            {
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center">
-                                <input type="checkbox" name="selectedIds" value="@item.Id" />
-                                <h5 class="card-title ms-3">@item.Excursao.Titulo</h5>
+
+                <a class="btn btn-primary me-3" href="@Url.Action("Index", new { sortOrder = ViewBag.DateSortParm })">
+                    Data da Reserva
+                    @if (ViewBag.CurrentSort == "Date")
+                    {
+                        <i class="bi bi-arrow-up"></i>
+                    }
+                    else
+                    {
+                        <i class="bi bi-arrow-down"></i>
+                    }
+                </a>
+                <a class="btn btn-primary me-3" href="@Url.Action("Index", new { sortOrder = ViewBag.NameSortParm })">
+                    Nome do Cliente
+                    @if (ViewBag.CurrentSort == "Name_desc")
+                    {
+                        <i class="bi bi-arrow-down"></i>
+                    }
+                    else
+                    {
+                        <i class="bi bi-arrow-up"></i>
+                    }
+                </a>
+                </div>
+                <div class="text-end mb-3">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash" style="font-size: 1.5rem;" title="Eliminar Selecionados"></i>
+                    </button>
+                </div>
+            </div>
+           
+
+            <div class="row">
+                @foreach (var item in Model.Reservas)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <input type="checkbox" name="selectedIds" value="@item.Id" />
+                                    <h5 class="card-title ms-3">@item.Excursao.Titulo</h5>
+                                </div>
+                                <a asp-action="Delete" asp-route-id="@item.Id">
+                                    <i class="bi bi-trash text-danger" style="font-size: 1.5rem;" title="Eliminar"></i>
+                                </a>
                             </div>
-                            <a asp-action="Delete" asp-route-id="@item.Id">
-                                <i class="bi bi-trash text-danger" style="font-size: 1.5rem;" title="Eliminar"></i>
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text"><strong>Cliente:</strong> @item.Cliente.Nome</p>
-                            <p class="card-text"><strong>Data da Reserva:</strong> @item.DataReserva.ToShortDateString()</p>
-                            <p class="card-text"><strong>Número de Pessoas:</strong> @item.NumPessoas</p>
-                            <p class="card-text"><strong>Valor Total:</strong> @item.ValorTotal.ToString("C")</p>
-                        </div>
-                        <div class="card-footer text-center">
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="mx-2 text-decoration-none">
-                                <i class="bi bi-pencil-fill text-primary" style="font-size: 1.5rem;" title="Editar"></i>
-                            </a>
-                            <a asp-action="Details" asp-route-id="@item.Id" class="mx-2 text-decoration-none">
-                                <i class="bi bi-info-circle-fill text-black" style="font-size: 1.5rem;" title="Detalhes"></i>
-                            </a>
-                            <a asp-action="Favorita" asp-route-id="@item.Id" class="mx-2 text-decoration-none">
-                                <i class="bi bi-star-fill text-warning" style="font-size: 1.5rem;" title="Favoritar"></i>
-                            </a>
+                            <div class="card-body">
+                                <p class="card-text"><strong>Cliente:</strong> @item.Cliente.Nome</p>
+                                <p class="card-text"><strong>Data da Reserva:</strong> @item.DataReserva.ToShortDateString()</p>
+                                <p class="card-text"><strong>Número de Pessoas:</strong> @item.NumPessoas</p>
+                                <p class="card-text"><strong>Valor Total:</strong> @item.ValorTotal.ToString("C")</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="mx-2 text-decoration-none">
+                                    <i class="bi bi-pencil-fill text-primary" style="font-size: 1.5rem;" title="Editar"></i>
+                                </a>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="mx-2 text-decoration-none">
+                                    <i class="bi bi-info-circle-fill text-black" style="font-size: 1.5rem;" title="Detalhes"></i>
+                                </a>
+                                <a asp-action="Favorita" asp-route-id="@item.Id" class="mx-2 text-decoration-none">
+                                    <i class="bi bi-star-fill text-warning" style="font-size: 1.5rem;" title="Favoritar"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
-        </div>
+                }
+            </div>
+        
+        
     }
 
     <div class="pagination justify-content-center mt-4">

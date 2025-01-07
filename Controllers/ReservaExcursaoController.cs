@@ -27,8 +27,11 @@ namespace ReserveSystem.Controllers
             int page = 1,
             int pageSize = 9)
         {
+            ViewBag.FilterBy = filterBy ?? "titulo";
+            
             // Parâmetros de ordenação
             ViewBag.CurrentSort = sortOrder;
+            ViewBag.TituloSortParm = sortOrder == "Titulo" ? "Titulo_desc" : "Titulo";
             ViewBag.NameSortParm = sortOrder == "Name" ? "Name_desc" : "Name";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
 
@@ -54,7 +57,10 @@ namespace ReserveSystem.Controllers
                         {
                             query = query.Where(r => r.DataReserva.Date == searchDate.Date);
                         }
+
                         break;
+
+
                 }
             }
 
@@ -70,9 +76,16 @@ namespace ReserveSystem.Controllers
                 case "date_desc":
                     query = query.OrderByDescending(r => r.DataReserva);
                     break;
+                case "Titulo_desc":
+                    query = query.OrderByDescending(r => r.Excursao.Titulo);
+                    break;
+                case "Titulo":
+                    query = query.OrderBy(r => r.Excursao.Titulo);
+                    break;
                 default:
                     query = query.OrderBy(r => r.Cliente.Nome);
                     break;
+
             }
 
             // Contagem total para paginação
@@ -188,6 +201,98 @@ namespace ReserveSystem.Controllers
         private bool ReservaExcursaoModelExists(int id)
         {
             return _context.ReservaExcursaoModel.Any(e => e.Id == id);
+        }
+
+        // POST: ExcursaoFavorita/Delete/BulkDelete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BulkDelete(List<int> selectedIds)
+        {
+            if (selectedIds == null || !selectedIds.Any())
+            {
+                TempData["ErrorMessage"] = "No excursions were selected for deletion.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            try
+            {
+                // Fetch selected excursions and remove them
+                var reservaExcursao = _context.ReservaExcursaoModel.Where(e => selectedIds.Contains(e.Id));
+
+                if (reservaExcursao.Any())
+                {
+                    _context.ReservaExcursaoModel.RemoveRange(reservaExcursao);
+                    await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Selected excursions were successfully deleted.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "No valid excursions found for deletion.";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Error deleting excursions: {ex.Message}";
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        // GET: ReservaExcursao/Favorita/5
+        public async Task<IActionResult> Favorita(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var reservaExcursaoModel = await _context.ReservaExcursaoModel
+                .Include(r => r.Cliente)
+                .Include(r => r.Excursao)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (reservaExcursaoModel == null)
+            {
+                return NotFound();
+            }
+
+            // Retorna a view com o modelo de reserva, onde o usuário pode adicionar um comentário
+            return View(reservaExcursaoModel);
+        }
+
+        // POST: ReservaExcursao/Favorita/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Favorita(int id, string? comentario)
+        {
+
+
+            var reservaExcursaoModel = await _context.ReservaExcursaoModel
+                .Include(r => r.Cliente)
+                .Include(r => r.Excursao)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (reservaExcursaoModel == null)
+            {
+                return NotFound();
+            }
+
+            // Cria o objeto para adicionar à tabela ExcursaoFavorita
+            var favorita = new ExcursaoFavoritaModel
+            {
+                ClienteId = reservaExcursaoModel.ClienteId,
+                ExcursaoId = reservaExcursaoModel.ExcursaoId,
+                Comentario = comentario
+            };
+
+            // Adiciona à base de dados
+            _context.ExcursaoFavoritaModel.Add(favorita);
+            await _context.SaveChangesAsync();
+
+            // Redireciona para a lista de reservas
+            TempData["SuccessMessage"] = "Excursão adicionada aos favoritos com sucesso!";
+            return RedirectToAction(nameof(Index));
         }
     }
 }
