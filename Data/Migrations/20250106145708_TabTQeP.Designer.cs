@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserveSystem.Data;
 
@@ -11,9 +12,11 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ReserveSystemUsersDbContext))]
-    partial class ReserveSystemUsersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250106145708_TabTQeP")]
+    partial class TabTQeP
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -225,53 +228,42 @@ namespace ReserveSystem.Data.Migrations
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.TQePreco", b =>
-            modelBuilder.Entity("ReserveSystem.Models.Events", b =>
                 {
                     b.Property<int>("RoomTypeId")
-                    b.Property<int>("event_id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomTypeId"));
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("event_id"));
 
                     b.Property<bool>("AcessibilityRoom")
                         .HasColumnType("bit");
 
                     b.Property<float>("AdicionalBeds")
                         .HasColumnType("real");
-                    b.Property<bool>("anual")
-                        .HasColumnType("bit");
 
-                    b.Property<DateTime>("endDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("InUse")
-                    b.Property<float>("fee")
+                    b.Property<float>("BasePrice")
                         .HasColumnType("real");
 
-                    b.Property<bool>("inUse")
+                    b.Property<bool>("InUse")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("municipal")
+                    b.Property<int>("RoomQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("View")
                         .HasColumnType("bit");
 
-                    b.Property<string>("nameEv")
+                    b.Property<int>("capacity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("type")
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
                     b.HasKey("RoomTypeId");
-                    b.Property<bool>("national")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("startDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("event_id");
 
                     b.ToTable("TQePreco");
-                    b.ToTable("Events", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

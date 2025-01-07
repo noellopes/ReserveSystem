@@ -10,6 +10,9 @@ namespace ReserveSystem.Data
             : base(options)
         {
         }
+        public DbSet<ReserveSystem.Models.TQePreco> TQePreco { get; set; } = default!;
+        
+        
         public DbSet<ReserveSystem.Models.Events> Events { get; set; } = default!;
     }
 }
