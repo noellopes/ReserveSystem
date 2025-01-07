@@ -20,11 +20,38 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Staff
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString,int page = 1, int pageSize = 3)
         {
-            var staffList = await _context.StaffModel
-                                  .Include(s => s.Job) 
+
+            var staffQuery = _context.StaffModel.Include(s => s.Job).AsQueryable();
+
+            // Filter by searchString if provided
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                staffQuery = staffQuery.Where(s =>
+                    s.Staff_Name.Contains(searchString) ||
+                    s.Staff_Email.Contains(searchString) ||
+                    s.Staff_Phone.Contains(searchString));
+            }
+
+            var totalItems = await staffQuery.CountAsync();
+
+            var staffList = await staffQuery
+                                  .Include(s => s.Job)
+                                  .Skip((page - 1) * pageSize)
+                                  .Take(pageSize)
                                   .ToListAsync();
+
+            var pagingInfo = new PagingInfo
+            {
+                TotalItems = totalItems,
+                PageSize = pageSize,
+                CurrentPage = page
+            };
+
+            
+            ViewBag.PagingInfo = pagingInfo;
+
             return View(staffList);
         }
 

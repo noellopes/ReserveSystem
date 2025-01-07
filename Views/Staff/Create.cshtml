@@ -59,7 +59,7 @@
                     <div class="form-group">
                         <label asp-for="StartFunctionsDate" class="control-label">StartFunctionsDate</label>
                         <input asp-for="StartFunctionsDate" class="form-control" type="date" value="@Model.DriverLicenseExpirationDate.ToString("dd/MM/yyyy")" />
-                        <span asp-validation-for="BirthDate" class="text-danger"></span>
+                        <span asp-validation-for="StartFunctionsDate" class="text-danger"></span>
                     </div>
 
                 </div>
@@ -72,7 +72,7 @@
                     <div class="form-group">
                         <label asp-for="EndFunctionsDate" class="control-label">EndFunctionsDate</label>
                         <input asp-for="EndFunctionsDate" class="form-control" type="date" value="@Model.DriverLicenseExpirationDate.ToString("dd/MM/yyyy")" />
-                        <span asp-validation-for="BirthDate" class="text-danger"></span>
+                        <span asp-validation-for="EndFunctionsDate" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Driving License Grades</label>

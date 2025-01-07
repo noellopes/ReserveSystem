@@ -2,13 +2,20 @@
 
 @{
     ViewData["Title"] = "Staff List";
+    var pagingInfo = (PagingInfo)ViewBag.PagingInfo;
+    string searchString = ViewBag.SearchString as string;
 }
 
 <h1>Staff Members</h1>
-
-<p class="text-center">
-    <a asp-action="Create" class="btn btn-index">Add New Staff</a>
-</p>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <!-- Add New Staff Button -->
+    <a asp-action="Create" class="btn btn-primary">Add New Staff</a>
+    <!-- Search Form -->
+    <form method="get" asp-action="Index" class="d-flex">
+        <input type="text" name="searchString" value="@searchString" class="form-control" placeholder="Search by Name, Email, or Phone" />
+        <button type="submit" class="btn btn-primary ms-2">Search</button>
+    </form>
+</div>
 
 <table class="table">
     <thead>
@@ -61,4 +68,38 @@
         }
     </tbody>
 </table>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        <!-- First and Previous -->
+        @if (pagingInfo.CurrentPage > 1)
+        {
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Index", new { page = 1 })">First</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Index", new { page = pagingInfo.CurrentPage - 1 })">Previous</a>
+            </li>
+        }
+
+        <!-- Page Numbers -->
+        @for (int i = pagingInfo.FirstPageShow; i <= pagingInfo.LastPageShow; i++)
+        {
+            <li class="page-item @(i == pagingInfo.CurrentPage ? "active" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+            </li>
+        }
+
+        <!-- Next and Last -->
+        @if (pagingInfo.CurrentPage < pagingInfo.TotalPages)
+        {
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Index", new { page = pagingInfo.CurrentPage + 1 })">Next</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Index", new { page = pagingInfo.TotalPages })">Last</a>
+            </li>
+        }
+    </ul>
+</nav>
 

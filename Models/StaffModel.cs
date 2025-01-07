@@ -28,7 +28,7 @@
             
             [Required]
             [StringLength(9, ErrorMessage = "O número de telemóvel deve conter exatamente 9 dígitos.")]
-        [RegularExpression(@"^\d{9}$", ErrorMessage = "O número de telemóvel deve conter apenas números e ter exatamente 9 dígitoswhashim.")]
+        [RegularExpression(@"^\d{9}$", ErrorMessage = "O número de telemóvel deve conter apenas números e ter exatamente 9 dígitos.")]
         [Display(Name = "Phone")]
             public string Staff_Phone { get; set; }
 
