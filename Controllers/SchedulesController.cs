@@ -22,7 +22,7 @@ namespace ReserveSystem.Controllers
         // GET: Schedules
         public async Task<IActionResult> Index(int page = 1, string searchName = null)
         {
-            int pageSize = 3;
+            int pageSize = 5;
 
             // Filtrar os agendamentos com base no nome do staff (se fornecido)
             var query = _context.Schedules

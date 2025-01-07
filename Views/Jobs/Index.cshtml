@@ -84,53 +84,56 @@ else if (string.IsNullOrEmpty(Model.SearchJobName) && string.IsNullOrEmpty(Model
 }
 
 <!-- Pagination -->
-<nav aria-label="JobPagination">
-    <ul class="pagination">
-        @{
-            var cssStyle = "page-item";
-            if (Model.PagingInfo.CurrentPage == 1)
-            {
-                cssStyle += " disabled";
+@if (Model?.PagingInfo != null)
+{
+    <nav aria-label="JobPagination">
+        <ul class="pagination">
+            @{
+                var cssStyle = "page-item";
+                if (Model.PagingInfo.CurrentPage == 1)
+                {
+                    cssStyle += " disabled";
+                }
             }
-        }
-        <li class="@cssStyle">
-            <a class="page-link"
-               asp-action="Index"
-               asp-route-page="1"
-               asp-route-searchTitle="@Model.SearchJobName"
-               asp-route-searchDescription="@Model.SearchJobDescription">First</a>
-        </li>
-
-        @for (int p = Model.PagingInfo.FirstPageShow; p <= Model.PagingInfo.LastPageShow; p++)
-        {
-            cssStyle = "page-item";
-            if (p == Model.PagingInfo.CurrentPage)
-            {
-                cssStyle += " active";
-            }
-
             <li class="@cssStyle">
                 <a class="page-link"
                    asp-action="Index"
-                   asp-route-page="@p"
-                   asp-route-searchTitle="@Model.SearchJobName"
-                   asp-route-searchDescription="@Model.SearchJobDescription">@p</a>
+                   asp-route-page="1"
+                   asp-route-searchJobName="@Model.SearchJobName"
+                   asp-route-searchJobDescription="@Model.SearchJobDescription">First</a>
             </li>
-        }
 
-        @{
-            cssStyle = "page-item";
-            if (Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages)
+            @for (int p = Model.PagingInfo.FirstPageShow; p <= Model.PagingInfo.LastPageShow; p++)
             {
-                cssStyle += " disabled";
+                cssStyle = "page-item";
+                if (p == Model.PagingInfo.CurrentPage)
+                {
+                    cssStyle += " active";
+                }
+
+                <li class="@cssStyle">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-page="@p"
+                       asp-route-searchJobName="@Model.SearchJobName"
+                       asp-route-searchJobDescription="@Model.SearchJobDescription">@p</a>
+                </li>
             }
-        }
-        <li class="@cssStyle">
-            <a class="page-link"
-               asp-action="Index"
-               asp-route-page="@Model.PagingInfo.TotalPages"
-               asp-route-searchTitle="@Model.SearchJobName"
-               asp-route-searchDescription="@Model.SearchJobDescription">Last</a>
-        </li>
-    </ul>
-</nav>
+
+            @{
+                cssStyle = "page-item";
+                if (Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages)
+                {
+                    cssStyle += " disabled";
+                }
+            }
+            <li class="@cssStyle">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@Model.PagingInfo.TotalPages"
+                   asp-route-searchJobName="@Model.SearchJobName"
+                   asp-route-searchJobDescription="@Model.SearchJobDescription">Last</a>
+            </li>
+        </ul>
+    </nav>
+}

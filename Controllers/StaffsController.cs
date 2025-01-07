@@ -21,27 +21,28 @@ namespace ReserveSystem.Controllers
         // GET: Staffs
         public async Task<IActionResult> Index(string searchName, int page = 1)
         {
-            var pageSize = 10; // Número de itens por página
-            var staffQuery = _context.Staff.Include(s => s.job).AsQueryable();
+            int pageSize = 4;
 
-            // Filtra pelo nome do staff se o parâmetro searchName for fornecido
+            var query = _context.Staff.Include(s => s.job).AsQueryable();
+
+            // Filtrar por nome
             if (!string.IsNullOrEmpty(searchName))
             {
-                staffQuery = staffQuery.Where(s => s.StaffName.Contains(searchName));
+                query = query.Where(s => s.StaffName.Contains(searchName));
             }
 
-            var totalItems = await staffQuery.CountAsync();
+            var totalItems = await query.CountAsync();
             var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
-            // Pega os itens da página atual
-            var staffList = await staffQuery
+            var items = await query
+                .OrderBy(s => s.StaffName)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
             var viewModel = new StaffViewModel
             {
-                Staffs = staffList,
+                Staffs = items,
                 SearchName = searchName,
                 CurrentPage = page,
                 TotalPages = totalPages

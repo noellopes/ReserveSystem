@@ -17,35 +17,48 @@ namespace ReserveSystem.Controllers
         // GET: Jobs
         public async Task<IActionResult> Index(int page = 1, string searchJobName = "", string searchJobDescription = "")
         {
-            var jobs = from j in _context.Job select j;
+            int pageSize = 5; // Número de itens por página
 
+            var jobsQuery = _context.Job.AsQueryable();
+
+            // Filtragem
             if (!string.IsNullOrEmpty(searchJobName))
             {
-                jobs = jobs.Where(j => j.JobName.Contains(searchJobName));
+                jobsQuery = jobsQuery.Where(j => j.JobName.Contains(searchJobName));
             }
-
             if (!string.IsNullOrEmpty(searchJobDescription))
             {
-                jobs = jobs.Where(j => j.JobDescription.Contains(searchJobDescription));
+                jobsQuery = jobsQuery.Where(j => j.JobDescription.Contains(searchJobDescription));
             }
 
-            var model = new JobsViewModel
+            // Total de itens
+            var totalItems = await jobsQuery.CountAsync();
+
+            // Inicializar o PagingInfo
+            var pagingInfo = new PagingInfo
             {
-                PagingInfo = new PagingInfo
-                {
-                    CurrentPage = page,
-                    TotalItems = await jobs.CountAsync()
-                },
-                Jobs = await jobs
-                    .OrderBy(j => j.JobName)
-                    .Skip((page - 1) * 10) // Paginação (10 jobs por página)
-                    .Take(10)
-                    .ToListAsync(),
-                SearchJobName = searchJobName,
-                SearchJobDescription = searchJobDescription
+                TotalItems = totalItems,
+                PageSize = pageSize,
+                CurrentPage = page
             };
 
-            return View(model);
+            // Paginação
+            var jobs = await jobsQuery
+                .OrderBy(j => j.JobName)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            // Inicializar o ViewModel
+            var viewModel = new JobsViewModel
+            {
+                Jobs = jobs,
+                SearchJobName = searchJobName,
+                SearchJobDescription = searchJobDescription,
+                PagingInfo = pagingInfo
+            };
+
+            return View(viewModel);
         }
 
         // GET: Jobs/Details/5

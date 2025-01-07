@@ -19,37 +19,47 @@ namespace ReserveSystem.Controllers
         // GET: TypeOfSchedules
         public async Task<IActionResult> Index(int page = 1, string searchTypeOfScheduleName = "", string searchTypeOfScheduleDescription = "")
         {
-            var typeOfSchedules = from t in _context.TypeOfSchedule select t;
+            int pageSize = 5;
 
-            // Filtragem por nome e descrição
+            var query = _context.TypeOfSchedule.AsQueryable();
+
+            // by name filter
             if (!string.IsNullOrEmpty(searchTypeOfScheduleName))
             {
-                typeOfSchedules = typeOfSchedules.Where(t => t.TypeOfScheduleName.Contains(searchTypeOfScheduleName));
+                query = query.Where(t => t.TypeOfScheduleName.Contains(searchTypeOfScheduleName));
             }
 
+            // by desc filter
             if (!string.IsNullOrEmpty(searchTypeOfScheduleDescription))
             {
-                typeOfSchedules = typeOfSchedules.Where(t => t.TypeOfScheduleDescription.Contains(searchTypeOfScheduleDescription));
+                query = query.Where(t => t.TypeOfScheduleDescription.Contains(searchTypeOfScheduleDescription));
             }
 
-            // Configuração do modelo de paginação
-            var model = new TypeOfScheduleViewModel
+            var totalItems = await query.CountAsync();
+
+            // Criando e preenchendo o PagingInfo
+            var pagingInfo = new PagingInfo
             {
-                PagingInfo = new PagingInfo
-                {
-                    CurrentPage = page,
-                    TotalItems = await typeOfSchedules.CountAsync()
-                },
-                TypeOfSchedules = await typeOfSchedules
-                    .OrderBy(t => t.TypeOfScheduleName)
-                    .Skip((page - 1) * 10) // Paginação (10 por página)
-                    .Take(10)
-                    .ToListAsync(),
+                TotalItems = totalItems,
+                PageSize = pageSize,
+                CurrentPage = page
+            };
+
+            var items = await query
+                .OrderBy(t => t.TypeOfScheduleName)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var viewModel = new TypeOfScheduleViewModel
+            {
+                TypeOfSchedules = items,
+                PagingInfo = pagingInfo,  // Passando o PagingInfo para o ViewModel
                 SearchTypeOfScheduleName = searchTypeOfScheduleName,
                 SearchTypeOfScheduleDescription = searchTypeOfScheduleDescription
             };
 
-            return View(model);
+            return View(viewModel);
         }
 
         // GET: TypeOfSchedules/Details/5
@@ -86,7 +96,7 @@ namespace ReserveSystem.Controllers
                 _context.Add(typeOfSchedule);
                 await _context.SaveChangesAsync();
 
-                // Redirecionar para a página de confirmação de registo, passando o id do typeofSchedule
+                // redirect to registrationComplete, passing the id of TypeOfSchedules
                 return RedirectToAction("RegistrationComplete", "TypeOfSchedules", new { typeOfScheduleId = typeOfSchedule.TypeOfScheduleId });
             }
             return View(typeOfSchedule);
