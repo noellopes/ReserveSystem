@@ -21,32 +21,17 @@ namespace ReserveSystem.Controllers
 
         public async Task<IActionResult> Index(string pesquisarEmail="", string pesquisarNIF="", int pagina=1)
         {
-            var client = _context.ClientModel.AsQueryable();
-            if (pesquisarEmail != "")
+            try
             {
-                client = client.Where(c => c.Email.Contains(pesquisarEmail));
+                var clientes = _context.ClientModel.ToList();
+                return View(clientes);
             }
-            if (pesquisarNIF != "")
+            catch (Exception ex)
             {
-                client = client.Where(c => c.NIF.ToString().Contains(pesquisarNIF));
+                TempData["Message"] = "An unexpected error occurred while fetching the client list.";
+                return View(new List<ClientModel>());
             }
-            var Model = new ClientViewModel();
-            Model.paginacao = new Paginacao
-            {
-                PaginaCorrente = pagina,
-                ItemTotal = await client.CountAsync(),
-            };
-            Model.ClientModels = await client
-                .OrderBy(c => c.NomeCliente)
-                .Skip((Model.paginacao.PaginaCorrente - 1) * Model.paginacao.TamanhoPagina)
-                .Take(Model.paginacao.TamanhoPagina)
-                .ToListAsync();
-            Model.PesquisarEmail = pesquisarEmail;
-            Model.PesquisarNIF = pesquisarNIF;
-
-            return View(Model);
         }
-
 
         
 

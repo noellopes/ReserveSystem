@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ReserveSystem.Models.TipoReserva>
+
+@{
+    ViewData["Title"] = "Booking Type List";
+}
+
+<h2>Booking Type List</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info">
+        @TempData["Message"]
+    </div>
+}
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NomeReserva)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NomeReserva)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.idTipoReserva">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.idTipoReserva">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.idTipoReserva">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
