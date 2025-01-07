@@ -24,15 +24,15 @@ namespace ReserveSystem.Controllers {
         public async Task<IActionResult> Index(int page = 1, string searchCliente = "", string searchPrato = "") {
             var reservas = from r in _context.Reserva.Include(r => r.Cliente).Include(r => r.Prato) select r;
 
-            //if (searchCliente != "")
-            //{
-            //    reservas = from r in reservas where r.Cliente!.NomeCliente.Contains(searchCliente) select r;
-            //}
+            if (searchCliente != "")
+            {
+                reservas = from r in reservas where r.Cliente!.NomeCliente.Contains(searchCliente) select r;
+            }
 
-            //if (searchPrato != "")
-            //{
-            //    reservas = from r in reservas where r.Prato!.PratoNome.Contains(searchPrato) select r;
-            //}
+            if (searchPrato != "")
+            {
+                reservas = from r in reservas where r.Prato!.PratoNome.Contains(searchPrato) select r;
+            }
 
             var model = new ReservasViewModel();
 
@@ -43,11 +43,11 @@ namespace ReserveSystem.Controllers {
 
             model.Reservas = reservas.ToList();
 
-            //model.Reservas = await reservas
-            //        .OrderBy(r => r.Cliente)
-            //        .Skip((model.PagingInfo.CurrentPage - 1) * model.PagingInfo.PageSize)
-            //        .Take(model.PagingInfo.PageSize)
-            //        .ToListAsync();
+            model.Reservas = await reservas
+                    .OrderBy(r => r.Cliente)
+                    .Skip((model.PagingInfo.CurrentPage - 1) * model.PagingInfo.PageSize)
+                    .Take(model.PagingInfo.PageSize)
+                    .ToListAsync();
 
             model.SearchCliente = searchCliente;
             model.SearchPrato = searchPrato;
@@ -87,12 +87,6 @@ namespace ReserveSystem.Controllers {
 
             ViewBag.IdPrato = new SelectList(pratosDoDia, "IdPrato", "PratoNome");
             ViewBag.IdCliente = new SelectList(_context.Cliente, "IdCliente", "NomeCliente");
-
-
-
-
-
-
 
             return View();
         }
@@ -138,7 +132,6 @@ namespace ReserveSystem.Controllers {
             }
 
             if (ModelState.IsValid) {
-                try {
                     // Marcar mesa como reservada
                     var mesaReservada = await _context.Mesa.FindAsync(reserva.IdMesa);
                     if (mesaReservada != null) {
@@ -148,17 +141,11 @@ namespace ReserveSystem.Controllers {
                         ModelState.AddModelError("", "De momento todas as mesas estão reservadas por favor tente noutro horário");
                     }
 
-
                     // Salva a reserva
                     _context.Add(reserva);
                     await _context.SaveChangesAsync();
 
                     TempData["SuccessMessage"] = "Reserva criada com sucesso!";
-
-                } catch (Exception ex) {
-                    _logger.LogError($"Erro ao salvar reserva: {ex.Message}");
-                    ModelState.AddModelError("", "Ocorreu um erro ao salvar a reserva.");
-                }
             }
 
             // Atualiza as ViewBags caso algo dê errado

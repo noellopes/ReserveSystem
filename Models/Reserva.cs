@@ -12,8 +12,7 @@ namespace ReserveSystem.Models
 
         [Required(ErrorMessage = "O cliente é obrigatório.")]
         public int IdCliente { get; set; }
-        public Cliente Cliente { get; set; }
-
+        public Cliente? Cliente { get; set; }
         
         [Range(1, 20)]
         public int? IdMesa { get; set; }
