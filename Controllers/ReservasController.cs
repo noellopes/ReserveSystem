@@ -73,17 +73,13 @@ namespace ReserveSystem.Controllers {
 
         // GET: Reservas/Create
         public IActionResult Create(DateTime? DataHora) {
-            // Obtém o dia atual da semana
             var data = DataHora ?? DateTime.Now;
             var diaReserva = data.DayOfWeek;
 
 
             var pratosDoDia = _context.Prato
-                .Where(p => p.Dia == diaReserva) // Apenas pratos disponíveis no dia selecionado
+                .Where(p => p.Dia == diaReserva)
                 .ToList();
-
-
-            // Por na ViewBag apenas os pratos filtrados
 
             ViewBag.IdPrato = new SelectList(pratosDoDia, "IdPrato", "PratoNome");
             ViewBag.IdCliente = new SelectList(_context.Cliente, "IdCliente", "NomeCliente");
@@ -132,7 +128,6 @@ namespace ReserveSystem.Controllers {
             }
 
             if (ModelState.IsValid) {
-                    // Marcar mesa como reservada
                     var mesaReservada = await _context.Mesa.FindAsync(reserva.IdMesa);
                     if (mesaReservada != null) {
                         mesaReservada.Reservado = true;
@@ -141,14 +136,12 @@ namespace ReserveSystem.Controllers {
                         ModelState.AddModelError("", "De momento todas as mesas estão reservadas por favor tente noutro horário");
                     }
 
-                    // Salva a reserva
                     _context.Add(reserva);
                     await _context.SaveChangesAsync();
 
                     TempData["SuccessMessage"] = "Reserva criada com sucesso!";
             }
 
-            // Atualiza as ViewBags caso algo dê errado
             ViewData["IdCliente"] = new SelectList(_context.Cliente, "IdCliente", "NomeCliente", reserva.IdCliente);
             ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome", reserva.IdPrato);
             return View(reserva);
@@ -172,7 +165,7 @@ namespace ReserveSystem.Controllers {
         // POST: Reservas/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdReserva,IdCliente,IdMesa, NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva) {
+        public async Task<IActionResult> Edit(int id, [Bind("IdReserva,IdCliente,IdMesa,NumeroPessoas,DataHora,Observacao,IdPrato, Aprovacao")] Reserva reserva) {
             if (id != reserva.IdReserva) {
                 return NotFound();
             }
@@ -194,8 +187,6 @@ namespace ReserveSystem.Controllers {
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome", reserva.IdPrato);
-
-
 
             return View(reserva);
         }
