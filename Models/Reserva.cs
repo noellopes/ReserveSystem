@@ -2,6 +2,7 @@
 using Microsoft.VisualBasic;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ReserveSystem.Models
 {
@@ -12,6 +13,8 @@ namespace ReserveSystem.Models
 
         [Required(ErrorMessage = "O cliente é obrigatório.")]
         public int IdCliente { get; set; }
+
+        [ForeignKey("IdCliente")]
         public Cliente? Cliente { get; set; }
         
         [Range(1, 20)]
@@ -25,6 +28,7 @@ namespace ReserveSystem.Models
         public string? Observacao { get; set; }
 
         public int? IdPrato { get; set; }
+        [ForeignKey("IdPrato")]
         public Prato? Prato { get; set; }
 
         public Boolean Aprovacao { get; set; }
