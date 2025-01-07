@@ -32,7 +32,7 @@ namespace ReserveSystem.Models
 
         [Required(ErrorMessage = "Client status is required.")]
         public bool Client_Status { get; set; }
-
+        public bool WantsCleaning { get; set; }
         public ICollection<Cleaning_Schedule> ? cleaningSchedules { get; set; }
     }
 }

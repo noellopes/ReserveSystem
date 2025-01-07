@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -26,64 +24,56 @@ namespace ReserveSystem.Controllers
             return View(await reserveSystemContext.ToListAsync());
         }
 
-        // GET: Cleaning_Schedule/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var cleaning_Schedule = await _context.Cleaning_Schedule
-                .Include(c => c.client)
-                .Include(c => c.staffMembers)
-                .FirstOrDefaultAsync(m => m.CleaningScheduleId == id);
-            if (cleaning_Schedule == null)
-            {
-                return NotFound();
-            }
-
-            return View(cleaning_Schedule);
-        }
-
         // GET: Cleaning_Schedule/Create
         public IActionResult Create()
         {
             ViewData["ClientId"] = new SelectList(_context.Client, "ClientId", "Client_Adress");
             ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffDriversLicense");
+
+            // Obter a data atual
+            var today = DateTime.Today;
+
+            // Obter horários ocupados para o dia de hoje
+            var busyHours = _context.Cleaning_Schedule
+                                    .Where(c => c.DateServices == today)
+                                    .Select(c => new { c.StartTime, c.EndTime })
+                                    .ToList();
+
+            // Obter horários disponíveis
+            var availableTimes = GetAvailableTimeSlots(busyHours);
+
+            ViewBag.AvailableTimes = availableTimes;
+
             return View();
         }
 
         // POST: Cleaning_Schedule/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CleaningScheduleId,RoomBookingId,ClientId,StaffId,DateServices,StartTime,EndTime,CleaningDone")] Cleaning_Schedule cleaning_Schedule)
+        public async Task<IActionResult> Create([Bind("CleaningScheduleId,RoomBookingId,ClientId,StaffId,DateServices,StartTime,EndTime,CleaningDone,CleaningDesired,PreferredCleaningStartTime,PreferredCleaningEndTime")] Cleaning_Schedule cleaning_Schedule)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(cleaning_Schedule);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(RegisterComplete), new { id = cleaning_Schedule.CleaningScheduleId });
+                // Verificar a disponibilidade do funcionário
+                var isStaffAvailable = !_context.Cleaning_Schedule.Any(cs => cs.StaffId == cleaning_Schedule.StaffId &&
+                                                                            cs.DateServices == cleaning_Schedule.DateServices &&
+                                                                            cs.StartTime < cleaning_Schedule.EndTime &&
+                                                                            cs.EndTime > cleaning_Schedule.StartTime);
+
+                if (isStaffAvailable)
+                {
+                    _context.Add(cleaning_Schedule);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ModelState.AddModelError("", "The staff member is not available for the selected time.");
+                }
             }
+
             ViewData["ClientId"] = new SelectList(_context.Client, "ClientId", "Client_Adress", cleaning_Schedule.ClientId);
             ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffDriversLicense", cleaning_Schedule.StaffId);
-            return View(cleaning_Schedule);
-        }
-
-        public async Task<IActionResult>RegisterComplete(int id)
-        {
-            var cleaning_Schedule = await _context.Cleaning_Schedule
-                .Include(c => c.client)
-                .Include(c => c.staffMembers)
-                .FirstOrDefaultAsync(m => m.CleaningScheduleId == id);
-
-            if (cleaning_Schedule == null)
-            {
-                return NotFound();
-            }
-
             return View(cleaning_Schedule);
         }
 
@@ -106,11 +96,9 @@ namespace ReserveSystem.Controllers
         }
 
         // POST: Cleaning_Schedule/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CleaningScheduleId,RoomBookingId,ClientId,StaffId,DateServices,StartTime,EndTime,CleaningDone")] Cleaning_Schedule cleaning_Schedule)
+        public async Task<IActionResult> Edit(int id, [Bind("CleaningScheduleId,RoomBookingId,ClientId,StaffId,DateServices,StartTime,EndTime,CleaningDone,CleaningDesired,PreferredCleaningStartTime,PreferredCleaningEndTime")] Cleaning_Schedule cleaning_Schedule)
         {
             if (id != cleaning_Schedule.CleaningScheduleId)
             {
@@ -168,11 +156,7 @@ namespace ReserveSystem.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var cleaning_Schedule = await _context.Cleaning_Schedule.FindAsync(id);
-            if (cleaning_Schedule != null)
-            {
-                _context.Cleaning_Schedule.Remove(cleaning_Schedule);
-            }
-
+            _context.Cleaning_Schedule.Remove(cleaning_Schedule);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -180,6 +164,31 @@ namespace ReserveSystem.Controllers
         private bool Cleaning_ScheduleExists(int id)
         {
             return _context.Cleaning_Schedule.Any(e => e.CleaningScheduleId == id);
+        }
+
+        private List<string> GetAvailableTimeSlots(List<dynamic> busyHours)
+        {
+            var allSlots = new List<string>();
+            var workStart = 8; // 8:00 AM
+            var workEnd = 18; // 6:00 PM
+            var slotDuration = 1; // 1 hour intervals
+
+            for (int h = workStart; h < workEnd; h++)
+            {
+                for (int m = 0; m < 60; m += slotDuration * 60)
+                {
+                    var start = new DateTime(2025, 1, 1, h, m, 0);  // Fecha genérica para calcular o horário
+                    var end = start.AddHours(slotDuration);
+
+                    bool isBusy = busyHours.Any(b => start < b.EndTime && end > b.StartTime);  // Verifica se o horário está ocupado
+
+                    if (!isBusy)
+                    {
+                        allSlots.Add($"{start:HH:mm} - {end:HH:mm}");
+                    }
+                }
+            }
+            return allSlots;
         }
     }
 }

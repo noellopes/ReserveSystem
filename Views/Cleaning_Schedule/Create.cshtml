@@ -12,39 +12,88 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- RoomBookingId -->
             <div class="form-group">
                 <label asp-for="RoomBookingId" class="control-label"></label>
                 <input asp-for="RoomBookingId" class="form-control" />
                 <span asp-validation-for="RoomBookingId" class="text-danger"></span>
             </div>
+
+            <!-- ClientId -->
             <div class="form-group">
                 <label asp-for="ClientId" class="control-label"></label>
-                <select asp-for="ClientId" class ="form-control" asp-items="ViewBag.ClientId"></select>
+                <select asp-for="ClientId" class="form-control" asp-items="ViewBag.ClientId"></select>
             </div>
+
+            <!-- StaffId -->
             <div class="form-group">
                 <label asp-for="StaffId" class="control-label"></label>
-                <select asp-for="StaffId" class ="form-control" asp-items="ViewBag.StaffId"></select>
+                <select asp-for="StaffId" class="form-control" asp-items="ViewBag.StaffId"></select>
             </div>
+
+            <!-- DateServices -->
             <div class="form-group">
                 <label asp-for="DateServices" class="control-label"></label>
                 <input asp-for="DateServices" class="form-control" />
                 <span asp-validation-for="DateServices" class="text-danger"></span>
             </div>
+
+            <!-- Horários Disponíveis -->
+            <div class="form-group">
+                <label for="AvailableTimes">Available Times</label>
+                <select asp-for="StartTime" class="form-control">
+                    <option value="">Select a Time</option>
+                    @foreach (var timeSlot in ViewBag.AvailableTimes as List<string>)
+                    {
+                        <option value="@timeSlot">@timeSlot</option>
+                    }
+                </select>
+            </div>
+
+            <!-- StartTime -->
             <div class="form-group">
                 <label asp-for="StartTime" class="control-label"></label>
                 <input asp-for="StartTime" class="form-control" />
                 <span asp-validation-for="StartTime" class="text-danger"></span>
             </div>
+
+            <!-- EndTime -->
             <div class="form-group">
                 <label asp-for="EndTime" class="control-label"></label>
                 <input asp-for="EndTime" class="form-control" />
                 <span asp-validation-for="EndTime" class="text-danger"></span>
             </div>
+
+            <!-- CleaningDone -->
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="CleaningDone" /> @Html.DisplayNameFor(model => model.CleaningDone)
                 </label>
             </div>
+
+            <!-- CleaningDesired (Novo Campo) -->
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="CleaningDesired" /> @Html.DisplayNameFor(model => model.CleaningDesired)
+                </label>
+            </div>
+
+            <!-- PreferredCleaningStartTime (Novo Campo) -->
+            <div class="form-group">
+                <label asp-for="PreferredCleaningStartTime" class="control-label"></label>
+                <input asp-for="PreferredCleaningStartTime" class="form-control" />
+                <span asp-validation-for="PreferredCleaningStartTime" class="text-danger"></span>
+            </div>
+
+            <!-- PreferredCleaningEndTime (Novo Campo) -->
+            <div class="form-group">
+                <label asp-for="PreferredCleaningEndTime" class="control-label"></label>
+                <input asp-for="PreferredCleaningEndTime" class="form-control" />
+                <span asp-validation-for="PreferredCleaningEndTime" class="text-danger"></span>
+            </div>
+
+            <!-- Submit -->
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -57,5 +106,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
