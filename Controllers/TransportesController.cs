@@ -64,22 +64,28 @@ namespace ReserveSystem.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(transporte);
+
+
         }
+
 
         // GET: Transportes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+
+
+            if (id == null || id <= 0)
             {
-                return NotFound();
+                return NotFound("ID inválido");
             }
 
             var transporte = await _context.Transporte.FindAsync(id);
             if (transporte == null)
             {
-                return NotFound();
+                return NotFound("O transporte não foi encontrado");
             }
             return View(transporte);
+
         }
 
         // POST: Transportes/Edit/5
@@ -91,8 +97,18 @@ namespace ReserveSystem.Controllers
         {
             if (id != transporte.TransporteId)
             {
-                return NotFound();
+                return NotFound("ID inválido");
             }
+            if (_context.Transporte.Any(t => t.TransporteId != id && t.Matricula == transporte.Matricula))
+            {
+                ModelState.AddModelError("Matricula", "Já existe um transporte com essa matrícula.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(transporte);
+            }
+
 
             if (ModelState.IsValid)
             {

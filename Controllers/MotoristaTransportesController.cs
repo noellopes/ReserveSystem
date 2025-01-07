@@ -150,6 +150,11 @@ namespace ReserveSystem.Controllers
             {
                 _context.MotoristaTransporte.Remove(motoristaTransporte);
             }
+            if (_context.MotoristaTransporte.Any(mt => mt.TransporteId == id))
+            {
+                return BadRequest("O transporte está vinculado a um motorista e não pode ser excluído.");
+            }
+
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

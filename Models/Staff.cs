@@ -7,10 +7,11 @@ namespace ReserveSystem.Models
         [Key]
 
         public int StaffId { get; set; }
-        [Required, Display(Name = "Staff Name")]
+        [Required, Display(Name = "Nome do Staff")]
 
         public string Staff_Name { get; set; }
 
+        [Required, Display(Name = "Serviço")]
         public string Job_Name { get; set; }
 
         public string? TipoCarta { get; set; }
