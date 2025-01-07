@@ -22,7 +22,11 @@ namespace ReserveSystem.Controllers
         // GET: Pratos
         public async Task<IActionResult> Indexcli()
         {
-            return View(await _context.Prato.ToListAsync());
+            DayOfWeek diaAtual = DateTime.Now.DayOfWeek;
+
+            var pratosHoje = _context.Prato.Where(p => p.Dia == diaAtual);
+
+            return View(await pratosHoje.ToListAsync());
         }
 
         public async Task<IActionResult> Indexfun()
