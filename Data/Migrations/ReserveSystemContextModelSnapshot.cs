@@ -69,6 +69,9 @@ namespace ReserveSystem.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CleaningScheduleId"));
 
+                    b.Property<bool>("CleaningDesired")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("CleaningDone")
                         .HasColumnType("bit");
 
@@ -79,6 +82,12 @@ namespace ReserveSystem.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("PreferredCleaningEndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("PreferredCleaningStartTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("RoomBookingId")
@@ -141,6 +150,9 @@ namespace ReserveSystem.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Client_Status")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("WantsCleaning")
                         .HasColumnType("bit");
 
                     b.HasKey("ClientId");

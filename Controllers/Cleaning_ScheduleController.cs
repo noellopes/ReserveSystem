@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -30,19 +31,16 @@ namespace ReserveSystem.Controllers
             ViewData["ClientId"] = new SelectList(_context.Client, "ClientId", "Client_Adress");
             ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffDriversLicense");
 
-            // Obter a data atual
-            var today = DateTime.Today;
-
-            // Obter horários ocupados para o dia de hoje
-            var busyHours = _context.Cleaning_Schedule
-                                    .Where(c => c.DateServices == today)
-                                    .Select(c => new { c.StartTime, c.EndTime })
-                                    .ToList();
-
-            // Obter horários disponíveis
-            var availableTimes = GetAvailableTimeSlots(busyHours);
-
-            ViewBag.AvailableTimes = availableTimes;
+            ViewBag.AvailableTimes = new List<string>
+    {
+        "08:00 - 09:00",
+        "09:00 - 10:00",
+        "10:00 - 11:00",
+        "11:00 - 12:00",
+        "14:00 - 15:00",
+        "15:00 - 16:00",
+        "16:00 - 17:00"
+    };
 
             return View();
         }
@@ -54,27 +52,59 @@ namespace ReserveSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Verificar a disponibilidade do funcionário
-                var isStaffAvailable = !_context.Cleaning_Schedule.Any(cs => cs.StaffId == cleaning_Schedule.StaffId &&
-                                                                            cs.DateServices == cleaning_Schedule.DateServices &&
-                                                                            cs.StartTime < cleaning_Schedule.EndTime &&
-                                                                            cs.EndTime > cleaning_Schedule.StartTime);
+                // Ajustar automaticamente o escalonamento com base nas preferências do cliente
+                var availableStaff = AdjustStaffSchedule(cleaning_Schedule);
 
-                if (isStaffAvailable)
+                if (availableStaff != null)
                 {
+                    cleaning_Schedule.StaffId = availableStaff.StaffId;
                     _context.Add(cleaning_Schedule);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
                 else
                 {
-                    ModelState.AddModelError("", "The staff member is not available for the selected time.");
+                    ModelState.AddModelError("", "No staff members are available for the selected time and preferences.");
                 }
             }
 
             ViewData["ClientId"] = new SelectList(_context.Client, "ClientId", "Client_Adress", cleaning_Schedule.ClientId);
             ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffDriversLicense", cleaning_Schedule.StaffId);
             return View(cleaning_Schedule);
+        }
+
+        private Staff? AdjustStaffSchedule(Cleaning_Schedule cleaning_Schedule)
+        {
+            // procura os funcionários disponíveis que atendam às preferências de horários
+            var availableStaff = _context.Staff
+                .Where(s => !_context.Cleaning_Schedule.Any(cs => cs.StaffId == s.StaffId &&
+                                                                  cs.DateServices == cleaning_Schedule.DateServices &&
+                                                                  cs.StartTime < cleaning_Schedule.EndTime &&
+                                                                  cs.EndTime > cleaning_Schedule.StartTime))
+                .ToList();
+
+            foreach (var staff in availableStaff)
+            {
+                // Verificar se o funcionário está dentro do horário preferido do cliente
+                if (cleaning_Schedule.PreferredCleaningStartTime.HasValue &&
+                    cleaning_Schedule.PreferredCleaningEndTime.HasValue)
+                {
+                    var preferredStart = cleaning_Schedule.PreferredCleaningStartTime.Value;
+                    var preferredEnd = cleaning_Schedule.PreferredCleaningEndTime.Value;
+
+                    if (cleaning_Schedule.StartTime >= preferredStart && cleaning_Schedule.EndTime <= preferredEnd)
+                    {
+                        return staff; // Encontrou um funcionário disponível e que respeita as preferências
+                    }
+                }
+                else
+                {
+                    // Se não houver preferências, retornar o primeiro disponível
+                    return staff;
+                }
+            }
+
+            return null; // Nenhum funcionário disponível dentro das preferências
         }
 
         // GET: Cleaning_Schedule/Edit/5
@@ -164,31 +194,6 @@ namespace ReserveSystem.Controllers
         private bool Cleaning_ScheduleExists(int id)
         {
             return _context.Cleaning_Schedule.Any(e => e.CleaningScheduleId == id);
-        }
-
-        private List<string> GetAvailableTimeSlots(List<dynamic> busyHours)
-        {
-            var allSlots = new List<string>();
-            var workStart = 8; // 8:00 AM
-            var workEnd = 18; // 6:00 PM
-            var slotDuration = 1; // 1 hour intervals
-
-            for (int h = workStart; h < workEnd; h++)
-            {
-                for (int m = 0; m < 60; m += slotDuration * 60)
-                {
-                    var start = new DateTime(2025, 1, 1, h, m, 0);  // Fecha genérica para calcular o horário
-                    var end = start.AddHours(slotDuration);
-
-                    bool isBusy = busyHours.Any(b => start < b.EndTime && end > b.StartTime);  // Verifica se o horário está ocupado
-
-                    if (!isBusy)
-                    {
-                        allSlots.Add($"{start:HH:mm} - {end:HH:mm}");
-                    }
-                }
-            }
-            return allSlots;
         }
     }
 }

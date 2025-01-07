@@ -237,6 +237,7 @@ namespace ReserveSystem.Data.Migrations
                     Client_Nif = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Client_Login = table.Column<bool>(type: "bit", nullable: false),
                     Client_Status = table.Column<bool>(type: "bit", nullable: false),
+                    WantsCleaning = table.Column<bool>(type: "bit", nullable: false),
                     BookingId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -289,7 +290,10 @@ namespace ReserveSystem.Data.Migrations
                     DateServices = table.Column<DateTime>(type: "datetime2", nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CleaningDone = table.Column<bool>(type: "bit", nullable: false)
+                    CleaningDone = table.Column<bool>(type: "bit", nullable: false),
+                    CleaningDesired = table.Column<bool>(type: "bit", nullable: false),
+                    PreferredCleaningStartTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    PreferredCleaningEndTime = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
