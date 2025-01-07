@@ -227,7 +227,7 @@ namespace ReserveSystem.Data.Migrations
             modelBuilder.Entity("ReserveSystem.Models.TQePreco", b =>
             modelBuilder.Entity("ReserveSystem.Models.Events", b =>
                 {
-                    b.Property<int>("RoomTypeId")
+                    b.Property<int>("RoomTypeId");
                     b.Property<int>("event_id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
@@ -246,7 +246,7 @@ namespace ReserveSystem.Data.Migrations
                     b.Property<DateTime>("endDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("InUse")
+                    b.Property<bool>("InUse");
                     b.Property<float>("fee")
                         .HasColumnType("real");
 
@@ -272,7 +272,7 @@ namespace ReserveSystem.Data.Migrations
 
                     b.ToTable("TQePreco");
                     b.ToTable("Events", (string)null);
-                });
+                }));
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
