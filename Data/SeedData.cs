@@ -30,42 +30,23 @@ namespace ReserveSystem.Data
         }
          */
 
-        internal static void PopulateUsers(UserManager<IdentityUser> userManager)
+        internal static async void PopulateUsers(UserManager<IdentityUser> userManager)
         {
-            EnsureUserIsCreatedAsync(userManager, "john@ipg.pt", "Secret$123", "client").Wait();
-            EnsureUserIsCreatedAsync(userManager, "mary@ipg.pt", "Secret$123", "client").Wait();
+            await EnsureUserIsCreatedAsync(userManager, "john@ipg.pt", "Secret$123");
         }
-
         internal static void PopulateDefaultAdmin(UserManager<IdentityUser> userManager)
         {
-            EnsureUserIsCreatedAsync(userManager, "admin@ipg.pt", "Secret$123", "admin").Wait();
+            EnsureUserIsCreatedAsync(userManager, "admin@ipg.pt", "Secret$123").Wait();
         }
 
-        private static async Task EnsureUserIsCreatedAsync(UserManager<IdentityUser> userManager, string username, string password, string roleName)
+        private static async Task EnsureUserIsCreatedAsync(UserManager<IdentityUser> userManager, string username, string password)
         {
             var user = await userManager.FindByNameAsync(username);
+
             if (user == null)
             {
-                user = new IdentityUser { UserName = username, Email = username, EmailConfirmed = true };
+                user = new IdentityUser(username);
                 await userManager.CreateAsync(user, password);
-            }
-            if (!await userManager.IsInRoleAsync(user, roleName))
-            {
-                await userManager.AddToRoleAsync(user, roleName);
-            }
-        }
-
-        internal static void PopulateRoles(RoleManager<IdentityRole> roleManager)
-        {
-            EnsureRoleIsCreatedAsync(roleManager, "admin").Wait();
-            EnsureRoleIsCreatedAsync(roleManager, "client").Wait();
-        }
-
-        private static async Task EnsureRoleIsCreatedAsync(RoleManager<IdentityRole> roleManager, string roleName)
-        {
-            if (await roleManager.FindByNameAsync(roleName) == null)
-            {
-                await roleManager.CreateAsync(new IdentityRole(roleName));
             }
         }
 

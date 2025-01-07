@@ -12,7 +12,7 @@ using ReserveSystem.Data.Migrations;
 namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    [Migration("20250105193519_Initial")]
+    [Migration("20250106164652_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
