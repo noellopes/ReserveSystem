@@ -65,10 +65,25 @@ namespace ReserveSystem.Controllers
             {
                 _context.Add(cleaning_Schedule);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(RegisterComplete), new { id = cleaning_Schedule.CleaningScheduleId });
             }
             ViewData["ClientId"] = new SelectList(_context.Client, "ClientId", "Client_Adress", cleaning_Schedule.ClientId);
             ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffDriversLicense", cleaning_Schedule.StaffId);
+            return View(cleaning_Schedule);
+        }
+
+        public async Task<IActionResult>RegisterComplete(int id)
+        {
+            var cleaning_Schedule = await _context.Cleaning_Schedule
+                .Include(c => c.client)
+                .Include(c => c.staffMembers)
+                .FirstOrDefaultAsync(m => m.CleaningScheduleId == id);
+
+            if (cleaning_Schedule == null)
+            {
+                return NotFound();
+            }
+
             return View(cleaning_Schedule);
         }
 

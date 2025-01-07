@@ -1,0 +1,38 @@
+﻿@model ReserveSystem.Models.Room_Type
+
+@{
+    ViewData["Title"] = "Room Type Registration Complete";
+}
+
+<div class="card" style="width: 18rem;">
+    <div class="card-header">
+        <h5 class="card-title text-success">Room Type Registration Complete</h5>
+        <h6 class="card-subtitle mb-2 text-muted text-success">Thank you for adding a new room type!</h6>
+    </div>
+    <div class="card-body">
+        <div class="mb-3">
+            <label asp-for="Type"></label>
+            <div class="lead">@Model.Type</div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="HasView">Has View</label>
+            <div class="lead">@(Model.HasView ? "Yes" : "No")</div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Capacity"></label>
+            <div class="lead">@Model.Capacity</div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="RoomCapacity"></label>
+            <div class="lead">@Model.RoomCapacity</div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="AcessibilityRoom">Accessibility</label>
+            <div class="lead">@(Model.AcessibilityRoom ? "Accessible" : "Not Accessible")</div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <a asp-action="Index" class="card-link">Back to Room Types</a>
+    </div>
+</div>
+

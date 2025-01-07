@@ -1,0 +1,27 @@
+﻿@model ReserveSystem.Models.Consumptions
+
+<h1>Registo Concluído</h1>
+
+<p>O registo foi criado com sucesso!</p>
+
+<table class="table">
+    <tr>
+        <th>Quarto</th>
+        <td>@Model.room?.RoomTypeId</td>
+    </tr>
+    <tr>
+        <th>Item</th>
+        <td>@Model.items?.Name</td>
+    </tr>
+    <tr>
+        <th>Quantidade Consumida</th>
+        <td>@Model.QuantityConsumed</td>
+    </tr>
+    <tr>
+        <th>Data de Consumo</th>
+        <td>@Model.ConsumedDate.ToString("dd/MM/yyyy")</td>
+    </tr>
+</table>
+
+<a asp-action="Index" class="btn btn-primary">Voltar à Lista</a>
+<a asp-action="Create" class="btn btn-secondary">Criar Novo</a>

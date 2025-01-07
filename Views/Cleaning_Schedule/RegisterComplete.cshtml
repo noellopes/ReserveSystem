@@ -1,0 +1,35 @@
+﻿@model ReserveSystem.Models.Cleaning_Schedule
+
+<h1>Registo Concluído</h1>
+
+<p>O registo foi criado com sucesso!</p>
+
+<table class="table">
+    <tr>
+        <th>Data do Serviço</th>
+        <td>@Model.DateServices.ToString("dd/MM/yyyy")</td>
+    </tr>
+    <tr>
+        <th>Hora de Início</th>
+        <td>@Model.StartTime.ToString("HH:mm")</td>
+    </tr>
+    <tr>
+        <th>Hora de Término</th>
+        <td>@Model.EndTime.ToString("HH:mm")</td>
+    </tr>
+    <tr>
+        <th>Cliente</th>
+        <td>@Model.client?.Client_Adress</td>
+    </tr>
+    <tr>
+        <th>Funcionário</th>
+        <td>@Model.staffMembers?.StaffDriversLicense</td>
+    </tr>
+    <tr>
+        <th>Serviço Concluído</th>
+        <td>@(Model.CleaningDone ? "Sim" : "Não")</td>
+    </tr>
+</table>
+
+<a asp-action="Index" class="btn btn-primary">Voltar à Lista</a>
+<a asp-action="Create" class="btn btn-secondary">Criar Novo</a>
