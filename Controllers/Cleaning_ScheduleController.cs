@@ -52,20 +52,13 @@ namespace ReserveSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Ajustar automaticamente o escalonamento com base nas preferências do cliente
-                var availableStaff = AdjustStaffSchedule(cleaning_Schedule);
+                // Definir valor padrão se CleaningDone for falso
+                cleaning_Schedule.CleaningDone = cleaning_Schedule.CleaningDone;
 
-                if (availableStaff != null)
-                {
-                    cleaning_Schedule.StaffId = availableStaff.StaffId;
-                    _context.Add(cleaning_Schedule);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                    ModelState.AddModelError("", "No staff members are available for the selected time and preferences.");
-                }
+                // Guardar o novo agendamento
+                _context.Add(cleaning_Schedule);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
 
             ViewData["ClientId"] = new SelectList(_context.Client, "ClientId", "Client_Adress", cleaning_Schedule.ClientId);
@@ -75,36 +68,32 @@ namespace ReserveSystem.Controllers
 
         private Staff? AdjustStaffSchedule(Cleaning_Schedule cleaning_Schedule)
         {
-            // procura os funcionários disponíveis que atendam às preferências de horários
             var availableStaff = _context.Staff
                 .Where(s => !_context.Cleaning_Schedule.Any(cs => cs.StaffId == s.StaffId &&
                                                                   cs.DateServices == cleaning_Schedule.DateServices &&
                                                                   cs.StartTime < cleaning_Schedule.EndTime &&
                                                                   cs.EndTime > cleaning_Schedule.StartTime))
+                .OrderBy(s => _context.Cleaning_Schedule.Count(cs => cs.StaffId == s.StaffId)) // Prioriza os menos ocupados
                 .ToList();
 
             foreach (var staff in availableStaff)
             {
-                // Verificar se o funcionário está dentro do horário preferido do cliente
                 if (cleaning_Schedule.PreferredCleaningStartTime.HasValue &&
                     cleaning_Schedule.PreferredCleaningEndTime.HasValue)
                 {
-                    var preferredStart = cleaning_Schedule.PreferredCleaningStartTime.Value;
-                    var preferredEnd = cleaning_Schedule.PreferredCleaningEndTime.Value;
-
-                    if (cleaning_Schedule.StartTime >= preferredStart && cleaning_Schedule.EndTime <= preferredEnd)
+                    if (cleaning_Schedule.StartTime >= cleaning_Schedule.PreferredCleaningStartTime.Value &&
+                        cleaning_Schedule.EndTime <= cleaning_Schedule.PreferredCleaningEndTime.Value)
                     {
-                        return staff; // Encontrou um funcionário disponível e que respeita as preferências
+                        return staff;
                     }
                 }
                 else
                 {
-                    // Se não houver preferências, retornar o primeiro disponível
-                    return staff;
+                    return staff; // Retorna o primeiro disponível se não houver preferências
                 }
             }
 
-            return null; // Nenhum funcionário disponível dentro das preferências
+            return null;
         }
 
         // GET: Cleaning_Schedule/Edit/5

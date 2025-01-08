@@ -26,7 +26,7 @@ namespace ReserveSystem.Models
         public DateTime EndTime { get; set; }
 
         [Required(ErrorMessage = "CleaningDone is required.")]
-        public bool CleaningDone { get; set; }
+        public bool CleaningDone { get; set; } = false;
 
         // Novos campos de preferência do cliente
         [Required(ErrorMessage = "CleaningDesired is required.")]
@@ -37,5 +37,15 @@ namespace ReserveSystem.Models
 
         [DataType(DataType.Time, ErrorMessage = "Invalid format for PreferredCleaningEndTime.")]
         public DateTime? PreferredCleaningEndTime { get; set; }  // Horário preferido de fim da limpeza
+        
+
+        public static ValidationResult ValidateTimeRange(DateTime startTime, ValidationContext context)
+        {
+            if (startTime >= ((Cleaning_Schedule)context.ObjectInstance).EndTime)
+            {
+                return new ValidationResult("StartTime must be before EndTime.");
+            }
+            return ValidationResult.Success;
+        }
     }
 }

@@ -41,7 +41,14 @@
                     {
                         <span>Cleaning desired</span>
                         <div>
-                            Preferred Time: @item.PreferredCleaningStartTime.?ToString("HH:mm") - @item.PreferredCleaningEndTime.?ToString("HH:mm")
+                            @if (item.PreferredCleaningStartTime.HasValue && item.PreferredCleaningEndTime.HasValue)
+                            {
+                                <span>Preferred Time: @item.PreferredCleaningStartTime.Value.ToString("HH:mm") - @item.PreferredCleaningEndTime.Value.ToString("HH:mm")</span>
+                            }
+                            else
+                            {
+                                <span>No specific time selected.</span>
+                            }
                         </div>
                     }
                     else
