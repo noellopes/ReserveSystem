@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -26,65 +25,75 @@ namespace ReserveSystem.Controllers
             return View(await reserveSystemContext.ToListAsync());
         }
 
-        // GET: Cleaning_Schedule/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var cleaning_Schedule = await _context.Cleaning_Schedule
-                .Include(c => c.client)
-                .Include(c => c.staffMembers)
-                .FirstOrDefaultAsync(m => m.CleaningScheduleId == id);
-            if (cleaning_Schedule == null)
-            {
-                return NotFound();
-            }
-
-            return View(cleaning_Schedule);
-        }
-
         // GET: Cleaning_Schedule/Create
         public IActionResult Create()
         {
             ViewData["ClientId"] = new SelectList(_context.Client, "ClientId", "Client_Adress");
             ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffDriversLicense");
+
+            ViewBag.AvailableTimes = new List<string>
+    {
+        "08:00 - 09:00",
+        "09:00 - 10:00",
+        "10:00 - 11:00",
+        "11:00 - 12:00",
+        "14:00 - 15:00",
+        "15:00 - 16:00",
+        "16:00 - 17:00"
+    };
+
             return View();
         }
 
         // POST: Cleaning_Schedule/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CleaningScheduleId,RoomBookingId,ClientId,StaffId,DateServices,StartTime,EndTime,CleaningDone")] Cleaning_Schedule cleaning_Schedule)
+        public async Task<IActionResult> Create([Bind("CleaningScheduleId,RoomBookingId,ClientId,StaffId,DateServices,StartTime,EndTime,CleaningDone,CleaningDesired,PreferredCleaningStartTime,PreferredCleaningEndTime")] Cleaning_Schedule cleaning_Schedule)
         {
             if (ModelState.IsValid)
             {
+                // Definir valor padrão se CleaningDone for falso
+                cleaning_Schedule.CleaningDone = cleaning_Schedule.CleaningDone;
+
+                // Guardar o novo agendamento
                 _context.Add(cleaning_Schedule);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(RegisterComplete), new { id = cleaning_Schedule.CleaningScheduleId });
+                return RedirectToAction(nameof(Index));
             }
+
             ViewData["ClientId"] = new SelectList(_context.Client, "ClientId", "Client_Adress", cleaning_Schedule.ClientId);
             ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffDriversLicense", cleaning_Schedule.StaffId);
             return View(cleaning_Schedule);
         }
 
-        public async Task<IActionResult>RegisterComplete(int id)
+        private Staff? AdjustStaffSchedule(Cleaning_Schedule cleaning_Schedule)
         {
-            var cleaning_Schedule = await _context.Cleaning_Schedule
-                .Include(c => c.client)
-                .Include(c => c.staffMembers)
-                .FirstOrDefaultAsync(m => m.CleaningScheduleId == id);
+            var availableStaff = _context.Staff
+                .Where(s => !_context.Cleaning_Schedule.Any(cs => cs.StaffId == s.StaffId &&
+                                                                  cs.DateServices == cleaning_Schedule.DateServices &&
+                                                                  cs.StartTime < cleaning_Schedule.EndTime &&
+                                                                  cs.EndTime > cleaning_Schedule.StartTime))
+                .OrderBy(s => _context.Cleaning_Schedule.Count(cs => cs.StaffId == s.StaffId)) // Prioriza os menos ocupados
+                .ToList();
 
-            if (cleaning_Schedule == null)
+            foreach (var staff in availableStaff)
             {
-                return NotFound();
+                if (cleaning_Schedule.PreferredCleaningStartTime.HasValue &&
+                    cleaning_Schedule.PreferredCleaningEndTime.HasValue)
+                {
+                    if (cleaning_Schedule.StartTime >= cleaning_Schedule.PreferredCleaningStartTime.Value &&
+                        cleaning_Schedule.EndTime <= cleaning_Schedule.PreferredCleaningEndTime.Value)
+                    {
+                        return staff;
+                    }
+                }
+                else
+                {
+                    return staff; // Retorna o primeiro disponível se não houver preferências
+                }
             }
 
-            return View(cleaning_Schedule);
+            return null;
         }
 
         // GET: Cleaning_Schedule/Edit/5
@@ -106,11 +115,9 @@ namespace ReserveSystem.Controllers
         }
 
         // POST: Cleaning_Schedule/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CleaningScheduleId,RoomBookingId,ClientId,StaffId,DateServices,StartTime,EndTime,CleaningDone")] Cleaning_Schedule cleaning_Schedule)
+        public async Task<IActionResult> Edit(int id, [Bind("CleaningScheduleId,RoomBookingId,ClientId,StaffId,DateServices,StartTime,EndTime,CleaningDone,CleaningDesired,PreferredCleaningStartTime,PreferredCleaningEndTime")] Cleaning_Schedule cleaning_Schedule)
         {
             if (id != cleaning_Schedule.CleaningScheduleId)
             {
@@ -168,11 +175,7 @@ namespace ReserveSystem.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var cleaning_Schedule = await _context.Cleaning_Schedule.FindAsync(id);
-            if (cleaning_Schedule != null)
-            {
-                _context.Cleaning_Schedule.Remove(cleaning_Schedule);
-            }
-
+            _context.Cleaning_Schedule.Remove(cleaning_Schedule);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

@@ -12,60 +12,57 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.RoomBookingId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.client)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.staffMembers)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateServices)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CleaningDone)
-            </th>
+            <th>@Html.DisplayNameFor(model => model.RoomBookingId)</th>
+            <th>@Html.DisplayNameFor(model => model.client)</th>
+            <th>@Html.DisplayNameFor(model => model.staffMembers)</th>
+            <th>@Html.DisplayNameFor(model => model.DateServices)</th>
+            <th>@Html.DisplayNameFor(model => model.StartTime)</th>
+            <th>@Html.DisplayNameFor(model => model.EndTime)</th>
+            <th>@Html.DisplayNameFor(model => model.CleaningDone)</th>
+            <th>Cleaning Preferences</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RoomBookingId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.client.Client_Adress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.staffMembers.StaffDriversLicense)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateServices)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CleaningDone)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CleaningScheduleId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CleaningScheduleId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CleaningScheduleId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.RoomBookingId)</td>
+                <td>@Html.DisplayFor(modelItem => item.client.Client_Adress)</td>
+                <td>@Html.DisplayFor(modelItem => item.staffMembers.StaffDriversLicense)</td>
+                <td>@Html.DisplayFor(modelItem => item.DateServices)</td>
+                <td>@Html.DisplayFor(modelItem => item.StartTime)</td>
+                <td>@Html.DisplayFor(modelItem => item.EndTime)</td>
+                <td>@Html.DisplayFor(modelItem => item.CleaningDone)</td>
+
+                <!-- Exibição das preferências de limpeza -->
+                <td>
+                    @if (item.CleaningDesired)
+                    {
+                        <span>Cleaning desired</span>
+                        <div>
+                            @if (item.PreferredCleaningStartTime.HasValue && item.PreferredCleaningEndTime.HasValue)
+                            {
+                                <span>Preferred Time: @item.PreferredCleaningStartTime.Value.ToString("HH:mm") - @item.PreferredCleaningEndTime.Value.ToString("HH:mm")</span>
+                            }
+                            else
+                            {
+                                <span>No specific time selected.</span>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <span>No cleaning requested</span>
+                    }
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.CleaningScheduleId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.CleaningScheduleId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.CleaningScheduleId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
