@@ -115,6 +115,9 @@ namespace ReserveSystem.Controllers
                 {
                     _context.Update(room_Booking);
                     await _context.SaveChangesAsync();
+
+                    return RedirectToAction("EditSuccess", new { roomBookingId = room_Booking.RoomBookingId });
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -131,6 +134,25 @@ namespace ReserveSystem.Controllers
             }
             return View(room_Booking);
         }
+
+        // GET: RoomBookings/EditSuccess
+        public async Task<IActionResult> EditSuccess(int roomBookingId)
+        {
+            var roomBooking = await _context.Room_Booking
+                .Include(r => r.booking)
+                .Include(r => r.room)
+                .FirstOrDefaultAsync(r => r.RoomBookingId == roomBookingId);
+
+            if (roomBooking == null)
+            {
+                return NotFound();
+            }
+
+            // Mensagem de sucesso
+            ViewBag.Message = "Room booking edited successfully!";
+            return View(roomBooking);
+        }
+
 
         // GET: Room_Booking/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -150,24 +172,34 @@ namespace ReserveSystem.Controllers
             return View(room_Booking);
         }
 
-        // POST: Room_Booking/Delete/5
+        // POST: RoomBookings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var room_Booking = await _context.Room_Booking.FindAsync(id);
-            if (room_Booking != null)
+            var roomBooking = await _context.Room_Booking.FindAsync(id);
+            if (roomBooking != null)
             {
-                _context.Room_Booking.Remove(room_Booking);
+                _context.Room_Booking.Remove(roomBooking);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            // Redireciona para a página de confirmação de exclusão
+            return RedirectToAction("DeleteSuccess", new { roomBookingId = roomBooking?.RoomBookingId, roomId = roomBooking?.RoomId });
         }
 
-        private bool Room_BookingExists(int id)
+        // GET: RoomBookings/DeleteSuccess
+        public IActionResult DeleteSuccess(int? roomBookingId, int? roomId)
+        {
+            ViewBag.RoomBookingId = roomBookingId;
+            ViewBag.RoomId = roomId;
+            return View();
+        }
+
+        private bool RoomBookingExists(int id)
         {
             return _context.Room_Booking.Any(e => e.RoomBookingId == id);
         }
+
     }
 }

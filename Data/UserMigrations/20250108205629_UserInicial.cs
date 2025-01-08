@@ -6,7 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ReserveSystem.data.UserMigrations
 {
     /// <inheritdoc />
+<<<<<<<< HEAD:Data/UserMigrations/20250108212707_UserInitial.cs
     public partial class UserInitial : Migration
+========
+    public partial class UserInicial : Migration
+>>>>>>>> ca7b2790a3d85c7cdd8f24ec197741e3799e91df:Data/UserMigrations/20250108205629_UserInicial.cs
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

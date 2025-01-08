@@ -177,15 +177,25 @@ namespace ReserveSystem.Controllers
             if (booking != null)
             {
                 _context.Booking.Remove(booking);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            // Redireciona para a página de confirmação de exclusão
+            return RedirectToAction("DeleteSuccess", new { bookingId = booking?.BookingId, bookingDate = booking?.Booking_Date });
+        }
+
+        // GET: Bookings/DeleteSuccess
+        public IActionResult DeleteSuccess(int? bookingId, DateTime? bookingDate)
+        {
+            ViewBag.BookingId = bookingId;
+            ViewBag.BookingDate = bookingDate?.ToString("dd/MM/yyyy");
+            return View();
         }
 
         private bool BookingExists(int id)
         {
             return _context.Booking.Any(e => e.BookingId == id);
         }
+
     }
 }

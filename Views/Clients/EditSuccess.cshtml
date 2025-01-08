@@ -1,0 +1,19 @@
+﻿@model ReserveSystem.Models.Client
+
+@{
+    ViewData["Title"] = "Client Edited Successfully";
+}
+
+<h1>@ViewBag.Message</h1>
+
+<p><strong>Client ID:</strong> @Model.ClientId</p>
+<p><strong>Client Name:</strong> @Model.Client_Name</p>
+<p><strong>Client Phone:</strong> @Model.Client_Phone</p>
+<p><strong>Client Address:</strong> @Model.Client_Adress</p>
+<p><strong>Client Email:</strong> @Model.Client_Email</p>
+<p><strong>Client NIF:</strong> @Model.Client_Nif</p>
+<p><strong>Client Login Status:</strong> @Model.Client_Login</p>
+<p><strong>Client Status:</strong> @Model.Client_Status</p>
+<p><strong>Wants Cleaning:</strong> @Model.WantsCleaning</p>
+
+<p><a href="Index" class="btn btn-primary">Back to List</a></p>
