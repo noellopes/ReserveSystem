@@ -8,61 +8,83 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div class="p-3 bg-light rounded mb-3">
+    <div class="d-flex align-items-center">
+        <div class="d-flex gap-2">
+            <form asp-action="Create" method="get">
+                <button type="submit" class="btn btn-primary">Create Manual</button>
+            </form>
+            <form asp-action="Create" method="get">
+                <button type="submit" class="btn btn-primary">Create Automatically</button>
+            </form>
+        </div>
+
+
+        <div class="flex-grow-1 d-flex justify-content-center">
+            <form method="get" asp-action="Index" class="d-flex">
+                <input type="text" name="searchString" value="@searchString" class="form-control" placeholder="Name,Type of Schedule" />
+                <button type="submit" class="btn btn-primary ms-2">Search</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Staff.Staff_Name)
+                Staff Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TypeOfShedule.TypeOfScheduleName)
+                Type of Schedule
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                Date
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StartShiftTime)
+                Start Shift Time
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EndShiftTime)
+                End Shift Time
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Presence)
+                Presence
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
                     @Html.DisplayFor(modelItem => item.Staff.Staff_Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TypeOfShedule.TypeOfScheduleName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartShiftTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndShiftTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Presence)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ScheduleId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ScheduleId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ScheduleId">Delete</a>
-            </td>
-        </tr>
-}
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TypeOfShedule.TypeOfScheduleName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartShiftTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndShiftTime)
+                </td>
+                <td>
+                    @(item.Presence ? "Yes" : "No") 
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ScheduleId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ScheduleId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ScheduleId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 
@@ -73,10 +95,10 @@
         @if (pagingInfo.CurrentPage > 1)
         {
             <li class="page-item">
-                <a class="page-link" href="@Url.Action("Index", new { page = 1 })">First</a>
+                <a class="page-link" href="@Url.Action("Index", new { page = 1, searchString = searchString })">First</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="@Url.Action("Index", new { page = pagingInfo.CurrentPage - 1 })">Previous</a>
+                <a class="page-link" href="@Url.Action("Index", new { page = pagingInfo.CurrentPage - 1, searchString = searchString })">Previous</a>
             </li>
         }
 
@@ -84,7 +106,7 @@
         @for (int i = pagingInfo.FirstPageShow; i <= pagingInfo.LastPageShow; i++)
         {
             <li class="page-item @(i == pagingInfo.CurrentPage ? "active" : "")">
-                <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                <a class="page-link" href="@Url.Action("Index", new { page = i, searchString = searchString })">@i</a>
             </li>
         }
 
@@ -92,11 +114,12 @@
         @if (pagingInfo.CurrentPage < pagingInfo.TotalPages)
         {
             <li class="page-item">
-                <a class="page-link" href="@Url.Action("Index", new { page = pagingInfo.CurrentPage + 1 })">Next</a>
+                <a class="page-link" href="@Url.Action("Index", new { page = pagingInfo.CurrentPage + 1, searchString = searchString })">Next</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="@Url.Action("Index", new { page = pagingInfo.TotalPages })">Last</a>
+                <a class="page-link" href="@Url.Action("Index", new { page = pagingInfo.TotalPages, searchString = searchString })">Last</a>
             </li>
         }
     </ul>
 </nav>
+
