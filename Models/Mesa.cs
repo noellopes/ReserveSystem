@@ -11,6 +11,6 @@ namespace ReserveSystem.Models
 
         public int NumeroLugares { get; set; }
 
-        public Boolean Reservado { get; set; }
+        public Boolean? Reservado { get; set; }
     }
 }

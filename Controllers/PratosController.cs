@@ -12,21 +12,47 @@ namespace ReserveSystem.Controllers
 {
     public class PratosController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ReserveSystemContext _context;
 
-        public PratosController(ApplicationDbContext context)
+        public PratosController(ReserveSystemContext context)
         {
             _context = context;
         }
 
         // GET: Pratos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Indexcli()
+        {
+            DayOfWeek diaAtual = DateTime.Now.DayOfWeek;
+
+            var pratosHoje = _context.Prato.Where(p => p.Dia == diaAtual);
+
+            return View(await pratosHoje.ToListAsync());
+        }
+
+        public async Task<IActionResult> Indexfun()
         {
             return View(await _context.Prato.ToListAsync());
         }
 
         // GET: Pratos/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> DetailsFun(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var prato = await _context.Prato
+                .FirstOrDefaultAsync(m => m.IdPrato == id);
+            if (prato == null)
+            {
+                return NotFound();
+            }
+
+            return View(prato);
+        }
+
+        public async Task<IActionResult> DetailsCli(int? id)
         {
             if (id == null)
             {
@@ -61,7 +87,7 @@ namespace ReserveSystem.Controllers
             {
                 _context.Add(prato);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Indexfun));
             }
             return View(prato);
         }
@@ -112,7 +138,7 @@ namespace ReserveSystem.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Indexfun));
             }
             return View(prato);
         }
@@ -147,7 +173,7 @@ namespace ReserveSystem.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Indexfun));
         }
 
         private bool PratoExists(int id)

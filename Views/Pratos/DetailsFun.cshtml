@@ -1,0 +1,42 @@
+﻿@model ReserveSystem.Models.Prato
+
+@{
+    ViewData["Title"] = "DetailsFun";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Prato</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PratoNome)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PratoNome)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Preco)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Preco)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Dia)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Dia)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Descricao)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Descricao)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.IdPrato" class="btn btn-warning">Edit</a> |
+    <a asp-action="IndexFun" class="btn btn-dark">Back to List</a>
+</div>

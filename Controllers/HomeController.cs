@@ -1,16 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using ReserveSystem.Data;
 using ReserveSystem.Models;
 using System.Diagnostics;
 
 namespace ReserveSystem.Controllers
 {
-    public class HomeController : Controller
-    {
-        private readonly ILogger<HomeController> _logger;
+    public class HomeController : Controller {
+        private readonly ReserveSystemContext _context;
+        private readonly ILogger<HomeController> _logger; // Added for logging
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
+
+        public HomeController(ReserveSystemContext context, ILogger<HomeController> logger) {
+            _context = context;
+            _logger = logger; // Agora, o logger é inicializado corretamente
         }
 
         public IActionResult Index()

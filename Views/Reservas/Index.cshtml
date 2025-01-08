@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ReserveSystem.Models.Reserva>
+﻿@model ReservasViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -6,41 +6,72 @@
 
 <h1>Index</h1>
 
+<div>
+    <a asp-action="Create" class="btn btn-success">Create New</a>
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#searchModal">
+        Search
+    </button>
+    @if (Model.SearchCliente != "" || Model.SearchPrato != "")
+    {
+        <a asp-action="Index" class="btn btn-outline-danger">Clear search</a>
+    }
+</div>
+
+<!-- Search Modal -->
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Search reserva</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="Index" method="get">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="searchCliente" class="control-label">Cliente</label>
+                        <input name="searchCliente" class="form-control" type="search" value="@Model.SearchCliente" />
+                    </div>
+                    <div class="form-group">
+                        <label for="searchPrato" class="control-label">Prato</label>
+                        <input name="searchPrato" class="form-control" type="search" value="@Model.SearchPrato" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdCliente)
+                @Html.DisplayNameFor(model => model.Reservas.First().Cliente)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdMesa)
+                @Html.DisplayNameFor(model => model.Reservas.First().NumeroPessoas)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NumeroPessoas)
+                @Html.DisplayNameFor(model => model.Reservas.First().Observacao)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DataHora)
+                @Html.DisplayNameFor(model => model.Reservas.First().Prato)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Observacao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdPrato)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Aprovacao)
+                @Html.DisplayNameFor(model => model.Reservas.First().Aprovacao)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Reservas) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.IdCliente)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdMesa)
+                @Html.DisplayFor(modelItem => item.Cliente.NomeCliente)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.NumeroPessoas)
@@ -49,10 +80,7 @@
                 @Html.DisplayFor(modelItem => item.DataHora)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Observacao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdPrato)
+                @Html.DisplayFor(modelItem => item.Prato.PratoNome)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Aprovacao)
@@ -66,3 +94,54 @@
 }
     </tbody>
 </table>
+
+<nav aria-label="reservasPagination">
+    <ul class="pagination">
+        @{
+            var cssStyle = "page-item";
+            if (Model.PagingInfo.CurrentPage == 1)
+            {
+                cssStyle += " disabled";
+            }
+        }
+        <li class="@cssStyle">
+            <a class="page-link"
+               asp-action="Index"
+               asp-route-page="1"
+               asp-route-searchCliente="@Model.SearchCliente"
+               asp-route-searchPrato="@Model.SearchPrato">First</a>
+        </li>
+
+        @for (int p = Model.PagingInfo.FirstPageShow; p <= Model.PagingInfo.LastPageShow; p++)
+        {
+            cssStyle = "page-item";
+            if (p == Model.PagingInfo.CurrentPage)
+            {
+                cssStyle += " active";
+            }
+
+            <li class="@cssStyle">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@p"
+                   asp-route-searchCliente="@Model.SearchCliente"
+                   asp-route-searchPrato="@Model.SearchPrato">@p</a>
+            </li>
+        }
+
+        @{
+            cssStyle = "page-item";
+            if (Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages)
+            {
+                cssStyle += " disabled";
+            }
+        }
+        <li class="@cssStyle">
+            <a class="page-link"
+               asp-action="Index"
+               asp-route-page="@Model.PagingInfo.TotalPages"
+               asp-route-searchCliente="@Model.SearchCliente"
+               asp-route-searchPrato="@Model.SearchPrato">Last</a>
+        </li>
+    </ul>
+</nav>
