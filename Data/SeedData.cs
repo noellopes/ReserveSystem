@@ -5,13 +5,23 @@ namespace ReserveSystem.Data
 {
     public class SeedData
     {
-        internal static void Populate(ReserveSystemUsersDbContext? db)
+        public static void Populate(ReserveSystemUsersDbContext db)
         {
-            if (db == null) return;
-            db.Database.EnsureCreated();
+            if (db == null)
+            {
+                Console.WriteLine("Banco de dados não foi inicializado.");
+                return;
+            }
 
+            // Assegura que o banco de dados esteja criado
+            db.Database.EnsureCreated();
+            Console.WriteLine("Banco de dados foi criado com sucesso.");
+
+            // Popula os dados para as tabelas de eventos
             PopulateEvents(db);
+            PopulateRoomTypes(db); // Popula os tipos de quarto
         }
+
 
         private static void PopulateEvents(ReserveSystemUsersDbContext db)
         {
@@ -43,5 +53,126 @@ namespace ReserveSystem.Data
 
             db.SaveChanges();
         }
+
+        private static void PopulateRoomTypes(ReserveSystemUsersDbContext db)
+        {
+            if (db.TQePreco.Any()) return;
+
+            db.TQePreco.AddRange(new List<TQePreco> {
+        new TQePreco
+        {
+            type = "Single Room",
+            capacity = 1,
+            RoomQuantity = 10,
+            AcessibilityRoom = true,
+            View = false,
+            BasePrice = 0,
+            AdicionalBeds = 20.0f,
+            InUse = false
+        },
+        new TQePreco
+        {
+            type = "Double Room",
+            capacity = 2,
+            RoomQuantity = 15,
+            AcessibilityRoom = false,
+            View = true,
+            BasePrice = 0,
+            AdicionalBeds = 25.0f,
+            InUse = false
+        },
+        new TQePreco
+        {
+            type = "Suite",
+            capacity = 4,
+            RoomQuantity = 5,
+            AcessibilityRoom = true,
+            View = true,
+            BasePrice = 350.0f,
+            AdicionalBeds = 50.0f,
+            InUse = true
+        },
+        new TQePreco
+        {
+            type = "Economy Room",
+            capacity = 1,
+            RoomQuantity = 20,
+            AcessibilityRoom = false,
+            View = false,
+            BasePrice = 80.0f,
+            AdicionalBeds = 10.0f,
+            InUse = true
+        },
+        new TQePreco
+        {
+            type = "Deluxe Room",
+            capacity = 3,
+            RoomQuantity = 8,
+            AcessibilityRoom = true,
+            View = true,
+            BasePrice = 300.0f,
+            AdicionalBeds = 40.0f,
+            InUse = true
+        },
+        new TQePreco
+        {
+            type = "Family Suite",
+            capacity = 6,
+            RoomQuantity = 3,
+            AcessibilityRoom = true,
+            View = true,
+            BasePrice = 0,
+            AdicionalBeds = 60.0f,
+            InUse = false
+        },
+        new TQePreco
+        {
+            type = "Presidential Suite",
+            capacity = 8,
+            RoomQuantity = 2,
+            AcessibilityRoom = true,
+            View = true,
+            BasePrice = 1000.0f,
+            AdicionalBeds = 100.0f,
+            InUse = true
+        },
+        new TQePreco
+        {
+            type = "Studio Room",
+            capacity = 2,
+            RoomQuantity = 12,
+            AcessibilityRoom = false,
+            View = true,
+            BasePrice = 0,
+            AdicionalBeds = 15.0f,
+            InUse = false
+        },
+        new TQePreco
+        {
+            type = "Penthouse",
+            capacity = 5,
+            RoomQuantity = 1,
+            AcessibilityRoom = false,
+            View = true,
+            BasePrice = 1200.0f,
+            AdicionalBeds = 75.0f,
+            InUse = true
+        },
+        new TQePreco
+        {
+            type = "Cabin Room",
+            capacity = 3,
+            RoomQuantity = 6,
+            AcessibilityRoom = true,
+            View = false,
+            BasePrice = 0,
+            AdicionalBeds = 30.0f,
+            InUse = false
+        }
+    });
+
+            db.SaveChanges();
+        }
+
     }
 }

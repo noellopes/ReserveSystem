@@ -29,6 +29,7 @@ if (app.Environment.IsDevelopment())
     using (var servicesScope = app.Services.CreateScope())
     {
         var db = servicesScope.ServiceProvider.GetRequiredService<ReserveSystemUsersDbContext>();
+        Console.WriteLine("Iniciando o preenchimento do banco de dados...");
         SeedData.Populate(db);
     }
 }
@@ -39,9 +40,11 @@ else
     using (var servicesScope = app.Services.CreateScope())
     {
         var db = servicesScope.ServiceProvider.GetRequiredService<ReserveSystemUsersDbContext>();
+        Console.WriteLine("Iniciando o preenchimento do banco de dados...");
         SeedData.Populate(db);
     }
 }
+
 
 
 app.UseHttpsRedirection();

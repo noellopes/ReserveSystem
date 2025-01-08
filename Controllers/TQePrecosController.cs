@@ -22,8 +22,10 @@ namespace ReserveSystem.Controllers
         // GET: TQePrecos
         public async Task<IActionResult> Index()
         {
-            return View(await _context.TQePreco.ToListAsync());
+            var roomTypes = await _context.TQePreco.ToListAsync();
+            return View(roomTypes);
         }
+
 
         // GET: TQePrecos/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -102,7 +104,27 @@ namespace ReserveSystem.Controllers
             {
                 try
                 {
-                    _context.Update(tQePreco);
+                    // Carregar o objeto existente do banco de dados
+                    var existingRoomType = await _context.TQePreco.FindAsync(id);
+
+                    if (existingRoomType == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Atualizar todos os campos conforme necessário
+                    existingRoomType.type = tQePreco.type;
+                    existingRoomType.capacity = tQePreco.capacity;
+                    existingRoomType.RoomQuantity = tQePreco.RoomQuantity;
+                    existingRoomType.AcessibilityRoom = tQePreco.AcessibilityRoom;
+                    existingRoomType.View = tQePreco.View;
+                    existingRoomType.BasePrice = tQePreco.BasePrice;
+                    existingRoomType.AdicionalBeds = tQePreco.AdicionalBeds;
+
+                    // Definir o valor de InUse com base no valor de BasePrice
+                    existingRoomType.InUse = tQePreco.BasePrice > 0;
+
+                    _context.Update(existingRoomType);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -120,6 +142,7 @@ namespace ReserveSystem.Controllers
             }
             return View(tQePreco);
         }
+
 
         // GET: TQePrecos/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -147,6 +170,7 @@ namespace ReserveSystem.Controllers
             var tQePreco = await _context.TQePreco.FindAsync(id);
             if (tQePreco != null)
             {
+                tQePreco.BasePrice = 0;
                 tQePreco.InUse = false;
                 //_context.TQePreco.Remove(tQePreco);
             }

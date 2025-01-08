@@ -137,74 +137,62 @@
     }
 </style>
 
-<h1 class="text-center">Edit Room Type</h1>
+<h1 class="text-center">Edit Base Price</h1>
 <hr class="hr" />
 <div class="form-container">
     <form asp-action="Edit">
         <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
         <input type="hidden" asp-for="RoomTypeId" />
 
-        <!-- Type -->
+        <!-- Exibição dos atributos como somente leitura -->
         <div class="form-group my-2">
             <label asp-for="type" class="control-label">Type</label>
-            <input asp-for="type" class="form-control" />
-            <span asp-validation-for="type" class="text-danger"></span>
+            <input asp-for="type" class="form-control" readonly />
         </div>
 
-        <!-- Capacity -->
         <div class="form-group my-2">
             <label asp-for="capacity" class="control-label">Capacity</label>
-            <input asp-for="capacity" class="form-control" />
-            <span asp-validation-for="capacity" class="text-danger"></span>
+            <input asp-for="capacity" class="form-control" readonly />
         </div>
 
-        <!-- Room Quantity -->
         <div class="form-group my-2">
             <label asp-for="RoomQuantity" class="control-label">Room Quantity</label>
-            <input asp-for="RoomQuantity" class="form-control" />
-            <span asp-validation-for="RoomQuantity" class="text-danger"></span>
+            <input asp-for="RoomQuantity" class="form-control" readonly />
         </div>
 
-        <!-- Accessibility Room -->
-        <div class="form-group form-check my-2">
-            <input class="form-check-input" asp-for="AcessibilityRoom" />
-            <label class="form-check-label" asp-for="AcessibilityRoom">Accessibility Room</label>
+        <div class="form-group my-2">
+            <label asp-for="AcessibilityRoom" class="control-label">Accessibility Room</label>
+            <input asp-for="AcessibilityRoom" class="form-control" readonly />
         </div>
 
-        <!-- View -->
-        <div class="form-group form-check my-2">
-            <input class="form-check-input" asp-for="View" />
-            <label class="form-check-label" asp-for="View">View</label>
+        <div class="form-group my-2">
+            <label asp-for="View" class="control-label">View</label>
+            <input asp-for="View" class="form-control" readonly />
         </div>
 
-        <!-- Base Price -->
+        <div class="form-group my-2">
+            <label asp-for="CancelationFee" class="control-label">Cancellation Fee</label>
+            <input asp-for="CancelationFee" class="form-control" readonly />
+        </div>
+
+        <div class="form-group my-2">
+            <label asp-for="AdicionalBeds" class="control-label">Additional Beds</label>
+            <input asp-for="AdicionalBeds" class="form-control" readonly />
+        </div>
+
+        <div class="form-group my-2">
+            <label asp-for="InUse" class="control-label">In Use</label>
+            <input asp-for="InUse" class="form-control" readonly />
+        </div>
+
+        <!-- Campo editável para Base Price -->
         <div class="form-group my-2">
             <label asp-for="BasePrice" class="control-label">Base Price</label>
             <input asp-for="BasePrice" class="form-control" />
             <span asp-validation-for="BasePrice" class="text-danger"></span>
         </div>
 
-        <!-- Cancellation Fee -->
-        <div class="form-group my-2">
-            <label asp-for="CancelationFee" class="control-label">Cancelation Fee</label>
-            <input asp-for="CancelationFee" class="form-control" />
-            <span asp-validation-for="CancelationFee" class="text-danger"></span>
-        </div>
-
-        <!-- Additional Beds -->
-        <div class="form-group my-2">
-            <label asp-for="AdicionalBeds" class="control-label">Additional Beds</label>
-            <input asp-for="AdicionalBeds" class="form-control" />
-            <span asp-validation-for="AdicionalBeds" class="text-danger"></span>
-        </div>
-
-        <!-- In Use -->
-        <div class="form-group form-check my-2">
-            <input class="form-check-input" asp-for="InUse" />
-            <label class="form-check-label" asp-for="InUse">In Use</label>
-        </div>
-
-        <!-- Submit Button -->
+        <!-- Botão de salvar -->
         <div class="form-group text-center my-2">
             <input type="submit" value="Save" class="btn btn_edit" />
         </div>
@@ -215,6 +203,8 @@
     </div>
 </div>
 <hr class="hr" />
+
+
 
 @section Scripts {
     @{
