@@ -7,31 +7,36 @@ namespace ReserveSystem.Models
 	{
 		[Required, Key, Display(Name = "Excursão ID"), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		[Column(TypeName = "INTEGER")]
-		public int Excursao_Id { get; set; }
+		public int ExcursaoId { get; set; }
 
 		[Required, Display(Name = "Titulo")]
-		[Column(TypeName = "NVARCHAR")]
+
 		public string Titulo { get; set; }
 		[Required, Display(Name = "Descrição")]
-		[Column(TypeName = "TEXT")]
+		
 		public string Descricao { get; set; }
 
 		[Required, DataType(DataType.DateTime), Display(Name = "Data Inicio"), DisplayFormat(DataFormatString ="{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode =true)]
-		[Column(TypeName = "DATETIME")]
+	
 		public DateTime Data_Inicio{get; set;}
 		[Required, DataType(DataType.DateTime), Display(Name = "Data Fim"), DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
-		[Column(TypeName = "DATETIME")]
+
 		public DateTime Data_Fim { get; set;}
 		[Required,DataType(DataType.Currency), Display(Name = "Preço"), DisplayFormat(DataFormatString = "{0:C}")]
 		[Column(TypeName = "DECIMAL")]
 		public decimal Preco {  get; set;}
 		[Required, Display(Name = "Staff ID")]
 		[Column(TypeName = "INTEGER")]
-		public int Staff_Id { get; set; }
+		public int StaffId { get; set; }
 
-        //public StaffTestModel? Staff { get; set; }
+
+		public virtual StaffModel? Staff { get; set; }
+
+		public virtual ICollection<PrecarioModel>? Precario { get; set; }
+
 
         public virtual ICollection<ReservaExcursaoModel>? ReservaExcursoes { get; set; }
+
 
     }
 

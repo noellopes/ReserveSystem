@@ -28,12 +28,12 @@
                 <dt class="col-sm-3 font-weight-bold">@Html.DisplayNameFor(model => model.Preco)</dt>
                 <dd class="col-sm-9">@Html.DisplayFor(model => model.Preco)</dd>
 
-                <dt class="col-sm-3 font-weight-bold">@Html.DisplayNameFor(model => model.Staff_Id)</dt>
-                <dd class="col-sm-9">@Html.DisplayFor(model => model.Staff_Id)</dd>
+                <dt class="col-sm-3 font-weight-bold">Staff Name</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Staff.Staff_Name)</dd>
             </dl>
         </div>
         <div class="card-footer text-center">
-            <a asp-action="Edit" asp-route-id="@Model?.Excursao_Id" class="btn btn-warning me-2">Edit</a>
+            <a asp-action="Edit" asp-route-id="@Model?.ExcursaoId" class="btn btn-warning me-2">Edit</a>
             <a asp-action="Index" class="btn btn-secondary">Back to List</a>
         </div>
     </div>

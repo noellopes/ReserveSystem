@@ -19,11 +19,100 @@ namespace ReserveSystem.Controllers
             _context = context;
         }
 
-        // GET: Excursao
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.ExcursaoModel.ToListAsync());
-        }
+		public async Task<IActionResult> Index(
+			string searchString,
+			string filterBy,
+			string sortOrder,
+			int page = 1,
+			int pageSize = 12)
+		{
+			ViewBag.FilterBy = filterBy ?? "titulo";
+
+			ViewBag.CurrentSort = sortOrder;
+			ViewBag.PrecoSortParm = sortOrder == "Preco" ? "Preco_desc" : "Preco";
+			ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+			// Query inicial
+			
+
+			var query = _context.ExcursaoModel
+							.Include(e => e.Staff)
+						   .AsQueryable();
+
+			
+			if (!string.IsNullOrEmpty(searchString) && !string.IsNullOrEmpty(filterBy))
+			{
+				switch (filterBy.ToLower())
+				{
+					case "titulo":
+						query = query.Where(e => e.Titulo.Contains(searchString));
+						break;
+					
+					case "data":
+						if (DateTime.TryParse(searchString, out DateTime searchDate))
+						{
+							query = query.Where(e => e.Data_Inicio.Date == searchDate.Date);
+						}
+
+						break;
+
+
+				}
+			}
+
+			switch (sortOrder)
+			{
+				
+				case "Date":
+					query = query.OrderBy(e => e.Data_Inicio);
+					break;
+				case "date_desc":
+					query = query.OrderByDescending(e => e.Data_Inicio);
+					break;
+				case "Preco_desc":
+					query = query.OrderByDescending(e => e.Preco);
+					break;
+				case "Preco":
+					query = query.OrderBy(e => e.Preco);
+					break;
+
+
+				default:
+					query = query.OrderBy(e => e.Preco);
+					break;
+
+			}
+
+			// Contagem total para paginação
+			int totalItems = await query.CountAsync();
+
+			// Paginação
+			var excursao = await query
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+				.ToListAsync();
+
+			// Configurando ViewModel
+			var viewModel = new ExcursaoViewModel
+			{
+				Excursao = excursao,
+				PagingInfo = new PagingInfo
+				{
+					CurrentPage = page,
+					PageSize = pageSize,
+					TotalItems = totalItems
+				},
+				SearchTitulo = filterBy == "titulo" ? searchString : string.Empty,
+				SearchData = filterBy == "data" ? searchString : string.Empty
+			};
+		
+
+			return View(viewModel);
+		}
+
+
+
+		
 
         // GET: Excursao/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -33,9 +122,10 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var excursaoModel = await _context.ExcursaoModel
-                .FirstOrDefaultAsync(m => m.Excursao_Id == id);
-            if (excursaoModel == null)
+			var excursaoModel = await _context.ExcursaoModel
+			   .Include(e => e.Staff)
+			   .FirstOrDefaultAsync(m => m.ExcursaoId == id);
+			if (excursaoModel == null)
             {
                 return NotFound();
             }
@@ -46,7 +136,8 @@ namespace ReserveSystem.Controllers
         // GET: Excursao/Create
         public IActionResult Create()
         {
-            return View();
+            ViewData["StaffId"] = new SelectList(_context.StaffModel, "StaffId", "Staff_Name");
+			return View();
         }
 
         // POST: Excursao/Create
@@ -54,19 +145,31 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Excursao_Id,Titulo,Descricao,Data_Inicio,Data_Fim,Preco,Staff_Id")] ExcursaoModel excursaoModel)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(excursaoModel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(excursaoModel);
-        }
+		public async Task<IActionResult> Create([Bind("ExcursaoId,Titulo,Descricao,Data_Inicio,Data_Fim,Preco,StaffId")] ExcursaoModel excursaoModel)
+		{
+			if (ModelState.IsValid)
+			{
+				_context.Add(excursaoModel);
+				await _context.SaveChangesAsync();
 
-        // GET: Excursao/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+				
+				var precarioModel = new PrecarioModel
+				{
+					Preco = excursaoModel.Preco,
+					Data_Inicio = DateTime.Now,
+					ExcursaoId = excursaoModel.ExcursaoId
+				};
+				_context.PrecarioModel.Add(precarioModel);
+				await _context.SaveChangesAsync();
+
+				return RedirectToAction(nameof(Index));
+			}
+			ViewData["StaffId"] = new SelectList(_context.StaffModel, "StaffId", "Staff_Name");
+			return View(excursaoModel);
+		}
+
+		// GET: Excursao/Edit/5
+		public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -78,7 +181,9 @@ namespace ReserveSystem.Controllers
             {
                 return NotFound();
             }
-            return View(excursaoModel);
+			ViewData["StaffId"] = new SelectList(_context.StaffModel, "StaffId", "Staff_Name");
+
+			return View(excursaoModel);
         }
 
         // POST: Excursao/Edit/5
@@ -86,47 +191,71 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Excursao_Id,Titulo,Descricao,Data_Inicio,Data_Fim,Preco,Staff_Id")] ExcursaoModel excursaoModel)
-        {
-            if (id != excursaoModel.Excursao_Id)
-            {
-                return NotFound();
-            }
+		public async Task<IActionResult> Edit(int id, [Bind("ExcursaoId,Titulo,Descricao,Data_Inicio,Data_Fim,Preco,StaffId")] ExcursaoModel excursaoModel)
+		{
+			if (id != excursaoModel.ExcursaoId)
+			{
+				return NotFound();
+			}
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(excursaoModel);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ExcursaoModelExists(excursaoModel.Excursao_Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(excursaoModel);
-        }
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					var existingExcursao = await _context.ExcursaoModel.AsNoTracking().FirstOrDefaultAsync(e => e.ExcursaoId == id);
+					if (existingExcursao == null)
+					{
+						return NotFound();
+					}
 
-        // GET: Excursao/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+					// Verificando se o preço mudou
+					bool precoMudou = existingExcursao.Preco != excursaoModel.Preco;
+
+					_context.Update(excursaoModel);
+					await _context.SaveChangesAsync();
+
+					
+					if (precoMudou)
+					{
+						var precarioModel = new PrecarioModel
+						{
+							Preco = excursaoModel.Preco,
+							Data_Inicio = DateTime.Now, 
+							ExcursaoId = excursaoModel.ExcursaoId
+						};
+						_context.PrecarioModel.Add(precarioModel);
+						await _context.SaveChangesAsync();
+					}
+				}
+				catch (DbUpdateConcurrencyException)
+				{
+					if (!ExcursaoModelExists(excursaoModel.ExcursaoId))
+					{
+						return NotFound();
+					}
+					else
+					{
+						throw;
+					}
+				}
+				return RedirectToAction(nameof(Index));
+			}
+			ViewData["StaffId"] = new SelectList(_context.StaffModel, "StaffId", "Staff_Name");
+			return View(excursaoModel);
+		}
+
+		// GET: Excursao/Delete/5
+		public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var excursaoModel = await _context.ExcursaoModel
-                .FirstOrDefaultAsync(m => m.Excursao_Id == id);
-            if (excursaoModel == null)
+			var excursaoModel = await _context.ExcursaoModel
+			   .Include(e => e.Staff)
+			   .FirstOrDefaultAsync(m => m.ExcursaoId == id);
+			if (excursaoModel == null)
             {
                 return NotFound();
             }
@@ -139,6 +268,8 @@ namespace ReserveSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            
+
             var excursaoModel = await _context.ExcursaoModel.FindAsync(id);
             if (excursaoModel != null)
             {
@@ -151,7 +282,7 @@ namespace ReserveSystem.Controllers
 
         private bool ExcursaoModelExists(int id)
         {
-            return _context.ExcursaoModel.Any(e => e.Excursao_Id == id);
+            return _context.ExcursaoModel.Any(e => e.ExcursaoId == id);
         }
     }
 }

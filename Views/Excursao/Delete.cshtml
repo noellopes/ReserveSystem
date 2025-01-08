@@ -29,13 +29,13 @@
                 <dt class="col-sm-3 font-weight-bold"> @Html.DisplayNameFor(model => model.Preco)</dt>
                 <dd class="col-sm-9"> @Html.DisplayFor(model => model.Preco)</dd>
 
-                <dt class="col-sm-3 font-weight-bold"> @Html.DisplayNameFor(model => model.Staff_Id)</dt>
-                <dd class="col-sm-9"> @Html.DisplayFor(model => model.Staff_Id)</dd>
+                <dt class="col-sm-3 font-weight-bold">Staff Name</dt>
+                <dd class="col-sm-9"> @Html.DisplayFor(model => model.Staff.Staff_Name)</dd>
             </dl>
         </div>
         <div class="card-footer text-center">
             <form asp-action="Delete" class="d-inline">
-                <input type="hidden" asp-for="Excursao_Id" />
+                <input type="hidden" asp-for="ExcursaoId" />
                 <button type="submit" class="btn btn-danger me-2">Delete</button>
             </form>
             <a asp-action="Index" class="btn btn-secondary">Back to List</a>

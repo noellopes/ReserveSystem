@@ -45,9 +45,8 @@
                 </div>
 
                 <div class="mb-3">
-                    <label asp-for="Staff_Id" class="form-label"></label>
-                    <input asp-for="Staff_Id" type="number" class="form-control" />
-                    <span asp-validation-for="Staff_Id" class="text-danger"></span>
+                    <label asp-for="StaffId" class="form-label"></label>
+                    <select asp-for="StaffId" class="form-control" asp-items="ViewBag.StaffId"></select>
                 </div>
 
                 <div class="d-flex justify-content-between">
