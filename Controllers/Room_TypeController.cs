@@ -116,7 +116,7 @@ namespace ReserveSystem.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!Room_TypeExists(room_Type.RoomTypeId))
+                    if (!RoomTypeExists(room_Type.RoomTypeId))
                     {
                         return NotFound();
                     }

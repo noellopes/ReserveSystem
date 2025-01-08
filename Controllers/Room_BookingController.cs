@@ -121,7 +121,7 @@ namespace ReserveSystem.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!Room_BookingExists(room_Booking.RoomBookingId))
+                    if (!RoomBookingExists(room_Booking.RoomBookingId))
                     {
                         return NotFound();
                     }
