@@ -1,5 +1,6 @@
 ﻿namespace ReserveSystem.Models
 {
+
 	public class PagingInfo
 	{
 		public int TotalItems { get; set; }
@@ -14,4 +15,5 @@
 
 		public int LastPageShow => Math.Min(TotalPages, CurrentPage + MaxPagesShowBeforeAfter);
 	}
+
 }
