@@ -31,7 +31,9 @@ namespace ReserveSystem.Controllers {
 
             if (searchPrato != "")
             {
+                
                 reservas = from r in reservas where r.Prato!.PratoNome.Contains(searchPrato) select r;
+                
             }
 
             var model = new ReservasViewModel();
@@ -81,6 +83,12 @@ namespace ReserveSystem.Controllers {
                 .Where(p => p.Dia == diaReserva)
                 .ToList();
 
+            pratosDoDia.Insert(0, new Prato
+            {
+                IdPrato = 0, 
+                PratoNome = "Sem Prato"
+            });
+
             ViewBag.IdPrato = new SelectList(pratosDoDia, "IdPrato", "PratoNome");
             ViewBag.IdCliente = new SelectList(_context.Cliente, "IdCliente", "NomeCliente");
 
@@ -126,7 +134,10 @@ namespace ReserveSystem.Controllers {
                     }
                 }
             }
-
+            if (reserva.IdPrato == 0)
+            {
+                reserva.IdPrato = null; // Remova o prato da reserva, se necessário
+            }
             if (ModelState.IsValid) {
                     var mesaReservada = await _context.Mesa.FindAsync(reserva.IdMesa);
                     if (mesaReservada != null) {

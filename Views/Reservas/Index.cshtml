@@ -60,6 +60,7 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Reservas.First().Prato)
+
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Reservas.First().Aprovacao)
@@ -79,9 +80,16 @@
             <td>
                 @Html.DisplayFor(modelItem => item.DataHora)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Prato.PratoNome)
-            </td>
+                <td>
+                    @if (item.Prato != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.Prato.PratoNome)
+                    }
+                    else
+                    {
+                        <span>Sem Prato</span> <!-- Exibe "Sem Prato" se não houver prato associado -->
+                    }
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Aprovacao)
             </td>
