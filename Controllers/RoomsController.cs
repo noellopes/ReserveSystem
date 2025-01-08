@@ -174,15 +174,25 @@ namespace ReserveSystem.Controllers
             if (room != null)
             {
                 _context.Room.Remove(room);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            // Redireciona para a página de confirmação de exclusão
+            return RedirectToAction("DeleteSuccess", new { roomId = room?.RoomId, roomType = room?.roomType?.Type });
+        }
+
+        // GET: Rooms/DeleteSuccess
+        public IActionResult DeleteSuccess(int? roomId, string roomType)
+        {
+            ViewBag.RoomId = roomId;
+            ViewBag.RoomType = roomType;
+            return View();
         }
 
         private bool RoomExists(int id)
         {
             return _context.Room.Any(e => e.RoomId == id);
         }
+
     }
 }
