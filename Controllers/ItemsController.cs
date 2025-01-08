@@ -116,7 +116,7 @@ namespace ReserveSystem.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ItemsExists(items.ItemId))
+                    if (!ItemExists(items.ItemId))
                     {
                         return NotFound();
                     }
