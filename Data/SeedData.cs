@@ -123,11 +123,11 @@ namespace ReserveSystem.Data
             //criacao de quartos predefinidos 
             var predefinedRoomTypes = new List<RoomType>
                 {
-                    new RoomType {HasView = false,Type = "Standard", RoomCapacity = 2, AcessibilityRoom = false },
-                    new RoomType {HasView = true, Type = "Deluxe", RoomCapacity = 3, AcessibilityRoom = false },
-                    new RoomType {HasView = true, Type = "Suite", RoomCapacity = 4, AcessibilityRoom = true },
-                    new RoomType {HasView = false,Type = "Presidential", RoomCapacity = 2, AcessibilityRoom = false },
-                    new RoomType {HasView = false,Type = "Luxury Room", RoomCapacity = 3, AcessibilityRoom = false }
+                    new RoomType {HasView = false,Type = "Standard", RoomCapacity = 2, AcessibilityRoom = false,Beds=2 },
+                    new RoomType {HasView = true, Type = "Deluxe", RoomCapacity = 3, AcessibilityRoom = false,Beds=3 },
+                    new RoomType {HasView = true, Type = "Suite", RoomCapacity = 4, AcessibilityRoom = true ,Beds = 2 },
+                    new RoomType {HasView = false,Type = "Presidential", RoomCapacity = 2, AcessibilityRoom = false,Beds = 1 },
+                    new RoomType {HasView = false,Type = "Luxury Room", RoomCapacity = 3, AcessibilityRoom = false,Beds=2 }
                 };
             db.SaveChanges();
 

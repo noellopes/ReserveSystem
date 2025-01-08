@@ -78,7 +78,11 @@ namespace ReserveSystem.Controllers
                 .FirstOrDefaultAsync(m => m.RoomTypeId == id);
             if (roomType == null)
             {
-                return NotFound();
+
+                ViewBag.Entity = "RoomTypes";
+                ViewBag.Controller = "RoomTypes";
+                ViewBag.Action = "Index";
+                    return View("EntityNoLongerExists");   
             }
 
             return View(roomType);
@@ -129,8 +133,14 @@ namespace ReserveSystem.Controllers
             var roomType = await _context.RoomType.FindAsync(id);
             if (roomType == null)
             {
-                return NotFound();
+
+                ViewBag.Entity = "RoomTypes";
+                ViewBag.Controller = "RoomTypes";
+                ViewBag.Action = "Index";
+                return View("EntityNoLongerExists");
             }
+
+
             return View(roomType);
         }
 
@@ -139,20 +149,24 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RoomTypeId,HasView,Type,RoomCapacity,AcessibilityRoom")] RoomType roomType)
+        public async Task<IActionResult> Edit(int id, [Bind("RoomTypeId,HasView,Type,RoomCapacity,Beds,AcessibilityRoom")] RoomType roomType)
         {
-            if (id != roomType.RoomTypeId)
+          
+            if (roomType == null)
             {
-                return NotFound();
-            }
 
+                ViewBag.Entity = "RoomTypes";
+                ViewBag.Controller = "RoomTypes";
+                ViewBag.Action = "Index";
+                return View("EntityNoLongerExists");
+            }
             if (ModelState.IsValid)
             {
                 try
                 {
                     _context.Update(roomType);
                     await _context.SaveChangesAsync();
-                    TempData["SuccessMessage"] = "Room Type updated successfully!";
+                    
 
                 }
                 catch (DbUpdateConcurrencyException)
@@ -166,7 +180,11 @@ namespace ReserveSystem.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                ViewBag.Entity = "RoomTypes";
+                ViewBag.Controller = "RoomTypes";
+                ViewBag.Action = "Index";
+                return View("Successfully");
+                
             }
             return View(roomType);
         }
@@ -181,10 +199,7 @@ namespace ReserveSystem.Controllers
 
             var roomType = await _context.RoomType
                 .FirstOrDefaultAsync(m => m.RoomTypeId == id);
-            if (roomType == null)
-            {
-                return NotFound();
-            }
+            
 
             return View(roomType);
         }
@@ -197,12 +212,17 @@ namespace ReserveSystem.Controllers
             var roomType = await _context.RoomType.FindAsync(id);
             if (roomType != null)
             {
-                _context.RoomType.Remove(roomType);
-                TempData["WarningMessage"] = "Room Type deleted successfully!";
-            }
 
+                _context.RoomType.Remove(roomType);
+                
+            }
+            ViewBag.Entity = "RoomTypes";
+            ViewBag.Controller = "RoomTypes";
+            ViewBag.Action = "Index";
+            
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return View("DeletedSuccess");
+           
         }
 
         private bool RoomTypeExists(int id)
