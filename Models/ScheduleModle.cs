@@ -15,6 +15,8 @@ namespace ReserveSystem.Models
         [Display(Name = "Staff ID")]
         public int StaffId { get; set; }
 
+        public StaffModel? Staff { get; set; }
+
         [Required]
         [ForeignKey("TypeOfSheduleId")]
         [Display(Name = "Type of Schedule ID")]

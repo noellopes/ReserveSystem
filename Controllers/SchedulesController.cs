@@ -20,9 +20,37 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Schedules
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, int page = 1, int pageSize = 3)
         {
-            return View(await _context.Schedule.ToListAsync());
+            var ScheduleQuery = _context.ScheduleModel.Include(s => s.Staff).AsQueryable();
+
+            // Filter by searchString if provided
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                ScheduleQuery = ScheduleQuery.Where(s =>
+                    s.Date.ToString("yyyyMMddHHmmss").Contains(searchString) ||
+                    s.Staff.Staff_Name.Contains(searchString));
+            }
+
+            var totalItems = await ScheduleQuery.CountAsync();
+
+            var ScheduleList = await ScheduleQuery
+            .Include(s => s.Staff)
+                                  .Skip((page - 1) * pageSize)
+                                  .Take(pageSize)
+                                  .ToListAsync();
+
+            var pagingInfo = new PagingInfo
+            {
+                TotalItems = totalItems,
+                PageSize = pageSize,
+                CurrentPage = page
+            };
+
+
+            ViewBag.PagingInfo = pagingInfo;
+
+            return View(ScheduleList);
         }
 
         // GET: Schedules/Details/5
@@ -33,7 +61,7 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var schedule = await _context.Schedule
+            var schedule = await _context.ScheduleModel
                 .FirstOrDefaultAsync(m => m.ScheduleId == id);
             if (schedule == null)
             {
@@ -73,7 +101,7 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var schedule = await _context.Schedule.FindAsync(id);
+            var schedule = await _context.ScheduleModel.FindAsync(id);
             if (schedule == null)
             {
                 return NotFound();
@@ -124,7 +152,7 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
-            var schedule = await _context.Schedule
+            var schedule = await _context.ScheduleModel
                 .FirstOrDefaultAsync(m => m.ScheduleId == id);
             if (schedule == null)
             {
@@ -139,10 +167,10 @@ namespace ReserveSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var schedule = await _context.Schedule.FindAsync(id);
+            var schedule = await _context.ScheduleModel.FindAsync(id);
             if (schedule != null)
             {
-                _context.Schedule.Remove(schedule);
+                _context.ScheduleModel.Remove(schedule);
             }
 
             await _context.SaveChangesAsync();
@@ -151,7 +179,7 @@ namespace ReserveSystem.Controllers
 
         private bool ScheduleExists(int id)
         {
-            return _context.Schedule.Any(e => e.ScheduleId == id);
+            return _context.ScheduleModel.Any(e => e.ScheduleId == id);
         }
     }
 }
