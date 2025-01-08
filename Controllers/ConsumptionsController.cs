@@ -98,6 +98,7 @@ namespace ReserveSystem.Controllers
                 {
                     _context.Update(consumptions);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction("EditSuccess", new { consumptionId = consumptions.ConsumptionId });
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -113,6 +114,23 @@ namespace ReserveSystem.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(consumptions);
+        }
+        // GET: Consumptions/EditSuccess
+        public async Task<IActionResult> EditSuccess(int consumptionId)
+        {
+            var consumption = await _context.Consumptions
+                .Include(c => c.room)
+                .Include(c => c.items)
+                .FirstOrDefaultAsync(c => c.ConsumptionId == consumptionId);
+
+            if (consumption == null)
+            {
+                return NotFound();
+            }
+
+            // Mensagem de sucesso
+            ViewBag.Message = "Consumption edited successfully!";
+            return View(consumption);
         }
 
         // GET: Consumptions/Delete/5

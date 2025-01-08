@@ -1,0 +1,15 @@
+﻿@model Consumptions
+
+@{
+    ViewData["Title"] = "Consumption Edited Successfully";
+}
+
+<h1>Consumption Updated</h1>
+
+<p><strong>Consumption ID:</strong> @Model.ConsumptionId</p>
+<p><strong>Room ID:</strong> @Model.RoomId</p>
+<p><strong>Item ID:</strong> @Model.ItemId</p>
+<p><strong>Quantity Consumed:</strong> @Model.QuantityConsumed</p>
+<p><strong>Consumed Date:</strong> @Model.ConsumedDate.ToString("yyyy-MM-dd")</p>
+
+<p><a href="Index" class="btn btn-primary">Back to List</a></p>

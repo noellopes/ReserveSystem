@@ -135,7 +135,7 @@ namespace ReserveSystem.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!Cleaning_ScheduleExists(cleaning_Schedule.CleaningScheduleId))
+                    if (!CleaningScheduleExists(cleaning_Schedule.CleaningScheduleId))
                     {
                         return NotFound();
                     }
@@ -189,20 +189,38 @@ namespace ReserveSystem.Controllers
             return View(cleaning_Schedule);
         }
 
-        // POST: Cleaning_Schedule/Delete/5
+        // POST: CleaningSchedule/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var cleaning_Schedule = await _context.Cleaning_Schedule.FindAsync(id);
-            _context.Cleaning_Schedule.Remove(cleaning_Schedule);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var cleaningSchedule = await _context.Cleaning_Schedule.FindAsync(id);
+            if (cleaningSchedule != null)
+            {
+                _context.Cleaning_Schedule.Remove(cleaningSchedule);
+                await _context.SaveChangesAsync();
+            }
+
+            // Redireciona para a página de confirmação de exclusão
+            return RedirectToAction("DeleteSuccess", new
+            {
+                dateServices = cleaningSchedule?.DateServices.ToString("yyyy-MM-dd"),
+                startTime = cleaningSchedule?.StartTime.ToString("HH:mm")
+            });
         }
 
-        private bool Cleaning_ScheduleExists(int id)
+        // GET: CleaningSchedule/DeleteSuccess
+        public IActionResult DeleteSuccess(string dateServices, string startTime)
+        {
+            ViewBag.DateServices = dateServices;
+            ViewBag.StartTime = startTime;
+            return View();
+        }
+
+        private bool CleaningScheduleExists(int id)
         {
             return _context.Cleaning_Schedule.Any(e => e.CleaningScheduleId == id);
         }
+
     }
 }
