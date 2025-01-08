@@ -98,7 +98,7 @@ namespace ReserveSystem.Controllers {
         // POST: Reservas/Create
         [HttpPost]
         [ValidateAntiForgeryToken]//REFACTORED
-        public async Task<IActionResult> Create([Bind("IdReserva,IdCliente,NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva, DateTime? Dia) {
+        public async Task<IActionResult> Create([Bind("IdReserva,IdCliente,NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva, DateTime? Dia,List<int> Pratos) {
             if (!_context.Mesa.Any()) {
                 ModelState.AddModelError("", "Não existem mesas disponíveis no momento.");
             } else {

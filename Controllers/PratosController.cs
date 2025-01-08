@@ -87,6 +87,7 @@ namespace ReserveSystem.Controllers
             {
                 _context.Add(prato);
                 await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Prato criado com sucesso!";
                 return RedirectToAction(nameof(Indexfun));
             }
             return View(prato);

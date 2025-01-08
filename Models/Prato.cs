@@ -16,7 +16,7 @@ namespace ReserveSystem.Models
 
         public string? Descricao { get; set; }
 
-        public ICollection<Reserva>? Reservas { get; set; }
+       
     }
 }
 
