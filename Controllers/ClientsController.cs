@@ -178,15 +178,25 @@ namespace ReserveSystem.Controllers
             if (client != null)
             {
                 _context.Client.Remove(client);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            // Redireciona para a página de confirmação de exclusão
+            return RedirectToAction("DeleteSuccess", new { clientName = client?.Client_Name, clientEmail = client?.Client_Email });
+        }
+
+        // GET: Clients/DeleteSuccess
+        public IActionResult DeleteSuccess(string clientName, string clientEmail)
+        {
+            ViewBag.ClientName = clientName;
+            ViewBag.ClientEmail = clientEmail;
+            return View();
         }
 
         private bool ClientExists(int id)
         {
             return _context.Client.Any(e => e.ClientId == id);
         }
+
     }
 }
