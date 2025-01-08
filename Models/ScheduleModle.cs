@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ReserveSystem.Models
 {
+    
     public class Schedule
     {
         [Key]
@@ -24,22 +25,28 @@ namespace ReserveSystem.Models
         public int TypeOfSheduleId { get; set; }
 
         [Required]
-        [DataType (DataType.Date)]
+        [DataType(DataType.Date)]
         public DateOnly Date { get; set; }
 
         [Required]
         [Display(Name = "Start Shift Time")]
         public DateTime StartShiftTime { get; set; }
 
+
         [Required]
         [Display(Name = "End Shift Time")]
         public DateTime EndShiftTime { get; set; }
 
-        public bool Presence { get; set; }
-
-        public bool IsValidShiftTime()
+        // Validação manual
+        public bool IsEndShiftTimeValid()
         {
             return EndShiftTime > StartShiftTime;
         }
+
+        public bool Presence { get; set; }
+
+
     }
+
+
 }
