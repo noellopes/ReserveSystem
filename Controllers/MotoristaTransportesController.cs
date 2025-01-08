@@ -20,17 +20,48 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: MotoristaTransportes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, int page = 1, int pageSize = 10)
         {
-            var motoristaTransporte = from t in _context.MotoristaTransporte
+            // Filtragem
+            var motoristaTransporteQuery = _context.MotoristaTransporte
                 .Include(t => t.Staff)
                 .Include(t => t.Transporte)
-                           select t;
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                motoristaTransporteQuery = motoristaTransporteQuery.Where(mt =>
+                    mt.Staff.Staff_Name.Contains(searchString) ||
+                    mt.Transporte.TipoTransporte.Contains(searchString));
+            }
+
+            // Paginação
+            int totalItems = await motoristaTransporteQuery.CountAsync();
+            var motoristaTransporte = await motoristaTransporteQuery
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            // Criação do objeto PageInfo
+            var pageInfo = new PageInfo
+            {
+                TotalItems = totalItems,
+                PageSize = pageSize,
+                CurrentPage = page
+            };
+
+            // Passa os dados para a View usando ViewBag e ViewData
+            ViewData["SearchString"] = searchString;
+            ViewBag.PageInfo = pageInfo;
+
             return View(motoristaTransporte);
         }
+    
 
-        // GET: MotoristaTransportes/Details/5
-        public async Task<IActionResult> Details(int? id)
+
+
+// GET: MotoristaTransportes/Details/5
+public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
