@@ -111,6 +111,8 @@ namespace ReserveSystem.Controllers
                 {
                     _context.Update(item_Room);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction("EditSuccess", new { itemRoomId = item_Room.ItemRoomId });
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -127,6 +129,24 @@ namespace ReserveSystem.Controllers
             }
             return View(item_Room);
         }
+        // GET: ItemRoom/EditSuccess
+        public async Task<IActionResult> EditSuccess(int itemRoomId)
+        {
+            var itemRoom = await _context.Item_Room
+                .Include(ir => ir.roomType)
+                .Include(ir => ir.items)
+                .FirstOrDefaultAsync(ir => ir.ItemRoomId == itemRoomId);
+
+            if (itemRoom == null)
+            {
+                return NotFound();
+            }
+
+            // Mensagem de sucesso
+            ViewBag.Message = "Item Room edited successfully!";
+            return View(itemRoom);
+        }
+
 
         // GET: Item_Room/Delete/5
         public async Task<IActionResult> Delete(int? id)
