@@ -1,71 +1,82 @@
 ﻿@model IEnumerable<ReserveSystem.Models.Booking>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Bookings List";
 }
 
-<h1>Index</h1>
+<h1 class="text-center text-primary my-4">Bookings List</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ClientId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Checkin_date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Checkout_date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Booking_Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Booked)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Total_Persons_Number)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Payment_Status)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClientId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Checkin_date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Checkout_date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Booking_Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Booked)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Total_Persons_Number)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Payment_Status)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.BookingId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.BookingId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.BookingId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="container">
+    <div class="row">
+        <p>
+            <a class="btn btn-success mb-3" asp-action="Create">Create New Booking</a>
+        </p>
+
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm" style="border-radius: 10px; border: 1px solid #e0e0e0;">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">Booking ID: @item.BookingId</h5>
+                        <p class="card-text">
+                            <strong>Client ID:</strong> @item.ClientId <br />
+                            <strong>Check-in Date:</strong> @item.Checkin_date.ToString("dd/MM/yyyy") <br />
+                            <strong>Check-out Date:</strong> @item.Checkout_date.ToString("dd/MM/yyyy") <br />
+                            <strong>Booking Date:</strong> @item.Booking_Date.ToString("dd/MM/yyyy") <br />
+                            <strong>Booked:</strong> @(item.Booked ? "Yes" : "No") <br />
+                            <strong>Total Persons:</strong> @item.Total_Persons_Number <br />
+                            <strong>Payment Status:</strong> @(item.Payment_Status ? "Paid" : "Pending") <br />
+                        </p>
+
+                        <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@item.BookingId">Edit</a>
+                        <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@item.BookingId">Details</a>
+                        <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.BookingId">Delete</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Optional: Add some custom styling -->
+<style>
+    .card {
+        background-color: #f9f9f9;
+        transition: transform 0.3s;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    .btn-info {
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+    }
+
+        .btn-info:hover {
+            background-color: #138496;
+            border-color: #117a8b;
+        }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+</style>

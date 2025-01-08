@@ -1,59 +1,79 @@
 ﻿@model IEnumerable<ReserveSystem.Models.Room_Type>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Room Types List";
 }
 
-<h1>Index</h1>
+<h1 class="text-center text-primary my-4">Room Types List</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.HasView)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Type)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Capacity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RoomCapacity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AcessibilityRoom)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.HasView)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Capacity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RoomCapacity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AcessibilityRoom)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.RoomTypeId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.RoomTypeId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.RoomTypeId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="container">
+    <div class="row">
+        <p>
+            <a class="btn btn-success mb-3" asp-action="Create">Create New Room Type</a>
+        </p>
+
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm" style="border-radius: 10px; border: 1px solid #e0e0e0;">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">Room Type: @item.Type</h5>
+                        <p class="card-text">
+                            <strong>View:</strong> @(item.HasView ? "Yes" : "No") <br />
+                            <strong>Capacity:</strong> @item.Capacity <br />
+                            <strong>Room Capacity:</strong> @item.RoomCapacity <br />
+                            <strong>Accessibility:</strong> @(item.AcessibilityRoom ? "Yes" : "No") <br />
+                        </p>
+
+                        <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@item.RoomTypeId">Edit</a>
+                        <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@item.RoomTypeId">Details</a>
+                        <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.RoomTypeId">Delete</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Optional: Add some custom styling -->
+<style>
+    .card {
+        background-color: #f9f9f9;
+        transition: transform 0.3s;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    .btn-info {
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+    }
+
+        .btn-info:hover {
+            background-color: #138496;
+            border-color: #117a8b;
+        }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+</style>
