@@ -83,7 +83,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClienteId,Name,Phone,Address,Email,NIF,IdentificationType,Login,Status")] ClientModel cliente)
+        public async Task<IActionResult> Create([Bind("ClienteId,Name,Phone,Address,Email,Password,NIF,IdentificationType,Login,Status")] ClientModel cliente)
         {
             if (ModelState.IsValid)
             {
@@ -168,7 +168,7 @@ namespace ReserveSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Name,Phone,Address,Email,NIF,IdentificationType,Login,Status")] ClientModel clientModel)
+        public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Name,Phone,Address,Email,Password,NIF,IdentificationType,Login,Status")] ClientModel clientModel)
         {
             if (id != clientModel.ClienteId)
             {
@@ -195,6 +195,7 @@ namespace ReserveSystem.Controllers
                     existingClient.Phone = clientModel.Phone;
                     existingClient.Address = clientModel.Address;
                     existingClient.Email = clientModel.Email;
+                    existingClient.Password = clientModel.Password;
                     existingClient.NIF = clientModel.NIF;
                     existingClient.IdentificationType = clientModel.IdentificationType;
                     existingClient.Login = clientModel.Login;
