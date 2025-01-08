@@ -1,0 +1,13 @@
+﻿@model Items
+
+@{
+    ViewData["Title"] = "Item Edited Successfully";
+}
+
+<h1>Item Updated</h1>
+
+<p><strong>Item ID:</strong> @Model.ItemId</p>
+<p><strong>Item Name:</strong> @Model.Name</p>
+<p><strong>Stock Quantity:</strong> @Model.QuantityStock</p>
+
+<p><a href="Index" class="btn btn-primary">Back to List</a></p>
