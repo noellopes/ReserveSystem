@@ -56,6 +56,10 @@ namespace ReserveSystem.Controllers
         // GET: Schedules/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+
+            ViewData["StaffId"] = new SelectList(_context.StaffModel, "Staff_Id", "Staff_Name");
+            ViewData["TypeOfSheduleId"] = new SelectList(_context.TypeOfSchedule, "TypeOfScheduleId", "TypeOfScheduleName");
+
             if (id == null)
             {
                 return NotFound();
@@ -98,6 +102,10 @@ namespace ReserveSystem.Controllers
         // GET: Schedules/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+
+            ViewData["StaffId"] = new SelectList(_context.StaffModel, "Staff_Id", "Staff_Name");
+            ViewData["TypeOfSheduleId"] = new SelectList(_context.TypeOfSchedule, "TypeOfScheduleId", "TypeOfScheduleName");
+
             if (id == null)
             {
                 return NotFound();
@@ -118,12 +126,13 @@ namespace ReserveSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ScheduleId,StaffId,TypeOfSheduleId,Date,StartShiftTime,EndShiftTime,Presence")] Schedule schedule)
         {
+
             if (id != schedule.ScheduleId)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid && schedule.Staff == null && schedule.TypeOfShedule == null)
             {
                 try
                 {
