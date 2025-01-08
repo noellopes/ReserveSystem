@@ -12,27 +12,29 @@ using static System.Reflection.Metadata.BlobBuilder;
 namespace ReserveSystem.Controllers {
     public class ReservasController : Controller {
         private readonly ReserveSystemContext _context;
-        private readonly ILogger<ReservasController> _logger; // Added for logging
+        
 
 
-        public ReservasController(ReserveSystemContext context, ILogger<ReservasController> logger) {
+        public ReservasController(ReserveSystemContext context ) {
             _context = context;
-            _logger = logger; // Agora, o logger é inicializado corretamente
+        
         }
 
         // GET: Reservas
         public async Task<IActionResult> Index(int page = 1, string searchCliente = "", string searchPrato = "") {
             var reservas = from r in _context.Reserva.Include(r => r.Cliente).Include(r => r.Prato) select r;
 
-            //if (searchCliente != "")
-            //{
-            //    reservas = from r in reservas where r.Cliente!.NomeCliente.Contains(searchCliente) select r;
-            //}
+            if (searchCliente != "")
+            {
+                reservas = from r in reservas where r.Cliente!.NomeCliente.Contains(searchCliente) select r;
+            }
 
-            //if (searchPrato != "")
-            //{
-            //    reservas = from r in reservas where r.Prato!.PratoNome.Contains(searchPrato) select r;
-            //}
+            if (searchPrato != "")
+            {
+                
+                reservas = from r in reservas where r.Prato!.PratoNome.Contains(searchPrato) select r;
+                
+            }
 
             var model = new ReservasViewModel();
 
@@ -43,11 +45,11 @@ namespace ReserveSystem.Controllers {
 
             model.Reservas = reservas.ToList();
 
-            //model.Reservas = await reservas
-            //        .OrderBy(r => r.Cliente)
-            //        .Skip((model.PagingInfo.CurrentPage - 1) * model.PagingInfo.PageSize)
-            //        .Take(model.PagingInfo.PageSize)
-            //        .ToListAsync();
+            model.Reservas = await reservas
+                    .OrderBy(r => r.Cliente)
+                    .Skip((model.PagingInfo.CurrentPage - 1) * model.PagingInfo.PageSize)
+                    .Take(model.PagingInfo.PageSize)
+                    .ToListAsync();
 
             model.SearchCliente = searchCliente;
             model.SearchPrato = searchPrato;
@@ -73,26 +75,22 @@ namespace ReserveSystem.Controllers {
 
         // GET: Reservas/Create
         public IActionResult Create(DateTime? DataHora) {
-            // Obtém o dia atual da semana
             var data = DataHora ?? DateTime.Now;
             var diaReserva = data.DayOfWeek;
 
 
             var pratosDoDia = _context.Prato
-                .Where(p => p.Dia == diaReserva) // Apenas pratos disponíveis no dia selecionado
+                .Where(p => p.Dia == diaReserva)
                 .ToList();
 
-
-            // Por na ViewBag apenas os pratos filtrados
+            pratosDoDia.Insert(0, new Prato
+            {
+                IdPrato = 0, 
+                PratoNome = "Sem Prato"
+            });
 
             ViewBag.IdPrato = new SelectList(pratosDoDia, "IdPrato", "PratoNome");
             ViewBag.IdCliente = new SelectList(_context.Cliente, "IdCliente", "NomeCliente");
-
-
-
-
-
-
 
             return View();
         }
@@ -100,7 +98,7 @@ namespace ReserveSystem.Controllers {
         // POST: Reservas/Create
         [HttpPost]
         [ValidateAntiForgeryToken]//REFACTORED
-        public async Task<IActionResult> Create([Bind("IdReserva,IdCliente,NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva, DateTime? Dia) {
+        public async Task<IActionResult> Create([Bind("IdReserva,IdCliente,NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva, DateTime? Dia,List<int> Pratos) {
             if (!_context.Mesa.Any()) {
                 ModelState.AddModelError("", "Não existem mesas disponíveis no momento.");
             } else {
@@ -136,10 +134,11 @@ namespace ReserveSystem.Controllers {
                     }
                 }
             }
-
+            if (reserva.IdPrato == 0)
+            {
+                reserva.IdPrato = null; // Remova o prato da reserva, se necessário
+            }
             if (ModelState.IsValid) {
-                try {
-                    // Marcar mesa como reservada
                     var mesaReservada = await _context.Mesa.FindAsync(reserva.IdMesa);
                     if (mesaReservada != null) {
                         mesaReservada.Reservado = true;
@@ -148,20 +147,12 @@ namespace ReserveSystem.Controllers {
                         ModelState.AddModelError("", "De momento todas as mesas estão reservadas por favor tente noutro horário");
                     }
 
-
-                    // Salva a reserva
                     _context.Add(reserva);
                     await _context.SaveChangesAsync();
 
                     TempData["SuccessMessage"] = "Reserva criada com sucesso!";
-
-                } catch (Exception ex) {
-                    _logger.LogError($"Erro ao salvar reserva: {ex.Message}");
-                    ModelState.AddModelError("", "Ocorreu um erro ao salvar a reserva.");
-                }
             }
 
-            // Atualiza as ViewBags caso algo dê errado
             ViewData["IdCliente"] = new SelectList(_context.Cliente, "IdCliente", "NomeCliente", reserva.IdCliente);
             ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome", reserva.IdPrato);
             return View(reserva);
@@ -185,7 +176,7 @@ namespace ReserveSystem.Controllers {
         // POST: Reservas/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdReserva,IdCliente,IdMesa, NumeroPessoas,DataHora,Observacao,IdPrato")] Reserva reserva) {
+        public async Task<IActionResult> Edit(int id, [Bind("IdReserva,IdCliente,IdMesa,NumeroPessoas,DataHora,Observacao,IdPrato, Aprovacao")] Reserva reserva) {
             if (id != reserva.IdReserva) {
                 return NotFound();
             }
@@ -207,8 +198,6 @@ namespace ReserveSystem.Controllers {
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdPrato"] = new SelectList(_context.Prato, "IdPrato", "PratoNome", reserva.IdPrato);
-
-
 
             return View(reserva);
         }

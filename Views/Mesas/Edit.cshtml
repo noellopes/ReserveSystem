@@ -18,10 +18,10 @@
                 <input asp-for="NumeroLugares" class="form-control" />
                 <span asp-validation-for="NumeroLugares" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Reservado" /> @Html.DisplayNameFor(model => model.Reservado)
-                </label>
+            <div class="form-group">
+                <label asp-for="Reservado" class="control-label"></label>
+                <input asp-for="Reservado" type="checkbox" class="form-check-input" />
+                
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

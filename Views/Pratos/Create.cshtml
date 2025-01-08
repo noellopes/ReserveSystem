@@ -33,17 +33,13 @@
                     <option value="Saturday">Sábado</option>
                     <option value="Sunday">Domingo</option>
                 </select>
-                <input type="date" id="DataHora" name="Dia" value="@ViewBag.SelectedDate" class=" form-control" />
-                <span asp-validation-for="Dia" class="text-danger"></span>
             </div>
-
             
             <div class="form-group">
                 <label asp-for="Preco" class="control-label"></label>
                 <input asp-for="Preco" class="form-control" />
                 <span asp-validation-for="Preco" class="text-danger"></span>
             </div>
-
            
             <div class="form-group">
                 <label asp-for="Descricao" class="control-label"></label>
@@ -52,7 +48,14 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-success" />
-            </div>««
+            </div>
+            
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
         </form>
     </div>
 </div>

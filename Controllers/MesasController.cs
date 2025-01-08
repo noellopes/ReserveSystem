@@ -60,6 +60,7 @@ namespace ReserveSystem.Controllers
             {
                 _context.Add(mesa);
                 await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Mesa criada com sucesso!";
                 return RedirectToAction(nameof(Index));
             }
             return View(mesa);

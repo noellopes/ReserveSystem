@@ -50,7 +50,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Reservas.First().IdCliente)
+                @Html.DisplayNameFor(model => model.Reservas.First().Cliente)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Reservas.First().NumeroPessoas)
@@ -59,7 +59,8 @@
                 @Html.DisplayNameFor(model => model.Reservas.First().Observacao)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Reservas.First().IdPrato)
+                @Html.DisplayNameFor(model => model.Reservas.First().Prato)
+
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Reservas.First().Aprovacao)
@@ -79,11 +80,18 @@
             <td>
                 @Html.DisplayFor(modelItem => item.DataHora)
             </td>
+                <td>
+                    @if (item.Prato != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.Prato.PratoNome)
+                    }
+                    else
+                    {
+                        <span>Sem Prato</span> <!-- Exibe "Sem Prato" se não houver prato associado -->
+                    }
+                </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Observacao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Prato.PratoNome)
+                @Html.DisplayFor(modelItem => item.Aprovacao)
             </td>
             <td>
                     <a asp-action="Edit" asp-route-id="@item.IdReserva" class="btn btn-warning">Edit</a> |
