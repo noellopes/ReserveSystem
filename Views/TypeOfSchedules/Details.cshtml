@@ -1,24 +1,26 @@
 ﻿@model ReserveSystem.Models.TypeOfSchedule
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Details of Type Of Schedule";
 }
 
-<h1>Details</h1>
+<section class="section-container" style="text-align: center;">
+    <h1>
+        <span>Details of Type Of Schedule</span>
+    </h1>
 
-<div>
-    <h4>TypeOfSchedule</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TypeOfScheduleName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TypeOfScheduleName)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.TypeOfScheduleId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div style="border: 1px solid #ddd; padding: 20px; margin: 20px auto; display: inline-block;">
+        <dl class="row" style="text-align: left;">
+            <dt class="col-sm-6">Type Of Schedule ID</dt>
+            <dd class="col-sm-6">@Model?.TypeOfScheduleId</dd>
+
+            <dt class="col-sm-6">Type Of Schedule Name</dt>
+            <dd class="col-sm-6">@Model?.TypeOfScheduleName</dd>
+        </dl>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <a asp-action="Edit" asp-route-id="@Model?.TypeOfScheduleId" class="btn btn-warning" style="margin-right: 10px;">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary" style="margin-left: 10px;">Back to List</a>
+    </div>
+</section>

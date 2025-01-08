@@ -1,35 +1,77 @@
 ﻿@model IEnumerable<ReserveSystem.Models.TypeOfSchedule>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Type Of Schedule List";
+    int totalPages = ViewData["TotalPages"] as int? ?? 1;
+    int currentPage = ViewData["CurrentPage"] as int? ?? 1;
+    string searchString = ViewData["SearchString"] as string ?? "";
 }
 
-<h1>Index</h1>
+<section class="section-container">
+    <h1>
+        <span>Type of Schedule List</span>
+    </h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TypeOfScheduleName)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TypeOfScheduleName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.TypeOfScheduleId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.TypeOfScheduleId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.TypeOfScheduleId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <!-- Search Form -->
+    <form method="get" asp-action="Index" class="search-container">
+        <input type="text" name="searchString" value="@searchString" class="form-control search-input" placeholder="Search schedules..." />
+        <button type="submit" class="btn btn-primary search-btn">Search</button>
+    </form>
+
+    <!-- Create New Button -->
+    <div class="create-container">
+        <a asp-action="Create" class="btn btn-success create-btn">Create New</a>
+    </div>
+
+    <!-- Table -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Type Of Schedule ID</th>
+                <th>Type Of Schedule Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Any())
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.TypeOfScheduleId</td>
+                        <td>@item.TypeOfScheduleName</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.TypeOfScheduleId" class="btn btn-warning btn-sm" style="margin-right: 5px;">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.TypeOfScheduleId" class="btn btn-info btn-sm" style="margin-right: 5px;">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.TypeOfScheduleId" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="3" class="text-center">No schedules found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div class="pagination-container">
+        @if (currentPage > 1)
+        {
+            <a asp-action="Index" asp-route-page="@(currentPage - 1)" asp-route-searchString="@searchString" class="btn btn-secondary btn-sm">Previous</a>
+        }
+
+        @for (int i = 1; i <= totalPages; i++)
+        {
+            <a asp-action="Index" asp-route-page="@i" asp-route-searchString="@searchString"
+               class="@(i == currentPage ? "btn btn-primary btn-sm active" : "btn btn-outline-primary btn-sm")">@i</a>
+        }
+
+        @if (currentPage < totalPages)
+        {
+            <a asp-action="Index" asp-route-page="@(currentPage + 1)" asp-route-searchString="@searchString" class="btn btn-secondary btn-sm">Next</a>
+        }
+    </div>

@@ -1,33 +1,24 @@
 ﻿@model ReserveSystem.Models.TypeOfSchedule
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create New Schedule";
 }
 
-<h1>Create</h1>
+<section class="section-container" style="text-align: center;">
+    <h1>
+        <span>Create New Schedule</span>
+    </h1>
+    <p class="centered-text">Fill in the details below to create a new schedule.</p>
 
-<h4>TypeOfSchedule</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="TypeOfScheduleName" class="control-label"></label>
-                <input asp-for="TypeOfScheduleName" class="form-control" />
-                <span asp-validation-for="TypeOfScheduleName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    <form asp-action="Create" class="form-container" style="margin-top: 20px;">
+        <div class="form-group">
+            <label asp-for="TypeOfScheduleName" class="control-label">Schedule Name</label>
+            <input asp-for="TypeOfScheduleName" class="form-control small-input" />
+            <span asp-validation-for="TypeOfScheduleName" class="text-danger"></span>
+        </div>
+        <div class="form-group" style="display: flex; justify-content: center; gap: 15px; margin-top: 20px;">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
+</section>

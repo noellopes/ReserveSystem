@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
@@ -20,25 +18,44 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: TypeOfSchedules
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page, string searchString)
         {
-            return View(await _context.TypeOfSchedule.ToListAsync());
+            int pageSize = 10; // Her sayfada gösterilecek kayıt sayısı
+            int pageNumber = page ?? 1; // Varsayılan olarak 1. sayfa
+
+            // Sorguyu başlat
+            var typeOfSchedulesQuery = _context.TypeOfSchedule.AsQueryable();
+
+            // Eğer arama metni varsa, filtre uygula
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                typeOfSchedulesQuery = typeOfSchedulesQuery.Where(s => s.TypeOfScheduleName.Contains(searchString));
+            }
+
+            // Toplam kayıt sayısını hesapla
+            int totalItems = await typeOfSchedulesQuery.CountAsync();
+            ViewData["TotalPages"] = (int)Math.Ceiling((double)totalItems / pageSize);
+            ViewData["CurrentPage"] = pageNumber;
+            ViewData["SearchString"] = searchString; // Arama metnini View'e gönder
+
+            // Sayfalama işlemi
+            var typeOfSchedules = await typeOfSchedulesQuery
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return View(typeOfSchedules); // Listeyi View'e gönder
         }
 
         // GET: TypeOfSchedules/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var typeOfSchedule = await _context.TypeOfSchedule
                 .FirstOrDefaultAsync(m => m.TypeOfScheduleId == id);
-            if (typeOfSchedule == null)
-            {
-                return NotFound();
-            }
+
+            if (typeOfSchedule == null) return NotFound();
 
             return View(typeOfSchedule);
         }
@@ -50,8 +67,6 @@ namespace ReserveSystem.Controllers
         }
 
         // POST: TypeOfSchedules/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("TypeOfScheduleId,TypeOfScheduleName")] TypeOfSchedule typeOfSchedule)
@@ -68,30 +83,20 @@ namespace ReserveSystem.Controllers
         // GET: TypeOfSchedules/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var typeOfSchedule = await _context.TypeOfSchedule.FindAsync(id);
-            if (typeOfSchedule == null)
-            {
-                return NotFound();
-            }
+            if (typeOfSchedule == null) return NotFound();
+
             return View(typeOfSchedule);
         }
 
         // POST: TypeOfSchedules/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("TypeOfScheduleId,TypeOfScheduleName")] TypeOfSchedule typeOfSchedule)
         {
-            if (id != typeOfSchedule.TypeOfScheduleId)
-            {
-                return NotFound();
-            }
+            if (id != typeOfSchedule.TypeOfScheduleId) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -102,14 +107,8 @@ namespace ReserveSystem.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TypeOfScheduleExists(typeOfSchedule.TypeOfScheduleId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!TypeOfScheduleExists(typeOfSchedule.TypeOfScheduleId)) return NotFound();
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -119,17 +118,12 @@ namespace ReserveSystem.Controllers
         // GET: TypeOfSchedules/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var typeOfSchedule = await _context.TypeOfSchedule
                 .FirstOrDefaultAsync(m => m.TypeOfScheduleId == id);
-            if (typeOfSchedule == null)
-            {
-                return NotFound();
-            }
+
+            if (typeOfSchedule == null) return NotFound();
 
             return View(typeOfSchedule);
         }
@@ -143,9 +137,8 @@ namespace ReserveSystem.Controllers
             if (typeOfSchedule != null)
             {
                 _context.TypeOfSchedule.Remove(typeOfSchedule);
+                await _context.SaveChangesAsync();
             }
-
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
