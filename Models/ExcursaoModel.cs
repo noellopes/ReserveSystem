@@ -10,16 +10,16 @@ namespace ReserveSystem.Models
 		public int ExcursaoId { get; set; }
 
 		[Required, Display(Name = "Titulo")]
-		[Column(TypeName = "TEXT")]
+		
 		public string Titulo { get; set; }
 		[Required, Display(Name = "Descrição")]
-		[Column(TypeName = "TEXT")]
+		
 		public string Descricao { get; set; }
 		[Required, DataType(DataType.DateTime), Display(Name = "Data Inicio"), DisplayFormat(DataFormatString ="{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode =true)]
 		[Column(TypeName = "DATETIME")]
 		public DateTime Data_Inicio{get; set;}
 		[Required, DataType(DataType.DateTime), Display(Name = "Data Fim"), DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
-		[Column(TypeName = "DATE")]
+		
 		public DateTime Data_Fim { get; set;}
 		[Required,DataType(DataType.Currency), Display(Name = "Preço"), DisplayFormat(DataFormatString = "{0:C}")]
 		[Column(TypeName = "FLOAT")]

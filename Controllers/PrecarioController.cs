@@ -19,16 +19,95 @@ namespace ReserveSystem.Controllers
             _context = context;
         }
 
-        // GET: Precario
-        public async Task<IActionResult> Index()
-        {
+		// GET: Precario
+		public async Task<IActionResult> Index(
+			string searchString,
+			string filterBy,
+			string sortOrder,
+			int page = 1,
+			int pageSize = 13)
+		{
+			ViewBag.FilterBy = filterBy ?? "titulo";
 
-			var precario = from e in _context.PrecarioModel
-						   .Include(e => e.Excursao)
-						   select e;
-			return View(precario);
-        }
+			ViewBag.CurrentSort = sortOrder;
+			ViewBag.TituloSortParm = sortOrder == "Titulo" ? "Titulo_desc" : "Titulo";
+			ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
 
+
+			var query = _context.PrecarioModel
+							.Include(q => q.Excursao)
+						   .AsQueryable();
+
+
+			if (!string.IsNullOrEmpty(searchString) && !string.IsNullOrEmpty(filterBy))
+			{
+				switch (filterBy.ToLower())
+				{
+					case "titulo":
+						query = query.Where(e => e.Excursao.Titulo.Contains(searchString));
+						break;
+
+					case "data":
+						if (DateTime.TryParse(searchString, out DateTime searchDate))
+						{
+							query = query.Where(e => e.Data_Inicio.Date == searchDate.Date);
+						}
+
+						break;
+
+
+				}
+			}
+
+			switch (sortOrder)
+			{
+
+				case "Date":
+					query = query.OrderBy(e => e.Data_Inicio);
+					break;
+				case "date_desc":
+					query = query.OrderByDescending(e => e.Data_Inicio);
+					break;
+				case "Titulo_desc":
+					query = query.OrderByDescending(e => e.Excursao.Titulo);
+					break;
+				case "Titulo":
+					query = query.OrderBy(e => e.Excursao.Titulo);
+					break;
+
+
+				default:
+					query = query.OrderBy(e => e.Excursao.Titulo);
+					break;
+
+			}
+
+			int totalItems = await query.CountAsync();
+
+			var precario = await query
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+				.ToListAsync();
+
+			var viewModel = new PrecarioViewModel
+			{
+				Precarios = precario,
+				PagingInfo = new PagingInfo
+				{
+					CurrentPage = page,
+					PageSize = pageSize,
+					TotalItems = totalItems
+				},
+				SearchTitulo = filterBy == "titulo" ? searchString : string.Empty,
+				SearchData = filterBy == "data" ? searchString : string.Empty
+			};
+
+
+			return View(viewModel);
+		}
+
+
+		
         // GET: Precario/Details/5
         public async Task<IActionResult> Details(int? id)
         {

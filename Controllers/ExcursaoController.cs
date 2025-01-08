@@ -24,13 +24,12 @@ namespace ReserveSystem.Controllers
 			string filterBy,
 			string sortOrder,
 			int page = 1,
-			int pageSize = 9)
+			int pageSize = 12)
 		{
 			ViewBag.FilterBy = filterBy ?? "titulo";
 
-			// Parâmetros de ordenação
 			ViewBag.CurrentSort = sortOrder;
-			ViewBag.PrecoSortParm = sortOrder == "Titulo" ? "Titulo_desc" : "Titulo";
+			ViewBag.PrecoSortParm = sortOrder == "Preco" ? "Preco_desc" : "Preco";
 			ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
 
 			// Query inicial
@@ -70,12 +69,16 @@ namespace ReserveSystem.Controllers
 				case "date_desc":
 					query = query.OrderByDescending(e => e.Data_Inicio);
 					break;
-				case "Titulo_desc":
-					query = query.OrderByDescending(e => e.Titulo);
+				case "Preco_desc":
+					query = query.OrderByDescending(e => e.Preco);
 					break;
-			
+				case "Preco":
+					query = query.OrderBy(e => e.Preco);
+					break;
+
+
 				default:
-					query = query.OrderBy(e => e.Titulo);
+					query = query.OrderBy(e => e.Preco);
 					break;
 
 			}
@@ -100,7 +103,7 @@ namespace ReserveSystem.Controllers
 					TotalItems = totalItems
 				},
 				SearchTitulo = filterBy == "titulo" ? searchString : string.Empty,
-				SearchData = filterBy == "cliente" ? searchString : string.Empty
+				SearchData = filterBy == "data" ? searchString : string.Empty
 			};
 		
 
