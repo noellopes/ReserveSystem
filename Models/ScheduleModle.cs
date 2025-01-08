@@ -24,7 +24,8 @@ namespace ReserveSystem.Models
         public int TypeOfSheduleId { get; set; }
 
         [Required]
-        public DateTime Date { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public DateOnly Date { get; set; }
 
         [Required]
         [Display(Name = "Start Shift Time")]
