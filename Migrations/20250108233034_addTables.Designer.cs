@@ -12,8 +12,8 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    [Migration("20241209163230_Reserva")]
-    partial class Reserva
+    [Migration("20250108233034_addTables")]
+    partial class addTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,58 +54,89 @@ namespace ReserveSystem.Migrations
                     b.ToTable("ClienteTestModel");
                 });
 
+            modelBuilder.Entity("ReserveSystem.Models.ExcursaoFavoritaModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Comentario")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ExcursaoId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
+
+                    b.HasIndex("ExcursaoId");
+
+                    b.ToTable("ExcursaoFavoritaModel");
+                });
+
             modelBuilder.Entity("ReserveSystem.Models.ExcursaoModel", b =>
                 {
-                    b.Property<int>("Excursao_Id")
+                    b.Property<int>("ExcursaoId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Excursao_Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExcursaoId"));
 
                     b.Property<DateTime>("Data_Fim")
-                        .HasColumnType("DATE");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Data_Inicio")
-                        .HasColumnType("DATETIME");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Descricao")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Preco")
-                        .HasColumnType("FLOAT");
+                    b.Property<float>("Preco")
+                        .HasColumnType("real");
 
-                    b.Property<int>("Staff_Id")
+                    b.Property<int>("StaffId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Titulo")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Excursao_Id");
+                    b.HasKey("ExcursaoId");
+
+                    b.HasIndex("StaffId");
 
                     b.ToTable("ExcursaoModel");
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.JobTestModel", b =>
+            modelBuilder.Entity("ReserveSystem.Models.PrecarioModel", b =>
                 {
-                    b.Property<int>("Job_ID")
+                    b.Property<int>("PrecoId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Job_ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PrecoId"));
 
-                    b.Property<string>("Job_Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("Data_Inicio")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Job_Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ExcursaoId")
+                        .HasColumnType("INTEGER");
 
-                    b.HasKey("Job_ID");
+                    b.Property<float>("Preco")
+                        .HasColumnType("real");
 
-                    b.ToTable("JobTestModel");
+                    b.HasKey("PrecoId");
+
+                    b.HasIndex("ExcursaoId");
+
+                    b.ToTable("PrecarioModel");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.ReservaExcursaoModel", b =>
@@ -120,7 +151,7 @@ namespace ReserveSystem.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DataReserva")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("DATETIME");
 
                     b.Property<int>("ExcursaoId")
                         .HasColumnType("INTEGER");
@@ -128,8 +159,8 @@ namespace ReserveSystem.Migrations
                     b.Property<int>("NumPessoas")
                         .HasColumnType("int");
 
-                    b.Property<int>("ValorTotal")
-                        .HasColumnType("int");
+                    b.Property<float>("ValorTotal")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
@@ -140,24 +171,66 @@ namespace ReserveSystem.Migrations
                     b.ToTable("ReservaExcursaoModel");
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.StaffTestModel", b =>
+            modelBuilder.Entity("ReserveSystem.Models.StaffModel", b =>
                 {
-                    b.Property<int>("Staff_Id")
+                    b.Property<int>("StaffId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Staff_Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StaffId"));
 
-                    b.Property<int>("Job_ID")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Job_Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Staff_Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Staff_Id");
+                    b.HasKey("StaffId");
 
-                    b.ToTable("StaffTestModel");
+                    b.ToTable("StaffModel");
+                });
+
+            modelBuilder.Entity("ReserveSystem.Models.ExcursaoFavoritaModel", b =>
+                {
+                    b.HasOne("ReserveSystem.Models.ClienteTestModel", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ReserveSystem.Models.ExcursaoModel", "Excursao")
+                        .WithMany()
+                        .HasForeignKey("ExcursaoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cliente");
+
+                    b.Navigation("Excursao");
+                });
+
+            modelBuilder.Entity("ReserveSystem.Models.ExcursaoModel", b =>
+                {
+                    b.HasOne("ReserveSystem.Models.StaffModel", "Staff")
+                        .WithMany("Excursao")
+                        .HasForeignKey("StaffId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Staff");
+                });
+
+            modelBuilder.Entity("ReserveSystem.Models.PrecarioModel", b =>
+                {
+                    b.HasOne("ReserveSystem.Models.ExcursaoModel", "Excursao")
+                        .WithMany("Precario")
+                        .HasForeignKey("ExcursaoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Excursao");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.ReservaExcursaoModel", b =>
@@ -186,7 +259,14 @@ namespace ReserveSystem.Migrations
 
             modelBuilder.Entity("ReserveSystem.Models.ExcursaoModel", b =>
                 {
+                    b.Navigation("Precario");
+
                     b.Navigation("ReservaExcursoes");
+                });
+
+            modelBuilder.Entity("ReserveSystem.Models.StaffModel", b =>
+                {
+                    b.Navigation("Excursao");
                 });
 #pragma warning restore 612, 618
         }

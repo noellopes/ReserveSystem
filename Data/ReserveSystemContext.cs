@@ -20,7 +20,7 @@ namespace ReserveSystem.Data
 		{
 			base.OnModelCreating(modelBuilder);
 
-		/*	modelBuilder.Entity<StaffModel>().HasData(
+			modelBuilder.Entity<StaffModel>().HasData(
 				new StaffModel { StaffId = 1, Staff_Name = "João Silva", Job_Name = "Motorista" },
 				new StaffModel { StaffId = 2, Staff_Name = "Maria Oliveira", Job_Name = "Gestor de Excursão" },
 				new StaffModel { StaffId = 3, Staff_Name = "Carlos Santos", Job_Name = "Guia Turistico" },
@@ -73,17 +73,17 @@ namespace ReserveSystem.Data
 		new ExcursaoModel { ExcursaoId = 23, Titulo = "Tour Histórico em Coimbra", Descricao = "Explore a rica história e cultura de Coimbra.", Data_Inicio = new DateTime(2025, 3, 5, 9, 30, 0), Data_Fim = new DateTime(2025, 3, 5, 12, 30, 0), Preco = 40.00f, StaffId = 23 },
 		new ExcursaoModel { ExcursaoId = 24, Titulo = "Visita às Furnas de São Miguel", Descricao = "Uma experiência nas furnas vulcânicas de São Miguel.", Data_Inicio = new DateTime(2025, 3, 7, 10, 0, 0), Data_Fim = new DateTime(2025, 3, 7, 15, 0, 0), Preco = 50.00f, StaffId = 24 },
 		new ExcursaoModel { ExcursaoId = 25, Titulo = "Jornada pelas Ilhas Berlengas", Descricao = "Uma excursão marítima inesquecível nas Berlengas.", Data_Inicio = new DateTime(2025, 3, 10, 8, 0, 0), Data_Fim = new DateTime(2025, 3, 10, 18, 0, 0), Preco = 80.00f, StaffId = 25 }
-	);*/
+	);
 
 
-		}
-	}
+		
+	
 
 
 
 
 
-            /*  modelBuilder.Entity<ClienteTestModel>().HasData(
+             modelBuilder.Entity<ClienteTestModel>().HasData(
 
                  new ClienteTestModel
                  {
@@ -252,49 +252,49 @@ namespace ReserveSystem.Data
              modelBuilder.Entity<ReservaExcursaoModel>().HasData(
 
 
-     new ReservaExcursaoModel { Id = 41 ,ClienteId = 22, ExcursaoId = 23, DataReserva = DateTime.UtcNow.AddDays(2), NumPessoas = 1, ValorTotal = 50 },
-     new ReservaExcursaoModel { Id = 42,ClienteId = 33, ExcursaoId = 21, DataReserva = DateTime.UtcNow.AddDays(3), NumPessoas = 4, ValorTotal = 200 },
-     new ReservaExcursaoModel { Id = 43, ClienteId = 24, ExcursaoId = 25, DataReserva = DateTime.UtcNow.AddDays(4), NumPessoas = 3, ValorTotal = 150 },
-     new ReservaExcursaoModel { Id = 44, ClienteId = 35, ExcursaoId = 26, DataReserva = DateTime.UtcNow.AddDays(5), NumPessoas = 5, ValorTotal = 250 },
-     new ReservaExcursaoModel { Id = 45, ClienteId = 36, ExcursaoId =34, DataReserva = DateTime.UtcNow.AddDays(6), NumPessoas = 2, ValorTotal = 120 },
-     new ReservaExcursaoModel { Id = 46, ClienteId = 27, ExcursaoId = 27, DataReserva = DateTime.UtcNow.AddDays(7), NumPessoas = 1, ValorTotal = 60 },
-     new ReservaExcursaoModel { Id = 47, ClienteId = 28, ExcursaoId = 38, DataReserva = DateTime.UtcNow.AddDays(8), NumPessoas = 6, ValorTotal = 300 },
-     new ReservaExcursaoModel { Id = 48, ClienteId = 29, ExcursaoId = 39, DataReserva = DateTime.UtcNow.AddDays(9), NumPessoas = 3, ValorTotal = 180 },
-     new ReservaExcursaoModel { Id = 49, ClienteId = 31, ExcursaoId = 32, DataReserva = DateTime.UtcNow.AddDays(10), NumPessoas = 2, ValorTotal = 110 },
-     new ReservaExcursaoModel { Id = 50, ClienteId = 21, ExcursaoId = 25, DataReserva = DateTime.UtcNow.AddDays(11), NumPessoas = 4, ValorTotal = 200 },
-     new ReservaExcursaoModel { Id = 51, ClienteId = 32, ExcursaoId = 21, DataReserva = DateTime.UtcNow.AddDays(12), NumPessoas = 1, ValorTotal = 50 },
-     new ReservaExcursaoModel { Id = 52, ClienteId = 33, ExcursaoId = 33, DataReserva = DateTime.UtcNow.AddDays(13), NumPessoas = 5, ValorTotal = 250 },
-     new ReservaExcursaoModel { Id = 53, ClienteId = 34, ExcursaoId = 26, DataReserva = DateTime.UtcNow.AddDays(14), NumPessoas = 2, ValorTotal = 120 },
-     new ReservaExcursaoModel { Id = 54, ClienteId = 35, ExcursaoId = 24, DataReserva = DateTime.UtcNow.AddDays(15), NumPessoas = 3, ValorTotal = 150 },
-     new ReservaExcursaoModel { Id = 55, ClienteId = 23, ExcursaoId = 37, DataReserva = DateTime.UtcNow.AddDays(16), NumPessoas = 2, ValorTotal = 100 },
-     new ReservaExcursaoModel { Id = 56, ClienteId = 21, ExcursaoId = 28, DataReserva = DateTime.UtcNow.AddDays(17), NumPessoas = 4, ValorTotal = 200 },
-     new ReservaExcursaoModel { Id = 57, ClienteId = 28, ExcursaoId = 29, DataReserva = DateTime.UtcNow.AddDays(18), NumPessoas = 6, ValorTotal = 300 },
-     new ReservaExcursaoModel { Id = 58, ClienteId = 29, ExcursaoId = 22, DataReserva = DateTime.UtcNow.AddDays(19), NumPessoas = 2, ValorTotal = 110 },
-     new ReservaExcursaoModel { Id = 59, ClienteId = 40, ExcursaoId = 33, DataReserva = DateTime.UtcNow.AddDays(20), NumPessoas = 3, ValorTotal = 150 },
+     new ReservaExcursaoModel { Id = 41 ,ClienteId = 22, ExcursaoId = 1, DataReserva = DateTime.UtcNow.AddDays(2), NumPessoas = 1, ValorTotal = 50 },
+     new ReservaExcursaoModel { Id = 42,ClienteId = 33, ExcursaoId = 2, DataReserva = DateTime.UtcNow.AddDays(3), NumPessoas = 4, ValorTotal = 200 },
+     new ReservaExcursaoModel { Id = 43, ClienteId = 24, ExcursaoId = 5, DataReserva = DateTime.UtcNow.AddDays(4), NumPessoas = 3, ValorTotal = 150 },
+     new ReservaExcursaoModel { Id = 44, ClienteId = 35, ExcursaoId = 6, DataReserva = DateTime.UtcNow.AddDays(5), NumPessoas = 5, ValorTotal = 250 },
+     new ReservaExcursaoModel { Id = 45, ClienteId = 36, ExcursaoId =14, DataReserva = DateTime.UtcNow.AddDays(6), NumPessoas = 2, ValorTotal = 120 },
+     new ReservaExcursaoModel { Id = 46, ClienteId = 27, ExcursaoId = 7, DataReserva = DateTime.UtcNow.AddDays(7), NumPessoas = 1, ValorTotal = 60 },
+     new ReservaExcursaoModel { Id = 47, ClienteId = 28, ExcursaoId = 8, DataReserva = DateTime.UtcNow.AddDays(8), NumPessoas = 6, ValorTotal = 300 },
+     new ReservaExcursaoModel { Id = 48, ClienteId = 29, ExcursaoId = 9, DataReserva = DateTime.UtcNow.AddDays(9), NumPessoas = 3, ValorTotal = 180 },
+     new ReservaExcursaoModel { Id = 49, ClienteId = 31, ExcursaoId = 3, DataReserva = DateTime.UtcNow.AddDays(10), NumPessoas = 2, ValorTotal = 110 },
+     new ReservaExcursaoModel { Id = 50, ClienteId = 21, ExcursaoId = 15, DataReserva = DateTime.UtcNow.AddDays(11), NumPessoas = 4, ValorTotal = 200 },
+     new ReservaExcursaoModel { Id = 51, ClienteId = 32, ExcursaoId = 19, DataReserva = DateTime.UtcNow.AddDays(12), NumPessoas = 1, ValorTotal = 50 },
+     new ReservaExcursaoModel { Id = 52, ClienteId = 33, ExcursaoId = 2, DataReserva = DateTime.UtcNow.AddDays(13), NumPessoas = 5, ValorTotal = 250 },
+     new ReservaExcursaoModel { Id = 53, ClienteId = 34, ExcursaoId = 16, DataReserva = DateTime.UtcNow.AddDays(14), NumPessoas = 2, ValorTotal = 120 },
+     new ReservaExcursaoModel { Id = 54, ClienteId = 35, ExcursaoId = 11, DataReserva = DateTime.UtcNow.AddDays(15), NumPessoas = 3, ValorTotal = 150 },
+     new ReservaExcursaoModel { Id = 55, ClienteId = 23, ExcursaoId = 12, DataReserva = DateTime.UtcNow.AddDays(16), NumPessoas = 2, ValorTotal = 100 },
+     new ReservaExcursaoModel { Id = 56, ClienteId = 21, ExcursaoId = 17, DataReserva = DateTime.UtcNow.AddDays(17), NumPessoas = 4, ValorTotal = 200 },
+     new ReservaExcursaoModel { Id = 57, ClienteId = 28, ExcursaoId = 19, DataReserva = DateTime.UtcNow.AddDays(18), NumPessoas = 6, ValorTotal = 300 },
+     new ReservaExcursaoModel { Id = 58, ClienteId = 29, ExcursaoId = 12, DataReserva = DateTime.UtcNow.AddDays(19), NumPessoas = 2, ValorTotal = 110 },
+     new ReservaExcursaoModel { Id = 59, ClienteId = 40, ExcursaoId = 13, DataReserva = DateTime.UtcNow.AddDays(20), NumPessoas = 3, ValorTotal = 150 },
       new ReservaExcursaoModel { Id = 60, ClienteId = 21, ExcursaoId = 22, DataReserva = DateTime.UtcNow.AddDays(1), NumPessoas = 2, ValorTotal = 100 }
                  );
 
             modelBuilder.Entity<ExcursaoFavoritaModel>().HasData(
-    new ExcursaoFavoritaModel { Id = 71, ClienteId = 30, ExcursaoId = 20, Comentario = "Passeio encantador, perfeito para relaxar." },
-    new ExcursaoFavoritaModel { Id = 72, ClienteId = 21, ExcursaoId = 21, Comentario = "Guias excelentes e vistas incríveis!" },
-    new ExcursaoFavoritaModel { Id = 73, ClienteId = 22, ExcursaoId = 22, Comentario = "Muito divertido, meus filhos adoraram." },
-    new ExcursaoFavoritaModel { Id = 74, ClienteId = 23, ExcursaoId = 23, Comentario = "O transporte poderia ser melhor, mas o local era incrível." },
-    new ExcursaoFavoritaModel { Id = 75, ClienteId = 24, ExcursaoId = 24, Comentario = "Excelente organização e atenção aos detalhes." },
-    new ExcursaoFavoritaModel { Id = 76, ClienteId = 25, ExcursaoId = 25, Comentario = "Lugar deslumbrante, recomendo para casais." },
-    new ExcursaoFavoritaModel { Id = 77, ClienteId = 26, ExcursaoId = 26, Comentario = "Um pouco caro, mas valeu a pena." },
-    new ExcursaoFavoritaModel { Id = 78, ClienteId = 27, ExcursaoId = 27, Comentario = "Paisagens de tirar o fôlego!" },
-    new ExcursaoFavoritaModel { Id = 79, ClienteId = 28, ExcursaoId = 28, Comentario = "Foi uma aventura inesquecível." },
-    new ExcursaoFavoritaModel { Id = 80, ClienteId = 29, ExcursaoId = 29, Comentario = "Gostei da flexibilidade no roteiro." },
-    new ExcursaoFavoritaModel { Id = 81, ClienteId = 30, ExcursaoId = 30, Comentario = "Bom para grupos grandes, bastante espaço." },
-    new ExcursaoFavoritaModel { Id = 82, ClienteId = 31, ExcursaoId = 31, Comentario = "Adorei a comida servida durante o passeio." },
-    new ExcursaoFavoritaModel { Id = 83, ClienteId = 32, ExcursaoId = 32, Comentario = "O tempo estava ótimo e tudo saiu como planejado." },
-    new ExcursaoFavoritaModel { Id = 84, ClienteId = 33, ExcursaoId = 33, Comentario = "Poderiam ter mais informações sobre o local, mas gostei." },
-    new ExcursaoFavoritaModel { Id = 85, ClienteId = 34, ExcursaoId = 34, Comentario = "O guia era muito simpático e experiente." },
-    new ExcursaoFavoritaModel { Id = 86, ClienteId = 35, ExcursaoId = 35, Comentario = "Recomendo para quem gosta de aprender sobre história." },
-    new ExcursaoFavoritaModel { Id = 87, ClienteId = 36, ExcursaoId = 36, Comentario = "Ótimo custo-benefício." },
-    new ExcursaoFavoritaModel { Id = 88, ClienteId = 37, ExcursaoId = 37, Comentario = "Muito bem organizado e pontual." },
-    new ExcursaoFavoritaModel { Id = 89, ClienteId = 38, ExcursaoId = 38, Comentario = "Lugar paradisíaco, voltarei com certeza!" },
-    new ExcursaoFavoritaModel { Id = 90, ClienteId = 39, ExcursaoId = 39, Comentario = "Fiquei encantado com o serviço personalizado." }*/
+    new ExcursaoFavoritaModel { Id = 71, ClienteId = 30, ExcursaoId = 1, Comentario = "Passeio encantador, perfeito para relaxar." },
+    new ExcursaoFavoritaModel { Id = 72, ClienteId = 21, ExcursaoId = 2, Comentario = "Guias excelentes e vistas incríveis!" },
+    new ExcursaoFavoritaModel { Id = 73, ClienteId = 22, ExcursaoId = 3, Comentario = "Muito divertido, meus filhos adoraram." },
+    new ExcursaoFavoritaModel { Id = 74, ClienteId = 23, ExcursaoId = 4, Comentario = "O transporte poderia ser melhor, mas o local era incrível." },
+    new ExcursaoFavoritaModel { Id = 75, ClienteId = 24, ExcursaoId = 5, Comentario = "Excelente organização e atenção aos detalhes." },
+    new ExcursaoFavoritaModel { Id = 76, ClienteId = 25, ExcursaoId = 6, Comentario = "Lugar deslumbrante, recomendo para casais." },
+    new ExcursaoFavoritaModel { Id = 77, ClienteId = 26, ExcursaoId = 7, Comentario = "Um pouco caro, mas valeu a pena." },
+    new ExcursaoFavoritaModel { Id = 78, ClienteId = 27, ExcursaoId = 7, Comentario = "Paisagens de tirar o fôlego!" },
+    new ExcursaoFavoritaModel { Id = 79, ClienteId = 28, ExcursaoId = 8, Comentario = "Foi uma aventura inesquecível." },
+    new ExcursaoFavoritaModel { Id = 80, ClienteId = 29, ExcursaoId = 9, Comentario = "Gostei da flexibilidade no roteiro." },
+    new ExcursaoFavoritaModel { Id = 81, ClienteId = 30, ExcursaoId = 10, Comentario = "Bom para grupos grandes, bastante espaço." },
+    new ExcursaoFavoritaModel { Id = 82, ClienteId = 31, ExcursaoId = 11, Comentario = "Adorei a comida servida durante o passeio." },
+    new ExcursaoFavoritaModel { Id = 83, ClienteId = 32, ExcursaoId = 12, Comentario = "O tempo estava ótimo e tudo saiu como planejado." },
+    new ExcursaoFavoritaModel { Id = 84, ClienteId = 33, ExcursaoId = 13, Comentario = "Poderiam ter mais informações sobre o local, mas gostei." },
+    new ExcursaoFavoritaModel { Id = 85, ClienteId = 34, ExcursaoId = 14, Comentario = "O guia era muito simpático e experiente." },
+    new ExcursaoFavoritaModel { Id = 86, ClienteId = 35, ExcursaoId = 15, Comentario = "Recomendo para quem gosta de aprender sobre história." },
+    new ExcursaoFavoritaModel { Id = 87, ClienteId = 36, ExcursaoId = 16, Comentario = "Ótimo custo-benefício." },
+    new ExcursaoFavoritaModel { Id = 88, ClienteId = 37, ExcursaoId = 17, Comentario = "Muito bem organizado e pontual." },
+    new ExcursaoFavoritaModel { Id = 89, ClienteId = 38, ExcursaoId = 18, Comentario = "Lugar paradisíaco, voltarei com certeza!" },
+    new ExcursaoFavoritaModel { Id = 90, ClienteId = 39, ExcursaoId = 19, Comentario = "Fiquei encantado com o serviço personalizado." }
 );
 
 
