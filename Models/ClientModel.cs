@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace ReserveSystem.Models
 {
@@ -22,6 +23,10 @@ namespace ReserveSystem.Models
         [Required(ErrorMessage = "Email is mandatory")]
         [EmailAddress(ErrorMessage = "Invalid Email format")]
         public string Email { get; set; }
+
+        [Required(ErrorMessage = "Password is mandatory")]
+        [StringLength(10, MinimumLength = 6, ErrorMessage = "Password cannot be less than 6 characters")]
+        public string Password { get; set; }
         [Required(ErrorMessage = "NIF/Identification is mandatory")]
         public string NIF  { get; set; }
         [Required(ErrorMessage = "Please select an identification type.")]
