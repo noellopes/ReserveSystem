@@ -33,7 +33,7 @@ namespace ReserveSystem.Controllers
             // Aplica o filtro de busca, se houver
             if (!string.IsNullOrEmpty(searchQuery))
             {
-                roomTypes = roomTypes.Where(rt => rt.Type.Contains(searchQuery) || rt.RoomCapacity.ToString().Contains(searchQuery));
+                roomTypes = roomTypes.Where(rt => rt.Type.Contains(searchQuery) || rt.RoomTypeId.ToString().Contains(searchQuery));
             }
 
             // Passa o valor de busca para a ViewData para manter o valor no campo de busca
@@ -46,8 +46,9 @@ namespace ReserveSystem.Controllers
             var totalPages = (int)Math.Ceiling((decimal)totalItems / pageSize);
 
             // Verifica se a página solicitada é válida
-            if (page < 1) page = 1;
-            if (page > totalPages) page = totalPages;
+            page = Math.Max(page, 1);
+            if (page > totalPages && totalPages > 0)  page = totalPages; // Ajusta a página para o máximo permitido
+            
 
             // Obtém os itens da página atual
             var roomTypesPaged = await roomTypes
