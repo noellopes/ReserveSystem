@@ -113,6 +113,9 @@ namespace ReserveSystem.Controllers
                 {
                     _context.Update(client);
                     await _context.SaveChangesAsync();
+
+                    return RedirectToAction("EditSuccess", new { clientId = client.ClientId });
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -129,6 +132,24 @@ namespace ReserveSystem.Controllers
             }
             return View(client);
         }
+
+        // GET: Clients/EditSuccess
+        public async Task<IActionResult> EditSuccess(int clientId)
+        {
+            var client = await _context.Client
+                .Include(c => c.cleaningSchedules)
+                .FirstOrDefaultAsync(c => c.ClientId == clientId);
+
+            if (client == null)
+            {
+                return NotFound();
+            }
+
+            // Mensagem de sucesso
+            ViewBag.Message = "Client edited successfully!";
+            return View(client);
+        }
+
 
         // GET: Clients/Delete/5
         public async Task<IActionResult> Delete(int? id)

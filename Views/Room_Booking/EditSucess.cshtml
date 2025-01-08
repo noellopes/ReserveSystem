@@ -1,0 +1,14 @@
+﻿@model ReserveSystem.Models.Room_Booking
+
+@{
+    ViewData["Title"] = "Room Booking Edited Successfully";
+}
+
+<h1>@ViewBag.Message</h1>
+
+<p><strong>Room Booking ID:</strong> @Model.RoomBookingId</p>
+<p><strong>Booking ID:</strong> @Model.BookingId</p>
+<p><strong>Room ID:</strong> @Model.RoomId</p>
+<p><strong>Number of Persons:</strong> @Model.Persons_Number</p>
+
+<p><a href="Index" class="btn btn-primary">Back to List</a></p>
