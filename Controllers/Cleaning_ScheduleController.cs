@@ -123,6 +123,8 @@ namespace ReserveSystem.Controllers
                 {
                     _context.Update(cleaning_Schedule);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction("EditSuccess", new { cleaningScheduleId =cleaning_Schedule.CleaningScheduleId });
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -140,6 +142,24 @@ namespace ReserveSystem.Controllers
             ViewData["ClientId"] = new SelectList(_context.Client, "ClientId", "Client_Adress", cleaning_Schedule.ClientId);
             ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffDriversLicense", cleaning_Schedule.StaffId);
             return View(cleaning_Schedule);
+        }
+        // GET: CleaningSchedule/EditSuccess
+        public async Task<IActionResult> EditSuccess(int cleaningScheduleId)
+        {
+            var cleaningSchedule = await _context.Cleaning_Schedule
+                .Include(cs => cs.staffMembers)
+                .Include(cs => cs.room_Booking)
+                .Include(cs => cs.client)
+                .FirstOrDefaultAsync(cs => cs.CleaningScheduleId == cleaningScheduleId);
+
+            if (cleaningSchedule == null)
+            {
+                return NotFound();
+            }
+
+            // Mensagem de sucesso
+            ViewBag.Message = "Cleaning Schedule edited successfully!";
+            return View(cleaningSchedule);
         }
 
         // GET: Cleaning_Schedule/Delete/5
