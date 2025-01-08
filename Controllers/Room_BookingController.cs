@@ -172,24 +172,34 @@ namespace ReserveSystem.Controllers
             return View(room_Booking);
         }
 
-        // POST: Room_Booking/Delete/5
+        // POST: RoomBookings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var room_Booking = await _context.Room_Booking.FindAsync(id);
-            if (room_Booking != null)
+            var roomBooking = await _context.Room_Booking.FindAsync(id);
+            if (roomBooking != null)
             {
-                _context.Room_Booking.Remove(room_Booking);
+                _context.Room_Booking.Remove(roomBooking);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            // Redireciona para a página de confirmação de exclusão
+            return RedirectToAction("DeleteSuccess", new { roomBookingId = roomBooking?.RoomBookingId, roomId = roomBooking?.RoomId });
         }
 
-        private bool Room_BookingExists(int id)
+        // GET: RoomBookings/DeleteSuccess
+        public IActionResult DeleteSuccess(int? roomBookingId, int? roomId)
+        {
+            ViewBag.RoomBookingId = roomBookingId;
+            ViewBag.RoomId = roomId;
+            return View();
+        }
+
+        private bool RoomBookingExists(int id)
         {
             return _context.Room_Booking.Any(e => e.RoomBookingId == id);
         }
+
     }
 }
