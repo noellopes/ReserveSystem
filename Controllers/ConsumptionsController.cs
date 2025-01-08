@@ -102,7 +102,7 @@ namespace ReserveSystem.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ConsumptionsExists(consumptions.ConsumptionId))
+                    if (!ConsumptionExists(consumptions.ConsumptionId))
                     {
                         return NotFound();
                     }
@@ -152,24 +152,43 @@ namespace ReserveSystem.Controllers
         }
 
         // POST: Consumptions/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var consumptions = await _context.Consumptions.FindAsync(id);
-            if (consumptions != null)
-            {
-                _context.Consumptions.Remove(consumptions);
-            }
+[HttpPost, ActionName("Delete")]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> DeleteConfirmed(int id)
+{
+    var consumption = await _context.Consumptions
+        .Include(c => c.room)
+        .Include(c => c.items)
+        .FirstOrDefaultAsync(c => c.ConsumptionId == id);
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+    if (consumption != null)
+    {
+        _context.Consumptions.Remove(consumption);
+        await _context.SaveChangesAsync();
+    }
 
-        private bool ConsumptionsExists(int id)
-        {
-            return _context.Consumptions.Any(e => e.ConsumptionId == id);
-        }
+    // Redireciona para a página de confirmação de exclusão
+    return RedirectToAction("DeleteSuccess", new 
+    { 
+        itemName = consumption?.items?.Name, 
+        consumedDate = consumption?.ConsumedDate.ToString("yyyy-MM-dd") 
+    });
+}
+
+// GET: Consumptions/DeleteSuccess
+public IActionResult DeleteSuccess(string itemName, string roomName, string consumedDate)
+{
+    ViewBag.ItemName = itemName;
+    ViewBag.RoomName = roomName;
+    ViewBag.ConsumedDate = consumedDate;
+    return View();
+}
+
+private bool ConsumptionExists(int id)
+{
+    return _context.Consumptions.Any(e => e.ConsumptionId == id);
+}
+
     }
 }
 
