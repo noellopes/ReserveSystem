@@ -12,6 +12,9 @@ builder.Services.AddDbContext<ReserveSystemUsersDbContext>(options =>
 builder.Services.AddDbContext<ReserveSystemContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ReserveSystem") ?? throw new InvalidOperationException("Connection string 'ReserveSystem' not found.")));
 
+
+
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 
@@ -21,6 +24,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

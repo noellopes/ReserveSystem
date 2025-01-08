@@ -24,6 +24,8 @@ namespace ReserveSystem.Models
         [DataType(DataType.Date)]
         [DisplayName("Data de Nascimento")]
         public DateTime DataNascimento { get; set; }
+
+        public virtual ICollection<ReservaExcursaoModel>? ReservaExcursoes { get; set; }
     }
 }
 

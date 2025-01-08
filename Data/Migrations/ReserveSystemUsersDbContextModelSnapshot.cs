@@ -274,6 +274,8 @@ namespace ReserveSystem.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
+
+
 #pragma warning restore 612, 618
         }
     }

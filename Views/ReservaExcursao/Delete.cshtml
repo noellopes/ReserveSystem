@@ -1,0 +1,43 @@
+﻿@model ReserveSystem.Models.ReservaExcursaoModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<div class="container mt-5">
+    <h1 class="text-danger text-center">Delete</h1>
+    <h3 class="text-center">Are you sure you want to delete this?</h3>
+
+    <div class="card shadow mt-4">
+        <div class="card-header bg-danger text-white">
+            <h4>Excursão Details</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3 font-weight-bold"> @Html.DisplayNameFor(model => model.DataReserva)</dt>
+                <dd class="col-sm-9"> @Html.DisplayFor(model => model.DataReserva)</dd>
+
+                <dt class="col-sm-3 font-weight-bold"> @Html.DisplayNameFor(model => model.NumPessoas)</dt>
+                <dd class="col-sm-9"> @Html.DisplayFor(model => model.NumPessoas)</dd>
+
+                <dt class="col-sm-3 font-weight-bold"> @Html.DisplayNameFor(model => model.ValorTotal)</dt>
+                <dd class="col-sm-9"> @Html.DisplayFor(model => model.ValorTotal)</dd>
+
+                <dt class="col-sm-3 font-weight-bold"> @Html.DisplayNameFor(model => model.Cliente)</dt>
+                <dd class="col-sm-9"> @Html.DisplayFor(model => model.Cliente.Nome)</dd>
+
+                <dt class="col-sm-3 font-weight-bold"> @Html.DisplayNameFor(model => model.Excursao)</dt>
+                <dd class="col-sm-9"> @Html.DisplayFor(model => model.Excursao.Descricao)</dd>
+
+                
+            </dl>
+        </div>
+        <div class="card-footer text-center">
+            <form asp-action="Delete" class="d-inline">
+                <input type="hidden" asp-for="Id" />
+                <button type="submit" class="btn btn-danger me-2">Delete</button>
+            </form>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</div>
