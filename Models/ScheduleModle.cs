@@ -24,7 +24,7 @@ namespace ReserveSystem.Models
         public int TypeOfSheduleId { get; set; }
 
         [Required]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DataType (DataType.Date)]
         public DateOnly Date { get; set; }
 
         [Required]

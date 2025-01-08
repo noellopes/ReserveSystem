@@ -110,7 +110,7 @@ namespace ReserveSystem.Controllers
             ViewData["TypeOfSheduleId"] = new SelectList(_context.TypeOfSchedule, "TypeOfScheduleId", "TypeOfScheduleName");
             ViewData["Date"] = _context.ScheduleModel
             .Where(s => s.ScheduleId == id)
-            .Select(s => s.Date.ToString("dd/MM/yyyy"))
+            .Select(s => s.Date.ToString("yyyy-MM-dd"))
             .FirstOrDefault();
 
 
