@@ -22,7 +22,7 @@ namespace ReserveSystem.Controllers
         // GET: Schedules
         public async Task<IActionResult> Index(string searchString, int page = 1, int pageSize = 3)
         {
-            var ScheduleQuery = _context.ScheduleModel.Include(s => s.Staff).AsQueryable();
+            var ScheduleQuery = _context.ScheduleModel.Include(s => s.Staff).Include(s => s.TypeOfShedule).AsQueryable();
 
             // Filter by searchString if provided
             if (!string.IsNullOrEmpty(searchString))
@@ -74,6 +74,8 @@ namespace ReserveSystem.Controllers
         // GET: Schedules/Create
         public IActionResult Create()
         {
+            ViewData["StaffId"] = new SelectList(_context.StaffModel, "Staff_Id", "Staff_Name");
+            ViewData["TypeOfSheduleId"] = new SelectList(_context.TypeOfSchedule, "TypeOfScheduleId", "TypeOfScheduleName");
             return View();
         }
 
@@ -84,7 +86,7 @@ namespace ReserveSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ScheduleId,StaffId,TypeOfSheduleId,Date,StartShiftTime,EndShiftTime,Presence")] Schedule schedule)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid && schedule.Staff==null && schedule.TypeOfShedule==null)
             {
                 _context.Add(schedule);
                 await _context.SaveChangesAsync();

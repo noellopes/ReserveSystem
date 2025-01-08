@@ -20,6 +20,7 @@ namespace ReserveSystem.Models
         [Required]
         [ForeignKey("TypeOfSheduleId")]
         [Display(Name = "Type of Schedule ID")]
+        public TypeOfSchedule? TypeOfShedule { get; set; }
         public int TypeOfSheduleId { get; set; }
 
         [Required]
