@@ -12,12 +12,12 @@ using static System.Reflection.Metadata.BlobBuilder;
 namespace ReserveSystem.Controllers {
     public class ReservasController : Controller {
         private readonly ReserveSystemContext _context;
-        private readonly ILogger<ReservasController> _logger; // Added for logging
+        
 
 
-        public ReservasController(ReserveSystemContext context, ILogger<ReservasController> logger) {
+        public ReservasController(ReserveSystemContext context ) {
             _context = context;
-            _logger = logger; // Agora, o logger é inicializado corretamente
+        
         }
 
         // GET: Reservas
