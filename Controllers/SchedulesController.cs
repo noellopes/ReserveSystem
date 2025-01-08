@@ -22,20 +22,23 @@ namespace ReserveSystem.Controllers
         // GET: Schedules
         public async Task<IActionResult> Index(string searchString, int page = 1, int pageSize = 3)
         {
-            var ScheduleQuery = _context.ScheduleModel.Include(s => s.Staff).Include(s => s.TypeOfShedule).AsQueryable();
+            ViewBag.SearchString = searchString;
+
+            var ScheduleQuery = _context.ScheduleModel.Include(s => s.Staff).Include(e => e.TypeOfShedule).AsQueryable();
 
             // Filter by searchString if provided
             if (!string.IsNullOrEmpty(searchString))
             {
-                ScheduleQuery = ScheduleQuery.Where(s =>
-                    s.Date.ToString("yyyyMMddHHmmss").Contains(searchString) ||
-                    s.Staff.Staff_Name.Contains(searchString));
+                ScheduleQuery = ScheduleQuery.Where(s => s.Staff.Staff_Name.Contains(searchString) || s.TypeOfShedule.TypeOfScheduleName.Contains(searchString));
+                
+
             }
 
             var totalItems = await ScheduleQuery.CountAsync();
 
             var ScheduleList = await ScheduleQuery
-            .Include(s => s.Staff)
+                                  .Include(s => s.Staff)
+                                  .Include(w => w.TypeOfShedule)
                                   .Skip((page - 1) * pageSize)
                                   .Take(pageSize)
                                   .ToListAsync();
@@ -105,6 +108,11 @@ namespace ReserveSystem.Controllers
 
             ViewData["StaffId"] = new SelectList(_context.StaffModel, "Staff_Id", "Staff_Name");
             ViewData["TypeOfSheduleId"] = new SelectList(_context.TypeOfSchedule, "TypeOfScheduleId", "TypeOfScheduleName");
+            ViewData["Date"] = _context.ScheduleModel
+            .Where(s => s.ScheduleId == id)
+            .Select(s => s.Date.ToString("dd/MM/yyyy"))
+            .FirstOrDefault();
+
 
             if (id == null)
             {
