@@ -52,6 +52,8 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="ScheduleId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+            <a asp-action="Edit" asp-route-id="@Model?.ScheduleId" class="btn btn-primary">Edit</a>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+
     </form>
 </div>

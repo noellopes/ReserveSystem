@@ -95,6 +95,14 @@ namespace ReserveSystem.Controllers
         {
             if (!ModelState.IsValid && schedule.Staff==null && schedule.TypeOfShedule==null)
             {
+                if (!schedule.IsEndShiftTimeValid())
+                {
+                    ViewData["StaffId"] = new SelectList(_context.StaffModel, "Staff_Id", "Staff_Name");
+                    ViewData["TypeOfSheduleId"] = new SelectList(_context.TypeOfSchedule, "TypeOfScheduleId", "TypeOfScheduleName");
+
+                    ModelState.AddModelError("EndShiftTime", "End Shift Time must be greater than Start Shift Time.");
+                    return View(schedule);
+                }
                 _context.Add(schedule);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
