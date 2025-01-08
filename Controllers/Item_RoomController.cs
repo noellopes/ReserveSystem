@@ -166,24 +166,36 @@ namespace ReserveSystem.Controllers
             return View(item_Room);
         }
 
-        // POST: Item_Room/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var item_Room = await _context.Item_Room.FindAsync(id);
-            if (item_Room != null)
-            {
-                _context.Item_Room.Remove(item_Room);
-            }
+        // POST: ItemRoom/Delete/5
+[HttpPost, ActionName("Delete")]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> DeleteConfirmed(int id)
+{
+    var itemRoom = await _context.Item_Room
+        .Include(ir => ir.roomType)
+        .Include(ir => ir.items)
+        .FirstOrDefaultAsync(ir => ir.ItemRoomId == id);
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+    if (itemRoom != null)
+    {
+        _context.Item_Room.Remove(itemRoom);
+        await _context.SaveChangesAsync();
+    }
 
-        private bool Item_RoomExists(int id)
-        {
-            return _context.Item_Room.Any(e => e.ItemRoomId == id);
-        }
+    // Redireciona para a página de confirmação de exclusão
+    return RedirectToAction("DeleteSuccess", new 
+    { 
+        itemName = itemRoom?.items?.Name, 
+    });
+}
+
+// GET: ItemRoom/DeleteSuccess
+public IActionResult DeleteSuccess(string itemName, string roomType)
+{
+    ViewBag.ItemName = itemName;
+    ViewBag.RoomType = roomType;
+    return View();
+}
+
     }
 }
