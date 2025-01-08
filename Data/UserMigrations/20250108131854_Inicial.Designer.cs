@@ -9,11 +9,11 @@ using ReserveSystem.Data.UserMigrations;
 
 #nullable disable
 
-namespace ReserveSystem.Data.UserMigrations
+namespace ReserveSystem.data.UserMigrations
 {
     [DbContext(typeof(ReserveSystemUsersDbContext))]
-    [Migration("20250107114716_UserInitial")]
-    partial class UserInitial
+    [Migration("20250108131854_Inicial")]
+    partial class Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
