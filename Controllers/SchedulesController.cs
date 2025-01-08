@@ -56,17 +56,16 @@ namespace ReserveSystem.Controllers
         // GET: Schedules/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-
-            ViewData["StaffId"] = new SelectList(_context.StaffModel, "Staff_Id", "Staff_Name");
-            ViewData["TypeOfSheduleId"] = new SelectList(_context.TypeOfSchedule, "TypeOfScheduleId", "TypeOfScheduleName");
-
             if (id == null)
             {
                 return NotFound();
             }
 
             var schedule = await _context.ScheduleModel
+                .Include(s => s.Staff)                     // Inclui os dados do Staff
+                .Include(s => s.TypeOfShedule)             // Inclui os dados do TypeOfShedule
                 .FirstOrDefaultAsync(m => m.ScheduleId == id);
+
             if (schedule == null)
             {
                 return NotFound();
@@ -74,6 +73,7 @@ namespace ReserveSystem.Controllers
 
             return View(schedule);
         }
+
 
         // GET: Schedules/Create
         public IActionResult Create()
@@ -164,7 +164,10 @@ namespace ReserveSystem.Controllers
             }
 
             var schedule = await _context.ScheduleModel
+                .Include(s => s.Staff)                     // Inclui os dados do Staff
+                .Include(s => s.TypeOfShedule)             // Inclui os dados do TypeOfShedule
                 .FirstOrDefaultAsync(m => m.ScheduleId == id);
+
             if (schedule == null)
             {
                 return NotFound();
@@ -172,6 +175,7 @@ namespace ReserveSystem.Controllers
 
             return View(schedule);
         }
+
 
         // POST: Schedules/Delete/5
         [HttpPost, ActionName("Delete")]
