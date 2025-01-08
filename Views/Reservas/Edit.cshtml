@@ -1,0 +1,65 @@
+﻿@model ReserveSystem.Models.Reserva
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Reserva</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdReserva" />
+            <div class="form-group">
+                <label asp-for="IdCliente" class="control-label"></label>
+                <select asp-for="IdCliente" class="form-control" asp-items="ViewBag.IdCliente"></select>
+                <span asp-validation-for="IdCliente" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdMesa" class="control-label"></label>
+                <input asp-for="IdMesa" class="form-control" />
+                <span asp-validation-for="IdMesa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumeroPessoas" class="control-label"></label>
+                <input asp-for="NumeroPessoas" class="form-control" />
+                <span asp-validation-for="NumeroPessoas" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataHora" class="control-label"></label>
+                <input asp-for="DataHora" class="form-control" />
+                <span asp-validation-for="DataHora" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Observacao" class="control-label"></label>
+                <input asp-for="Observacao" class="form-control" />
+                <span asp-validation-for="Observacao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdPrato" class="control-label"></label>
+                <select asp-for="IdPrato" class="form-control" asp-items="ViewBag.IdPrato"></select>
+                <span asp-validation-for="IdPrato" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Aprovacao" /> @Html.DisplayNameFor(model => model.Aprovacao)
+                </label>
+            </div>
+            <br>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<br>
+<div>
+    <a asp-action="Index" class="btn btn-dark">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

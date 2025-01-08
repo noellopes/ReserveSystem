@@ -4,13 +4,19 @@ namespace ReserveSystem.Models
 {
     public class Prato
     {
-        public int PratoId { get; set; }
+        [Key]
+        public int IdPrato { get; set; }
 
-        [Required(ErrorMessage = "O nome do Prato é obrigatório"), StringLength(100)]
-        public string Nome { get; set; }
+        [Required]
+        public string PratoNome { get; set; }
 
-        [Required, StringLength(500)]
-        public string Descricao { get; set; }
+        public int Preco { get; set; }
 
+        public DayOfWeek Dia { get; set; }
+
+        public string? Descricao { get; set; }
+
+       
     }
 }
+

@@ -66,6 +66,13 @@
                     <input type="submit" value="Create" class="btn btn-primary" />
                 </div>
             </div>
+            
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
         </form>
     </div>
 </div>

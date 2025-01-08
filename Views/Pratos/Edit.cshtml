@@ -1,0 +1,57 @@
+﻿@model ReserveSystem.Models.Prato
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Prato</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdPrato" />
+            <div class="form-group">
+                <label asp-for="PratoNome" class="control-label"></label>
+                <input asp-for="PratoNome" class="form-control" />
+                <span asp-validation-for="PratoNome" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Preco" class="control-label"></label>
+                <input asp-for="Preco" class="form-control" />
+                <span asp-validation-for="Preco" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Dia" class="control-label"></label>
+                <select asp-for="Dia" class="form-control">
+                    <option value="">Selecione um dia</option>
+                    <option value="Monday">Segunda-feira</option>
+                    <option value="Tuesday">Terça-feira</option>
+                    <option value="Wednesday">Quarta-feira</option>
+                    <option value="Thursday">Quinta-feira</option>
+                    <option value="Friday">Sexta-feira</option>
+                    <option value="Saturday">Sábado</option>
+                    <option value="Sunday">Domingo</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Descricao" class="control-label"></label>
+                <input asp-for="Descricao" class="form-control" />
+                <span asp-validation-for="Descricao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="IndexFun" class="btn btn-dark">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

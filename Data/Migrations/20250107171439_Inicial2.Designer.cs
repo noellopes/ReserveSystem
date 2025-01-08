@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserveSystem.Data;
 
@@ -11,9 +12,11 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    partial class ReserveSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20250107171439_Inicial2")]
+    partial class Inicial2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -168,7 +171,7 @@ namespace ReserveSystem.Data.Migrations
                     b.Property<int>("NumeroLugares")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Reservado")
+                    b.Property<bool?>("Reservado")
                         .HasColumnType("bit");
 
                     b.HasKey("IdMesa");
@@ -235,11 +238,14 @@ namespace ReserveSystem.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<int?>("PratoIdPrato")
+                        .HasColumnType("int");
+
                     b.HasKey("IdReserva");
 
                     b.HasIndex("IdCliente");
 
-                    b.HasIndex("IdPrato");
+                    b.HasIndex("PratoIdPrato");
 
                     b.ToTable("Reserva");
                 });
@@ -309,7 +315,7 @@ namespace ReserveSystem.Data.Migrations
 
                     b.HasOne("ReserveSystem.Models.Prato", "Prato")
                         .WithMany("Reservas")
-                        .HasForeignKey("IdPrato");
+                        .HasForeignKey("PratoIdPrato");
 
                     b.Navigation("Cliente");
 

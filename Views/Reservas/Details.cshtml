@@ -1,0 +1,61 @@
+﻿@model ReserveSystem.Models.Reserva
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Reserva</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IdCliente)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IdCliente)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IdMesa)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IdMesa)
+        </dd>
+
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NumeroPessoas)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NumeroPessoas)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DataHora)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DataHora)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Observacao)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Observacao)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IdPrato)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IdPrato)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Aprovacao)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Aprovacao)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.IdReserva" class="btn btn-warning">Edit</a> |
+    <a asp-action="Index" class="btn btn-dark">Back to List</a>
+</div>
