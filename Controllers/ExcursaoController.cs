@@ -19,14 +19,97 @@ namespace ReserveSystem.Controllers
             _context = context;
         }
 
-        // GET: Excursao
-        public async Task<IActionResult> Index()
-        {
-            var excursao = from e in _context.ExcursaoModel
-						   .Include(e => e.Staff)
-						   select e;
-			return View(excursao);
-        }
+		public async Task<IActionResult> Index(
+			string searchString,
+			string filterBy,
+			string sortOrder,
+			int page = 1,
+			int pageSize = 9)
+		{
+			ViewBag.FilterBy = filterBy ?? "titulo";
+
+			// Parâmetros de ordenação
+			ViewBag.CurrentSort = sortOrder;
+			ViewBag.PrecoSortParm = sortOrder == "Titulo" ? "Titulo_desc" : "Titulo";
+			ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+			// Query inicial
+			
+
+			var query = _context.ExcursaoModel
+							.Include(e => e.Staff)
+						   .AsQueryable();
+
+			
+			if (!string.IsNullOrEmpty(searchString) && !string.IsNullOrEmpty(filterBy))
+			{
+				switch (filterBy.ToLower())
+				{
+					case "titulo":
+						query = query.Where(e => e.Titulo.Contains(searchString));
+						break;
+					
+					case "data":
+						if (DateTime.TryParse(searchString, out DateTime searchDate))
+						{
+							query = query.Where(e => e.Data_Inicio.Date == searchDate.Date);
+						}
+
+						break;
+
+
+				}
+			}
+
+			switch (sortOrder)
+			{
+				
+				case "Date":
+					query = query.OrderBy(e => e.Data_Inicio);
+					break;
+				case "date_desc":
+					query = query.OrderByDescending(e => e.Data_Inicio);
+					break;
+				case "Titulo_desc":
+					query = query.OrderByDescending(e => e.Titulo);
+					break;
+			
+				default:
+					query = query.OrderBy(e => e.Titulo);
+					break;
+
+			}
+
+			// Contagem total para paginação
+			int totalItems = await query.CountAsync();
+
+			// Paginação
+			var excursao = await query
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+				.ToListAsync();
+
+			// Configurando ViewModel
+			var viewModel = new ExcursaoViewModel
+			{
+				Excursao = excursao,
+				PagingInfo = new PagingInfo
+				{
+					CurrentPage = page,
+					PageSize = pageSize,
+					TotalItems = totalItems
+				},
+				SearchTitulo = filterBy == "titulo" ? searchString : string.Empty,
+				SearchData = filterBy == "cliente" ? searchString : string.Empty
+			};
+		
+
+			return View(viewModel);
+		}
+
+
+
+		
 
         // GET: Excursao/Details/5
         public async Task<IActionResult> Details(int? id)
