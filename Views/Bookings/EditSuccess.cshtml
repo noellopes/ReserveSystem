@@ -1,0 +1,18 @@
+﻿@model Booking
+
+@{
+    ViewData["Title"] = "Booking Edited Successfully";
+}
+
+<h1>@ViewBag.Message</h1>
+
+<p><strong>Client ID:</strong> @Model.ClientId</p>
+<p><strong>Check-in Date:</strong> @Model.Checkin_date.ToString("dd/MM/yyyy")</p>
+<p><strong>Check-out Date:</strong> @Model.Checkout_date.ToString("dd/MM/yyyy")</p>
+<p><strong>Booking Date:</strong> @Model.Booking_Date.ToString("dd/MM/yyyy")</p>
+<p><strong>Booking Status:</strong> @(Model.Booked ? "Booked" : "Not Booked")</p>
+<p><strong>Total Number of Persons:</strong> @Model.Total_Persons_Number</p>
+<p><strong>Payment Status:</strong> @(Model.Payment_Status ? "Paid" : "Pending")</p>
+
+<p><a href="Index" class="btn btn-primary">Back to List</a></p>
+

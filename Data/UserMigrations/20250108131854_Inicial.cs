@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace ReserveSystem.Data.UserMigrations
+namespace ReserveSystem.data.UserMigrations
 {
     /// <inheritdoc />
-    public partial class UserInitial : Migration
+    public partial class Inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
