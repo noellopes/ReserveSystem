@@ -20,9 +20,22 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Bookings
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Booking.ToListAsync());
+            // Salva o filtro atual no ViewData para reutilizar na View
+            ViewData["CurrentFilter"] = searchString;
+
+            // Recupera todos os bookings inicialmente
+            var bookings = from b in _context.Booking
+                           select b;
+
+            // Aplica filtro por ClientId ou BookingId se a pesquisa for fornecida
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                bookings = bookings.Where(b => b.ClientId.ToString().Contains(searchString) || b.BookingId.ToString().Contains(searchString));
+            }
+
+            return View(await bookings.ToListAsync());
         }
 
         // GET: Bookings/Details/5

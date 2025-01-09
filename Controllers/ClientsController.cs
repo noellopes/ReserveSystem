@@ -20,9 +20,22 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Clients
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Client.ToListAsync());
+            // Salva o filtro atual no ViewData para reutilizar na View
+            ViewData["CurrentFilter"] = searchString;
+
+            // Recupera todos os Clients inicialmente
+            var clients = from c in _context.Client
+                          select c;
+
+            // Filtra pelo Client Name se o valor de pesquisa for fornecido
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                clients = clients.Where(c => c.Client_Name.Contains(searchString));
+            }
+
+            return View(await clients.ToListAsync());
         }
 
         // GET: Clients/Details/5
