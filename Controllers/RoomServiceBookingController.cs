@@ -80,26 +80,25 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: RoomServiceBooking/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, int page = 1, int roomServiceId = 0, int roomId = 0)
         {
-            if (id == null)
-            {
-                return RedirectToAction(nameof(Error));
-            }
+            if (id == null) return RedirectToAction(nameof(Error));
 
-            var roomServiceBooking = await _context.RoomServiceBooking
+            var booking = await _context.RoomServiceBooking
                 .Include(b => b.RoomService)
                 .Include(b => b.Staff)
                 .Include(b => b.Client)
                 .Include(b => b.Room)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-            if (roomServiceBooking == null)
-            {
-                return RedirectToAction(nameof(Error));
-            }
+            if (booking == null) return RedirectToAction(nameof(Error));
 
-            return View(roomServiceBooking);
+            // Preserve state in ViewData
+            ViewData["CurrentPage"] = page;
+            ViewData["RoomServiceId"] = roomServiceId;
+            ViewData["RoomId"] = roomId;
+
+            return View(booking);
         }
 
         // GET: RoomServiceBooking/Create
@@ -152,14 +151,10 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: RoomServiceBooking/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int page = 1, int selectedRoomServiceId = 0, int selectedRoomId = 0)
         {
-            if (id == null)
-            {
-                return RedirectToAction(nameof(Error));
-            }
+            if (id == null) return RedirectToAction(nameof(Error));
 
-            // Include related entities when loading the booking
             var roomServiceBooking = await _context.RoomServiceBooking
                 .Include(b => b.RoomService)
                 .Include(b => b.Staff)
@@ -167,22 +162,25 @@ namespace ReserveSystem.Controllers
                 .Include(b => b.Room)
                 .FirstOrDefaultAsync(b => b.Id == id);
 
-            if (roomServiceBooking == null)
-            {
-                return RedirectToAction(nameof(Error));
-            }
+            if (roomServiceBooking == null) return RedirectToAction(nameof(Error));
 
-            // Populate select lists
+            // Preserve state in ViewData
+            ViewData["CurrentPage"] = page;
+            ViewData["SelectedRoomServiceId"] = selectedRoomServiceId;  
+            ViewData["SelectedRoomId"] = selectedRoomId;
+
             await PopulateSelectLists();
-
-            // Pass the existing data to the view
+            
+            // Set form values
             ViewBag.DateTime = roomServiceBooking.DateTime;
             ViewBag.ClientFeedback = roomServiceBooking.ClientFeedback;
             ViewBag.Price = roomServiceBooking.ValueToPay;
             ViewBag.BookingStatus = roomServiceBooking.BookedState;
             ViewBag.StaffConfirmation = roomServiceBooking.StaffConfirmation;
             ViewBag.PaymentStatus = roomServiceBooking.PaymentDone;
-
+            ViewBag.StartDate = roomServiceBooking.StartDate;
+            ViewBag.EndDate = roomServiceBooking.EndDate;
+            
             return View(roomServiceBooking);
         }
 
@@ -293,6 +291,35 @@ namespace ReserveSystem.Controllers
             return RedirectToAction(nameof(Error));
         }
 
+        // POST: RoomServiceBooking/BulkDelete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BulkDelete([FromBody] BulkDeleteModel model)
+        {
+            if (model?.Ids == null || !model.Ids.Any())
+                return BadRequest();
+
+            try
+            {
+                var bookingsToDelete = await _context.RoomServiceBooking
+                    .Where(b => model.Ids.Contains(b.Id))
+                    .ToListAsync();
+
+                if (bookingsToDelete.Any())
+                {
+                    _context.RoomServiceBooking.RemoveRange(bookingsToDelete);
+                    await _context.SaveChangesAsync();
+                    return Ok();
+                }
+
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
+
         private bool RoomServiceBookingExists(int id)
         {
             return _context.RoomServiceBooking.Any(e => e.Id == id);
@@ -301,6 +328,7 @@ namespace ReserveSystem.Controllers
         // Helper method to populate select lists
         private async Task PopulateSelectLists()
         {
+            // Create select lists
             ViewBag.RoomServices = new SelectList(await _context.RoomService
                 .Where(rs => rs.ServiceActive)
                 .OrderBy(rs => rs.Name)
@@ -356,5 +384,10 @@ namespace ReserveSystem.Controllers
 
             return View(error);
         }
+    }
+
+    public class BulkDeleteModel
+    {
+        public required int[] Ids { get; set; }
     }
 }

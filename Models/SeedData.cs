@@ -12,9 +12,13 @@ namespace ReserveSystem.Models
     public static class SeedData
     {
         internal static void Populate(ReserveSystemContext? db) {
-            if (db == null) return;
-            db.Database.EnsureCreated();
-
+            // Check if database is already populated, if so, skip
+            if (db != null) return;
+            
+            // Ensure database is created, if not, create it
+            db!.Database.EnsureCreated();
+            
+            // Populate database with sample data
             PopulateJobs(db);
             PopulateStaffs(db);
             PopulateSchedules(db);
@@ -350,12 +354,12 @@ namespace ReserveSystem.Models
                     service.ServiceLimitHours : 
                     random.Next(1, 4);
 
-                var serviceStartDate = DateOnly.FromDateTime(bookingDate);
+                var serviceStartDate = bookingDate;
                 var serviceEndDate = service.Name.Contains("Deep") || service.Name.Contains("VIP") ? 
-                    serviceStartDate.AddDays(random.Next(2, 4)) : 
-                    serviceStartDate.AddDays(random.Next(0, 2));
+                    bookingDate.AddDays(random.Next(2, 4)) : 
+                    bookingDate.AddDays(random.Next(0, 2));
 
-                var isInPast = serviceStartDate < DateOnly.FromDateTime(now);
+                var isInPast = serviceStartDate < now;
                 var isHighPriority = service.Price > 50;
                 var isConfirmed = isInPast || (isHighPriority ? random.Next(100) < 90 : random.Next(100) < 70);
                 var isPaid = isInPast ? random.Next(100) < 95 : (isHighPriority ? random.Next(100) < 80 : random.Next(100) < 60);
@@ -367,8 +371,8 @@ namespace ReserveSystem.Models
                 var basePrice = service.Price;
                 var priceMultiplier = 1.0m;
                 
-                if (serviceEndDate.DayNumber - serviceStartDate.DayNumber > 0)
-                    priceMultiplier += 0.1m * (serviceEndDate.DayNumber - serviceStartDate.DayNumber);
+                if (serviceEndDate > serviceStartDate)
+                    priceMultiplier += 0.1m * (decimal)(serviceEndDate - serviceStartDate).TotalHours;
                 if (isHighPriority)
                     priceMultiplier += 0.15m;
                 if (room.Type.Contains("Suite"))

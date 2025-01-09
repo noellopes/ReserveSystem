@@ -24,17 +24,23 @@ namespace ReserveSystem.Models
         [Required, ForeignKey("RoomId"), Display(Name = "Room ID")]
         public int RoomId { get; set; }
 
-        [DataType(DataType.DateTime), Display(Name = "Reservation Date"), DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.DateTime)]
+        [Display(Name = "Reservation Date")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}", ApplyFormatInEditMode = true)]
         [Column(TypeName = "datetime")]
         public DateTime DateTime { get; set; }
 
-        [DataType(DataType.Date), Display(Name = "Start Date"), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Column(TypeName = "date")]
-        public DateOnly StartDate { get; set; }
+        [DataType(DataType.DateTime)]
+        [Display(Name = "Start Date")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}", ApplyFormatInEditMode = true)]
+        [Column(TypeName = "datetime")]
+        public DateTime StartDate { get; set; }
 
-        [DataType(DataType.Date), Display(Name = "End Date"), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Column(TypeName = "date")]
-        public DateOnly EndDate { get; set; }
+        [DataType(DataType.DateTime)]
+        [Display(Name = "End Date")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}", ApplyFormatInEditMode = true)]
+        [Column(TypeName = "datetime")]
+        public DateTime EndDate { get; set; }
         // TODO: Add Cancel date and a new table for the cancellation history
 
         [Display(Name = "Service Status")]
