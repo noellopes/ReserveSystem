@@ -48,7 +48,7 @@
         [Display(Name = "StartFunctionsDate")]
         public DateTime StartFunctionsDate { get; set; }
 
-        [Required]
+        
         [Display(Name = "EndFunctionsDate")]
         public DateTime EndFunctionsDate { get; set; }
         public List<string>? DrivingLicenseGrades { get; set; }

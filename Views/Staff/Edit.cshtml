@@ -60,7 +60,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="StartFunctionsDate" class="control-label">StartFunctionsDate</label>
-                        <input asp-for="StartFunctionsDate" class="form-control" type="date" value="@Model.StartFunctionsDate.ToString("dd/MM/yyyy")" />
+                        <input asp-for="StartFunctionsDate" class="form-control" type="date" />
                         <span asp-validation-for="BirthDate" class="text-danger"></span>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="EndFunctionsDate" class="control-label">EndFunctionsDate</label>
-                        <input asp-for="EndFunctionsDate" class="form-control" type="date" value="@Model.EndFunctionsDate.ToString("dd/MM/yyyy")" />
+                        <input asp-for="EndFunctionsDate" class="form-control" type="date" />
                         <span asp-validation-for="BirthDate" class="text-danger"></span>
                     </div>
                     <div class="form-group">
