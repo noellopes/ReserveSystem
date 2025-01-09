@@ -38,33 +38,5 @@ namespace ReserveSystem.Models
         [Display(Name = "Descrição do Transporte")]
         [Required(ErrorMessage = "A descrição do Transporte é obrigatória")]
         public string DescricaoTipoTransporte { get; set; }
-         /*{
-             get
-             {
-                 return TipoTransporte?.ToLower() switch
-                 {
-                     "autocarro" => "Transporte Pesado de Passageiros",
-                     "carrinha" => "Transporte alternativo de passageiros ou turismo",
-                     _ => "Tipo de transporte desconhecido"
-                 };
-             }
-             set
-             {
-                 if (value == "Transporte Pesado de Passageiros")
-                 {
-                     TipoTransporte = "Autocarro";
-                 }
-                 else if (value == "Transporte alternativo de passageiros ou turismo")
-                 {
-                     TipoTransporte = "Carrinha";
-                 }
-                 else
-                 {
-                     TipoTransporte = "Outro";
-                 }
-             }
         }
-    
-    }
-    */}
 }

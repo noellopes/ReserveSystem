@@ -20,28 +20,64 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Transportes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString, int page = 1, int pageSize = 10)
         {
+            ViewData["CurrentSort"] = sortOrder ?? "";
+            ViewData["SearchString"] = searchString;
 
-            return View(await _context.Transporte.ToListAsync());
-        }
+            ViewData["MatriculaSortParm"] = string.IsNullOrEmpty(sortOrder) || sortOrder == "matricula_asc" ? "matricula_desc" : "matricula_asc";
+            ViewData["TipoSortParm"] = sortOrder == "tipo_asc" ? "tipo_desc" : "tipo_asc";
+            ViewData["AnoSortParm"] = sortOrder == "ano_asc" ? "ano_desc" : "ano_asc";
 
-        // GET: Transportes/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
+            var transportesQuery = _context.Transporte.AsQueryable();
+
+            // Filtro de busca
+            if (!string.IsNullOrEmpty(searchString))
             {
-                return NotFound();
+                transportesQuery = transportesQuery.Where(t =>
+                    t.Matricula.Contains(searchString) ||
+                    t.TipoTransporte.Contains(searchString) ||
+                    t.DescricaoTipoTransporte.Contains(searchString));
             }
 
-            var transporte = await _context.Transporte
-                .FirstOrDefaultAsync(m => m.TransporteId == id);
-            if (transporte == null)
+            switch (sortOrder)
             {
-                return NotFound();
+                case "matricula_desc":
+                    transportesQuery = transportesQuery.OrderByDescending(t => t.Matricula);
+                    break;
+                case "tipo_asc":
+                    transportesQuery = transportesQuery.OrderBy(t => t.TipoTransporte);
+                    break;
+                case "tipo_desc":
+                    transportesQuery = transportesQuery.OrderByDescending(t => t.TipoTransporte);
+                    break;
+                case "ano_asc":
+                    transportesQuery = transportesQuery.OrderBy(t => t.AnoFabricacao);
+                    break;
+                case "ano_desc":
+                    transportesQuery = transportesQuery.OrderByDescending(t => t.AnoFabricacao);
+                    break;
+                default:
+                    transportesQuery = transportesQuery.OrderBy(t => t.Matricula);
+                    break;
             }
 
-            return View(transporte);
+            int totalItems = await transportesQuery.CountAsync();
+            var transportes = await transportesQuery
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var pageInfo = new PageInfo
+            {
+                TotalItems = totalItems,
+                PageSize = pageSize,
+                CurrentPage = page
+            };
+
+            ViewBag.PageInfo = pageInfo;
+
+            return View(transportes);
         }
 
         // GET: Transportes/Create

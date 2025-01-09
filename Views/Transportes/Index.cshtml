@@ -7,6 +7,12 @@
 <h1 class="text-center my-4">Index</h1>
 
 <p>
+    <form asp-action="Index" method="get" class="d-flex mb-4">
+        <input type="text" name="searchString" value="@ViewData["SearchString"]" class="form-control me-2" placeholder="Pesquisar...">
+        <button type="submit" class="btn btn-primary">Pesquisar</button>
+    </form>
+</p>
+<p>
     <a asp-action="Create" class="btn btn-primary">Criar novo Transporte</a>
 </p>
 
@@ -14,11 +20,17 @@
     <table class="table table-striped table-hover text-center align-middle">
         <thead class="table-dark">
             <tr>
-                <th>@Html.DisplayNameFor(model => model.Matricula)</th>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["MatriculaSortParm"]" asp-route-searchString="@ViewData["SearchString"]">Matrícula</a>
+                </th>
                 <th>@Html.DisplayNameFor(model => model.Capacidade)</th>
-                <th>@Html.DisplayNameFor(model => model.TipoTransporte)</th>
-                <th>@Html.DisplayNameFor(model => model.AnoFabricacao)</th>
-                <th>Descrição do Transporte</th> 
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["TipoSortParm"]" asp-route-searchString="@ViewData["SearchString"]">Tipo de Transporte</a>
+                </th>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["AnoSortParm"]" asp-route-searchString="@ViewData["SearchString"]">Ano de Fabricação</a>
+                </th>
+                <th>Descrição do Transporte</th>
                 <th>Ações</th>
             </tr>
         </thead>
@@ -40,4 +52,27 @@
             }
         </tbody>
     </table>
+</div>
+<div class="d-flex justify-content-center mt-4">
+    @if (ViewBag.PageInfo != null)
+    {
+        var pageInfo = (ReserveSystem.Models.PageInfo)ViewBag.PageInfo;
+
+        <nav>
+            <ul class="pagination">
+                <li class="page-item @(pageInfo.CurrentPage == 1 ? "disabled" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-page="@(pageInfo.CurrentPage - 1)" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-searchString="@ViewData["SearchString"]">Anterior</a>
+                </li>
+                @for (int i = pageInfo.FirstPageShow; i <= pageInfo.LastPageShow; i++)
+                {
+                    <li class="page-item @(i == pageInfo.CurrentPage ? "active" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-searchString="@ViewData["SearchString"]">@i</a>
+                    </li>
+                }
+                <li class="page-item @(pageInfo.CurrentPage == pageInfo.TotalPages ? "disabled" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-page="@(pageInfo.CurrentPage + 1)" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-searchString="@ViewData["SearchString"]">Próxima</a>
+                </li>
+            </ul>
+        </nav>
+    }
 </div>
