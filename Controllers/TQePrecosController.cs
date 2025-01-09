@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace ReserveSystem.Controllers
 {
@@ -22,10 +23,31 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: TQePrecos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1, string searchRoomType = "")
         {
-            var roomTypes = await _context.TQePreco.ToListAsync();
-            return View(roomTypes);
+            var rType = from rt in _context.TQePreco select rt;
+            if (searchRoomType != "")
+            {
+                rType = from rt in rType where rt.type.Contains(searchRoomType) select rt;
+            }
+            var model = new TQePrecosViewModel();
+
+            model.TQePrecosPageInfos = new TQePrecosPageInfo 
+            {
+                CurrentPage = page,
+                TotalRoomTypes = await rType.CountAsync(),
+            };
+
+            model.TQePrecos = await rType
+                   .OrderBy(rt => rt.type)
+                   .Skip((model.TQePrecosPageInfos.CurrentPage - 1) * model.TQePrecosPageInfos.PageSize)
+                   .Take(model.TQePrecosPageInfos.PageSize)
+                   .ToListAsync();
+
+            model.SearchRoomType = searchRoomType;
+
+            //var roomTypes = await _context.TQePreco.ToListAsync();
+            return View(model);
         }
 
 
