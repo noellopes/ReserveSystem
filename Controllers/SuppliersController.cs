@@ -82,9 +82,6 @@ namespace ReserveSystem.Controllers
             {
                 _context.Add(supplier);
                 await _context.SaveChangesAsync();
-
-                TempData["SuccessMessage"] = "Fornecedor adicionado com sucesso!"; // Mensagem de sucesso
-
                 return RedirectToAction(nameof(Index));
             }
             return View(supplier);
@@ -124,8 +121,6 @@ namespace ReserveSystem.Controllers
                 {
                     _context.Update(supplier);
                     await _context.SaveChangesAsync();
-
-                    TempData["SuccessMessage"] = "Fornecedor editado com sucesso!"; // Mensagem de sucesso
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -173,9 +168,6 @@ namespace ReserveSystem.Controllers
             }
 
             await _context.SaveChangesAsync();
-
-            TempData["SuccessMessage"] = "Fornecedor excluido com sucesso!"; // Mensagem de sucesso
-
             return RedirectToAction(nameof(Index));
         }
 
