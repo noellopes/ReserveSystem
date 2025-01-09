@@ -30,14 +30,12 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: PersonalTrainer/Details/5
-        public async Task<IActionResult> Details(int? id)
+        [HttpGet]
+        public IActionResult Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var trainer = _context.PersonalTrainer
+                                  .FirstOrDefault(t => t.Id == id);
 
-            var trainer = await _context.PersonalTrainer.FirstOrDefaultAsync(t => t.Id == id);
             if (trainer == null)
             {
                 return NotFound();
@@ -62,21 +60,21 @@ namespace ReserveSystem.Controllers
             {
                 _context.Add(trainer);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                TempData["messageToast"] = "Personal Trainer criado com sucesso!";
+
+                return RedirectToAction(nameof(Index));  // Redireciona para a Index após a criação
             }
 
             return View(trainer);
         }
 
         // GET: PersonalTrainer/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        [HttpGet]
+        public IActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var trainer = _context.PersonalTrainer
+                                  .FirstOrDefault(t => t.Id == id);
 
-            var trainer = await _context.PersonalTrainer.FindAsync(id);
             if (trainer == null)
             {
                 return NotFound();
@@ -85,39 +83,22 @@ namespace ReserveSystem.Controllers
             return View(trainer);
         }
 
-        // POST: PersonalTrainer/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, PersonalTrainerModel trainer)
+        public IActionResult Edit(PersonalTrainerModel model, string[] specialties)
         {
-            if (id != trainer.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(trainer);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TrainerExists(trainer.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                // Atualiza as especialidades do Personal Trainer
+                model.Specialties = specialties.Select(s => (TrainerSpecialty)Enum.Parse(typeof(TrainerSpecialty), s)).ToList();
+
+                _context.Update(model);
+                _context.SaveChanges();
 
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(trainer);
+            return View(model);
         }
 
         // GET: PersonalTrainer/Delete/5

@@ -54,7 +54,7 @@ namespace ReserveSystem.Controllers
             {
                 return NotFound("Horário não encontrado.");
             }
-
+            TempData["messageToast"] = "Horário atualizado com sucesso";
             return View(horario);
         }
 

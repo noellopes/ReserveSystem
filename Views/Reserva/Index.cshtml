@@ -1,41 +1,59 @@
 ﻿@model IEnumerable<ReserveSystem.Models.ReservaModel>
 
-
 @{
     ViewData["Title"] = "Agendamentos de Treino";
 }
 
 <h1 class="text-center my-4">Agendamentos de Treino</h1>
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Dia</th>
-            <th>Horário</th>
-            <th>Personal Trainer</th>
-            <th>Cliente</th>
-            <th>Ações</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                    <!-- Exibe apenas o dia formatado -->
-                    <td>@item.ReservationDate.ToString("dd/MM/yyyy")</td>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Dia</th>
+                            <th>Horário</th>
+                            <th>Personal Trainer</th>
+                            <th>Cliente</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <!-- Exibe apenas o dia formatado -->
+                                <td>@item.ReservationDate.ToString("dd/MM/yyyy")</td>
 
-                    <!-- Exibe o horário de início e término -->
-                    <td>@item.StartTime.ToString(@"hh\:mm") - @item.EndTime.ToString(@"hh\:mm")</td>
-                <td>@item.PersonalTrainer.Name</td>
-                <td>@item.Client.Name</td>
-                <td>
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">
-                        <i class="fa fa-trash-alt"></i> Eliminar
-                    </a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                                <!-- Exibe o horário de início e término -->
+                                <td>@item.StartTime.ToString(@"hh\:mm") - @item.EndTime.ToString(@"hh\:mm")</td>
 
-<a asp-action="Create" class="btn btn-primary">Adicionar Novo Agendamento</a>
+                                <!-- Exibe o nome do Personal Trainer ou "Não atribuído" -->
+                                <td>@(item.PersonalTrainer?.Name ?? "Não atribuído")</td>
+
+                                <!-- Exibe o nome do Cliente ou "Não atribuído" -->
+                                <td>@(item.Client?.Name ?? "Não atribuído")</td>
+
+                                <td>
+                                    <!-- Botão de eliminar com confirmação -->
+                                    <form asp-action="DeleteConfirmed" method="post" asp-route-id="@item.Id" class="d-inline-block">
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir esta reserva?');">
+                                            <i class="fa fa-trash-alt"></i> Eliminar
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botão para adicionar um novo agendamento -->
+    <div class="text-center my-4">
+        <a asp-action="Create" class="btn btn-primary">Adicionar Novo Agendamento</a>
+    </div>
+</div>

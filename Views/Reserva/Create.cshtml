@@ -7,7 +7,7 @@
 
 <h1 class="text-center my-4">Adicionar Nova Reserva</h1>
 
-<div class="container">
+<div class="container my-8">
     <form asp-action="Create" method="post">
         @Html.AntiForgeryToken()
 
@@ -21,15 +21,23 @@
             <span asp-validation-for="ClientId" class="text-danger"></span>
         </div>
 
-        <!-- Dropdown de Personal Trainers -->
+        <!-- Dropdown de Especialidades de Treino -->
         <div class="form-group">
-            <label for="PersonalTrainerId" class="control-label">Personal Trainer (Opcional)</label>
-            <select asp-for="PersonalTrainerId" class="form-control"
-                    asp-items="@(new SelectList(ViewData["PersonalTrainers"] as List<ReserveSystem.Models.PersonalTrainerModel>, "Id", "Name"))">
-                <option value="">Nenhum</option>
+            <label for="Specialty" class="control-label">Especialidade de Treino</label>
+            <select id="Specialty" class="form-control" onchange="loadPersonalTrainersBySpecialty()">
+                <option value="">Selecione uma Especialidade</option>
+                <option value="MUSCLE">Musculação</option>
+                <option value="YOGA">Yoga</option>
+                <option value="CROSSFIT">Crossfit</option>
             </select>
-            <span asp-validation-for="PersonalTrainerId" class="text-danger"></span>
+            <span class="text-danger" id="specialtyError"></span>
         </div>
+
+        <!-- Section para Personal Trainers -->
+        <section id="personalTrainersSection" style="display: none; max-height: 500px; overflow-y: auto; margin-top: 20px;">
+            <div id="personalTrainersCards" class="d-flex flex-wrap gap-3"></div>
+            <p id="noPersonalTrainers" style="display: none;" class="text-center text-muted">Ops, não temos nenhum Personal Trainer com essa especialidade de momento.</p>
+        </section>
 
         <!-- Dropdown de Espaço -->
         <div class="form-group">
@@ -49,21 +57,18 @@
         </div>
 
         <!-- Detalhes do Espaço e Horário -->
-        <section id="spaceDetails" style="display: none; margin-top: 20px;">
+        <section id="spaceDetails" style="display: none; margin-top: 20px; margin-bottom: 40px">
             <h1 id="spaceName"></h1>
             <p id="spaceHours"></p>
-
-            <!-- Campos de Horário (Apenas exibidos se o espaço estiver aberto) -->
-            <div id="timeInputs" style="display: none;">
+            <div id="timeInputs" class="flex" style="display: flex; gap: 10px; justify-content: space-between;">
                 <div class="form-group">
                     <label for="StartTime" class="control-label">Horário de Início</label>
-                    <input id="StartTime" name="StartTime" type="text" class="form-control time-picker" />
+                    <input id="StartTime" name="StartTime" type="text" class="form-control" />
                     <span asp-validation-for="StartTime" class="text-danger"></span>
                 </div>
-
                 <div class="form-group">
                     <label for="EndTime" class="control-label">Horário de Término</label>
-                    <input id="EndTime" name="EndTime" type="text" class="form-control time-picker" />
+                    <input id="EndTime" name="EndTime" type="text" class="form-control" />
                     <span asp-validation-for="EndTime" class="text-danger"></span>
                 </div>
             </div>
@@ -73,77 +78,118 @@
         <button type="submit" class="btn btn-success">Salvar</button>
     </form>
 
-    <!-- Scripts de Validação -->
     @section Scripts {
         @{
             await Html.RenderPartialAsync("_ValidationScriptsPartial");
         }
-    }
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Inicializa o datepicker
-            flatpickr('#ReservationDate', {
-                dateFormat: "Y-m-d",
-                minDate: "today"
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                flatpickr('#ReservationDate', {
+                    dateFormat: "Y-m-d",
+                    minDate: "today"
+                });
+                flatpickr('#StartTime', { enableTime: true, noCalendar: true, dateFormat: "H:i", time_24hr: true });
+                flatpickr('#EndTime', { enableTime: true, noCalendar: true, dateFormat: "H:i", time_24hr: true });
             });
 
-            // Inicializa timepickers
-            flatpickr('#StartTime', { enableTime: true, noCalendar: true, dateFormat: "H:i", time_24hr: true });
-            flatpickr('#EndTime', { enableTime: true, noCalendar: true, dateFormat: "H:i", time_24hr: true });
-        });
+            function loadPersonalTrainersBySpecialty() {
+                const specialty = document.querySelector('#Specialty').value;
+                const section = document.getElementById('personalTrainersSection');
+                const cardsContainer = document.getElementById('personalTrainersCards');
+                const noPTMessage = document.getElementById('noPersonalTrainers');
 
-        function updateSpaceDetails() {
-            const spaceId = document.querySelector('#SpaceId').value;
-            const date = document.querySelector('#ReservationDate').value;
+                if (!specialty) {
+                    section.style.display = 'none';
+                    cardsContainer.innerHTML = '';
+                    noPTMessage.style.display = 'none';
+                    return;
+                }
 
-            if (!spaceId || !date) {
-                document.getElementById('spaceDetails').style.display = 'none';
-                return;
+                fetch(`/Reserva/GetPersonalTrainersBySpecialty?specialties=${specialty}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        cardsContainer.innerHTML = '';
+                        if (data && Array.isArray(data) && data.length > 0) {
+                            noPTMessage.style.display = 'none';
+                            data.forEach(pt => {
+                                const card = document.createElement('div');
+                                card.className = 'card personal-trainer-card';
+                                card.style = 'width: 18rem; padding: 15px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);';
+                                card.innerHTML = `
+                                                <label style="cursor: pointer; display: block;">
+                                                    <input type="radio" name="SelectedPersonalTrainerId" value="${pt.id}" style="display: none;" onchange="highlightSelectedCard(this)" />
+                                                    <div>
+                                                        <h5>${pt.name}</h5>
+                                                        <p>Email: ${pt.email}</p>
+                                                        <p>Especialidades: ${pt.specialties.join(', ')}</p>
+                                                    </div>
+                                                </label>
+                                            `;
+                                cardsContainer.appendChild(card);
+                            });
+                        } else {
+                            noPTMessage.style.display = 'block';
+                        }
+                        section.style.display = 'block';
+                    })
+                    .catch(error => {
+                        console.error("Erro ao buscar os Personal Trainers:", error);
+                        alert("Erro ao buscar os Personal Trainers. Tente novamente.");
+                    });
             }
 
-            fetch(`/Reserva/GetSpaceHours?spaceId=${spaceId}&date=${date}`)
-                .then(response => response.json())
-                .then(data => {
-                    const spaceDetails = document.getElementById('spaceDetails');
-                    const timeInputs = document.getElementById('timeInputs');
-                    const spaceName = document.getElementById('spaceName');
-                    const spaceHours = document.getElementById('spaceHours');
-
-                    // Mostra o nome do espaço
-                    spaceName.innerText = data.spaceName;
-
-                    if (data.isClosed) {
-                        // Se o espaço estiver fechado
-                        spaceHours.innerText = "Esse dia está fechado.";
-                        timeInputs.style.display = 'none';
-                    } else {
-                        // Mostra o horário de abertura e fechamento
-                        spaceHours.innerText = `${data.dayOfWeek}: ${data.openTime} - ${data.closeTime}`;
-                        timeInputs.style.display = 'block';
-
-                        // Atualiza as restrições dos timepickers
-                        const startTimePicker = document.getElementById('StartTime')._flatpickr;
-                        const endTimePicker = document.getElementById('EndTime')._flatpickr;
-
-                        startTimePicker.set('minTime', data.openTime);
-                        startTimePicker.set('maxTime', data.closeTime);
-
-                        endTimePicker.set('minTime', data.openTime);
-                        endTimePicker.set('maxTime', data.closeTime);
-                    }
-
-                    spaceDetails.style.display = 'block';
-                })
-                .catch(error => {
-                    console.error("Erro ao buscar os horários do espaço:", error);
-                    alert("Erro ao buscar os horários do espaço. Tente novamente.");
+            function highlightSelectedCard(radio) {
+                const cards = document.querySelectorAll('.personal-trainer-card');
+                cards.forEach(card => {
+                    card.style.border = '1px solid #ccc';
                 });
-        }
-    </script>
+                const selectedCard = radio.closest('.personal-trainer-card');
+                selectedCard.style.border = '2px solid #007bff';
+            }
 
+            function updateSpaceDetails() {
+                const spaceId = document.querySelector('#SpaceId').value;
+                const date = document.querySelector('#ReservationDate').value;
 
+                if (!spaceId || !date) {
+                    document.getElementById('spaceDetails').style.display = 'none';
+                    return;
+                }
 
+                fetch(`/Reserva/GetSpaceHours?spaceId=${spaceId}&date=${date}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const spaceDetails = document.getElementById('spaceDetails');
+                        const timeInputs = document.getElementById('timeInputs');
+                        const spaceName = document.getElementById('spaceName');
+                        const spaceHours = document.getElementById('spaceHours');
 
+                        spaceName.innerText = data.spaceName;
 
+                        if (data.isClosed) {
+                            spaceHours.innerText = "Esse dia está fechado.";
+                            timeInputs.style.display = 'none';
+                        } else {
+                            spaceHours.innerText = `${data.dayOfWeek}: ${data.openTime} - ${data.closeTime}`;
+                            timeInputs.style.display = 'block';
+
+                            const startTimePicker = document.getElementById('StartTime')._flatpickr;
+                            const endTimePicker = document.getElementById('EndTime')._flatpickr;
+
+                            startTimePicker.set('minTime', data.openTime);
+                            startTimePicker.set('maxTime', data.closeTime);
+
+                            endTimePicker.set('minTime', data.openTime);
+                            endTimePicker.set('maxTime', data.closeTime);
+                        }
+
+                        spaceDetails.style.display = 'block';
+                    })
+                    .catch(error => {
+                        console.error("Erro ao buscar os horários do espaço:", error);
+                        alert("Erro ao buscar os horários do espaço. Tente novamente.");
+                    });
+            }
+        </script>
+    }
 </div>

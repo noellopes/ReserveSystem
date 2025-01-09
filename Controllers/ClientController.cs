@@ -61,6 +61,7 @@ namespace ReserveSystem.Controllers
             {
                 _context.Add(cliente);
                 await _context.SaveChangesAsync();
+                TempData["messageToast"] = "Cliente criado com sucesso!";
                 return RedirectToAction(nameof(Index));
             }
 

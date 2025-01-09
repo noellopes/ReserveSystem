@@ -1,16 +1,18 @@
 ﻿@model ReserveSystem.Models.ClientModel
 
 @{
-    ViewData["Title"] = "Excluir Cliente";
+    ViewData["Title"] = "Eliminar Cliente";
 }
 
-<h1 class="text-center my-4 text-danger">Excluir Cliente</h1>
+<!-- Título da Página -->
+<div class="container my-5">
+    <h1 class="text-center my-4 text-danger fw-bold" style="font-family: 'Poppins', sans-serif;">Excluir Cliente</h1>
 
-<div class="container">
+    <!-- Mensagem de Confirmação -->
     <p class="text-center text-danger">Tem certeza de que deseja excluir este Cliente?</p>
 
-    <!-- Detalhes do Personal Trainer -->
-    <div class="card mb-4">
+    <!-- Detalhes do Cliente -->
+    <div class="card mb-4 shadow-sm">
         <div class="card-body">
             <h5 class="card-title">@Model.Name</h5>
             <p class="card-text"><strong>Email:</strong> @Model.Email</p>
@@ -18,14 +20,15 @@
         </div>
     </div>
 
-    <!-- Formulário para exclusão -->
+    <!-- Formulário para Exclusão -->
     <form asp-action="Delete" method="post">
         @Html.AntiForgeryToken()
         <input type="hidden" asp-for="Id" />
 
-        <div class="text-center">
-            <button type="submit" class="btn btn-danger">Excluir</button>
-            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        <!-- Botões de Ação -->
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-danger btn-lg rounded-pill px-5 shadow">Excluir</button>
+            <a asp-action="Index" class="btn btn-secondary btn-lg rounded-pill px-5 shadow">Cancelar</a>
         </div>
     </form>
 </div>

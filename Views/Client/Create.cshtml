@@ -1,15 +1,14 @@
-﻿﻿
-@model ReserveSystem.Models.ClientModel
+﻿@model ReserveSystem.Models.ClientModel
 
 @{
     ViewData["Title"] = "Adicionar Cliente";
 }
 
 <!-- Título da Página -->
-<h1 class="text-center my-4">Adicionar Novo Cliente</h1>
+<div class="container my-5">
+    <h1 class="text-center my-4 text-dark fw-bold" style="font-family: 'Poppins', sans-serif;">Adicionar Novo Cliente</h1>
 
-<!-- Formulário de Criação -->
-<div class="container">
+    <!-- Formulário de Criação -->
     <form asp-action="Create" method="post">
         @Html.AntiForgeryToken()
 
@@ -18,35 +17,42 @@
 
         <!-- Campo Nome -->
         <div class="form-group">
-            <label asp-for="Name" class="control-label"></label>
-            <input asp-for="Name" class="form-control" />
+            <label asp-for="Name" class="control-label">Nome</label>
+            <input asp-for="Name" class="form-control" placeholder="Digite o nome do cliente" />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
         <!-- Campo Email -->
         <div class="form-group">
-            <label asp-for="Email" class="control-label"></label>
-            <input asp-for="Email" class="form-control" />
+            <label asp-for="Email" class="control-label">Email</label>
+            <input asp-for="Email" class="form-control" placeholder="Digite o email do cliente" />
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
 
         <!-- Campo Telefone -->
         <div class="form-group">
-            <label asp-for="Phone" class="control-label"></label>
-            <input asp-for="Phone" class="form-control" />
+            <label asp-for="Phone" class="control-label">Telefone</label>
+            <input asp-for="Phone" class="form-control" placeholder="Digite o telefone do cliente" />
             <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+
+        <!-- Campo É Cliente Interno -->
+        <div class="form-group form-check">
+            <input asp-for="isClientHotel" class="form-check-input" type="checkbox" />
+            <label asp-for="isClientHotel" class="form-check-label">É cliente interno?</label>
+            <span asp-validation-for="isClientHotel" class="text-danger"></span>
         </div>
 
         <!-- Botão de Submissão -->
         <div class="text-center mt-4">
-            <button type="submit" class="btn btn-success">Adicionar Cliente</button>
+            <button type="submit" class="btn btn-dark btn-lg rounded-pill px-5 shadow">Adicionar Cliente</button>
         </div>
     </form>
 </div>
 
 <!-- Voltar para a Lista -->
 <div class="text-center mt-3">
-    <a asp-action="Index" class="btn btn-primary">Voltar para a Lista</a>
+    <a asp-action="Index" class="btn btn-secondary">Voltar para a Lista</a>
 </div>
 
 <!-- Scripts de Validação -->
@@ -55,4 +61,3 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-﻿

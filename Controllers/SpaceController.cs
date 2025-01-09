@@ -45,6 +45,7 @@ namespace ReserveSystem.Controllers
             {
                 Name = string.Empty,       // Nome inicial vazio
                 Capacity = 0,              // Capacidade inicial
+                ReservedPercentage = 0,    //Percentagem inicial
                 Type = SpaceType.GYM       // Tipo inicial configurado como GYM
             };
 
@@ -52,7 +53,6 @@ namespace ReserveSystem.Controllers
             return View(model);
         }
 
-        // POST: Client/Create
         // POST: Space/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -84,6 +84,8 @@ namespace ReserveSystem.Controllers
                     // Salva as alterações no banco de dados
                     await _context.SaveChangesAsync();
 
+                    TempData["messageToast"] = "Espaço criado com sucesso!";
+
                     // Redireciona para a página de índice
                     return RedirectToAction(nameof(Index));
                 }
@@ -93,6 +95,7 @@ namespace ReserveSystem.Controllers
                     Console.WriteLine($"Erro ao criar o espaço: {ex.Message}");
                     ModelState.AddModelError("", "Ocorreu um erro ao criar o espaço. Tente novamente.");
                 }
+
             }
 
             // Se o ModelState for inválido ou ocorrer erro, retorna a view de criação

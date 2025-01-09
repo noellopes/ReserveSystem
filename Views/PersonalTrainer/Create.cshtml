@@ -1,5 +1,3 @@
-
-﻿
 @model ReserveSystem.Models.PersonalTrainerModel
 
 @{
@@ -7,47 +5,76 @@
 }
 
 <!-- Título da Página -->
-<h1 class="text-center my-4">Adicionar Novo Personal Trainer</h1>
+<div class="container my-5">
+    <h1 class="text-center my-4 text-dark fw-bold" style="font-family: 'Poppins', sans-serif;">Adicionar Personal Trainer</h1>
 
-<!-- Formulário de Criação -->
-<div class="container">
-    <form asp-action="Create" method="post">
-        @Html.AntiForgeryToken()
+    <!-- Formulário de Criação -->
+    <div class="card mx-auto shadow-lg border-0" style="max-width: 650px; background: linear-gradient(to bottom right, #f7f7f7, #ffffff);">
+        <div class="card-body py-5 px-4">
+            <form asp-action="Create" method="post">
+                @Html.AntiForgeryToken()
 
-        <!-- Resumo de Validação (Erros Globais) -->
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <!-- Resumo de Validação -->
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
 
-        <!-- Campo Nome -->
-        <div class="form-group">
-            <label asp-for="Name" class="control-label"></label>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
+                <!-- Campo Nome -->
+                <div class="form-floating mb-4">
+                    <input asp-for="Name" class="form-control shadow-sm border-0" id="nameInput" placeholder="Nome" style="background: #eef2f5;" />
+                    <label for="nameInput" class="text-muted">Nome Completo</label>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Email -->
+                <div class="form-floating mb-4">
+                    <input asp-for="Email" class="form-control shadow-sm border-0" id="emailInput" placeholder="Email" style="background: #eef2f5;" />
+                    <label for="emailInput" class="text-muted">Email</label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Telefone -->
+                <div class="form-floating mb-4">
+                    <input asp-for="Phone" class="form-control shadow-sm border-0" id="phoneInput" placeholder="Telefone" style="background: #eef2f5;" />
+                    <label for="phoneInput" class="text-muted">Telefone</label>
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+                
+
+                <!-- Campo Especialidades (Multiple Selection) -->
+                <div class="mb-4">
+                    <label class="text-muted">Especialidades</label>
+                    <div class="row">
+                        @foreach (var specialty in Enum.GetValues(typeof(TrainerSpecialty)).Cast<TrainerSpecialty>())
+                        {
+                            <div class="col-12 col-md-6">
+                                <div class="form-check">
+                                    <!-- Utiliza asp-for para criar checkboxes de múltiplas especialidades -->
+                                    <input type="checkbox" name="Specialties" value="@specialty" id="specialty_@specialty" class="form-check-input" />
+                                    <label class="form-check-label" for="specialty_@specialty">
+                                        @specialty.ToString().Replace("_", " ").ToLower()
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <span asp-validation-for="Specialties" class="text-danger"></span>
+                </div>
+
+                <!-- Botão de Submissão -->
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-dark btn-lg rounded-pill px-5 shadow" style="border: none;">
+                        <i class="bi bi-check-circle-fill"></i> Criar
+                    </button>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <!-- Campo Email -->
-        <div class="form-group">
-            <label asp-for="Email" class="control-label"></label>
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
-
-        <!-- Campo Telefone -->
-        <div class="form-group">
-            <label asp-for="Phone" class="control-label"></label>
-            <input asp-for="Phone" class="form-control" />
-            <span asp-validation-for="Phone" class="text-danger"></span>
-        </div>
-
-        <!-- Botão de Submissão -->
-        <div class="text-center mt-4">
-            <button type="submit" class="btn btn-success">Adicionar Personal Trainer</button>
-        </div>
-    </form>
-</div>
-
-<!-- Voltar para a Lista -->
-<div class="text-center mt-3">
-    <a asp-action="Index" class="btn btn-primary">Voltar para a Lista</a>
+    <!-- Botão Voltar -->
+    <div class="text-center mt-4">
+        <a asp-action="Index" class="btn btn-outline-secondary btn-lg rounded-pill px-4 shadow">
+            <i class="bi bi-arrow-left-circle"></i> Voltar para Lista
+        </a>
+    </div>
 </div>
 
 <!-- Scripts de Validação -->
@@ -56,7 +83,3 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-﻿
-
-
-<h1>Pagina de criar!!!!</h1>

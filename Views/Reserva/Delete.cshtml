@@ -1,0 +1,55 @@
+﻿@model ReserveSystem.Models.ReservaModel
+
+@{
+    ViewData["Title"] = "Eliminar Reserva";
+}
+
+<div class="container my-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-danger text-white">
+            <h3 class="mb-0">Confirmar Eliminação de Reserva</h3>
+        </div>
+        <div class="card-body">
+            <p class="text-danger">
+                <strong>Atenção:</strong> Esta ação é irreversível. Tem certeza de que deseja eliminar esta reserva?
+            </p>
+
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th>Dia</th>
+                        <td>@Model.ReservationDate.ToString("dd/MM/yyyy")</td>
+                    </tr>
+                    <tr>
+                        <th>Horário</th>
+                        <td>@Model.StartTime.ToString(@"hh\:mm") - @Model.EndTime.ToString(@"hh\:mm")</td>
+                    </tr>
+                    <tr>
+                        <th>Personal Trainer</th>
+                        <td>@Model.PersonalTrainer?.Name ?? "Não especificado"</td>
+                    </tr>
+                    <tr>
+                        <th>Cliente</th>
+                        <td>@Model.Client?.Name ?? "Não especificado"</td>
+                    </tr>
+                    <tr>
+                        <th>Espaço</th>
+                        <td>@Model.Space?.Name ?? "Não especificado"</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-between mt-4">
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fa fa-arrow-left"></i> Cancelar
+                </a>
+                <form asp-action="Delete" method="post">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fa fa-trash-alt"></i> Eliminar Reserva
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

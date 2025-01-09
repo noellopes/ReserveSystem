@@ -1,36 +1,61 @@
 ﻿@model ReserveSystem.Models.SpaceModel
 
 @{
-    ViewData["Title"] = "Edit Space";
+    ViewData["Title"] = "Editar Espaço";
 }
 
-<h1>Edit Space</h1>
+<div class="container my-5">
+    <h1 class="text-center my-4 text-dark fw-bold" style="font-family: 'Poppins', sans-serif;">Editar Espaço</h1>
 
-<form asp-action="Edit" method="post">
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+    <!-- Formulário de Edição -->
+    <div class="card mx-auto shadow-lg border-0" style="max-width: 650px; background: linear-gradient(to bottom right, #f7f7f7, #ffffff);">
+        <div class="card-body py-5 px-4">
+            <form asp-action="Edit" method="post">
+                @Html.AntiForgeryToken()
+
+                <!-- Resumo de Validação -->
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+                <!-- Campo Nome -->
+                <div class="form-floating mb-4">
+                    <input asp-for="Name" class="form-control shadow-sm border-0" id="nameInput" placeholder="Nome do Espaço" style="background: #eef2f5;" />
+                    <label for="nameInput" class="text-muted">Nome do Espaço</label>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Capacidade -->
+                <div class="form-floating mb-4">
+                    <input asp-for="Capacity" class="form-control shadow-sm border-0" id="capacityInput" placeholder="Capacidade" style="background: #eef2f5;" type="number" />
+                    <label for="capacityInput" class="text-muted">Capacidade</label>
+                    <span asp-validation-for="Capacity" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Capacidade -->
+                <div class="form-floating mb-4">
+                    <input asp-for="ReservedPercentage" class="form-control shadow-sm border-0" id="ReservedPercentageInput" placeholder="Reserva percentagem" style="background: #eef2f5;" type="number" />
+                    <label asp-for="ReservedPercentage" class="form-label fw-bold">Porcentagem Reservada</label>
+                    <span asp-validation-for="Capacity" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Tipo -->
+                <div class="mb-4">
+                    <label class="text-muted">Tipo de Espaço</label>
+                    <select asp-for="Type" class="form-select shadow-sm border-0" asp-items="ViewBag.SpaceTypes" style="background: #eef2f5;">
+                        <option value="">-- Selecione o tipo de espaço --</option>
+                    </select>
+                    <span asp-validation-for="Type" class="text-danger"></span>
+                </div>
+
+                <!-- Botões de Ação -->
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-dark btn-lg rounded-pill px-5 shadow" style="border: none;">
+                        <i class="bi bi-check-circle-fill"></i> Guardar
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg rounded-pill px-4 shadow">
+                        <i class="bi bi-arrow-left-circle"></i> Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
-
-    <div class="form-group">
-        <label asp-for="Capacity"></label>
-        <input asp-for="Capacity" class="form-control" type="number" />
-        <span asp-validation-for="Capacity" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Type"></label>
-        <select asp-for="Type" asp-items="@(new SelectList(Enum.GetValues(typeof(ReserveSystem.Models.SpaceType)).Cast<SpaceType>()))" class="form-control">
-            <option value="">-- Select Space Type --</option>
-        </select>
-        <span asp-validation-for="Type" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Save</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-</form>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+</div>

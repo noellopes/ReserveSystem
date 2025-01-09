@@ -1,58 +1,58 @@
-﻿﻿
-@model ReserveSystem.Models.SpaceModel
+﻿@model ReserveSystem.Models.SpaceModel
 
 @{
-    ViewData["Title"] = "Criar espaço";
+    ViewData["Title"] = "Criar Espaço";
 }
 
-<!-- Título da Página -->
-<h1 class="text-center my-4">Criar novo espaço</h1>
+<div class="container my-5">
+    <div class="text-center mb-4">
+        <h1 class="display-5 text-primary">Criar Novo Espaço</h1>
+        <p class="text-muted">Preencha os detalhes para adicionar um novo espaço ao sistema.</p>
+    </div>
 
-<!-- Formulário de Criação -->
-<div class="container">
-    <form asp-action="Create" method="post">
+    <form asp-action="Create" method="post" class="card shadow-sm p-4">
         @Html.AntiForgeryToken()
 
-        <!-- Resumo de Validação (Erros Globais) -->
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <!-- Resumo de Validação -->
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-        <!-- Campo Nome -->
-        <div class="form-group">
-            <label asp-for="Name" class="control-label"></label>
-            <input asp-for="Name" class="form-control" />
+        <!-- Nome -->
+        <div class="form-group mb-3">
+            <label asp-for="Name" class="form-label fw-bold">Nome</label>
+            <input asp-for="Name" class="form-control" placeholder="Digite o nome do espaço" />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
-        <!-- Campo Capacidade -->
-        <div class="form-group">
-            <label asp-for="Capacity" class="control-label"></label>
-            <input asp-for="Capacity" class="form-control" />
+        <!-- Capacidade -->
+        <div class="form-group mb-3">
+            <label asp-for="Capacity" class="form-label fw-bold">Capacidade</label>
+            <input asp-for="Capacity" class="form-control" type="number" placeholder="Capacidade máxima" />
             <span asp-validation-for="Capacity" class="text-danger"></span>
         </div>
 
-        <!-- Campo Tipo (Dropdown) -->
-        <div class="form-group">
-            <label asp-for="Type" class="control-label"></label>
-            <select asp-for="Type" class="form-control" asp-items="ViewBag.SpaceTypes"></select>
+        <!-- Porcentagem Reservada -->
+        <div class="form-group mb-3">
+            <label asp-for="ReservedPercentage" class="form-label fw-bold">Porcentagem Reservada</label>
+            <input asp-for="ReservedPercentage" class="form-control" type="number" min="0" max="100" placeholder="0-100%" />
+            <small class="form-text text-muted">
+                Insira a porcentagem de vagas reservadas para clientes (0-100).
+            </small>
+            <span asp-validation-for="ReservedPercentage" class="text-danger"></span>
+        </div>
+
+        <!-- Tipo -->
+        <div class="form-group mb-3">
+            <label asp-for="Type" class="form-label fw-bold">Tipo</label>
+            <select asp-for="Type" class="form-control" asp-items="ViewBag.SpaceTypes">
+                <option value="">-- Selecione o tipo de espaço --</option>
+            </select>
             <span asp-validation-for="Type" class="text-danger"></span>
         </div>
 
-        <!-- Botão de Submissão -->
+        <!-- Botões -->
         <div class="text-center mt-4">
-            <button type="submit" class="btn btn-success">Criar espaço</button>
+            <button type="submit" class="btn btn-success btn-lg rounded-pill shadow-sm">Criar Espaço</button>
+            <a asp-action="Index" class="btn btn-secondary btn-lg rounded-pill ms-2">Voltar</a>
         </div>
     </form>
 </div>
-
-<!-- Voltar para a Lista -->
-<div class="text-center mt-3">
-    <a asp-action="Index" class="btn btn-primary">Voltar para a Lista</a>
-</div>
-
-<!-- Scripts de Validação -->
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
-﻿

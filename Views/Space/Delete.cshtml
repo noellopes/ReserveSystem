@@ -4,28 +4,24 @@
     ViewData["Title"] = "Excluir Espaço";
 }
 
-<h1 class="text-center my-4 text-danger">Excluir Espaço</h1>
+<div class="container my-5">
+    <div class="text-center">
+        <h1 class="display-5 text-danger">Excluir Espaço</h1>
+        <p class="text-muted">Tem certeza de que deseja excluir este espaço?</p>
+    </div>
 
-<div class="container">
-    <p class="text-center text-danger">Tem certeza de que deseja excluir este Espaço?</p>
-
-    <!-- Detalhes do Personal Trainer -->
-    <div class="card mb-4">
+    <div class="card shadow-sm mb-4">
         <div class="card-body">
-            <h5 class="card-title">@Model.Name</h5>
-            <p class="card-text"><strong>Type:</strong> @Model.Type</p>
+            <h5 class="card-title text-primary">@Model.Name</h5>
+            <p class="card-text"><strong>Tipo:</strong> @Model.Type</p>
             <p class="card-text"><strong>Capacidade:</strong> @Model.Capacity</p>
         </div>
     </div>
 
-    <!-- Formulário para exclusão -->
-    <form asp-action="Delete" method="post">
+    <form asp-action="Delete" method="post" class="text-center">
         @Html.AntiForgeryToken()
         <input type="hidden" asp-for="Id" />
-
-        <div class="text-center">
-            <button type="submit" class="btn btn-danger">Eliminar</button>
-            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-        </div>
+        <button type="submit" class="btn btn-danger btn-lg rounded-pill">Eliminar</button>
+        <a asp-action="Index" class="btn btn-secondary btn-lg rounded-pill ms-2">Cancelar</a>
     </form>
 </div>

@@ -4,28 +4,32 @@
     ViewData["Title"] = "Excluir Personal Trainer";
 }
 
-<h1 class="text-center my-4 text-danger">Excluir Personal Trainer</h1>
+<div class="container my-5">
+    <h1 class="text-center my-4 text-danger fw-bold" style="font-family: 'Poppins', sans-serif;">Excluir Personal Trainer</h1>
 
-<div class="container">
-    <p class="text-center text-danger">Tem certeza de que deseja excluir este Personal Trainer?</p>
+    <p class="text-center text-danger mb-4">Tem certeza de que deseja excluir este Personal Trainer? Esta ação é irreversível.</p>
 
     <!-- Detalhes do Personal Trainer -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <h5 class="card-title">@Model.Name</h5>
+    <div class="card mx-auto shadow-lg border-0" style="max-width: 650px; background: linear-gradient(to bottom right, #f7f7f7, #ffffff);">
+        <div class="card-body py-5 px-4">
+            <h5 class="card-title mb-3 text-center text-dark">@Model.Name</h5>
             <p class="card-text"><strong>Email:</strong> @Model.Email</p>
             <p class="card-text"><strong>Telefone:</strong> @Model.Phone</p>
         </div>
     </div>
 
     <!-- Formulário para exclusão -->
-    <form asp-action="Delete" method="post">
+    <form asp-action="Delete" method="post" class="mt-4">
         @Html.AntiForgeryToken()
         <input type="hidden" asp-for="Id" />
 
         <div class="text-center">
-            <button type="submit" class="btn btn-danger">Excluir</button>
-            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-danger btn-lg rounded-pill px-5 shadow" style="border: none;">
+                <i class="bi bi-trash-fill"></i> Eliminar
+            </button>
+            <a asp-action="Index" class="btn btn-outline-secondary btn-lg rounded-pill px-5 shadow">
+                <i class="bi bi-arrow-left-circle"></i> Cancelar
+            </a>
         </div>
     </form>
 </div>

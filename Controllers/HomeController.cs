@@ -1,3 +1,4 @@
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using ReserveSystem.Models;
 using System.Diagnostics;
@@ -7,10 +8,11 @@ namespace ReserveSystem.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        public  INotyfService _notyf { get; }
+        public HomeController(ILogger<HomeController> logger, INotyfService notyf)
         {
             _logger = logger;
+            _notyf = notyf;
         }
 
         public IActionResult Index()

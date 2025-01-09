@@ -4,17 +4,54 @@
     ViewData["Title"] = "Personal Trainer Details";
 }
 
-<h1>Personal Trainer Details</h1>
+<div class="container my-5">
+    <h1 class="text-center my-4 text-dark fw-bold" style="font-family: 'Poppins', sans-serif;">Detalhes do Personal Trainer</h1>
 
-<div class="form-group">
-    <label>Name:</label>
-    <p>@Model.Name</p>
+    <!-- Detalhes -->
+    <div class="card mx-auto shadow-lg border-0" style="max-width: 650px; background: linear-gradient(to bottom right, #f7f7f7, #ffffff);">
+        <div class="card-body py-5 px-4">
+            <div class="form-group mb-4">
+                <label for="name" class="text-muted">Nome:</label>
+                <p>@Model.Name</p>
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="email" class="text-muted">Email:</label>
+                <p>@Model.Email</p>
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="phone" class="text-muted">Telefone:</label>
+                <p>@Model.Phone</p>
+            </div>
+
+            <!-- Exibir Especialidades -->
+            <div class="form-group mb-4">
+                <label class="text-muted">Especialidades:</label>
+                @if (Model.Specialties != null && Model.Specialties.Count > 0)
+                {
+                    <ul>
+                        @foreach (var specialty in Model.Specialties)
+                        {
+                            <li>@specialty.ToString().Replace("_", " ").ToLower()</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p>Nenhuma especialidade atribuída.</p>
+                }
+            </div>
+
+            <!-- Botões de Navegação -->
+            <div class="text-center mt-4">
+                <a asp-action="Index" class="btn btn-outline-secondary btn-lg rounded-pill px-4 shadow">
+                    <i class="bi bi-arrow-left-circle"></i> Voltar para Lista
+                </a>
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-lg rounded-pill px-4 shadow">
+                    <i class="bi bi-pencil"></i> Editar
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
-
-<div class="form-group">
-    <label>Email:</label>
-    <p>@Model.Email</p>
-</div>
-
-<a asp-action="Index" class="btn btn-secondary">Back to List</a>
-<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
