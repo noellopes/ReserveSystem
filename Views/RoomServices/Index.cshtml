@@ -61,7 +61,7 @@
 </html>
  *@
 
- @model ReserveSystem.Models.RoomServiceViewModel
+ @model ReserveSystem.ViewModels.RoomServiceViewModel
 
 @{
     ViewData["Title"] = "Room Service";
@@ -89,10 +89,10 @@
                     <span class="input-group-text bg-white border-end-0">
                         <i class="bi bi-search text-secondary"></i>
                     </span>
-                    <input type="number" class="form-control border-start-0" id="ID_Room_Service" name="Room_Service_Name"
-                           placeholder="Search by Room Service..." min="0" value="@Model.RoomServicesIds">
-                    <select asp-for="ID_Room_Service" asp-items="Model.RoomService" class="form-select">
-                        <option value="">All Room Services</option>
+                    <input type="number" class="form-control border-start-0" id="Job_ID" name="Job_ID"
+                           placeholder="Search by Job ID ..." min="0" value="@Model.Job_ID">
+                    <select asp-for="Job_ID" asp-items="Model.Jobs" class="form-select">
+                        <option value="">All jobs</option>
                     </select>
                     <button type="submit" class="btn btn-secondary">
                         <i class="bi bi-funnel-fill me-2"></i>Filter
@@ -116,7 +116,7 @@
 
     <!-- Room Services List -->
     <div class="row g-4">
-        @foreach (var item in Model.Job ?? Enumerable.Empty<ReserveSystem.Models.RoomService>())
+        @foreach (var item in Model.RoomServices ?? Enumerable.Empty<ReserveSystem.Models.RoomService>())
         {
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm">
@@ -125,23 +125,23 @@
                         <div class="mb-3 d-flex justify-content-between align-items-center">
                             <h5 class="card-title fw-bold mb-0">
                                 <i class="bi bi-bookmark-fill text-primary me-2"></i>
-                                RoomService #@item.Id
+                                RoomService #@item.ID_Room_Service
                             </h5>
-                            <input type="checkbox" class="form-check-input bulk-delete-checkbox" value="@item.Id" />
+                            <input type="checkbox" class="form-check-input bulk-delete-checkbox" value="@item.ID_Room_Service" />
                         </div>
-                        <p class="text-muted mb-0">RoomService: @item.RoomService?.Name</p>
+                        <p class="text-muted mb-0">RoomService: @item.Room_Service_Name</p>
 
                         <!-- Card Footer -->
                         <div class="mt-auto">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-link text-decoration-none">
+                                    <a asp-action="Details" asp-route-id="@item.ID_Room_Service" class="btn btn-link text-decoration-none">
                                         <i class="bi bi-eye-fill me-1"></i>Details
                                     </a>
-                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-link text-decoration-none">
+                                    <a asp-action="Edit" asp-route-id="@item.ID_Room_Service" class="btn btn-link text-decoration-none">
                                         <i class="bi bi-pencil-fill me-1"></i>Edit
                                     </a>
-                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-link text-decoration-none text-danger">
+                                    <a asp-action="Delete" asp-route-id="@item.ID_Room_Service" class="btn btn-link text-decoration-none text-danger">
                                         <i class="bi bi-trash-fill me-1"></i>Delete
                                     </a>
                                 </div>

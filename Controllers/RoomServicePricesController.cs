@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
+using ReserveSystem.ViewModels;
 
 namespace ReserveSystem.Controllers
 {
@@ -25,6 +26,55 @@ namespace ReserveSystem.Controllers
             var reserveSystemContext = _context.RoomServicePrice.Include(r => r.RoomService);
             return View(await reserveSystemContext.ToListAsync());
         }
+
+        public IActionResult Index(DateTime? searchStartDate, DateTime? searchEndDate, int? selectedRoomServiceId)
+        {
+            // Obtenha a lista inicial de RoomServicePrices
+            var query = _context.RoomServicePrice.AsQueryable();
+
+            // Aplicar filtro de data inicial, se fornecido
+            if (searchStartDate.HasValue)
+            {
+                query = query.Where(r => r.Start_Date >= searchStartDate.Value);
+            }
+
+            // Aplicar filtro de data final, se fornecido
+            if (searchEndDate.HasValue)
+            {
+                query = query.Where(r => r.End_Date <= searchEndDate.Value);
+            }
+
+            // Aplicar filtro pelo Nome do serviço de quarto, se fornecido
+            if (selectedRoomServiceId.HasValue)
+            {
+                query = query.Where(r => r.ID_Room_Service == selectedRoomServiceId.Value);
+            }
+
+            // Obtenha a lista filtrada
+            var roomServicePrices = query.ToList();
+
+            // Obtenha a lista de RoomServices para o dropdown
+            var roomServices = _context.RoomService
+                .Select(rs => new SelectListItem
+                {
+                    Value = rs.ID_Room_Service.ToString(),
+                    Text = rs.Room_Service_Name
+                })
+                .ToList();
+
+            // Crie o ViewModel
+            var viewModel = new RoomServicePriceViewModel
+            {
+                RoomServicePrices = roomServicePrices,
+                RoomServices = new SelectList(roomServices, "Value", "Text"),
+                SearchStartDate = searchStartDate,
+                SearchEndDate = searchEndDate,
+                SelectedRoomServiceId = selectedRoomServiceId
+            };
+
+            return View(viewModel);
+        }
+
 
         // GET: RoomServicePrices/Details/5
         public async Task<IActionResult> Details(int? id)

@@ -28,6 +28,41 @@ namespace ReserveSystem.Controllers
             return View(await reserveSystemContext.ToListAsync());
         }
 
+        public IActionResult Index(int? jobId, int page = 1)
+        {
+            // Obtenha a lista inicial de Jobs
+            var query = _context.Job.AsQueryable();
+
+            // Filtro pelo ID do Job, se fornecido
+            if (jobId.HasValue)
+            {
+                query = query.Where(j => j.Job_ID == jobId.Value);
+            }
+
+            // Obtenha a lista filtrada e ordenada
+            var jobs = query.ToList();
+
+            // Obtenha a lista de Jobs para o dropdown
+            var jobList = _context.Job
+                .Select(j => new SelectListItem
+                {
+                    Value = j.Job_ID.ToString(),
+                    Text = j.Job_Name // Propriedade do nome do trabalho
+                })
+                .ToList();
+
+            // Crie o ViewModel
+            var viewModel = new JobViewModel
+            {
+                Jobs = jobs,
+                JobIds = new SelectList(jobList, "Value", "Text"),
+                Job_ID = jobId
+            };
+
+            return View(viewModel);
+        }
+
+
         // GET: RoomServices/Details/5
         public async Task<IActionResult> Details(int? id)
         {

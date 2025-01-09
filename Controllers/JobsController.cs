@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
+using ReserveSystem.ViewModels;
 
 namespace ReserveSystem.Controllers
 {
@@ -20,10 +21,35 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Jobs
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            return View(await _context.Job.ToListAsync());
+            var jobs = await _context.Job.ToListAsync();
+            var viewModel = new JobViewModel
+            {
+                SearchInt = 0,
+                Jobs = jobs,
+                JobIds = new SelectList(jobs, "Id", "Name")
+            };
+
+            return View(viewModel);
         }
+
+        public IActionResult Index(string filter)
+        {
+            var jobs = _context.Job
+                .Where(j => j.Job_Name.Contains(filter)) // Exemplo de filtro
+                .ToList();
+            var viewModel = new JobViewModel
+            {
+                SearchInt = 0,
+                Jobs = jobs,
+                JobIds = new SelectList(jobs, "Id", "Name")
+            };
+
+            return View(viewModel);
+        }
+
+
 
         // GET: Jobs/Details/5
         public async Task<IActionResult> Details(int? id)

@@ -59,7 +59,7 @@
 </table>
 </body>
 </html>*@
-@model ReserveSystem.Models.RoomServicePriceViewModel
+@model ReserveSystem.ViewModels.RoomServicePriceViewModel
 
 @{
     ViewData["Title"] = "Room Service Price";
@@ -100,8 +100,8 @@
                         <select asp-for="SelectedRoomServiceId" asp-items="@Model.RoomServices"></select>
                     </div>
                     <input type="number" class="form-control border-start-0" id="SelectedRoomServiceId" name="SelectedRoomServiceId"
-                           placeholder="Search by Room Service Price ID..." min="0" value="@Model.RoomServicePrice">
-                    <select asp-for="ID_Room_Service_Price" asp-items="Model.RoomServicePrice" class="form-select">
+                           placeholder="Search by Room Service Price ID..." min="0" value="@Model.SelectedRoomServiceId">
+                    <select asp-for="SelectedRoomServiceId" asp-items="Model.RoomServices" class="form-select">
                         <option value="">All Room Services Prices</option>
                     </select>
                     <button type="submit" class="btn btn-secondary">
@@ -126,7 +126,7 @@
 
     <!-- Room Service Prices List -->
     <div class="row g-4">
-        @foreach (var item in Model.RoomService ?? Enumerable.Empty<ReserveSystem.Models.RoomService>())
+        @foreach (var item in Model.RoomServicePrices ?? Enumerable.Empty<ReserveSystem.Models.RoomServicePrice>())
         {
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm">
@@ -135,30 +135,30 @@
                         <div class="mb-3 d-flex justify-content-between align-items-center">
                             <h5 class="card-title fw-bold mb-0">
                                 <i class="bi bi-bookmark-fill text-primary me-2"></i>
-                                RoomServicePrice #@item.Id
+                                RoomServicePrice #@item.ID_Room_Service_Price
                             </h5>
-                            <input type="checkbox" class="form-check-input bulk-delete-checkbox" value="@item.Id" />
+                            <input type="checkbox" class="form-check-input bulk-delete-checkbox" value="@item.ID_Room_Service_Price" />
                         </div>
-                        <p class="text-muted mb-0">Room Service Price: @item.RoomService?.Id</p>
+                        <p class="text-muted mb-0">Room Service Price: @item.ID_Room_Service_Price</p>
                         
                         <!-- Card Content -->
                         <div class="mb-3">
                             <div class="d-flex align-items-center">
                                 <i class="bi bi-calendar-range text-warning me-2"></i>
-                                <span>Period: @item.StartDate.ToString("dd/MM/yyyy") - @item.EndDate.ToString("dd/MM/yyyy")</span>
+                                <span>Period: @item.Start_Date.ToString("dd/MM/yyyy") - @item.End_Date?.ToString("dd/MM/yyyy")</span>
                             </div>
                         </div>
                         <!-- Card Footer -->
                         <div class="mt-auto">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-link text-decoration-none">
+                                    <a asp-action="Details" asp-route-id="@item.ID_Room_Service_Price" class="btn btn-link text-decoration-none">
                                         <i class="bi bi-eye-fill me-1"></i>Details
                                     </a>
-                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-link text-decoration-none">
+                                    <a asp-action="Edit" asp-route-id="@item.ID_Room_Service_Price" class="btn btn-link text-decoration-none">
                                         <i class="bi bi-pencil-fill me-1"></i>Edit
                                     </a>
-                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-link text-decoration-none text-danger">
+                                    <a asp-action="Delete" asp-route-id="@item.ID_Room_Service_Price" class="btn btn-link text-decoration-none text-danger">
                                         <i class="bi bi-trash-fill me-1"></i>Delete
                                     </a>
                                 </div>
