@@ -1,0 +1,58 @@
+﻿@model ReserveSystem.Models.ReservaExcursaoModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+
+<div class="container mt-4">
+    <h1 class="text-primary mb-3">@ViewData["Title"]</h1>
+
+    <h4 class="text-secondary">ReservaExcursaoModel</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                <div class="mb-3">
+                    <label asp-for="ClienteId" class="control-label"></label>
+                    <select asp-for="ClienteId" class="form-control" asp-items="ViewBag.ClienteId"></select>
+                    
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ExcursaoId" class="control-label"></label>
+                    <select asp-for="ExcursaoId" class="form-control" asp-items="ViewBag.ExcursaoId"></select>
+                    
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="DataReserva" class="control-label"></label>
+                    <input asp-for="DataReserva" class="form-control" />
+                    <span asp-validation-for="DataReserva" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="NumPessoas" class="control-label"></label>
+                    <input asp-for="NumPessoas" class="form-control" />
+                    <span asp-validation-for="NumPessoas" class="text-danger"></span>
+                </div>
+
+                
+
+                <div class="d-flex justify-content-between">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

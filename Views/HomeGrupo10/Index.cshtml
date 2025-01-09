@@ -1,0 +1,151 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/HomeGrupo10.css" />
+<link rel="stylesheet" href="~/css/Hamster.css" />
+
+<div class="container d-flex flex-column align-items-center justify-content-center ">
+    <div id="hamster-loader" aria-label="Orange and tan hamster running in a metal wheel" role="img" class="wheel-and-hamster" style="display: none;">
+        <div class="wheel"></div>
+        <div class="hamster">
+            <div class="hamster__body">
+                <div class="hamster__head">
+                    <div class="hamster__ear"></div>
+                    <div class="hamster__eye"></div>
+                    <div class="hamster__nose"></div>
+                </div>
+                <div class="hamster__limb hamster__limb--fr"></div>
+                <div class="hamster__limb hamster__limb--fl"></div>
+                <div class="hamster__limb hamster__limb--br"></div>
+                <div class="hamster__limb hamster__limb--bl"></div>
+                <div class="hamster__tail"></div>
+            </div>
+        </div>
+        <div class="spoke"></div>
+    </div>
+
+    <div class="container py-4" id="content">
+        <article class="postcard dark blue">
+            <a class="postcard__img_link" asp-controller="ClienteTest" asp-action="Index">
+                <img class="postcard__img" src="/images/test.jpg" alt="Image Title" />
+            </a>
+            <div class="postcard__text">
+                <h1 class="postcard__title blue"><a class="postcard__img_link postcard__title" asp-controller="ClienteTest" asp-action="Index">Clientes</a></h1>
+                <div class="postcard__bar"></div>
+                <div class="postcard__preview-txt">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi, fugiat asperiores inventore beatae accusamus odit minima enim, commodi quia, doloribus eius! Ducimus nemo accusantium maiores velit corrupti tempora reiciendis molestiae repellat vero. Eveniet ipsam adipisci illo iusto quibusdam, sunt neque nulla unde ipsum dolores nobis enim quidem excepturi, illum quos!
+                </div>
+                <ul class="postcard__tagbox">
+                    <li class="tag__item play blue">
+                        <a asp-controller="ReservaExcursao" asp-action="Create"><i class="bi bi-plus-lg mr-2 me-2"></i>Adicionar Cliente</a>
+                    </li>
+                </ul>
+            </div>
+        </article>
+
+        <article class="postcard dark blue">
+            <a class="postcard__img_link" asp-controller="StaffTest" asp-action="Index">
+                <img class="postcard__img" src="/images/test.jpg" alt="Image Title" />
+            </a>
+            <div class="postcard__text">
+                <h1 class="postcard__title blue"><a class="postcard__img_link postcard__title" asp-controller="StaffTest" asp-action="Index">Staff</a></h1>
+                <div class="postcard__bar"></div>
+                <div class="postcard__preview-txt">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi, fugiat asperiores inventore beatae accusamus odit minima enim, commodi quia, doloribus eius! Ducimus nemo accusantium maiores velit corrupti tempora reiciendis molestiae repellat vero. Eveniet ipsam adipisci illo iusto quibusdam, sunt neque nulla unde ipsum dolores nobis enim quidem excepturi, illum quos!
+                </div>
+                <ul class="postcard__tagbox">
+                    <li class="tag__item play blue">
+                        <a asp-controller="StaffTest" asp-action="Create"><i class="bi bi-plus-lg mr-2 me-2"></i>Adicionar Staff</a>
+                    </li>
+                </ul>
+            </div>
+        </article>
+
+        <article class="postcard dark blue">
+            <a class="postcard__img_link" asp-controller="Excursao" asp-action="Index" onclick="showLoader(event)">
+                <img class="postcard__img" src="/images/Excursao.jpg" alt="Image Title" />
+            </a>
+            <div class="postcard__text">
+                <h1 class="postcard__title blue"><a class="postcard__img_link postcard__title" asp-controller="Excursao" asp-action="Index" onclick="showLoader(event)">Excurções</a></h1>
+                <div class="postcard__bar"></div>
+                <div class="postcard__preview-txt">
+                    Pode consultar as informações detalhadas de cada excursão, incluindo o nome, a descrição, as datas disponíveis, os locais de partida e de chegada, e os preços associados. A tabela de excursões oferece uma visão global que facilita a escolha e gestão de passeios.
+                </div>
+                <ul class="postcard__tagbox">
+                    <li class="tag__item play blue">
+                        <a asp-controller="Excursao" asp-action="Create"><i class="bi bi-plus-lg mr-2 me-2"></i>Adicionar Excurção</a>
+                    </li>
+                </ul>
+            </div>
+        </article>
+
+        <article class="postcard dark blue">
+            <a class="postcard__img_link" asp-controller="Precario" asp-action="Index" onclick="showLoader(event)">
+                <img class="postcard__img" src="/images/PrecarioImage.jpg" alt="Image Title" />
+            </a>
+            <div class="postcard__text">
+                <h1 class="postcard__title blue"><a class="postcard__img_link postcard__title" asp-controller="Precario" asp-action="Index" onclick="showLoader(event)">Preçário</a></h1>
+                <div class="postcard__bar"></div>
+                <div class="postcard__preview-txt">
+                    Visualize o histórico de preços das excursões de forma clara e pormenorizada. A tabela de Preçário permite acompanhar as alterações de valores ao longo do tempo, com indicações das respetivas datas de início e fim de vigência, garantindo transparência e facilidade de consulta para gerentes e clientes.
+                </div>
+                <ul class="postcard__tagbox">
+                    <li class="tag__item play blue">
+                        <a asp-controller="Precario" asp-action="Index"><i class="bi bi-clipboard-data-fill mr-2 me-2"></i>Ver Historico de preços</a>
+                    </li>
+                </ul>
+            </div>
+        </article>
+
+        <article class="postcard dark blue">
+            <a class="postcard__img_link" asp-controller="ReservaExcursao" asp-action="Index">
+                <img class="postcard__img" src="/images/ReservaExcursao.jpg" alt="Image Title" />
+            </a>
+            <div class="postcard__text">
+                <h1 class="postcard__title blue"><a class="postcard__img_link postcard__title" asp-controller="ReservaExcursao" asp-action="Index">Reserva de Excursões</a></h1>
+                <div class="postcard__bar"></div>
+                <div class="postcard__preview-txt">
+                    Descubra novas aventuras e explore destinos incríveis nas nossas excursões exclusivas. Seja para um passeio cultural, uma aventura ao ar livre ou uma experiência gastronómica, temos algo para todos os gostos. Faça a sua reserva online e escolha entre diversas opções de data e destino. Não perca a oportunidade de criar memórias inesquecíveis. Garanta o seu lugar agora e desfrute de experiências únicas com segurança e conforto. Junte-se a nós nesta jornada.
+                </div>
+                <ul class="postcard__tagbox">
+                    <li class="tag__item play blue">
+                        <a asp-controller="ReservaExcursao" asp-action="Create"><i class="bi bi-plus-lg mr-2 me-2"></i>Reservar uma Excursão</a>
+                    </li>
+                </ul>
+            </div>
+        </article>
+
+        <article class="postcard dark blue">
+            <a class="postcard__img_link" asp-controller="ExcursaoFavorita" asp-action="Index">
+                <img class="postcard__img" src="/images/excursaoFavorita.jpg" alt="Image Title" />
+            </a>
+            <div class="postcard__text">
+                <h1 class="postcard__title blue"><a class="postcard__img_link postcard__title" asp-controller="ExcursaoFavorita" asp-action="Index">Excursões Favoritas</a></h1>
+                <div class="postcard__bar"></div>
+                <div class="postcard__preview-txt">
+                    Explore as excursões mais populares e descubra destinos incríveis. Desde paisagens naturais deslumbrantes a cidades vibrantes, temos opções para todos os gostos. Desfrute de atividades únicas que vão desde aventuras ao ar livre até experiências culturais imersivas. Todas as excursões são cuidadosamente planeadas para proporcionar momentos inesquecíveis. Conecte-se com novas culturas e crie memórias que durarão para sempre. Não espere mais: junte-se a nós e aproveite ao máximo a sua próxima viagem!
+                </div>
+                <ul class="postcard__tagbox">
+                    <li class="tag__item play blue">
+                        <a asp-controller="ExcursaoFavorita" asp-action="Create"><i class="bi bi-plus-lg mr-2 me-2"></i>Adicionar Excursão Favorita</a>
+                    </li>
+                </ul>
+            </div>
+        </article>
+    </div>
+</div>
+
+<script>
+    function showLoader(event) {
+        event.preventDefault();
+        document.getElementById('hamster-loader').style.display = 'block';
+        document.getElementById('content').style.display = 'none';
+        setTimeout(function() {
+            window.location.href = event.target.closest('a').href;
+        }, 2000);
+    }
+</script>

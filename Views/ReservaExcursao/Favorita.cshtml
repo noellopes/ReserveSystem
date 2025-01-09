@@ -1,0 +1,47 @@
+﻿@model ReserveSystem.Models.ReservaExcursaoModel
+
+@{
+    ViewData["Title"] = "Adicionar à Favorita";
+}
+
+<div class="container mt-5">
+    <h1 class="text-warning text-center">Adicionar à Favorita</h1>
+    <h3 class="text-center">Você deseja adicionar esta excursão aos seus favoritos?</h3>
+
+    <div class="card shadow mt-4">
+        <div class="card-header bg-warning text-white">
+            <h4>Detalhes da Excursão</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3 font-weight-bold">Data da Reserva</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.DataReserva)</dd>
+
+                <dt class="col-sm-3 font-weight-bold">Número de Pessoas</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.NumPessoas)</dd>
+
+                <dt class="col-sm-3 font-weight-bold">Valor Total</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.ValorTotal)</dd>
+
+                <dt class="col-sm-3 font-weight-bold">Nome do Cliente</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Cliente.Nome)</dd>
+
+                <dt class="col-sm-3 font-weight-bold">Descrição da Excursão</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Excursao.Descricao)</dd>
+            </dl>
+        </div>
+
+        <div class="card-footer">
+            <form method="post">
+                <div class="mb-3">
+                    <label for="comentario" class="form-label">Comentário (opcional)</label>
+                    <textarea class="form-control" id="comentario" name="comentario" rows="3" ></textarea>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-warning me-2">Adicionar Favorita</button>
+                    <a href="@Url.Action("Index", "ReservaExcursao")" class="btn btn-secondary">Voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
