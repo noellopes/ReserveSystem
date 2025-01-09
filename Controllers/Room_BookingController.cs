@@ -20,9 +20,22 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Room_Booking
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Room_Booking.ToListAsync());
+            // Salva o filtro atual no ViewData para reutilizar na View
+            ViewData["CurrentFilter"] = searchString;
+
+            // Recupera todos os Room_Bookings inicialmente
+            var roomBookings = from rb in _context.Room_Booking
+                               select rb;
+
+            // Filtra pelo BookingId se o valor de pesquisa for fornecido
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                roomBookings = roomBookings.Where(rb => rb.BookingId.ToString().Contains(searchString));
+            }
+
+            return View(await roomBookings.ToListAsync());
         }
 
         // GET: Room_Booking/Details/5
@@ -115,10 +128,13 @@ namespace ReserveSystem.Controllers
                 {
                     _context.Update(room_Booking);
                     await _context.SaveChangesAsync();
+
+                    return RedirectToAction("EditSuccess", new { roomBookingId = room_Booking.RoomBookingId });
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!Room_BookingExists(room_Booking.RoomBookingId))
+                    if (!RoomBookingExists(room_Booking.RoomBookingId))
                     {
                         return NotFound();
                     }
@@ -131,6 +147,25 @@ namespace ReserveSystem.Controllers
             }
             return View(room_Booking);
         }
+
+        // GET: RoomBookings/EditSuccess
+        public async Task<IActionResult> EditSuccess(int roomBookingId)
+        {
+            var roomBooking = await _context.Room_Booking
+                .Include(r => r.booking)
+                .Include(r => r.room)
+                .FirstOrDefaultAsync(r => r.RoomBookingId == roomBookingId);
+
+            if (roomBooking == null)
+            {
+                return NotFound();
+            }
+
+            // Mensagem de sucesso
+            ViewBag.Message = "Room booking edited successfully!";
+            return View(roomBooking);
+        }
+
 
         // GET: Room_Booking/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -150,24 +185,34 @@ namespace ReserveSystem.Controllers
             return View(room_Booking);
         }
 
-        // POST: Room_Booking/Delete/5
+        // POST: RoomBookings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var room_Booking = await _context.Room_Booking.FindAsync(id);
-            if (room_Booking != null)
+            var roomBooking = await _context.Room_Booking.FindAsync(id);
+            if (roomBooking != null)
             {
-                _context.Room_Booking.Remove(room_Booking);
+                _context.Room_Booking.Remove(roomBooking);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            // Redireciona para a página de confirmação de exclusão
+            return RedirectToAction("DeleteSuccess", new { roomBookingId = roomBooking?.RoomBookingId, roomId = roomBooking?.RoomId });
         }
 
-        private bool Room_BookingExists(int id)
+        // GET: RoomBookings/DeleteSuccess
+        public IActionResult DeleteSuccess(int? roomBookingId, int? roomId)
+        {
+            ViewBag.RoomBookingId = roomBookingId;
+            ViewBag.RoomId = roomId;
+            return View();
+        }
+
+        private bool RoomBookingExists(int id)
         {
             return _context.Room_Booking.Any(e => e.RoomBookingId == id);
         }
+
     }
 }

@@ -1,0 +1,18 @@
+﻿@model Cleaning_Schedule
+
+@{
+    ViewData["Title"] = "Cleaning Schedule Edited Successfully";
+}
+
+<h1>Cleaning Schedule Updated</h1>
+
+<p><strong>Cleaning Schedule ID:</strong> @Model.CleaningScheduleId</p>
+<p><strong>Room Booking ID:</strong> @Model.RoomBookingId</p>
+<p><strong>Client ID:</strong> @Model.ClientId</p>
+<p><strong>Staff ID:</strong> @Model.StaffId</p>
+<p><strong>Date of Service:</strong> @Model.DateServices.ToString("yyyy-MM-dd")</p>
+<p><strong>Start Time:</strong> @Model.StartTime.ToString("HH:mm")</p>
+<p><strong>End Time:</strong> @Model.EndTime.ToString("HH:mm")</p>
+<p><strong>Cleaning Done:</strong> @(Model.CleaningDone ? "Yes" : "No")</p>
+
+<p><a href="Index" class="btn btn-primary">Back to List</a></p>

@@ -4,65 +4,80 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<div class="container mt-4">
+    <h1 class="text-center text-primary mb-4">Cleaning Schedule Overview</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.RoomBookingId)</th>
-            <th>@Html.DisplayNameFor(model => model.client)</th>
-            <th>@Html.DisplayNameFor(model => model.staffMembers)</th>
-            <th>@Html.DisplayNameFor(model => model.DateServices)</th>
-            <th>@Html.DisplayNameFor(model => model.StartTime)</th>
-            <th>@Html.DisplayNameFor(model => model.EndTime)</th>
-            <th>@Html.DisplayNameFor(model => model.CleaningDone)</th>
-            <th>Cleaning Preferences</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+    <div class="text-end mb-3">
+        <a asp-action="Create" class="btn btn-success btn-lg">
+            <i class="bi bi-plus-circle"></i> Create New
+        </a>
+    </div>
+
+    <div class="row">
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.RoomBookingId)</td>
-                <td>@Html.DisplayFor(modelItem => item.client.Client_Adress)</td>
-                <td>@Html.DisplayFor(modelItem => item.staffMembers.StaffDriversLicense)</td>
-                <td>@Html.DisplayFor(modelItem => item.DateServices)</td>
-                <td>@Html.DisplayFor(modelItem => item.StartTime)</td>
-                <td>@Html.DisplayFor(modelItem => item.EndTime)</td>
-                <td>@Html.DisplayFor(modelItem => item.CleaningDone)</td>
-
-                <!-- Exibição das preferências de limpeza -->
-                <td>
-                    @if (item.CleaningDesired)
-                    {
-                        <span>Cleaning desired</span>
-                        <div>
-                            @if (item.PreferredCleaningStartTime.HasValue && item.PreferredCleaningEndTime.HasValue)
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card shadow-sm border-primary">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">Room Booking: @item.RoomBookingId</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Client Address:</strong> @item.client.Client_Adress</p>
+                        <p><strong>Staff License:</strong> @item.staffMembers.StaffDriversLicense</p>
+                        <p><strong>Service Date:</strong> @item.DateServices.ToString("yyyy-MM-dd")</p>
+                        <p><strong>Start Time:</strong> @item.StartTime.ToString("HH:mm")</p>
+                        <p><strong>End Time:</strong> @item.EndTime.ToString("HH:mm")</p>
+                        <p>
+                            <strong>Cleaning Status:</strong>
+                            @if (item.CleaningDone)
                             {
-                                <span>Preferred Time: @item.PreferredCleaningStartTime.Value.ToString("HH:mm") - @item.PreferredCleaningEndTime.Value.ToString("HH:mm")</span>
+                                <span class="badge bg-success">Completed</span>
                             }
                             else
                             {
-                                <span>No specific time selected.</span>
+                                <span class="badge bg-warning text-dark">Pending</span>
                             }
-                        </div>
-                    }
-                    else
-                    {
-                        <span>No cleaning requested</span>
-                    }
-                </td>
+                        </p>
 
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.CleaningScheduleId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.CleaningScheduleId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.CleaningScheduleId">Delete</a>
-                </td>
-            </tr>
+                        <!-- Cleaning Preferences -->
+                        <p><strong>Cleaning Preferences:</strong></p>
+                        @if (item.CleaningDesired)
+                        {
+                            <div>
+                                <span class="text-success">Cleaning desired</span>
+                                @if (item.PreferredCleaningStartTime.HasValue && item.PreferredCleaningEndTime.HasValue)
+                                {
+                                    <p>
+                                        Preferred Time:
+                                        @item.PreferredCleaningStartTime.Value.ToString("HH:mm") -
+                                        @item.PreferredCleaningEndTime.Value.ToString("HH:mm")
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p>No specific time selected.</p>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="text-danger">No cleaning requested</p>
+                        }
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <a asp-action="Edit" asp-route-id="@item.CleaningScheduleId" class="btn btn-warning btn-sm">
+                            <i class="bi bi-pencil"></i> Edit
+                        </a>
+                        <a asp-action="Details" asp-route-id="@item.CleaningScheduleId" class="btn btn-info btn-sm">
+                            <i class="bi bi-eye"></i> Details
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.CleaningScheduleId" class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash"></i> Delete
+                        </a>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+</div>
+

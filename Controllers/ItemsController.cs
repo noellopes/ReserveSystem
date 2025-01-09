@@ -111,10 +111,12 @@ namespace ReserveSystem.Controllers
                 {
                     _context.Update(items);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction("EditSuccess", new { itemId = items.ItemId });
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ItemsExists(items.ItemId))
+                    if (!ItemExists(items.ItemId))
                     {
                         return NotFound();
                     }
@@ -126,6 +128,21 @@ namespace ReserveSystem.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(items);
+        }
+        // GET: Items/EditSuccess
+        public async Task<IActionResult> EditSuccess(int itemId)
+        {
+            var item = await _context.Items
+                .FirstOrDefaultAsync(i => i.ItemId == itemId);
+
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            // Mensagem de sucesso
+            ViewBag.Message = "Item edited successfully!";
+            return View(item);
         }
 
         // GET: Items/Delete/5
@@ -145,25 +162,34 @@ namespace ReserveSystem.Controllers
 
             return View(items);
         }
-
         // POST: Items/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var items = await _context.Items.FindAsync(id);
-            if (items != null)
+            var item = await _context.Items.FindAsync(id);
+
+            if (item != null)
             {
-                _context.Items.Remove(items);
+                _context.Items.Remove(item);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            // Redireciona para a página de confirmação de exclusão
+            return RedirectToAction("DeleteSuccess", new { itemName = item?.Name });
         }
 
-        private bool ItemsExists(int id)
+        // GET: Items/DeleteSuccess
+        public IActionResult DeleteSuccess(string itemName)
+        {
+            ViewBag.ItemName = itemName;
+            return View();
+        }
+
+        private bool ItemExists(int id)
         {
             return _context.Items.Any(e => e.ItemId == id);
         }
+
     }
 }

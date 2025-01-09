@@ -113,6 +113,8 @@ namespace ReserveSystem.Controllers
                 {
                     _context.Update(booking);
                     await _context.SaveChangesAsync();
+
+                    return RedirectToAction("EditSuccess", new { bookingId = booking.BookingId });
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -129,6 +131,24 @@ namespace ReserveSystem.Controllers
             }
             return View(booking);
         }
+
+        // GET: Bookings/EditSuccess
+        public async Task<IActionResult> EditSuccess(int bookingId)
+        {
+            var booking = await _context.Booking
+                .Include(b => b.clients)
+                .FirstOrDefaultAsync(b => b.BookingId == bookingId);
+
+            if (booking == null)
+            {
+                return NotFound();
+            }
+
+            // Mensagem de sucesso
+            ViewBag.Message = "Booking edited successfully!";
+            return View(booking);
+        }
+
 
         // GET: Bookings/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -157,15 +177,25 @@ namespace ReserveSystem.Controllers
             if (booking != null)
             {
                 _context.Booking.Remove(booking);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            // Redireciona para a página de confirmação de exclusão
+            return RedirectToAction("DeleteSuccess", new { bookingId = booking?.BookingId, bookingDate = booking?.Booking_Date });
+        }
+
+        // GET: Bookings/DeleteSuccess
+        public IActionResult DeleteSuccess(int? bookingId, DateTime? bookingDate)
+        {
+            ViewBag.BookingId = bookingId;
+            ViewBag.BookingDate = bookingDate?.ToString("dd/MM/yyyy");
+            return View();
         }
 
         private bool BookingExists(int id)
         {
             return _context.Booking.Any(e => e.BookingId == id);
         }
+
     }
 }

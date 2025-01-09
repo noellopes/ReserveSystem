@@ -130,10 +130,12 @@ namespace ReserveSystem.Controllers
                 {
                     _context.Update(cleaning_Schedule);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction("EditSuccess", new { cleaningScheduleId =cleaning_Schedule.CleaningScheduleId });
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!Cleaning_ScheduleExists(cleaning_Schedule.CleaningScheduleId))
+                    if (!CleaningScheduleExists(cleaning_Schedule.CleaningScheduleId))
                     {
                         return NotFound();
                     }
@@ -147,6 +149,24 @@ namespace ReserveSystem.Controllers
             ViewData["ClientId"] = new SelectList(_context.Client, "ClientId", "Client_Adress", cleaning_Schedule.ClientId);
             ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "StaffDriversLicense", cleaning_Schedule.StaffId);
             return View(cleaning_Schedule);
+        }
+        // GET: CleaningSchedule/EditSuccess
+        public async Task<IActionResult> EditSuccess(int cleaningScheduleId)
+        {
+            var cleaningSchedule = await _context.Cleaning_Schedule
+                .Include(cs => cs.staffMembers)
+                .Include(cs => cs.room_Booking)
+                .Include(cs => cs.client)
+                .FirstOrDefaultAsync(cs => cs.CleaningScheduleId == cleaningScheduleId);
+
+            if (cleaningSchedule == null)
+            {
+                return NotFound();
+            }
+
+            // Mensagem de sucesso
+            ViewBag.Message = "Cleaning Schedule edited successfully!";
+            return View(cleaningSchedule);
         }
 
         // GET: Cleaning_Schedule/Delete/5
@@ -169,20 +189,38 @@ namespace ReserveSystem.Controllers
             return View(cleaning_Schedule);
         }
 
-        // POST: Cleaning_Schedule/Delete/5
+        // POST: CleaningSchedule/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var cleaning_Schedule = await _context.Cleaning_Schedule.FindAsync(id);
-            _context.Cleaning_Schedule.Remove(cleaning_Schedule);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var cleaningSchedule = await _context.Cleaning_Schedule.FindAsync(id);
+            if (cleaningSchedule != null)
+            {
+                _context.Cleaning_Schedule.Remove(cleaningSchedule);
+                await _context.SaveChangesAsync();
+            }
+
+            // Redireciona para a página de confirmação de exclusão
+            return RedirectToAction("DeleteSuccess", new
+            {
+                dateServices = cleaningSchedule?.DateServices.ToString("yyyy-MM-dd"),
+                startTime = cleaningSchedule?.StartTime.ToString("HH:mm")
+            });
         }
 
-        private bool Cleaning_ScheduleExists(int id)
+        // GET: CleaningSchedule/DeleteSuccess
+        public IActionResult DeleteSuccess(string dateServices, string startTime)
+        {
+            ViewBag.DateServices = dateServices;
+            ViewBag.StartTime = startTime;
+            return View();
+        }
+
+        private bool CleaningScheduleExists(int id)
         {
             return _context.Cleaning_Schedule.Any(e => e.CleaningScheduleId == id);
         }
+
     }
 }

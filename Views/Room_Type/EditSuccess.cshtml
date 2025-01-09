@@ -1,0 +1,16 @@
+﻿@model ReserveSystem.Models.Room_Type
+
+@{
+    ViewData["Title"] = "Room Type Edited Successfully";
+}
+
+<h1>@ViewBag.Message</h1>
+
+<p><strong>Room Type ID:</strong> @Model.RoomTypeId</p>
+<p><strong>Has View:</strong> @(Model.HasView ? "Yes" : "No")</p>
+<p><strong>Type:</strong> @Model.Type</p>
+<p><strong>Capacity:</strong> @Model.Capacity</p>
+<p><strong>Room Capacity:</strong> @Model.RoomCapacity</p>
+<p><strong>Accessibility Status:</strong> @(Model.AcessibilityRoom ? "Accessible" : "Not Accessible")</p>
+
+<p><a href="Index" class="btn btn-primary">Back to List</a></p>
