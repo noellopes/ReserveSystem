@@ -34,7 +34,24 @@ namespace ReserveSystem.Controllers
                     })
                     .ToListAsync();
 
-                return View("Index", salas);
+                PopulateViewBags(roomType, floor);
+
+                var viewModel = new SalaViewModel
+                {
+                    Salas = salas,
+                    Pagination = new PagingInfo
+                    {
+                        TotalItems = totalItems,
+                        CurrentPage = page,
+                        PageSize = 10
+                    },
+                    RoomTypeFilter = roomType,
+                    StartTimeFilter = startTime,
+                    EndTimeFilter = endTime,
+                    FloorFilter = floor
+                };
+
+                return View(viewModel);
             }
             catch (Exception ex)
             {
