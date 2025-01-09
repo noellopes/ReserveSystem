@@ -6,29 +6,35 @@
     var pageInfo = (PageInfo)ViewBag.PageInfo;
 }
 
-<h1 class="text-center my-4">Motorista Transporte List</h1>
+<h1 class="text-center my-4">Motorista/Transporte Lista</h1>
 
 <div class="container">
     <form method="get" asp-action="Index" class="mb-3">
         <div class="row">
             <div class="col-md-8">
-                <input type="text" name="searchString" value="@ViewData["SearchString"]" class="form-control" placeholder="Search...">
+                <input type="text" name="searchString" value="@ViewData["SearchString"]" class="form-control" placeholder="Pesquisar...">
             </div>
             <div class="col-md-4">
-                <button type="submit" class="btn btn-primary w-100">Search</button>
+                <!-- Botão de Pesquisar com estilo Bootstrap -->
+                <button type="submit" class="btn btn-primary w-100">Pesquisar</button>
             </div>
         </div>
     </form>
+
+    <!-- Botão para Criar Novo Motorista/Transporte -->
+    <div class="text-end mb-3">
+        <a asp-action="Create" class="btn btn-success">Criar Novo Motorista/Transporte</a>
+    </div>
 
     <div class="table-responsive">
         <table class="table table-bordered table-striped table-hover text-center">
             <thead class="table-dark">
                 <tr>
                     <th>
-                        <a asp-action="Index" asp-route-sortOrder="@ViewData["StaffSortParm"]" asp-route-searchString="@ViewData["SearchString"]">Staff</a>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["StaffSortParm"]" asp-route-searchString="@ViewData["SearchString"]" class="text-white">Staff</a>
                     </th>
                     <th>
-                        <a asp-action="Index" asp-route-sortOrder="@ViewData["TransporteSortParm"]" asp-route-searchString="@ViewData["SearchString"]">Transporte</a>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["TransporteSortParm"]" asp-route-searchString="@ViewData["SearchString"]" class="text-white">Transporte</a>
                     </th>
                     <th>Actions</th>
                 </tr>
@@ -40,9 +46,10 @@
                         <td>@item.Staff.Staff_Name</td>
                         <td>@item.Transporte.TipoTransporte</td>
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.MotoristaTransporteId" class="btn btn-warning btn-sm">Edit</a>
-                            <a asp-action="Details" asp-route-id="@item.MotoristaTransporteId" class="btn btn-info btn-sm text-white">Details</a>
-                            <a asp-action="Delete" asp-route-id="@item.MotoristaTransporteId" class="btn btn-danger btn-sm">Delete</a>
+                            <!-- Botões de Ação com estilo Bootstrap -->
+                            <a asp-action="Edit" asp-route-id="@item.MotoristaTransporteId" class="btn btn-warning btn-sm">Editar</a>
+                            <a asp-action="Details" asp-route-id="@item.MotoristaTransporteId" class="btn btn-info btn-sm text-white">Detalhes</a>
+                            <a asp-action="Delete" asp-route-id="@item.MotoristaTransporteId" class="btn btn-danger btn-sm">Eliminar</a>
                         </td>
                     </tr>
                 }

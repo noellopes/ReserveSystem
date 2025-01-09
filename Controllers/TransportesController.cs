@@ -191,6 +191,24 @@ namespace ReserveSystem.Controllers
             return View(transporte);
         }
 
+        // GET: Transportes/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound("ID inválido");
+            }
+
+            var transporte = await _context.Transporte
+                .FirstOrDefaultAsync(m => m.TransporteId == id);
+            if (transporte == null)
+            {
+                return NotFound("Transporte não encontrado");
+            }
+
+            return View(transporte);
+        }
+
         // POST: Transportes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

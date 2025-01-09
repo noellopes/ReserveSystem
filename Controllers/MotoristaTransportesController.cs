@@ -105,7 +105,7 @@ namespace ReserveSystem.Controllers
         public IActionResult Create()
         {
             ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "Staff_Name");
-            ViewData["TransporteId"] = new SelectList(_context.Transporte, "TransporteId", "TipoTransporte");
+            ViewData["TransporteId"] = new SelectList(_context.Transporte, "TransporteId", "Matricula");
             return View();
         }
 
@@ -204,10 +204,7 @@ namespace ReserveSystem.Controllers
             {
                 _context.MotoristaTransporte.Remove(motoristaTransporte);
             }
-            if (_context.MotoristaTransporte.Any(mt => mt.TransporteId == id))
-            {
-                return BadRequest("O transporte está vinculado a um motorista e não pode ser excluído.");
-            }
+            
 
 
             await _context.SaveChangesAsync();
