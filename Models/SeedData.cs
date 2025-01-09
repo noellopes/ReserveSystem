@@ -59,18 +59,18 @@ namespace ReserveSystem.Models
         private static void PopulateStaffs(ReserveSystemContext context)
         {
             var jobs = context.Job.ToList();
-            if (jobs.Any())
+            if (jobs.Count != 0)
             {
                 var staffList = new List<Staff>();
                 var random = new Random();
 
                 // First names and last names for generating combinations
-                string[] firstNames = { "James", "Mary", "John", "Patricia", "Robert", "Jennifer", "Michael", "Linda", "William", "Elizabeth", 
+                string[] firstNames = [ "James", "Mary", "John", "Patricia", "Robert", "Jennifer", "Michael", "Linda", "William", "Elizabeth", 
                                     "David", "Barbara", "Richard", "Susan", "Joseph", "Jessica", "Thomas", "Sarah", "Charles", "Karen",
-                                    "Ana", "João", "Maria", "Pedro", "Sofia", "Miguel", "Inês", "André", "Beatriz", "Tiago" };
+                                    "Ana", "João", "Maria", "Pedro", "Sofia", "Miguel", "Inês", "André", "Beatriz", "Tiago" ];
                 
-                string[] lastNames = { "Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez",
-                                    "Silva", "Santos", "Ferreira", "Pereira", "Costa", "Carvalho", "Almeida", "Rodrigues", "Ribeiro", "Pinto" };
+                string[] lastNames = [ "Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez",
+                                    "Silva", "Santos", "Ferreira", "Pereira", "Costa", "Carvalho", "Almeida", "Rodrigues", "Ribeiro", "Pinto" ];
 
                 for (int i = 0; i < 20; i++)
                 {
@@ -130,17 +130,17 @@ namespace ReserveSystem.Models
             var clientList = new List<Client>();
             var random = new Random();
 
-            string[] firstNames = { "Oliver", "Emma", "Lucas", "Ava", "Liam", "Sophia", "Noah", "Isabella", "Ethan", "Mia",
+            string[] firstNames = [ "Oliver", "Emma", "Lucas", "Ava", "Liam", "Sophia", "Noah", "Isabella", "Ethan", "Mia",
                                 "Mason", "Charlotte", "Logan", "Amelia", "Elijah", "Harper", "James", "Evelyn", "Alexander", "Abigail",
-                                "António", "Mariana", "Francisco", "Carolina", "Guilherme", "Diana", "Duarte", "Catarina", "Eduardo", "Leonor" };
+                                "António", "Mariana", "Francisco", "Carolina", "Guilherme", "Diana", "Duarte", "Catarina", "Eduardo", "Leonor" ];
 
-            string[] lastNames = { "Anderson", "Wilson", "Taylor", "Moore", "Jackson", "Martin", "Lee", "Thompson", "White", "Harris",
-                                "Oliveira", "Sousa", "Fernandes", "Martins", "Gonçalves", "Gomes", "Lopes", "Marques", "Correia", "Nunes" };
+            string[] lastNames = [ "Anderson", "Wilson", "Taylor", "Moore", "Jackson", "Martin", "Lee", "Thompson", "White", "Harris",
+                                "Oliveira", "Sousa", "Fernandes", "Martins", "Gonçalves", "Gomes", "Lopes", "Marques", "Correia", "Nunes" ];
 
-            string[] streets = { "Main St", "Oak Avenue", "Pine Road", "Maple Lane", "Cedar Street", "Elm Court", "River Road", "Lake Drive",
-                                "Rua Augusta", "Avenida da Liberdade", "Rua do Carmo", "Avenida Roma", "Rua Castilho", "Avenida Almirante Reis" };
+            string[] streets = [ "Main St", "Oak Avenue", "Pine Road", "Maple Lane", "Cedar Street", "Elm Court", "River Road", "Lake Drive",
+                                "Rua Augusta", "Avenida da Liberdade", "Rua do Carmo", "Avenida Roma", "Rua Castilho", "Avenida Almirante Reis" ];
 
-            string[] cities = { "Lisbon", "Porto", "Coimbra", "Braga", "Faro", "Aveiro", "Évora", "Funchal", "Lagos", "Cascais" };
+            string[] cities = ["Lisbon", "Porto", "Coimbra", "Braga", "Faro", "Aveiro", "Évora", "Funchal", "Lagos", "Cascais"];
 
             for (int i = 0; i < 30; i++)
             {
@@ -164,21 +164,18 @@ namespace ReserveSystem.Models
         private static void PopulateRooms(ReserveSystemContext context)
         {
             var roomList = new List<Room>();
-            string[] roomTypes = { "Standard Single", "Standard Double", "Deluxe Single", "Deluxe Double", 
-                                "Junior Suite", "Executive Suite", "Family Suite", "Presidential Suite" };
+            string[] roomTypes = [ "Standard Single", "Standard Double", "Deluxe Single", "Deluxe Double", 
+                                "Junior Suite", "Executive Suite", "Family Suite", "Presidential Suite" ];
 
             // Generate rooms for 4 floors (1-4), 10 rooms per floor
             for (int floor = 1; floor <= 4; floor++)
             {
                 for (int room = 1; room <= 10; room++)
                 {
-                    var roomNumber = $"{floor}{room:D02}";  // Format: floor + room number (e.g., 101, 102...)
-                    var roomType = roomTypes[room % 8];  // Cycle through room types
-
                     roomList.Add(new Room
                     {
-                        Number = roomNumber,
-                        Type = roomType
+                        Number = $"{floor}{room:D2}", // This ensures unique room numbers like 101, 102, etc.
+                        Type = roomTypes[(floor * room - 1) % roomTypes.Length]
                     });
                 }
             }
@@ -189,7 +186,7 @@ namespace ReserveSystem.Models
         private static void PopulateRoomServices(ReserveSystemContext context)
         {
             var jobs = context.Job.ToList();
-            if (jobs.Any())
+            if (jobs.Count != 0)
             {
                 context.RoomService.AddRange(
                     // Cleaning Services
@@ -197,7 +194,7 @@ namespace ReserveSystem.Models
                     {
                         Name = "Standard Room Cleaning",
                         Description = "Daily cleaning service including bed making and bathroom sanitization",
-                        JobId = jobs[0].Id,
+                        JobId = jobs[jobs.FindIndex(j => j.Name.Contains("Cleaner"))].Id,
                         Price = 30.00m,
                         ServiceActive = true,
                         ServiceLimitHours = 1
@@ -206,7 +203,7 @@ namespace ReserveSystem.Models
                     {
                         Name = "Deep Cleaning",
                         Description = "Thorough cleaning including upholstery, carpets, and windows",
-                        JobId = jobs[0].Id,
+                        JobId = jobs[jobs.FindIndex(j => j.Name.Contains("Cleaner"))].Id,
                         Price = 75.00m,
                         ServiceActive = true,
                         ServiceLimitHours = 3
@@ -216,7 +213,7 @@ namespace ReserveSystem.Models
                     {
                         Name = "Breakfast Service",
                         Description = "Continental or American breakfast delivered to room",
-                        JobId = jobs[1].Id,
+                        JobId = jobs[jobs.FindIndex(j => j.Name.Contains("Service"))].Id,
                         Price = 25.00m,
                         ServiceActive = true,
                         ServiceLimitHours = 1
@@ -225,7 +222,7 @@ namespace ReserveSystem.Models
                     {
                         Name = "Lunch Service",
                         Description = "Lunch menu with local and international options",
-                        JobId = jobs[1].Id,
+                        JobId = jobs[jobs.FindIndex(j => j.Name.Contains("Service"))].Id,
                         Price = 35.00m,
                         ServiceActive = true,
                         ServiceLimitHours = 1
@@ -234,7 +231,7 @@ namespace ReserveSystem.Models
                     {
                         Name = "Dinner Service",
                         Description = "Fine dining experience in your room",
-                        JobId = jobs[1].Id,
+                        JobId = jobs[jobs.FindIndex(j => j.Name.Contains("Service"))].Id,
                         Price = 45.00m,
                         ServiceActive = true,
                         ServiceLimitHours = 2
@@ -244,7 +241,7 @@ namespace ReserveSystem.Models
                     {
                         Name = "Basic Maintenance",
                         Description = "Quick fixes and minor repairs",
-                        JobId = jobs[2].Id,
+                        JobId = jobs[jobs.FindIndex(j => j.Name.Contains("Technician"))].Id,
                         Price = 40.00m,
                         ServiceActive = true,
                         ServiceLimitHours = 1
@@ -253,7 +250,7 @@ namespace ReserveSystem.Models
                     {
                         Name = "Technical Support",
                         Description = "TV, Wi-Fi, and electronic device assistance",
-                        JobId = jobs[2].Id,
+                        JobId = jobs[jobs.FindIndex(j => j.Name.Contains("Technician"))].Id,
                         Price = 35.00m,
                         ServiceActive = true,
                         ServiceLimitHours = 1
@@ -263,7 +260,7 @@ namespace ReserveSystem.Models
                     {
                         Name = "Laundry Service",
                         Description = "Same-day laundry and pressing service",
-                        JobId = jobs[5].Id,
+                        JobId = jobs[jobs.FindIndex(j => j.Name.Contains("Specialist"))].Id,
                         Price = 50.00m,
                         ServiceActive = true,
                         ServiceLimitHours = 4
@@ -272,7 +269,7 @@ namespace ReserveSystem.Models
                     {
                         Name = "Mini Bar Restock",
                         Description = "Replenishment of mini bar items",
-                        JobId = jobs[6].Id,
+                        JobId = jobs[jobs.FindIndex(j => j.Name.Contains("Mini Bar Attendant"))].Id,
                         Price = 20.00m,
                         ServiceActive = true,
                         ServiceLimitHours = 1
@@ -281,7 +278,7 @@ namespace ReserveSystem.Models
                     {
                         Name = "VIP Welcome Package",
                         Description = "Premium welcome amenities and personalized service",
-                        JobId = jobs[7].Id,
+                        JobId = jobs[jobs.FindIndex(j => j.Name.Contains("Coordinator"))].Id,
                         Price = 100.00m,
                         ServiceActive = true,
                         ServiceLimitHours = 2
@@ -306,67 +303,70 @@ namespace ReserveSystem.Models
             var clients = context.Client.ToList();
             var rooms = context.Room.ToList();
 
-            // Remove this check since we just dropped the database
-            // var rsb = context.RoomServiceBooking.ToList();
-            // if (rsb.Count != 0) return;
-
             var random = new Random();
             var bookings = new List<RoomServiceBooking>();
             var now = DateTime.Now;
             var startDate = now.AddDays(-90); // 3 months ago
             var endDate = now.AddDays(30);    // 1 month in future
+            var nBookings = 100; // Reduced from 1000 to prevent overload
 
-            // Generate 100 bookings over a 4-month period
-            for (int i = 0; i < 100; i++)
+            // Generate nBookings bookings over a 4-month period
+            for (int i = 0; i < nBookings; i++)
             {
                 // More frequent bookings for certain services
-                var service = random.Next(100) < 70 ? 
-                    services.Where(s => s.Name.Contains("Cleaning") || s.Name.Contains("Service")).ElementAt(random.Next(3)) : 
+                var eligibleServices = services.Where(s => 
+                    s.Name.Contains("Cleaning", StringComparison.OrdinalIgnoreCase) || 
+                    s.Name.Contains("Service", StringComparison.OrdinalIgnoreCase)).ToList();
+
+                if (eligibleServices.Count == 0)
+                    eligibleServices = services; // Fallback if no eligible services found
+
+                var service = random.Next(100) < 70 && eligibleServices.Any() ? 
+                    eligibleServices[random.Next(eligibleServices.Count)] : 
                     services[random.Next(services.Count)];
 
                 // Staff assignment based on job type
                 var eligibleStaff = staffs.Where(s => s.JobId == service.JobId).ToList();
+                if (eligibleStaff.Count == 0)
+                    eligibleStaff = staffs; // Fallback if no eligible staff found
+                
                 var staff = eligibleStaff[random.Next(eligibleStaff.Count)];
-
                 var client = clients[random.Next(clients.Count)];
 
                 // Room assignment with floor patterns
                 var roomFloor = random.Next(1, 5);
                 var eligibleRooms = rooms.Where(r => r.Number.StartsWith(roomFloor.ToString())).ToList();
+                if (eligibleRooms.Count == 0)
+                    eligibleRooms = rooms; // Fallback if no eligible rooms found
+                    
                 var room = eligibleRooms[random.Next(eligibleRooms.Count)];
 
-                // Booking date distribution
+                // Rest of the booking generation logic...
                 var timeSpan = endDate - startDate;
                 var randomDays = random.Next((int)timeSpan.TotalDays);
                 var bookingDate = startDate.AddDays(randomDays);
                 
-                // Service duration logic
                 var serviceDuration = service.ServiceLimitHours > 0 ? 
                     service.ServiceLimitHours : 
                     random.Next(1, 4);
 
-                // More realistic date ranges based on service type
                 var serviceStartDate = DateOnly.FromDateTime(bookingDate);
                 var serviceEndDate = service.Name.Contains("Deep") || service.Name.Contains("VIP") ? 
                     serviceStartDate.AddDays(random.Next(2, 4)) : 
                     serviceStartDate.AddDays(random.Next(0, 2));
 
-                // Status logic based on dates and service type
                 var isInPast = serviceStartDate < DateOnly.FromDateTime(now);
                 var isHighPriority = service.Price > 50;
                 var isConfirmed = isInPast || (isHighPriority ? random.Next(100) < 90 : random.Next(100) < 70);
                 var isPaid = isInPast ? random.Next(100) < 95 : (isHighPriority ? random.Next(100) < 80 : random.Next(100) < 60);
 
-                // Feedback logic
                 var hasFeedback = isInPast && isPaid && random.Next(100) < 70;
                 var baseRating = isHighPriority ? 4 : 3;
-                int? feedback = hasFeedback ? random.Next(baseRating, 6) : (int?)null;
+                int? feedback = hasFeedback ? random.Next(baseRating, 6) : null;
 
-                // Price calculation with service type consideration
                 var basePrice = service.Price;
                 var priceMultiplier = 1.0m;
                 
-                // Price adjustments
                 if (serviceEndDate.DayNumber - serviceStartDate.DayNumber > 0)
                     priceMultiplier += 0.1m * (serviceEndDate.DayNumber - serviceStartDate.DayNumber);
                 if (isHighPriority)
@@ -376,7 +376,7 @@ namespace ReserveSystem.Models
 
                 var finalPrice = basePrice * serviceDuration * priceMultiplier;
 
-                var booking = new RoomServiceBooking
+                bookings.Add(new RoomServiceBooking
                 {
                     RoomServiceId = service.Id,
                     StaffId = staff.Id,
@@ -390,9 +390,7 @@ namespace ReserveSystem.Models
                     ClientFeedback = feedback,
                     ValueToPay = Math.Round(finalPrice, 2),
                     PaymentDone = isPaid
-                };
-
-                bookings.Add(booking);
+                });
             }
 
             // Add all bookings in one batch

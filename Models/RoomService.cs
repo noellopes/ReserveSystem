@@ -1,13 +1,16 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace ReserveSystem.Models
 {
+    [Index(nameof(Name), IsUnique = true)]
     public class RoomService
     {
 
         [Required, Key, Display(Name = "Room Service Id"), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column(TypeName = "INTEGER")]
+        [StringLength(50), MinLength(1), MaxLength(50)]
         public int Id { get; set; }
 
         // Fk Job Id
