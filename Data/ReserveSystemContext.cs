@@ -13,6 +13,9 @@ namespace ReserveSystem.Data
         public DbSet<Room> Room { get; set; }
         public DbSet<RoomType> RoomType { get; set; }
 
+        public DbSet<RoomBooking> RoomBooking { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

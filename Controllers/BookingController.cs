@@ -179,7 +179,7 @@ namespace ReserveSystem.Controllers
                 ViewBag.Action = "Index";
                 return View("EntityNoLongerExists");
             }
-
+            ViewBag.CanUpdate = true;
             if ((bookingModel.CHECKIN_DATE.ToDateTime(TimeOnly.MinValue) - DateTime.Now).TotalDays < 3 && !bookingModel.CanDeleteOrUpdate())
             {
                 ViewBag.CanUpdate = false;

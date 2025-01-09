@@ -130,7 +130,7 @@ namespace ReserveSystem.Data.Migrations
                     b.ToTable("Employee");
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.RoomModel", b =>
+            modelBuilder.Entity("ReserveSystem.Models.Room", b =>
                 {
                     b.Property<int>("ID_ROOM")
                         .ValueGeneratedOnAdd()
@@ -212,7 +212,7 @@ namespace ReserveSystem.Data.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.RoomModel", b =>
+            modelBuilder.Entity("ReserveSystem.Models.Room", b =>
                 {
                     b.HasOne("ReserveSystem.Models.RoomType", "RoomType")
                         .WithMany("Rooms")
@@ -226,7 +226,7 @@ namespace ReserveSystem.Data.Migrations
             modelBuilder.Entity("ReserveSystem.Models.RoomBooking", b =>
                 {
                     b.HasOne("ReserveSystem.Models.Booking", "Booking")
-                        .WithMany("RoomBookings")
+                        .WithMany()
                         .HasForeignKey("ID_BOOKING")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -240,11 +240,6 @@ namespace ReserveSystem.Data.Migrations
                     b.Navigation("Booking");
 
                     b.Navigation("Room");
-                });
-
-            modelBuilder.Entity("ReserveSystem.Models.Booking", b =>
-                {
-                    b.Navigation("RoomBookings");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.ClientModel", b =>

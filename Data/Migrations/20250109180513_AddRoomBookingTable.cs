@@ -5,7 +5,7 @@
 namespace ReserveSystem.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateRoomBookingTable : Migration
+    public partial class AddRoomBookingTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,7 +23,29 @@ namespace ReserveSystem.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RoomBooking", x => x.ID_ROOM_BOOKING);
+                    table.ForeignKey(
+                        name: "FK_RoomBooking_Booking_ID_BOOKING",
+                        column: x => x.ID_BOOKING,
+                        principalTable: "Booking",
+                        principalColumn: "ID_BOOKING",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RoomBooking_Room_ID_ROOM",
+                        column: x => x.ID_ROOM,
+                        principalTable: "Room",
+                        principalColumn: "ID_ROOM",
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RoomBooking_ID_BOOKING",
+                table: "RoomBooking",
+                column: "ID_BOOKING");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RoomBooking_ID_ROOM",
+                table: "RoomBooking",
+                column: "ID_ROOM");
         }
 
         /// <inheritdoc />
