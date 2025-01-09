@@ -179,6 +179,7 @@ namespace ReserveSystem.Controllers
                 ViewBag.Action = "Index";
                 return View("EntityNoLongerExists");
             }
+            ViewBag.bookingId = id;
             return View(bookingModel);
         }
 
