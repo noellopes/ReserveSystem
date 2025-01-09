@@ -18,7 +18,8 @@ namespace ReserveSystem.Data
             PopulateCliente(db);
             PopulateRoom(db);
             PopulateRoomType(db);
-           
+            PopulateBooking(db);
+
         }
 
         internal static void PopulateUsers(UserManager<IdentityUser> userManager)
@@ -57,6 +58,26 @@ namespace ReserveSystem.Data
             //EnsureRoleIsCreatedAsync(roleManager, "client").Wait();
              
             // ...
+        }
+
+        private static void PopulateBooking(ReserveSystemContext db)
+        {
+            if (db.Booking.Any()) return;
+
+            var bookings = Enumerable.Range(1, 20).Select(i => new Booking
+            {
+                ID_CLIENT = i, // Assuming client IDs are sequential and exist
+                CHECKIN_DATE = DateOnly.FromDateTime(DateTime.Today.AddDays(i)), // Different check-in dates
+                CHECKOUT_DATE = DateOnly.FromDateTime(DateTime.Today.AddDays(i)), // Two days after check-in
+                BOOKING_DATE = DateTime.Today.AddDays(-i), // Booking made i days ago
+                TOTAL_PERSONS_NUMBER = i % 4 + 1, // 1 to 4 persons
+                BOOKED = true,
+                PAYMENT_STATUS = i % 2 == 0, // Alternating payment status
+                Client = null // Lazy-loading or explicitly assigned later
+            }).ToArray();
+
+            db.Booking.AddRange(bookings);
+            db.SaveChanges();
         }
 
         private static async Task EnsureRoleIsCreatedAsync(RoleManager<IdentityRole> roleManager, string roleName)
