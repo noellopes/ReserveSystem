@@ -12,8 +12,8 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    [Migration("20250102234159_Reserva")]
-    partial class Reserva
+    [Migration("20250107225210_Inicial")]
+    partial class Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -131,9 +131,6 @@ namespace ReserveSystem.Migrations
                     b.Property<double>("PrecoTotal")
                         .HasColumnType("float");
 
-                    b.Property<long?>("TipoReservaidTipoReserva")
-                        .HasColumnType("bigint");
-
                     b.Property<int>("TotalParticipantes")
                         .HasColumnType("int");
 
@@ -143,7 +140,7 @@ namespace ReserveSystem.Migrations
 
                     b.HasIndex("EquipamentoIdEquipamento");
 
-                    b.HasIndex("TipoReservaidTipoReserva");
+                    b.HasIndex("IdTipoReserva");
 
                     b.ToTable("Reserva");
                 });
@@ -257,7 +254,9 @@ namespace ReserveSystem.Migrations
 
                     b.HasOne("ReserveSystem.Models.TipoReserva", "TipoReserva")
                         .WithMany()
-                        .HasForeignKey("TipoReservaidTipoReserva");
+                        .HasForeignKey("IdTipoReserva")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Client");
 

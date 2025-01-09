@@ -5,7 +5,7 @@
 namespace ReserveSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class AddNifCliente : Migration
+    public partial class Inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

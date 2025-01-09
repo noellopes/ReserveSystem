@@ -17,5 +17,6 @@ namespace ReserveSystem.Data
         public DbSet<Sala> Sala { get; set; }
         public DbSet<TipoSala> TipoSala { get; set; }
         public DbSet<ClientModel> ClientModel { get; set; }
+       
     }
 }
