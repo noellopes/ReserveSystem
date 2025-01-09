@@ -22,14 +22,12 @@
     <div class="row mb-5">
         <div class="col-12">
             <form asp-controller="RoomServiceBooking" asp-action="Index" method="get">
-                <div class="input-group input-group-lg">
-                    <span class="input-group-text bg-white border-end-0">
-                        <i class="bi bi-search text-secondary"></i>
-                    </span>
-                    <input type="number" class="form-control border-start-0" id="SearchInt" name="SearchInt"
-                           placeholder="Search by Booking ID..." min="0" value="@Model.SearchInt">
+                <div class="input-group">
                     <select asp-for="RoomServiceId" asp-items="Model.RoomServices" class="form-select">
                         <option value="">All Room Services</option>
+                    </select>
+                    <select asp-for="RoomId" asp-items="Model.Rooms" class="form-select">
+                        <option value="">All Rooms</option>
                     </select>
                     <button type="submit" class="btn btn-secondary">
                         <i class="bi bi-funnel-fill me-2"></i>Filter
@@ -123,24 +121,41 @@
         <div class="d-flex justify-content-center mt-5">
             <nav aria-label="Page navigation">
                 <ul class="pagination">
-                    <li class="page-item @(Model.PagingInfo.CurrentPage == 1 ? "disabled" : "")">
-                        <a class="page-link" asp-action="Index" asp-route-page="1" aria-label="First">
-                            <span aria-hidden="true">&laquo;</span>
-                            <span class="d-none d-md-inline">First</span>
-                        </a>
-                    </li>
-                    @for (int i = 1; i <= Model.PagingInfo.TotalPages; i++)
+                    @if (Model.PagingInfo.CurrentPage > 1)
                     {
-                        <li class="page-item @(i == Model.PagingInfo.CurrentPage ? "active" : "")">
-                            <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+                        <li class="page-item">
+                            <a class="page-link" asp-action="Index" 
+                            asp-route-page="1"
+                            asp-route-roomServiceId="@Model.RoomServiceId"
+                            asp-route-roomId="@Model.RoomId"
+                            aria-label="First">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
                         </li>
                     }
-                    <li class="page-item @(Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages ? "disabled" : "")">
-                        <a class="page-link" asp-action="Index" asp-route-page="@Model.PagingInfo.TotalPages" aria-label="Last">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span class="d-none d-md-inline">Last</span>
-                        </a>
-                    </li>
+
+                    @for (int i = Model.PagingInfo.StartPage; i <= Model.PagingInfo.EndPage; i++)
+                    {
+                        <li class="page-item @(i == Model.PagingInfo.CurrentPage ? "active" : "")">
+                            <a class="page-link" asp-action="Index"
+                            asp-route-page="@i"
+                            asp-route-roomServiceId="@Model.RoomServiceId"
+                            asp-route-roomId="@Model.RoomId">@i</a>
+                        </li>
+                    }
+
+                    @if (Model.PagingInfo.CurrentPage < Model.PagingInfo.TotalPages)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" asp-action="Index"
+                            asp-route-page="@Model.PagingInfo.TotalPages"
+                            asp-route-roomServiceId="@Model.RoomServiceId"
+                            asp-route-roomId="@Model.RoomId"
+                            aria-label="Last">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    }
                 </ul>
             </nav>
         </div>

@@ -9,17 +9,12 @@ using System.Diagnostics;
 
 namespace ReserveSystem.Controllers
 {
-    public class RoomServiceBookingController : Controller
+    public class RoomServiceBookingController(ReserveSystemContext context) : Controller
     {
-        private readonly ReserveSystemContext _context;
-
-        public RoomServiceBookingController(ReserveSystemContext context)
-        {
-            _context = context;
-        }
+        private readonly ReserveSystemContext _context = context;
 
         // GET: RoomServiceBooking
-        public async Task<IActionResult> Index(int roomServiceId = 0, int searchInt = 0, int page = 1)
+        public async Task<IActionResult> Index(int roomServiceId = 0, int roomId = 0, int page = 1)
         {
             if (_context.RoomServiceBooking == null)
             {
@@ -38,15 +33,15 @@ namespace ReserveSystem.Controllers
                 bookings = bookings.Where(b => b.RoomServiceId == roomServiceId);
             }
 
-            if (searchInt != 0)
+            if (roomId != 0)
             {
-                bookings = bookings.Where(b => b.Id == searchInt);
+                bookings = bookings.Where(b => b.RoomId == roomId);
             }
 
             var model = new RoomServiceViewModel
             {   
                 RoomServiceId = roomServiceId, // Preserve room service filter
-                SearchInt = searchInt,         // Preserve search filter
+                RoomId = roomId,         // Preserve search filter
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = page,
@@ -55,11 +50,20 @@ namespace ReserveSystem.Controllers
                 // Get room services for dropdown
                 RoomServices = new SelectList(
                     await _context.RoomService
+                        .Where(rs => rs.ServiceActive)
                         .OrderBy(rs => rs.Name)
                         .ToListAsync(), 
                     "Id", 
                     "Name", 
-                    roomServiceId  // Set selected value
+                    roomServiceId
+                ),
+                Rooms = new SelectList(
+                    await _context.Room
+                        .OrderBy(r => r.Number)
+                        .ToListAsync(),
+                    "Id",
+                    "Number",
+                    roomId
                 )
             };
 
@@ -342,18 +346,12 @@ namespace ReserveSystem.Controllers
             
             if (statusCode.HasValue)
             {
-                switch (statusCode.Value)
+                ViewBag.ErrorMessage = statusCode.Value switch
                 {
-                    case 404:
-                        ViewBag.ErrorMessage = "The requested page was not found.";
-                        break;
-                    case 500:
-                        ViewBag.ErrorMessage = "An internal server error occurred.";
-                        break;
-                    default:
-                        ViewBag.ErrorMessage = "An error occurred while processing your request.";
-                        break;
-                }
+                    404 => "The requested page was not found.",
+                    500 => "An internal server error occurred.",
+                    _ => "An error occurred while processing your request.",
+                };
             }
 
             return View(error);
