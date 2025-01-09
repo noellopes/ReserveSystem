@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using ReserveSystem.Models;
 
 namespace ReserveSystem.Controllers
 {
+    [Authorize(Roles = "admin, manager")]
     public class StaffsController : Controller
     {
         private readonly ReserveSystemContext _context;
