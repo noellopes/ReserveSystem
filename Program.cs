@@ -36,7 +36,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(
     .AddEntityFrameworkStores<ReserveSystemUsersDbContext>();
 
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddRazorPages();
 var app = builder.Build();
 
 
