@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace ReserveSystem.Controllers
 {
@@ -21,11 +22,37 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Events
-        public IActionResult Show()
+        public async Task<IActionResult> Show(int page = 1, string searchName = "")
         {
-            var events = _context.Events.Where(e=>e.inUse==true).ToList();
-            return View(events);
+            var eventsQuery = _context.Events.Where(e => e.inUse); // Apenas eventos ativos
+
+            if (!string.IsNullOrEmpty(searchName))
+            {
+                eventsQuery = eventsQuery.Where(e => e.nameEv.Contains(searchName));
+            }
+
+            var totalItems = await eventsQuery.CountAsync();
+
+            var events = await eventsQuery
+                .OrderBy(e => e.nameEv)
+                .Skip((page - 1) * 10)
+                .Take(10)
+                .ToListAsync();
+
+            var model = new EventsViewModel
+            {
+                Events = events,
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    TotalItems = totalItems,
+                },
+                SearchName = searchName
+            };
+
+            return View(model);
         }
+
 
         // GET: Events/Details/5
         public async Task<IActionResult> Details(int? id)
