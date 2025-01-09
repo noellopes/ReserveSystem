@@ -489,13 +489,13 @@ namespace ReserveSystem.Data
                     new Room { RoomTypeId = 1 },
                     new Room { RoomTypeId = 2 },
                     new Room { RoomTypeId = 3 },
-                    new Room { RoomTypeId = 4 },
+                    new Room { RoomTypeId = 2 },
                     new Room { RoomTypeId = 5 },
-                    new Room { RoomTypeId = 6 },
+                    new Room { RoomTypeId = 9 },
                     new Room { RoomTypeId = 7 },
                     new Room { RoomTypeId = 8 },
-                    new Room { RoomTypeId = 9 },
-                    new Room { RoomTypeId = 10 }
+                    new Room { RoomTypeId = 4 },
+                    new Room { RoomTypeId = 1 }
                 );
                 db.SaveChanges();
             }
@@ -548,7 +548,7 @@ namespace ReserveSystem.Data
                     },
                     new Booking
                     {
-                        ClientId = 3,
+                        ClientId = 2,
                         Checkin_date = new DateTime(2025, 4, 10),
                         Checkout_date = new DateTime(2025, 4, 15),
                         Booking_Date = new DateTime(2024, 10, 10),
@@ -578,7 +578,7 @@ namespace ReserveSystem.Data
                     },
                     new Booking
                     {
-                        ClientId = 6,
+                        ClientId = 5,
                         Checkin_date = new DateTime(2025, 7, 15),
                         Checkout_date = new DateTime(2025, 7, 20),
                         Booking_Date = new DateTime(2024, 10, 1),
