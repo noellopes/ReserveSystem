@@ -1,10 +1,10 @@
-﻿@model IEnumerable<ReserveSystem.Models.Events>
+﻿@model EventsViewModel
 
 <style>
     body {
         font-family: 'Georgia', serif;
-        background-color: #f9f9f6; 
-        color: #1a1a1a; 
+        background-color: #f9f9f6; /* Off-white background */
+        color: #1a1a1a; /* Deep black for text */
     }
 
     /* Overall table styles */
@@ -19,14 +19,14 @@
 
         /* Table Header Styles */
         .table thead {
-            background-color: #333333; 
+            background-color: #333333; /* Dark background for header */
             color: white;
         }
 
         /* Table row hover effect */
         .table tbody tr:hover {
-            background-color: #F5F5F5; 
-            color: #d4af37; 
+            background-color: #F5F5F5; /* Hover effect color */
+            color: #d4af37; /* Text color on hover */
             cursor: pointer;
         }
 
@@ -60,17 +60,17 @@
         }
 
         .btn:active {
-            background-color: #000000;
+            background-color: #000000; /* Darker effect when clicked */
             border-color: #000000;
             color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transform: translateY(0); 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Return to original shadow */
+            transform: translateY(0); /* Button "presses" down */
         }
 
     .hr {
         border: none;
         height: 2px;
-        background-color: #d4af37; 
+        background-color: #d4af37; /* Gold */
         width: 60%;
         margin: 1rem auto;
         opacity: 0.8;
@@ -79,7 +79,7 @@
     /* Centered title */
     h1 {
         font-size: 2rem;
-        color: #d4af37; 
+        color: #d4af37; /* Gold for title */
     }
 
     /* Adjusting the paragraph style for centered 'Create' button */
@@ -88,21 +88,108 @@
         margin-top: 2rem;
     }
 
+    /* Pagination styles */
+    .pagination {
+        margin-top: 20px;
+    }
+
+        .pagination .page-item {
+            margin: 0 5px;
+        }
+
+            .pagination .page-item .page-link {
+                color: #333333;
+                background-color: #ffffff; /* White background */
+                border: 1px solid #d4af37; /* Gold border */
+                padding: 10px 15px;
+                font-weight: 600;
+                border-radius: 50px;
+                transition: all 0.3s ease;
+            }
+
+            .pagination .page-item.active .page-link {
+                background-color: #d4af37; /* Gold background for active */
+                color: #ffffff; /* White text */
+                border-color: #d4af37;
+            }
+
+            .pagination .page-item.disabled .page-link {
+                background-color: #f5f5f5; /* Light gray for disabled */
+                color: #999999; /* Muted gray text */
+            }
+
+            .pagination .page-item .page-link:hover {
+                background-color: #333333; /* Darker background on hover */
+                color: #ffffff;
+                border-color: #333333;
+            }
+
+    .modal-content {
+        background-color: #ffffff; /* White background */
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        background-color: #333333; /* Gold */
+        color: white;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+    }
+
+    .modal-body {
+        font-size: 1.1rem;
+        color: #333333;
+        padding: 1.5rem;
+    }
+
+    .modal-footer {
+        background-color: #f9f9f6; /* Light off-white */
+        padding: 1rem;
+        justify-content: center;
+    }
+
 </style>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const rows = document.querySelectorAll(".clickable-row");
-        rows.forEach(row => {
-            row.addEventListener("click", function () {
-                window.location = this.dataset.href;
-            });
-        });
-    });
-</script>
+<div>
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#searchModal">
+        Search
+    </button>
+    @if (Model.SearchName != "")
+    {
+        <a asp-action="Show" class="btn btn-outline-danger">Clear search</a>
+    }
+</div>
+
+<!-- Search Modal -->
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Search book</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="Show" method="get">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="searchName" class="control-label">Name</label>
+                        <input name="searchName" class="form-control" type="search" value="@Model.SearchName" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 <h1 class="text-center my-4">Event Index</h1>
 <hr class="hr" />
+
+<!-- Table of events -->
 <table class="table table-bordered my-4">
     <thead>
         <tr>
@@ -116,7 +203,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Events)
         {
             <tr class="clickable-row" data-href="@Url.Action("Details", new { id = item.event_id })">
                 <td>@Html.DisplayFor(modelItem => item.nameEv)</td>
@@ -129,9 +216,40 @@
             </tr>
         }
     </tbody>
-
 </table>
+<div class="row">
+<!-- Pagination controls -->
+    <nav aria-label="Event Pagination" class="text-center col-sm-4 me-3">
+    <ul class="pagination">
+        @{
+            var paging = Model.PagingInfo;
 
-<p>
+            // "First" button
+            var cssFirst = paging.CurrentPage == 1 ? "disabled" : "";
+        }
+        <li class="page-item @cssFirst">
+            <a class="page-link" asp-action="Show" asp-route-page="1" asp-route-searchName="@Model.SearchName">First</a>
+        </li>
+
+        <!-- Page numbers -->
+        @for (int p = paging.FirstPageShow; p <= paging.LastPageShow; p++)
+        {
+            var cssActive = p == paging.CurrentPage ? "active" : "";
+            <li class="page-item @cssActive">
+                <a class="page-link" asp-action="Show" asp-route-page="@p" asp-route-searchName="@Model.SearchName">@p</a>
+            </li>
+        }
+
+        @{
+            var cssLast = paging.CurrentPage == paging.TotalPages ? "disabled" : "";
+        }
+        <li class="page-item @cssLast">
+            <a class="page-link" asp-action="Show" asp-route-page="@paging.TotalPages" asp-route-searchName="@Model.SearchName">Last</a>
+        </li>
+    </ul>
+</nav>
+
+ <p class="text-center col-4 mt-3">
     <a class="btn" asp-action="Create">Create New Event</a>
 </p>
+</div>
