@@ -29,5 +29,15 @@ namespace ReserveSystem.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult AccessDenied()
+        {
+            ViewBag.Title = "Acesso Negado";
+            ViewBag.Entity = "Página Restrita"; // Pode ser substituído dinamicamente
+            ViewBag.Action = "Index"; // Ação padrão para voltar ao menu
+            ViewBag.Controller = "Home"; // Controlador padrão
+
+            return View("~/Views/Shared/AccessDenied.cshtml");
+        }
     }
 }

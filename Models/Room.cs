@@ -10,11 +10,5 @@ namespace ReserveSystem.Models
         [ForeignKey("RoomType")][Required] public int RoomTypeId { get; set; }
 
         public RoomType RoomType { get; set; }
-
-
-
-        
-        
-
     }
 }

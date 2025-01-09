@@ -59,6 +59,10 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<PasswordHasher<ClientModel>>();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.AccessDeniedPath = "/Home/AccessDenied";
+});
 
 var app = builder.Build();
 
@@ -98,6 +102,7 @@ using (var serviceScope = app.Services.CreateScope())
     var db = serviceScope.ServiceProvider.GetService<ReserveSystemContext>();
     SeedData.Populate(db);
 }
+
 
 app.UseHttpsRedirection();
 
