@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data.Migrations;
 using ReserveSystem.Models;
 
 namespace ReserveSystem.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class JobsController : Controller
     {
         private readonly ReserveSystemContext _context;

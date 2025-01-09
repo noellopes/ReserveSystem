@@ -8,7 +8,7 @@ using ReserveSystem.Data.UserMigrations;
 
 #nullable disable
 
-namespace ReserveSystem.data.UserMigrations
+namespace ReserveSystem.Data.UserMigrations
 {
     [DbContext(typeof(ReserveSystemUsersDbContext))]
     partial class ReserveSystemUsersDbContextModelSnapshot : ModelSnapshot
