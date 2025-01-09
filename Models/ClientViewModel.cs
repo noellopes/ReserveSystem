@@ -4,9 +4,7 @@ namespace ReserveSystem.Models
 {
 
     public class ClientViewModel
-    {
-
-     
+    {    
         public IEnumerable<ClientModel> ClientModels { get; set; }
       
         public Paginacao paginacao { get; set; }

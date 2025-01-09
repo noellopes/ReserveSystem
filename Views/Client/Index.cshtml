@@ -78,33 +78,33 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.ClientModels) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NomeCliente)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MoradaCliente)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-           @*  <td>
-                @Html.DisplayFor(modelItem => item.Password)
-            </td> *@
-            <td>
-                @Html.DisplayFor(modelItem => item.Telefone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NIF)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ClienteId" class="btn btn-primary ">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ClienteId" class="btn btn-warning ">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ClienteId" class="btn btn-danger ">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.ClientModels) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NomeCliente)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MoradaCliente)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+               @*  <td>
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td> *@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telefone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NIF)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ClienteId" class="btn btn-primary ">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.ClienteId" class="btn btn-warning ">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.ClienteId" class="btn btn-danger ">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 <nav aria-label="booksPagination">
