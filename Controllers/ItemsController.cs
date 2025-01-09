@@ -60,13 +60,13 @@ namespace ReserveSystem.Controllers
                 await _context.SaveChangesAsync();
 
                 // Redireciona para a página de sucesso
-                return RedirectToAction(nameof(RegistrationSuccess), new { id = items.ItemId });
+                return RedirectToAction(nameof(RegisterComplete), new { id = items.ItemId });
             }
             return View(items);
         }
 
         // Ação de sucesso após a criação do item
-        public async Task<IActionResult> RegistrationSuccess(int id)
+        public async Task<IActionResult> RegisterComplete(int id)
         {
             var items = await _context.Items.FindAsync(id);
             if (items == null)
