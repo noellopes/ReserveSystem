@@ -18,68 +18,42 @@ namespace ReserveSystem.Data
         public DbSet<ReserveSystem.Models.PrecarioModel> PrecarioModel { get; set; } = default!;
         public DbSet<ReserveSystem.Models.ExcursaoFavoritaModel> ExcursaoFavoritaModel { get; set; } = default!;
         public DbSet<ReserveSystem.Models.Transporte> Transporte { get; set; } = default!;
-        public DbSet<ReserveSystem.Models.Staff> Staff { get; set; } = default!;
+
         public DbSet<ReserveSystem.Models.MotoristaTransporte> MotoristaTransporte { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+            
+
+
             modelBuilder.Entity<StaffModel>().HasData(
-                new StaffModel { StaffId = 1, Staff_Name = "João Silva", Job_Name = "Motorista" },
-                new StaffModel { StaffId = 2, Staff_Name = "Maria Oliveira", Job_Name = "Gestor de Excursão" },
-                new StaffModel { StaffId = 3, Staff_Name = "Carlos Santos", Job_Name = "Guia Turistico" },
-                new StaffModel { StaffId = 4, Staff_Name = "Ana Souza", Job_Name = "Motorista" },
-                new StaffModel { StaffId = 5, Staff_Name = "Pedro Almeida", Job_Name = "Gestor de Excursão" },
-                new StaffModel { StaffId = 6, Staff_Name = "Luciana Costa", Job_Name = "Guia Turistico" },
-                new StaffModel { StaffId = 7, Staff_Name = "Rafael Gomes", Job_Name = "Motorista" },
-                new StaffModel { StaffId = 8, Staff_Name = "Fernanda Carvalho", Job_Name = "Gestor de Excursão" },
-                new StaffModel { StaffId = 9, Staff_Name = "Ricardo Pereira", Job_Name = "Guia Turistico" },
-                new StaffModel { StaffId = 10, Staff_Name = "Juliana Mendes", Job_Name = "Motorista" },
-                new StaffModel { StaffId = 11, Staff_Name = "Gustavo Rocha", Job_Name = "Gestor de Excursão" },
-                new StaffModel { StaffId = 12, Staff_Name = "Camila Ribeiro", Job_Name = "Guia Turistico" },
-                new StaffModel { StaffId = 13, Staff_Name = "André Lima", Job_Name = "Motorista" },
-                new StaffModel { StaffId = 14, Staff_Name = "Patrícia Fonseca", Job_Name = "Gestor de Excursão" },
-                new StaffModel { StaffId = 15, Staff_Name = "Tiago Martins", Job_Name = "Guia Turistico" },
-                new StaffModel { StaffId = 16, Staff_Name = "Letícia Freitas", Job_Name = "Motorista" },
-                new StaffModel { StaffId = 17, Staff_Name = "Bruno Vieira", Job_Name = "Gestor de Excursão" },
-                new StaffModel { StaffId = 18, Staff_Name = "Sara Fernandes", Job_Name = "Guia Turistico" },
-                new StaffModel { StaffId = 19, Staff_Name = "Rodrigo Lopes", Job_Name = "Motorista" },
-                new StaffModel { StaffId = 20, Staff_Name = "Natália Correia", Job_Name = "Gestor de Excursão" },
-                new StaffModel { StaffId = 21, Staff_Name = "Eduardo Cardoso", Job_Name = "Guia Turistico" },
-                new StaffModel { StaffId = 22, Staff_Name = "Carolina Neves", Job_Name = "Motorista" },
-                new StaffModel { StaffId = 23, Staff_Name = "Diego Farias", Job_Name = "Gestor de Excursão" },
-                new StaffModel { StaffId = 24, Staff_Name = "Vanessa Moreira", Job_Name = "Guia Turistico" },
-                new StaffModel { StaffId = 25, Staff_Name = "Felipe Azevedo", Job_Name = "Motorista" }
-            );
-
-
-            modelBuilder.Entity<Staff>().HasData(
- new Staff { StaffId = 26, Staff_Name = "João Silva", Job_Name = "Motorista", TipoCarta = "C" },
-new Staff { StaffId = 27, Staff_Name = "Maria Ferreira", Job_Name = "Guia Turístico" },
-new Staff { StaffId = 28, Staff_Name = "Carlos Mendes", Job_Name = "Motorista", TipoCarta = "D" },
-new Staff { StaffId = 29, Staff_Name = "Ana Costa", Job_Name = "Gestor de Excursão" },
-new Staff { StaffId = 30, Staff_Name = "Luís Pereira", Job_Name = "Motorista", TipoCarta = "C+E" },
-new Staff { StaffId = 31, Staff_Name = "Rita Oliveira", Job_Name = "Guia Turístico" },
-new Staff { StaffId = 32, Staff_Name = "Pedro Santos", Job_Name = "Motorista", TipoCarta = "B" },
-new Staff { StaffId = 33, Staff_Name = "Marta Lopes", Job_Name = "Gestor de Excursão" },
-new Staff { StaffId = 34, Staff_Name = "Fernando Gomes", Job_Name = "Motorista", TipoCarta = "D+E" },
-new Staff { StaffId = 35, Staff_Name = "Cláudia Neves", Job_Name = "Guia Turístico" },
-new Staff { StaffId = 36, Staff_Name = "António Silva", Job_Name = "Motorista", TipoCarta = "C" },
-new Staff { StaffId = 37, Staff_Name = "Beatriz Sousa", Job_Name = "Gestor de Excursão" },
-new Staff { StaffId = 38, Staff_Name = "Ricardo Teixeira", Job_Name = "Motorista", TipoCarta = "D" },
-new Staff { StaffId = 39, Staff_Name = "Joana Martins", Job_Name = "Guia Turístico" },
-new Staff { StaffId = 40, Staff_Name = "Tiago Rocha", Job_Name = "Motorista", TipoCarta = "C+E" },
-new Staff { StaffId = 41, Staff_Name = "Helena Ribeiro", Job_Name = "Gestor de Excursão" },
-new Staff { StaffId = 42, Staff_Name = "José Almeida", Job_Name = "Motorista", TipoCarta = "B" },
-new Staff { StaffId = 43, Staff_Name = "Sofia Silva", Job_Name = "Guia Turístico" },
-new Staff { StaffId = 44, Staff_Name = "Vítor Pinto", Job_Name = "Motorista", TipoCarta = "C" },
-new Staff { StaffId = 45, Staff_Name = "Catarina Azevedo", Job_Name = "Gestor de Excursão" },
-new Staff { StaffId = 46, Staff_Name = "André Matos", Job_Name = "Motorista", TipoCarta = "D+E" },
-new Staff { StaffId = 47, Staff_Name = "Patrícia Lima", Job_Name = "Guia Turístico" },
-new Staff { StaffId = 48, Staff_Name = "Eduardo Nunes", Job_Name = "Motorista", TipoCarta = "B" },
-new Staff { StaffId = 49, Staff_Name = "Carla Moreira", Job_Name = "Gestor de Excursão" },
-new Staff { StaffId = 50, Staff_Name = "Bruno Tavares", Job_Name = "Motorista", TipoCarta = "C" }
+ new StaffModel { StaffId = 1, Staff_Name = "João Silva", Job_Name = "Motorista", TipoCarta = "C" },
+new StaffModel { StaffId = 2, Staff_Name = "Maria Ferreira", Job_Name = "Guia Turístico" },
+new StaffModel { StaffId = 3, Staff_Name = "Carlos Mendes", Job_Name = "Motorista", TipoCarta = "D" },
+new StaffModel { StaffId = 4, Staff_Name = "Ana Costa", Job_Name = "Gestor de Excursão" },
+new StaffModel { StaffId = 5, Staff_Name = "Luís Pereira", Job_Name = "Motorista", TipoCarta = "C+E" },
+new StaffModel { StaffId = 6, Staff_Name = "Rita Oliveira", Job_Name = "Guia Turístico" },
+new StaffModel { StaffId = 7, Staff_Name = "Pedro Santos", Job_Name = "Motorista", TipoCarta = "B" },
+new StaffModel { StaffId = 8, Staff_Name = "Marta Lopes", Job_Name = "Gestor de Excursão" },
+new StaffModel { StaffId = 9, Staff_Name = "Fernando Gomes", Job_Name = "Motorista", TipoCarta = "D+E" },
+new StaffModel { StaffId = 10, Staff_Name = "Cláudia Neves", Job_Name = "Guia Turístico" },
+new StaffModel { StaffId = 11, Staff_Name = "António Silva", Job_Name = "Motorista", TipoCarta = "C" },
+new StaffModel { StaffId = 12, Staff_Name = "Beatriz Sousa", Job_Name = "Gestor de Excursão" },
+new StaffModel { StaffId = 13, Staff_Name = "Ricardo Teixeira", Job_Name = "Motorista", TipoCarta = "D" },
+new StaffModel { StaffId = 14, Staff_Name = "Joana Martins", Job_Name = "Guia Turístico" },
+new StaffModel { StaffId = 15, Staff_Name = "Tiago Rocha", Job_Name = "Motorista", TipoCarta = "C+E" },
+new StaffModel { StaffId = 16, Staff_Name = "Helena Ribeiro", Job_Name = "Gestor de Excursão" },
+new StaffModel { StaffId = 17, Staff_Name = "José Almeida", Job_Name = "Motorista", TipoCarta = "B" },
+new StaffModel { StaffId = 18, Staff_Name = "Sofia Silva", Job_Name = "Guia Turístico" },
+new StaffModel { StaffId = 19, Staff_Name = "Vítor Pinto", Job_Name = "Motorista", TipoCarta = "C" },
+new StaffModel { StaffId = 20, Staff_Name = "Catarina Azevedo", Job_Name = "Gestor de Excursão" },
+new StaffModel { StaffId = 21, Staff_Name = "André Matos", Job_Name = "Motorista", TipoCarta = "D+E" },
+new StaffModel { StaffId = 22, Staff_Name = "Patrícia Lima", Job_Name = "Guia Turístico" },
+new StaffModel { StaffId = 23, Staff_Name = "Eduardo Nunes", Job_Name = "Motorista", TipoCarta = "B" },
+new StaffModel { StaffId = 24, Staff_Name = "Carla Moreira", Job_Name = "Gestor de Excursão" },
+new StaffModel { StaffId = 25, Staff_Name = "Bruno Tavares", Job_Name = "Motorista", TipoCarta = "C" }
 );
 
 
@@ -143,31 +117,31 @@ new Transporte { TransporteId = 50, Matricula = "YY-8890", Capacidade = 14, Tipo
 );
 
 modelBuilder.Entity<MotoristaTransporte>().HasData(
-    new MotoristaTransporte { MotoristaTransporteId = 26, StaffId = 26, TransporteId = 26 },
-new MotoristaTransporte { MotoristaTransporteId = 27, StaffId = 27, TransporteId = 27 },
-new MotoristaTransporte { MotoristaTransporteId = 28, StaffId = 28, TransporteId = 28 },
-new MotoristaTransporte { MotoristaTransporteId = 29, StaffId = 29, TransporteId = 29 },
-new MotoristaTransporte { MotoristaTransporteId = 30, StaffId = 30, TransporteId = 30 },
-new MotoristaTransporte { MotoristaTransporteId = 31, StaffId = 31, TransporteId = 31 },
-new MotoristaTransporte { MotoristaTransporteId = 32, StaffId = 32, TransporteId = 32 },
-new MotoristaTransporte { MotoristaTransporteId = 33, StaffId = 33, TransporteId = 33 },
-new MotoristaTransporte { MotoristaTransporteId = 34, StaffId = 34, TransporteId = 34 },
-new MotoristaTransporte { MotoristaTransporteId = 35, StaffId = 35, TransporteId = 35 },
-new MotoristaTransporte { MotoristaTransporteId = 36, StaffId = 36, TransporteId = 36 },
-new MotoristaTransporte { MotoristaTransporteId = 37, StaffId = 37, TransporteId = 37 },
-new MotoristaTransporte { MotoristaTransporteId = 38, StaffId = 38, TransporteId = 38 },
-new MotoristaTransporte { MotoristaTransporteId = 39, StaffId = 39, TransporteId = 39 },
-new MotoristaTransporte { MotoristaTransporteId = 40, StaffId = 40, TransporteId = 40 },
-new MotoristaTransporte { MotoristaTransporteId = 41, StaffId = 41, TransporteId = 41 },
-new MotoristaTransporte { MotoristaTransporteId = 42, StaffId = 42, TransporteId = 42 },
-new MotoristaTransporte { MotoristaTransporteId = 43, StaffId = 43, TransporteId = 43 },
-new MotoristaTransporte { MotoristaTransporteId = 44, StaffId = 44, TransporteId = 44 },
-new MotoristaTransporte { MotoristaTransporteId = 45, StaffId = 45, TransporteId = 45 },
-new MotoristaTransporte { MotoristaTransporteId = 46, StaffId = 46, TransporteId = 46 },
-new MotoristaTransporte { MotoristaTransporteId = 47, StaffId = 47, TransporteId = 47 },
-new MotoristaTransporte { MotoristaTransporteId = 48, StaffId = 48, TransporteId = 48 },
-new MotoristaTransporte { MotoristaTransporteId = 49, StaffId = 49, TransporteId = 49 },
-new MotoristaTransporte { MotoristaTransporteId = 50, StaffId = 50, TransporteId = 50 }
+    new MotoristaTransporte { MotoristaTransporteId = 26, StaffId = 2, TransporteId = 26 },
+new MotoristaTransporte { MotoristaTransporteId = 27, StaffId = 1, TransporteId = 27 },
+new MotoristaTransporte { MotoristaTransporteId = 28, StaffId = 3, TransporteId = 28 },
+new MotoristaTransporte { MotoristaTransporteId = 29, StaffId = 4, TransporteId = 29 },
+new MotoristaTransporte { MotoristaTransporteId = 30, StaffId = 5, TransporteId = 30 },
+new MotoristaTransporte { MotoristaTransporteId = 31, StaffId = 6, TransporteId = 31 },
+new MotoristaTransporte { MotoristaTransporteId = 32, StaffId = 7, TransporteId = 32 },
+new MotoristaTransporte { MotoristaTransporteId = 33, StaffId = 8, TransporteId = 33 },
+new MotoristaTransporte { MotoristaTransporteId = 34, StaffId = 9, TransporteId = 34 },
+new MotoristaTransporte { MotoristaTransporteId = 35, StaffId = 10, TransporteId = 35 },
+new MotoristaTransporte { MotoristaTransporteId = 36, StaffId = 11, TransporteId = 36 },
+new MotoristaTransporte { MotoristaTransporteId = 37, StaffId = 12, TransporteId = 37 },
+new MotoristaTransporte { MotoristaTransporteId = 38, StaffId = 13, TransporteId = 38 },
+new MotoristaTransporte { MotoristaTransporteId = 39, StaffId = 14, TransporteId = 39 },
+new MotoristaTransporte { MotoristaTransporteId = 40, StaffId = 15, TransporteId = 40 },
+new MotoristaTransporte { MotoristaTransporteId = 41, StaffId = 16, TransporteId = 41 },
+new MotoristaTransporte { MotoristaTransporteId = 42, StaffId = 17, TransporteId = 42 },
+new MotoristaTransporte { MotoristaTransporteId = 43, StaffId = 18, TransporteId = 43 },
+new MotoristaTransporte { MotoristaTransporteId = 44, StaffId = 19, TransporteId = 44 },
+new MotoristaTransporte { MotoristaTransporteId = 45, StaffId = 20, TransporteId = 45 },
+new MotoristaTransporte { MotoristaTransporteId = 46, StaffId = 21, TransporteId = 46 },
+new MotoristaTransporte { MotoristaTransporteId = 47, StaffId = 22, TransporteId = 47 },
+new MotoristaTransporte { MotoristaTransporteId = 48, StaffId = 23, TransporteId = 48 },
+new MotoristaTransporte { MotoristaTransporteId = 49, StaffId = 24, TransporteId = 49 },
+new MotoristaTransporte { MotoristaTransporteId = 50, StaffId = 25, TransporteId = 50 }
 );
 
 
@@ -362,10 +336,39 @@ new ExcursaoFavoritaModel { Id = 89, ClienteId = 38, ExcursaoId = 18, Comentario
 new ExcursaoFavoritaModel { Id = 90, ClienteId = 39, ExcursaoId = 19, Comentario = "Fiquei encantado com o serviço personalizado." }
 );
 
+            modelBuilder.Entity<ReservaExcursaoModel>().HasData(
+    new ReservaExcursaoModel { Id = 1, ClienteId = 21, ExcursaoId = 1, DataReserva = DateTime.Now.AddDays(-30), NumPessoas = 4, ValorTotal = 200.00f },
+    new ReservaExcursaoModel { Id = 2, ClienteId = 22, ExcursaoId = 2, DataReserva = DateTime.Now.AddDays(-25), NumPessoas = 2, ValorTotal = 100.00f },
+    new ReservaExcursaoModel { Id = 3, ClienteId = 23, ExcursaoId = 3, DataReserva = DateTime.Now.AddDays(-20), NumPessoas = 5, ValorTotal = 250.00f },
+    new ReservaExcursaoModel { Id = 4, ClienteId = 24, ExcursaoId = 4, DataReserva = DateTime.Now.AddDays(-18), NumPessoas = 3, ValorTotal = 150.00f },
+    new ReservaExcursaoModel { Id = 5, ClienteId = 25, ExcursaoId = 5, DataReserva = DateTime.Now.AddDays(-15), NumPessoas = 1, ValorTotal = 50.00f },
+    new ReservaExcursaoModel { Id = 6, ClienteId = 26, ExcursaoId = 6, DataReserva = DateTime.Now.AddDays(-14), NumPessoas = 2, ValorTotal = 100.00f },
+    new ReservaExcursaoModel { Id = 7, ClienteId = 27, ExcursaoId = 7, DataReserva = DateTime.Now.AddDays(-12), NumPessoas = 4, ValorTotal = 200.00f },
+    new ReservaExcursaoModel { Id = 8, ClienteId = 28, ExcursaoId = 8, DataReserva = DateTime.Now.AddDays(-10), NumPessoas = 3, ValorTotal = 150.00f },
+    new ReservaExcursaoModel { Id = 9, ClienteId = 29, ExcursaoId = 9, DataReserva = DateTime.Now.AddDays(-8), NumPessoas = 5, ValorTotal = 250.00f },
+    new ReservaExcursaoModel { Id = 10, ClienteId = 30, ExcursaoId = 10, DataReserva = DateTime.Now.AddDays(-6), NumPessoas = 2, ValorTotal = 100.00f },
+    new ReservaExcursaoModel { Id = 11, ClienteId = 31, ExcursaoId = 11, DataReserva = DateTime.Now.AddDays(-5), NumPessoas = 4, ValorTotal = 200.00f },
+    new ReservaExcursaoModel { Id = 12, ClienteId = 32, ExcursaoId = 12, DataReserva = DateTime.Now.AddDays(-4), NumPessoas = 3, ValorTotal = 150.00f },
+    new ReservaExcursaoModel { Id = 13, ClienteId = 33, ExcursaoId = 13, DataReserva = DateTime.Now.AddDays(-3), NumPessoas = 5, ValorTotal = 250.00f },
+    new ReservaExcursaoModel { Id = 14, ClienteId = 34, ExcursaoId = 14, DataReserva = DateTime.Now.AddDays(-2), NumPessoas = 2, ValorTotal = 100.00f },
+    new ReservaExcursaoModel { Id = 15, ClienteId = 35, ExcursaoId = 15, DataReserva = DateTime.Now.AddDays(-1), NumPessoas = 1, ValorTotal = 50.00f },
+    new ReservaExcursaoModel { Id = 16, ClienteId = 36, ExcursaoId = 16, DataReserva = DateTime.Now, NumPessoas = 3, ValorTotal = 150.00f },
+    new ReservaExcursaoModel { Id = 17, ClienteId = 37, ExcursaoId = 17, DataReserva = DateTime.Now.AddDays(1), NumPessoas = 4, ValorTotal = 200.00f },
+    new ReservaExcursaoModel { Id = 18, ClienteId = 38, ExcursaoId = 18, DataReserva = DateTime.Now.AddDays(2), NumPessoas = 2, ValorTotal = 100.00f },
+    new ReservaExcursaoModel { Id = 19, ClienteId = 39, ExcursaoId = 19, DataReserva = DateTime.Now.AddDays(3), NumPessoas = 5, ValorTotal = 250.00f },
+    new ReservaExcursaoModel { Id = 20, ClienteId = 40, ExcursaoId = 20, DataReserva = DateTime.Now.AddDays(4), NumPessoas = 4, ValorTotal = 200.00f },
+    new ReservaExcursaoModel { Id = 21, ClienteId = 21, ExcursaoId = 21, DataReserva = DateTime.Now.AddDays(5), NumPessoas = 3, ValorTotal = 150.00f },
+    new ReservaExcursaoModel { Id = 22, ClienteId = 22, ExcursaoId = 22, DataReserva = DateTime.Now.AddDays(6), NumPessoas = 2, ValorTotal = 100.00f },
+    new ReservaExcursaoModel { Id = 23, ClienteId = 23, ExcursaoId = 23, DataReserva = DateTime.Now.AddDays(7), NumPessoas = 4, ValorTotal = 200.00f },
+    new ReservaExcursaoModel { Id = 24, ClienteId = 24, ExcursaoId = 24, DataReserva = DateTime.Now.AddDays(8), NumPessoas = 5, ValorTotal = 250.00f },
+    new ReservaExcursaoModel { Id = 25, ClienteId = 25, ExcursaoId = 25, DataReserva = DateTime.Now.AddDays(9), NumPessoas = 1, ValorTotal = 50.00f }
+);
+
+
 
 
         }
-        
+
 
     }
 

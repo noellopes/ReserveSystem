@@ -48,7 +48,7 @@
         </article>
 
         <article class="postcard dark blue">
-            <a class="postcard__img_link" asp-controller="StaffTest" asp-action="Index">
+            <a class="postcard__img_link" asp-controller="Staff" asp-action="Index">
                 <img class="postcard__img" src="/images/test.jpg" alt="Image Title" />
             </a>
             <div class="postcard__text">
@@ -102,7 +102,7 @@
         </article>
 
         <article class="postcard dark blue">
-            <a class="postcard__img_link" asp-controller="ReservaExcursao" asp-action="Index">
+            <a class="postcard__img_link" asp-controller="ReservaExcursao" asp-action="Index" onclick="showLoader(event)>
                 <img class="postcard__img" src="/images/ReservaExcursao.jpg" alt="Image Title" />
             </a>
             <div class="postcard__text">
@@ -120,7 +120,7 @@
         </article>
 
         <article class="postcard dark blue">
-            <a class="postcard__img_link" asp-controller="ExcursaoFavorita" asp-action="Index">
+            <a class="postcard__img_link" asp-controller="ExcursaoFavorita" asp-action="Index" onclick="showLoader(event)>
                 <img class="postcard__img" src="/images/excursaoFavorita.jpg" alt="Image Title" />
             </a>
             <div class="postcard__text">
@@ -132,6 +132,42 @@
                 <ul class="postcard__tagbox">
                     <li class="tag__item play blue">
                         <a asp-controller="ExcursaoFavorita" asp-action="Create"><i class="bi bi-plus-lg mr-2 me-2"></i>Adicionar Excursão Favorita</a>
+                    </li>
+                </ul>
+            </div>
+        </article>
+
+        <article class="postcard dark blue">
+            <a class="postcard__img_link" asp-controller="Transportes" asp-action="Index" onclick="showLoader(event)">
+                <img class="postcard__img" src="/images/Transportes.jpg" alt="Image Title" />
+            </a>
+            <div class="postcard__text">
+                <h1 class="postcard__title blue"><a class="postcard__img_link postcard__title" asp-controller="Transportes" asp-action="Index" onclick="showLoader(event)">Transportes</a></h1>
+                <div class="postcard__bar"></div>
+                <div class="postcard__preview-txt">
+                    Explore as informações dos transportes disponíveis para as excursões, incluindo o tipo de veículo, a sua capacidade, o motorista associado e o seu estado atual. A tabela de Transportes permite uma gestão eficiente e transparente dos recursos de transporte.
+                </div>
+                <ul class="postcard__tagbox">
+                    <li class="tag__item play blue">
+                        <a asp-controller="Transportes" asp-action="Create"><i class="bi bi-plus-lg mr-2 me-2"></i>Adicionar Transporte</a>
+                    </li>
+                </ul>
+            </div>
+        </article>
+
+        <article class="postcard dark blue">
+            <a class="postcard__img_link" asp-controller="MotoristaTransportes" asp-action="Index" onclick="showLoader(event)">
+                <img class="postcard__img" src="/images/MotoristaTransporte.jpg" alt="Image Title" />
+            </a>
+            <div class="postcard__text">
+                <h1 class="postcard__title blue"><a class="postcard__img_link postcard__title" asp-controller="MotoristaTransportes" asp-action="Index" onclick="showLoader(event)">Motorista do Transporte</a></h1>
+                <div class="postcard__bar"></div>
+                <div class="postcard__preview-txt">
+                    Visualize e gere as associações entre motoristas e transportes, incluindo os veículos atribuídos a cada motorista e as respetivas datas de vigência. A tabela "MotoristaTransport" permite uma organização clara e eficiente das operações de transporte.
+                </div>
+                <ul class="postcard__tagbox">
+                    <li class="tag__item play blue">
+                        <a asp-controller="MotoristaTransportes" asp-action="Create"><i class="bi bi-plus-lg mr-2 me-2"></i>Adicionar Motorista a um Transporte</a>
                     </li>
                 </ul>
             </div>

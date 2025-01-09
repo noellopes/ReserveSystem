@@ -17,8 +17,12 @@ namespace ReserveSystem.Models
 
 		public virtual ICollection<ExcursaoModel>? Excursao { get; set; }
 
+        public string? TipoCarta { get; set; }
 
-		
+        public virtual ICollection<MotoristaTransporte>? MotoristaTransporte { get; set; }
 
-	}
+
+
+
+    }
 }

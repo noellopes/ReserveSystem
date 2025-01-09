@@ -104,7 +104,7 @@ namespace ReserveSystem.Controllers
         // GET: MotoristaTransportes/Create
         public IActionResult Create()
         {
-            ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "Staff_Name");
+            ViewData["StaffId"] = new SelectList(_context.StaffModel, "StaffId", "Staff_Name");
             ViewData["TransporteId"] = new SelectList(_context.Transporte, "TransporteId", "Matricula");
             return View();
         }

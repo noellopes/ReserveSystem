@@ -152,7 +152,7 @@ namespace ReserveSystem.Controllers
         public IActionResult Create()
         {
             ViewData["ClienteId"] = new SelectList(_context.ClienteTestModel, "ClienteId", "Nome");
-            ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "Excursao_Id", "Titulo");
+            ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "ExcursaoId", "Titulo");
 
             return View();
         }
@@ -171,7 +171,7 @@ namespace ReserveSystem.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ClienteId"] = new SelectList(_context.ClienteTestModel, "ClienteId", "Nome", excursaoFavoritaModel.ClienteId);
-            ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "Excursao_Id", "Titulo", excursaoFavoritaModel.ExcursaoId);
+            ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "ExcursaoId", "Titulo", excursaoFavoritaModel.ExcursaoId);
             return View(excursaoFavoritaModel);
         }
 
@@ -189,7 +189,7 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
             ViewData["ClienteId"] = new SelectList(_context.ClienteTestModel, "ClienteId", "Nome", excursaoFavoritaModel.ClienteId);
-            ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "Excursao_Id", "Titulo", excursaoFavoritaModel.ExcursaoId);
+            ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "ExcursaoId", "Titulo", excursaoFavoritaModel.ExcursaoId);
             return View(excursaoFavoritaModel);
         }
 
@@ -226,7 +226,7 @@ namespace ReserveSystem.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ClienteId"] = new SelectList(_context.ClienteTestModel, "ClienteId", "Nome", excursaoFavoritaModel.ClienteId);
-            ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "Excursao_Id", "Titulo", excursaoFavoritaModel.ExcursaoId);
+            ViewData["ExcursaoId"] = new SelectList(_context.ExcursaoModel, "ExcursaoId", "Titulo", excursaoFavoritaModel.ExcursaoId);
             return View(excursaoFavoritaModel);
         }
 
