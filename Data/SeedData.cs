@@ -18,6 +18,7 @@ namespace ReserveSystem.Data
             Console.WriteLine("Banco de dados foi criado com sucesso.");
 
             // Popula os dados para as tabelas de eventos
+            PopulateSeasonality(db);
             PopulateEvents(db);
             PopulateRoomTypes(db); // Popula os tipos de quarto
         }
@@ -53,6 +54,55 @@ namespace ReserveSystem.Data
 
             db.SaveChanges();
         }
+
+        private static void PopulateSeasonality(ReserveSystemUsersDbContext db)
+        {
+            if (db.Sazonalidade.Any()) return;
+
+            db.Sazonalidade.AddRange(new List<Sazonalidade> {
+        new Sazonalidade { NameSeason = "New Year Celebration", DateBegin = new DateTime(2024, 1, 1), DateEnd = new DateTime(2024, 1, 15), InUse = true, SeasonFee = 0.25f },
+        new Sazonalidade { NameSeason = "Winter Bliss", DateBegin = new DateTime(2024, 1, 20), DateEnd = new DateTime(2024, 2, 5), InUse = true, SeasonFee = 0.35f },
+        new Sazonalidade { NameSeason = "Valentine's Warmth", DateBegin = new DateTime(2024, 2, 10), DateEnd = new DateTime(2024, 2, 25), InUse = true, SeasonFee = 0.45f },
+        new Sazonalidade { NameSeason = "Spring Awakening", DateBegin = new DateTime(2024, 3, 1), DateEnd = new DateTime(2024, 3, 15), InUse = true, SeasonFee = 0.30f },
+        new Sazonalidade { NameSeason = "Cherry Blossom Festival", DateBegin = new DateTime(2024, 3, 20), DateEnd = new DateTime(2024, 4, 5), InUse = true, SeasonFee = 0.20f },
+        new Sazonalidade { NameSeason = "April Showers", DateBegin = new DateTime(2024, 4, 10), DateEnd = new DateTime(2024, 4, 25), InUse = true, SeasonFee = 0.50f },
+        new Sazonalidade { NameSeason = "May Flowers", DateBegin = new DateTime(2024, 5, 1), DateEnd = new DateTime(2024, 5, 15), InUse = true, SeasonFee = 0.40f },
+        new Sazonalidade { NameSeason = "Summer Kickoff", DateBegin = new DateTime(2024, 5, 20), DateEnd = new DateTime(2024, 6, 5), InUse = true, SeasonFee = 0.55f },
+        new Sazonalidade { NameSeason = "June Solstice", DateBegin = new DateTime(2024, 6, 10), DateEnd = new DateTime(2024, 6, 25), InUse = true, SeasonFee = 0.35f },
+        new Sazonalidade { NameSeason = "July Fireworks", DateBegin = new DateTime(2024, 7, 1), DateEnd = new DateTime(2024, 7, 15), InUse = true, SeasonFee = 0.45f },
+        new Sazonalidade { NameSeason = "Mid-Summer Festivities", DateBegin = new DateTime(2024, 7, 20), DateEnd = new DateTime(2024, 8, 5), InUse = true, SeasonFee = 0.60f },
+        new Sazonalidade { NameSeason = "August Retreat", DateBegin = new DateTime(2024, 8, 10), DateEnd = new DateTime(2024, 8, 25), InUse = true, SeasonFee = 0.30f },
+        new Sazonalidade { NameSeason = "Harvest Season", DateBegin = new DateTime(2024, 9, 1), DateEnd = new DateTime(2024, 9, 15), InUse = true, SeasonFee = 0.50f },
+        new Sazonalidade { NameSeason = "Autumn Colors", DateBegin = new DateTime(2024, 9, 20), DateEnd = new DateTime(2024, 10, 5), InUse = true, SeasonFee = 0.70f },
+        new Sazonalidade { NameSeason = "October Festivities", DateBegin = new DateTime(2024, 10, 10), DateEnd = new DateTime(2024, 10, 25), InUse = true, SeasonFee = 0.25f },
+        new Sazonalidade { NameSeason = "Thanksgiving Preparations", DateBegin = new DateTime(2024, 11, 1), DateEnd = new DateTime(2024, 11, 15), InUse = true, SeasonFee = 0.55f },
+        new Sazonalidade { NameSeason = "Holiday Shopping Rush", DateBegin = new DateTime(2024, 11, 20), DateEnd = new DateTime(2024, 12, 5), InUse = true, SeasonFee = 0.65f },
+        new Sazonalidade { NameSeason = "Christmas Cheer", DateBegin = new DateTime(2024, 12, 10), DateEnd = new DateTime(2024, 12, 25), InUse = true, SeasonFee = 0.45f },
+        new Sazonalidade { NameSeason = "New Beginnings", DateBegin = new DateTime(2025, 1, 1), DateEnd = new DateTime(2025, 1, 15), InUse = true, SeasonFee = 0.35f },
+        new Sazonalidade { NameSeason = "Snowfall Adventures", DateBegin = new DateTime(2025, 1, 20), DateEnd = new DateTime(2025, 2, 5), InUse = true, SeasonFee = 0.50f },
+
+        new Sazonalidade { NameSeason = "Valentine's Warmth25", DateBegin = new DateTime(2025, 2, 10), DateEnd = new DateTime(2025, 2, 25), InUse = true, SeasonFee = 0.45f },
+        new Sazonalidade { NameSeason = "Spring Awakening25", DateBegin = new DateTime(2025, 3, 1), DateEnd = new DateTime(2025, 3, 15), InUse = true, SeasonFee = 0.30f },
+        new Sazonalidade { NameSeason = "Cherry Blossom Festival25", DateBegin = new DateTime(2025, 3, 20), DateEnd = new DateTime(2025, 4, 5), InUse = true, SeasonFee = 0.20f },
+        new Sazonalidade { NameSeason = "April Showers25", DateBegin = new DateTime(2025, 4, 10), DateEnd = new DateTime(2025, 4, 25), InUse = true, SeasonFee = 0.50f },
+        new Sazonalidade { NameSeason = "May Flowers25", DateBegin = new DateTime(2025, 5, 1), DateEnd = new DateTime(2025, 5, 15), InUse = false, SeasonFee = 0.40f },
+        new Sazonalidade { NameSeason = "Summer Kickoff25", DateBegin = new DateTime(2025, 5, 20), DateEnd = new DateTime(2025, 6, 5), InUse = true, SeasonFee = 0.55f },
+        new Sazonalidade { NameSeason = "June Solstice25", DateBegin = new DateTime(2025, 6, 10), DateEnd = new DateTime(2025, 6, 25), InUse = true, SeasonFee = 0.35f },
+        new Sazonalidade { NameSeason = "July Fireworks25", DateBegin = new DateTime(2025, 7, 1), DateEnd = new DateTime(2025, 7, 15), InUse = false, SeasonFee = 0.45f },
+        new Sazonalidade { NameSeason = "Mid-Summer Festivities25", DateBegin = new DateTime(2025, 7, 20), DateEnd = new DateTime(2025, 8, 5), InUse = true, SeasonFee = 0.60f },
+        new Sazonalidade { NameSeason = "August Retreat25", DateBegin = new DateTime(2025, 8, 10), DateEnd = new DateTime(2025, 8, 25), InUse = true, SeasonFee = 0.30f },
+        new Sazonalidade { NameSeason = "Harvest Season25", DateBegin = new DateTime(2025, 9, 1), DateEnd = new DateTime(2025, 9, 15), InUse = true, SeasonFee = 0.50f },
+        new Sazonalidade { NameSeason = "Autumn Colors25", DateBegin = new DateTime(2025, 9, 20), DateEnd = new DateTime(2025, 10, 5), InUse = true, SeasonFee = 0.70f },
+        new Sazonalidade { NameSeason = "October Festivities25", DateBegin = new DateTime(2025, 10, 10), DateEnd = new DateTime(2025, 10, 25), InUse = true, SeasonFee = 0.25f },
+        new Sazonalidade { NameSeason = "Thanksgiving Preparations", DateBegin = new DateTime(2025, 11, 1), DateEnd = new DateTime(2025, 11, 15), InUse = true, SeasonFee = 0.55f },
+        new Sazonalidade { NameSeason = "Holiday Shopping Rush25", DateBegin = new DateTime(2025, 11, 20), DateEnd = new DateTime(2025, 12, 5), InUse = true, SeasonFee = 0.65f },
+        new Sazonalidade { NameSeason = "Christmas Cheer25", DateBegin = new DateTime(2025, 12, 10), DateEnd = new DateTime(2025, 12, 25), InUse = true, SeasonFee = 0.45f }
+    });
+
+            db.SaveChanges();
+        }
+
+
 
         private static void PopulateRoomTypes(ReserveSystemUsersDbContext db)
         {
