@@ -23,6 +23,10 @@ namespace ReserveSystem.Data
             PopulateBooking(db);
             PopulateRoomBooking(db);
             PopulateClient(db);
+            PopulateCleaningSchedule(db);
+            PopulateConsumptions(db);
+            PopulateItems(db);
+            PopulateItemRoom(db);
         }
 
         /*
@@ -687,7 +691,199 @@ namespace ReserveSystem.Data
             }
         }
 
+        public static void PopulateCleaningSchedule(ReserveSystemContext db)
+        {
+            if (!db.Cleaning_Schedule.Any())
+            {
+                db.Cleaning_Schedule.AddRange(
+                    new Cleaning_Schedule
+                    {
+                        RoomBookingId = 1,
+                        ClientId = 1,
+                        StaffId = 1,
+                        DateServices = new DateTime(2025, 1, 15),
+                        StartTime = new DateTime(2025, 1, 15, 8, 0, 0),
+                        EndTime = new DateTime(2025, 1, 15, 10, 0, 0),
+                        CleaningDone = false,
+                        CleaningDesired = true,
+                        PreferredCleaningStartTime = new DateTime(2025, 1, 15, 7, 0, 0),
+                        PreferredCleaningEndTime = new DateTime(2025, 1, 15, 9, 0, 0)
+                    },
+                    new Cleaning_Schedule
+                    {
+                        RoomBookingId = 2,
+                        ClientId = 2,
+                        StaffId = 2,
+                        DateServices = new DateTime(2025, 1, 16),
+                        StartTime = new DateTime(2025, 1, 16, 9, 0, 0),
+                        EndTime = new DateTime(2025, 1, 16, 11, 0, 0),
+                        CleaningDone = true,
+                        CleaningDesired = true,
+                        PreferredCleaningStartTime = null,
+                        PreferredCleaningEndTime = null
+                    },
+                    new Cleaning_Schedule
+                    {
+                        RoomBookingId = 3,
+                        ClientId = 3,
+                        StaffId = 3,
+                        DateServices = new DateTime(2025, 1, 17),
+                        StartTime = new DateTime(2025, 1, 17, 10, 0, 0),
+                        EndTime = new DateTime(2025, 1, 17, 12, 0, 0),
+                        CleaningDone = false,
+                        CleaningDesired = true,
+                        PreferredCleaningStartTime = new DateTime(2025, 1, 17, 9, 0, 0),
+                        PreferredCleaningEndTime = new DateTime(2025, 1, 17, 11, 0, 0)
+                    },
+                    new Cleaning_Schedule
+                    {
+                        RoomBookingId = 4,
+                        ClientId = 4,
+                        StaffId = 4,
+                        DateServices = new DateTime(2025, 1, 18),
+                        StartTime = new DateTime(2025, 1, 18, 7, 0, 0),
+                        EndTime = new DateTime(2025, 1, 18, 9, 0, 0),
+                        CleaningDone = true,
+                        CleaningDesired = false,
+                        PreferredCleaningStartTime = null,
+                        PreferredCleaningEndTime = null
+                    },
+                    new Cleaning_Schedule
+                    {
+                        RoomBookingId = 5,
+                        ClientId = 5,
+                        StaffId = 5,
+                        DateServices = new DateTime(2025, 1, 19),
+                        StartTime = new DateTime(2025, 1, 19, 11, 0, 0),
+                        EndTime = new DateTime(2025, 1, 19, 13, 0, 0),
+                        CleaningDone = false,
+                        CleaningDesired = true,
+                        PreferredCleaningStartTime = new DateTime(2025, 1, 19, 10, 0, 0),
+                        PreferredCleaningEndTime = new DateTime(2025, 1, 19, 12, 0, 0)
+                    }
+                );
+                db.SaveChanges();
+            }
+        }
 
+        public static void PopulateConsumptions(ReserveSystemContext db)
+        {
+            if (!db.Consumptions.Any())
+            {
+                db.Consumptions.AddRange(
+                    new Consumptions
+                    {
+                        RoomId = 1,
+                        ItemId = 1,
+                        QuantityConsumed = 2,
+                        ConsumedDate = new DateTime(2025, 1, 15)
+                    },
+                    new Consumptions
+                    {
+                        RoomId = 2,
+                        ItemId = 2,
+                        QuantityConsumed = 5,
+                        ConsumedDate = new DateTime(2025, 1, 16)
+                    },
+                    new Consumptions
+                    {
+                        RoomId = 3,
+                        ItemId = 3,
+                        QuantityConsumed = 3,
+                        ConsumedDate = new DateTime(2025, 1, 17)
+                    },
+                    new Consumptions
+                    {
+                        RoomId = 4,
+                        ItemId = 4,
+                        QuantityConsumed = 1,
+                        ConsumedDate = new DateTime(2025, 1, 18)
+                    },
+                    new Consumptions
+                    {
+                        RoomId = 5,
+                        ItemId = 5,
+                        QuantityConsumed = 4,
+                        ConsumedDate = new DateTime(2025, 1, 19)
+                    }
+                );
+                db.SaveChanges();
+            }
+        }
 
+        public static void PopulateItems(ReserveSystemContext db)
+        {
+            if (!db.Items.Any())
+            {
+                db.Items.AddRange(
+                    new Items
+                    {
+                        Name = "Shampoo",
+                        QuantityStock = 50
+                    },
+                    new Items
+                    {
+                        Name = "Soap",
+                        QuantityStock = 100
+                    },
+                    new Items
+                    {
+                        Name = "Towel",
+                        QuantityStock = 25
+                    },
+                    new Items
+                    {
+                        Name = "Toothpaste",
+                        QuantityStock = 75
+                    },
+                    new Items
+                    {
+                        Name = "Conditioner",
+                        QuantityStock = 30
+                    }
+                );
+                db.SaveChanges();
+            }
+        }
+
+        public static void PopulateItemRoom(ReserveSystemContext db)
+        {
+            if (!db.Item_Room.Any())
+            {
+                db.Item_Room.AddRange(
+                    new Item_Room
+                    {
+                        RoomTypeId = 1,
+                        ItemId = 1,
+                        RoomQuantity = 10
+                    },
+                    new Item_Room
+                    {
+                        RoomTypeId = 2,
+                        ItemId = 2,
+                        RoomQuantity = 5
+                    },
+                    new Item_Room
+                    {
+                        RoomTypeId = 3,
+                        ItemId = 3,
+                        RoomQuantity = 8
+                    },
+                    new Item_Room
+                    {
+                        RoomTypeId = 4,
+                        ItemId = 4,
+                        RoomQuantity = 12
+                    },
+                    new Item_Room
+                    {
+                        RoomTypeId = 5,
+                        ItemId = 5,
+                        RoomQuantity = 15
+                    }
+                );
+                db.SaveChanges();
+            }
+        }
     }
 }
