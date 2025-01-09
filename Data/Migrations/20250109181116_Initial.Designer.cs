@@ -12,8 +12,8 @@ using ReserveSystem.Data.Migrations;
 namespace ReserveSystem.data.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    [Migration("20250108221952_Inicial")]
-    partial class Inicial
+    [Migration("20250109181116_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

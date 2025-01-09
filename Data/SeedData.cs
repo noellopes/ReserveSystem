@@ -18,6 +18,11 @@ namespace ReserveSystem.Data
             PopulateTypesOfSchedule(db);
             PopulateStaff(db);
             PopulateSchedules(db);
+            PopulateRoomType(db);
+            PopulateRoom(db);
+            PopulateBooking(db);
+            PopulateRoomBooking(db);
+            PopulateClient(db);
         }
 
         /*
@@ -382,6 +387,307 @@ namespace ReserveSystem.Data
                 db.SaveChanges();
             }
         }
+        public static void PopulateRoomType(ReserveSystemContext db)
+        {
+            if (!db.Room_Type.Any())
+            {
+                db.Room_Type.AddRange(
+                    new Room_Type
+                    {
+                        HasView = true,
+                        Type = "Single",
+                        Capacity = 1,
+                        RoomCapacity = 1,
+                        AcessibilityRoom = false
+                    },
+                    new Room_Type
+                    {
+                        HasView = true,
+                        Type = "Double",
+                        Capacity = 2,
+                        RoomCapacity = 2,
+                        AcessibilityRoom = true
+                    },
+                    new Room_Type
+                    {
+                        HasView = false,
+                        Type = "Suite",
+                        Capacity = 4,
+                        RoomCapacity = 4,
+                        AcessibilityRoom = false
+                    },
+                    new Room_Type
+                    {
+                        HasView = true,
+                        Type = "Family",
+                        Capacity = 4,
+                        RoomCapacity = 3,
+                        AcessibilityRoom = true
+                    },
+                    new Room_Type
+                    {
+                        HasView = true,
+                        Type = "Luxury",
+                        Capacity = 2,
+                        RoomCapacity = 2,
+                        AcessibilityRoom = false
+                    },
+                    new Room_Type
+                    {
+                        HasView = false,
+                        Type = "Penthouse",
+                        Capacity = 6,
+                        RoomCapacity = 5,
+                        AcessibilityRoom = true
+                    },
+                    new Room_Type
+                    {
+                        HasView = true,
+                        Type = "Standard",
+                        Capacity = 2,
+                        RoomCapacity = 2,
+                        AcessibilityRoom = false
+                    },
+                    new Room_Type
+                    {
+                        HasView = false,
+                        Type = "Economy",
+                        Capacity = 1,
+                        RoomCapacity = 1,
+                        AcessibilityRoom = false
+                    },
+                    new Room_Type
+                    {
+                        HasView = true,
+                        Type = "Business",
+                        Capacity = 2,
+                        RoomCapacity = 2,
+                        AcessibilityRoom = true
+                    },
+                    new Room_Type
+                    {
+                        HasView = true,
+                        Type = "Honeymoon Suite",
+                        Capacity = 2,
+                        RoomCapacity = 2,
+                        AcessibilityRoom = false
+                    }
+                );
+                db.SaveChanges();
+            }
+        }
+
+        public static void PopulateRoom(ReserveSystemContext db)
+        {
+            if (!db.Room.Any())
+            {
+                db.Room.AddRange(
+                    new Room { RoomTypeId = 1 },
+                    new Room { RoomTypeId = 2 },
+                    new Room { RoomTypeId = 3 },
+                    new Room { RoomTypeId = 4 },
+                    new Room { RoomTypeId = 5 },
+                    new Room { RoomTypeId = 6 },
+                    new Room { RoomTypeId = 7 },
+                    new Room { RoomTypeId = 8 },
+                    new Room { RoomTypeId = 9 },
+                    new Room { RoomTypeId = 10 }
+                );
+                db.SaveChanges();
+            }
+        }
+
+        public static void PopulateRoomBooking(ReserveSystemContext db)
+        {
+            if (!db.Room_Booking.Any())
+            {
+                db.Room_Booking.AddRange(
+                    new Room_Booking { BookingId = 1, RoomId = 1, Persons_Number = 1 },
+                    new Room_Booking { BookingId = 2, RoomId = 2, Persons_Number = 2 },
+                    new Room_Booking { BookingId = 3, RoomId = 3, Persons_Number = 4 },
+                    new Room_Booking { BookingId = 4, RoomId = 4, Persons_Number = 3 },
+                    new Room_Booking { BookingId = 5, RoomId = 5, Persons_Number = 2 },
+                    new Room_Booking { BookingId = 6, RoomId = 6, Persons_Number = 5 },
+                    new Room_Booking { BookingId = 7, RoomId = 7, Persons_Number = 2 },
+                    new Room_Booking { BookingId = 8, RoomId = 8, Persons_Number = 1 },
+                    new Room_Booking { BookingId = 9, RoomId = 9, Persons_Number = 2 },
+                    new Room_Booking { BookingId = 10, RoomId = 10, Persons_Number = 2 }
+                );
+                db.SaveChanges();
+            }
+        }
+
+        public static void PopulateBooking(ReserveSystemContext db)
+        {
+            if (!db.Booking.Any())
+            {
+                db.Booking.AddRange(
+                    new Booking
+                    {
+                        ClientId = 1,
+                        Checkin_date = new DateTime(2025, 2, 1),
+                        Checkout_date = new DateTime(2025, 2, 5),
+                        Booking_Date = new DateTime(2024, 12, 15),
+                        Booked = true,
+                        Total_Persons_Number = 1,
+                        Payment_Status = true
+                    },
+                    new Booking
+                    {
+                        ClientId = 2,
+                        Checkin_date = new DateTime(2025, 3, 5),
+                        Checkout_date = new DateTime(2025, 3, 10),
+                        Booking_Date = new DateTime(2024, 11, 20),
+                        Booked = true,
+                        Total_Persons_Number = 2,
+                        Payment_Status = true
+                    },
+                    new Booking
+                    {
+                        ClientId = 3,
+                        Checkin_date = new DateTime(2025, 4, 10),
+                        Checkout_date = new DateTime(2025, 4, 15),
+                        Booking_Date = new DateTime(2024, 10, 10),
+                        Booked = true,
+                        Total_Persons_Number = 4,
+                        Payment_Status = false
+                    },
+                    new Booking
+                    {
+                        ClientId = 4,
+                        Checkin_date = new DateTime(2025, 5, 1),
+                        Checkout_date = new DateTime(2025, 5, 7),
+                        Booking_Date = new DateTime(2024, 12, 1),
+                        Booked = true,
+                        Total_Persons_Number = 3,
+                        Payment_Status = true
+                    },
+                    new Booking
+                    {
+                        ClientId = 5,
+                        Checkin_date = new DateTime(2025, 6, 20),
+                        Checkout_date = new DateTime(2025, 6, 25),
+                        Booking_Date = new DateTime(2024, 11, 5),
+                        Booked = true,
+                        Total_Persons_Number = 2,
+                        Payment_Status = false
+                    },
+                    new Booking
+                    {
+                        ClientId = 6,
+                        Checkin_date = new DateTime(2025, 7, 15),
+                        Checkout_date = new DateTime(2025, 7, 20),
+                        Booking_Date = new DateTime(2024, 10, 1),
+                        Booked = true,
+                        Total_Persons_Number = 5,
+                        Payment_Status = true
+                    },
+                    new Booking
+                    {
+                        ClientId = 7,
+                        Checkin_date = new DateTime(2025, 8, 1),
+                        Checkout_date = new DateTime(2025, 8, 5),
+                        Booking_Date = new DateTime(2024, 9, 15),
+                        Booked = true,
+                        Total_Persons_Number = 2,
+                        Payment_Status = true
+                    },
+                    new Booking
+                    {
+                        ClientId = 8,
+                        Checkin_date = new DateTime(2025, 9, 1),
+                        Checkout_date = new DateTime(2025, 9, 5),
+                        Booking_Date = new DateTime(2024, 12, 1),
+                        Booked = false,
+                        Total_Persons_Number = 1,
+                        Payment_Status = false
+                    },
+                    new Booking
+                    {
+                        ClientId = 9,
+                        Checkin_date = new DateTime(2025, 10, 10),
+                        Checkout_date = new DateTime(2025, 10, 15),
+                        Booking_Date = new DateTime(2024, 10, 5),
+                        Booked = true,
+                        Total_Persons_Number = 2,
+                        Payment_Status = true
+                    },
+                    new Booking
+                    {
+                        ClientId = 10,
+                        Checkin_date = new DateTime(2025, 11, 1),
+                        Checkout_date = new DateTime(2025, 11, 5),
+                        Booking_Date = new DateTime(2024, 11, 25),
+                        Booked = true,
+                        Total_Persons_Number = 2,
+                        Payment_Status = true
+                    }
+                );
+                db.SaveChanges();
+            }
+        }
+
+        public static void PopulateClient(ReserveSystemContext db)
+        {
+            if (!db.Client.Any())
+            {
+                db.Client.AddRange(
+                    new Client
+                    {
+                        Client_Name = "John Doe",
+                        Client_Phone = "+1234567890",
+                        Client_Adress = "123 Main St, City, Country",
+                        Client_Email = "johndoe@example.com",
+                        Client_Nif = "123456789",
+                        Client_Login = true,
+                        Client_Status = true
+                    },
+                    new Client
+                    {
+                        Client_Name = "Jane Smith",
+                        Client_Phone = "+1987654321",
+                        Client_Adress = "456 Oak Ave, City, Country",
+                        Client_Email = "janesmith@example.com",
+                        Client_Nif = "987654321",
+                        Client_Login = true,
+                        Client_Status = true
+                    },
+                    new Client
+                    {
+                        Client_Name = "Michael Brown",
+                        Client_Phone = "+1122334455",
+                        Client_Adress = "789 Pine Rd, City, Country",
+                        Client_Email = "michaelbrown@example.com",
+                        Client_Nif = "112233445",
+                        Client_Login = true,
+                        Client_Status = false
+                    },
+                    new Client
+                    {
+                        Client_Name = "Sarah Williams",
+                        Client_Phone = "+2233445566",
+                        Client_Adress = "321 Maple Dr, City, Country",
+                        Client_Email = "sarahwilliams@example.com",
+                        Client_Nif = "223344556",
+                        Client_Login = false,
+                        Client_Status = true
+                    },
+                    new Client
+                    {
+                        Client_Name = "David Johnson",
+                        Client_Phone = "+3344556677",
+                        Client_Adress = "654 Birch Blvd, City, Country",
+                        Client_Email = "davidjohnson@example.com",
+                        Client_Nif = "334455667",
+                        Client_Login = true,
+                        Client_Status = true
+                    }
+                );
+                db.SaveChanges();
+            }
+        }
+
+
 
     }
 }
