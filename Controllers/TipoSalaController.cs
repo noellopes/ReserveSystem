@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
+using ReserveSystem.Models.ViewModels;
 
 namespace ReserveSystem.Controllers
 {
@@ -22,17 +23,50 @@ namespace ReserveSystem.Controllers
         {
             try
             {
-                var tipoSalas = await _context.TipoSala.ToListAsync();
-                return View(tipoSalas);
+                var query = ApplyTipoSalaFilters(_context.TipoSala.AsQueryable(), minCapacity, maxCapacity);
+
+                int totalItems = await query.CountAsync();
+
+                var tipoSalas = await query
+                    .OrderBy(t => t.NomeSala)
+                    .Skip((page - 1) * 4)
+                    .Take(4)
+                    .ToListAsync();
+
+                var viewModel = new TipoSalaViewModel
+                {
+                    TipoSalas = tipoSalas,
+                    Pagination = new PagingInfo
+                    {
+                        TotalItems = totalItems,
+                        CurrentPage = page,
+                        PageSize = 4
+                    },
+                    MinCapacity = minCapacity,
+                    MaxCapacity = maxCapacity
+                };
+
+                return View(viewModel);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error fetching TipoSala list");
-                TempData["Message"] = "An unexpected error occurred while fetching the TipoSala list.";
-                return View(new List<TipoSala>()); // Boş bir list döndür geçici olarak
+                TempData["ErrorMessage"] = "An unexpected error occurred while fetching the TipoSala list.";
+                return View(new TipoSalaViewModel());
             }
         }
 
+        private IQueryable<TipoSala> ApplyTipoSalaFilters(IQueryable<TipoSala> query, int? minCapacity,
+            int? maxCapacity)
+        {
+            if (minCapacity.HasValue)
+                query = query.Where(t => t.Capacidade >= minCapacity.Value);
+
+            if (maxCapacity.HasValue)
+                query = query.Where(t => t.Capacidade <= maxCapacity.Value);
+
+            return query;
+        }
 
         // GET: TipoSala/Create
         public IActionResult Create()
