@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using static System.Reflection.Metadata.BlobBuilder;
+using ReserveSystem.Models;
 
 namespace ReserveSystem.Data
 {
@@ -15,5 +16,6 @@ namespace ReserveSystem.Data
         
         public DbSet<ReserveSystem.Models.Events> Events { get; set; } = default!;
         public DbSet<ReserveSystem.Models.Sazonalidade> Sazonalidade { get; set; } = default!;
+        public DbSet<ReserveSystem.Models.Promos> Promos { get; set; } = default!;
     }
 }

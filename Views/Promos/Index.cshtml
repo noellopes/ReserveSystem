@@ -1,10 +1,10 @@
-﻿@model IEnumerable<ReserveSystem.Models.Events>
+﻿@model IEnumerable<ReserveSystem.Models.Promos>
 
 <style>
     body {
         font-family: 'Georgia', serif;
-        background-color: #f9f9f6; 
-        color: #1a1a1a; 
+        background-color: #f9f9f6;
+        color: #1a1a1a;
     }
 
     /* Overall table styles */
@@ -19,14 +19,14 @@
 
         /* Table Header Styles */
         .table thead {
-            background-color: #333333; 
+            background-color: #333333;
             color: white;
         }
 
         /* Table row hover effect */
         .table tbody tr:hover {
-            background-color: #F5F5F5; 
-            color: #d4af37; 
+            background-color: #F5F5F5;
+            color: #d4af37;
             cursor: pointer;
         }
 
@@ -64,13 +64,13 @@
             border-color: #000000;
             color: white;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transform: translateY(0); 
+            transform: translateY(0);
         }
 
     .hr {
         border: none;
         height: 2px;
-        background-color: #d4af37; 
+        background-color: #d4af37;
         width: 60%;
         margin: 1rem auto;
         opacity: 0.8;
@@ -79,7 +79,7 @@
     /* Centered title */
     h1 {
         font-size: 2rem;
-        color: #d4af37; 
+        color: #d4af37;
     }
 
     /* Adjusting the paragraph style for centered 'Create' button */
@@ -101,41 +101,36 @@
     });
 </script>
 
-<h1 class="text-center my-4">Event Index</h1>
+<h1 class="text-center my-4">Promos Index</h1>
 <hr class="hr" />
 <table class="table table-bordered my-4">
     <thead>
         <tr>
             <th>Event Name</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Fee</th>
-            <th>Annual</th>
-            <th>Municipal</th>
-            <th>National</th>
+            <th>Code</th>
+            <th>Discount</th>
+            <th>Promo State</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr class="clickable-row" data-href="@Url.Action("Details", new { id = item.event_id })">
-                <td>@Html.DisplayFor(modelItem => item.nameEv)</td>
-                <td>@item.startDate.ToString("dd/MM/yyyy")</td>
-                <td>@item.endDate.ToString("dd/MM/yyyy")</td>
-                <td>@Html.DisplayFor(modelItem => item.fee)</td>
-                <td>@(item.anual ? "Yes" : "No")</td>
-                <td>@(item.municipal ? "Yes" : "No")</td>
-                <td>@(item.national ? "Yes" : "No")</td>
+            <tr class="clickable-row" data-href="@Url.Action("Details", new { id = item.Id_Prom })">
+                <td>@Html.DisplayFor(modelItem => item.Events.nameEv)</td>
+                <td>@Html.DisplayFor(modelItem => item.evCode)</td>
+                <td>@Html.DisplayFor(modelItem => item.discount)</td>
+                <td>@(item.promState ? "Active" : "Not Active")</td>
             </tr>
         }
     </tbody>
-
 </table>
 
 <p>
-    <a class="btn" asp-action="Create">Create New Event</a>
+    <a class="btn" asp-action="Create">Create New Promo</a>
 </p>
 
 <p>
-    <a class="btn" asp-controller="Promos" asp-action="Index">Promos</a>
+    <a class="btn" asp-controller="Events" asp-action="Show">Back to List</a>
 </p>
+
+
