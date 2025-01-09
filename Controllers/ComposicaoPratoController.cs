@@ -48,6 +48,7 @@ namespace ReserveSystem.Controllers
             _context.ComposicaoPrato.Add(composicao);
             await _context.SaveChangesAsync();
 
+            TempData["SuccessMessage"] = "Ingrediente adicionado com sucesso!"; // Mensagem de sucesso
             return RedirectToAction("Edit", new { id = pratoId });
         }
 
@@ -104,6 +105,9 @@ namespace ReserveSystem.Controllers
 
             _context.ComposicaoPrato.Remove(composicao);
             await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Ingrediente excluido com sucesso!"; // Mensagem de sucesso
+
 
             return RedirectToAction("Edit", new { id = composicao.PratoID });
         }
