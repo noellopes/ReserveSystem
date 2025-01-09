@@ -1,0 +1,59 @@
+﻿@model ReserveSystem.Models.Transporte
+
+@{
+    ViewData["Title"] = "Eliminar";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header bg-danger text-white text-center">
+                    <h3 class="card-title">Eliminar Transporte</h3>
+                </div>
+                <div class="card-body">
+                    <h5 class="text-center text-danger mb-4">Quer mesmo eliminar este transporte?</h5>
+                    <dl class="row">
+                        <dt class="col-sm-4 text-end fw-bold">
+                            @Html.DisplayNameFor(model => model.Matricula)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Matricula)
+                        </dd>
+                        <dt class="col-sm-4 text-end fw-bold">
+                            @Html.DisplayNameFor(model => model.Capacidade)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Capacidade)
+                        </dd>
+                        <dt class="col-sm-4 text-end fw-bold">
+                            @Html.DisplayNameFor(model => model.TipoTransporte)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.TipoTransporte)
+                        </dd>
+                        <dt class="col-sm-4 text-end fw-bold">
+                            @Html.DisplayNameFor(model => model.AnoFabricacao)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.AnoFabricacao)
+                        </dd>
+                        <dt class="col-sm-4 text-end fw-bold">
+                            @Html.DisplayNameFor(model => model.DescricaoTipoTransporte)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.DescricaoTipoTransporte)
+                        </dd>
+                    </dl>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <form asp-action="Delete" class="mb-0">
+                        <input type="hidden" asp-for="TransporteId" />
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                    <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

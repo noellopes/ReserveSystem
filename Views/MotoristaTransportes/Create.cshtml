@@ -1,0 +1,51 @@
+﻿@model ReserveSystem.Models.MotoristaTransporte
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1 class="text-center my-4">Criar Motorista/Transporte</h1>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h4 class="card-title text-center">MotoristaTransporte Information</h4>
+                    <hr />
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <!-- Dropdown para Staff (com nome) -->
+                        <div class="mb-3">
+                            <label asp-for="StaffId" class="form-label">Staff</label>
+                            <select asp-for="StaffId" class="form-control" asp-items="ViewBag.StaffId"></select>
+                            <span asp-validation-for="StaffId" class="text-danger"></span>
+                        </div>
+
+                        <!-- Dropdown para Transporte (com nome) -->
+                        <div class="mb-3">
+                            <label asp-for="TransporteId" class="form-label">Transporte</label>
+                            <select asp-for="TransporteId" class="form-control" asp-items="ViewBag.TransporteId"></select>
+                            <span asp-validation-for="TransporteId" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-3">
+                            <!-- Botão de Criar -->
+                            <button type="submit" class="btn btn-primary">Criar</button>
+
+                            <!-- Link de Voltar para a lista -->
+                            <a asp-action="Index" class="btn btn-link">Voltar para a Lista</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

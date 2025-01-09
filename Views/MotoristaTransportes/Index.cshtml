@@ -1,0 +1,71 @@
+﻿@model IEnumerable<ReserveSystem.Models.MotoristaTransporte>
+@using ReserveSystem.Models
+
+@{
+    ViewData["Title"] = "Motorista Transporte";
+    var pageInfo = (PageInfo)ViewBag.PageInfo;
+}
+
+<h1 class="text-center my-4">Motorista/Transporte Lista</h1>
+
+<div class="container">
+    <form method="get" asp-action="Index" class="mb-3">
+        <div class="row">
+            <div class="col-md-8">
+                <input type="text" name="searchString" value="@ViewData["SearchString"]" class="form-control" placeholder="Pesquisar...">
+            </div>
+            <div class="col-md-4">
+                <!-- Botão de Pesquisar com estilo Bootstrap -->
+                <button type="submit" class="btn btn-primary w-100">Pesquisar</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Botão para Criar Novo Motorista/Transporte -->
+    <div class="text-end mb-3">
+        <a asp-action="Create" class="btn btn-success">Criar Novo Motorista/Transporte</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["StaffSortParm"]" asp-route-searchString="@ViewData["SearchString"]" class="text-white">Staff</a>
+                    </th>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["TransporteSortParm"]" asp-route-searchString="@ViewData["SearchString"]" class="text-white">Transporte</a>
+                    </th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Staff.Staff_Name</td>
+                        <td>@item.Transporte.TipoTransporte</td>
+                        <td>
+                            <!-- Botões de Ação com estilo Bootstrap -->
+                            <a asp-action="Edit" asp-route-id="@item.MotoristaTransporteId" class="btn btn-warning btn-sm">Editar</a>
+                            <a asp-action="Details" asp-route-id="@item.MotoristaTransporteId" class="btn btn-info btn-sm text-white">Detalhes</a>
+                            <a asp-action="Delete" asp-route-id="@item.MotoristaTransporteId" class="btn btn-danger btn-sm">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Paginação -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            @for (int i = pageInfo.FirstPageShow; i <= pageInfo.LastPageShow; i++)
+            {
+                <li class="page-item @(i == pageInfo.CurrentPage ? "active" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-searchString="@ViewData["SearchString"]">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>

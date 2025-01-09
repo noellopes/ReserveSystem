@@ -1,0 +1,64 @@
+﻿@model ReserveSystem.Models.Transporte
+
+@{
+    ViewData["Title"] = "Editar";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3 class="card-title">Editar Transporte</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                        <input type="hidden" asp-for="TransporteId" />
+
+                        <div class="mb-3">
+                            <label asp-for="Matricula" class="form-label"></label>
+                            <input asp-for="Matricula" class="form-control" />
+                            <span asp-validation-for="Matricula" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Capacidade" class="form-label"></label>
+                            <input asp-for="Capacidade" class="form-control" />
+                            <span asp-validation-for="Capacidade" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="TipoTransporte" class="form-label"></label>
+                            <input asp-for="TipoTransporte" class="form-control" />
+                            <span asp-validation-for="TipoTransporte" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="AnoFabricacao" class="form-label"></label>
+                            <input asp-for="AnoFabricacao" class="form-control" />
+                            <span asp-validation-for="AnoFabricacao" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="DescricaoTipoTransporte" class="form-label"></label>
+                            <input asp-for="DescricaoTipoTransporte" class="form-control" />
+                            <span asp-validation-for="DescricaoTipoTransporte" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-success">Guardar</button>
+                            <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
