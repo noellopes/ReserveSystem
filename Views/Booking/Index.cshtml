@@ -1,122 +1,255 @@
-﻿@model BookingViewModel
+﻿@model IEnumerable<ReserveSystem.Models.Booking>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Booking List";
+    var currentPage = ViewData["CurrentPage"] != null ? (int)ViewData["CurrentPage"] : 1;
+    var totalPages = ViewData["TotalPages"] != null ? (int)ViewData["TotalPages"] : 1;
+    var searchQuery = ViewData["SearchQuery"] != null ? (string)ViewData["SearchQuery"] : "";
 }
-@*Aqui aparecem as reservas feitas*@
-<html>
+
 <head>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Alinhamento da barra de pesquisa à esquerda */
+        .search-bar-container {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 30px;
+        }
+
+        .search-box {
+            display: flex;
+        }
+
+        .input-search {
+            padding: 10px;
+            width: 250px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+            transition: border-color 0.3s ease;
+        }
+
+            .input-search:focus {
+                border-color: #007bff;
+            }
+
+        .btn-search {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .btn-search:hover {
+                background-color: #0056b3;
+            }
+
+        /* Estilos das cards */
+        .custom-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+            .custom-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .card-text {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        /* Estilo dos botões dentro da card */
+        .btn {
+            border-radius: 5px;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border: none;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+       
+    </style>
 </head>
 
-<body>
-    <h1>LISTA DE RESERVAS</h1>
-    <div class="mt-3">
-        <button type="button" class="btn btn-success">
-            <a asp-action="Create" style="text-decoration: none; color: white"><b>Fazer reserva</b></a>
-        </button>
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+        <i class="bi bi-check-circle"></i> @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 
-        <button type="button" class="btn btn-warning">
-            <a asp-action="Edit" style="text-decoration: none; color: white"><b>Alterar reserva</b></a>
-        </button>
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+        <i class="bi bi-exclamation-circle"></i> @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 
-        <button type="button" class="btn btn-danger">
-            <a asp-action="Delete" style="text-decoration: none; color: white"><b>Eliminar reserva</b></a>
-        </button>
+@if (TempData["WarningMessage"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+        <i class="bi bi-exclamation-circle"></i> @TempData["WarningMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+
+<div class="container">
+    <!-- Search Bar Alinhada à Esquerda -->
+    <p>
+        <a asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i> Add Booking</a>
+    </p>
+
+    <div class="search-bar-container mb-4">
+        <form method="get" action="@Url.Action("Index")" class="search-container d-flex justify-content-start">
+            <div class="search-box d-flex">
+                <input type="text" name="searchQuery" class="input-search" placeholder="Search by Number" value="@ViewData["SearchQuery"]" />
+                <button type="submit" class="btn-search">
+                    <i class="fa fa-search"></i> <!-- ícone de pesquisa -->
+                </button>
+            </div>
+        </form>
     </div>
 
-    <table class="table table-primary table-bordered mt-3" style="text-align: center; border: 2px solid black; border-collapse: collapse;">
-        <thead>
-            <tr>
-                <th colspan="3">Cliente</th>
-                <th colspan="3">Data</th>
-                <th colspan="3">Reserva</th>
-            </tr>
-        </thead>
-        <thead>
-            <tr>
-                <th scope="col">Nome</th>
-                <th scope="col">Telefone</th>
-                <th scope="col">NIF</th>
-                <th scope="col">Reserva</th>
-                <th scope="col">Check-in</th>
-                <th scope="col">Check-out</th>
-                <th scope="col">Nº Pessoas</th>
-                <th scope="col">Pagamento</th>
-                <th scope="col">Funções</th>
-            </tr>
-        </thead>
-        <tbody>
+    <!-- Cards -->
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card custom-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Booking Number @item.ID_BOOKING</h5>
+                        <p class="card-text">Booking Date: @item.BOOKING_DATE</p>
+                        <p class="card-text">Booked between @item.CHECKIN_DATE and @item.CHECKOUT_DATE</p>
+                        <p class="card-text">Number of people: @item.TOTAL_PERSONS_NUMBER</p>
+                        <p class="card-text">
+                            Booked:
+                            @if (item.BOOKED)
+                            {
+                                <i class="fa fa-check text-success"></i> <!-- Ícone de visto (verde) -->
+                            }
+                            else
+                            {
+                                <i class="fa fa-times text-danger"></i> <!-- Ícone de cruz (vermelho) -->
+                            }
+                        </p>
+                        <p class="card-text">
+                            Paid:
+                            @if (item.PAYMENT_STATUS)
+                            {
+                                <i class="fa fa-check text-success"></i> <!-- Ícone de visto (verde) -->
+                            }
+                            else
+                            {
+                                <i class="fa fa-times text-danger"></i> <!-- Ícone de cruz (vermelho) -->
+                            }
+                        </p>
+                        <div class="d-flex justify-content-end">
+                            <a asp-action="Edit" asp-route-id="@item.ID_BOOKING" class="btn btn-primary ms-2">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.ID_BOOKING" class="btn btn-warning ms-2">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.ID_BOOKING" class="btn btn-danger ms-2">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
 
-            @foreach (var item in Model.Bookings) 
-            {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => item.Client.Name)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Client.Email)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Client.NIF)</td>
-                    <td>@Html.DisplayFor(modelItem => item.BOOKING_DATE)</td>
-                    <td>@Html.DisplayFor(modelItem => item.CHECKIN_DATE)</td>
-                    <td>@Html.DisplayFor(modelItem => item.CHECKOUT_DATE)</td>
-                    <td>@Html.DisplayFor(modelItem => item.TOTAL_PERSONS_NUMBER)</td>
-                    <td>@(item.PAYMENT_STATUS ? "Pago" : "Não pago")</td>
-                    <td>
-                        <a asp-action="Details" asp-route-id="@item.ID_BOOKING"><i class="fa-solid fa-circle-info text-black"></i></a> |
-                        <a asp-action="Edit" asp-route-id="@item.ID_BOOKING"><i class="fa-solid fa-pen-to-square text-black"></i></a> |
-                        <a asp-action="Delete" asp-route-id="@item.ID_BOOKING"><i class="fa-solid fa-delete-left text-black"></i></a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<ul class="pagination justify-content-center">
+    <!-- Página Anterior -->
+    @if (currentPage > 1)
+    {
+        <li class="page-item">
+            <a class="page-link" asp-action="Index" asp-route-page="@(currentPage - 1)" asp-route-searchQuery="@searchQuery">
+                <i class="bi bi-chevron-left"></i> <!-- Ícone de seta para a esquerda -->
+            </a>
+        </li>
+    }
+    else
+    {
+        <li class="page-item disabled">
+            <a class="page-link" href="#">
+                <i class="bi bi-chevron-left"></i> <!-- Ícone de seta para a esquerda -->
+            </a>
+        </li>
+    }
 
+    <!-- Páginas numéricas -->
+    @for (int i = 1; i <= totalPages; i++)
+    {
+        <li class="page-item @(i == currentPage ? "active" : "")">
+            <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-searchQuery="@searchQuery">@i</a>
+        </li>
+    }
 
-
-    
-
-    <nav aria-label="booksPagination">
-        <ul class="pagination">
-            @{
-                var cssStyle = "page-item";
-                if (Model.BookingsIds.CurrentPage == 1)
-                {
-                    cssStyle += " disabled";
-                }
-            }
-            <li class="@cssStyle">
-                <a class="page-link"
-                   asp-action="Index"
-                   asp-route-page="1">First</a>
-            </li>
-
-            @for (int p = Model.BookingsIds.FirstPageShow; p <= Model.BookingsIds.LastPageShow; p++)
-            {
-                cssStyle = "page-item";
-                if (p == Model.BookingsIds.CurrentPage)
-                {
-                    cssStyle += " active";
-                }
-
-                <li class="@cssStyle">
-                    <a class="page-link"
-                       asp-action="Index"
-                       asp-route-page="@p">@p</a>
-                </li>
-            }
-
-            @{
-                cssStyle = "page-item";
-                if (Model.BookingsIds.CurrentPage == Model.BookingsIds.TotalPages)
-                {
-                    cssStyle += " disabled";
-                }
-            }
-            <li class="@cssStyle">
-                <a class="page-link"
-                   asp-action="Index"
-                   asp-route-page="@Model.BookingsIds.TotalPages">Last</a>
-            </li>
-        </ul>
-    </nav>
-</body>
-</html>
-
+    <!-- Próxima Página -->
+    @if (currentPage < totalPages)
+    {
+        <li class="page-item">
+            <a class="page-link" asp-action="Index" asp-route-page="@(currentPage + 1)" asp-route-searchQuery="@searchQuery">
+                <i class="bi bi-chevron-right"></i> <!-- Ícone de seta para a direita -->
+            </a>
+        </li>
+    }
+    else
+    {
+        <li class="page-item disabled">
+            <a class="page-link" href="#">
+                <i class="bi bi-chevron-right"></i> <!-- Ícone de seta para a direita -->
+            </a>
+        </li>
+    }
+</ul>

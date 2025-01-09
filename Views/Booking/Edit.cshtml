@@ -4,44 +4,46 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
 
-<h4>Reserva</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<h2 class="text-center">Edit</h2>
+<h3 class="text-center"><i class="fas fa-edit"></i> </h3>
+
+@if (TempData["WarningMessage"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+        <i class="bi bi-exclamation-circle"></i> @TempData["WarningMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+<div class="d-flex justify-content-center">
+    <div class="col-md-10">
+        <form asp-action="Edit" class="border p-5 rounded shadow-sm">
             <input type="hidden" asp-for="ID_BOOKING" />
-            <div class="form-group">
-                <label asp-for="CHECKIN_DATE" class="control-label"></label>
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+           
+            <div class="form-group mt-2">
+                <label class="control-label">Data de Check-In</label>
                 <input asp-for="CHECKIN_DATE" class="form-control" />
                 <span asp-validation-for="CHECKIN_DATE" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="CHECKOUT_DATE" class="control-label"></label>
+            <div class="form-group mt-2">
+                <label class="control-label">Data de Check-Out</label>
                 <input asp-for="CHECKOUT_DATE" class="form-control" />
                 <span asp-validation-for="CHECKOUT_DATE" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="TOTAL_PERSONS_NUMBER" class="control-label"></label>
-                <input asp-for="TOTAL_PERSONS_NUMBER" class="form-control" />
-                <span asp-validation-for="TOTAL_PERSONS_NUMBER" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Client" class="control-label"></label>
-                <select asp-for="Client" class="form-control" asp-items="ViewBag.Cliente"></select>
-                <span asp-validation-for="Client" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+
+            <div class="d-flex justify-content-between m-3">
+                <div class="form-group">
+                    <a asp-action="Index" class="btn btn-secondary"><i class="bi bi-arrow-left-circle"></i> Back to List</a>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
