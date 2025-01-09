@@ -1,16 +1,16 @@
 ﻿@{
-    ViewBag.Title = $"{ViewBag.Entity} edited";
+    ViewBag.Title = $"{ViewBag.Entity} deleted";
 }
 
 <style>
     body {
         font-family: 'Georgia', serif;
-        background-color: #f9f9f6; 
-        color: #1a1a1a; 
+        background-color: #f9f9f6;
+        color: #1a1a1a;
     }
 
     .details-container {
-        background: #ffffff; 
+        background: #ffffff;
         padding: 3rem;
         border-radius: 12px;
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
@@ -21,7 +21,7 @@
 
     h1 {
         font-size: 2rem;
-        color: #d4af37; 
+        color: #d4af37;
     }
 
     .alert {
@@ -79,11 +79,11 @@
 
     <div class="alert alert-success" role="alert">
         <h4 class="alert-heading">Success!</h4>
-        <p>The @ViewBag.Entity was successfully edited.</p>
-        <a asp-action="@ViewBag.Action" asp-controller="@ViewBag.Controller" asp-route-id="@ViewBag.Id" class="btn_back">Back to Details</a>
+        <p>The @ViewBag.Entity was successfully deleted.</p>
+        <a asp-action="@ViewBag.Action" asp-controller="@ViewBag.Controller" class="btn_back">Back to List</a>
     </div>
 
-    
+
 </div>
 
 

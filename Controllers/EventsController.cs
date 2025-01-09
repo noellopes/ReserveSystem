@@ -136,7 +136,7 @@ namespace ReserveSystem.Controllers
                 ViewBag.Entity = "Event";
                 ViewBag.Controller = "Events";
                 ViewBag.Action = "Details";
-                ViewBag.EventId = events.event_id;
+                ViewBag.Id = events.event_id;
                 return View("EditSuccess");
             }
             return View(events);
