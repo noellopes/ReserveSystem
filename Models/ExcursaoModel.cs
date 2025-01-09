@@ -25,6 +25,8 @@ namespace ReserveSystem.Models
 		[Required,DataType(DataType.Currency), Display(Name = "Preço"), DisplayFormat(DataFormatString = "{0:C}")]
 		
 		public float Preco {  get; set;}
+
+
 		[Required, Display(Name = "Staff ID")]
 		[Column(TypeName = "INTEGER")]
 		public int StaffId { get; set; }
