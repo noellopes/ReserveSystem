@@ -2,14 +2,185 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <div class="text-center " style="width: 100%; font-family: 'Arial Rounded MT';">
-        <h1 class="display-4">Welcome To Our Hotel</h1>
-        <a asp-controller="Client" asp-action="Create" class="btn btn-success" >Registe-se</a>
+<div class="container-fluid" style="padding: 0; margin: 0; width: 100%; max-width: 100%; overflow: hidden;">
+    <div class="row blog" style="margin: 0;">
+        <div class="col-md-12" style="padding: 0;">
+            <div class="swiper-container main-slider" id="myCarousel">
+                <div class="swiper-wrapper">
+                    <!-- Slide 1 -->
+                    <div class="swiper-slide slider-bg-position"
+                         style="background:url('https://images.pexels.com/photos/1458457/pexels-photo-1458457.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1920'); background-size: cover; background-position: center;"
+                         data-hash="slide1">
+                        <h2>Quality is never an accident. It is always the result of intention, effort, and excellence in every detail.</h2>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="swiper-slide slider-bg-position"
+                         style="background:url('https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1920'); background-size: cover; background-position: center;"
+                         data-hash="slide2">
+                        <h2>Happiness is not found in things, but in moments that make the heart smile and the soul feel at peace.</h2>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="swiper-slide slider-bg-position"
+                         style="background:url('https://images.pexels.com/photos/26729545/pexels-photo-26729545/free-photo-of-interior-of-a-modern-room-in-a-luxury-hotel.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1920'); background-size: cover; background-position: center;"
+                         data-hash="slide3">
+                        <h2>Happiness is nothing more than good health and a bad memory.</h2>
+                    </div>
+
+                    <!-- Slide 4 -->
+                    <div class="swiper-slide slider-bg-position"
+                         style="background:url('https://images.pexels.com/photos/122244/pexels-photo-122244.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'); background-size: cover; background-position: center;"
+                         data-hash="slide4">
+                        <h2>Quality is doing it right when no one is looking, creating value that stands the test of time.</h2>
+                    </div>
+
+                    <!-- Slide 5 -->
+                    <div class="swiper-slide slider-bg-position"
+                         style="background:url('https://images.pexels.com/photos/6782477/pexels-photo-6782477.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1920'); background-size: cover; background-position: center;"
+                         data-hash="slide5">
+                        <h2>Luxury is not a place; it’s an experience of moments beautifully lived.</h2>
+                    </div>
+                </div>
+                <!-- Add Pagination -->
+                <div class="swiper-pagination"></div>
+                <!-- Add Navigation -->
+                <div class="swiper-button-prev"><i class="fa fa-chevron-left"></i></div>
+                <div class="swiper-button-next"><i class="fa fa-chevron-right"></i></div>
+            </div>
+        </div>
     </div>
 
-    @if (User.IsInRole("manager")) {
+    <section class="about-section" id="about">
+        <div class="about-banner">
+            <h1>ABOUT US</h1>
+            <p>Discover the story behind ReserveSystem and what makes us your perfect getaway destination.</p>
+        </div>
+
+        <div class="about-content">
+            <div class="about-text">
+                <h2>Welcome to ReserveSystem</h2>
+                <p>
+                    Nestled in the heart of Guarda, ReserveSystem offers a unique blend of luxury, comfort, and exceptional service.
+                    From breathtaking views to personalized experiences, we take pride in creating unforgettable memories for our guests.
+                </p>
+                <p>
+                    Established in 2024, our mission has always been to provide a haven of tranquility and hospitality, where guests can relax, rejuvenate, and explore.
+                </p>
+                <h3>Why Choose Us?</h3>
+                <ul>
+                    <li>Prime location with easy access to major attractions.</li>
+                    <li>Luxurious rooms and suites tailored to your comfort.</li>
+                    <li>World-class dining and exceptional culinary experiences.</li>
+                    <li>Commitment to sustainability and eco-friendly practices.</li>
+                    <li>A dedicated team ensuring your every need is met.</li>
+                </ul>
+            </div>
+            <div class="about-image">
+                <img src="https://images.pexels.com/photos/1458457/pexels-photo-1458457.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1920" alt="Luxury Hotel">
+            </div>
+        </div>
+    </section>
+
+    <section class="mission-vision" id="mission-section">
+        <div class="mission">
+            <h2>Our Mission</h2>
+            <p>To redefine hospitality by delivering unparalleled service, comfort, and experiences to our valued guests.</p>
+        </div>
+        <div class="vision">
+            <h2>Our Vision</h2>
+            <p>To be a globally recognized brand synonymous with excellence, sustainability, and unforgettable memories.</p>
+        </div>
+    </section>
+
+    <section class="service-section" id="service">
+        <h1>OUR SERVICES</h1>
+        <p>At ReserveSystem, we provide an array of services designed to ensure your stay is comfortable and memorable. Whether you’re here for business or leisure, we’ve got something for everyone.</p>
+
+        <div class="service-grid">
+            <!-- Service 1 -->
+            <div class="service-card luxury-rooms">
+                <div class="gradient-overlay"></div>
+                <i class="fa fa-bed"></i>
+                <h3>Luxury Rooms</h3>
+                <p>Experience comfort and elegance in our well-appointed rooms, designed for your relaxation.</p>
+            </div>
+
+            <!-- Service 2 -->
+            <div class="service-card dining-options">
+                <div class="gradient-overlay"></div>
+                <i class="fa fa-utensils"></i>
+                <h3>Dining Options</h3>
+                <p>Indulge in exquisite dining at our on-site restaurants, offering a wide range of culinary delights.</p>
+            </div>
+
+            <!-- Service 3 -->
+            <div class="service-card spa-wellness">
+                <div class="gradient-overlay"></div>
+                <i class="fa fa-spa"></i>
+                <h3>Spa & Wellness</h3>
+                <p>Relax and rejuvenate with our spa services and wellness facilities designed to soothe and energize.</p>
+            </div>
+
+            <!-- Service 4 -->
+            <div class="service-card business-services">
+                <div class="gradient-overlay"></div>
+                <i class="fa fa-business-time"></i>
+                <h3>Business Services</h3>
+                <p>Host meetings and conferences with our fully-equipped business center and event spaces.</p>
+            </div>
+
+            <!-- Service 5 -->
+            <div class="service-card swimming-pool">
+                <div class="gradient-overlay"></div>
+                <i class="fa fa-swimmer"></i>
+                <h3>Swimming Pool</h3>
+                <p>Take a refreshing dip in our pristine swimming pool, available for relaxation and enjoyment.</p>
+            </div>
+
+            <!-- Service 6 -->
+            <div class="service-card transportation">
+                <div class="gradient-overlay"></div>
+                <i class="fa fa-shuttle-van"></i>
+                <h3>Transportation</h3>
+                <p>Enjoy hassle-free transport services with our airport shuttle and car rental options.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+        <div class="contact-banner">
+            <h1>CONTACT US</h1>
+            <p>We're here to help. Get in touch with us for inquiries, bookings, or assistance.</p>
+        </div>
+
+        <div class="contact-content">
+            <div class="contact-info">
+                <h2>Reach Out to Us</h2>
+                <p>If you have questions, feedback, or need any help, please don’t hesitate to contact us. Our team is available to assist you 24/7.</p>
+                <ul>
+                    <li><i class="fa fa-phone"></i> +351 456 7890</li>
+                    <li><i class="fa fa-envelope"></i> inforeservesystem@ipg.pt</li>
+                    <li><i class="fa fa-map-marker-alt"></i> IPG Engineering department, Guarda, Portugal</li>
+                </ul>
+            </div>
+
+            <div class="contact-form">
+                <h2>Send Us a Message</h2>
+                <form action="#" method="post">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+    @if (User.IsInRole("manager"))
+    {
         <a href="Employees/Index" class="btn btn-primary">Employees</a>
     }
 </div>
+
