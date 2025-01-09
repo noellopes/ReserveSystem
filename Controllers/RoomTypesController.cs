@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using static System.Reflection.Metadata.BlobBuilder;
 
 namespace ReserveSystem.Controllers
 {
+    //[Authorize(Roles = "Staff")] //futuramente , quando juntarmos apenas o staff pode aceder a este controller
     public class RoomTypesController : Controller
     {
         private readonly ReserveSystemContext _context;
@@ -84,7 +86,6 @@ namespace ReserveSystem.Controllers
                 ViewBag.Action = "Index";
                     return View("EntityNoLongerExists");   
             }
-
             return View(roomType);
         }
 
@@ -108,12 +109,17 @@ namespace ReserveSystem.Controllers
                 await _context.SaveChangesAsync();
 
                 // Associa um quarto automaticamente ao RoomTypeId recém-criado
-                var room = new Room
+                for(int i = 0; i <= 3; i++)
                 {
-                    RoomTypeId = roomType.RoomTypeId
-                };
+                    var room = new Room
+                    {
+                        RoomTypeId = roomType.RoomTypeId
+                    };
+                    _context.Room.Add(room);
+                }
+                
 
-                _context.Room.Add(room);
+
                 await _context.SaveChangesAsync();
 
                 TempData["SuccessMessage"] = "Room Type created successfully!";
