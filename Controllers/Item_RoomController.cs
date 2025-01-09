@@ -175,35 +175,35 @@ namespace ReserveSystem.Controllers
         }
 
         // POST: ItemRoom/Delete/5
-[HttpPost, ActionName("Delete")]
-[ValidateAntiForgeryToken]
-public async Task<IActionResult> DeleteConfirmed(int id)
-{
-    var itemRoom = await _context.Item_Room
-        .Include(ir => ir.roomType)
-        .Include(ir => ir.items)
-        .FirstOrDefaultAsync(ir => ir.ItemRoomId == id);
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var itemRoom = await _context.Item_Room
+                .Include(ir => ir.roomType)
+                .Include(ir => ir.items)
+                .FirstOrDefaultAsync(ir => ir.ItemRoomId == id);
 
-    if (itemRoom != null)
-    {
-        _context.Item_Room.Remove(itemRoom);
-        await _context.SaveChangesAsync();
-    }
+            if (itemRoom != null)
+            {
+                _context.Item_Room.Remove(itemRoom);
+                await _context.SaveChangesAsync();
+            }
 
-    // Redireciona para a página de confirmação de exclusão
-    return RedirectToAction("DeleteSuccess", new 
-    { 
-        itemName = itemRoom?.items?.Name, 
-    });
-}
+            // Redireciona para a página de confirmação de exclusão
+            return RedirectToAction("DeleteSuccess", new 
+            { 
+                itemName = itemRoom?.items?.Name, 
+            });
+        }
 
-// GET: ItemRoom/DeleteSuccess
-public IActionResult DeleteSuccess(string itemName, string roomType)
-{
-    ViewBag.ItemName = itemName;
-    ViewBag.RoomType = roomType;
-    return View();
-}
+        // GET: ItemRoom/DeleteSuccess
+        public IActionResult DeleteSuccess(string itemName, string roomType)
+        {
+            ViewBag.ItemName = itemName;
+            ViewBag.RoomType = roomType;
+            return View();
+        }
         // Ação para adicionar +1
         public async Task<IActionResult> Itens_Plus(int id)
         {
@@ -213,11 +213,28 @@ public IActionResult DeleteSuccess(string itemName, string roomType)
                 return NotFound();
             }
 
-            itemRoom.RoomQuantity += 1;
-            _context.Update(itemRoom);
-            await _context.SaveChangesAsync();
+            var item = await _context.Items.FindAsync(itemRoom.ItemId);
+            if (item == null)
+            {
+                return NotFound();
+            }
 
-            return RedirectToAction("Details", new { id = itemRoom.ItemRoomId });
+            if (item.QuantityStock > 0)
+            {
+                itemRoom.RoomQuantity += 1;
+                item.QuantityStock -= 1;
+
+                _context.Update(itemRoom);
+                _context.Update(item);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Details", new { id = itemRoom.ItemRoomId });
+            }
+            else
+            {
+                TempData["Error"] = "Não há stock suficiente para adicionar mais itens a este quarto.";
+                return RedirectToAction("Details", new { id = itemRoom.ItemRoomId });
+            }
         }
 
         // Ação para remover -1
