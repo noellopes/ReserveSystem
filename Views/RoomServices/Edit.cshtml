@@ -1,4 +1,4 @@
-﻿@model ReserveSystem.Models.RoomService
+﻿@* @model ReserveSystem.Models.RoomService
 
 @{
     Layout = null;
@@ -53,3 +53,90 @@
 
 </body>
 </html>
+ *@
+
+ @model ReserveSystem.Models.RoomService
+
+@{
+    ViewData["Title"] = "Edit Room Service";
+}
+
+<!-- Page Header -->
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <h1 class="text-center text-primary">Edit Room Service</h1>
+    </div>
+    <hr class="border-primary">
+</div>
+
+<!-- Edit Form -->
+<div class="card border-secondary shadow-lg mx-auto" style="width: 75%;">
+    <div class="card-header bg-dark text-light text-center">
+        <h4>Edit Room Service Nº @Model?.ID_Room_Service</h4>
+    </div>
+    <div class="card-body bg-dark text-light">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+            <input type="hidden" asp-for="ID_Room_Service" />
+
+
+            <!-- Two-Column Layout -->
+            <div class="row">
+                <!-- Input Fields -->
+                <div class="col-md-6 mb-4">
+                    <label asp-for="Job_ID" class="form-label">Room Service:</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-dark text-light"><i class="bi bi-gear-fill"></i></span>
+                        <select asp-for="Job_ID" class="form-select bg-dark text-light" asp-items="ViewBag.Jobs">
+                            <option value="">Select a Job</option>
+                        </select>
+                    </div>
+                    <span asp-validation-for="ID_Room_Service" class="text-danger"></span>
+                </div>
+
+                <!-- Name Details -->
+                <div class="col-md-6 mb-4">
+                    <label asp-for="Room_Service_Name" class="form-label">Name:</label>
+                    <div class="form-group">
+                        <input asp-for="Room_Service_Name" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Room_Service_Name" class="text-danger"></span>
+                </div>
+
+                <!-- Description Details -->
+                <div class="col-md-6 mb-4">
+                    <label asp-for="Room_Service_Description" class="form-label">Description:</label>
+                    <div class="form-group">
+                        <input asp-for="Room_Service_Description" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Room_Service_Description" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" asp-for="Room_Service_Active" role="switch" />
+                        <label class="form-check-label" asp-for="Room_Service_Active">Booking State</label>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="form-group text-center mt-4">
+                <button type="submit" class="btn btn-outline-success mx-2">
+                    <i class="bi bi-check-circle-fill me-2"></i>Save Changes
+                </button>
+                <a asp-action="Index" class="btn btn-outline-light mx-2">
+                    <i class="bi bi-x-circle-fill me-2"></i>Cancel
+                </a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

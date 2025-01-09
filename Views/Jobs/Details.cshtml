@@ -1,4 +1,4 @@
-﻿@model ReserveSystem.Models.Job
+﻿@* @model ReserveSystem.Models.Job
 
 @{
     Layout = null;
@@ -37,3 +37,55 @@
 </div>
 </body>
 </html>
+ *@
+
+
+@model ReserveSystem.Models.Job
+
+@{
+    ViewData["Title"] = "Job Details";
+}
+
+<!-- Page Header -->
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <h1 class="text-center text-primary">Job Details</h1>
+    </div>
+    <hr class="border-primary">
+</div>
+
+<!-- Details Section -->
+<div class="card border-secondary shadow-lg mx-auto" style="width: 75%;">
+    <div class="card-header bg-dark text-light text-center">
+        <h4>Job Nº @Model?.Job_ID Details</h4>
+    </div>
+    <div class="card-body bg-dark text-light">
+        <div class="row">
+            <!-- Details -->
+
+            <div class="col-md-6 mb-4">
+                <label class="form-label">Name:</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-dark text-light"><i class="bi bi-person-badge-fill"></i></span>
+                    <input type="text" class="form-control bg-dark text-light" value="@Model?.Job_Name" readonly />
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <label class="form-label">Description:</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-dark text-light"><i class="bi bi-person-badge-fill"></i></span>
+                    <input type="text" class="form-control bg-dark text-light" value="@Model?.Job_Description" readonly />
+                </div>
+            </div>
+
+    <!-- Action Buttons -->
+    <div class="card-footer bg-dark text-center">
+        <a asp-action="Edit" asp-route-id="@Model?.Job_ID" class="btn btn-outline-warning mx-2">
+            <i class="bi bi-pencil-fill me-2"></i>Edit
+        </a>
+        <a asp-action="Index" class="btn btn-outline-light mx-2">
+            <i class="bi bi-x-circle-fill me-2"></i>Back to List
+        </a>
+    </div>
+</div>

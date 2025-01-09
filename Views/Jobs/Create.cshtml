@@ -1,4 +1,4 @@
-﻿@model ReserveSystem.Models.Job
+﻿@* @model ReserveSystem.Models.Job
 
 @{
     Layout = null;
@@ -42,3 +42,70 @@
 
 </body>
 </html>
+ *@
+
+
+@model ReserveSystem.Models.Job
+
+@{
+    ViewData["Title"] = "Create Job";
+}
+
+<!-- Page Header -->
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <h1 class="text-center text-primary">Create Job</h1>
+    </div>
+    <hr class="border-primary">
+</div>
+
+<!-- Create Form -->
+<div class="card border-secondary shadow-lg mx-auto" style="width: 75%;">
+    <div class="card-header bg-dark text-light text-center">
+        <h4>New Job</h4>
+    </div>
+    <div class="card-body bg-dark text-light">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+            <!-- Two-Column Layout -->
+            <div class="row">
+                <!-- Name Details -->
+                <div class="col-md-6 mb-4">
+                    <label asp-for="Job_Name" class="form-label">Name:</label>
+                    <div class="form-group">
+                        <input asp-for="Job_Name" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Job_Name" class="text-danger"></span>
+                </div>
+
+                <!-- Description Details -->
+                <div class="col-md-6 mb-4">
+                    <label asp-for="Job_Description" class="form-label">Description:</label>
+                    <div class="form-group">
+                        <input asp-for="Job_Description" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Job_Description" class="text-danger"></span>
+                </div>
+
+            </div>
+           
+
+            <!-- Action Buttons -->
+            <div class="form-group text-center mt-4">
+                <button type="submit" class="btn btn-outline-success mx-2">
+                    <i class="bi bi-check-circle-fill me-2"></i>Create
+                </button>
+                <a asp-action="Index" class="btn btn-outline-light mx-2">
+                    <i class="bi bi-x-circle-fill me-2"></i>Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

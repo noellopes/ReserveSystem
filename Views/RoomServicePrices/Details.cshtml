@@ -1,4 +1,4 @@
-﻿@model ReserveSystem.Models.RoomServicePrice
+﻿@* @model ReserveSystem.Models.RoomServicePrice
 
 @{
     Layout = null;
@@ -49,3 +49,67 @@
 </div>
 </body>
 </html>
+ *@
+
+@model ReserveSystem.Models.RoomServicePrice
+
+@{
+    ViewData["Title"] = "Room Service Price Details";
+}
+
+<!-- Page Header -->
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <h1 class="text-center text-primary">Room Service Price Details</h1>
+    </div>
+    <hr class="border-primary">
+</div>
+
+<!-- Details Form -->
+<div class="card border-danger shadow-lg mx-auto" style="width: 75%;">
+    <div class="card-header bg-dark text-light text-center">
+        <h4>Room Service Price Nº @Model?.ID_Room_Service_Price</h4>
+    </div>
+    <div class="card-body bg-dark text-light">
+        <div class="row">
+            <!-- Details -->
+            <div class="col-md-6 mb-4">
+                <label class="form-label">Room Service:</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-dark text-light"><i class="bi bi-gear-fill"></i></span>
+                    <input type="text" class="form-control bg-dark text-light" value="@Model?.RoomService?.Room_Service_Name" readonly />
+                </div>
+            </div>
+
+
+            <div class="col-md-6 mb-4">
+                <label class="form-label">Start date:</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-dark text-light"><i class="bi bi-person-badge-fill"></i></span>
+                    <input type="text" class="form-control bg-dark text-light" value="@Model?.Start_Date" readonly />
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <label class="form-label">Price (€):</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-dark text-light"><i class="bi bi-person-badge-fill"></i></span>
+                    <input type="text" class="form-control bg-dark text-light" value="@Model?.Room_Service_Price" readonly />
+                </div>
+            </div>
+
+            
+
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="card-footer bg-dark text-center">
+        <a asp-action="Edit" asp-route-id="@Model?.ID_Room_Service_Price" class="btn btn-outline-warning mx-2">
+            <i class="bi bi-pencil-fill me-2"></i>Edit
+        </a>
+        <a asp-action="Index" class="btn btn-outline-light mx-2">
+            <i class="bi bi-x-circle-fill me-2"></i>Back to List
+        </a>
+    </div>
+</div>

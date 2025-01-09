@@ -14,7 +14,7 @@ namespace ReserveSystem.Models
         public string Job_Name { get; set; }
 
         [Display(Name = "Description"), StringLength(350)]
-        public string? Job_Decription { get; set; }
+        public string? Job_Description { get; set; }
 
     }
 }
