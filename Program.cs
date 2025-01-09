@@ -71,9 +71,9 @@ void ConfigureDatabases(WebApplicationBuilder builder)
                                      "Connection string 'ReserveSystem' not found.")));
 
         builder.Services.AddDbContext<ReserveSystemUsersDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("ReserveSystemsUsersSqlite")
+            options.UseSqlServer(builder.Configuration.GetConnectionString("ReserveSystemsUsers")
                                  ?? throw new InvalidOperationException(
-                                     "Connection string 'ReserveSystemsUsersSqlite' not found.")));
+                                     "Connection string 'ReserveSystemsUsers' not found.")));
     }
 }
 
