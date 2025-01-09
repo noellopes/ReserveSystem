@@ -161,12 +161,12 @@ namespace ReserveSystem.Controllers
                         throw;
                     }
                 }
-                //return RedirectToAction(nameof(Details), new { id = tQePreco.RoomTypeId, SavedN = true });
-                ViewBag.Entity = "Room Price";
-                ViewBag.Controller = "TQePrecos";
-                ViewBag.Action = "Details";
-                ViewBag.Id = tQePreco.RoomTypeId;
-                return View("UpdatePrice");
+                return RedirectToAction(nameof(Details), new { id = tQePreco.RoomTypeId, SavedN = true });
+                //ViewBag.Entity = "Room Price";
+                //ViewBag.Controller = "TQePrecos";
+                //ViewBag.Action = "Details";
+                //ViewBag.Id = tQePreco.RoomTypeId;
+                //return View("UpdatePrice");
 
             }
             

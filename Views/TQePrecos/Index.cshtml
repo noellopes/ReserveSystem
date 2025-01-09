@@ -177,12 +177,13 @@
                     <td>@Html.DisplayFor(modelItem => item.type)</td>
                     <td>@Html.DisplayFor(modelItem => item.capacity)</td>
                     <td>@Html.DisplayFor(modelItem => item.RoomQuantity)</td>
-                    <td>@Html.DisplayFor(modelItem => item.AcessibilityRoom)</td>
-                    <td>@Html.DisplayFor(modelItem => item.View)</td>
+                    <td>@(item.AcessibilityRoom ? "Yes" : "No")</td>
+                    <td>@(item.View ? "Yes" : "No")</td>
                     <td>@Html.DisplayFor(modelItem => item.BasePrice)</td>
                     <td>@Html.DisplayFor(modelItem => item.CancelationFee)</td>
                     <td>@Html.DisplayFor(modelItem => item.AdicionalBeds)</td>
-                    <td>@Html.DisplayFor(modelItem => item.InUse)</td>
+                    <td>@(item.InUse ? "Yes" : "No")</td>
+                    
                     <td class="button-container">
                         <a asp-action="Edit" asp-route-id="@item.RoomTypeId" class="btn btn_edit">Edit</a>
                         <a asp-action="Delete" asp-route-id="@item.RoomTypeId" class="btn btn_delete">Delete</a>

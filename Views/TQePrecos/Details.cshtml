@@ -192,11 +192,12 @@
     </div>
     <div class="row">
         <div class="label">Accessibility Room</div>
-        <div class="value">@Html.DisplayFor(model => model.AcessibilityRoom)</div>
+        <div class="value">@((Model.AcessibilityRoom) ? "Yes" : "No")</div>
+        
     </div>
     <div class="row">
         <div class="label">View</div>
-        <div class="value">@Html.DisplayFor(model => model.View)</div>
+        <div class="value">@((Model.View) ? "Yes" : "No")</div>
     </div>
     <div class="row">
         <div class="label">Base Price</div>
