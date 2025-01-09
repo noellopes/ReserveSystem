@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Models;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace ReserveSystem.Data
 {
@@ -11,6 +12,7 @@ namespace ReserveSystem.Data
         {
             if (db == null) return;
             await db.Database.EnsureCreatedAsync();
+            await SeedRolesAndUsersAsync(roleManager, userManager);
             await SeedTipoEquipamentoAsync(db);
             await SeedEquipamentoAsync(db);
             await SeedTipoReservaAsync(db);
@@ -18,6 +20,43 @@ namespace ReserveSystem.Data
             await SeedTipoSalaAsync(db);
             await SeedSalaAsync(db);
             await SeedReservaAsync(db);
+        }
+
+        private static async Task SeedRolesAndUsersAsync(RoleManager<IdentityRole> roleManager,
+            UserManager<IdentityUser> userManager)
+        {
+            var roles = new[] { "Reservationist", "Manager", "Client" };
+
+            foreach (var role in roles)
+            {
+                if (!await roleManager.RoleExistsAsync(role))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(role));
+                }
+            }
+
+            await EnsureUserWithRoleAsync(userManager, "manager@example.com", "Manager@123", "Manager");
+
+            await EnsureUserWithRoleAsync(userManager, "reservationist@example.com", "Reservationist@123",
+                "Reservationist");
+
+            await EnsureUserWithRoleAsync(userManager, "client@example.com", "Client@123", "Client");
+        }
+
+        private static async Task EnsureUserWithRoleAsync(UserManager<IdentityUser> userManager, string email,
+            string password, string role)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                user = new IdentityUser { UserName = email, Email = email, EmailConfirmed = true };
+                await userManager.CreateAsync(user, password);
+            }
+
+            if (!await userManager.IsInRoleAsync(user, role))
+            {
+                await userManager.AddToRoleAsync(user, role);
+            }
         }
 
         private static async Task SeedTipoEquipamentoAsync(ReserveSystemContext context)
