@@ -18,16 +18,16 @@ internal class SeedData
         if (db.Job.Any()) return;
         var jobs = new List<Job>
         {
-            new Job { Job_Name = "Cleaning", Job_Decription = "Staff responsable for cleaning services" }, 
-            new Job { Job_Name = "Laundry", Job_Decription = "Staff responsable for laundry, iron and dry cleaning services" }, 
-            new Job { Job_Name = "Kitchen", Job_Decription = "Staff responsable for the preparation of meals" }, 
-            new Job { Job_Name = "Receptionist", Job_Decription = "Personalized services by the receptionist" }, 
-            new Job { Job_Name = "Concierge", Job_Decription = "Personal Assistance with reservations and recommendations" }, 
-            new Job { Job_Name = "Spa staff", Job_Decription = "Staff responsable for spa treatments" }, 
-            new Job { Job_Name = "Valet", Job_Decription = "Staff responsable for parking service" },
-            new Job { Job_Name = "Pet Sitter", Job_Decription = "Staff responsable for taking care of Pets and walking services" }, 
-            new Job { Job_Name = "Baby Sitter", Job_Decription = "Staff responsable for taking care of childrens" },
-            new Job { Job_Name = "Room Service Attendant", Job_Decription = "Staff responsable for delivering meals to rooms and taking care of the collection and delivery of clothes from the laundry room" }
+            new Job { Job_Name = "Cleaning", Job_Description = "Staff responsable for cleaning services" }, 
+            new Job { Job_Name = "Laundry", Job_Description = "Staff responsable for laundry, iron and dry cleaning services" }, 
+            new Job { Job_Name = "Kitchen", Job_Description = "Staff responsable for the preparation of meals" }, 
+            new Job { Job_Name = "Receptionist", Job_Description = "Personalized services by the receptionist" }, 
+            new Job { Job_Name = "Concierge", Job_Description = "Personal Assistance with reservations and recommendations" }, 
+            new Job { Job_Name = "Spa staff", Job_Description = "Staff responsable for spa treatments" }, 
+            new Job { Job_Name = "Valet", Job_Description = "Staff responsable for parking service" },
+            new Job { Job_Name = "Pet Sitter", Job_Description = "Staff responsable for taking care of Pets and walking services" }, 
+            new Job { Job_Name = "Baby Sitter", Job_Description = "Staff responsable for taking care of childrens" },
+            new Job { Job_Name = "Room Service Attendant", Job_Description = "Staff responsable for delivering meals to rooms and taking care of the collection and delivery of clothes from the laundry room" }
         };
         db.Job.AddRange(jobs);
         db.SaveChanges();
