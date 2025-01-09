@@ -8,7 +8,8 @@ namespace ReserveSystem.Data
 {
     public static class SeedData
     {
-        internal static async Task PopulateAsync(ReserveSystemContext? db)
+        internal static async Task PopulateAsync(ReserveSystemContext? db, RoleManager<IdentityRole> roleManager,
+            UserManager<IdentityUser> userManager)
         {
             if (db == null) return;
             await db.Database.EnsureCreatedAsync();
