@@ -9,12 +9,15 @@ namespace ReserveSystem.Models
             [Key]
             public int Id { get; set; }
             [Display(Name = "Nome do Cliente")]
-            public int ClienteId { get; set; }
+        [Required(ErrorMessage = "O cliente é obrigatório.")]
+        public int ClienteId { get; set; }
             [Display(Name = "Excursão")]
-            public int ExcursaoId { get; set; }
+        [Required(ErrorMessage = "A excursão é obrigatória.")]
+        public int ExcursaoId { get; set; }
 
             [Display(Name = "Comentário à escursão")]
-            public string? Comentario { get; set; }
+        [StringLength(500, ErrorMessage = "O comentário não pode ter mais do que 500 caracteres.")]
+        public string? Comentario { get; set; }
 
             
             // Navigation properties

@@ -198,6 +198,45 @@ namespace ReserveSystem.Controllers
             return View(reservaExcursaoModel);
         }
 
+       
+
+        // GET: ReservaExcursao/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var reservaExcursaoModel = await _context.ReservaExcursaoModel
+               .Include(r => r.Cliente)
+               .Include(r => r.Excursao)
+               .FirstOrDefaultAsync(m => m.Id == id);
+            if (reservaExcursaoModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(reservaExcursaoModel);
+        }
+
+        // POST: ReservaExcursao/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+
+
+            var reservaExcursaoModel = await _context.ReservaExcursaoModel.FindAsync(id);
+            if (reservaExcursaoModel != null)
+            {
+                _context.ReservaExcursaoModel.Remove(reservaExcursaoModel);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
         private bool ReservaExcursaoModelExists(int id)
         {
             return _context.ReservaExcursaoModel.Any(e => e.Id == id);
