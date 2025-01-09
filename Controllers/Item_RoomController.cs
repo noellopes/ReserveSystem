@@ -129,6 +129,12 @@ namespace ReserveSystem.Controllers
             }
             return View(item_Room);
         }
+
+        private bool Item_RoomExists(int itemRoomId)
+        {
+            throw new NotImplementedException();
+        }
+
         // GET: ItemRoom/EditSuccess
         public async Task<IActionResult> EditSuccess(int itemRoomId)
         {
