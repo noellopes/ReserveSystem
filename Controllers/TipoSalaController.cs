@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
@@ -9,7 +10,6 @@ namespace ReserveSystem.Controllers
     public class TipoSalaController : Controller
     {
         private readonly ReserveSystemContext _context;
-
         private readonly ILogger<TipoSalaController> _logger;
 
         public TipoSalaController(ReserveSystemContext context, ILogger<TipoSalaController> logger)
@@ -19,7 +19,8 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: TipoSala
-        public async Task<IActionResult> Index()
+        [Authorize(Roles = "Client,Manager,Reservationist")]
+        public async Task<IActionResult> Index(int? minCapacity = null, int? maxCapacity = null, int page = 1)
         {
             try
             {
@@ -69,175 +70,199 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: TipoSala/Create
+        [Authorize(Roles = "Manager")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: TipoSala/Create
+        // POST: TipoSala/Create -> Confirm
         [HttpPost]
+        [Authorize(Roles = "Manager")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(
-            [Bind("IdTipoSala,NomeSala,TamanhoSala,Capacidade,PreçoHora")] TipoSala tipoSala)
+        public IActionResult ConfirmCreate(TipoSala tipoSala)
         {
             if (!ModelState.IsValid)
             {
-                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-                {
-                    ModelState.AddModelError("", error.ErrorMessage);
-                }
-
-                return View(tipoSala);
+                return View("Create", tipoSala);
             }
 
+            return View("ConfirmCreate", tipoSala);
+        }
+
+        // POST: TipoSala/Create -> Finalize
+        [HttpPost]
+        [Authorize(Roles = "Manager")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> FinalizeCreate(TipoSala tipoSala)
+        {
             try
             {
                 _context.Add(tipoSala);
                 await _context.SaveChangesAsync();
-                TempData["Message"] = "Room Type created successfully.";
+                TempData["Message"] = $"Room Type '{tipoSala.NomeSala}' created successfully.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error creating TipoSala");
-                TempData["Message"] = "An unexpected error occurred while creating the TipoSala.";
-                return View(tipoSala);
+                TempData["ErrorMessage"] = "An unexpected error occurred while creating the Room Type.";
+                return View("Create", tipoSala);
             }
         }
 
-        // GET: TipoSala/Details/{id}
-        public async Task<IActionResult> Details(int? id)
+        // GET: TipoSala/Edit/{id}
+        [Authorize(Roles = "Manager,Reservationist")]
+        public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
             {
-                TempData["Message"] = "Invalid TipoSala ID.";
-                return NotFound();
-            }
-
-            try
-            {
-                var tipoSala = await _context.TipoSala.FirstOrDefaultAsync(m => m.IdTipoSala == id);
-                if (tipoSala == null)
-                {
-                    TempData["Message"] = "TipoSala not found.";
-                    return NotFound();
-                }
-
-                return View(tipoSala);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error fetching TipoSala details");
-                TempData["Message"] = "An unexpected error occurred while fetching the TipoSala details.";
+                TempData["ErrorMessage"] = "Invalid Room Type ID.";
                 return RedirectToAction(nameof(Index));
             }
-        }
-
-
-        // GET: TipoSala/Edit/{id}
-        public async Task<IActionResult> Edit(long? id)
-        {
-            if (id == null) return NotFound();
 
             var tipoSala = await _context.TipoSala.FindAsync(id);
-            if (tipoSala == null) return NotFound();
+            if (tipoSala == null)
+            {
+                TempData["ErrorMessage"] = "Room Type not found.";
+                return RedirectToAction(nameof(Index));
+            }
 
-            return View("Edit", tipoSala);
+            return View(tipoSala);
         }
 
-        // POST: TipoSala/Edit/{id}
+        // POST: TipoSala/Edit -> Confirm
         [HttpPost]
+        [Authorize(Roles = "Manager,Reservationist")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id,
-            [Bind("IdTipoSala,NomeSala,TamanhoSala,Capacidade,PreçoHora")] TipoSala tipoSala)
+        public IActionResult ConfirmEdit(TipoSala tipoSala)
         {
-            if (id != tipoSala.IdTipoSala)
-            {
-                TempData["Message"] = "Invalid Room Type ID.";
-                return NotFound();
-            }
-
             if (!ModelState.IsValid)
             {
-                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-                {
-                    ModelState.AddModelError("", error.ErrorMessage);
-                }
-
-                return View(tipoSala);
+                return View("Edit", tipoSala);
             }
 
+            return View("ConfirmEdit", tipoSala);
+        }
+
+        // POST: TipoSala/Edit -> Finalize
+        [HttpPost]
+        [Authorize(Roles = "Manager,Reservationist")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> FinalizeEdit(TipoSala tipoSala)
+        {
             try
             {
                 _context.Update(tipoSala);
                 await _context.SaveChangesAsync();
-                TempData["Message"] = "Room Type updated successfully.";
+                TempData["Message"] = $"Room Type '{tipoSala.NomeSala}' updated successfully.";
                 return RedirectToAction(nameof(Index));
             }
             catch (DbUpdateConcurrencyException ex)
             {
                 if (!TipoSalaExists(tipoSala.IdTipoSala))
                 {
-                    TempData["Message"] = "Room Type not found.";
-                    return NotFound();
+                    TempData["ErrorMessage"] = "Room Type not found.";
+                    return RedirectToAction(nameof(Index));
                 }
                 else
                 {
                     _logger.LogError(ex, "Concurrency error while updating TipoSala");
-                    TempData["Message"] = "A concurrency error occurred while updating the TipoSala.";
-                    return View(tipoSala);
+                    TempData["ErrorMessage"] = "A concurrency error occurred while updating the Room Type.";
+                    return View("Edit", tipoSala);
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating Room Type");
-                TempData["Message"] = "An unexpected error occurred while updating the Room Type";
-                return View(tipoSala);
+                TempData["ErrorMessage"] = "An unexpected error occurred while updating the Room Type.";
+                return View("Edit", tipoSala);
             }
         }
 
-        private bool TipoSalaExists(long id)
-        {
-            return _context.TipoSala.Any(e => e.IdTipoSala == id);
-        }
-
-
         // GET: TipoSala/Delete/{id}
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Delete(long? id)
         {
-            if (id == null) return NotFound();
+            if (id == null)
+            {
+                TempData["ErrorMessage"] = "Invalid Room Type ID.";
+                return RedirectToAction(nameof(Index));
+            }
 
             var tipoSala = await _context.TipoSala.FirstOrDefaultAsync(m => m.IdTipoSala == id);
-            if (tipoSala == null) return NotFound();
+            if (tipoSala == null)
+            {
+                TempData["ErrorMessage"] = "Room Type not found.";
+                return RedirectToAction(nameof(Index));
+            }
 
-            return View("Delete", tipoSala);
+            return View(tipoSala);
         }
+
 
         // POST: TipoSala/Delete/{id}
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Manager")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long IdTipoSala)
+        public async Task<IActionResult> DeleteConfirmed(long id)
         {
             try
             {
-                var tipoSala = await _context.TipoSala.FindAsync(IdTipoSala);
+                var tipoSala = await _context.TipoSala.FindAsync(id);
                 if (tipoSala == null)
                 {
-                    TempData["Message"] = "Room Type not found.";
-                    return NotFound();
+                    TempData["ErrorMessage"] = "Room Type not found.";
+                    return RedirectToAction(nameof(Index));
                 }
 
                 _context.TipoSala.Remove(tipoSala);
                 await _context.SaveChangesAsync();
-                TempData["Message"] = "Room Type deleted successfully.";
+                TempData["Message"] = $"Room Type '{tipoSala.NomeSala}' deleted successfully.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error deleting TipoSala");
-                TempData["Message"] = "An unexpected error occurred while deleting the TipoSala.";
+                TempData["ErrorMessage"] = "An unexpected error occurred while deleting the Room Type.";
                 return RedirectToAction(nameof(Index));
             }
+        }
+
+        // GET: TipoSala/Details/{id}
+        [Authorize(Roles = "Client,Manager,Reservationist")]
+        public async Task<IActionResult> Details(long? id)
+        {
+            if (id == null)
+            {
+                TempData["ErrorMessage"] = "Invalid Room Type ID.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            try
+            {
+                var tipoSala = await _context.TipoSala.FirstOrDefaultAsync(m => m.IdTipoSala == id);
+
+                if (tipoSala == null)
+                {
+                    TempData["ErrorMessage"] = "Room Type not found.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                return View(tipoSala);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error fetching Room Type details.");
+                TempData["ErrorMessage"] = "An unexpected error occurred while fetching Room Type details.";
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+
+        private bool TipoSalaExists(long id)
+        {
+            return _context.TipoSala.Any(e => e.IdTipoSala == id);
         }
     }
 }
