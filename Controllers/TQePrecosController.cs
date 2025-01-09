@@ -60,7 +60,7 @@ namespace ReserveSystem.Controllers
                 {
                     type = name
                 };
-                ViewBag.PrevioslyDeleted = true;
+                ViewBag.DeleteWhileUsing = true;
                 return View(tQePreco);
             }
             return View();
@@ -169,6 +169,7 @@ namespace ReserveSystem.Controllers
                 return View("UpdatePrice");
 
             }
+            
             return View(tQePreco);
         }
 
