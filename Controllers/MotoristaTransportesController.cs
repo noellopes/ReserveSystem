@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
@@ -20,48 +21,70 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: MotoristaTransportes
-        public async Task<IActionResult> Index(string searchString, int page = 1, int pageSize = 10)
+        public async Task<IActionResult> Index(string searchString, string sortOrder, int page = 1, int pageSize = 10)
         {
-            // Filtragem
-            var motoristaTransporteQuery = _context.MotoristaTransporte
-                .Include(t => t.Staff)
-                .Include(t => t.Transporte)
-                .AsQueryable();
+            
+                // Passar o estado de ordenação atual para a View
+                ViewData["CurrentSort"] = sortOrder;
+                ViewData["StaffSortParm"] = string.IsNullOrEmpty(sortOrder) ? "staff_desc" : "";
+                ViewData["TransporteSortParm"] = sortOrder == "transporte" ? "transporte_desc" : "transporte";
 
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                motoristaTransporteQuery = motoristaTransporteQuery.Where(mt =>
-                    mt.Staff.Staff_Name.Contains(searchString) ||
-                    mt.Transporte.TipoTransporte.Contains(searchString));
+                // Filtragem
+                var motoristaTransporteQuery = _context.MotoristaTransporte
+                    .Include(t => t.Staff)
+                    .Include(t => t.Transporte)
+                    .AsQueryable();
+
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    motoristaTransporteQuery = motoristaTransporteQuery.Where(mt =>
+                        mt.Staff.Staff_Name.Contains(searchString) ||
+                        mt.Transporte.TipoTransporte.Contains(searchString));
+                }
+
+                // Ordenação
+                switch (sortOrder)
+                {
+                    case "staff_desc":
+                        motoristaTransporteQuery = motoristaTransporteQuery.OrderByDescending(mt => mt.Staff.Staff_Name);
+                        break;
+                    case "transporte":
+                        motoristaTransporteQuery = motoristaTransporteQuery.OrderBy(mt => mt.Transporte.TipoTransporte);
+                        break;
+                    case "transporte_desc":
+                        motoristaTransporteQuery = motoristaTransporteQuery.OrderByDescending(mt => mt.Transporte.TipoTransporte);
+                        break;
+                    default:
+                        motoristaTransporteQuery = motoristaTransporteQuery.OrderBy(mt => mt.Staff.Staff_Name);
+                        break;
+                }
+
+                // Paginação
+                int totalItems = await motoristaTransporteQuery.CountAsync();
+                var motoristaTransporte = await motoristaTransporteQuery
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                // Criação do objeto PageInfo
+                var pageInfo = new PageInfo
+                {
+                    TotalItems = totalItems,
+                    PageSize = pageSize,
+                    CurrentPage = page
+                };
+
+                ViewData["SearchString"] = searchString;
+                ViewBag.PageInfo = pageInfo;
+
+                return View(motoristaTransporte);
             }
 
-            // Paginação
-            int totalItems = await motoristaTransporteQuery.CountAsync();
-            var motoristaTransporte = await motoristaTransporteQuery
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
-
-            // Criação do objeto PageInfo
-            var pageInfo = new PageInfo
-            {
-                TotalItems = totalItems,
-                PageSize = pageSize,
-                CurrentPage = page
-            };
-
-            // Passa os dados para a View usando ViewBag e ViewData
-            ViewData["SearchString"] = searchString;
-            ViewBag.PageInfo = pageInfo;
-
-            return View(motoristaTransporte);
-        }
-    
 
 
 
-// GET: MotoristaTransportes/Details/5
-public async Task<IActionResult> Details(int? id)
+            // GET: MotoristaTransportes/Details/5
+            public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {

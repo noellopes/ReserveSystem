@@ -24,8 +24,12 @@
         <table class="table table-bordered table-striped table-hover text-center">
             <thead class="table-dark">
                 <tr>
-                    <th>Staff</th>
-                    <th>Transporte</th>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["StaffSortParm"]" asp-route-searchString="@ViewData["SearchString"]">Staff</a>
+                    </th>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["TransporteSortParm"]" asp-route-searchString="@ViewData["SearchString"]">Transporte</a>
+                    </th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -52,7 +56,7 @@
             @for (int i = pageInfo.FirstPageShow; i <= pageInfo.LastPageShow; i++)
             {
                 <li class="page-item @(i == pageInfo.CurrentPage ? "active" : "")">
-                    <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-searchString="@ViewData["SearchString"]">@i</a>
+                    <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-searchString="@ViewData["SearchString"]">@i</a>
                 </li>
             }
         </ul>
