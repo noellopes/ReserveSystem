@@ -161,6 +161,20 @@
     }
 </style>
 
+@if (ViewBag.Saved is true)
+{
+    <div class="container mt-5 alert alert-success" style="border-color:darkgreen; width:70%;">
+        <div role="alert">
+            <div class="d-flex">
+                <i class="fa-solid fa-circle-check" style="font-size: 1.25em; padding-top: 4px;"></i>
+                <h4 class="alert-heading ms-2">Success</h4>
+                <br>
+            </div>
+            <p>The room type information has been successfully saved.</p>
+        </div>
+    </div>
+}
+
 <div class="details-container">
     <h1 class="text-center">Room Type info</h1>
     <hr class="hr" />
@@ -198,7 +212,7 @@
     </div>
     <div class="row">
         <div class="label">In Use</div>
-        <div class="value">@Html.DisplayFor(model => model.InUse)</div>
+        <div class="value">@((Model.InUse) ? "Yes" : "No")</div>
     </div>
 
     <!-- Button container for Edit and Delete buttons side by side -->

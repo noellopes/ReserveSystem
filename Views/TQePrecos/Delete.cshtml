@@ -167,8 +167,8 @@
         <div class="value">@Html.DisplayFor(model => model.AdicionalBeds)</div>
     </div>
     <div class="row">
-        <div class="label">In Use</div>
-        <div class="value">@Html.DisplayFor(model => model.InUse)</div>
+        <div class="label">In Use?</div>
+        <div class="value">@((Model.InUse) ? "Sim" : "Não")</div>
     </div>
 
     <div class="button-container">
