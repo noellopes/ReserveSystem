@@ -20,9 +20,22 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Rooms
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Room.ToListAsync());
+            // Salva o filtro atual no ViewData para reutilizar na View
+            ViewData["CurrentFilter"] = searchString;
+
+            // Recupera todos os Rooms inicialmente
+            var rooms = from r in _context.Room
+                        select r;
+
+            // Filtra pelo RoomTypeId se o valor de pesquisa for fornecido
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                rooms = rooms.Where(r => r.RoomTypeId.ToString().Contains(searchString));
+            }
+
+            return View(await rooms.ToListAsync());
         }
 
         // GET: Rooms/Details/5

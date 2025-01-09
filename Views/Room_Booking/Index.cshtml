@@ -7,6 +7,13 @@
 <h1 class="text-center text-primary my-4">Room Bookings List</h1>
 
 <div class="container">
+    <!-- Search Form -->
+    <form asp-action="Index" method="get" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="searchString" class="form-control" placeholder="Search by Booking ID" value="@ViewData["CurrentFilter"]" />
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
     <div class="row">
         <p>
             <a class="btn btn-success mb-3" asp-action="Create">Create New Room Booking</a>
