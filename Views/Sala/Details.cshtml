@@ -1,7 +1,7 @@
 @model ReserveSystem.Models.Sala
 
 @{
-ViewData["Title"] = "Room Details";
+    ViewData["Title"] = "Room Details";
 }
 
 <h1>Room Details</h1>
@@ -12,13 +12,19 @@ ViewData["Title"] = "Room Details";
         <dd>@Model.TempoPreparação.ToString(@"hh\:mm")</dd>
 
         <dt>Start Time</dt>
-        <dd>@Model.HoraInicio.ToString("HH:mm")</dd>
+        <dd>@Model.HoraInicio.ToString("hh:mm tt")</dd>
 
         <dt>End Time</dt>
-        <dd>@Model.HoraFim.ToString("HH:mm")</dd>
+        <dd>@Model.HoraFim.ToString("hh:mm tt")</dd>
+
+        <dt>Floor</dt>
+        <dd>@Model.Floor</dd>
+
+        <dt>Room Number</dt>
+        <dd>@Model.RoomNumber</dd>
 
         <dt>Room Type</dt>
-        <dd>@Model.TipoSala.NomeSala</dd>
+        <dd>@Model.TipoSala?.NomeSala</dd>
     </dl>
 </div>
 

@@ -1,14 +1,18 @@
-@model IEnumerable<ReserveSystem.Models.Sala>
+@model ReserveSystem.Models.ViewModels.SalaViewModel
 
 @{
-ViewData["Title"] = "Rooms";
+    ViewData["Title"] = "Rooms";
 
     var message = TempData["Message"];
     if (message != null)
     {
-        <div class="alert alert-success">
-            @message
-        </div>
+        <div class="alert alert-success">@message</div>
+    }
+
+    var errorMessage = TempData["ErrorMessage"];
+    if (errorMessage != null)
+    {
+        <div class="alert alert-danger">@errorMessage</div>
     }
 }
 
@@ -21,29 +25,31 @@ ViewData["Title"] = "Rooms";
 <table class="table table-striped table-hover">
     <thead class="table-dark">
     <tr>
-        <th>ID</th>
         <th>Preparation Time</th>
         <th>Start Time</th>
         <th>End Time</th>
+        <th>Floor</th>
+        <th>Room Number</th>
         <th>Room Type</th>
         <th>Actions</th>
     </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model)
+    @foreach (var sala in Model.Salas)
     {
-    <tr>
-        <td>@item.IdSala</td>
-        <td>@item.TempoPreparação.ToString(@"hh\:mm")</td>
-        <td>@item.HoraInicio.ToString("HH:mm")</td>
-        <td>@item.HoraFim.ToString("HH:mm")</td>
-        <td>@item.TipoSala?.NomeSala </td>
-        <td>
-            <a asp-action="Edit" asp-route-id="@item.IdSala" class="btn btn-sm btn-warning">Edit</a>
-            <a asp-action="Details" asp-route-id="@item.IdSala" class="btn btn-sm btn-info">Details</a>
-            <a asp-action="Delete" asp-route-id="@item.IdSala" class="btn btn-sm btn-danger">Delete</a>
-        </td>
-    </tr>
+        <tr>
+            <td>@sala.TempoPreparação.ToString(@"hh\:mm")</td>
+            <td>@sala.HoraInicio.ToString("hh:mm tt")</td>
+            <td>@sala.HoraFim.ToString("hh:mm tt")</td>
+            <td>@sala.Floor</td>
+            <td>@sala.RoomNumber</td>
+            <td>@sala.TipoSala?.NomeSala</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@sala.IdSala" class="btn btn-sm btn-warning">Edit</a>
+                <a asp-action="Details" asp-route-id="@sala.IdSala" class="btn btn-sm btn-info">Details</a>
+                <a asp-action="Delete" asp-route-id="@sala.IdSala" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+        </tr>
     }
     </tbody>
 </table>

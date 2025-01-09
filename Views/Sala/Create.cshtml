@@ -1,28 +1,42 @@
 @model ReserveSystem.Models.Sala
 
 @{
-ViewData["Title"] = "Create Room";
+    ViewData["Title"] = "Create Room";
 }
 
 <h1 class="mb-4">Create Room</h1>
 
 <form asp-action="Create" method="post" class="card p-4 shadow-sm">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
     <div class="mb-3">
-        <label asp-for="TempoPreparação" class="form-label">Preparation Time (HH:mm)</label>
+        <label asp-for="TempoPreparação" class="form-label">Preparation Time</label>
         <input asp-for="TempoPreparação" class="form-control" placeholder="HH:mm" />
         <span asp-validation-for="TempoPreparação" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label asp-for="HoraInicio" class="form-label">Start Time</label>
-        <input asp-for="HoraInicio" class="form-control" type="time"/>
+        <input asp-for="HoraInicio" class="form-control" type="time" />
         <span asp-validation-for="HoraInicio" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label asp-for="HoraFim" class="form-label">End Time</label>
-        <input asp-for="HoraFim" class="form-control" type="time"/>
+        <input asp-for="HoraFim" class="form-control" type="time" />
         <span asp-validation-for="HoraFim" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Floor" class="form-label">Floor</label>
+        <input asp-for="Floor" class="form-control" />
+        <span asp-validation-for="Floor" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="RoomNumber" class="form-label">Room Number</label>
+        <input asp-for="RoomNumber" class="form-control" />
+        <span asp-validation-for="RoomNumber" class="text-danger"></span>
     </div>
 
     <div class="mb-3">

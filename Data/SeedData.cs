@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Models;
 using System.Linq;
 using System.Threading.Tasks;
@@ -131,9 +131,18 @@ namespace ReserveSystem.Data
 
             var salas = new[]
             {
-                    new Sala { IdTipoSala = 1, TempoPreparação = TimeSpan.FromMinutes(30), HoraInicio = new TimeOnly(8, 0), HoraFim = new TimeOnly(18, 0) },
-                    new Sala { IdTipoSala = 2, TempoPreparação = TimeSpan.FromMinutes(45), HoraInicio = new TimeOnly(8, 0), HoraFim = new TimeOnly(18, 0) },
-                    new Sala { IdTipoSala = 3, TempoPreparação = TimeSpan.FromMinutes(60), HoraInicio = new TimeOnly(8, 0), HoraFim = new TimeOnly(18, 0) }
+                int floor = random.Next(1, 6);
+
+                int roomNumber = floor * 100 + random.Next(1, 10) * 10 + random.Next(0, 10);
+
+                var newSala = new Sala
+                {
+                    IdTipoSala = random.Next(1, 11),
+                    TempoPreparação = TimeSpan.FromMinutes(random.Next(15, 61)),
+                    HoraInicio = horaInicio,
+                    HoraFim = horaInicio.AddHours(random.Next(8, 11)),
+                    Floor = floor,
+                    RoomNumber = roomNumber
                 };
 
             await context.Sala.AddRangeAsync(salas);

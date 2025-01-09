@@ -1,9 +1,7 @@
 @model ReserveSystem.Models.Sala
 
 @{
-ViewData["Title"] = "Edit Room";
-
-
+    ViewData["Title"] = "Edit Room";
 }
 
 <h1>Edit Room</h1>
@@ -19,14 +17,26 @@ ViewData["Title"] = "Edit Room";
 
     <div class="mb-3">
         <label asp-for="HoraInicio" class="form-label">Start Time</label>
-        <input asp-for="HoraInicio" class="form-control" type="time"/>
+        <input asp-for="HoraInicio" class="form-control" type="time" />
         <span asp-validation-for="HoraInicio" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label asp-for="HoraFim" class="form-label">End Time</label>
-        <input asp-for="HoraFim" class="form-control" type="time"/>
+        <input asp-for="HoraFim" class="form-control" type="time" />
         <span asp-validation-for="HoraFim" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Floor" class="form-label">Floor</label>
+        <input asp-for="Floor" class="form-control" />
+        <span asp-validation-for="Floor" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="RoomNumber" class="form-label">Room Number</label>
+        <input asp-for="RoomNumber" class="form-control" />
+        <span asp-validation-for="RoomNumber" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
