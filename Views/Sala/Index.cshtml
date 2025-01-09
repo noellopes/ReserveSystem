@@ -19,7 +19,57 @@
 <h1 class="mb-4">Rooms</h1>
 
 <div class="mb-3">
-    <a asp-action="Create" class="btn btn-success">Create New Room</a>
+    <a asp-action="Create" class="btn btn-success me-2">Create New Room</a>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filterModal">
+        <i class="bi bi-search"></i> Search for a Specific Room
+    </button>
+</div>
+
+<!-- Filter Modal -->
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="filterModalLabel">Search Rooms</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="Index" method="get">
+                <div class="modal-body">
+                    <!-- Room Type Dropdown -->
+                    <div class="mb-3">
+                        <label asp-for="RoomTypeFilter" class="form-label">Room Type</label>
+                        <select name="roomType" class="form-select" asp-items="ViewBag.TipoSalaList">
+                            <option value="">All</option>
+                        </select>
+                    </div>
+
+                    <!-- Floor Dropdown -->
+                    <div class="mb-3">
+                        <label for="floor" class="form-label">Floor</label>
+                        <select name="floor" class="form-select" asp-items="ViewBag.FloorList">
+                            <option value="">All</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Start Time Filter -->
+                    <div class="mb-3">
+                        <label for="startTime" class="form-label">Start Time</label>
+                        <input type="time" name="startTime" class="form-control" value="@Model.StartTimeFilter?.ToString("HH:mm")"/>
+                    </div>
+
+                    <!-- End Time Filter -->
+                    <div class="mb-3">
+                        <label for="endTime" class="form-label">End Time</label>
+                        <input type="time" name="endTime" class="form-control" value="@Model.EndTimeFilter?.ToString("HH:mm")"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <!-- Room List -->

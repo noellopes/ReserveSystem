@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
+using ReserveSystem.Models.ViewModels;
 
 namespace ReserveSystem.Controllers
 {
@@ -22,16 +23,15 @@ namespace ReserveSystem.Controllers
         {
             try
             {
-                var salas = await _context.Sala
-                    .Include(s => s.TipoSala)
-                    .Select(s => new Sala
-                    {
-                        IdSala = s.IdSala,
-                        TempoPreparação = s.TempoPreparação,
-                        HoraInicio = s.HoraInicio,
-                        HoraFim = s.HoraFim,
-                        TipoSala = s.TipoSala
-                    })
+                var query = ApplySalaFilters(_context.Sala.Include(s => s.TipoSala).AsQueryable(), roomType, startTime,
+                    endTime, floor);
+
+                int totalItems = await query.CountAsync();
+
+                var salas = await query
+                    .OrderBy(s => s.RoomNumber)
+                    .Skip((page - 1) * 10)
+                    .Take(10)
                     .ToListAsync();
 
                 PopulateViewBags(roomType, floor);
@@ -55,32 +55,41 @@ namespace ReserveSystem.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error fetching Sala list.");
+                _logger.LogError(ex, "Error fetching Sala list");
                 TempData["ErrorMessage"] = "An unexpected error occurred while fetching the Sala list.";
-                return View(new List<Sala>());
+                return View(new SalaViewModel());
             }
         }
 
-
-        // GET: Sala/Details/{id}
-        public async Task<IActionResult> Details(long? id)
+        private IQueryable<Sala> ApplySalaFilters(IQueryable<Sala> query, string? roomType, TimeOnly? startTime,
+            TimeOnly? endTime, int? floor)
         {
-            if (id == null)
-            {
-                TempData["ErrorMessage"] = "Invalid Sala ID.";
-                return NotFound();
-            }
+            if (!string.IsNullOrEmpty(roomType))
+                query = query.Where(s => s.TipoSala != null && s.TipoSala.NomeSala == roomType);
 
-            try
-            {
-                var sala = await _context.Sala.Include(s => s.TipoSala)
-                    .FirstOrDefaultAsync(m => m.IdSala == id);
+            if (floor.HasValue)
+                query = query.Where(s => s.Floor == floor.Value);
 
-                if (sala == null)
-                {
-                    TempData["ErrorMessage"] = "Sala not found.";
-                    return NotFound();
-                }
+            if (startTime.HasValue && endTime.HasValue)
+                query = query.Where(s => s.HoraInicio <= startTime.Value && s.HoraFim >= endTime.Value);
+
+            return query;
+        }
+
+        private void PopulateViewBags(string? roomType, int? floor)
+        {
+            ViewBag.TipoSalaList = new SelectList(
+                _context.TipoSala.Select(t => new { t.NomeSala }).Distinct(),
+                "NomeSala",
+                "NomeSala",
+                roomType
+            );
+
+            ViewBag.FloorList = new SelectList(
+                _context.Sala.Select(s => s.Floor).Distinct().OrderBy(f => f),
+                floor
+            );
+        }
 
                 return View("Details", sala);
             }
