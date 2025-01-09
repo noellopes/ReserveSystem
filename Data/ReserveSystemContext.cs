@@ -249,30 +249,6 @@ namespace ReserveSystem.Data
                  );
 
 
-             modelBuilder.Entity<ReservaExcursaoModel>().HasData(
-
-
-     new ReservaExcursaoModel { Id = 41 ,ClienteId = 22, ExcursaoId = 1, DataReserva = DateTime.UtcNow.AddDays(2), NumPessoas = 1, ValorTotal = 50 },
-     new ReservaExcursaoModel { Id = 42,ClienteId = 33, ExcursaoId = 2, DataReserva = DateTime.UtcNow.AddDays(3), NumPessoas = 4, ValorTotal = 200 },
-     new ReservaExcursaoModel { Id = 43, ClienteId = 24, ExcursaoId = 5, DataReserva = DateTime.UtcNow.AddDays(4), NumPessoas = 3, ValorTotal = 150 },
-     new ReservaExcursaoModel { Id = 44, ClienteId = 35, ExcursaoId = 6, DataReserva = DateTime.UtcNow.AddDays(5), NumPessoas = 5, ValorTotal = 250 },
-     new ReservaExcursaoModel { Id = 45, ClienteId = 36, ExcursaoId =14, DataReserva = DateTime.UtcNow.AddDays(6), NumPessoas = 2, ValorTotal = 120 },
-     new ReservaExcursaoModel { Id = 46, ClienteId = 27, ExcursaoId = 7, DataReserva = DateTime.UtcNow.AddDays(7), NumPessoas = 1, ValorTotal = 60 },
-     new ReservaExcursaoModel { Id = 47, ClienteId = 28, ExcursaoId = 8, DataReserva = DateTime.UtcNow.AddDays(8), NumPessoas = 6, ValorTotal = 300 },
-     new ReservaExcursaoModel { Id = 48, ClienteId = 29, ExcursaoId = 9, DataReserva = DateTime.UtcNow.AddDays(9), NumPessoas = 3, ValorTotal = 180 },
-     new ReservaExcursaoModel { Id = 49, ClienteId = 31, ExcursaoId = 3, DataReserva = DateTime.UtcNow.AddDays(10), NumPessoas = 2, ValorTotal = 110 },
-     new ReservaExcursaoModel { Id = 50, ClienteId = 21, ExcursaoId = 15, DataReserva = DateTime.UtcNow.AddDays(11), NumPessoas = 4, ValorTotal = 200 },
-     new ReservaExcursaoModel { Id = 51, ClienteId = 32, ExcursaoId = 19, DataReserva = DateTime.UtcNow.AddDays(12), NumPessoas = 1, ValorTotal = 50 },
-     new ReservaExcursaoModel { Id = 52, ClienteId = 33, ExcursaoId = 2, DataReserva = DateTime.UtcNow.AddDays(13), NumPessoas = 5, ValorTotal = 250 },
-     new ReservaExcursaoModel { Id = 53, ClienteId = 34, ExcursaoId = 16, DataReserva = DateTime.UtcNow.AddDays(14), NumPessoas = 2, ValorTotal = 120 },
-     new ReservaExcursaoModel { Id = 54, ClienteId = 35, ExcursaoId = 11, DataReserva = DateTime.UtcNow.AddDays(15), NumPessoas = 3, ValorTotal = 150 },
-     new ReservaExcursaoModel { Id = 55, ClienteId = 23, ExcursaoId = 12, DataReserva = DateTime.UtcNow.AddDays(16), NumPessoas = 2, ValorTotal = 100 },
-     new ReservaExcursaoModel { Id = 56, ClienteId = 21, ExcursaoId = 17, DataReserva = DateTime.UtcNow.AddDays(17), NumPessoas = 4, ValorTotal = 200 },
-     new ReservaExcursaoModel { Id = 57, ClienteId = 28, ExcursaoId = 19, DataReserva = DateTime.UtcNow.AddDays(18), NumPessoas = 6, ValorTotal = 300 },
-     new ReservaExcursaoModel { Id = 58, ClienteId = 29, ExcursaoId = 12, DataReserva = DateTime.UtcNow.AddDays(19), NumPessoas = 2, ValorTotal = 110 },
-     new ReservaExcursaoModel { Id = 59, ClienteId = 40, ExcursaoId = 13, DataReserva = DateTime.UtcNow.AddDays(20), NumPessoas = 3, ValorTotal = 150 },
-      new ReservaExcursaoModel { Id = 60, ClienteId = 21, ExcursaoId = 22, DataReserva = DateTime.UtcNow.AddDays(1), NumPessoas = 2, ValorTotal = 100 }
-                 );
 
             modelBuilder.Entity<ExcursaoFavoritaModel>().HasData(
     new ExcursaoFavoritaModel { Id = 71, ClienteId = 30, ExcursaoId = 1, Comentario = "Passeio encantador, perfeito para relaxar." },
