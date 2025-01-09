@@ -37,10 +37,15 @@ namespace ReserveSystem.Models
 
 
 
+
+        public bool CanDeleteOrUpdate()
+        {
+            if(BOOKING_DATE.AddHours(1) > DateTime.Now) return true;
+            return false;
+        }
         public bool ValidDates(string action)
         {
             if ((CHECKIN_DATE.ToDateTime(TimeOnly.MinValue) - DateTime.Now).TotalDays < 0) return false;
-            if (action == "Edit" && (CHECKIN_DATE.ToDateTime(TimeOnly.MinValue) - DateTime.Now).TotalDays < 3) return false;
             if ((CHECKOUT_DATE.ToDateTime(TimeOnly.MinValue) - CHECKIN_DATE.ToDateTime(TimeOnly.MinValue)).TotalDays < 0) return false;
 
             return true;

@@ -179,6 +179,11 @@ namespace ReserveSystem.Controllers
                 ViewBag.Action = "Index";
                 return View("EntityNoLongerExists");
             }
+
+            if ((bookingModel.CHECKIN_DATE.ToDateTime(TimeOnly.MinValue) - DateTime.Now).TotalDays < 3 && !bookingModel.CanDeleteOrUpdate())
+            {
+                ViewBag.CanUpdate = false;
+            }
             ViewBag.bookingId = id;
             return View(bookingModel);
         }
@@ -193,14 +198,13 @@ namespace ReserveSystem.Controllers
                 return NotFound();
             }
 
+
             if (!bookingModel.ValidDates("Edit"))
             {
-
                 TempData["WarningMessage"] = "Dates are not valid!";
                 return View(bookingModel);
             }
 
-            Console.WriteLine($"ModelState IsValid: {ModelState.IsValid}");
 
 
             if (ModelState.IsValid)

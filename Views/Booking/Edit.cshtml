@@ -2,7 +2,8 @@
 
 @{
     ViewData["Title"] = "Edit";
-    var bookingId = ViewBag.bookingId;
+    var bookingId = ViewBag.bookingId != null ? ViewBag.bookingId : 1;
+    var canUpdate = ViewBag.CanUpdate != null ? (bool)ViewBag.CanUpdate : true;
 }
 
 
@@ -16,6 +17,20 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
+
+@if (!canUpdate)
+{
+    <div class="alert alert-warning">
+        <strong>Warning:</strong> This booking cannot be updated because the check-in date is less than 3 days away.
+    </div>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="ID_BOOKING" />
+        <a asp-action="Index" class="btn btn-primary ms-2">Back to list</a>
+    </form>
+
+    return;
+}
+
 <div class="d-flex justify-content-center">
     <div class="col-md-10">
         <div class="card-header bg-light text-dark text-center">

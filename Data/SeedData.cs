@@ -69,13 +69,14 @@ namespace ReserveSystem.Data
                 ID_CLIENT = i, // Assuming client IDs are sequential and exist
                 CHECKIN_DATE = DateOnly.FromDateTime(DateTime.Today.AddDays(i)), // Different check-in dates
                 CHECKOUT_DATE = DateOnly.FromDateTime(DateTime.Today.AddDays(i)), // Two days after check-in
-                BOOKING_DATE = DateTime.Today.AddDays(-i), // Booking made i days ago
+                BOOKING_DATE = DateTime.Now, // Booking made i days ago
                 TOTAL_PERSONS_NUMBER = i % 4 + 1, // 1 to 4 persons
                 BOOKED = true,
                 PAYMENT_STATUS = i % 2 == 0, // Alternating payment status
                 Client = null // Lazy-loading or explicitly assigned later
             }).ToArray();
 
+            
             db.Booking.AddRange(bookings);
             db.SaveChanges();
         }
