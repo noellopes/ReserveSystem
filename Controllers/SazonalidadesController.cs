@@ -40,11 +40,9 @@ namespace ReserveSystem.Controllers
 
             if (searchDate != null)
             {
-                seasons = seasons.Where(s =>
-                    (s.DateBegin.Date.Equals(searchDate) ||
-                    s.DateEnd.Date.Equals(searchDate) ||
-                    (s.DateBegin.CompareTo(searchDate) < 0 && s.DateEnd.CompareTo(searchDate) > 0))
-                    && s.InUse.Equals(true));
+                var searchDateTime = searchDate.Value.ToDateTime(TimeOnly.MinValue); 
+                seasons = seasons.Where(s => (s.DateBegin.Date == searchDateTime.Date || s.DateEnd.Date == searchDateTime.Date || 
+                                        (s.DateBegin < searchDateTime && s.DateEnd > searchDateTime)) && s.InUse);
             }
 
             var model = new SeasonalityViewModel();
@@ -63,7 +61,7 @@ namespace ReserveSystem.Controllers
 
             model.SearchName = searchName;
             model.SearchDate = searchDate;
-
+             
             return View(model);
         }
 
