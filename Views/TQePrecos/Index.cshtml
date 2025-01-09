@@ -152,6 +152,17 @@
     }
 </style>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const rows = document.querySelectorAll(".clickable-row");
+        rows.forEach(row => {
+            row.addEventListener("click", function () {
+                window.location = this.dataset.href;
+            });
+        });
+    });
+</script>
+
 <div class="details-container">
     <h1 class="text-center">Room Type Index</h1>
     <hr class="hr" />
@@ -173,7 +184,7 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
+                <tr class="clickable-row" data-href="@Url.Action("Details", new { id = item.RoomTypeId })">
                     <td>@Html.DisplayFor(modelItem => item.type)</td>
                     <td>@Html.DisplayFor(modelItem => item.capacity)</td>
                     <td>@Html.DisplayFor(modelItem => item.RoomQuantity)</td>
@@ -184,11 +195,7 @@
                     <td>@Html.DisplayFor(modelItem => item.AdicionalBeds)</td>
                     <td>@(item.InUse ? "Yes" : "No")</td>
                     
-                    <td class="button-container">
-                        <a asp-action="Edit" asp-route-id="@item.RoomTypeId" class="btn btn_edit">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@item.RoomTypeId" class="btn btn_delete">Delete</a>
-                        <a asp-action="Details" asp-route-id="@item.RoomTypeId" class="btn btn_back">Details</a>
-                    </td>
+                    
                 </tr>
             }
         </tbody>
