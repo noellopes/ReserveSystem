@@ -19,11 +19,23 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Cleaning_Schedule
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool? filterPending)
         {
-            var reserveSystemContext = _context.Cleaning_Schedule.Include(c => c.client).Include(c => c.staffMembers);
-            return View(await reserveSystemContext.ToListAsync());
+            // Filtrar os agendamentos conforme o parâmetro filterPending
+            var cleaningSchedules = _context.Cleaning_Schedule
+                .Include(c => c.client)
+                .Include(c => c.staffMembers)
+                .AsQueryable();
+
+            if (filterPending.HasValue)
+            {
+                cleaningSchedules = cleaningSchedules.Where(c => c.CleaningDone == !filterPending.Value);
+            }
+
+            ViewBag.FilterPending = filterPending; // Passar para a View
+            return View(await cleaningSchedules.ToListAsync());
         }
+
 
         // GET: Cleaning_Schedule/Create
         public IActionResult Create()

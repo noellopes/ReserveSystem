@@ -2,10 +2,21 @@
 
 @{
     ViewData["Title"] = "Index";
+    bool? filterPending = ViewBag.FilterPending;
 }
 
 <div class="container mt-4">
     <h1 class="text-center text-primary mb-4">Cleaning Schedule Overview</h1>
+
+        <!-- Filtro -->
+    <form method="get" class="mb-3">
+        <label for="filterPending" class="form-label">Show Pending Cleanings Only:</label>
+        <select name="filterPending" class="form-select" onchange="this.form.submit()">
+            <option value="">All</option>
+            <option value="true" selected="@(filterPending == true)">Pending</option>
+            <option value="false" selected="@(filterPending == false)">Completed</option>
+        </select>
+    </form>
 
     <div class="text-end mb-3">
         <a asp-action="Create" class="btn btn-success btn-lg">
@@ -14,7 +25,8 @@
     </div>
 
     <div class="row">
-        @foreach (var item in Model)
+        @foreach (var item in Model.Where(i => !filterPending.HasValue || (filterPending == true && !i.CleaningDone) || (filterPending == false && i.CleaningDone)))
+        
         {
             <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card shadow-sm border-primary">
