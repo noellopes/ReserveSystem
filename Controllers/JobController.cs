@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
+using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ReserveSystem.Controllers
 {
@@ -15,9 +18,31 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Job/Index
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string search, int page = 1, int pageSize = 10)
         {
-            var jobs = _context.Job.ToList();
+            // Filtrelenebilir sorguyu oluştur
+            var query = _context.Job.AsQueryable();
+
+            // Eğer arama filtresi varsa, sorguya uygula
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                query = query.Where(j => j.JobName.Contains(search) || j.JobDescription.Contains(search));
+            }
+
+            // Toplam kayıt sayısını al (filtre uygulanmış)
+            var totalRecords = await query.CountAsync();
+
+            // Filtrelenmiş ve sayfalama uygulanmış işleri al
+            var jobs = await query
+                              .Skip((page - 1) * pageSize)
+                              .Take(pageSize)
+                              .ToListAsync();
+
+            // ViewBag ile View'e ek bilgiler gönder
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
+            ViewBag.Search = search; // Arama kutusunda son arama değeri için
+
             return View(jobs);
         }
 
@@ -30,24 +55,24 @@ namespace ReserveSystem.Controllers
         // POST: Job/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Job job)
+        public async Task<IActionResult> Create(Job job)
         {
             if (ModelState.IsValid)
             {
                 _context.Job.Add(job);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(job);
         }
 
         // GET: Job/Edit/5
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || id == 0)
                 return NotFound();
 
-            var job = _context.Job.Find(id);
+            var job = await _context.Job.FindAsync(id);
             if (job == null)
                 return NotFound();
 
@@ -57,24 +82,24 @@ namespace ReserveSystem.Controllers
         // POST: Job/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Job job)
+        public async Task<IActionResult> Edit(Job job)
         {
             if (ModelState.IsValid)
             {
                 _context.Job.Update(job);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(job);
         }
 
         // GET: Job/Delete/5
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || id == 0)
                 return NotFound();
 
-            var job = _context.Job.Find(id);
+            var job = await _context.Job.FindAsync(id);
             if (job == null)
                 return NotFound();
 
@@ -84,55 +109,15 @@ namespace ReserveSystem.Controllers
         // POST: Job/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var job = _context.Job.Find(id);
+            var job = await _context.Job.FindAsync(id);
             if (job == null)
                 return NotFound();
 
             _context.Job.Remove(job);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-        // Custom: consult_job
-        // GET: ConsultJob
-        public IActionResult ConsultJob()
-        {
-            var jobs = _context.Job.ToList(); // Tüm işleri çek
-            return View(jobs);
-        }
-
-
-        // Custom: select_job
-        // GET: SelectJobByName
-        public IActionResult SelectJobByName()
-        {
-            return View();
-        }
-
-        // POST: SelectJobByName
-        [HttpPost]
-        public IActionResult SelectJobByName(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                ViewBag.Message = "Job name cannot be empty.";
-                return View();
-            }
-
-            var jobs = _context.Job
-                               .Where(j => j.JobName.Contains(name))
-                               .ToList();
-
-            if (!jobs.Any())
-            {
-                ViewBag.Message = "No jobs found with the specified name.";
-                return View();
-            }
-
-            return View(jobs);
-        }
-
     }
 }
