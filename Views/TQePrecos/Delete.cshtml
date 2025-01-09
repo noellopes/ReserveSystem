@@ -147,12 +147,14 @@
         <div class="value">@Html.DisplayFor(model => model.RoomQuantity)</div>
     </div>
     <div class="row">
-        <div class="label">Room with Accessibility </div>
-        <div class="value">@Html.DisplayFor(model => model.AcessibilityRoom)</div>
+        <div class="label">Room with Accessibility Adaptation</div>
+        <div class="value">@((Model.AcessibilityRoom) ? "Sim" : "Não")</div>
+        
     </div>
     <div class="row">
         <div class="label">View</div>
-        <div class="value">@Html.DisplayFor(model => model.View)</div>
+        <div class="value">@((Model.View) ? "Sim" : "Não")</div>
+        
     </div>
     <div class="row">
         <div class="label">Base Price</div>
@@ -163,7 +165,7 @@
         <div class="value">@Html.DisplayFor(model => model.CancelationFee)</div>
     </div>
     <div class="row">
-        <div class="label">Additional Beds</div>
+        <div class="label">Additional Bed</div>
         <div class="value">@Html.DisplayFor(model => model.AdicionalBeds)</div>
     </div>
     <div class="row">
