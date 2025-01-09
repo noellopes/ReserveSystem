@@ -20,18 +20,20 @@ namespace ReserveSystem.Controllers
     public class BookingController : Controller
     {
         private readonly ReserveSystemContext _context;
+        private readonly ILogger<BookingController> _logger;
 
-        public BookingController(ReserveSystemContext context)
+        public BookingController(ReserveSystemContext context, ILogger<BookingController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: Booking
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(int page = 1, string searchQuery = "")
         {
 
 
-
+            /*
             //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get logged-in user ID
 
             var bookings = from b in _context.Booking.Include(b => b.Client) select b;
@@ -58,6 +60,47 @@ namespace ReserveSystem.Controllers
             return View(model);
 
 
+            */
+
+            // Define o tamanho da página
+            var pageSize = 9;
+
+            // Cria a consulta inicial
+            var bookings = from b in _context.Booking select b;
+
+            // Aplica o filtro de busca, se houver
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                bookings = bookings.Where(b => b.ID_BOOKING.ToString().Contains(searchQuery));
+            }
+
+            // Passa o valor de busca para a ViewData para manter o valor no campo de busca
+            ViewData["SearchQuery"] = searchQuery;
+
+            // Calcula o número total de itens
+            var totalItems = await bookings.CountAsync();
+
+            // Calcula o número total de páginas
+            var totalPages = (int)Math.Ceiling((decimal)totalItems / pageSize);
+
+            // Verifica se a página solicitada é válida
+            page = Math.Max(page, 1);
+            if (page > totalPages && totalPages > 0) page = totalPages;
+
+            // Obtém os itens da página atual
+            var bookingPaged = await bookings
+                .OrderBy(b => b.ID_BOOKING)  // Ordena por tipo ou outro critério
+                .Skip((page - 1) * pageSize)  // Pula as páginas anteriores
+                .Take(pageSize)  // Pega o número de itens correspondente ao tamanho da página
+                .ToListAsync();
+
+            // Passa as informações de paginação para a ViewData
+            ViewData["TotalItems"] = totalItems;
+            ViewData["CurrentPage"] = page;
+            ViewData["TotalPages"] = totalPages;
+
+            // Retorna os dados para a view
+            return View(bookingPaged);
 
         }
 
@@ -131,25 +174,33 @@ namespace ReserveSystem.Controllers
           
             if (bookingModel == null)
             {
-                ViewBag.Entity = "BookingModel";
+                ViewBag.Entity = "Booking";
                 ViewBag.Controller = "Booking";
                 ViewBag.Action = "Index";
                 return View("EntityNoLongerExists");
             }
+            ViewBag.bookingId = id;
             return View(bookingModel);
         }
 
-        // POST: Booking/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID_BOOKING,CHECKIN_DATE,CHECKOUT_DATE,BOOKING_DATE,TOTAL_PERSONS_NUMBER,BOOKED,PAYMENT_STATUS")] Booking bookingModel)
+        public async Task<IActionResult> Edit(int id, [Bind("ID_BOOKING,ID_CLIENT,CHECKIN_DATE,CHECKOUT_DATE,BOOKING_DATE,TOTAL_PERSONS_NUMBER,BOOKED,PAYMENT_STATUS")] Booking bookingModel)
         {
             if (id != bookingModel.ID_BOOKING)
             {
                 return NotFound();
             }
+
+            if (!bookingModel.ValidDates("Edit"))
+            {
+
+                TempData["WarningMessage"] = "Dates are not valid!";
+                return View(bookingModel);
+            }
+
+            Console.WriteLine($"ModelState IsValid: {ModelState.IsValid}");
 
 
             if (ModelState.IsValid)
@@ -157,19 +208,14 @@ namespace ReserveSystem.Controllers
                 try
                 {
 
-                    var existingBooking = await _context.Booking.FindAsync(id);
+                    var validBookingModel = await _context.Booking
+                        .FirstOrDefaultAsync(m => m.ID_BOOKING == id);
 
-                    if (existingBooking == null)
-                    {
-                        ViewBag.Entity = "Reserva";
-                        ViewBag.Controller = "Booking";
-                        ViewBag.Action = "Index";
-                        return View("EntityNoLongerExists");
-                    }
-
-
-                    _context.Update(bookingModel);
+                    validBookingModel.CHECKIN_DATE = bookingModel.CHECKIN_DATE;
+                    validBookingModel.CHECKOUT_DATE = bookingModel.CHECKOUT_DATE;
                     await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Booking updated successfully!";
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -184,12 +230,14 @@ namespace ReserveSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            
             return View(bookingModel);
         }
 
         // GET: Booking/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            ViewBag.CanDelete = true;
             if (id == null)
             {
                 ViewBag.Entity = "BookingModel";
@@ -208,7 +256,17 @@ namespace ReserveSystem.Controllers
                 return View("EntityNoLongerExists");
             }
 
-           
+
+
+
+
+
+
+            if ((bookingModel.CHECKIN_DATE.ToDateTime(TimeOnly.MinValue) - DateTime.Now).TotalDays < 3)
+            {
+                ViewBag.CanDelete = false;
+            }
+
             return View(bookingModel);
         }
 

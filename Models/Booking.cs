@@ -15,11 +15,11 @@ namespace ReserveSystem.Models
 
         [Required(ErrorMessage = "Inserir Data de Check-In")]
         [DataType(DataType.Date)]
-        public DateTime CHECKIN_DATE { get; set; }
+        public DateOnly CHECKIN_DATE { get; set; }
 
         [Required(ErrorMessage = "Inserir Data de Check-Out")]
         [DataType(DataType.Date)]
-        public DateTime CHECKOUT_DATE { get; set; }
+        public DateOnly CHECKOUT_DATE { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime BOOKING_DATE { get; set; }
@@ -33,9 +33,18 @@ namespace ReserveSystem.Models
 
 
 
-        //TODO mudar para RoomBookings
-        public IEnumerable<RoomBooking> RoomBookings { get; set; }
         public ClientModel? Client { get; set; }
+
+
+
+        public bool ValidDates(string action)
+        {
+            if ((CHECKIN_DATE.ToDateTime(TimeOnly.MinValue) - DateTime.Now).TotalDays < 0) return false;
+            if (action == "Edit" && (CHECKIN_DATE.ToDateTime(TimeOnly.MinValue) - DateTime.Now).TotalDays < 3) return false;
+            if ((CHECKOUT_DATE.ToDateTime(TimeOnly.MinValue) - CHECKIN_DATE.ToDateTime(TimeOnly.MinValue)).TotalDays < 0) return false;
+
+            return true;
+        }
 
 
 

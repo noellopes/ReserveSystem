@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserveSystem.Data;
 
@@ -11,9 +12,11 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    partial class ReserveSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20250108125524_ChangeDateFormatsBooking")]
+    partial class ChangeDateFormatsBooking
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -130,7 +133,7 @@ namespace ReserveSystem.Data.Migrations
                     b.ToTable("Employee");
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.RoomModel", b =>
+            modelBuilder.Entity("ReserveSystem.Models.Room", b =>
                 {
                     b.Property<int>("ID_ROOM")
                         .ValueGeneratedOnAdd()
@@ -185,9 +188,6 @@ namespace ReserveSystem.Data.Migrations
                     b.Property<bool>("AcessibilityRoom")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Beds")
-                        .HasColumnType("int");
-
                     b.Property<bool>("HasView")
                         .HasColumnType("bit");
 
@@ -212,7 +212,7 @@ namespace ReserveSystem.Data.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.RoomModel", b =>
+            modelBuilder.Entity("ReserveSystem.Models.Room", b =>
                 {
                     b.HasOne("ReserveSystem.Models.RoomType", "RoomType")
                         .WithMany("Rooms")

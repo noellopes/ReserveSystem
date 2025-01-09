@@ -19,6 +19,8 @@ namespace ReserveSystem.Models
 
         [Required]
         public bool AcessibilityRoom { get; set; } // Indica se o quarto é adaptado
+        [Required]
+        public int Beds { get; set; } // Número de camas
 
         public ICollection<Room> Rooms { get; set; } = new List<Room>(); // Relação de um para muitos com RoomModel
     }

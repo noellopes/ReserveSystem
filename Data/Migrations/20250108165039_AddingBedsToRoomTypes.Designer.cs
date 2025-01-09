@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserveSystem.Data;
 
@@ -11,9 +12,11 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    partial class ReserveSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20250108165039_AddingBedsToRoomTypes")]
+    partial class AddingBedsToRoomTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,11 +39,11 @@ namespace ReserveSystem.Data.Migrations
                     b.Property<DateTime>("BOOKING_DATE")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateOnly>("CHECKIN_DATE")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("CHECKIN_DATE")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateOnly>("CHECKOUT_DATE")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("CHECKOUT_DATE")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("ClienteId")
                         .HasColumnType("int");
@@ -130,7 +133,7 @@ namespace ReserveSystem.Data.Migrations
                     b.ToTable("Employee");
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.RoomModel", b =>
+            modelBuilder.Entity("ReserveSystem.Models.Room", b =>
                 {
                     b.Property<int>("ID_ROOM")
                         .ValueGeneratedOnAdd()
@@ -212,7 +215,7 @@ namespace ReserveSystem.Data.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.RoomModel", b =>
+            modelBuilder.Entity("ReserveSystem.Models.Room", b =>
                 {
                     b.HasOne("ReserveSystem.Models.RoomType", "RoomType")
                         .WithMany("Rooms")
