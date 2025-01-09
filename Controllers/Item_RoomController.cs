@@ -204,6 +204,43 @@ public IActionResult DeleteSuccess(string itemName, string roomType)
     ViewBag.RoomType = roomType;
     return View();
 }
+        // Ação para adicionar +1
+        public async Task<IActionResult> Itens_Plus(int id)
+        {
+            var itemRoom = await _context.Item_Room.FindAsync(id);
+            if (itemRoom == null)
+            {
+                return NotFound();
+            }
 
+            itemRoom.RoomQuantity += 1;
+            _context.Update(itemRoom);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", new { id = itemRoom.ItemRoomId });
+        }
+
+        // Ação para remover -1
+        public async Task<IActionResult> Itens_Less(int id)
+        {
+            var itemRoom = await _context.Item_Room.FindAsync(id);
+            if (itemRoom == null)
+            {
+                return NotFound();
+            }
+
+            if (itemRoom.RoomQuantity > 0) // Evitar quantidade negativa
+            {
+                itemRoom.RoomQuantity -= 1;
+                _context.Update(itemRoom);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "A quantidade não pode ser negativa!";
+            }
+
+            return RedirectToAction("Details", new { id = itemRoom.ItemRoomId });
+        }
     }
 }

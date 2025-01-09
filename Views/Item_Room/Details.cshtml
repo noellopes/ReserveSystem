@@ -34,3 +34,5 @@
     <a asp-action="Edit" asp-route-id="@Model?.ItemRoomId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+<a asp-action="Itens_Plus" asp-route-id="@Model.ItemRoomId" class="btn btn-success">Adicionar +1</a>
+<a asp-action="Itens_Less" asp-route-id="@Model.ItemRoomId" class="btn btn-danger">Remover -1</a>
