@@ -12,6 +12,7 @@ namespace ReserveSystem.Data
             PopulateIngredients(db);
             PopulatePratos(db);
             PopulateSuppliers(db);
+            PopulateBuffet(db);
         }
 
         private static void PopulateIngredients(ReserveSystemContext db)
@@ -91,7 +92,33 @@ namespace ReserveSystem.Data
                 new Prato { Nome = "Sushi Variado", Descricao = "Prato de sushi com seleção variada.", Preco = 20.00M },
                 new Prato { Nome = "Picanha na Brasa", Descricao = "Picanha fatiada com acompanhamento de farofa e vinagrete.", Preco = 22.00M },
                 new Prato { Nome = "Tiramisu", Descricao = "Sobremesa italiana feita com café, mascarpone e cacau.", Preco = 6.50M },
-                new Prato { Nome = "Pavlova", Descricao = "Sobremesa de merengue com chantilly e frutas frescas.", Preco = 7.00M }
+                new Prato { Nome = "Pavlova", Descricao = "Sobremesa de merengue com chantilly e frutas frescas.", Preco = 7.00M },
+                new Prato { Nome = "Espetada Madeirense", Descricao = "Espetada de carne bovina temperada e assada na brasa.", Preco = 17.00M },
+                new Prato { Nome = "Ceviche", Descricao = "Peixe marinado no limão com cebola roxa e coentro.", Preco = 12.50M },
+                new Prato { Nome = "Paella Valenciana", Descricao = "Prato típico espanhol com arroz, frutos do mar e açafrão.", Preco = 19.00M },
+                new Prato { Nome = "Ratatouille", Descricao = "Prato vegetariano com legumes assados em camadas.", Preco = 10.50M },
+                new Prato { Nome = "Caril de Legumes", Descricao = "Curry de legumes variados com arroz basmati.", Preco = 9.80M },
+                new Prato { Nome = "Cordeiro ao Vinho Tinto", Descricao = "Pernil de cordeiro cozido com vinho tinto e ervas.", Preco = 24.00M },
+                new Prato { Nome = "Panqueca de Espinafre", Descricao = "Panqueca recheada com espinafre e queijo ricota.", Preco = 8.90M },
+                new Prato { Nome = "Feijoada Brasileira", Descricao = "Prato típico com feijão preto, carnes e acompanhamentos.", Preco = 16.00M },
+                new Prato { Nome = "Gnocchi ao Pesto", Descricao = "Nhoque de batata com molho de manjericão e parmesão.", Preco = 12.00M },
+                new Prato { Nome = "Polenta Cremosa", Descricao = "Polenta cremosa com ragu de carne.", Preco = 11.50M },
+                new Prato { Nome = "Moussaka", Descricao = "Prato grego com berinjela, carne e molho bechamel.", Preco = 13.50M },
+                new Prato { Nome = "Quiche Lorraine", Descricao = "Quiche francesa com bacon e queijo.", Preco = 9.50M },
+                new Prato { Nome = "Pad Thai", Descricao = "Macarrão tailandês com camarão, amendoim e molho agridoce.", Preco = 14.50M },
+                new Prato { Nome = "Tagine de Frango", Descricao = "Prato marroquino de frango cozido com especiarias e legumes.", Preco = 15.50M },
+                new Prato { Nome = "Calzone", Descricao = "Pizza fechada recheada com queijo, presunto e tomate.", Preco = 10.90M },
+                new Prato { Nome = "Pato no Tucupi", Descricao = "Prato típico do Pará com pato e molho de tucupi.", Preco = 18.50M },
+                new Prato { Nome = "Bobó de Camarão", Descricao = "Camarão cozido com mandioca, leite de coco e dendê.", Preco = 19.00M },
+                new Prato { Nome = "Costelinha ao Barbecue", Descricao = "Costelinha de porco assada com molho barbecue.", Preco = 17.90M },
+                new Prato { Nome = "Yakissoba de Frango", Descricao = "Macarrão oriental com frango e legumes.", Preco = 11.00M },
+                new Prato { Nome = "Polvo à Lagareiro", Descricao = "Polvo assado com batatas ao murro e azeite.", Preco = 21.00M },
+                new Prato { Nome = "Fajitas de Carne", Descricao = "Tiras de carne grelhada com pimentões e cebola.", Preco = 12.50M },
+                new Prato { Nome = "Robalo ao Molho de Alcaparras", Descricao = "Filé de robalo grelhado com molho de alcaparras.", Preco = 20.50M },
+                new Prato { Nome = "Tortellini ao Molho Alfredo", Descricao = "Massa recheada com molho cremoso de queijo.", Preco = 13.90M },
+                new Prato { Nome = "Crepe de Nutella", Descricao = "Crepe recheado com creme de avelã e frutas frescas.", Preco = 7.50M },
+                new Prato { Nome = "Brownie com Sorvete", Descricao = "Brownie de chocolate servido com sorvete de baunilha.", Preco = 8.00M },
+
 
             });
             db.SaveChanges();
@@ -122,6 +149,32 @@ namespace ReserveSystem.Data
                 new Supplier { SupplierName = "Temperos & Sabor", SupplierAddress = "Avenida dos Temperos, 65", SupplierPhone = "929012345", SupplierEmail = "suporte@temperosesabor.com" },
                 new Supplier { SupplierName = "Casa dos Doces", SupplierAddress = "Rua do Açúcar, 80", SupplierPhone = "930123456", SupplierEmail = "vendas@casadosdoces.com" },
                 new Supplier { SupplierName = "Legumes & Hortas", SupplierAddress = "Rua do Legume, 120", SupplierPhone = "931234567", SupplierEmail = "contato@legumeshortas.com" }
+            });
+            db.SaveChanges();
+        }
+        private static void PopulateBuffet(ReserveSystemContext db)
+        {
+            if (db.Buffet.Any()) return;
+
+            db.Buffet.AddRange(new List<Buffet>{
+                new Buffet { Nome = "Buffet Temático Asiático", Descricao = "Uma seleção de pratos autênticos da culinária asiática, incluindo sushi, noodles e dim sum.", Data = DateTime.Now },
+                new Buffet { Nome = "Buffet de Doces Gourmet", Descricao = "Uma variedade de doces sofisticados, incluindo macarons, tortas e mousses.", Data = DateTime.Now },
+                new Buffet { Nome = "Buffet de Comida Nordestina", Descricao = "Pratos tradicionais do Nordeste, como carne de sol, feijão verde e macaxeira.", Data = DateTime.Now },
+                new Buffet { Nome = "Buffet Vegano", Descricao = "Pratos 100% veganos, com ingredientes frescos e receitas criativas.", Data = DateTime.Now },
+                new Buffet { Nome = "Buffet de Sopas e Caldos", Descricao = "Uma seleção de sopas e caldos para aquecer, com opções vegetarianas e tradicionais.", Data = DateTime.Now },
+                new Buffet { Nome = "Buffet de Massas Artesanais", Descricao = "Massas preparadas artesanalmente com molhos variados, inspirados na culinária italiana.", Data = DateTime.Now },
+                new Buffet { Nome = "Buffet de Tapas Espanholas", Descricao = "Pequenos pratos típicos da Espanha, como tortillas, croquetes e pimentões recheados.", Data = DateTime.Now },
+                new Buffet { Nome = "Buffet de Carnes Premium", Descricao = "Carnes nobres grelhadas e assadas, com acompanhamentos especiais.", Data = DateTime.Now },
+                new Buffet { Nome = "Buffet Temático Francês", Descricao = "Pratos clássicos da culinária francesa, como quiches, ratatouille e sobremesas refinadas.", Data = DateTime.Now },
+                new Buffet { Nome = "Buffet Internacional", Descricao = "Pratos de diversas partes do mundo, ideal para quem gosta de explorar novos sabores.", Data = DateTime.Now },
+                new Buffet { Nome = "Buffet à Inglesa", Descricao = "Buffet à Inglesa: Uma refeição onde os pratos são servidos diretamente à mesa, promovendo praticidade e elegância.", Data = DateTime.Now },
+                new Buffet { Nome = "Buffet Pequeno Almoço", Descricao = "Este tipo de buffet é oferecido em refeições matinais, com uma variedade de pães, frutas, sucos e opções quentes.", Data = DateTime.Now },
+                new Buffet { Nome = "Buffet de Frutos do Mar", Descricao = "Este buffet é especializado em frutos do mar frescos, incluindo camarões, ostras e peixes variados.", Data = DateTime.Now },
+                new Buffet { Nome = "Buffet Vegetariano", Descricao = "Focado em pratos sem ingredientes de origem animal, com opções saudáveis e nutritivas.", Data = DateTime.Now },
+                new Buffet { Nome = "Buffet de Churrasco (BBQ)", Descricao = "Este buffet é centrado em carnes grelhadas e acompanhamentos típicos de churrasco.", Data = DateTime.Now },
+                new Buffet { Nome = "Buffet Temático Italiano", Descricao = "Um festival de sabores da culinária italiana, onde massas e pizzas são os protagonistas.", Data = DateTime.Now },
+                new Buffet { Nome = "Buffet Temático Mexicano", Descricao = "Uma explosão de cores e sabores inspirados na culinária mexicana, com tacos, guacamole e nachos.", Data = DateTime.Now },
+                new Buffet { Nome = "Buffet Temático Mediterrâneo", Descricao = "Uma viagem aos sabores frescos e saudáveis do Mediterrâneo, com azeites, queijos e frutos do mar.", Data = DateTime.Now }
             });
             db.SaveChanges();
         }
