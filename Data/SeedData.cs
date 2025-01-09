@@ -55,7 +55,7 @@ namespace ReserveSystem.Data
         {
             //EnsureRoleIsCreatedAsync(roleManager, "admin").Wait();
             //EnsureRoleIsCreatedAsync(roleManager, "client").Wait();
-
+             
             // ...
         }
 
