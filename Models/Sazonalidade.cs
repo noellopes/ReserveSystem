@@ -10,7 +10,7 @@ namespace ReserveSystem.Models
         public int Id_saz { get; set; }
         [Required]
         [StringLength(25)]
-        public string? NameSeason { get; set; }
+        public string NameSeason { get; set; }
         [Required]
         public DateTime DateBegin { get; set; }
         [Required]
