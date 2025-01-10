@@ -280,62 +280,6 @@ namespace ReserveSystem.Data
             db.SaveChanges();
         }
 
-        private static void PopulateRooms(ReserveSystemUsersDbContext db)
-        {
-            if (db.Room.Any()) return;
-
-            db.Room.AddRange(new List<Room>
-       {
-        new Room { RoomTypeId = 1 },
-        new Room { RoomTypeId = 2 },
-        new Room { RoomTypeId = 1 },
-        new Room { RoomTypeId = 3 },
-        new Room { RoomTypeId = 2 },
-        new Room { RoomTypeId = 4 },
-        new Room { RoomTypeId = 3 },
-        new Room { RoomTypeId = 1 },
-        new Room { RoomTypeId = 4 },
-        new Room { RoomTypeId = 2 },
-        new Room { RoomTypeId = 3 },
-        new Room { RoomTypeId = 1 },
-        new Room { RoomTypeId = 2 },
-        new Room { RoomTypeId = 4 },
-        new Room { RoomTypeId = 1 },
-        new Room { RoomTypeId = 3 },
-        new Room { RoomTypeId = 4 },
-        new Room { RoomTypeId = 2 },
-        new Room { RoomTypeId = 1 },
-        new Room { RoomTypeId = 3 },
-        new Room { RoomTypeId = 4 },
-        new Room { RoomTypeId = 2 },
-        new Room { RoomTypeId = 1 },
-        new Room { RoomTypeId = 4 },
-        new Room { RoomTypeId = 3 },
-        new Room { RoomTypeId = 2 },
-        new Room { RoomTypeId = 1 },
-        new Room { RoomTypeId = 4 },
-        new Room { RoomTypeId = 3 },
-        new Room { RoomTypeId = 2 },
-        new Room { RoomTypeId = 1 },
-        new Room { RoomTypeId = 4 },
-        new Room { RoomTypeId = 2 },
-        new Room { RoomTypeId = 3 },
-        new Room { RoomTypeId = 1 },
-        new Room { RoomTypeId = 4 },
-        new Room { RoomTypeId = 3 },
-        new Room { RoomTypeId = 2 },
-        new Room { RoomTypeId = 1 },
-        new Room { RoomTypeId = 4 },
-        new Room { RoomTypeId = 2 },
-        new Room { RoomTypeId = 3 },
-        new Room { RoomTypeId = 1 },
-        new Room { RoomTypeId = 4 }
-
-    });
-
-            db.SaveChanges();
-        }
-
         private static void PopulateRoomBookings(ReserveSystemUsersDbContext db)
         {
             if (db.RoomBooking.Any()) return;
@@ -510,6 +454,62 @@ namespace ReserveSystem.Data
                 new Booking { ID_Client = 104, CheckinDate = new DateTime(2024, 8, 15), CheckoutDate = new DateTime(2024, 8, 20), BookingDate = new DateTime(2024, 6, 10), BookingCode = "BK104", TotalPersonsNumber = 4, PaymentStatus = true, Breakfast = true },
                 new Booking { ID_Client = 105, CheckinDate = new DateTime(2024, 9, 25), CheckoutDate = new DateTime(2024, 9, 30), BookingDate = new DateTime(2024, 7, 5), BookingCode = "BK105", TotalPersonsNumber = 2, PaymentStatus = false, Breakfast = true }
                         });
+
+            db.SaveChanges();
+        }
+
+        private static void PopulateRooms(ReserveSystemUsersDbContext db)
+        {
+            if (db.Room.Any()) return;
+
+            db.Room.AddRange(new List<Room>
+       {
+        new Room { RoomTypeId = 1 },
+        new Room { RoomTypeId = 2 },
+        new Room { RoomTypeId = 1 },
+        new Room { RoomTypeId = 3 },
+        new Room { RoomTypeId = 2 },
+        new Room { RoomTypeId = 4 },
+        new Room { RoomTypeId = 3 },
+        new Room { RoomTypeId = 1 },
+        new Room { RoomTypeId = 4 },
+        new Room { RoomTypeId = 2 },
+        new Room { RoomTypeId = 3 },
+        new Room { RoomTypeId = 1 },
+        new Room { RoomTypeId = 2 },
+        new Room { RoomTypeId = 4 },
+        new Room { RoomTypeId = 1 },
+        new Room { RoomTypeId = 3 },
+        new Room { RoomTypeId = 4 },
+        new Room { RoomTypeId = 2 },
+        new Room { RoomTypeId = 1 },
+        new Room { RoomTypeId = 3 },
+        new Room { RoomTypeId = 4 },
+        new Room { RoomTypeId = 2 },
+        new Room { RoomTypeId = 1 },
+        new Room { RoomTypeId = 4 },
+        new Room { RoomTypeId = 3 },
+        new Room { RoomTypeId = 2 },
+        new Room { RoomTypeId = 1 },
+        new Room { RoomTypeId = 4 },
+        new Room { RoomTypeId = 3 },
+        new Room { RoomTypeId = 2 },
+        new Room { RoomTypeId = 1 },
+        new Room { RoomTypeId = 4 },
+        new Room { RoomTypeId = 2 },
+        new Room { RoomTypeId = 3 },
+        new Room { RoomTypeId = 1 },
+        new Room { RoomTypeId = 4 },
+        new Room { RoomTypeId = 3 },
+        new Room { RoomTypeId = 2 },
+        new Room { RoomTypeId = 1 },
+        new Room { RoomTypeId = 4 },
+        new Room { RoomTypeId = 2 },
+        new Room { RoomTypeId = 3 },
+        new Room { RoomTypeId = 1 },
+        new Room { RoomTypeId = 4 }
+
+    });
 
             db.SaveChanges();
         }

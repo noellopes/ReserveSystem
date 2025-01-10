@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using ReserveSystem.Models;
 
 namespace ReserveSystem.Controllers
 {
+    
     public class PricePerDatesController : Controller
     {
         private readonly ReserveSystemUsersDbContext _context;
@@ -19,7 +21,7 @@ namespace ReserveSystem.Controllers
         {
             _context = context;
         }
-
+        [Authorize(Roles = "User")]
         // GET: PricePerDates
         public async Task<IActionResult> Index()
         {
@@ -43,7 +45,7 @@ namespace ReserveSystem.Controllers
 
             return View(pricePerDateList);
         }
-
+        [Authorize(Roles = "Admin")]
         // GET: PricePerDates/Details/5
         public async Task<IActionResult> Details(int? id)
         {

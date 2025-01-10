@@ -18,6 +18,7 @@ namespace ReserveSystem.Data
         // DbSets para as entidades
         public DbSet<TQePreco> TQePreco { get; set; } = default!;
         public DbSet<Events> Events { get; set; } = default!;
+        public DbSet<Room> Room { get; set; } = default!;
         public DbSet<Sazonalidade> Sazonalidade { get; set; } = default!;
         public DbSet<Booking> Booking { get; set; } = default!;
         public DbSet<RoomBooking> RoomBooking { get; set; } = default!;
