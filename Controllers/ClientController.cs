@@ -55,7 +55,7 @@ namespace ReserveSystem.Controllers
         {
             if (id == null)
             {
-                ViewBag.Entity = "Cliente";
+                ViewBag.Entity = "Client";
                 ViewBag.Controller = "Client";
                 ViewBag.Action = "Index";
                 return View("EntityNoLongerExists");
@@ -65,7 +65,7 @@ namespace ReserveSystem.Controllers
                 .FirstOrDefaultAsync(m => m.ClienteId == id);
             if (clientModel == null)
             {
-                ViewBag.Entity = "Cliente";
+                ViewBag.Entity = "Client";
                 ViewBag.Controller = "Client";
                 ViewBag.Action = "Index";
                 return View("EntityNoLongerExists");
@@ -108,6 +108,7 @@ namespace ReserveSystem.Controllers
                     } 
                     if (cliente.IdentificationType == "NIF")
                     {
+                        cliente.NIF = cliente.NIF.Trim();
                         if (!Validator.IsNifValid(cliente.NIF))
                         {
                             ModelState.AddModelError("NIF", "Identification number Invalid");
@@ -131,7 +132,7 @@ namespace ReserveSystem.Controllers
                     }
                     
                     _context.Add(cliente);
-                    TempData["SuccessMessage"] = "Client added successfully!";
+                    TempData["SuccessMessage"] = "Account created successfully! Login now so you can make a reservation";
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -261,7 +262,7 @@ namespace ReserveSystem.Controllers
             {
                 _context.Client.Remove(cliente);                
             }
-            ViewBag.Entity = "Cliente";
+            ViewBag.Entity = "Account";
             ViewBag.Controller = "Client";
             ViewBag.Action = "Index";            
             await _context.SaveChangesAsync();
