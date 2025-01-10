@@ -20,12 +20,40 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: JobModels
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, int pageNumber = 1, int pageSize = 10)
         {
-            return View(await _context.JobModel.ToListAsync());
+            ViewData["Title"] = "Job Listings"; // Set the page title
+            ViewData["SearchString"] = searchString; // Pass the search term to the view
+
+            var jobsQuery = _context.JobModel.AsQueryable();
+
+            // Apply search filter
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                jobsQuery = jobsQuery.Where(j =>
+                    j.jobName.Contains(searchString) ||
+                    j.jobDescription.Contains(searchString));
+            }
+
+            // Pagination
+            var totalJobs = await jobsQuery.CountAsync();
+            var jobs = await jobsQuery
+                .OrderBy(j => j.jobID)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var viewModel = new JobIndexViewModel
+            {
+                Jobs = jobs,
+                CurrentPage = pageNumber,
+                TotalPages = (int)Math.Ceiling(totalJobs / (double)pageSize)
+            };
+
+            return View(viewModel);
         }
 
-        // GET: JobModels/Details/5
+        // Other methods (Details, Create, Edit, Delete) remain unchanged
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,15 +71,11 @@ namespace ReserveSystem.Controllers
             return View(jobModel);
         }
 
-        // GET: JobModels/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: JobModels/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("jobID,jobName,jobDescription")] JobModel jobModel)
@@ -65,7 +89,6 @@ namespace ReserveSystem.Controllers
             return View(jobModel);
         }
 
-        // GET: JobModels/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,9 +104,6 @@ namespace ReserveSystem.Controllers
             return View(jobModel);
         }
 
-        // POST: JobModels/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("jobID,jobName,jobDescription")] JobModel jobModel)
@@ -116,7 +136,6 @@ namespace ReserveSystem.Controllers
             return View(jobModel);
         }
 
-        // GET: JobModels/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,7 +153,6 @@ namespace ReserveSystem.Controllers
             return View(jobModel);
         }
 
-        // POST: JobModels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
