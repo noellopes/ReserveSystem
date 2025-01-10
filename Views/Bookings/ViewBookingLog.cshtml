@@ -1,0 +1,309 @@
+﻿@model BookingViewModel
+
+@{
+    ViewData["Title"] = "ViewBookingLog";
+}
+
+<style>
+    body {
+        font-family: 'Georgia', serif;
+        background-color: #f9f9f6; /* Off-white background */
+        color: #1a1a1a; /* Deep black for text */
+    }
+
+    /* Overall table styles */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        background-color: #ffffff;
+    }
+
+        /* Table Header Styles */
+        .table thead {
+            background-color: #333333; /* Dark background for header */
+            color: white;
+        }
+
+        /* Table row hover effect */
+        .table tbody tr:hover {
+            background-color: #F5F5F5; /* Hover effect color */
+            color: #d4af37; /* Text color on hover */
+            cursor: pointer;
+        }
+
+        /* Table cell styles */
+        .table th, .table td {
+            padding: 18px 20px;
+            text-align: left;
+            font-size: 1.125rem;
+            font-weight: 500;
+        }
+
+    /* Button styles */
+    .btn {
+        background-color: #ffffff;
+        border-color: #d4af37;
+        color: #333333;
+        font-weight: 600;
+        padding: 14px 28px;
+        border-radius: 50px;
+        font-size: 1.125rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+        .btn:hover {
+            background-color: #333333;
+            color: #F5F5F5;
+            border-color: #333333;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .btn:active {
+            background-color: #000000; /* Darker effect when clicked */
+            border-color: #000000;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Return to original shadow */
+            transform: translateY(0); /* Button "presses" down */
+        }
+
+
+    /* Back Button Styling */
+    .btn_back {
+        background-color: #333333;
+        border-color: #d4af37;
+        color: #ffffff;
+        font-weight: 600;
+        padding: 14px 28px;
+        border-radius: 50px;
+        font-size: 1.125rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+        .btn_back:hover {
+            background-color: #ffffff;
+            color: #d4af37;
+            border-color: #d4af37;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+    .hr {
+        border: none;
+        height: 2px;
+        background-color: #d4af37; /* Gold */
+        width: 60%;
+        margin: 1rem auto;
+        opacity: 0.8;
+    }
+
+    /* Centered title */
+    h1 {
+        font-size: 2rem;
+        color: #d4af37; /* Gold for title */
+    }
+
+    /* Adjusting the paragraph style for centered 'Create' button */
+    p {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .modal-content {
+        background-color: #ffffff; /* White background */
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        background-color: #333333; /* Gold */
+        color: white;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+    }
+
+    .modal-body {
+        font-size: 1.1rem;
+        color: #333333;
+        padding: 1.5rem;
+    }
+
+    .modal-footer {
+        background-color: #f9f9f6; /* Light off-white */
+        padding: 1rem;
+        justify-content: center;
+    }
+
+    /* Pagination styles */
+    .pagination {
+        margin-top: 20px;
+    }
+
+        .pagination .page-item {
+            margin: 0 5px;
+        }
+
+            .pagination .page-item .page-link {
+                color: #333333;
+                background-color: #ffffff; /* White background */
+                border: 1px solid #d4af37; /* Gold border */
+                padding: 10px 15px;
+                font-weight: 600;
+                border-radius: 50px;
+                transition: all 0.3s ease;
+            }
+
+            .pagination .page-item.active .page-link {
+                background-color: #d4af37; /* Gold background for active */
+                color: #ffffff; /* White text */
+                border-color: #d4af37;
+            }
+
+            .pagination .page-item.disabled .page-link {
+                background-color: #f5f5f5; /* Light gray for disabled */
+                color: #999999; /* Muted gray text */
+            }
+
+            .pagination .page-item .page-link:hover {
+                background-color: #333333; /* Darker background on hover */
+                color: #ffffff;
+                border-color: #333333;
+            }
+
+</style>
+
+<!-- CSS e outros estilos mantidos -->
+<h1 class="text-center my-4">Booking Log</h1>
+<hr class="hr" />
+
+<div>
+    <button type="button" class="btn my-2 me-1" data-bs-toggle="modal" data-bs-target="#searchModal">
+        Search
+    </button>
+    @if (Model.BeginDate != null || Model.EndDate != null)
+    {
+        <a asp-action="ViewBookingLog" class="btn btn_back my-2">Clear search</a>
+    }
+</div>
+
+<!-- Search Modal -->
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Search Bookings</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="ViewBookingLog" method="get" id="searchForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="beginDate" class="control-label">Begin Date</label>
+                        <input id="beginDate" name="beginDate" class="form-control" type="date" value="@Model.BeginDate?.ToString("yyyy-MM-dd")" />
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate" class="control-label">End Date</label>
+                        <input id="endDate" name="endDate" class="form-control" type="date" value="@Model.EndDate?.ToString("yyyy-MM-dd")" />
+                    </div>
+                </div>
+                <div class="modal-footer align-items-center">
+                    <button type="submit" class="btn">Search</button>
+                    <button type="button" class="btn_back" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Client ID</th>
+            <th>Check-in Date</th>
+            <th>Check-out Date</th>
+            <th>Number of Guests</th>
+            <th>Paid for?</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Bookings)
+        {
+            <tr class="clickable-row" data-href="@Url.Action("Details", new { id = item.ID_Booking })">
+                <td>@Html.DisplayFor(modelItem => item.ID_Client)</td>
+                <td>@item.CheckinDate.ToString("dd/MMM/yyyy")</td>
+                <td>@item.CheckoutDate.ToString("dd/MMM/yyyy")</td>
+                <td>@item.TotalPersonsNumber.ToString()</td>
+                <td>@(item.PaymentStatus ? "Yes" : "No")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const rows = document.querySelectorAll(".clickable-row");
+        rows.forEach(row => {
+            row.addEventListener("click", function () {
+                window.location = this.dataset.href;
+            });
+        });
+    });
+</script>
+
+<div class="row">
+    <nav aria-label="seasonsPagination" class="text-center col-sm-4 me-3">
+        <ul class="pagination">
+            @{
+                var cssStyle = "page-item";
+                if (Model.PagingInfo.CurrentPage == 1)
+                {
+                    cssStyle += " disabled";
+                }
+            }
+            <li class="@cssStyle">
+                <a class="page-link"
+                   asp-action="ViewBookingLog"
+                   asp-route-page="1"
+                   asp-route-beginDate="@Model.BeginDate"
+                   asp-route-endDate="@Model.EndDate">First</a>
+            </li>
+
+            @for (int p = Model.PagingInfo.FirstPageShow; p <= Model.PagingInfo.LastPageShow; p++)
+            {
+                cssStyle = "page-item";
+                if (p == Model.PagingInfo.CurrentPage)
+                {
+                    cssStyle += " active";
+                }
+
+                <li class="@cssStyle">
+                    <a class="page-link"
+                       asp-action="ViewBookingLog"
+                       asp-route-page="@p"
+                       asp-route-beginDate="@Model.BeginDate"
+                       asp-route-endDate="@Model.EndDate">@p</a>
+                </li>
+            }
+
+            @{
+                cssStyle = "page-item";
+                if (Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages)
+                {
+                    cssStyle += " disabled";
+                }
+            }
+            <li class="@cssStyle">
+                <a class="page-link"
+                   asp-action="ViewBookingLog"
+                   asp-route-page="@Model.PagingInfo.TotalPages"
+                   asp-route-beginDate="@Model.BeginDate"
+                   asp-route-endDate="@Model.EndDate">Last</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
