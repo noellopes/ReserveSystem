@@ -78,7 +78,7 @@
                     <label asp-for="StartDate" class="form-label">Start Date:</label>
                     <div class="input-group">
                         <span class="input-group-text bg-dark text-light"><i class="bi bi-calendar-event-fill"></i></span>
-                        <input asp-for="StartDate" type="date" class="form-control bg-dark text-light" style="border: 1px solid white;" />
+                        <input asp-for="StartDate" type="datetime-local" class="form-control bg-dark text-light" style="border: 1px solid white;" />
                     </div>
                     <span asp-validation-for="StartDate" class="text-danger"></span>
                 </div>
@@ -87,7 +87,7 @@
                     <label asp-for="EndDate" class="form-label">End Date:</label>
                     <div class="input-group">
                         <span class="input-group-text bg-dark text-light"><i class="bi bi-calendar-check-fill"></i></span>
-                        <input asp-for="EndDate" type="date" class="form-control bg-dark text-light" style="border: 1px solid white;" />
+                        <input asp-for="EndDate" type="datetime-local" class="form-control bg-dark text-light" style="border: 1px solid white;" />
                     </div>
                     <span asp-validation-for="EndDate" class="text-danger"></span>
                 </div>
