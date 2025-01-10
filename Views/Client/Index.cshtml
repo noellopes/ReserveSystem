@@ -25,9 +25,13 @@
 <form method="get" action="@Url.Action("Index")">
     <div class="input-group mb-3">
         <input type="text" name="searchQuery" class="form-control"
-               placeholder="Search by Email or NIF"
+               placeholder="Search by Email or Identification"
                value="@ViewData["SearchQuery"]" />
         <button class="btn btn-primary" type="submit">Search</button>
+        @if (!string.IsNullOrWhiteSpace(ViewData["SearchQuery"] as string))
+        {
+            <a href="@Url.Action("Index")" class="btn btn-secondary ms-0">Clear</a>
+        }
     </div>
 </form>
 <table class="table table-striped">
@@ -40,7 +44,7 @@
                 @Html.DisplayNameFor(model => model.clientModels.First().Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.clientModels.First().NIF)
+                @Html.DisplayNameFor(model => model.clientModels.First().NIF)/Identification
             </th>            
             <th></th>
         </tr>

@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Acesso Negado";
+}
+<h1>@ViewData["Title"]</h1>
+<div class="container mt-5">
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Erro</h4>
+        <p>
+            O recurso <strong>@ViewBag.Entity</strong> não está acessível para você.
+            Apenas administradores podem acessar esta página!
+        </p>
+        <hr>
+        <a asp-action="@ViewBag.Action" asp-controller="@ViewBag.Controller" class="btn btn-primary">
+            Voltar ao Menu
+        </a>
+    </div>
+</div>

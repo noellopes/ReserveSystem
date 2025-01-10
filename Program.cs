@@ -19,6 +19,17 @@ if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 
     builder.Services.AddDbContext<ReserveSystemContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("ReserveSystem") ?? throw new InvalidOperationException("Connection string 'ReserveSystem' not found.")));
+
+    builder.Services.AddDbContext<ReserveSystemContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("ReserveSystem"),
+        sqlServerOptions => sqlServerOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(30),
+            errorNumbersToAdd: null
+        )
+    )
+);
 }
 else
 {
@@ -51,6 +62,8 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(
         options.Lockout.MaxFailedAccessAttempts = 5;
     }
 )
+    
+
 .AddEntityFrameworkStores<ReserveSystemUsersDbContext>()
 //.AddDefaultTokenProviders()
 .AddDefaultUI();
@@ -59,6 +72,10 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<PasswordHasher<ClientModel>>();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.AccessDeniedPath = "/Home/AccessDenied";
+});
 
 var app = builder.Build();
 
@@ -98,6 +115,7 @@ using (var serviceScope = app.Services.CreateScope())
     var db = serviceScope.ServiceProvider.GetService<ReserveSystemContext>();
     SeedData.Populate(db);
 }
+
 
 app.UseHttpsRedirection();
 

@@ -22,14 +22,14 @@ namespace ReserveSystem.Data
 
         }
 
-        internal static void PopulateUsers(UserManager<IdentityUser> userManager)
+        internal static async Task PopulateUsers(UserManager<IdentityUser> userManager)
         {
-            //EnsureUserIsCreatedAsync(userManager, "john@ipg.pt", "Secret$123", "client").Wait();
+            EnsureUserIsCreatedAsync(userManager, "john@ipg.pt", "Secret$123", "client").Wait();
         }
 
-        internal static void PopulateDefaultAdmin(UserManager<IdentityUser> userManager)
+        internal static async Task PopulateDefaultAdmin(UserManager<IdentityUser> userManager)
         {
-            //EnsureUserIsCreatedAsync(userManager, "admin@ipg.pt", "Secret$123", "admin").Wait();
+            EnsureUserIsCreatedAsync(userManager, "admin@ipg.pt", "Secret$123", "admin").Wait();
         }
 
         private static async Task EnsureUserIsCreatedAsync(UserManager<IdentityUser> userManager, string username, string password, string roleName)
@@ -52,12 +52,10 @@ namespace ReserveSystem.Data
             }
         }
 
-        internal static void PopulateRoles(RoleManager<IdentityRole> roleManager)
+        internal static async Task PopulateRoles(RoleManager<IdentityRole> roleManager)
         {
-            //EnsureRoleIsCreatedAsync(roleManager, "admin").Wait();
-            //EnsureRoleIsCreatedAsync(roleManager, "client").Wait();
-             
-            // ...
+            EnsureRoleIsCreatedAsync(roleManager, "admin").Wait();
+            EnsureRoleIsCreatedAsync(roleManager, "client").Wait();
         }
 
         private static void PopulateBooking(ReserveSystemContext db)
