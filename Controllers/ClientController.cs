@@ -19,20 +19,54 @@ namespace ReserveSystem.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string pesquisarEmail="", string pesquisarNIF="", int pagina=1)
         {
+            var client = from c in _context.ClientModel.Include(c => c.Reserva)
+                         select c;
+
+            if (pesquisarEmail != "")
+            {
+                client = from c in client
+                         where c.Email.Contains(pesquisarEmail)
+                         select c;
+            }
+            if (pesquisarNIF != "")
+            {
+                client = from c in client
+                         where c.NIF.ToString().Contains(pesquisarNIF)
+                         select c;
+            }
+
+            var model = new ClientViewModel();
+
+            model.paginacao = new Paginacao
+            {
+                PaginaCorrente = pagina,
+                ItemTotal = await client.CountAsync(),
+            };
+
+            model.ClientModels = await client
+                .OrderBy(c => c.NomeCliente)
+                .Skip((model.paginacao.PaginaCorrente - 1) * model.paginacao.PaginaCorrente)
+                .Take(model.paginacao.TamanhoPagina)
+                .ToListAsync();
+
+            model.PesquisarEmail = pesquisarEmail;
+            model.PesquisarNIF = pesquisarNIF;
+
             try
             {
                 var clientes = _context.ClientModel.ToList();
-                return View(clientes);
+                return View(model);
             }
             catch (Exception ex)
             {
                 TempData["Message"] = "An unexpected error occurred while fetching the client list.";
                 return View(new List<ClientModel>());
             }
-        }
 
+            return View(model);
+        }
 
         
 
@@ -41,14 +75,20 @@ namespace ReserveSystem.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                ViewBag.Entity = "Client";
+                ViewBag.Controller = "Client";
+                ViewBag.Action = "Index";
+                return View("EntidadeNaoExiste");
             }
 
             var clientModel = await _context.ClientModel
                 .FirstOrDefaultAsync(m => m.ClienteId == id);
             if (clientModel == null)
             {
-                return NotFound();
+                ViewBag.Entity = "Client";
+                ViewBag.Controller = "Client";
+                ViewBag.Action = "Index";
+                return View("EntidadeNaoExiste");
             }
 
             return View(clientModel);
@@ -76,9 +116,45 @@ namespace ReserveSystem.Controllers
             //}
             if (ModelState.IsValid)
             {
-                _context.Add(clientModel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    var TelefoneExistente = await _context.ClientModel.FirstOrDefaultAsync(t => t.Telefone == clientModel.Telefone);
+                    if(TelefoneExistente != null)
+                    {
+                        ModelState.AddModelError("Telefone", "Telefone Invalido. Por favor verifique e tente novamente!");
+                        return View(clientModel);
+                    }
+
+
+                    var EmailExistente = await _context.ClientModel.FirstOrDefaultAsync(t => t.Email == clientModel.Email);
+                    if (EmailExistente != null)
+                    {
+                        ModelState.AddModelError("Email", "Email Invalido. Por favor verifique e tente novamente!");
+                        return View(clientModel);
+                    }
+
+                    if (!ValidadorNIF.NIFValido(clientModel.NIF))
+                    {
+                        ModelState.AddModelError("NIF", "NIF invalido");
+                        return View(clientModel);
+
+                    }
+                    var NIFExistente = await _context.ClientModel.AnyAsync(c => c.NIF == clientModel.NIF);
+                    if (NIFExistente)
+                    {
+                        ModelState.AddModelError("NIF", "NIF Errado");
+                        return View(clientModel);
+                    }
+                    _context.Add(clientModel);
+                    TempData["MensagemSucesso"] = "O Cliente foi adicionado com sucesso!";
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine($"Erro : {ex.Message}");
+                }
             }
             return View(clientModel);
         }
@@ -88,13 +164,19 @@ namespace ReserveSystem.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                ViewBag.Entity = "Client";
+                ViewBag.Controller = "Client";
+                ViewBag.Action = "Index";
+                return View("EntidadeNaoExiste");
             }
 
             var clientModel = await _context.ClientModel.FindAsync(id);
             if (clientModel == null)
             {
-                return NotFound();
+                ViewBag.Entity = "Client";
+                ViewBag.Controller = "Client";
+                ViewBag.Action = "Index";
+                return View("EntidadeNaoExiste");
             }
             return View(clientModel);
         }
@@ -108,28 +190,60 @@ namespace ReserveSystem.Controllers
         {
             if (id != clientModel.ClienteId)
             {
-                return NotFound();
+                ViewBag.Entity = "Client";
+                ViewBag.Controller = "Client";
+                ViewBag.Action = "Index";
+                return View("EntidadeNaoExiste");
+
             }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(clientModel);
+                    var ClienteExistente = await _context.ClientModel.FindAsync(id);
+                    if (ClienteExistente == null)
+                    {
+                        ViewBag.Entity = "Client";
+                        ViewBag.Controller = "Client";
+                        ViewBag.Action = "Index";
+                        return View("EntidadeNaoExiste");
+
+                    }
+                    ClienteExistente.NomeCliente = clientModel.NomeCliente;
+                    ClienteExistente.MoradaCliente = clientModel.MoradaCliente;
+                    ClienteExistente.Email = clientModel.Email;
+                    ClienteExistente.Password = clientModel.Password;
+                    ClienteExistente.Telefone = clientModel.Telefone;
+                    ClienteExistente.NIF = clientModel.NIF;
+
+                    _context.Update(ClienteExistente);
                     await _context.SaveChangesAsync();
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!ClientModelExists(clientModel.ClienteId))
                     {
-                        return NotFound();
+                        //entity nao existe
+                        ViewBag.Entity = "Client";
+                        ViewBag.Controller = "Client";
+                        ViewBag.Action = "Index";
+                        return View("EntidadeNaoExiste");
+                       
                     }
                     else
                     {
+
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                //updated successfullyy
+                ViewBag.Entity = "Client";
+                ViewBag.Controller = "Client";
+                ViewBag.Action = "Index";
+                return View("updatedSuccessfully");
+                
             }
             return View(clientModel);
         }
@@ -139,14 +253,20 @@ namespace ReserveSystem.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                ViewBag.Entity = "Client";
+                ViewBag.Controller = "Client";
+                ViewBag.Action = "Index";
+                return View("EntidadeNaoExiste");
             }
 
             var clientModel = await _context.ClientModel
                 .FirstOrDefaultAsync(m => m.ClienteId == id);
             if (clientModel == null)
             {
-                return NotFound();
+                ViewBag.Entity = "Client";
+                ViewBag.Controller = "Client";
+                ViewBag.Action = "Index";
+                return View("EntidadeNaoExiste");
             }
 
             return View(clientModel);
@@ -162,9 +282,14 @@ namespace ReserveSystem.Controllers
             {
                 _context.ClientModel.Remove(clientModel);
             }
-
+            ViewBag.Entity = "Client";
+            ViewBag.Controller = "Client";
+            ViewBag.Action = "Index";
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return View("succesfullyDeleted");
+
+            
+            //return RedirectToAction(nameof(Index));
         }
 
         private bool ClientModelExists(int id)

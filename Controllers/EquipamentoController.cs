@@ -22,12 +22,41 @@ namespace ReserveSystem.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string filterNomeEquipamento, long? filterTipoEquipamento, int page = 1)
         {
-            var equipamentos = _context.Equipamento.Include(e => e.TipoEquipamento).ToList();
-            var tipoEquipamentoDict = _context.TipoEquipamento.ToDictionary(te => te.IdTipoEquipamento, te => te.NomeTipoEquipamento);
-            ViewBag.TipoEquipamentoDict = tipoEquipamentoDict;
-            return View(equipamentos);
+            var equipamentos = _context.Equipamento.AsQueryable();
+
+            if (!string.IsNullOrEmpty(filterNomeEquipamento))
+            {
+                equipamentos = equipamentos.Where(e => e.NomeEquipamento.Contains(filterNomeEquipamento));
+            }
+
+            if (filterTipoEquipamento.HasValue)
+            {
+                equipamentos = equipamentos.Where(e => e.IdTipoEquipamento == filterTipoEquipamento.Value);
+            }
+
+            var totalItems = await equipamentos.CountAsync();
+            var equipamentosList = await equipamentos
+                .OrderBy(e => e.NomeEquipamento)
+                .Skip((page - 1) * 6)
+                .Take(6)
+                .ToListAsync();
+
+            var viewModel = new EquipamentoViewModel
+            {
+                Equipamentos = equipamentosList,
+                FilterNomeEquipamento = filterNomeEquipamento,
+                FilterTipoEquipamento = filterTipoEquipamento?.ToString(), // Fix for CS0029
+                TipoEquipamento = _context.TipoEquipamento.ToList(),
+                Paginacao = new Paginacao
+                {
+                    PaginaCorrente = page,
+                    ItemTotal = totalItems,
+                },
+            };
+
+            return View(viewModel);
         }
 
         public IActionResult AddEquipment()
@@ -46,7 +75,7 @@ namespace ReserveSystem.Controllers
                 {
                     _context.Equipamento.Add(equipamento);
                     _context.SaveChanges();
-                    TempData["Message"] = "The equipment has been successfully added.";
+                    TempData["Message"] = $"The equipment '{equipamento.NomeEquipamento}' has been successfully added.";
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
@@ -80,7 +109,7 @@ namespace ReserveSystem.Controllers
                 {
                     _context.Update(equipamento);
                     _context.SaveChanges();
-                    TempData["Message"] = "The equipment has been edited.";
+                    TempData["Message"] = $"The equipment '{equipamento.NomeEquipamento}' has been edited.";
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
@@ -92,6 +121,7 @@ namespace ReserveSystem.Controllers
             PopulateTipoEquipamento();
             return View(equipamento);
         }
+
 
         public IActionResult Delete(long id)
         {
@@ -117,7 +147,7 @@ namespace ReserveSystem.Controllers
             _context.Equipamento.Remove(equipamento);
             _context.SaveChanges();
 
-            TempData["Message"] = "The equipment has been successfully deleted.";
+            TempData["Message"] = $"The equipment '{equipamento.NomeEquipamento}' has been successfully deleted.";
             return RedirectToAction(nameof(Index));
         }
 

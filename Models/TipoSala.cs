@@ -7,23 +7,22 @@ public class TipoSala
     [Key]
     public long IdTipoSala { get; set; }
 
-    [Required(ErrorMessage = "O campo 'NomeSala' é obrigatório.")]
-    [StringLength(100, ErrorMessage = "O nome da sala deve ter no máximo 100 caracteres.")]
-    [MaxLength(800)]
-
+    [Required(ErrorMessage = "The 'Room Type Name' field is required.")]
+    [StringLength(100, ErrorMessage = "The 'Room Type Name' must not exceed 100 characters.")]
     public string NomeSala { get; set; }
-    
-    [Required(ErrorMessage = "O campo 'TamanhoSala' é obrigatório.")]
-    [Range(1, int.MaxValue, ErrorMessage = "O tamanho da sala deve ser maior que 0.")]
+
+    [Required(ErrorMessage = "The 'Room Size' field is required.")]
+    [Range(1, int.MaxValue, ErrorMessage = "The 'Room Size' must be greater than 0.")]
     public int TamanhoSala { get; set; }
-    
-    [Required(ErrorMessage = "O campo 'Capacidade' é obrigatório.")]
-    [Range(1, int.MaxValue, ErrorMessage = "A capacidade deve ser maior que 0.")]
+
+    [Required(ErrorMessage = "The 'Capacity' field is required.")]
+    [Range(1, int.MaxValue, ErrorMessage = "The 'Capacity' must be greater than 0.")]
     public int Capacidade { get; set; }
-    
-    [Required(ErrorMessage = "O campo 'PreçoHora' é obrigatório.")]
-    [Range(0.01, double.MaxValue, ErrorMessage = "O preço por hora deve ser maior que 0.")]
+
+    [Required(ErrorMessage = "The 'Hourly Price' field is required.")]
+    [Range(0.01, double.MaxValue, ErrorMessage = "The 'Hourly Price' must be greater than 0.")]
     public double PreçoHora { get; set; }
 
     public ICollection<Sala>? Salas { get; set; }
+    
 }

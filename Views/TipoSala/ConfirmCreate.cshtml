@@ -1,0 +1,40 @@
+@model ReserveSystem.Models.TipoSala
+
+@{
+    ViewData["Title"] = "Confirm Room Type Creation";
+}
+
+<div class="card shadow-sm p-4">
+    <h1 class="mb-4 text-primary text-center">Confirm Room Type Creation</h1>
+
+    <p class="text-center fw-bold mb-4">
+        Please review the details below before creating the room type:
+    </p>
+
+    <div class="mt-4">
+        <dl class="row text-start">
+            <dt class="col-sm-4 fw-bold">Room Name</dt>
+            <dd class="col-sm-8">@Model.NomeSala</dd>
+
+            <dt class="col-sm-4 fw-bold">Room Size (m²)</dt>
+            <dd class="col-sm-8">@Model.TamanhoSala</dd>
+
+            <dt class="col-sm-4 fw-bold">Capacity</dt>
+            <dd class="col-sm-8">@Model.Capacidade</dd>
+
+            <dt class="col-sm-4 fw-bold">Hourly Price</dt>
+            <dd class="col-sm-8">@Model.PreçoHora.ToString("C", new System.Globalization.CultureInfo("en-IE"))</dd>
+        </dl>
+    </div>
+
+    <div class="text-center mt-4">
+        <form asp-action="FinalizeCreate" method="post">
+            <input type="hidden" asp-for="NomeSala" />
+            <input type="hidden" asp-for="TamanhoSala" />
+            <input type="hidden" asp-for="Capacidade" />
+            <input type="hidden" asp-for="PreçoHora" />
+            <button type="submit" class="btn btn-success me-2 px-5">Confirm</button>
+            <a asp-action="Create" class="btn btn-secondary px-5">Go Back</a>
+        </form>
+    </div>
+</div>

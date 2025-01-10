@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ReserveSystem.Models.Equipamento>
+﻿@model ReserveSystem.Models.EquipamentoViewModel
 
 <div class="container mt-4">
     <h1>Equipment List</h1>
@@ -10,28 +10,75 @@
         {
             <div class="alert alert-success">
                 @message
-            </div>           
+            </div>
         }
     }
-    <p>
-        <a asp-action="AddEquipment" class="btn btn-primary">Create New Equipment</a>
-    </p>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <a asp-action="AddEquipment" class="btn bg-success text-white">Create New Equipment</a>
+        </div>
+        <div class="col-md-6 d-flex justify-content-end">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filterModal">
+                Filter
+            </button>
+        </div>
+    </div>
+
+    <!-- Filter Modal -->
+    <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="filterModalLabel">Filter Equipment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="filterForm" method="get" asp-action="Index">
+                        <div class="form-group mb-3">
+                            <label for="filterNomeEquipamento">Equipment Name</label>
+                            <input type="text" class="form-control" id="filterNomeEquipamento" name="filterNomeEquipamento" value="@Model.FilterNomeEquipamento" />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="filterTipoEquipamento">Equipment Type</label>
+                            <select class="form-control" id="filterTipoEquipamento" name="filterTipoEquipamento">
+                                <option value="">-- Select Type --</option>
+                                @if (Model.TipoEquipamento != null && Model.TipoEquipamento.Any())
+                                {
+                                    @foreach (var tipo in Model.TipoEquipamento)
+                                    {
+                                        @tipo.NomeTipoEquipamento
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Apply Filter</button>
+                            <button type="button" class="btn btn-danger" onclick="clearFilters()">Clear</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
-        @if (Model != null && Model.Any())
+        @if (Model.Equipamentos != null && Model.Equipamentos.Any())
         {
             var tipoEquipamentoDict = ViewBag.TipoEquipamentoDict as Dictionary<long, string>;
-            @foreach (var equipamento in Model)
+            @foreach (var equipamento in Model.Equipamentos)
             {
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <img src="@Url.Content("~/images/equipamento/" + equipamento.IdEquipamento + ".jpg")" class="card-img-top img-standard-size" alt="@equipamento.NomeEquipamento">
                         <div class="card-body">
                             <h5 class="card-title">@equipamento.NomeEquipamento</h5>
-                            <p class="card-text">                            
+                            <p class="card-text">
                                 <strong>Tipo:</strong> @(tipoEquipamentoDict != null && tipoEquipamentoDict.ContainsKey(equipamento.IdTipoEquipamento) ? tipoEquipamentoDict[equipamento.IdTipoEquipamento] : "N/A") <br>
                                 <strong>Quantidade:</strong> @equipamento.Quantidade
                             </p>
-                            <a asp-action="Edit" asp-route-id="@equipamento.IdEquipamento" class="btn btn-primary">Edit</a>                       
+                            <a asp-action="Edit" asp-route-id="@equipamento.IdEquipamento" class="btn btn-primary">Edit</a>
                             <a asp-action="Delete" asp-route-id="@equipamento.IdEquipamento" class="btn btn-danger">Delete</a>
                         </div>
                     </div>
@@ -41,6 +88,69 @@
         else
         {
             <p>No equipment available.</p>
+            @if (!string.IsNullOrEmpty(Model.FilterNomeEquipamento) || !string.IsNullOrEmpty(Model.FilterTipoEquipamento))
+            {
+                <a asp-action="Index" class="btn btn-secondary">Remove Filter</a>
+            }
         }
     </div>
+
+    <nav aria-label="equipamentoPagination">
+        <ul class="pagination">
+            @{
+                var cssStyle = "page-item";
+                if (Model.Paginacao.PaginaCorrente == 1)
+                {
+                    cssStyle += " disabled";
+                }
+            }
+            <li class="@cssStyle">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="1"
+                   asp-route-filterNomeEquipamento="@Model.FilterNomeEquipamento"
+                   asp-route-filterTipoEquipamento="@Model.FilterTipoEquipamento">First</a>
+            </li>
+
+            @for (int p = Model.Paginacao.PrimeiraPaginaVer; p <= Model.Paginacao.UltimaPaginaVer; p++)
+            {
+                cssStyle = "page-item";
+                if (p == Model.Paginacao.PaginaCorrente)
+                {
+                    cssStyle += " active";
+                }
+
+                <li class="@cssStyle">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-page="@p"
+                       asp-route-filterNomeEquipamento="@Model.FilterNomeEquipamento"
+                       asp-route-filterTipoEquipamento="@Model.FilterTipoEquipamento">@p</a>
+                </li>
+            }
+
+            @{
+                cssStyle = "page-item";
+                if (Model.Paginacao.PaginaCorrente == Model.Paginacao.PaginaTotal)
+                {
+                    cssStyle += " disabled";
+                }
+            }
+            <li class="@cssStyle">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@Model.Paginacao.PaginaTotal"
+                   asp-route-filterNomeEquipamento="@Model.FilterNomeEquipamento"
+                   asp-route-filterTipoEquipamento="@Model.FilterTipoEquipamento">Last</a>
+            </li>
+        </ul>
+    </nav>
 </div>
+
+<script>
+    function clearFilters() {
+        document.getElementById('filterNomeEquipamento').value = '';
+        document.getElementById('filterTipoEquipamento').value = '';
+        document.getElementById('filterForm').submit();
+    }
+</script>
