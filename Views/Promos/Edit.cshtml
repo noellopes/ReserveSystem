@@ -1,0 +1,190 @@
+﻿@model ReserveSystem.Models.Promos
+
+@{
+    ViewData["Title"] = "Edit Promo";
+}
+
+<style>
+    /* General Body Styling */
+    body {
+        font-family: 'Georgia', serif;
+        background-color: #f9f9f6;
+        color: #1a1a1a;
+    }
+
+    /* Form Container Styles */
+    .form-container {
+        background: #ffffff;
+        padding: 4rem;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        max-width: 750px;
+        margin: 3rem auto;
+        transition: all 0.3s ease;
+    }
+
+        .form-container:hover {
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+    /* Heading Styles */
+    h1 {
+        font-size: 2rem;
+        color: #d4af37;
+    }
+
+    /* Form Group and Label Styles */
+    .form-group label {
+        font-size: 1.2rem;
+        color: #1a1a1a;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Input Field Styles */
+    .form-control {
+        border-radius: 8px;
+        border: 1px solid #cccccc;
+        padding: 14px 18px;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        background-color: #f9f9f9;
+        width: 100%;
+    }
+
+        .form-control:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.2);
+            background-color: #ffffff;
+        }
+
+    /* Form Check Styles */
+    .form-check-input:checked {
+        background-color: #d4af37;
+        border-color: #d4af37;
+    }
+
+    .form-check-label {
+        color: #555555;
+        font-size: 1.1rem;
+    }
+
+    /* Error Text Styling */
+    .text-danger {
+        font-size: 1rem;
+        color: #cc0000;
+    }
+
+    /* Primary Button Styles */
+    .btn_edit {
+        background-color: #ffffff;
+        border-color: #d4af37;
+        color: #333333;
+        font-weight: 600;
+        padding: 16px 32px;
+        border-radius: 50px;
+        font-size: 1.25rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        width: 60%;
+        margin-top: 2rem;
+    }
+
+        .btn_edit:hover {
+            background-color: #333333;
+            color: #F5F5F5;
+            border-color: #d4af37;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .btn_edit:active {
+            background-color: #000000;
+            border-color: #000000;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transform: translateY(0);
+        }
+
+    /* Back Button Styling */
+    .btn_back {
+        background-color: #333333;
+        border-color: #d4af37;
+        color: #ffffff;
+        font-weight: 600;
+        padding: 14px 28px;
+        border-radius: 50px;
+        font-size: 1.125rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+        .btn_back:hover {
+            background-color: #ffffff;
+            color: #d4af37;
+            border-color: #d4af37;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+    .hr {
+        border: none;
+        height: 2px;
+        background-color: #d4af37;
+        width: 60%;
+        margin: 1rem auto;
+        opacity: 0.8;
+    }
+</style>
+
+<h1 class="text-center">Edit Promo</h1>
+<hr class="hr" />
+<div class="form-container">
+    <form asp-action="Edit" asp-route-id="@Model.Id_Prom">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+        <!-- Event ID -->
+        <div class="form-group my-2">
+            <label asp-for="event_id" class="control-label">Event ID</label>
+            <input asp-for="event_id" class="form-control" />
+            <span asp-validation-for="event_id" class="text-danger"></span>
+        </div>
+
+        <!-- Event Code -->
+        <div class="form-group my-2">
+            <label asp-for="evCode" class="control-label">Event Code</label>
+            <input asp-for="evCode" class="form-control" />
+            <span asp-validation-for="evCode" class="text-danger"></span>
+        </div>
+
+        <!-- Discount -->
+        <div class="form-group my-2">
+            <label asp-for="discount" class="control-label">Discount</label>
+            <input asp-for="discount" type="number" class="form-control" step="0.01" min="0" max="100" />
+            <span asp-validation-for="discount" class="text-danger"></span>
+        </div>
+
+        <!-- Promo State Checkbox -->
+        <div class="form-group form-check my-2">
+            <input class="form-check-input" asp-for="promState" />
+            <label class="form-check-label" asp-for="promState">Active Promo</label>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-group text-center my-2">
+            <input type="hidden" asp-for="Id_Prom" />
+            <input type="submit" value="Save" class="btn btn_edit" />
+        </div>
+    </form>
+
+    <div class="text-center mt-4">
+        <a asp-action="Show" asp-controller="Events" class="btn btn_back">Back to List</a>
+    </div>
+</div>
+<hr class="hr" />
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

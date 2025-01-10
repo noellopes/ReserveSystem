@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserveSystem.Data;
 
@@ -11,9 +12,11 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ReserveSystemUsersDbContext))]
-    partial class ReserveSystemUsersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250109192313_Promos")]
+    partial class Promos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,45 +227,6 @@ namespace ReserveSystem.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.Booking", b =>
-                {
-                    b.Property<int>("ID_Booking")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_Booking"));
-
-                    b.Property<string>("BookingCode")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("BookingDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("Breakfast")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("CheckinDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("CheckoutDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ID_Client")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("PaymentStatus")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("TotalPersonsNumber")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID_Booking");
-
-                    b.ToTable("Booking");
-                });
-
             modelBuilder.Entity("ReserveSystem.Models.Events", b =>
                 {
                     b.Property<int>("event_id")
@@ -328,45 +292,6 @@ namespace ReserveSystem.Data.Migrations
                     b.HasIndex("event_id");
 
                     b.ToTable("Promos");
-                });
-
-            modelBuilder.Entity("ReserveSystem.Models.Room", b =>
-                {
-                    b.Property<int>("ID_Room")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_Room"));
-
-                    b.Property<int>("RoomTypeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID_Room");
-
-                    b.ToTable("Room");
-                });
-
-            modelBuilder.Entity("ReserveSystem.Models.RoomBooking", b =>
-                {
-                    b.Property<int>("ID_RoomBooking")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_RoomBooking"));
-
-                    b.Property<int>("ID_Booking")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ID_Room")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID_RoomBooking");
-
-                    b.HasIndex("ID_Booking");
-
-                    b.HasIndex("ID_Room");
-
-                    b.ToTable("RoomBooking");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.Sazonalidade", b =>
@@ -489,28 +414,15 @@ namespace ReserveSystem.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.RoomBooking", b =>
+            modelBuilder.Entity("ReserveSystem.Models.Promos", b =>
                 {
-                    b.HasOne("ReserveSystem.Models.Booking", "Booking")
-                        .WithMany("RoomBookings")
-                        .HasForeignKey("ID_Booking")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ReserveSystem.Models.Room", "Room")
+                    b.HasOne("ReserveSystem.Models.Events", "Events")
                         .WithMany()
-                        .HasForeignKey("ID_Room")
+                        .HasForeignKey("event_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Booking");
-
-                    b.Navigation("Room");
-                });
-
-            modelBuilder.Entity("ReserveSystem.Models.Booking", b =>
-                {
-                    b.Navigation("RoomBookings");
+                    b.Navigation("Events");
                 });
 #pragma warning restore 612, 618
         }
