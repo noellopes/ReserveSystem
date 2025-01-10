@@ -1,8 +1,4 @@
-﻿using Google.Apis.Auth.OAuth2;
-using Google.Apis.Drive.v3;
-using Google.Apis.Services;
-using Google.Apis.Upload;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Data;
@@ -22,18 +18,16 @@ namespace ReserveSystem.Controllers
             _logger = logger;
         }
 
-        public async Task<IActionResult> Index(string filterNomeEquipamento, long? filterTipoEquipamento, int page = 1)
+        public async Task<IActionResult> Index(string filterNomeEquipamento, int page = 1)
         {
-            var equipamentos = _context.Equipamento.AsQueryable();
+            var equipamentos = _context.Equipamento.Include(e => e.TipoEquipamento).AsQueryable();
+            var tipoEquipamentoDict = _context.TipoEquipamento.ToDictionary(te => te.IdTipoEquipamento, te => te.NomeTipoEquipamento);
+            ViewBag.TipoEquipamentoDict = tipoEquipamentoDict;
 
+            // Filter by Equipment Name
             if (!string.IsNullOrEmpty(filterNomeEquipamento))
             {
-                equipamentos = equipamentos.Where(e => e.NomeEquipamento.Contains(filterNomeEquipamento));
-            }
-
-            if (filterTipoEquipamento.HasValue)
-            {
-                equipamentos = equipamentos.Where(e => e.IdTipoEquipamento == filterTipoEquipamento.Value);
+                equipamentos = equipamentos.Where(e => e.NomeEquipamento != null && e.NomeEquipamento.Contains(filterNomeEquipamento));
             }
 
             var totalItems = await equipamentos.CountAsync();
@@ -47,8 +41,6 @@ namespace ReserveSystem.Controllers
             {
                 Equipamentos = equipamentosList,
                 FilterNomeEquipamento = filterNomeEquipamento,
-                FilterTipoEquipamento = filterTipoEquipamento?.ToString(), // Fix for CS0029
-                TipoEquipamento = _context.TipoEquipamento.ToList(),
                 Paginacao = new Paginacao
                 {
                     PaginaCorrente = page,
