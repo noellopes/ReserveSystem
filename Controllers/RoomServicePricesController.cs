@@ -21,59 +21,76 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: RoomServicePrices
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+            DateTime? searchStartDate,
+            DateTime? searchEndDate,
+            int? selectedRoomServiceId,
+            int page = 1)
         {
-            var reserveSystemContext = _context.RoomServicePrice.Include(r => r.RoomService);
-            return View(await reserveSystemContext.ToListAsync());
-        }
+            int pageSize = 10; // Número de itens por página
 
-        public IActionResult Index(DateTime? searchStartDate, DateTime? searchEndDate, int? selectedRoomServiceId)
-        {
-            // Obtenha a lista inicial de RoomServicePrices
-            var query = _context.RoomServicePrice.AsQueryable();
+            // Inicia a consulta base
+            var query = _context.RoomServicePrice
+                .Include(r => r.RoomService)
+                .AsQueryable();
 
-            // Aplicar filtro de data inicial, se fornecido
+            // Filtro por data inicial
             if (searchStartDate.HasValue)
             {
                 query = query.Where(r => r.Start_Date >= searchStartDate.Value);
             }
 
-            // Aplicar filtro de data final, se fornecido
+            // Filtro por data final
             if (searchEndDate.HasValue)
             {
                 query = query.Where(r => r.End_Date <= searchEndDate.Value);
             }
 
-            // Aplicar filtro pelo Nome do serviço de quarto, se fornecido
+            // Filtro por serviço selecionado
             if (selectedRoomServiceId.HasValue)
             {
                 query = query.Where(r => r.ID_Room_Service == selectedRoomServiceId.Value);
             }
 
-            // Obtenha a lista filtrada
-            var roomServicePrices = query.ToList();
+            // Total de itens filtrados
+            int totalItems = await query.CountAsync();
 
-            // Obtenha a lista de RoomServices para o dropdown
-            var roomServices = _context.RoomService
+            // Aplicar paginação
+            var roomServicePrices = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            // Obter a lista de RoomServices para o dropdown
+            var roomServices = await _context.RoomService
                 .Select(rs => new SelectListItem
                 {
                     Value = rs.ID_Room_Service.ToString(),
                     Text = rs.Room_Service_Name
                 })
-                .ToList();
+                .ToListAsync();
 
-            // Crie o ViewModel
+            // Cria o ViewModel
             var viewModel = new RoomServicePriceViewModel
             {
                 RoomServicePrices = roomServicePrices,
                 RoomServices = new SelectList(roomServices, "Value", "Text"),
                 SearchStartDate = searchStartDate,
                 SearchEndDate = searchEndDate,
-                SelectedRoomServiceId = selectedRoomServiceId
+                SelectedRoomServiceId = selectedRoomServiceId,
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    PageSize = pageSize,
+                    TotalItems = totalItems
+                }
             };
+            var room_ServicePrices = viewModel.RoomServicePrices;
 
-            return View(viewModel);
+            return View(room_ServicePrices); // Pass only the roomServicePrices collection
+            
         }
+
 
 
         // GET: RoomServicePrices/Details/5

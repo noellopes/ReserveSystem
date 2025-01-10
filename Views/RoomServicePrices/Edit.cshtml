@@ -1,4 +1,4 @@
-﻿@* @model ReserveSystem.Models.RoomServicePrice
+﻿@model ReserveSystem.Models.RoomServicePrice
 
 @{
     Layout = null;
@@ -22,7 +22,9 @@
             <input type="hidden" asp-for="ID_Room_Service_Price" />
             <div class="form-group">
                 <label asp-for="ID_Room_Service" class="control-label"></label>
-                <select asp-for="ID_Room_Service" class="form-control" asp-items="ViewBag.ID_Room_Service"></select>
+                <select asp-for="ID_Room_Service" class="form-control" asp-items="ViewBag.ID_Room_Service">
+                        <option value="">Select a Room Service</option>
+                </select>
                 <span asp-validation-for="ID_Room_Service" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -53,9 +55,9 @@
 
 </body>
 </html>
- *@
 
-@model ReserveSystem.Models.RoomServicePrice
+
+@* @model ReserveSystem.Models.RoomServicePrice 
 
 @{
     ViewData["Title"] = "Edit Room Service Price";
@@ -141,4 +143,4 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-}
+}*@

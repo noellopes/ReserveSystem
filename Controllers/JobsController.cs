@@ -21,29 +21,36 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Jobs
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(int page = 1, string? filter = null)
         {
-            var jobs = await _context.Job.ToListAsync();
+            // Obter todos os jobs do banco de dados
+            var jobsQuery = _context.Job.AsQueryable();
+
+            // Aplicar filtro se fornecido
+            if (!string.IsNullOrEmpty(filter))
+            {
+                jobsQuery = jobsQuery.Where(j => j.Job_Name.Contains(filter));
+            }
+
+            // Paginação
+            int pageSize = 10; // Número de itens por página
+            var jobs = await jobsQuery
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            // Criar o ViewModel
             var viewModel = new JobViewModel
             {
                 SearchInt = 0,
                 Jobs = jobs,
-                JobIds = new SelectList(jobs, "Id", "Name")
-            };
-
-            return View(viewModel);
-        }
-
-        public IActionResult Index(string filter)
-        {
-            var jobs = _context.Job
-                .Where(j => j.Job_Name.Contains(filter)) // Exemplo de filtro
-                .ToList();
-            var viewModel = new JobViewModel
-            {
-                SearchInt = 0,
-                Jobs = jobs,
-                JobIds = new SelectList(jobs, "Id", "Name")
+                JobIds = new SelectList(await _context.Job.ToListAsync(), "Id", "Name"),
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    PageSize = pageSize,
+                    TotalItems = await jobsQuery.CountAsync()
+                }
             };
 
             return View(viewModel);

@@ -1,4 +1,4 @@
-﻿@* @model ReserveSystem.Models.RoomServicePrice
+﻿@model ReserveSystem.Models.RoomServicePrice
 
 @{
     Layout = null;
@@ -21,7 +21,9 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="ID_Room_Service" class="control-label"></label>
-                <select asp-for="ID_Room_Service" class ="form-control" asp-items="ViewBag.ID_Room_Service"></select>
+                <select asp-for="ID_Room_Service" class ="form-control" asp-items="ViewBag.ID_Room_Service">
+                        <option value="">Select a Room Service</option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Start_Date" class="control-label"></label>
@@ -51,9 +53,9 @@
 
 </body>
 </html>
- *@
 
 
+@*
 @model ReserveSystem.Models.RoomServicePrice
 
 @{
@@ -140,4 +142,4 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-}
+}*@
