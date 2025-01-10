@@ -102,7 +102,7 @@ namespace ReserveSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(RoomType roomType)
         {
-            if (roomType.QuantityOfRoomsAssociated <= 0)
+            if (roomType.QuantityOfRoomsAssociated <= 0) 
             {
                 ModelState.AddModelError("QuantityOfRoomsAssociated", "The quantity of associated rooms must be greater than 0.");
                 return View(roomType);
