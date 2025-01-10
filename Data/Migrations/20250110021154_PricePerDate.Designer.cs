@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserveSystem.Data;
 
@@ -11,9 +12,11 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ReserveSystemUsersDbContext))]
-    partial class ReserveSystemUsersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250110021154_PricePerDate")]
+    partial class PricePerDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -271,9 +274,6 @@ namespace ReserveSystem.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("event_id"));
 
-                    b.Property<int?>("PricePerDatepricePD_id")
-                        .HasColumnType("int");
-
                     b.Property<bool>("anual")
                         .HasColumnType("bit");
 
@@ -301,8 +301,6 @@ namespace ReserveSystem.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("event_id");
-
-                    b.HasIndex("PricePerDatepricePD_id");
 
                     b.ToTable("Events");
                 });
@@ -345,9 +343,6 @@ namespace ReserveSystem.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_Prom"));
 
-                    b.Property<int?>("PricePerDatepricePD_id")
-                        .HasColumnType("int");
-
                     b.Property<float>("discount")
                         .HasColumnType("real");
 
@@ -362,8 +357,6 @@ namespace ReserveSystem.Data.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id_Prom");
-
-                    b.HasIndex("PricePerDatepricePD_id");
 
                     b.HasIndex("event_id");
 
@@ -431,15 +424,10 @@ namespace ReserveSystem.Data.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
-                    b.Property<int?>("PricePerDatepricePD_id")
-                        .HasColumnType("int");
-
                     b.Property<float>("SeasonFee")
                         .HasColumnType("real");
 
                     b.HasKey("Id_saz");
-
-                    b.HasIndex("PricePerDatepricePD_id");
 
                     b.ToTable("Sazonalidade");
                 });
@@ -534,14 +522,6 @@ namespace ReserveSystem.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.Events", b =>
-                {
-                    b.HasOne("ReserveSystem.Models.PricePerDate", null)
-                        .WithMany("Events")
-                        .HasForeignKey("PricePerDatepricePD_id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("ReserveSystem.Models.PricePerDate", b =>
                 {
                     b.HasOne("ReserveSystem.Models.TQePreco", "TQePreco")
@@ -555,10 +535,6 @@ namespace ReserveSystem.Data.Migrations
 
             modelBuilder.Entity("ReserveSystem.Models.Promos", b =>
                 {
-                    b.HasOne("ReserveSystem.Models.PricePerDate", null)
-                        .WithMany("Promos")
-                        .HasForeignKey("PricePerDatepricePD_id");
-
                     b.HasOne("ReserveSystem.Models.Events", "Events")
                         .WithMany()
                         .HasForeignKey("event_id")
@@ -587,26 +563,9 @@ namespace ReserveSystem.Data.Migrations
                     b.Navigation("Room");
                 });
 
-            modelBuilder.Entity("ReserveSystem.Models.Sazonalidade", b =>
-                {
-                    b.HasOne("ReserveSystem.Models.PricePerDate", null)
-                        .WithMany("Sazonalidades")
-                        .HasForeignKey("PricePerDatepricePD_id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("ReserveSystem.Models.Booking", b =>
                 {
                     b.Navigation("RoomBookings");
-                });
-
-            modelBuilder.Entity("ReserveSystem.Models.PricePerDate", b =>
-                {
-                    b.Navigation("Events");
-
-                    b.Navigation("Promos");
-
-                    b.Navigation("Sazonalidades");
                 });
 #pragma warning restore 612, 618
         }

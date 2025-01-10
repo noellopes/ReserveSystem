@@ -1,0 +1,191 @@
+﻿@model ReserveSystem.Models.PricePerDate
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<style>
+    /* General Body Styling */
+    body {
+        font-family: 'Georgia', serif;
+        background-color: #f9f9f6;
+        color: #1a1a1a;
+    }
+
+    /* Form Container Styles */
+    .form-container {
+        background: #ffffff;
+        padding: 4rem;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        max-width: 750px;
+        margin: 3rem auto;
+        transition: all 0.3s ease;
+    }
+
+        .form-container:hover {
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+    /* Heading Styles */
+    h1 {
+        font-size: 2rem;
+        color: #d4af37;
+    }
+
+    /* Form Group and Label Styles */
+    .form-group label {
+        font-size: 1.2rem;
+        color: #1a1a1a;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Input Field Styles */
+    .form-control {
+        border-radius: 8px;
+        border: 1px solid #cccccc;
+        padding: 14px 18px;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        background-color: #f9f9f9;
+        width: 100%;
+    }
+
+        .form-control:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.2);
+            background-color: #ffffff;
+        }
+
+    /* Form Check Styles */
+    .form-check-input:checked {
+        background-color: #d4af37;
+        border-color: #d4af37;
+    }
+
+    .form-check-label {
+        color: #555555;
+        font-size: 1.1rem;
+    }
+
+    /* Error Text Styling */
+    .text-danger {
+        font-size: 1rem;
+        color: #cc0000;
+    }
+
+    /* Primary Button Styles */
+    .btn_edit {
+        background-color: #ffffff;
+        border-color: #d4af37;
+        color: #333333;
+        font-weight: 600;
+        padding: 16px 32px;
+        border-radius: 50px;
+        font-size: 1.25rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        width: 60%;
+        margin-top: 2rem;
+    }
+
+        .btn_edit:hover {
+            background-color: #333333;
+            color: #F5F5F5;
+            border-color: #d4af37;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .btn_edit:active {
+            background-color: #000000;
+            border-color: #000000;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transform: translateY(0);
+        }
+
+    /* Back Button Styling */
+    .btn_back {
+        background-color: #333333;
+        border-color: #d4af37;
+        color: #ffffff;
+        font-weight: 600;
+        padding: 14px 28px;
+        border-radius: 50px;
+        font-size: 1.125rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+        .btn_back:hover {
+            background-color: #ffffff;
+            color: #d4af37;
+            border-color: #d4af37;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+    .hr {
+        border: none;
+        height: 2px;
+        background-color: #d4af37;
+        width: 60%;
+        margin: 1rem auto;
+        opacity: 0.8;
+    }
+</style>
+
+<h1>Edit</h1>
+
+<h4>PricePerDate</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="pricePD_id" />
+
+            <div class="form-group">
+                <label asp-for="RoomTypeId" class="control-label"></label>
+                <input asp-for="RoomTypeId" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="dateBegin" class="control-label"></label>
+                <input asp-for="dateBegin" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="dateEnd" class="control-label"></label>
+                <input asp-for="dateEnd" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="newPricePerDate" class="control-label"></label>
+                <input asp-for="newPricePerDate" class="form-control" readonly />
+            </div>
+
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="actState" /> @Html.DisplayNameFor(model => model.actState)
+                </label>
+                <span asp-validation-for="actState" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

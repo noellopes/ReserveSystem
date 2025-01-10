@@ -21,6 +21,8 @@ namespace ReserveSystem.Data
             PopulateSeasonality(db);
             PopulateEvents(db);
             PopulateRoomTypes(db); // Popula os tipos de quarto
+            PopulatePricePerDate(db);
+            PopulatePromos(db);
         }
 
 
@@ -50,6 +52,46 @@ namespace ReserveSystem.Data
                 new Events {nameEv = "Startup Pitch Night", startDate = new DateTime(2024, 5, 30), endDate = new DateTime(2024, 5, 30), fee = 50.00f, anual = false, municipal = false, national = true , inUse = true},
                 new Events {nameEv = "History Lecture Series", startDate = new DateTime(2024, 11, 15), endDate = new DateTime(2024, 11, 17), fee = 0.00f, anual = false, municipal = true, national = false , inUse = true }
                 
+            });
+
+            db.SaveChanges();
+        }
+
+        private static void PopulatePromos(ReserveSystemUsersDbContext db)
+        {
+            if (db.Promos.Any()) return;
+
+            db.Promos.AddRange(new List<Promos> {
+            new Promos { event_id = 1, evCode = "SUMMER25", discount = -0.10f, promState = true },
+            new Promos { event_id = 2, evCode = "WINTER25", discount = -0.15f, promState = true },
+            new Promos { event_id = 3, evCode = "SPRING25", discount = -0.12f, promState = true },
+            new Promos { event_id = 4, evCode = "FALL25", discount = -0.08f, promState = true },
+            new Promos { event_id = 5, evCode = "HOLIDAY25", discount = -0.20f, promState = true },
+            new Promos { event_id = 6, evCode = "BLACKFRIDAY25", discount = -0.25f, promState = true },
+            new Promos { event_id = 7, evCode = "CYBERMONDAY25", discount = -0.22f, promState = true },
+            new Promos { event_id = 8, evCode = "NEWYEAR25", discount = -0.18f, promState = false },
+            new Promos { event_id = 9, evCode = "EASTER25", discount = -0.10f, promState = true },
+            new Promos { event_id = 10, evCode = "SUMMERHOLIDAY25", discount = -0.15f, promState = true },
+            });
+
+            db.SaveChanges();
+        }
+
+        private static void PopulatePricePerDate(ReserveSystemUsersDbContext db)
+        {
+            if (db.PricePerDate.Any()) return;
+
+            db.PricePerDate.AddRange(new List<PricePerDate> {
+            new PricePerDate { RoomTypeId = 1, dateBegin = new DateTime(2025, 1, 1), dateEnd = new DateTime(2025, 1, 31), newPricePerDate = 100.0f, actState = true },
+            new PricePerDate { RoomTypeId = 2, dateBegin = new DateTime(2025, 2, 1), dateEnd = new DateTime(2025, 2, 28), newPricePerDate = 110.0f, actState = true },
+            new PricePerDate { RoomTypeId = 3, dateBegin = new DateTime(2025, 3, 1), dateEnd = new DateTime(2025, 3, 31), newPricePerDate = 120.0f, actState = false },
+            new PricePerDate { RoomTypeId = 4, dateBegin = new DateTime(2025, 4, 1), dateEnd = new DateTime(2025, 4, 30), newPricePerDate = 115.0f, actState = true },
+            new PricePerDate { RoomTypeId = 5, dateBegin = new DateTime(2025, 5, 1), dateEnd = new DateTime(2025, 5, 31), newPricePerDate = 125.0f, actState = true },
+            new PricePerDate { RoomTypeId = 6, dateBegin = new DateTime(2025, 6, 1), dateEnd = new DateTime(2025, 6, 30), newPricePerDate = 130.0f, actState = true },
+            new PricePerDate { RoomTypeId = 7, dateBegin = new DateTime(2025, 7, 1), dateEnd = new DateTime(2025, 7, 31), newPricePerDate = 135.0f, actState = false },
+            new PricePerDate { RoomTypeId = 8, dateBegin = new DateTime(2025, 8, 1), dateEnd = new DateTime(2025, 8, 31), newPricePerDate = 140.0f, actState = true },
+            new PricePerDate { RoomTypeId = 9, dateBegin = new DateTime(2025, 9, 1), dateEnd = new DateTime(2025, 9, 30), newPricePerDate = 145.0f, actState = true },
+            new PricePerDate { RoomTypeId = 10, dateBegin = new DateTime(2025, 10, 1), dateEnd = new DateTime(2025, 10, 31), newPricePerDate = 150.0f, actState = true },
             });
 
             db.SaveChanges();
@@ -181,6 +223,8 @@ namespace ReserveSystem.Data
 
             db.SaveChanges();
         }
+
+
 
     }
 }
