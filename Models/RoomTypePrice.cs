@@ -7,7 +7,7 @@ namespace ReserveSystem.Models
     {
         [Key] // Chave primária da tabela
         public int RTPriceId { get; set; }
-
+         
         [ForeignKey("RoomType")] [Required]public int RoomTypeId { get; set; }
 
         public float BasePrice { get; set; }
