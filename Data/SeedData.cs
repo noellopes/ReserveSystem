@@ -138,16 +138,16 @@ namespace ReserveSystem.Data
             if (db.PricePerDate.Any()) return;
 
             db.PricePerDate.AddRange(new List<PricePerDate> {
-            new PricePerDate { RoomTypeId = 1, dateBegin = new DateTime(2025, 1, 1), dateEnd = new DateTime(2025, 1, 31), newPricePerDate = 100.0f, actState = true },
-            new PricePerDate { RoomTypeId = 2, dateBegin = new DateTime(2025, 2, 1), dateEnd = new DateTime(2025, 2, 28), newPricePerDate = 110.0f, actState = true },
-            new PricePerDate { RoomTypeId = 3, dateBegin = new DateTime(2025, 3, 1), dateEnd = new DateTime(2025, 3, 31), newPricePerDate = 120.0f, actState = false },
-            new PricePerDate { RoomTypeId = 4, dateBegin = new DateTime(2025, 4, 1), dateEnd = new DateTime(2025, 4, 30), newPricePerDate = 115.0f, actState = true },
-            new PricePerDate { RoomTypeId = 5, dateBegin = new DateTime(2025, 5, 1), dateEnd = new DateTime(2025, 5, 31), newPricePerDate = 125.0f, actState = true },
-            new PricePerDate { RoomTypeId = 6, dateBegin = new DateTime(2025, 6, 1), dateEnd = new DateTime(2025, 6, 30), newPricePerDate = 130.0f, actState = true },
-            new PricePerDate { RoomTypeId = 7, dateBegin = new DateTime(2025, 7, 1), dateEnd = new DateTime(2025, 7, 31), newPricePerDate = 135.0f, actState = false },
-            new PricePerDate { RoomTypeId = 8, dateBegin = new DateTime(2025, 8, 1), dateEnd = new DateTime(2025, 8, 31), newPricePerDate = 140.0f, actState = true },
-            new PricePerDate { RoomTypeId = 9, dateBegin = new DateTime(2025, 9, 1), dateEnd = new DateTime(2025, 9, 30), newPricePerDate = 145.0f, actState = true },
-            new PricePerDate { RoomTypeId = 10, dateBegin = new DateTime(2025, 10, 1), dateEnd = new DateTime(2025, 10, 31), newPricePerDate = 150.0f, actState = true },
+            new PricePerDate { RoomTypeId = 11, dateBegin = new DateTime(2025, 1, 1), dateEnd = new DateTime(2025, 1, 31), newPricePerDate = 100.0f, actState = true },
+            new PricePerDate { RoomTypeId = 12, dateBegin = new DateTime(2025, 2, 1), dateEnd = new DateTime(2025, 2, 28), newPricePerDate = 110.0f, actState = true },
+            new PricePerDate { RoomTypeId = 13, dateBegin = new DateTime(2025, 3, 1), dateEnd = new DateTime(2025, 3, 31), newPricePerDate = 120.0f, actState = false },
+            new PricePerDate { RoomTypeId = 14, dateBegin = new DateTime(2025, 4, 1), dateEnd = new DateTime(2025, 4, 30), newPricePerDate = 115.0f, actState = true },
+            new PricePerDate { RoomTypeId = 15, dateBegin = new DateTime(2025, 5, 1), dateEnd = new DateTime(2025, 5, 31), newPricePerDate = 125.0f, actState = true },
+            new PricePerDate { RoomTypeId = 16, dateBegin = new DateTime(2025, 6, 1), dateEnd = new DateTime(2025, 6, 30), newPricePerDate = 130.0f, actState = true },
+            new PricePerDate { RoomTypeId = 17, dateBegin = new DateTime(2025, 7, 1), dateEnd = new DateTime(2025, 7, 31), newPricePerDate = 135.0f, actState = false },
+            new PricePerDate { RoomTypeId = 18, dateBegin = new DateTime(2025, 8, 1), dateEnd = new DateTime(2025, 8, 31), newPricePerDate = 140.0f, actState = true },
+            new PricePerDate { RoomTypeId = 19, dateBegin = new DateTime(2025, 9, 1), dateEnd = new DateTime(2025, 9, 30), newPricePerDate = 145.0f, actState = true },
+            new PricePerDate { RoomTypeId = 20, dateBegin = new DateTime(2025, 10, 1), dateEnd = new DateTime(2025, 10, 31), newPricePerDate = 150.0f, actState = true },
             });
 
             db.SaveChanges();
