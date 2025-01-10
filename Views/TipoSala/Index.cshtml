@@ -101,8 +101,8 @@
             <td>@item.Capacidade</td>
             <td>@item.PreçoHora.ToString("C", new System.Globalization.CultureInfo("en-IE"))</td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdTipoSala" class="btn btn-sm btn-warning">Edit</a>
-                <a asp-action="Details" asp-route-id="@item.IdTipoSala" class="btn btn-sm btn-info">Details</a>
+                <a asp-action="Edit" asp-route-id="@item.IdTipoSala" class="btn btn-sm btn-primary">Edit</a>
+                <a asp-action="Details" asp-route-id="@item.IdTipoSala" class="btn btn-sm btn-warning">Details</a>
                 <a asp-action="Delete" asp-route-id="@item.IdTipoSala" class="btn btn-sm btn-danger">Delete</a>
             </td>
         </tr>
