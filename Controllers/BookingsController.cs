@@ -22,57 +22,57 @@ namespace ReserveSystem.Controllers
         // GET: Bookings
         public async Task<IActionResult> ViewBookingLog(int page = 1, DateOnly? beginDate = null, DateOnly? endDate = null)
         {
-            var bookings = from b in _context.Booking select b;
+            var bookings = _context.Booking.AsQueryable();
 
-            if(endDate!= null && beginDate != null)
-            {
-                if (endDate >= beginDate)
-                {
-                    var beginDateTime = beginDate.Value.ToDateTime(TimeOnly.MinValue);
-                    var endDateTime = endDate.Value.ToDateTime(TimeOnly.MinValue);
-                    bookings = bookings.Where(b => (b.CheckinDate.Date <= beginDateTime && beginDateTime > b.CheckoutDate.Date) || (b.CheckinDate.Date >= endDateTime && b.CheckoutDate.Date > endDateTime));
-                  
-                }
-                if (endDate < beginDate)
-                {
-                    var beginDateTime = beginDate.Value.ToDateTime(TimeOnly.MinValue);
-                    var endDateTime = endDate.Value.ToDateTime(TimeOnly.MinValue);
-                    bookings = bookings.Where(b => (b.CheckinDate.Date <= endDateTime && endDateTime > b.CheckoutDate.Date) || (b.CheckinDate.Date >= beginDateTime && b.CheckoutDate.Date > beginDateTime));
+            // Converter DateOnly para DateTime
+            DateTime? beginDateTime = beginDate?.ToDateTime(TimeOnly.MinValue);
+            DateTime? endDateTime = endDate?.ToDateTime(TimeOnly.MinValue);
 
-                }
-            }else if( (beginDate == null && endDate != null) || (beginDate != null && endDate == null))
+            // Aplicar filtros de data
+            if (beginDateTime != null || endDateTime != null)
             {
-                if (beginDate == null)
+                if (beginDateTime > endDateTime)
                 {
-                    var selectedDateTime = endDate.Value.ToDateTime(TimeOnly.MinValue);
-                    bookings = bookings.Where(b => b.CheckinDate.Date == selectedDateTime || selectedDateTime == b.CheckoutDate.Date);
+                    return BadRequest("The start date cannot be after the end date.");
                 }
-                if (endDate == null)
+
+                if (beginDateTime != null)
                 {
-                    var selectedDateTime = beginDate.Value.ToDateTime(TimeOnly.MinValue);
-                    bookings = bookings.Where(b => b.CheckinDate.Date == selectedDateTime || selectedDateTime == b.CheckoutDate.Date);
+                    bookings = bookings.Where(b => b.CheckinDate >= beginDateTime);
+                }
+
+                if (endDateTime != null)
+                {
+                    bookings = bookings.Where(b => b.CheckoutDate <= endDateTime);
                 }
             }
 
-            var model = new BookingViewModel();
+            // Configurar o tamanho da página
+            const int pageSize = 10;
 
-            model.PagingInfo = new PagingInfo
+            // Preparar o modelo
+            var model = new BookingViewModel
             {
-                CurrentPage = page,
-                TotalItems = await bookings.CountAsync(),
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    PageSize = pageSize,
+                    TotalItems = await bookings.CountAsync(),
+                },
+                Bookings = await bookings
+                    .OrderBy(b => b.CheckinDate)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync(),
+                BeginDate = beginDate,
+                EndDate = endDate
             };
-
-            model.Bookings = await bookings
-                .OrderBy(s => s.CheckinDate)
-                .Skip((model.PagingInfo.CurrentPage - 1) * model.PagingInfo.PageSize)
-                .Take(model.PagingInfo.PageSize)
-                .ToListAsync();
-
-            model.BeginDate = beginDate;
-            model.EndDate = endDate;
 
             return View(model);
         }
+
+
+
 
 
         // GET: Bookings/Details/5

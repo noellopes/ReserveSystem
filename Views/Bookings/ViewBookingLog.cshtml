@@ -177,6 +177,7 @@
 
 </style>
 
+<!-- CSS e outros estilos mantidos -->
 <h1 class="text-center my-4">Booking Log</h1>
 <hr class="hr" />
 
@@ -186,7 +187,7 @@
     </button>
     @if (Model.BeginDate != null || Model.EndDate != null)
     {
-        <a asp-action="ViewSeasonList" class="btn btn_back my-2">Clear search</a>
+        <a asp-action="ViewBookingLog" class="btn btn_back my-2">Clear search</a>
     }
 </div>
 
@@ -198,15 +199,15 @@
                 <h5 class="modal-title" id="exampleModalLabel">Search Bookings</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form asp-action="ViewSeasonList" method="get">
+            <form asp-action="ViewBookingLog" method="get" id="searchForm">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="beginDate" class="control-label">Begin Date</label>
-                        <input name="beginDate" class="form-control" type="date" value="@Model.BeginDate" />
+                        <input id="beginDate" name="beginDate" class="form-control" type="date" value="@Model.BeginDate?.ToString("yyyy-MM-dd")" />
                     </div>
                     <div class="form-group">
                         <label for="endDate" class="control-label">End Date</label>
-                        <input name="endDate" class="form-control" type="date" value="@Model.EndDate" />
+                        <input id="endDate" name="endDate" class="form-control" type="date" value="@Model.EndDate?.ToString("yyyy-MM-dd")" />
                     </div>
                 </div>
                 <div class="modal-footer align-items-center">
@@ -241,6 +242,7 @@
         }
     </tbody>
 </table>
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const rows = document.querySelectorAll(".clickable-row");
@@ -264,10 +266,10 @@
             }
             <li class="@cssStyle">
                 <a class="page-link"
-                   asp-action="ViewSeasonList"
+                   asp-action="ViewBookingLog"
                    asp-route-page="1"
-                   asp-route-searchName="@Model.BeginDate"
-                   asp-route-searchDate="@Model.EndDate">First</a>
+                   asp-route-beginDate="@Model.BeginDate"
+                   asp-route-endDate="@Model.EndDate">First</a>
             </li>
 
             @for (int p = Model.PagingInfo.FirstPageShow; p <= Model.PagingInfo.LastPageShow; p++)
@@ -280,10 +282,10 @@
 
                 <li class="@cssStyle">
                     <a class="page-link"
-                       asp-action="ViewSeasonList"
+                       asp-action="ViewBookingLog"
                        asp-route-page="@p"
-                       asp-route-searchName="@Model.BeginDate"
-                       asp-route-searchDate="@Model.EndDate">@p</a>
+                       asp-route-beginDate="@Model.BeginDate"
+                       asp-route-endDate="@Model.EndDate">@p</a>
                 </li>
             }
 
@@ -296,13 +298,12 @@
             }
             <li class="@cssStyle">
                 <a class="page-link"
-                   asp-action="ViewSeasonList"
+                   asp-action="ViewBookingLog"
                    asp-route-page="@Model.PagingInfo.TotalPages"
-                   asp-route-searchName="@Model.BeginDate"
-                   asp-route-searchDate="@Model.EndDate">Last</a>
+                   asp-route-beginDate="@Model.BeginDate"
+                   asp-route-endDate="@Model.EndDate">Last</a>
             </li>
         </ul>
     </nav>
-
 </div>
 
