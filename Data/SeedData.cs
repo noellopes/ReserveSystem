@@ -18,7 +18,8 @@ namespace ReserveSystem.Data
             PopulateCliente(db);
             PopulateRoom(db);
             PopulateRoomType(db);
-           
+            PopulateBooking(db);
+
         }
 
         internal static async Task PopulateUsers(UserManager<IdentityUser> userManager)
@@ -53,10 +54,31 @@ namespace ReserveSystem.Data
 
         internal static async Task PopulateRoles(RoleManager<IdentityRole> roleManager)
         {
-            await EnsureRoleIsCreatedAsync(roleManager, "admin");
-            await EnsureRoleIsCreatedAsync(roleManager, "Client");
-
+            //EnsureRoleIsCreatedAsync(roleManager, "admin").Wait();
+            //EnsureRoleIsCreatedAsync(roleManager, "client").Wait();
+             
             // ...
+        }
+
+        private static void PopulateBooking(ReserveSystemContext db)
+        {
+            if (db.Booking.Any()) return;
+
+            var bookings = Enumerable.Range(1, 20).Select(i => new Booking
+            {
+                ID_CLIENT = i, // Assuming client IDs are sequential and exist
+                CHECKIN_DATE = DateOnly.FromDateTime(DateTime.Today.AddDays(i)), // Different check-in dates
+                CHECKOUT_DATE = DateOnly.FromDateTime(DateTime.Today.AddDays(i)), // Two days after check-in
+                BOOKING_DATE = DateTime.Now, // Booking made i days ago
+                TOTAL_PERSONS_NUMBER = i % 4 + 1, // 1 to 4 persons
+                BOOKED = true,
+                PAYMENT_STATUS = i % 2 == 0, // Alternating payment status
+                Client = null // Lazy-loading or explicitly assigned later
+            }).ToArray();
+
+            
+            db.Booking.AddRange(bookings);
+            db.SaveChanges();
         }
 
         private static async Task EnsureRoleIsCreatedAsync(RoleManager<IdentityRole> roleManager, string roleName)
@@ -123,11 +145,11 @@ namespace ReserveSystem.Data
             //criacao de quartos predefinidos 
             var predefinedRoomTypes = new List<RoomType>
                 {
-                    new RoomType {HasView = false,Type = "Standard", RoomCapacity = 2, AcessibilityRoom = false },
-                    new RoomType {HasView = true, Type = "Deluxe", RoomCapacity = 3, AcessibilityRoom = false },
-                    new RoomType {HasView = true, Type = "Suite", RoomCapacity = 4, AcessibilityRoom = true },
-                    new RoomType {HasView = false,Type = "Presidential", RoomCapacity = 2, AcessibilityRoom = false },
-                    new RoomType {HasView = false,Type = "Luxury Room", RoomCapacity = 3, AcessibilityRoom = false }
+                    new RoomType {HasView = false,Type = "Standard", RoomCapacity = 2, AcessibilityRoom = false,Beds=2 },
+                    new RoomType {HasView = true, Type = "Deluxe", RoomCapacity = 3, AcessibilityRoom = false,Beds=3 },
+                    new RoomType {HasView = true, Type = "Suite", RoomCapacity = 4, AcessibilityRoom = true ,Beds = 2 },
+                    new RoomType {HasView = false,Type = "Presidential", RoomCapacity = 2, AcessibilityRoom = false,Beds = 1 },
+                    new RoomType {HasView = false,Type = "Luxury Room", RoomCapacity = 3, AcessibilityRoom = false,Beds=2 }
                 };
             db.SaveChanges();
 

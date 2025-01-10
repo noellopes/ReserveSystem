@@ -146,6 +146,10 @@
 }
 
 
+ 
+    
+
+
 <div class="container">
     <!-- Search Bar Alinhada à Esquerda -->
     <p>
@@ -155,7 +159,7 @@
     <div class="search-bar-container mb-4">
         <form method="get" action="@Url.Action("Index")" class="search-container d-flex justify-content-start">
             <div class="search-box d-flex">
-                <input type="text" name="searchQuery" class="input-search" placeholder="Search by Type or Capacity" value="@ViewData["SearchQuery"]" />
+                <input type="text" name="searchQuery" class="input-search" placeholder="Search by Type or RoomNumber" value="@ViewData["SearchQuery"]" />
                 <button type="submit" class="btn-search">
                     <i class="fa fa-search"></i> <!-- ícone de pesquisa -->
                 </button>
@@ -171,8 +175,8 @@
                 <div class="card custom-card">
                     <div class="card-body">
                         <h5 class="card-title">@item.Type</h5>
-                        <p class="card-text">Room Number @item.RoomTypeId</p>
                         <p class="card-text">Capacity: @item.RoomCapacity</p>
+                        <p class="card-text">Beds: @item.Beds</p>
                         <p class="card-text">
                             Accessibility:
                             @if (item.AcessibilityRoom)
@@ -210,6 +214,13 @@
 
 <ul class="pagination justify-content-center">
     <!-- Página Anterior -->
+    @if (totalPages == 0)
+    {
+        <div class="alert alert-danger">
+            <strong>Warning:</strong> There is no such room type.
+        </div>
+        return;
+    }
     @if (currentPage > 1)
     {
         <li class="page-item">
@@ -217,6 +228,7 @@
                 <i class="bi bi-chevron-left"></i> <!-- Ícone de seta para a esquerda -->
             </a>
         </li>
+       
     }
     else
     {
@@ -226,6 +238,7 @@
             </a>
         </li>
     }
+   
 
     <!-- Páginas numéricas -->
     @for (int i = 1; i <= totalPages; i++)

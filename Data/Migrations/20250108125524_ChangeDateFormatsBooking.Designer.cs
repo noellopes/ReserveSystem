@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserveSystem.Data;
 
@@ -11,9 +12,11 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ReserveSystemContext))]
-    partial class ReserveSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20250108125524_ChangeDateFormatsBooking")]
+    partial class ChangeDateFormatsBooking
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,14 +74,9 @@ namespace ReserveSystem.Data.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("IdentificationType")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -86,7 +84,6 @@ namespace ReserveSystem.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("NIF")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
@@ -94,15 +91,9 @@ namespace ReserveSystem.Data.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasMaxLength(16)
-                        .HasColumnType("nvarchar(16)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
@@ -110,7 +101,8 @@ namespace ReserveSystem.Data.Migrations
                     b.HasKey("ClienteId");
 
                     b.HasIndex("NIF")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[NIF] IS NOT NULL");
 
                     b.ToTable("Client");
                 });
@@ -196,9 +188,6 @@ namespace ReserveSystem.Data.Migrations
                     b.Property<bool>("AcessibilityRoom")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Beds")
-                        .HasColumnType("int");
-
                     b.Property<bool>("HasView")
                         .HasColumnType("bit");
 
@@ -237,7 +226,7 @@ namespace ReserveSystem.Data.Migrations
             modelBuilder.Entity("ReserveSystem.Models.RoomBooking", b =>
                 {
                     b.HasOne("ReserveSystem.Models.Booking", "Booking")
-                        .WithMany()
+                        .WithMany("RoomBookings")
                         .HasForeignKey("ID_BOOKING")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -251,6 +240,11 @@ namespace ReserveSystem.Data.Migrations
                     b.Navigation("Booking");
 
                     b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("ReserveSystem.Models.Booking", b =>
+                {
+                    b.Navigation("RoomBookings");
                 });
 
             modelBuilder.Entity("ReserveSystem.Models.ClientModel", b =>

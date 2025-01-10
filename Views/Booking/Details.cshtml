@@ -16,42 +16,97 @@
     </div>
 }
 
-<h1>Details</h1>
 
-<div>
-    <h4>Reserva</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CHECKIN_DATE)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CHECKIN_DATE)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CHECKOUT_DATE)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CHECKOUT_DATE)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TOTAL_PERSONS_NUMBER)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TOTAL_PERSONS_NUMBER)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Client)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Client.Email)
-        </dd>
-    </dl>
+
+
+<h1>Booking details</h1>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="border rounded shadow-sm">
+                <div class="card-header bg-light text-dark text-center">
+                    <h3 class="mb-0"><i class="bi bi-info-circle"></i>Booking number @Html.DisplayFor(Model => Model.ID_BOOKING)</h3>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-center">
+                        <dl class="row w-100">
+                            
+                            
+
+                            <dt class="col-sm-4 text-muted">
+                                <i class="bi bi-house-door"></i>Booked at:
+                            </dt>
+                            <dd class="col-sm-8 text-dark fw-bold">
+                                @Html.DisplayFor(model => model.BOOKING_DATE)
+                            </dd>
+
+
+                            <dt class="col-sm-4 text-muted">
+                                <i class="bi bi-house-door"></i>Booked dates:
+                            </dt>
+                            <dd class="col-sm-8 text-dark fw-bold">
+                                between @Html.DisplayFor(model => model.CHECKIN_DATE) and @Html.DisplayFor(model => model.CHECKOUT_DATE)
+                            </dd>
+
+
+                            <dt class="col-sm-4 text-muted">
+                                <i class="bi bi-house-door"></i>Number of people:
+                            </dt>
+                            <dd class="col-sm-8 text-dark fw-bold">
+                                @Html.DisplayFor(model => model.TOTAL_PERSONS_NUMBER)
+                            </dd>
+
+
+
+                            <dt class="col-sm-4 text-muted">
+                                <i class="bi bi-wheelchair"></i> Booked:
+                            </dt>
+                            <dd class="col-sm-8 text-dark fw-bold">
+                                @if (Model.BOOKED)
+                                {
+                                    <i class="fa fa-check text-success"></i> <!-- Visto verde -->
+                                }
+                                else
+                                {
+                                    <i class="fa fa-times text-danger"></i> <!-- Cruz vermelha -->
+                                }
+                            </dd>
+                            <dt class="col-sm-4 text-muted">
+                                <i class="bi bi-wheelchair"></i> Paid:
+                            </dt>
+                            <dd class="col-sm-8 text-dark fw-bold">
+                                @if (Model.PAYMENT_STATUS)
+                                {
+                                    <i class="fa fa-check text-success"></i> <!-- Visto verde -->
+                                }
+                                else
+                                {
+                                    <i class="fa fa-times text-danger"></i> <!-- Cruz vermelha -->
+                                }
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between m-3">
+                    <a href="@Url.Action("Index")" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left-circle"></i> Back to List
+                    </a>
+                    <a asp-action="Edit" asp-route-id="@Model?.ID_BOOKING" class="btn btn-primary">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.ID_BOOKING">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+
+
+
+
+
 
 
 

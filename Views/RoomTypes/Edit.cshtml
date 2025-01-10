@@ -40,6 +40,12 @@
                 <input asp-for="RoomCapacity" class="form-control bg-light" />
             </div>
 
+            <div class="form-group">
+                <span asp-validation-for="Beds" class="text-danger"></span>
+                <label asp-for="Beds" class="control-label"></label>
+                <input asp-for="Beds" class="form-control bg-light" />
+            </div>
+
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="AcessibilityRoom" /> @Html.DisplayNameFor(model => model.AcessibilityRoom)
