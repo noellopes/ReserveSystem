@@ -8,13 +8,15 @@ namespace ReserveSystem.Models
         [Key][Required]
         public int ClienteId { get; set; }
 
+        [RegularExpression(@"^(?!\d)[a-zA-Z\s]+$", ErrorMessage = "Name cannot start with a number nor space")]
         [Required(ErrorMessage = "Name is mandatory")]
         [StringLength(30, MinimumLength = 4, ErrorMessage = "Name must be between 4 and 30 characters.")] 
         public string Name { get;set; }
 
+        [RegularExpression(@"^\+?[1-9]\d{1,15}$", ErrorMessage = "Phone number must start with '+' and contain only digits.")]
         [Required(ErrorMessage = "Phone number is mandatory")]
         [StringLength(16, MinimumLength = 5, ErrorMessage = "Invalid phone number length")]
-        [RegularExpression(@"^\+?[1-9]\d{1,15}$", ErrorMessage = "Phone number must start with '+' and contain only digits.")]
+        
         public string Phone { get; set; }
 
         [Required(ErrorMessage = "Address is mandatory")]
