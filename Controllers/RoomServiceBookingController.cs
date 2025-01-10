@@ -9,79 +9,107 @@ using System.Diagnostics;
 
 namespace ReserveSystem.Controllers
 {
-    public class RoomServiceBookingController : Controller
+    public class RoomServiceBookingController(ReserveSystemContext context) : Controller
     {
-        private readonly ReserveSystemContext _context;
-
-        public RoomServiceBookingController(ReserveSystemContext context)
-        {
-            _context = context;
-        }
+        private readonly ReserveSystemContext _context = context;
 
         // GET: RoomServiceBooking
-        public async Task<IActionResult> Index(int roomServiceId = 0, int searchInt = 0, int page=1)
+        public async Task<IActionResult> Index(int roomServiceId = 0, int roomId = 0, int page = 1)
         {
             if (_context.RoomServiceBooking == null)
             {
                 return Problem("Entity set 'ReserveSystemContext.RoomServiceBooking' is null.");
             }
 
-            var bookings = from b in _context.RoomServiceBooking select b;
+            var bookings = from b in _context.RoomServiceBooking
+                        .Include(b => b.RoomService)
+                        .Include(b => b.Staff)
+                        .Include(b => b.Client)
+                        .Include(b => b.Room)
+                        select b;
 
             if (roomServiceId != 0)
             {
                 bookings = bookings.Where(b => b.RoomServiceId == roomServiceId);
             }
 
-            if (searchInt != 0)
+            if (roomId != 0)
             {
-                bookings = bookings.Where(b => b.Id == searchInt);
+                bookings = bookings.Where(b => b.RoomId == roomId);
             }
 
             var model = new RoomServiceViewModel
-            {
-                // Apply pagination
+            {   
+                RoomServiceId = roomServiceId, // Preserve room service filter
+                RoomId = roomId,         // Preserve search filter
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = page,
-                    // Get total items count after applying filters
                     TotalItems = await bookings.CountAsync()
-                }
+                },
+                // Get room services for dropdown
+                RoomServices = new SelectList(
+                    await _context.RoomService
+                        .Where(rs => rs.ServiceActive)
+                        .OrderBy(rs => rs.Name)
+                        .ToListAsync(), 
+                    "Id", 
+                    "Name", 
+                    roomServiceId
+                ),
+                Rooms = new SelectList(
+                    await _context.Room
+                        .OrderBy(r => r.Number)
+                        .ToListAsync(),
+                    "Id",
+                    "Number",
+                    roomId
+                )
             };
 
+            // Get paginated results
             var roomServiceBookingList = await bookings
-                                    .OrderBy(b => b.Id)
-                                    .Skip((model.PagingInfo.CurrentPage - 1) * model.PagingInfo.PageSize)
-                                    .Take(model.PagingInfo.PageSize)
-                                    .ToListAsync();
+                .OrderBy(b => b.Id)
+                .Skip((model.PagingInfo.CurrentPage - 1) * model.PagingInfo.PageSize)
+                .Take(model.PagingInfo.PageSize)
+                .ToListAsync();
 
-            model.RoomServicesIds = new SelectList(await bookings.Select(b => b.RoomServiceId).Distinct().ToListAsync());
             model.RoomServiceBookings = roomServiceBookingList;
 
             return View(model);
         }
 
         // GET: RoomServiceBooking/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, int page = 1, int roomServiceId = 0, int roomId = 0)
         {
-            if (id == null)
-            {
-                return RedirectToAction(nameof(Error));
-            }
+            if (id == null) return RedirectToAction(nameof(Error));
 
-            var roomServiceBooking = await _context.RoomServiceBooking
+            var booking = await _context.RoomServiceBooking
+                .Include(b => b.RoomService)
+                .Include(b => b.Staff)
+                .Include(b => b.Client)
+                .Include(b => b.Room)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (roomServiceBooking == null)
-            {
-                return RedirectToAction(nameof(Error));
-            }
 
-            return View(roomServiceBooking);
+            if (booking == null) return RedirectToAction(nameof(Error));
+
+            // Preserve state in ViewData
+            ViewData["CurrentPage"] = page;
+            ViewData["RoomServiceId"] = roomServiceId;
+            ViewData["RoomId"] = roomId;
+
+            return View(booking);
         }
 
         // GET: RoomServiceBooking/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            // Set default values for hidden fields
+            PopulateHiddenFields();
+
+            // Populate select lists
+            await PopulateSelectLists();
+
             return View();
         }
 
@@ -90,14 +118,20 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken] 
-        public IActionResult Create([Bind("Id,RoomServiceId,StaffId,ClientId,RoomId,DateTime,StartDate,EndDate,BookedState,StaffConfirmation,ClientFeedback,ValueToPay,PaymentDone")] RoomServiceBooking roomServiceBooking)
+        public async Task<IActionResult> Create([Bind("Id,RoomServiceId,StaffId,ClientId,RoomId,DateTime,StartDate,EndDate,BookedState,StaffConfirmation,ClientFeedback,ValueToPay,PaymentDone")] RoomServiceBooking roomServiceBooking)
         {
+            // Set default values for hidden fields
+            PopulateHiddenFields();
+
             if (ModelState.IsValid)
             {
                 // Instead of saving directly, show confirmation
                 ViewBag.Action = "Create";
                 return View("ConfirmAction", roomServiceBooking);
             }
+
+            // If we got this far, something failed, redisplay form
+            await PopulateSelectLists();
             return View(roomServiceBooking);
         }
 
@@ -117,18 +151,36 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: RoomServiceBooking/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int page = 1, int selectedRoomServiceId = 0, int selectedRoomId = 0)
         {
-            if (id == null)
-            {
-                return RedirectToAction(nameof(Error));
-            }
+            if (id == null) return RedirectToAction(nameof(Error));
 
-            var roomServiceBooking = await _context.RoomServiceBooking.FindAsync(id);
-            if (roomServiceBooking == null)
-            {
-                return RedirectToAction(nameof(Error));
-            }
+            var roomServiceBooking = await _context.RoomServiceBooking
+                .Include(b => b.RoomService)
+                .Include(b => b.Staff)
+                .Include(b => b.Client)
+                .Include(b => b.Room)
+                .FirstOrDefaultAsync(b => b.Id == id);
+
+            if (roomServiceBooking == null) return RedirectToAction(nameof(Error));
+
+            // Preserve state in ViewData
+            ViewData["CurrentPage"] = page;
+            ViewData["SelectedRoomServiceId"] = selectedRoomServiceId;  
+            ViewData["SelectedRoomId"] = selectedRoomId;
+
+            await PopulateSelectLists();
+            
+            // Set form values
+            ViewBag.DateTime = roomServiceBooking.DateTime;
+            ViewBag.ClientFeedback = roomServiceBooking.ClientFeedback;
+            ViewBag.Price = roomServiceBooking.ValueToPay;
+            ViewBag.BookingStatus = roomServiceBooking.BookedState;
+            ViewBag.StaffConfirmation = roomServiceBooking.StaffConfirmation;
+            ViewBag.PaymentStatus = roomServiceBooking.PaymentDone;
+            ViewBag.StartDate = roomServiceBooking.StartDate;
+            ViewBag.EndDate = roomServiceBooking.EndDate;
+            
             return View(roomServiceBooking);
         }
 
@@ -194,7 +246,12 @@ namespace ReserveSystem.Controllers
             }
 
             var roomServiceBooking = await _context.RoomServiceBooking
+                .Include(b => b.RoomService)
+                .Include(b => b.Staff)
+                .Include(b => b.Client)
+                .Include(b => b.Room)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (roomServiceBooking == null)
             {
                 return RedirectToAction(nameof(Error));
@@ -234,9 +291,74 @@ namespace ReserveSystem.Controllers
             return RedirectToAction(nameof(Error));
         }
 
+        // POST: RoomServiceBooking/BulkDelete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BulkDelete([FromBody] BulkDeleteModel model)
+        {
+            if (model?.Ids == null || !model.Ids.Any())
+                return BadRequest();
+
+            try
+            {
+                var bookingsToDelete = await _context.RoomServiceBooking
+                    .Where(b => model.Ids.Contains(b.Id))
+                    .ToListAsync();
+
+                if (bookingsToDelete.Any())
+                {
+                    _context.RoomServiceBooking.RemoveRange(bookingsToDelete);
+                    await _context.SaveChangesAsync();
+                    return Ok();
+                }
+
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
+
         private bool RoomServiceBookingExists(int id)
         {
             return _context.RoomServiceBooking.Any(e => e.Id == id);
+        }
+
+        // Helper method to populate select lists
+        private async Task PopulateSelectLists()
+        {
+            // Create select lists
+            ViewBag.RoomServices = new SelectList(await _context.RoomService
+                .Where(rs => rs.ServiceActive)
+                .OrderBy(rs => rs.Name)
+                .Distinct()
+                .ToListAsync(), "Id", "Name");
+
+            ViewBag.Staff = new SelectList(await _context.Staff
+                .OrderBy(s => s.Name)
+                .Distinct()
+                .ToListAsync(), "Id", "Name");
+
+            ViewBag.Clients = new SelectList(await _context.Client
+                .OrderBy(c => c.Name)
+                .Distinct()
+                .ToListAsync(), "Id", "Name");
+
+            ViewBag.Rooms = new SelectList(await _context.Room
+                .OrderBy(r => r.Number)
+                .Distinct()
+                .ToListAsync(), "Id", "Number");
+        }
+
+        private void PopulateHiddenFields()
+        {
+            ViewBag.DateTime = DateTime.Now;
+            ViewBag.ClientFeedback = null;
+            ViewBag.Price = 0.00m;
+            ViewBag.BookingStatus = true;
+            ViewBag.StaffConfirmation = false;
+            ViewBag.PaymentStatus = false;
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -252,21 +374,20 @@ namespace ReserveSystem.Controllers
             
             if (statusCode.HasValue)
             {
-                switch (statusCode.Value)
+                ViewBag.ErrorMessage = statusCode.Value switch
                 {
-                    case 404:
-                        ViewBag.ErrorMessage = "The requested page was not found.";
-                        break;
-                    case 500:
-                        ViewBag.ErrorMessage = "An internal server error occurred.";
-                        break;
-                    default:
-                        ViewBag.ErrorMessage = "An error occurred while processing your request.";
-                        break;
-                }
+                    404 => "The requested page was not found.",
+                    500 => "An internal server error occurred.",
+                    _ => "An error occurred while processing your request.",
+                };
             }
 
             return View(error);
         }
+    }
+
+    public class BulkDeleteModel
+    {
+        public required int[] Ids { get; set; }
     }
 }
