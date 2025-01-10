@@ -119,5 +119,11 @@ namespace ReserveSystem.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        public IActionResult ConsultJob()
+        {
+            var jobs = _context.Job.ToList();
+            return View(jobs);
+        }
     }
 }
