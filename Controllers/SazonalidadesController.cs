@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,6 +15,7 @@ using static System.Reflection.Metadata.BlobBuilder;
 
 namespace ReserveSystem.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class SazonalidadesController : Controller
     {
         private readonly ReserveSystemUsersDbContext _context;

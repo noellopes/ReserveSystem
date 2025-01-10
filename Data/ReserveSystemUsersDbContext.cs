@@ -2,10 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using static System.Reflection.Metadata.BlobBuilder;
 using ReserveSystem.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace ReserveSystem.Data
 {
-    public class ReserveSystemUsersDbContext : IdentityDbContext
+    public class ReserveSystemUsersDbContext : IdentityDbContext<IdentityUser>
     {
         public ReserveSystemUsersDbContext(DbContextOptions<ReserveSystemUsersDbContext> options)
             : base(options)

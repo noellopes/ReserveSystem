@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Models;
 
 namespace ReserveSystem.Data
 {
     public class SeedData
     {
-        public static void Populate(ReserveSystemUsersDbContext db)
+        public static void Populate(ReserveSystemUsersDbContext db, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             if (db == null)
             {
@@ -21,8 +22,59 @@ namespace ReserveSystem.Data
             PopulateSeasonality(db);
             PopulateEvents(db);
             PopulateRoomTypes(db); // Popula os tipos de quarto
+            PopulateUsers(userManager, roleManager);
         }
 
+        private static void PopulateUsers(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            // Cria roles, se ainda não existirem
+            CreateRoleIfNotExists(roleManager, "Admin");
+            CreateRoleIfNotExists(roleManager, "User");
+
+            // Verifica se o usuário admin já existe
+            var adminUser = userManager.FindByEmailAsync("admin@reserve.com").Result;
+            if (adminUser == null)
+            {
+                var newAdmin = new IdentityUser
+                {
+                    UserName = "admin@reserve.com",
+                    Email = "admin@reserve.com",
+                    EmailConfirmed = true // Certifique-se de que o email é confirmado
+                };
+
+                var result = userManager.CreateAsync(newAdmin, "Admin@123").Result;
+                if (result.Succeeded)
+                {
+                    userManager.AddToRoleAsync(newAdmin, "Admin").Wait();
+                }
+            }
+
+            var commonUser = userManager.FindByEmailAsync("user@reserve.com").Result;
+            if (commonUser == null)
+            {
+                var newUser = new IdentityUser
+                {
+                    UserName = "user@reserve.com",
+                    Email = "user@reserve.com",
+                    EmailConfirmed = true // Certifique-se de que o email é confirmado
+                };
+
+                var result = userManager.CreateAsync(newUser, "User@123").Result;
+                if (result.Succeeded)
+                {
+                    userManager.AddToRoleAsync(newUser, "User").Wait();
+                }
+            }
+        }
+
+        private static void CreateRoleIfNotExists(RoleManager<IdentityRole> roleManager, string roleName)
+        {
+            var role = roleManager.FindByNameAsync(roleName).Result;
+            if (role == null)
+            {
+                roleManager.CreateAsync(new IdentityRole(roleName)).Wait();
+            }
+        }
 
         private static void PopulateEvents(ReserveSystemUsersDbContext db)
         {

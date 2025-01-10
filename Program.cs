@@ -4,7 +4,7 @@ using ReserveSystem.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Adiciona os serviços ao container
 var connectionString = builder.Configuration.GetConnectionString("ReserveSystemsUsers") ?? throw new InvalidOperationException("Connection string 'ReserveSystemsUsers' not found.");
 builder.Services.AddDbContext<ReserveSystemUsersDbContext>(options =>
     options.UseSqlServer(connectionString));
@@ -14,44 +14,47 @@ builder.Services.AddDbContext<ReserveSystemContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+// Adiciona o Identity com suporte a roles
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = true;
+})
+.AddEntityFrameworkStores<ReserveSystemUsersDbContext>()
+.AddDefaultUI()
+.AddDefaultTokenProviders();
 
-
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ReserveSystemUsersDbContext>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+// Chama o seeding de forma síncrona
+using (var scope = app.Services.CreateScope())
+{
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var db = scope.ServiceProvider.GetRequiredService<ReserveSystemUsersDbContext>();
+
+    // Passa os serviços diretamente para o método Populate
+    SeedData.Populate(db, userManager, roleManager);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
-    using (var servicesScope = app.Services.CreateScope())
-    {
-        var db = servicesScope.ServiceProvider.GetRequiredService<ReserveSystemUsersDbContext>();
-        Console.WriteLine("Iniciando o preenchimento do banco de dados...");
-        SeedData.Populate(db);
-    }
 }
 else
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
-    using (var servicesScope = app.Services.CreateScope())
-    {
-        var db = servicesScope.ServiceProvider.GetRequiredService<ReserveSystemUsersDbContext>();
-        Console.WriteLine("Iniciando o preenchimento do banco de dados...");
-        SeedData.Populate(db);
-    }
 }
-
-
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
