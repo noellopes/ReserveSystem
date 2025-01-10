@@ -10,7 +10,7 @@
             <div class="border rounded shadow-sm">
                 <div class="card-header bg-light text-dark text-center">
                     <h3 class="mb-0"><i class="bi bi-info-circle"></i> Client Details</h3>
-                </div>
+                </div>               
                 <div class="card-body">
                     <div class="d-flex justify-content-center">
                         <dl class="row w-100">
@@ -65,12 +65,11 @@
                         </dl>
                     </div>
 
-                    <div class="d-flex justify-content-between m-3">
-                        <a href="@Url.Action("Index")" class="btn btn-secondary">
-                            <i class="bi bi-arrow-left-circle"></i> Back to List
-                        </a>
+                    <div class="text-center mt-4">
                         <a href="@Url.Action("Edit", new { id = Model.ClienteId })" class="btn btn-primary">
                             <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <a asp-action="Index" class="btn btn-secondary"> Back to List
                         </a>
                     </div>
                 </div>
