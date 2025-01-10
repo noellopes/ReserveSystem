@@ -12,12 +12,16 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="StaffId" class="control-label">Staff Name</label>
-                <select asp-for="StaffId" class="form-control" asp-items="@(ViewData["StaffId"] as SelectList)"></select>
+                <select asp-for="StaffId" class="form-control" asp-items="@(ViewData["StaffId"] as SelectList)">
+                    <option value="" disabled selected>Select your option</option>
+                </select>
                 <span asp-validation-for="StaffId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TypeOfSheduleId" class="control-label">Type Of SheduleId</label>
-                <select asp-for="TypeOfSheduleId" class="form-control" asp-items="@(ViewData["TypeOfSheduleId"] as SelectList)"></select>
+                <select asp-for="TypeOfSheduleId" class="form-control" asp-items="@(ViewData["TypeOfSheduleId"] as SelectList)">
+                    <option value="" disabled selected>Select your option</option>
+                </select>
                 <span asp-validation-for="TypeOfSheduleId" class="text-danger"></span>
             </div>
             <div class="form-group">
