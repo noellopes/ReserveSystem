@@ -42,7 +42,7 @@ namespace ReserveSystem.Controllers
                                   .Take(pageSize)
                                   .ToListAsync();
 
-            var pagingInfo = new PagingInfo
+            var pagingInfoS = new PagingInfoS
             {
                 TotalItems = totalItems,
                 PageSize = pageSize,
@@ -50,7 +50,7 @@ namespace ReserveSystem.Controllers
             };
 
             
-            ViewBag.PagingInfo = pagingInfo;
+            ViewBag.PagingInfoS = pagingInfoS;
 
             return View(staffList);
         }

@@ -1,6 +1,6 @@
 ﻿namespace ReserveSystem.Models
 {
-    public class PagingInfo
+    public class PagingInfoS
     {
         public int TotalItems { get; set; }
 
