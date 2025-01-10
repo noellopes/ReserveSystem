@@ -11,7 +11,7 @@ namespace ReserveSystem.Data
             db.Database.EnsureCreated();
             PopulateIngredients(db);
             PopulatePratos(db);
-            //PopulateSuppliers(db);
+            PopulateSuppliers(db);
             PopulateBuffet(db);
         }
 
@@ -124,37 +124,48 @@ namespace ReserveSystem.Data
             db.SaveChanges();
         }
 
-        /*
+        
         private static void PopulateSuppliers(ReserveSystemContext db)
         {
-            if (db.Supplier.Any()) return;
+            if (db.Suppliers.Any()) return;
 
-            db.Supplier.AddRange(new List<Supplier>{
-                new Supplier { SupplierName = "Alimentos do Mar", SupplierAddress = "Avenida Atlântica, 200", SupplierPhone = "912345678", SupplierEmail = "contato@alimentosdomar.com" },
-                new Supplier { SupplierName = "Distribuidora Verde", SupplierAddress = "Rua das Flores, 80", SupplierPhone = "913456789", SupplierEmail = "atendimento@distribuidoraverde.com" },
-                new Supplier { SupplierName = "Carnes Premium", SupplierAddress = "Estrada do Campo, 150", SupplierPhone = "914567890", SupplierEmail = "vendas@carnespremium.com" },
-                new Supplier { SupplierName = "Frutalândia", SupplierAddress = "Rua das Frutas, 45", SupplierPhone = "915678901", SupplierEmail = "suporte@frutalandia.com" },
-                new Supplier { SupplierName = "Delícias da Horta", SupplierAddress = "Rua do Sol, 110", SupplierPhone = "916789012", SupplierEmail = "contato@deliciasdahorta.com" },
-                new Supplier { SupplierName = "Pão & Cia", SupplierAddress = "Rua do Trigo, 98", SupplierPhone = "917890123", SupplierEmail = "vendas@paoecompany.com" },
-                new Supplier { SupplierName = "Café Saboroso", SupplierAddress = "Avenida do Café, 75", SupplierPhone = "918901234", SupplierEmail = "suporte@cafesaboroso.com" },
-                new Supplier { SupplierName = "Azeite Real", SupplierAddress = "Rua do Azeite, 33", SupplierPhone = "919012345", SupplierEmail = "atendimento@azeite.com" },
-                new Supplier { SupplierName = "Sabores do Campo", SupplierAddress = "Rua do Verde, 220", SupplierPhone = "920123456", SupplierEmail = "sac@saboresdocampo.com" },
-                new Supplier { SupplierName = "Frutos do Brasil", SupplierAddress = "Avenida Brasil, 400", SupplierPhone = "921234567", SupplierEmail = "vendas@frutosdobrasil.com" },
-                new Supplier { SupplierName = "Gourmet & Cia", SupplierAddress = "Rua Gourmet, 78", SupplierPhone = "922345678", SupplierEmail = "contato@gourmetecia.com" },
-                new Supplier { SupplierName = "Hortaliças do Sertão", SupplierAddress = "Rua Sertão, 56", SupplierPhone = "923456789", SupplierEmail = "atendimento@hortalicasdosterao.com" },
-                new Supplier { SupplierName = "Peixes & Frutos do Mar", SupplierAddress = "Rua do Mar, 110", SupplierPhone = "924567890", SupplierEmail = "vendas@peixesefrutosdomar.com" },
-                new Supplier { SupplierName = "Cereais Premium", SupplierAddress = "Avenida dos Cereais, 150", SupplierPhone = "925678901", SupplierEmail = "suporte@cereaispremium.com" },
-                new Supplier { SupplierName = "Vinhos & Sabores", SupplierAddress = "Rua dos Vinhos, 90", SupplierPhone = "926789012", SupplierEmail = "vendas@vinhosesabores.com" },
-                new Supplier { SupplierName = "Pescados da Costa", SupplierAddress = "Rua da Costa, 300", SupplierPhone = "927890123", SupplierEmail = "contato@pescadosdacosta.com" },
-                new Supplier { SupplierName = "Fazenda Natural", SupplierAddress = "Rua da Fazenda, 200", SupplierPhone = "928901234", SupplierEmail = "atendimento@fazendanatural.com" },
-                new Supplier { SupplierName = "Temperos & Sabor", SupplierAddress = "Avenida dos Temperos, 65", SupplierPhone = "929012345", SupplierEmail = "suporte@temperosesabor.com" },
-                new Supplier { SupplierName = "Casa dos Doces", SupplierAddress = "Rua do Açúcar, 80", SupplierPhone = "930123456", SupplierEmail = "vendas@casadosdoces.com" },
-                new Supplier { SupplierName = "Legumes & Hortas", SupplierAddress = "Rua do Legume, 120", SupplierPhone = "931234567", SupplierEmail = "contato@legumeshortas.com" }
+            db.Suppliers.AddRange(new List<Suppliers>{
+                new Suppliers { SupplierName = "Alimentos do Mar", SupplierAddress = "Avenida Atlântica, 200", SupplierPhone = "912345678", SupplierEmail = "contato@alimentosdomar.com" },
+                new Suppliers { SupplierName = "Alimentos do Mar", SupplierAddress = "Avenida Atlântica, 200", SupplierPhone = "912345678", SupplierEmail = "contato@alimentosdomar.com" },
+                new Suppliers { SupplierName = "Frescos da Horta", SupplierAddress = "Rua dos Agricultores, 45", SupplierPhone = "912345679", SupplierEmail = "contato@frescosdahorta.com" },
+                new Suppliers { SupplierName = "Carnes Nobres", SupplierAddress = "Estrada Nacional 25, 100", SupplierPhone = "912345680", SupplierEmail = "contato@carnesnobres.com" },
+                new Suppliers { SupplierName = "Queijos e Laticínios", SupplierAddress = "Rua do Laticínio, 10", SupplierPhone = "912345681", SupplierEmail = "contato@queijoselaticinios.com" },
+                new Suppliers { SupplierName = "Doces Tradicionais", SupplierAddress = "Praça da Doçaria, 12", SupplierPhone = "912345682", SupplierEmail = "contato@docestradicionais.com" },
+                new Suppliers { SupplierName = "Panificação Central", SupplierAddress = "Rua do Pão, 18", SupplierPhone = "912345683", SupplierEmail = "contato@panificacaocentral.com" },
+                new Suppliers { SupplierName = "Frutas Tropicais", SupplierAddress = "Avenida das Palmeiras, 88", SupplierPhone = "912345684", SupplierEmail = "contato@frutastropicais.com" },
+                new Suppliers { SupplierName = "Bebidas Naturais", SupplierAddress = "Estrada das Águas, 300", SupplierPhone = "912345685", SupplierEmail = "contato@bebidasnaturais.com" },
+                new Suppliers { SupplierName = "Massas Artesanais", SupplierAddress = "Rua da Massa, 5", SupplierPhone = "912345686", SupplierEmail = "contato@massasartesanais.com" },
+                new Suppliers { SupplierName = "Produtos Gourmet", SupplierAddress = "Rua do Paladar, 75", SupplierPhone = "912345687", SupplierEmail = "contato@produtosgourmet.com" },
+                new Suppliers { SupplierName = "Hortaliças Verdes", SupplierAddress = "Rua do Campo, 20", SupplierPhone = "912345688", SupplierEmail = "contato@hortalicasverdes.com" },
+                new Suppliers { SupplierName = "Peixes do Atlântico", SupplierAddress = "Avenida do Porto, 90", SupplierPhone = "912345689", SupplierEmail = "contato@peixesdoatlantico.com" },
+                new Suppliers { SupplierName = "Azeites Premium", SupplierAddress = "Estrada do Olival, 250", SupplierPhone = "912345690", SupplierEmail = "contato@azeitespremium.com" },
+                new Suppliers { SupplierName = "Sabores do Campo", SupplierAddress = "Rua do Pomar, 15", SupplierPhone = "912345691", SupplierEmail = "contato@saboresdocampo.com" },
+                new Suppliers { SupplierName = "Charcutaria Regional", SupplierAddress = "Praça da Charcutaria, 22", SupplierPhone = "912345692", SupplierEmail = "contato@charcutariaregional.com" },
+                new Suppliers { SupplierName = "Ervas Aromáticas", SupplierAddress = "Rua das Ervas, 50", SupplierPhone = "912345693", SupplierEmail = "contato@ervasaromaticas.com" },
+                new Suppliers { SupplierName = "Especiarias do Mundo", SupplierAddress = "Avenida das Especiarias, 100", SupplierPhone = "912345694", SupplierEmail = "contato@especiariasdomundo.com" },
+                new Suppliers { SupplierName = "Vinícola Tradicional", SupplierAddress = "Estrada do Vinho, 500", SupplierPhone = "912345695", SupplierEmail = "contato@vinicolatradicional.com" },
+                new Suppliers { SupplierName = "Congelados Frescos", SupplierAddress = "Rua do Gelo, 40", SupplierPhone = "912345696", SupplierEmail = "contato@congeladosfrescos.com" },
+                new Suppliers { SupplierName = "Pastelaria Fina", SupplierAddress = "Rua dos Bolos, 11", SupplierPhone = "912345697", SupplierEmail = "contato@pastelariafina.com" },
+                new Suppliers { SupplierName = "Mel Puro", SupplierAddress = "Estrada das Abelhas, 150", SupplierPhone = "912345698", SupplierEmail = "contato@melpuro.com" },
+                new Suppliers { SupplierName = "Águas Cristalinas", SupplierAddress = "Avenida das Fontes, 310", SupplierPhone = "912345699", SupplierEmail = "contato@aguascristalinas.com" },
+                new Suppliers { SupplierName = "Produtos Biológicos", SupplierAddress = "Rua da Natureza, 27", SupplierPhone = "912345700", SupplierEmail = "contato@produtosbiologicos.com" },
+                new Suppliers { SupplierName = "Cereais Integrais", SupplierAddress = "Rua do Grão, 90", SupplierPhone = "912345701", SupplierEmail = "contato@cereaisintegrais.com" },
+                new Suppliers { SupplierName = "Alimentos Vegan", SupplierAddress = "Rua do Futuro, 10", SupplierPhone = "912345702", SupplierEmail = "contato@alimentosvegan.com" },
+                new Suppliers { SupplierName = "Chocolate Gourmet", SupplierAddress = "Praça do Cacau, 77", SupplierPhone = "912345703", SupplierEmail = "contato@chocolategourmet.com" },
+                new Suppliers { SupplierName = "Licores Tradicionais", SupplierAddress = "Estrada dos Licores, 15", SupplierPhone = "912345704", SupplierEmail = "contato@licorestradicionais.com" },
+                new Suppliers { SupplierName = "Café Torrado", SupplierAddress = "Rua do Café, 9", SupplierPhone = "912345705", SupplierEmail = "contato@cafetorrado.com" },
+                new Suppliers { SupplierName = "Temperos Caseiros", SupplierAddress = "Rua do Sabor, 65", SupplierPhone = "912345706", SupplierEmail = "contato@temperoscaseiros.com" },
+                new Suppliers { SupplierName = "Gelados Artesanais", SupplierAddress = "Avenida do Verão, 31", SupplierPhone = "912345707", SupplierEmail = "contato@geladosartesanais.com" }
             });
             db.SaveChanges();
         }
 
-        */
+        
 
         private static void PopulateBuffet(ReserveSystemContext db)
         {

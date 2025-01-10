@@ -11,6 +11,7 @@ namespace ReserveSystem.Data
         public DbSet<ReserveSystem.Models.Prato> Prato { get; set; } = default!;
         public DbSet<ReserveSystem.Models.Buffet> Buffet { get; set; } = default!;
         public DbSet<ReserveSystem.Models.ComposicaoPrato> ComposicaoPrato { get; set; } = default!;
+        public DbSet<ReserveSystem.Models.Suppliers> Suppliers { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
