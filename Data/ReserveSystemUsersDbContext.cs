@@ -15,5 +15,7 @@ namespace ReserveSystem.Data
         
         public DbSet<ReserveSystem.Models.Events> Events { get; set; } = default!;
         public DbSet<ReserveSystem.Models.Sazonalidade> Sazonalidade { get; set; } = default!;
+        public DbSet<ReserveSystem.Models.Booking> Booking { get; set; } = default!;
+        public DbSet<ReserveSystem.Models.RoomBooking> RoomBooking { get; set; } = default!;
     }
 }
