@@ -11,7 +11,7 @@ namespace ReserveSystem.Data
             db.Database.EnsureCreated();
             PopulateIngredients(db);
             PopulatePratos(db);
-            PopulateSuppliers(db);
+            //PopulateSuppliers(db);
             PopulateBuffet(db);
         }
 
@@ -124,6 +124,7 @@ namespace ReserveSystem.Data
             db.SaveChanges();
         }
 
+        /*
         private static void PopulateSuppliers(ReserveSystemContext db)
         {
             if (db.Supplier.Any()) return;
@@ -152,6 +153,9 @@ namespace ReserveSystem.Data
             });
             db.SaveChanges();
         }
+
+        */
+
         private static void PopulateBuffet(ReserveSystemContext db)
         {
             if (db.Buffet.Any()) return;
