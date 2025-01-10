@@ -71,6 +71,28 @@
             transform: translateY(0); /* Button "presses" down */
         }
 
+
+    /* Back Button Styling */
+    .btn_back {
+        background-color: #333333;
+        border-color: #d4af37;
+        color: #ffffff;
+        font-weight: 600;
+        padding: 14px 28px;
+        border-radius: 50px;
+        font-size: 1.125rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+        .btn_back:hover {
+            background-color: #ffffff;
+            color: #d4af37;
+            border-color: #d4af37;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
     .hr {
         border: none;
         height: 2px;
@@ -90,6 +112,31 @@
     p {
         text-align: center;
         margin-top: 2rem;
+    }
+
+    .modal-content {
+        background-color: #ffffff; /* White background */
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        background-color: #333333; /* Gold */
+        color: white;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+    }
+
+    .modal-body {
+        font-size: 1.1rem;
+        color: #333333;
+        padding: 1.5rem;
+    }
+
+    .modal-footer {
+        background-color: #f9f9f6; /* Light off-white */
+        padding: 1rem;
+        justify-content: center;
     }
 
     /* Pagination styles */
@@ -128,35 +175,9 @@
                 border-color: #333333;
             }
 
-    .modal-content {
-        background-color: #ffffff; /* White background */
-        border-radius: 12px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .modal-header {
-        background-color: #333333; /* Gold */
-        color: white;
-        border-top-left-radius: 12px;
-        border-top-right-radius: 12px;
-    }
-
-    .modal-body {
-        font-size: 1.1rem;
-        color: #333333;
-        padding: 1.5rem;
-    }
-
-    .modal-footer {
-        background-color: #f9f9f6; /* Light off-white */
-        padding: 1rem;
-        justify-content: center;
-    }
-
 </style>
 
 
-<h1>Index</h1>
 <table class="table">
     <thead>
         <tr>
@@ -166,7 +187,6 @@
             <th>@Html.DisplayNameFor(model => model.dateEnd)</th>
             <th>@Html.DisplayNameFor(model => model.newPricePerDate)</th>
             <th>@Html.DisplayNameFor(model => model.actState)</th>
-            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -174,18 +194,14 @@
         {
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.pricePD_id)</td>
-                <td>@Html.DisplayFor(modelItem => item.RoomTypeId)</td>
-                <td>@Html.DisplayFor(modelItem => item.dateBegin)</td>
-                <td>@Html.DisplayFor(modelItem => item.dateEnd)</td>
-                <td>@Html.DisplayFor(modelItem => item.newPricePerDate)</td>
-                <td>@Html.DisplayFor(modelItem => item.actState)</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.pricePD_id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.pricePD_id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.pricePD_id">Delete</a>
-                </td>
+                <th>@Html.DisplayNameFor(model => model.RoomTypeId)</th>
+                <td>@item.dateBegin.ToString("dd/MMM/yyyy")</td>
+                <td>@item.dateEnd.ToString("dd/MMM/yyyy")</td>
+                <td>@item.newPricePerDate.ToString("F2")</td>
+                <td>@(item.actState ? "Yes" : "No")</td>
             </tr>
         }
     </tbody>
 </table>
+
 
