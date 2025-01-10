@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<ReserveSystem.Models.Promos>
 
 <style>
+    /* Manteniendo tus estilos originales */
     body {
         font-family: 'Georgia', serif;
         background-color: #f9f9f6;
         color: #1a1a1a;
     }
 
-    /* Overall table styles */
     .table {
         width: 100%;
         border-collapse: collapse;
@@ -17,28 +17,24 @@
         background-color: #ffffff;
     }
 
-        /* Table Header Styles */
-        .table thead {
-            background-color: #333333;
-            color: white;
-        }
+    .table thead {
+        background-color: #333333;
+        color: white;
+    }
 
-        /* Table row hover effect */
-        .table tbody tr:hover {
-            background-color: #F5F5F5;
-            color: #d4af37;
-            cursor: pointer;
-        }
+    .table tbody tr:hover {
+        background-color: #F5F5F5;
+        color: #d4af37;
+        cursor: pointer;
+    }
 
-        /* Table cell styles */
-        .table th, .table td {
-            padding: 18px 20px;
-            text-align: left;
-            font-size: 1.125rem;
-            font-weight: 500;
-        }
+    .table th, .table td {
+        padding: 18px 20px;
+        text-align: left;
+        font-size: 1.125rem;
+        font-weight: 500;
+    }
 
-    /* Button styles */
     .btn {
         background-color: #ffffff;
         border-color: #d4af37;
@@ -51,21 +47,21 @@
         transition: all 0.3s ease;
     }
 
-        .btn:hover {
-            background-color: #333333;
-            color: #F5F5F5;
-            border-color: #333333;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-            transform: translateY(-3px);
-        }
+    .btn:hover {
+        background-color: #333333;
+        color: #F5F5F5;
+        border-color: #333333;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        transform: translateY(-3px);
+    }
 
-        .btn:active {
-            background-color: #000000;
-            border-color: #000000;
-            color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transform: translateY(0);
-        }
+    .btn:active {
+        background-color: #000000;
+        border-color: #000000;
+        color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transform: translateY(0);
+    }
 
     .hr {
         border: none;
@@ -76,18 +72,15 @@
         opacity: 0.8;
     }
 
-    /* Centered title */
     h1 {
         font-size: 2rem;
         color: #d4af37;
     }
 
-    /* Adjusting the paragraph style for centered 'Create' button */
     p {
         text-align: center;
         margin-top: 2rem;
     }
-
 </style>
 
 <script>
@@ -103,6 +96,13 @@
 
 <h1 class="text-center my-4">Promos Index</h1>
 <hr class="hr" />
+
+<!-- Formulario de búsqueda -->
+<form method="get" action="/Promos/Index" class="text-center">
+    <input type="text" name="searchTerm" placeholder="Search promotions..." value="@ViewBag.SearchTerm" />
+    <button class="btn" type="submit">Search</button>
+</form>
+
 <table class="table table-bordered my-4">
     <thead>
         <tr>
@@ -125,6 +125,21 @@
     </tbody>
 </table>
 
+<!-- Controles de paginación -->
+<div class="pagination-controls text-center">
+    @if (ViewBag.PageNumber > 1)
+    {
+        <a class="btn" href="/Promos/Index?pageNumber=@(ViewBag.PageNumber - 1)&searchTerm=@ViewBag.SearchTerm">Previous</a>
+    }
+
+    <span>Page @ViewBag.PageNumber</span>
+
+    @if ((ViewBag.PageNumber * ViewBag.PageSize) < ViewBag.TotalItems)
+    {
+        <a class="btn" href="/Promos/Index?pageNumber=@(ViewBag.PageNumber + 1)&searchTerm=@ViewBag.SearchTerm">Next</a>
+    }
+</div>
+
 <p>
     <a class="btn" asp-action="Create">Create New Promo</a>
 </p>
@@ -132,5 +147,3 @@
 <p>
     <a class="btn" asp-controller="Events" asp-action="Show">Back to List</a>
 </p>
-
-
