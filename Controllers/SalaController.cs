@@ -100,6 +100,7 @@ namespace ReserveSystem.Controllers
         public IActionResult Create()
         {
             PopulateTipoSalaDropdown();
+            PopulateFloorDropdown();
             return View();
         }
 
@@ -112,16 +113,18 @@ namespace ReserveSystem.Controllers
             if (!ModelState.IsValid)
             {
                 PopulateTipoSalaDropdown(sala.IdTipoSala);
+                PopulateFloorDropdown(sala.Floor);
                 return View(sala);
             }
 
             // Attach related TipoSala for display purposes
             sala.TipoSala = _context.TipoSala.FirstOrDefault(t => t.IdTipoSala == sala.IdTipoSala);
 
-            if (sala.TipoSala == null)
+            if (sala.TipoSala == null && sala.IdTipoSala == null)
             {
-                TempData["ErrorMessage"] = "Invalid Room Type selected.";
+                TempData["ErrorMessage"] = "Invalid Room Type or Room selected.";
                 PopulateTipoSalaDropdown(sala.IdTipoSala);
+                PopulateFloorDropdown(sala.Floor);
                 return View(sala);
             }
 
@@ -146,9 +149,11 @@ namespace ReserveSystem.Controllers
                 _logger.LogError(ex, "Error creating Sala.");
                 TempData["ErrorMessage"] = "An unexpected error occurred while creating the Sala.";
                 PopulateTipoSalaDropdown(sala.IdTipoSala);
+                PopulateFloorDropdown(sala.Floor);
                 return View("Create", sala);
             }
         }
+
 
         // GET: Sala/Edit/{id}
         [Authorize(Roles = "Manager,Reservationist")]
@@ -162,7 +167,10 @@ namespace ReserveSystem.Controllers
 
             try
             {
-                var sala = await _context.Sala.Include(s => s.TipoSala).FirstOrDefaultAsync(m => m.IdSala == id);
+                var sala = await _context.Sala
+                    .Include(s => s.TipoSala)
+                    .FirstOrDefaultAsync(m => m.IdSala == id);
+
                 if (sala == null)
                 {
                     TempData["ErrorMessage"] = "Room not found.";
@@ -170,6 +178,7 @@ namespace ReserveSystem.Controllers
                 }
 
                 PopulateTipoSalaDropdown(sala.IdTipoSala);
+                PopulateFloorDropdown(sala.Floor);
                 return View(sala);
             }
             catch (Exception ex)
@@ -189,6 +198,7 @@ namespace ReserveSystem.Controllers
             if (!ModelState.IsValid)
             {
                 PopulateTipoSalaDropdown(sala.IdTipoSala);
+                PopulateFloorDropdown(sala.Floor);
                 return View(sala);
             }
 
@@ -198,6 +208,7 @@ namespace ReserveSystem.Controllers
             {
                 TempData["ErrorMessage"] = "Invalid Room Type selected.";
                 PopulateTipoSalaDropdown(sala.IdTipoSala);
+                PopulateFloorDropdown(sala.Floor);
                 return View(sala);
             }
 
@@ -222,6 +233,7 @@ namespace ReserveSystem.Controllers
                 _logger.LogError(ex, "Error updating Sala.");
                 TempData["ErrorMessage"] = "An unexpected error occurred while updating the Sala.";
                 PopulateTipoSalaDropdown(sala.IdTipoSala);
+                PopulateFloorDropdown(sala.Floor);
                 return View("Edit", sala);
             }
         }
@@ -316,6 +328,16 @@ namespace ReserveSystem.Controllers
             }
         }
 
+        private void PopulateFloorDropdown(object selectedFloor = null)
+        {
+            var floorList = _context.Sala
+                .Select(s => s.Floor)
+                .Distinct()
+                .OrderBy(f => f)
+                .ToList();
+
+            ViewBag.FloorList = new SelectList(floorList, selectedFloor);
+        }
 
         private void PopulateTipoSalaDropdown(object selectedTipoSala = null)
         {

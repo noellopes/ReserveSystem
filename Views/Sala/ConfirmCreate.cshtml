@@ -4,43 +4,44 @@
     ViewData["Title"] = "Confirm Room Creation";
 }
 
-<div class="card shadow-sm p-4">
-    <h1 class="mb-4 text-primary text-center">Confirm Room Creation</h1>
+<div class="container">
+    <h2>Confirm Room Creation</h2>
 
-    <p class="text-center fw-bold mb-4">
-        Please review the details below before creating the room:
-    </p>
+    <div class="alert alert-info">
+        <p>Please review the details below before creating the room:</p>
+    </div>
 
-    <dl class="row text-start">
-        <dt class="col-sm-4 fw-bold">Floor</dt>
-        <dd class="col-sm-8">@Model.Floor</dd>
+    <dl class="row">
+        <dt class="col-sm-3">Floor</dt>
+        <dd class="col-sm-9">@Model.Floor</dd>
 
-        <dt class="col-sm-4 fw-bold">Room Number</dt>
-        <dd class="col-sm-8">@Model.RoomNumber</dd>
+        <dt class="col-sm-3">Room Number</dt>
+        <dd class="col-sm-9">@Model.RoomNumber</dd>
 
-        <dt class="col-sm-4 fw-bold">Preparation Time</dt>
-        <dd class="col-sm-8">@Model.TempoPreparação.ToString("hh\\:mm")</dd>
+        <dt class="col-sm-3">Preparation Time</dt>
+        <dd class="col-sm-9">@Model.TempoPreparação.ToString("hh\\:mm")</dd>
 
-        <dt class="col-sm-4 fw-bold">Start Time</dt>
-        <dd class="col-sm-8">@Model.HoraInicio.ToString("hh:mm tt")</dd>
+        <dt class="col-sm-3">Start Time</dt>
+        <dd class="col-sm-9">@Model.HoraInicio.ToString("hh:mm tt")</dd>
 
-        <dt class="col-sm-4 fw-bold">End Time</dt>
-        <dd class="col-sm-8">@Model.HoraFim.ToString("hh:mm tt")</dd>
+        <dt class="col-sm-3">End Time</dt>
+        <dd class="col-sm-9">@Model.HoraFim.ToString("hh:mm tt")</dd>
 
-        <dt class="col-sm-4 fw-bold">Room Type</dt>
-        <dd class="col-sm-8">@Model.TipoSala?.NomeSala</dd>
+        <dt class="col-sm-3">Room Type</dt>
+        <dd class="col-sm-9">@Model.TipoSala?.NomeSala</dd>
     </dl>
 
-    <div class="text-center mt-4">
-        <form asp-action="FinalizeCreate" method="post">
-            <input type="hidden" asp-for="Floor" />
-            <input type="hidden" asp-for="RoomNumber" />
-            <input type="hidden" asp-for="TempoPreparação" />
-            <input type="hidden" asp-for="HoraInicio" />
-            <input type="hidden" asp-for="HoraFim" />
-            <input type="hidden" asp-for="IdTipoSala" />
-            <button type="submit" class="btn btn-success me-2 px-5">Confirm</button>
-            <a asp-action="Create" class="btn btn-secondary px-5">Go Back</a>
-        </form>
-    </div>
+    <form asp-action="FinalizeCreate">
+        @Html.HiddenFor(m => m.Floor)
+        @Html.HiddenFor(m => m.RoomNumber)
+        @Html.HiddenFor(m => m.TempoPreparação)
+        @Html.HiddenFor(m => m.HoraInicio)
+        @Html.HiddenFor(m => m.HoraFim)
+        @Html.HiddenFor(m => m.IdTipoSala)
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-success">Confirm</button>
+            <a asp-action="Create" class="btn btn-secondary">Go Back</a>
+        </div>
+    </form>
 </div>

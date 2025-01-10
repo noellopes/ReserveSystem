@@ -27,9 +27,11 @@
         <span asp-validation-for="HoraFim" class="text-danger"></span>
     </div>
 
-    <div class="mb-3">
+    <div class="form-group mb-3">
         <label asp-for="Floor" class="form-label">Floor</label>
-        <input asp-for="Floor" class="form-control" />
+        <select asp-for="Floor" class="form-select" asp-items="ViewBag.FloorList">
+            <option value="">Select Floor</option>
+        </select>
         <span asp-validation-for="Floor" class="text-danger"></span>
     </div>
 
