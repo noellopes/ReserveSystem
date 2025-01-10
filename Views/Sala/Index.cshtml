@@ -110,23 +110,48 @@
 {
     <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
-            @if (Model.Pagination.ShowPrevious)
+            @* First Page Button *@
+            <li class="page-item @(!Model.Pagination.ShowPrevious ? "disabled" : "")">
+                <a class="page-link" asp-action="Index"
+                   asp-route-page="1"
+                   asp-route-roomType="@Model.RoomTypeFilter"
+                   asp-route-floor="@Model.FloorFilter"
+                   asp-route-startTime="@Model.StartTimeFilter?.ToString("HH:mm")"
+                   asp-route-endTime="@Model.EndTimeFilter?.ToString("HH:mm")"
+                   aria-label="First">
+                    <span aria-hidden="true">««</span>
+                    <span class="visually-hidden">First</span>
+                </a>
+            </li>
+
+            @* Previous Button *@
+            <li class="page-item @(!Model.Pagination.ShowPrevious ? "disabled" : "")">
+                <a class="page-link" asp-action="Index"
+                   asp-route-page="@(Model.Pagination.CurrentPage - 1)"
+                   asp-route-roomType="@Model.RoomTypeFilter"
+                   asp-route-floor="@Model.FloorFilter"
+                   asp-route-startTime="@Model.StartTimeFilter?.ToString("HH:mm")"
+                   asp-route-endTime="@Model.EndTimeFilter?.ToString("HH:mm")"
+                   aria-label="Previous">
+                    <span aria-hidden="true">«</span>
+                    <span class="visually-hidden">Previous</span>
+                </a>
+            </li>
+
+            @* Ellipsis for skipped pages at start *@
+            @if (Model.Pagination.FirstPageShow > 1)
             {
-                <li class="page-item">
-                    <a class="page-link" asp-action="Index" asp-route-page="@(Model.Pagination.CurrentPage - 1)"
-                       asp-route-roomType="@Model.RoomTypeFilter"
-                       asp-route-floor="@Model.FloorFilter"
-                       asp-route-startTime="@Model.StartTimeFilter?.ToString("HH:mm")"
-                       asp-route-endTime="@Model.EndTimeFilter?.ToString("HH:mm")">
-                        «
-                    </a>
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
                 </li>
             }
 
+            @* Page Numbers *@
             @for (int p = Model.Pagination.FirstPageShow; p <= Model.Pagination.LastPageShow; p++)
             {
                 <li class="page-item @(p == Model.Pagination.CurrentPage ? "active" : "")">
-                    <a class="page-link" asp-action="Index" asp-route-page="@p"
+                    <a class="page-link" asp-action="Index"
+                       asp-route-page="@p"
                        asp-route-roomType="@Model.RoomTypeFilter"
                        asp-route-floor="@Model.FloorFilter"
                        asp-route-startTime="@Model.StartTimeFilter?.ToString("HH:mm")"
@@ -136,18 +161,41 @@
                 </li>
             }
 
-            @if (Model.Pagination.ShowNext)
+            @* Ellipsis for skipped pages at end *@
+            @if (Model.Pagination.LastPageShow < Model.Pagination.TotalPages)
             {
-                <li class="page-item">
-                    <a class="page-link" asp-action="Index" asp-route-page="@(Model.Pagination.CurrentPage + 1)"
-                       asp-route-roomType="@Model.RoomTypeFilter"
-                       asp-route-floor="@Model.FloorFilter"
-                       asp-route-startTime="@Model.StartTimeFilter?.ToString("HH:mm")"
-                       asp-route-endTime="@Model.EndTimeFilter?.ToString("HH:mm")">
-                        »
-                    </a>
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
                 </li>
             }
+
+            @* Next Button *@
+            <li class="page-item @(!Model.Pagination.ShowNext ? "disabled" : "")">
+                <a class="page-link" asp-action="Index"
+                   asp-route-page="@(Model.Pagination.CurrentPage + 1)"
+                   asp-route-roomType="@Model.RoomTypeFilter"
+                   asp-route-floor="@Model.FloorFilter"
+                   asp-route-startTime="@Model.StartTimeFilter?.ToString("HH:mm")"
+                   asp-route-endTime="@Model.EndTimeFilter?.ToString("HH:mm")"
+                   aria-label="Next">
+                    <span aria-hidden="true">»</span>
+                    <span class="visually-hidden">Next</span>
+                </a>
+            </li>
+
+            @* Last Page Button *@
+            <li class="page-item @(!Model.Pagination.ShowNext ? "disabled" : "")">
+                <a class="page-link" asp-action="Index"
+                   asp-route-page="@Model.Pagination.TotalPages"
+                   asp-route-roomType="@Model.RoomTypeFilter"
+                   asp-route-floor="@Model.FloorFilter"
+                   asp-route-startTime="@Model.StartTimeFilter?.ToString("HH:mm")"
+                   asp-route-endTime="@Model.EndTimeFilter?.ToString("HH:mm")"
+                   aria-label="Last">
+                    <span aria-hidden="true">»»</span>
+                    <span class="visually-hidden">Last</span>
+                </a>
+            </li>
         </ul>
     </nav>
 }
