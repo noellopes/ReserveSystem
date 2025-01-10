@@ -20,14 +20,33 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Promos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchTerm, int pageNumber = 1, int pageSize = 10)
         {
-            var promos = await _context.Promos
-                .Include(p => p.Events) // Inclui os dados relacionados do evento
+            IQueryable<Promos> query = _context.Promos.Include(p => p.Events);
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                query = query.Where(p => p.evCode.Contains(searchTerm));
+            }
+
+            var totalItems = await query.CountAsync();
+
+            var promos = await query
+                .OrderBy(p => p.evCode)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
+
+            ViewBag.TotalItems = totalItems;
+            ViewBag.PageNumber = pageNumber;
+            ViewBag.PageSize = pageSize;
+            ViewBag.SearchTerm = searchTerm;
 
             return View(promos);
         }
+
+
+
 
 
         // GET: Promos/Details/5
