@@ -28,14 +28,49 @@
             </div>
             <form asp-action="Index" method="get">
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="minCapacity" class="form-label">Minimum Capacity</label>
-                        <input type="number" name="minCapacity" class="form-control" value="@Model.MinCapacity" min="1" />
+                    <!-- Capacity Filters -->
+                    <div class="mb-4">
+                        <h6 class="mb-3">Capacity Range</h6>
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="minCapacity" class="form-label">Minimum Capacity</label>
+                                <input type="number" name="minCapacity" class="form-control" value="@Model.MinCapacity" min="1" />
+                            </div>
+                            <div class="col-6">
+                                <label for="maxCapacity" class="form-label">Maximum Capacity</label>
+                                <input type="number" name="maxCapacity" class="form-control" value="@Model.MaxCapacity" min="1" />
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="maxCapacity" class="form-label">Maximum Capacity</label>
-                        <input type="number" name="maxCapacity" class="form-control" value="@Model.MaxCapacity" min="1" />
+                    <!-- Room Size Filters -->
+                    <div class="mb-4">
+                        <h6 class="mb-3">Room Size Range (m²)</h6>
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="minRoomSize" class="form-label">Minimum Size</label>
+                                <input type="number" name="minRoomSize" class="form-control" value="@Model.MinRoomSize" min="1" />
+                            </div>
+                            <div class="col-6">
+                                <label for="maxRoomSize" class="form-label">Maximum Size</label>
+                                <input type="number" name="maxRoomSize" class="form-control" value="@Model.MaxRoomSize" min="1" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hourly Price Filters -->
+                    <div class="mb-4">
+                        <h6 class="mb-3">Hourly Price Range (€)</h6>
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="minHourlyPrice" class="form-label">Minimum Price</label>
+                                <input type="number" name="minHourlyPrice" class="form-control" value="@Model.MinHourlyPrice" min="0" step="0.01" />
+                            </div>
+                            <div class="col-6">
+                                <label for="maxHourlyPrice" class="form-label">Maximum Price</label>
+                                <input type="number" name="maxHourlyPrice" class="form-control" value="@Model.MaxHourlyPrice" min="0" step="0.01" />
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -85,7 +120,11 @@
                     <a class="page-link" asp-action="Index"
                        asp-route-page="@(Model.Pagination.CurrentPage - 1)"
                        asp-route-minCapacity="@Model.MinCapacity"
-                       asp-route-maxCapacity="@Model.MaxCapacity">
+                       asp-route-maxCapacity="@Model.MaxCapacity"
+                       asp-route-minRoomSize="@Model.MinRoomSize"
+                       asp-route-maxRoomSize="@Model.MaxRoomSize"
+                       asp-route-minHourlyPrice="@Model.MinHourlyPrice"
+                       asp-route-maxHourlyPrice="@Model.MaxHourlyPrice">
                         «
                     </a>
                 </li>
@@ -97,7 +136,11 @@
                     <a class="page-link" asp-action="Index"
                        asp-route-page="@p"
                        asp-route-minCapacity="@Model.MinCapacity"
-                       asp-route-maxCapacity="@Model.MaxCapacity">
+                       asp-route-maxCapacity="@Model.MaxCapacity"
+                       asp-route-minRoomSize="@Model.MinRoomSize"
+                       asp-route-maxRoomSize="@Model.MaxRoomSize"
+                       asp-route-minHourlyPrice="@Model.MinHourlyPrice"
+                       asp-route-maxHourlyPrice="@Model.MaxHourlyPrice">
                         @p
                     </a>
                 </li>
@@ -109,7 +152,11 @@
                     <a class="page-link" asp-action="Index"
                        asp-route-page="@(Model.Pagination.CurrentPage + 1)"
                        asp-route-minCapacity="@Model.MinCapacity"
-                       asp-route-maxCapacity="@Model.MaxCapacity">
+                       asp-route-maxCapacity="@Model.MaxCapacity"
+                       asp-route-minRoomSize="@Model.MinRoomSize"
+                       asp-route-maxRoomSize="@Model.MaxRoomSize"
+                       asp-route-minHourlyPrice="@Model.MinHourlyPrice"
+                       asp-route-maxHourlyPrice="@Model.MaxHourlyPrice">
                         »
                     </a>
                 </li>

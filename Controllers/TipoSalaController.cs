@@ -20,11 +20,25 @@ namespace ReserveSystem.Controllers
 
         // GET: TipoSala
         [Authorize(Roles = "Client,Manager,Reservationist")]
-        public async Task<IActionResult> Index(int? minCapacity = null, int? maxCapacity = null, int page = 1)
+        public async Task<IActionResult> Index(
+            int? minCapacity = null,
+            int? maxCapacity = null,
+            int? minRoomSize = null,
+            int? maxRoomSize = null,
+            double? minHourlyPrice = null,
+            double? maxHourlyPrice = null,
+            int page = 1)
         {
             try
             {
-                var query = ApplyTipoSalaFilters(_context.TipoSala.AsQueryable(), minCapacity, maxCapacity);
+                var query = ApplyTipoSalaFilters(
+                    _context.TipoSala.AsQueryable(),
+                    minCapacity,
+                    maxCapacity,
+                    minRoomSize,
+                    maxRoomSize,
+                    minHourlyPrice,
+                    maxHourlyPrice);
 
                 int totalItems = await query.CountAsync();
 
@@ -44,7 +58,11 @@ namespace ReserveSystem.Controllers
                         PageSize = 4
                     },
                     MinCapacity = minCapacity,
-                    MaxCapacity = maxCapacity
+                    MaxCapacity = maxCapacity,
+                    MinRoomSize = minRoomSize,
+                    MaxRoomSize = maxRoomSize,
+                    MinHourlyPrice = minHourlyPrice,
+                    MaxHourlyPrice = maxHourlyPrice
                 };
 
                 return View(viewModel);
@@ -57,14 +75,45 @@ namespace ReserveSystem.Controllers
             }
         }
 
-        private IQueryable<TipoSala> ApplyTipoSalaFilters(IQueryable<TipoSala> query, int? minCapacity,
-            int? maxCapacity)
+        private IQueryable<TipoSala> ApplyTipoSalaFilters(
+            IQueryable<TipoSala> query,
+            int? minCapacity,
+            int? maxCapacity,
+            int? minRoomSize,
+            int? maxRoomSize,
+            double? minHourlyPrice,
+            double? maxHourlyPrice)
         {
+            // Capacity filters
             if (minCapacity.HasValue)
+            {
                 query = query.Where(t => t.Capacidade >= minCapacity.Value);
+            }
 
             if (maxCapacity.HasValue)
+            {
                 query = query.Where(t => t.Capacidade <= maxCapacity.Value);
+            }
+
+            if (minRoomSize.HasValue)
+            {
+                query = query.Where(t => t.TamanhoSala >= minRoomSize.Value);
+            }
+
+            if (maxRoomSize.HasValue)
+            {
+                query = query.Where(t => t.TamanhoSala <= maxRoomSize.Value);
+            }
+
+            if (minHourlyPrice.HasValue)
+            {
+                query = query.Where(t => t.PreçoHora >= minHourlyPrice.Value);
+            }
+
+            if (maxHourlyPrice.HasValue)
+            {
+                query = query.Where(t => t.PreçoHora <= maxHourlyPrice.Value);
+            }
 
             return query;
         }
