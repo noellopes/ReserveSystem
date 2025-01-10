@@ -29,35 +29,12 @@
                 <span asp-validation-for="TypeOfSheduleId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" type="date" />
-                <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StartShiftTime" class="control-label"></label>
-                <input asp-for="StartShiftTime" class="form-control" />
-                <span asp-validation-for="StartShiftTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EndShiftTime" class="control-label"></label>
-                <input asp-for="EndShiftTime" class="form-control" />
-                <span asp-validation-for="EndShiftTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
 
-                <input type="submit" value="Create" class="btn btn-primary" />
-
-                <a asp-action="Index" class="btn btn-primary">Submit</a>
+                <input type="submit" value="Generate next Schedule" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-primary">Cancel</a>
 
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <div class="form-group">
-        <a asp-action="Index" class="btn btn-primary">Cancel</a>
-    </div>
-</div>
-
 

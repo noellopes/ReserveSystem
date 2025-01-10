@@ -139,7 +139,7 @@ namespace ReserveSystem.Controllers
                     var newShift = new Schedule
                     {
                         StartShiftTime = lastShift.EndShiftTime.AddHours(16),
-                        EndShiftTime = lastShift.StartShiftTime.AddHours(25),
+                        EndShiftTime = lastShift.EndShiftTime.AddHours(25),
                         Date = DateOnly.FromDateTime(DateTime.Now),
                         StaffId = schedule.StaffId,
                         TypeOfSheduleId = schedule.TypeOfSheduleId
