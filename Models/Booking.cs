@@ -31,7 +31,7 @@ namespace ReserveSystem.Models
         public bool PAYMENT_STATUS { get; set; }
 
 
-
+         
 
         public ClientModel? Client { get; set; }
 
