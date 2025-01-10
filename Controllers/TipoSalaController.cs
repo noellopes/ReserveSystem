@@ -84,7 +84,6 @@ namespace ReserveSystem.Controllers
             double? minHourlyPrice,
             double? maxHourlyPrice)
         {
-            // Capacity filters
             if (minCapacity.HasValue)
             {
                 query = query.Where(t => t.Capacidade >= minCapacity.Value);

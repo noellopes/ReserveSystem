@@ -109,24 +109,47 @@
     }
     </tbody>
 </table>
-
 @if (Model.Pagination.TotalPages > 1)
 {
     <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
-            @if (Model.Pagination.ShowPrevious)
+            @* First Page Button *@
+            <li class="page-item @(!Model.Pagination.ShowPrevious ? "disabled" : "")">
+                <a class="page-link" asp-action="Index"
+                   asp-route-page="1"
+                   asp-route-minCapacity="@Model.MinCapacity"
+                   asp-route-maxCapacity="@Model.MaxCapacity"
+                   asp-route-minRoomSize="@Model.MinRoomSize"
+                   asp-route-maxRoomSize="@Model.MaxRoomSize"
+                   asp-route-minHourlyPrice="@Model.MinHourlyPrice"
+                   asp-route-maxHourlyPrice="@Model.MaxHourlyPrice"
+                   aria-label="First">
+                    <span aria-hidden="true">««</span>
+                    <span class="visually-hidden">First</span>
+                </a>
+            </li>
+
+            @* Previous Button *@
+            <li class="page-item @(!Model.Pagination.ShowPrevious ? "disabled" : "")">
+                <a class="page-link" asp-action="Index"
+                   asp-route-page="@(Model.Pagination.CurrentPage - 1)"
+                   asp-route-minCapacity="@Model.MinCapacity"
+                   asp-route-maxCapacity="@Model.MaxCapacity"
+                   asp-route-minRoomSize="@Model.MinRoomSize"
+                   asp-route-maxRoomSize="@Model.MaxRoomSize"
+                   asp-route-minHourlyPrice="@Model.MinHourlyPrice"
+                   asp-route-maxHourlyPrice="@Model.MaxHourlyPrice"
+                   aria-label="Previous">
+                    <span aria-hidden="true">«</span>
+                    <span class="visually-hidden">Previous</span>
+                </a>
+            </li>
+
+            @* Page Numbers *@
+            @if (Model.Pagination.FirstPageShow > 1)
             {
-                <li class="page-item">
-                    <a class="page-link" asp-action="Index"
-                       asp-route-page="@(Model.Pagination.CurrentPage - 1)"
-                       asp-route-minCapacity="@Model.MinCapacity"
-                       asp-route-maxCapacity="@Model.MaxCapacity"
-                       asp-route-minRoomSize="@Model.MinRoomSize"
-                       asp-route-maxRoomSize="@Model.MaxRoomSize"
-                       asp-route-minHourlyPrice="@Model.MinHourlyPrice"
-                       asp-route-maxHourlyPrice="@Model.MaxHourlyPrice">
-                        «
-                    </a>
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
                 </li>
             }
 
@@ -146,21 +169,44 @@
                 </li>
             }
 
-            @if (Model.Pagination.ShowNext)
+            @if (Model.Pagination.LastPageShow < Model.Pagination.TotalPages)
             {
-                <li class="page-item">
-                    <a class="page-link" asp-action="Index"
-                       asp-route-page="@(Model.Pagination.CurrentPage + 1)"
-                       asp-route-minCapacity="@Model.MinCapacity"
-                       asp-route-maxCapacity="@Model.MaxCapacity"
-                       asp-route-minRoomSize="@Model.MinRoomSize"
-                       asp-route-maxRoomSize="@Model.MaxRoomSize"
-                       asp-route-minHourlyPrice="@Model.MinHourlyPrice"
-                       asp-route-maxHourlyPrice="@Model.MaxHourlyPrice">
-                        »
-                    </a>
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
                 </li>
             }
+
+            @* Next Button *@
+            <li class="page-item @(!Model.Pagination.ShowNext ? "disabled" : "")">
+                <a class="page-link" asp-action="Index"
+                   asp-route-page="@(Model.Pagination.CurrentPage + 1)"
+                   asp-route-minCapacity="@Model.MinCapacity"
+                   asp-route-maxCapacity="@Model.MaxCapacity"
+                   asp-route-minRoomSize="@Model.MinRoomSize"
+                   asp-route-maxRoomSize="@Model.MaxRoomSize"
+                   asp-route-minHourlyPrice="@Model.MinHourlyPrice"
+                   asp-route-maxHourlyPrice="@Model.MaxHourlyPrice"
+                   aria-label="Next">
+                    <span aria-hidden="true">»</span>
+                    <span class="visually-hidden">Next</span>
+                </a>
+            </li>
+
+            @* Last Page Button *@
+            <li class="page-item @(!Model.Pagination.ShowNext ? "disabled" : "")">
+                <a class="page-link" asp-action="Index"
+                   asp-route-page="@Model.Pagination.TotalPages"
+                   asp-route-minCapacity="@Model.MinCapacity"
+                   asp-route-maxCapacity="@Model.MaxCapacity"
+                   asp-route-minRoomSize="@Model.MinRoomSize"
+                   asp-route-maxRoomSize="@Model.MaxRoomSize"
+                   asp-route-minHourlyPrice="@Model.MinHourlyPrice"
+                   asp-route-maxHourlyPrice="@Model.MaxHourlyPrice"
+                   aria-label="Last">
+                    <span aria-hidden="true">»»</span>
+                    <span class="visually-hidden">Last</span>
+                </a>
+            </li>
         </ul>
     </nav>
 }
