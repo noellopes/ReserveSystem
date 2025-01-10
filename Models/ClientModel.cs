@@ -14,6 +14,7 @@ namespace ReserveSystem.Models
 
         [Required(ErrorMessage = "Phone number is mandatory")]
         [StringLength(16, MinimumLength = 5, ErrorMessage = "Invalid phone number length")]
+        [RegularExpression(@"^\+?[1-9]\d{1,15}$", ErrorMessage = "Phone number must start with '+' and contain only digits.")]
         public string Phone { get; set; }
 
         [Required(ErrorMessage = "Address is mandatory")]
