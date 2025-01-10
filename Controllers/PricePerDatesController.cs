@@ -21,7 +21,7 @@ namespace ReserveSystem.Controllers
         {
             _context = context;
         }
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User, Admin")]
         // GET: PricePerDates
         public async Task<IActionResult> Index()
         {
