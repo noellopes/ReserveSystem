@@ -20,7 +20,7 @@
         </div>
         <div class="col-md-6 d-flex justify-content-end">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filterModal">
-                Filter
+                Search
             </button>
         </div>
     </div>
@@ -30,7 +30,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="filterModalLabel">Filter Equipment</h5>
+                    <h5 class="modal-title" id="filterModalLabel">Search Equipment</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -39,22 +39,9 @@
                             <label for="filterNomeEquipamento">Equipment Name</label>
                             <input type="text" class="form-control" id="filterNomeEquipamento" name="filterNomeEquipamento" value="@Model.FilterNomeEquipamento" />
                         </div>
-                        <div class="form-group mb-3">
-                            <label for="filterTipoEquipamento">Equipment Type</label>
-                            <select class="form-control" id="filterTipoEquipamento" name="filterTipoEquipamento">
-                                <option value="">-- Select Type --</option>
-                                @if (Model.TipoEquipamento != null && Model.TipoEquipamento.Any())
-                                {
-                                    @foreach (var tipo in Model.TipoEquipamento)
-                                    {
-                                        @tipo.NomeTipoEquipamento
-                                    }
-                                }
-                            </select>
-                        </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Apply Filter</button>
+                            <button type="submit" class="btn btn-primary">Search</button>
                             <button type="button" class="btn btn-danger" onclick="clearFilters()">Clear</button>
                         </div>
                     </form>
@@ -66,7 +53,6 @@
     <div class="row">
         @if (Model.Equipamentos != null && Model.Equipamentos.Any())
         {
-            var tipoEquipamentoDict = ViewBag.TipoEquipamentoDict as Dictionary<long, string>;
             @foreach (var equipamento in Model.Equipamentos)
             {
                 <div class="col-md-4 mb-4">
@@ -75,7 +61,7 @@
                         <div class="card-body">
                             <h5 class="card-title">@equipamento.NomeEquipamento</h5>
                             <p class="card-text">
-                                <strong>Tipo:</strong> @(tipoEquipamentoDict != null && tipoEquipamentoDict.ContainsKey(equipamento.IdTipoEquipamento) ? tipoEquipamentoDict[equipamento.IdTipoEquipamento] : "N/A") <br>
+                                <strong>Tipo:</strong> @equipamento.TipoEquipamento?.NomeTipoEquipamento ?? "N/A" <br>
                                 <strong>Quantidade:</strong> @equipamento.Quantidade
                             </p>
                             <a asp-action="Edit" asp-route-id="@equipamento.IdEquipamento" class="btn btn-primary">Edit</a>
@@ -88,7 +74,7 @@
         else
         {
             <p>No equipment available.</p>
-            @if (!string.IsNullOrEmpty(Model.FilterNomeEquipamento) || !string.IsNullOrEmpty(Model.FilterTipoEquipamento))
+            @if (!string.IsNullOrEmpty(Model.FilterNomeEquipamento))
             {
                 <a asp-action="Index" class="btn btn-secondary">Remove Filter</a>
             }
@@ -108,8 +94,7 @@
                 <a class="page-link"
                    asp-action="Index"
                    asp-route-page="1"
-                   asp-route-filterNomeEquipamento="@Model.FilterNomeEquipamento"
-                   asp-route-filterTipoEquipamento="@Model.FilterTipoEquipamento">First</a>
+                   asp-route-filterNomeEquipamento="@Model.FilterNomeEquipamento">First</a>
             </li>
 
             @for (int p = Model.Paginacao.PrimeiraPaginaVer; p <= Model.Paginacao.UltimaPaginaVer; p++)
@@ -124,8 +109,7 @@
                     <a class="page-link"
                        asp-action="Index"
                        asp-route-page="@p"
-                       asp-route-filterNomeEquipamento="@Model.FilterNomeEquipamento"
-                       asp-route-filterTipoEquipamento="@Model.FilterTipoEquipamento">@p</a>
+                       asp-route-filterNomeEquipamento="@Model.FilterNomeEquipamento">@p</a>
                 </li>
             }
 
@@ -140,8 +124,7 @@
                 <a class="page-link"
                    asp-action="Index"
                    asp-route-page="@Model.Paginacao.PaginaTotal"
-                   asp-route-filterNomeEquipamento="@Model.FilterNomeEquipamento"
-                   asp-route-filterTipoEquipamento="@Model.FilterTipoEquipamento">Last</a>
+                   asp-route-filterNomeEquipamento="@Model.FilterNomeEquipamento">Last</a>
             </li>
         </ul>
     </nav>
@@ -150,7 +133,7 @@
 <script>
     function clearFilters() {
         document.getElementById('filterNomeEquipamento').value = '';
-        document.getElementById('filterTipoEquipamento').value = '';
         document.getElementById('filterForm').submit();
     }
 </script>
+
