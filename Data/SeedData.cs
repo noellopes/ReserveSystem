@@ -24,7 +24,6 @@ namespace ReserveSystem.Data
             PopulateRoomTypes(db); // Popula os tipos de quarto
             PopulatePricePerDate(db);
             PopulatePromos(db);
-        }
             PopulateUsers(userManager, roleManager);
         }
 
