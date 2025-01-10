@@ -75,7 +75,6 @@ namespace ReserveSystem.Controllers
             return View(reserva);
         }
 
-        // POST: ReservaController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, Reserva model)
@@ -102,7 +101,6 @@ namespace ReserveSystem.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
             PopulateViewData();
             return View(model);
@@ -144,7 +142,6 @@ namespace ReserveSystem.Controllers
 
             tipoReservaList.Insert(0, new SelectListItem { Value = "", Text = "-- Choose Type -- " });
 
-            ViewData["TipoReserva"] = tipoReservaList;
             ViewData["ClientId"] = new SelectList(_context.ClientModel, "ClienteId", "NomeCliente");
 
             var EquipamentoList = _context.Equipamento
