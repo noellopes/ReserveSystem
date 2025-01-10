@@ -113,6 +113,15 @@
     
     <br />
 
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+
     <form asp-action="SaveRoomSelection" method="post">
         <input type="hidden" asp-for="BookingId" />
 
@@ -128,17 +137,18 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var roomType in Model.RoomTypes)
+                @for (var i = 0; i < Model.RoomTypes.Count; i++)
                 {
                     <tr>
-                        <td>@roomType.Type</td>
-                        <td>@roomType.RoomCapacity</td>
-                        <td>@roomType.Beds</td>
-                        <td>@(roomType.HasView ? "Sim" : "Não")</td>
-                        <td>@(roomType.AcessibilityRoom ? "Sim" : "Não")</td>
+                        <td>@Model.RoomTypes[i].Type</td>
+                        <td>@Model.RoomTypes[i].RoomCapacity</td>
+                        <td>@Model.RoomTypes[i].Beds</td>
+                        <td>@(Model.RoomTypes[i].HasView ? "Sim" : "Não")</td>
+                        <td>@(Model.RoomTypes[i].AcessibilityRoom ? "Sim" : "Não")</td>
                         <td>
-                            <input type="number" asp-for="@roomType.SelectedQuantity" class="form-control" min="0" />
-                            <input type="hidden" asp-for="@roomType.RoomTypeId" />
+                            <input type="hidden" name="RoomTypes[@i].RoomTypeId" value="@Model.RoomTypes[i].RoomTypeId" />
+                            <label>@Model.RoomTypes[i].Type</label>
+                            <input type="number" name="RoomTypes[@i].SelectedQuantity" value="@Model.RoomTypes[i].SelectedQuantity" />
                         </td>
                     </tr>
                 }
