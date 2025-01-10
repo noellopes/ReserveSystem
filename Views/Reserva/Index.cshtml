@@ -4,89 +4,53 @@
     ViewData["Title"] = "Reservations";
 }
 
-<h2>Reservations</h2>
+<h1 class="mb-4">Reservations</h1>
 
-<p>
-    <a asp-action="Create">Create New Reservation</a>
-</p>
+<div class="mb-3">
+    <a asp-action="Create" class="btn btn-primary">Create New Reservation</a>
+</div>
 
-@if (Model == null || !Model.Any())
-{
-    <p>No reservations available.</p>
-}
-else
-{
-    <table class="table">
-        <thead>
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>IdCliente</th>
+            <th>TipoReserva</th>
+            <th>DataInicio</th>
+            <th>DataFim</th>
+            <th>DataReserva</th>
+            <th>TotalParticipantes</th>
+            <th>PrecoTotal</th>
+            <th>Estado</th>
+            <th>DataEstado</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
             <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.First().DataReserva)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.First().DataInicio)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.First().DataFim)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.First().TotalParticipantes)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.First().PrecoTotal)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.First().Estado)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.First().DataEstado)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.First().TipoReserva.NomeReserva)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.First().NumeroCliente)
-                </th>
-                <th></th>
+                <td>@item.NumeroCliente</td>
+                <td>@item.TipoReserva?.NomeReserva</td>
+              
+                <td>@item.DataInicio.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@item.DataFim.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@item.DataReserva.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@item.TotalParticipantes</td>
+                <td>@item.PrecoTotal</td>
+                <td>@item.Estado</td>
+                <td>@item.DataEstado.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>
+                    <div class="d-flex">
+                      
+                        <a asp-action="Edit" asp-route-id="@item.IdReserva" class="btn btn-sm btn-primary me-2">Edit</a>
+                     
+                        <a asp-action="Details" asp-route-id="@item.IdReserva" class="btn btn-sm btn-warning me-2">Details</a>
+                      
+                        <a asp-action="Delete" asp-route-id="@item.IdReserva" class="btn btn-sm btn-danger">Delete</a>
+                    </div>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DataReserva)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DataInicio)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DataFim)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TotalParticipantes)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PrecoTotal)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Estado)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DataEstado)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TipoReserva.NomeReserva)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NumeroCliente)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.IdReserva">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.IdReserva">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.IdReserva">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+        }
+    </tbody>
+</table>
+

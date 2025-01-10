@@ -5,10 +5,12 @@
 <div class="d-flex justify-content-end mb-3">
     <a asp-action="Create" class="btn btn-primary">Create New Equipment Type</a>
 </div>
+
 <table class="table">
     <thead>
         <tr>
             <th>Equipment Type</th>
+            <th>Actions</th> 
         </tr>
     </thead>
     <tbody>
@@ -16,7 +18,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.NomeTipoEquipamento)
+                    @item.NomeTipoEquipamento 
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.IdTipoEquipamento" class="btn btn-primary">Edit</a> |
@@ -26,4 +28,3 @@
         }
     </tbody>
 </table>
-

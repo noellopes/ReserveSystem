@@ -22,17 +22,39 @@ namespace ReserveSystem.Controllers
             var reservas = await _context.Reserva
                 .Include(r => r.TipoReserva)
                 .Include(r => r.Client)
+                .Include(r => r.Equipamento)
+               // .Include(r => r.Sala)
+
                 .ToListAsync();
             return View(reservas);
         }
+
+        // GET: Pesquisa de Reserva
+        public IActionResult Search(string clientName)
+        {
+
+            if (string.IsNullOrEmpty(clientName))
+            {
+                return View();
+            }
+            var reserva = _context.Reserva
+                .Where(r => r.Client.NomeCliente.Contains(clientName))
+                .ToList();
+
+            return View(reserva);
+        }
+
 
         // GET: ReservaController/Details/5
         public async Task<IActionResult> Details(long id)
         {
             var reserva = await _context.Reserva
-                .Include(r => r.TipoReserva)
-                .Include(r => r.Client)
-                .FirstOrDefaultAsync(m => m.IdReserva == id);
+         .Include(r => r.TipoReserva)
+         .Include(r => r.Client)
+         .Include(r => r.Equipamento)
+         //.Include(r => r.Sala)
+         .FirstOrDefaultAsync(m => m.IdReserva == id);
+
             if (reserva == null)
             {
                 return NotFound();
@@ -54,7 +76,7 @@ namespace ReserveSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.DataReserva = DateTime.Now; // Set the current date and time
+                model.DataReserva = DateTime.Now; 
                 _context.Add(model);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -64,13 +86,27 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: ReservaController/Edit/5
-        public async Task<IActionResult> Edit(long id)
+        public async Task<IActionResult> Edit(long? id)
         {
-            var reserva = await _context.Reserva.FindAsync(id);
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // Encontra a reserva com as dependências necessárias
+            var reserva = await _context.Reserva
+                                        .Include(r => r.TipoReserva)
+                                        .Include(r => r.Client)
+                                        .Include(r => r.Equipamento)
+                                       // .Include(r => r.Sala)
+                                        .FirstOrDefaultAsync(r => r.IdReserva == id);
+
             if (reserva == null)
             {
                 return NotFound();
             }
+
+            // Preenche as listas de seleção
             PopulateViewData();
             return View(reserva);
         }
@@ -78,18 +114,21 @@ namespace ReserveSystem.Controllers
         // POST: ReservaController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, Reserva model)
+        public async Task<IActionResult> Edit(long id, [Bind("IdReserva,IdTipoReserva,ClientId,IdEquipamento,DataReserva,PrecoTotal,TotalParticipantes")] Reserva model)
         {
             if (id != model.IdReserva)
             {
-                return BadRequest();
+                return NotFound();
             }
+
             if (ModelState.IsValid)
             {
                 try
                 {
                     _context.Update(model);
                     await _context.SaveChangesAsync();
+                    TempData["Message"] = "Reserva atualizada com sucesso!";
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -102,8 +141,8 @@ namespace ReserveSystem.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
+
             PopulateViewData();
             return View(model);
         }
@@ -114,6 +153,8 @@ namespace ReserveSystem.Controllers
             var reserva = await _context.Reserva
                 .Include(r => r.TipoReserva)
                 .Include(r => r.Client)
+                 .Include(r => r.Equipamento)
+                 //.Include(r => r.Sala)
                 .FirstOrDefaultAsync(m => m.IdReserva == id);
             if (reserva == null)
             {
@@ -135,6 +176,7 @@ namespace ReserveSystem.Controllers
 
         private void PopulateViewData()
         {
+
             var tipoReservaList = _context.TipoReserva
                 .Select(tr => new SelectListItem
                 {
@@ -142,25 +184,51 @@ namespace ReserveSystem.Controllers
                     Text = tr.NomeReserva
                 }).ToList();
 
-            tipoReservaList.Insert(0, new SelectListItem { Value = "", Text = "-- Choose Type -- " });
-
+            tipoReservaList.Insert(0, new SelectListItem { Value = "", Text = "-- Choose Reservation -- " });
             ViewData["TipoReserva"] = tipoReservaList;
-            ViewData["ClientId"] = new SelectList(_context.ClientModel, "ClienteId", "NomeCliente");
 
-            var EquipamentoList = _context.Equipamento
+
+            var clientList = _context.ClientModel
+                .Select(c => new SelectListItem
+                {
+                    Value = c.ClienteId.ToString(),
+                    Text = c.NomeCliente
+                }).ToList();
+
+            clientList.Insert(0, new SelectListItem { Value = "", Text = "-- Choose Client -- " });
+            ViewData["ClientId"] = clientList;
+
+
+            var equipamentoList = _context.Equipamento
                 .Select(te => new SelectListItem
                 {
                     Value = te.IdEquipamento.ToString(),
                     Text = te.NomeEquipamento
                 }).ToList();
 
-            EquipamentoList.Insert(0, new SelectListItem { Value = "", Text = "-- Choose Equipment -- " });
+            equipamentoList.Insert(0, new SelectListItem { Value = "", Text = "-- Choose Equipment -- " });
+            ViewData["TipoEquipamento"] = equipamentoList;
 
-            ViewData["TipoEquipamento"] = EquipamentoList;
+
+            var salaList = _context.Sala
+                .Include(s => s.TipoSala) // Inclui os dados do TipoSala
+                .Select(s => new SelectListItem
+                {
+                    Value = s.IdSala.ToString(), // ID da Sala como valor
+                    Text = s.TipoSala.NomeSala // Nome do Tipo de Sala como texto
+                }).ToList();
+
+            salaList.Insert(0, new SelectListItem { Value = "", Text = "-- Choose Room --" });
+            ViewData["SalaId"] = salaList;
         }
+
         private bool ReservaExists(long id)
         {
             return _context.Reserva.Any(e => e.IdReserva == id);
         }
+
+
+
     }
 }
+

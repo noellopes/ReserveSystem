@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<ReserveSystem.Models.TipoReserva>
 
 @{
-    ViewData["Title"] = "Booking Type List";
+    ViewData["Title"] = "Reservation Type";
 }
 
-<h2>Booking Type List</h2>
+<h2>Reservation Type</h2>
 
 @if (TempData["SuccessMessage"] != null)
 {
@@ -21,16 +21,16 @@
 }
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New Type Reservation</a>
 </p>
 
-<table class="table">
-    <thead>
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.NomeReserva)
             </th>
-            <th></th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -41,9 +41,11 @@
                     @Html.DisplayFor(modelItem => item.NomeReserva)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.idTipoReserva">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.idTipoReserva">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.idTipoReserva">Delete</a>
+                    <div class="d-flex">
+                        <a asp-action="Edit" asp-route-id="@item.idTipoReserva" class="btn btn-sm btn-primary me-2">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.idTipoReserva" class="btn btn-sm btn-warning me-2">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.idTipoReserva" class="btn btn-sm btn-danger">Delete</a>
+                    </div>
                 </td>
             </tr>
         }

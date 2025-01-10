@@ -1,65 +1,50 @@
 ﻿@model ReserveSystem.Models.Reserva
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Reservation";
 }
 
-<h1>Edit</h1>
+<h1>Edit Reservation</h1>
 
-<h4>Reserva</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="IdReserva" />
-            <div class="form-group">
-                <label asp-for="TipoReserva.NomeReserva" class="control-label"></label>
-                <select asp-for="TipoReserva.NomeReserva" class="form-control" asp-items="ViewBag.TipoReserva"></select>
-                <span asp-validation-for="TipoReserva.NomeReserva" class="text-danger"></span>
-            </div>
+<<form asp-action="Edit" method="post" class="card p-4 shadow-sm">
+    <input type="hidden" asp-for="IdReserva" />
 
-            <div class="form-group">
-                <label asp-for="DataInicio" class="control-label"></label>
-                <input asp-for="DataInicio" class="form-control" />
-                <span asp-validation-for="DataInicio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DataFim" class="control-label"></label>
-                <input asp-for="DataFim" class="form-control" />
-                <span asp-validation-for="DataFim" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TotalParticipantes" class="control-label"></label>
-                <input asp-for="TotalParticipantes" class="form-control" />
-                <span asp-validation-for="TotalParticipantes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PrecoTotal" class="control-label"></label>
-                <input asp-for="PrecoTotal" class="form-control" />
-                <span asp-validation-for="PrecoTotal" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdEquipamento" class="control-label">Equipment Type</label>
-                <select asp-for="IdEquipamento" class="form-control" asp-items="ViewBag.TipoEquipamento"></select>
-                <span asp-validation-for="IdEquipamento" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NumeroCliente" class="control-label"></label>
-                <input asp-for="NumeroCliente" class="form-control" />
-                <span asp-validation-for="NumeroCliente" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+   
+    <div class="mb-3">
+        <label asp-for="IdTipoReserva" class="control-label">Reservation Type</label>
+        <select asp-for="IdTipoReserva" class="form-select" asp-items="ViewBag.TipoReserva"></select>
+        <span asp-validation-for="IdTipoReserva" class="text-danger"></span>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    <div class="mb-3">
+        <label asp-for="IdEquipamento" class="control-label">Equipment Type</label>
+        <select asp-for="IdEquipamento" class="form-select" asp-items="ViewBag.TipoEquipamento"></select>
+        <span asp-validation-for="IdEquipamento" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="DataInicio" class="control-label">Start Date</label>
+        <input asp-for="DataInicio" class="form-control" type="datetime-local" />
+        <span asp-validation-for="DataInicio" class="text-danger"></span>
+    </div>
+
+   
+    <div class="mb-3">
+        <label asp-for="DataFim" class="control-label">End Date</label>
+        <input asp-for="DataFim" class="form-control" type="datetime-local" />
+        <span asp-validation-for="DataFim" class="text-danger"></span>
+    </div>
+
+    
+    <div class="mb-3">
+        <label asp-for="TotalParticipantes" class="control-label">Total Participants</label>
+        <input asp-for="TotalParticipantes" class="form-control" />
+        <span asp-validation-for="TotalParticipantes" class="text-danger"></span>
+    </div>
+
+    <div class="text-end">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
