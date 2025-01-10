@@ -138,6 +138,8 @@ namespace ReserveSystem.Controllers
             {
                 return NotFound();
             }
+            ViewData["StaffId"] = new SelectList(_context.StaffModel, "StaffId", "Staff_Name");
+            ViewData["TransporteId"] = new SelectList(_context.Transporte, "TransporteId", "Matricula");
             return View(motoristaTransporte);
         }
 

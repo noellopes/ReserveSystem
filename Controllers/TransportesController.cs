@@ -133,7 +133,7 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TransporteId,Matricula,Capacidade,TipoTransporte,AnoFabricacao,DescricaoTipoTransporte")] Transporte transporte)
+        public async Task<IActionResult> Edit(int id, [Bind("TransporteId,Matricula,Capacidade,TipoTransporte,AnoFabricacao,DescricaoTipoTransporte,CartaTransporte")] Transporte transporte)
         {
             if (id != transporte.TransporteId)
             {
@@ -152,22 +152,12 @@ namespace ReserveSystem.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
+                
                     _context.Update(transporte);
                     await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TransporteExists(transporte.TransporteId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                
+                
+                
                 return RedirectToAction(nameof(Index));
             }
             return View(transporte);
