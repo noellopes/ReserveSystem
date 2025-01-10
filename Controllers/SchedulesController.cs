@@ -86,6 +86,7 @@ namespace ReserveSystem.Controllers
             return View();
         }
 
+
         // POST: Schedules/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -109,6 +110,54 @@ namespace ReserveSystem.Controllers
             }
             return View(schedule);
         }
+
+
+        // GET: Schedules/Create_Automatically
+        public IActionResult Create_Automatically()
+        {
+            ViewData["StaffId"] = new SelectList(_context.StaffModel, "Staff_Id", "Staff_Name");
+            ViewData["TypeOfSheduleId"] = new SelectList(_context.TypeOfSchedule, "TypeOfScheduleId", "TypeOfScheduleName");
+            return View();
+        }
+
+
+        // POST: Schedules/Create_Automatically
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create_Automatically([Bind("ScheduleId,StaffId,TypeOfSheduleId,Date,StartShiftTime,EndShiftTime,Presence")] Schedule schedule)
+        {
+            if (!ModelState.IsValid && schedule.Staff == null && schedule.TypeOfShedule == null)
+            {
+
+                var lastShift =  _context.ScheduleModel
+                .Where(s => s.StaffId == schedule.StaffId)
+                .OrderByDescending(s => s.EndShiftTime)
+                .FirstOrDefault();
+
+                if(lastShift != null)
+                {
+                    var newShift = new Schedule
+                    {
+                        StartShiftTime = lastShift.EndShiftTime.AddHours(16),
+                        EndShiftTime = lastShift.StartShiftTime.AddHours(25),
+                        Date = DateOnly.FromDateTime(DateTime.Now),
+                        StaffId = schedule.StaffId,
+                        TypeOfSheduleId = schedule.TypeOfSheduleId
+
+                    };
+                    _context.Add(newShift);
+                }
+
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(schedule);
+        }
+
+
+
+
 
         // GET: Schedules/Edit/5
         public async Task<IActionResult> Edit(int? id)

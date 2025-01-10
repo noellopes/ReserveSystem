@@ -1,28 +1,36 @@
-﻿@model ReserveSystem.Models.Schedule
+﻿
+@{
+    ViewData["Title"] = "Create_Automatically";
+}
 
+<h1>Create Automatically</h1>
 
-
+@model ReserveSystem.Models.Schedule
 
 
 <h4>Schedule</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create_Automatically">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="StaffId" class="control-label">Staff Name</label>
-                <select asp-for="StaffId" class="form-control" asp-items="@(ViewData["StaffId"] as SelectList)"></select>
+                <select asp-for="StaffId" class="form-control" asp-items="@(ViewData["StaffId"] as SelectList)">
+                <option value="" disabled selected>Select your option</option>
+                </select>
                 <span asp-validation-for="StaffId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TypeOfSheduleId" class="control-label">Type Of SheduleId</label>
-                <select asp-for="TypeOfSheduleId" class="form-control" asp-items="@(ViewData["TypeOfSheduleId"] as SelectList)"></select>
+                <select asp-for="TypeOfSheduleId" class="form-control" asp-items="@(ViewData["TypeOfSheduleId"] as SelectList)">
+                <option value="" disabled selected>Select your option</option>
+                </select>
                 <span asp-validation-for="TypeOfSheduleId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" type="date"/>
+                <input asp-for="Date" class="form-control" type="date" />
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -36,7 +44,11 @@
                 <span asp-validation-for="EndShiftTime" class="text-danger"></span>
             </div>
             <div class="form-group">
+
                 <input type="submit" value="Create" class="btn btn-primary" />
+
+                <a asp-action="Index" class="btn btn-primary">Submit</a>
+
             </div>
         </form>
     </div>
@@ -44,11 +56,8 @@
 
 <div>
     <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-primary" />
         <a asp-action="Index" class="btn btn-primary">Cancel</a>
     </div>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+
