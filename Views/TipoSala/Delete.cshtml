@@ -23,7 +23,7 @@ ViewData["Title"] = "Delete Room Type";
         <dd>@Model.Capacidade</dd>
 
         <dt>Hourly Price</dt>
-        <dd>@Model.PreçoHora</dd>
+        <dd>@Model.PreçoHora.ToString("C", new System.Globalization.CultureInfo("en-IE"))</dd>
     </dl>
 </div>
 
