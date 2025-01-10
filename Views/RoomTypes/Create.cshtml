@@ -39,6 +39,12 @@
                 <input asp-for="Beds" class="form-control bg-light" type="number" />
             </div>
 
+            <div class="form-group mb-3">
+                <span asp-validation-for="QuantityOfRoomsAssociated" class="text-danger"></span>
+                <label asp-for="QuantityOfRoomsAssociated" class="control-label">Number of Rooms Associated</label>
+                <input asp-for="QuantityOfRoomsAssociated" class="form-control bg-light" type="number" min="1" />
+            </div>
+
             <!-- Campo de "AcessibilityRoom" -->
             <div class="form-group form-check mb-3">
                 <span asp-validation-for="AcessibilityRoom" class="text-danger"></span>
