@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using ReserveSystem.Models;
 
 #nullable disable
 
@@ -35,7 +36,8 @@ namespace ReserveSystem.Migrations
                     DataEstado = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PrecoTotal = table.Column<double>(type: "float", nullable: false),
                     Estado = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TotalParticipantes = table.Column<int>(type: "int", nullable: false)
+                    TotalParticipantes = table.Column<int>(type: "int", nullable: false),
+                    IdSala = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -55,12 +57,21 @@ namespace ReserveSystem.Migrations
                         column: x => x.TipoReservaidTipoReserva,
                         principalTable: "TipoReserva",
                         principalColumn: "idTipoReserva");
+                    table.ForeignKey(
+                        name: "FK_Reserva_Sala_SalaIdSala",
+                        column: x => x.IdSala,
+                        principalTable: "Sala",
+                        principalColumn: "IdSala");
+
+
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Equipamento_TipoEquipamentoIdTipoEquipamento",
                 table: "Equipamento",
                 column: "TipoEquipamentoIdTipoEquipamento");
+
+            
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reserva_ClienteId",
@@ -78,9 +89,9 @@ namespace ReserveSystem.Migrations
                 column: "TipoReservaidTipoReserva");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sala_IdTipoSala",
-                table: "Sala",
-                column: "IdTipoSala");
+                name: "IX_Reserva_SalaIdSala",
+                table: "Reserva",
+                column: "SalaIdSala");
         }
 
         /// <inheritdoc />

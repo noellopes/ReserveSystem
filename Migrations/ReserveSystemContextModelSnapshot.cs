@@ -109,14 +109,14 @@ namespace ReserveSystem.Migrations
                     b.Property<DateTime>("DataReserva")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("EquipamentoIdEquipamento")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Estado")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("IdEquipamento")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("IdSala")
                         .HasColumnType("bigint");
 
                     b.Property<long>("IdTipoReserva")
@@ -128,9 +128,6 @@ namespace ReserveSystem.Migrations
                     b.Property<double>("PrecoTotal")
                         .HasColumnType("float");
 
-                    b.Property<long?>("TipoReservaidTipoReserva")
-                        .HasColumnType("bigint");
-
                     b.Property<int>("TotalParticipantes")
                         .HasColumnType("int");
 
@@ -138,9 +135,11 @@ namespace ReserveSystem.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.HasIndex("EquipamentoIdEquipamento");
+                    b.HasIndex("IdEquipamento");
 
-                    b.HasIndex("TipoReservaidTipoReserva");
+                    b.HasIndex("IdSala");
+
+                    b.HasIndex("IdTipoReserva");
 
                     b.ToTable("Reserva");
                 });
@@ -250,15 +249,27 @@ namespace ReserveSystem.Migrations
 
                     b.HasOne("ReserveSystem.Models.Equipamento", "Equipamento")
                         .WithMany()
-                        .HasForeignKey("EquipamentoIdEquipamento");
+                        .HasForeignKey("IdEquipamento")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ReserveSystem.Models.Sala", "Sala")
+                        .WithMany()
+                        .HasForeignKey("IdSala")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ReserveSystem.Models.TipoReserva", "TipoReserva")
                         .WithMany()
-                        .HasForeignKey("TipoReservaidTipoReserva");
+                        .HasForeignKey("IdTipoReserva")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Client");
 
                     b.Navigation("Equipamento");
+
+                    b.Navigation("Sala");
 
                     b.Navigation("TipoReserva");
                 });

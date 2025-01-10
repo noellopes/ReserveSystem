@@ -6,53 +6,75 @@
 
 <h2>Create Reservation</h2>
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div class="form-group">
-                <label asp-for="Client.NomeCliente" class="control-label"></label>
-                <select asp-for="Client.NomeCliente" class="form-control" asp-items="ViewBag.ClientId"></select>
-                <span asp-validation-for="Client.NomeCliente" class="text-danger"></span>
+<div class="row justify-content-center">
+    <div class="mb-4">
+
+        <form asp-action="Create" method="post" class="card p-4 shadow-sm">
+
+            <!-- Cliente -->
+            <div class="mb-3">
+                <label asp-for="NumeroCliente" class="form-label">Client</label>
+                <select asp-for="NumeroCliente" class="form-select" asp-items="ViewBag.ClientId"></select>
+                <span asp-validation-for="NumeroCliente" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="TipoReserva.NomeReserva" class="control-label">Reservation Type</label>
-                <select asp-for="TipoReserva.NomeReserva" class="form-control" asp-items="ViewBag.TipoReserva"></select>
-                <span asp-validation-for="TipoReserva.NomeReserva" class="text-danger"></span>
+
+            <!-- Tipo de Reserva -->
+            <div class="mb-3">
+                <label asp-for="IdTipoReserva" class="form-label">Reservation Type</label>
+                <select asp-for="IdTipoReserva" class="form-select" asp-items="ViewBag.TipoReserva"></select>
+                <span asp-validation-for="IdTipoReserva" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="DataInicio" class="control-label"></label>
-                <input asp-for="DataInicio" class="form-control" />
+
+            <!-- Tipo de Sala -->
+            <div class="mb-3">
+                <label asp-for="IdSala" class="form-label">Room Type</label>
+                <select asp-for="IdSala" class="form-select" asp-items="ViewBag.TipoSala"></select>
+                <span asp-validation-for="IdSala" class="text-danger"></span>
+            </div>
+
+            <!-- Tipo de Equipamento -->
+            <div class="mb-3">
+                <label asp-for="IdEquipamento" class="form-label">Equipment Type</label>
+                <select asp-for="IdEquipamento" class="form-select" asp-items="ViewBag.TipoEquipamento"></select>
+                <span asp-validation-for="IdEquipamento" class="text-danger"></span>
+            </div>
+
+            <!-- Data de Início -->
+            <div class="mb-3">
+                <label asp-for="DataInicio" class="form-label">Start Date</label>
+                <input asp-for="DataInicio" class="form-control" type="datetime-local" />
                 <span asp-validation-for="DataInicio" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="DataFim" class="control-label"></label>
-                <input asp-for="DataFim" class="form-control" />
+
+            <!-- Data de Fim -->
+            <div class="mb-3">
+                <label asp-for="DataFim" class="form-label">End Date</label>
+                <input asp-for="DataFim" class="form-control" type="datetime-local" />
                 <span asp-validation-for="DataFim" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="TotalParticipantes" class="control-label"></label>
+
+            <!-- Total de Participantes -->
+            <div class="mb-3">
+                <label asp-for="TotalParticipantes" class="form-label">Total Participants</label>
                 <input asp-for="TotalParticipantes" class="form-control" />
                 <span asp-validation-for="TotalParticipantes" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="IdEquipamento" class="control-label">Equipment Type</label>
-                <select asp-for="IdEquipamento" class="form-control" asp-items="ViewBag.TipoEquipamento"></select>
-                <span asp-validation-for="IdEquipamento" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Estado" class="control-label"></label>
+
+            <!-- Status (Read-Only) -->
+            <div class="mb-3">
+                <label asp-for="Estado" class="form-label">Status</label>
                 <input asp-for="Estado" class="form-control" value="Pending" readonly />
                 <span asp-validation-for="Estado" class="text-danger"></span>
             </div>
-                        
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+
+            <!-- Submit Button -->
+            <div class="mb-3 text-end">
+                <button type="submit" class="btn btn-primary">Create</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-</div>
+
+   

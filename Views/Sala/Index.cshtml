@@ -39,7 +39,7 @@ ViewData["Title"] = "Rooms";
         <td>@item.HoraFim.ToString("HH:mm")</td>
         <td>@item.TipoSala?.NomeSala </td>
         <td>
-            <a asp-action="Edit" asp-route-id="@item.IdSala" class="btn btn-sm btn-warning">Edit</a>
+            <a asp-action="Edit" asp-route-id="@item.IdSala" class="btn btn-primary">Edit</a>
             <a asp-action="Details" asp-route-id="@item.IdSala" class="btn btn-sm btn-info">Details</a>
             <a asp-action="Delete" asp-route-id="@item.IdSala" class="btn btn-sm btn-danger">Delete</a>
         </td>
