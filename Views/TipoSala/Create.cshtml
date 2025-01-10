@@ -1,12 +1,12 @@
 @model ReserveSystem.Models.TipoSala
 
 @{
-ViewData["Title"] = "Create Room Type";
+    ViewData["Title"] = "Create Room Type";
 }
 
 <h1 class="mb-4">Create Room Type</h1>
 
-<form asp-action="Create" method="post" class="card p-4 shadow-sm">
+<form asp-action="ConfirmCreate" method="post" class="card p-4 shadow-sm">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     <div class="mb-3">
@@ -34,7 +34,7 @@ ViewData["Title"] = "Create Room Type";
     </div>
 
     <div class="text-end">
-        <button type="submit" class="btn btn-primary">Create</button>
+        <button type="submit" class="btn btn-primary">Next</button>
         <a asp-action="Index" class="btn btn-secondary">Cancel</a>
     </div>
 </form>

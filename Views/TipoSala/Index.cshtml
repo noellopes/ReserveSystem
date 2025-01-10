@@ -1,28 +1,91 @@
-@model IEnumerable<ReserveSystem.Models.TipoSala>
+@model ReserveSystem.Models.ViewModels.TipoSalaViewModel
 
 @{
-ViewData["Title"] = "Room Types";
-
+    ViewData["Title"] = "Room Types";
     var message = TempData["Message"];
     if (message != null)
     {
-        <div class="alert alert-success">
-            @message
-        </div>
+        <div class="alert alert-success">@message</div>
     }
 }
 
 <h1 class="mb-4">Room Types</h1>
 
 <div class="mb-3">
-    <a asp-action="Create" class="btn btn-success">Create New Room Type</a>
+    <a asp-action="Create" class="btn btn-success me-2">Create New Room Type</a>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filterModal">
+        <i class="bi bi-search"></i> Search for a Specific Room Type
+    </button>
+</div>
+
+<!-- Filter Modal -->
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="filterModalLabel">Search Room Types</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="Index" method="get">
+                <div class="modal-body">
+                    <!-- Capacity Filters -->
+                    <div class="mb-4">
+                        <h6 class="mb-3">Capacity Range</h6>
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="minCapacity" class="form-label">Minimum Capacity</label>
+                                <input type="number" name="minCapacity" class="form-control" value="@Model.MinCapacity" min="1" />
+                            </div>
+                            <div class="col-6">
+                                <label for="maxCapacity" class="form-label">Maximum Capacity</label>
+                                <input type="number" name="maxCapacity" class="form-control" value="@Model.MaxCapacity" min="1" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Room Size Filters -->
+                    <div class="mb-4">
+                        <h6 class="mb-3">Room Size Range (m²)</h6>
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="minRoomSize" class="form-label">Minimum Size</label>
+                                <input type="number" name="minRoomSize" class="form-control" value="@Model.MinRoomSize" min="1" />
+                            </div>
+                            <div class="col-6">
+                                <label for="maxRoomSize" class="form-label">Maximum Size</label>
+                                <input type="number" name="maxRoomSize" class="form-control" value="@Model.MaxRoomSize" min="1" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hourly Price Filters -->
+                    <div class="mb-4">
+                        <h6 class="mb-3">Hourly Price Range (€)</h6>
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="minHourlyPrice" class="form-label">Minimum Price</label>
+                                <input type="number" name="minHourlyPrice" class="form-control" value="@Model.MinHourlyPrice" min="0" step="0.01" />
+                            </div>
+                            <div class="col-6">
+                                <label for="maxHourlyPrice" class="form-label">Maximum Price</label>
+                                <input type="number" name="maxHourlyPrice" class="form-control" value="@Model.MaxHourlyPrice" min="0" step="0.01" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Search Room Types</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <table class="table table-striped table-hover">
     <thead class="table-dark">
     <tr>
-        <th>ID</th>
-        <th>Name</th>
+        <th>Room Name</th>
         <th>Room Size (m²)</th>
         <th>Capacity</th>
         <th>Hourly Price</th>
@@ -30,20 +93,120 @@ ViewData["Title"] = "Room Types";
     </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model)
+    @foreach (var item in Model.TipoSalas)
     {
-    <tr>
-        <td>@item.IdTipoSala</td>
-        <td>@Html.DisplayFor(modelItem => item.NomeSala)</td>
-        <td>@Html.DisplayFor(modelItem => item.TamanhoSala)</td>
-        <td>@Html.DisplayFor(modelItem => item.Capacidade)</td>
-        <td>@Html.DisplayFor(modelItem => item.PreçoHora)</td>
-        <td>
-            <a asp-action="Edit" asp-route-id="@item.IdTipoSala" class="btn btn-sm btn-warning">Edit</a>
-            <a asp-action="Details" asp-route-id="@item.IdTipoSala" class="btn btn-sm btn-info">Details</a>
-            <a asp-action="Delete" asp-route-id="@item.IdTipoSala" class="btn btn-sm btn-danger">Delete</a>
-        </td>
-    </tr>
+        <tr>
+            <td>@item.NomeSala</td>
+            <td>@item.TamanhoSala</td>
+            <td>@item.Capacidade</td>
+            <td>@item.PreçoHora.ToString("C", new System.Globalization.CultureInfo("en-IE"))</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdTipoSala" class="btn btn-sm btn-warning">Edit</a>
+                <a asp-action="Details" asp-route-id="@item.IdTipoSala" class="btn btn-sm btn-info">Details</a>
+                <a asp-action="Delete" asp-route-id="@item.IdTipoSala" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+        </tr>
     }
     </tbody>
 </table>
+@if (Model.Pagination.TotalPages > 1)
+{
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            @* First Page Button *@
+            <li class="page-item @(!Model.Pagination.ShowPrevious ? "disabled" : "")">
+                <a class="page-link" asp-action="Index"
+                   asp-route-page="1"
+                   asp-route-minCapacity="@Model.MinCapacity"
+                   asp-route-maxCapacity="@Model.MaxCapacity"
+                   asp-route-minRoomSize="@Model.MinRoomSize"
+                   asp-route-maxRoomSize="@Model.MaxRoomSize"
+                   asp-route-minHourlyPrice="@Model.MinHourlyPrice"
+                   asp-route-maxHourlyPrice="@Model.MaxHourlyPrice"
+                   aria-label="First">
+                    <span aria-hidden="true">««</span>
+                    <span class="visually-hidden">First</span>
+                </a>
+            </li>
+
+            @* Previous Button *@
+            <li class="page-item @(!Model.Pagination.ShowPrevious ? "disabled" : "")">
+                <a class="page-link" asp-action="Index"
+                   asp-route-page="@(Model.Pagination.CurrentPage - 1)"
+                   asp-route-minCapacity="@Model.MinCapacity"
+                   asp-route-maxCapacity="@Model.MaxCapacity"
+                   asp-route-minRoomSize="@Model.MinRoomSize"
+                   asp-route-maxRoomSize="@Model.MaxRoomSize"
+                   asp-route-minHourlyPrice="@Model.MinHourlyPrice"
+                   asp-route-maxHourlyPrice="@Model.MaxHourlyPrice"
+                   aria-label="Previous">
+                    <span aria-hidden="true">«</span>
+                    <span class="visually-hidden">Previous</span>
+                </a>
+            </li>
+
+            @* Page Numbers *@
+            @if (Model.Pagination.FirstPageShow > 1)
+            {
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+            }
+
+            @for (int p = Model.Pagination.FirstPageShow; p <= Model.Pagination.LastPageShow; p++)
+            {
+                <li class="page-item @(p == Model.Pagination.CurrentPage ? "active" : "")">
+                    <a class="page-link" asp-action="Index"
+                       asp-route-page="@p"
+                       asp-route-minCapacity="@Model.MinCapacity"
+                       asp-route-maxCapacity="@Model.MaxCapacity"
+                       asp-route-minRoomSize="@Model.MinRoomSize"
+                       asp-route-maxRoomSize="@Model.MaxRoomSize"
+                       asp-route-minHourlyPrice="@Model.MinHourlyPrice"
+                       asp-route-maxHourlyPrice="@Model.MaxHourlyPrice">
+                        @p
+                    </a>
+                </li>
+            }
+
+            @if (Model.Pagination.LastPageShow < Model.Pagination.TotalPages)
+            {
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+            }
+
+            @* Next Button *@
+            <li class="page-item @(!Model.Pagination.ShowNext ? "disabled" : "")">
+                <a class="page-link" asp-action="Index"
+                   asp-route-page="@(Model.Pagination.CurrentPage + 1)"
+                   asp-route-minCapacity="@Model.MinCapacity"
+                   asp-route-maxCapacity="@Model.MaxCapacity"
+                   asp-route-minRoomSize="@Model.MinRoomSize"
+                   asp-route-maxRoomSize="@Model.MaxRoomSize"
+                   asp-route-minHourlyPrice="@Model.MinHourlyPrice"
+                   asp-route-maxHourlyPrice="@Model.MaxHourlyPrice"
+                   aria-label="Next">
+                    <span aria-hidden="true">»</span>
+                    <span class="visually-hidden">Next</span>
+                </a>
+            </li>
+
+            @* Last Page Button *@
+            <li class="page-item @(!Model.Pagination.ShowNext ? "disabled" : "")">
+                <a class="page-link" asp-action="Index"
+                   asp-route-page="@Model.Pagination.TotalPages"
+                   asp-route-minCapacity="@Model.MinCapacity"
+                   asp-route-maxCapacity="@Model.MaxCapacity"
+                   asp-route-minRoomSize="@Model.MinRoomSize"
+                   asp-route-maxRoomSize="@Model.MaxRoomSize"
+                   asp-route-minHourlyPrice="@Model.MinHourlyPrice"
+                   asp-route-maxHourlyPrice="@Model.MaxHourlyPrice"
+                   aria-label="Last">
+                    <span aria-hidden="true">»»</span>
+                    <span class="visually-hidden">Last</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+}

@@ -1,16 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using ReserveSystem.Models;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace ReserveSystem.Data
 {
     public static class SeedData
     {
-        internal static async Task PopulateAsync(ReserveSystemContext? db)
+        internal static async Task PopulateAsync(ReserveSystemContext? db, RoleManager<IdentityRole> roleManager,
+            UserManager<IdentityUser> userManager)
         {
             if (db == null) return;
             await db.Database.EnsureCreatedAsync();
+            await SeedRolesAndUsersAsync(roleManager, userManager);
             await SeedTipoEquipamentoAsync(db);
             await SeedEquipamentoAsync(db);
             await SeedTipoReservaAsync(db);
@@ -18,6 +21,43 @@ namespace ReserveSystem.Data
             await SeedTipoSalaAsync(db);
             await SeedSalaAsync(db);
             await SeedReservaAsync(db);
+        }
+
+        private static async Task SeedRolesAndUsersAsync(RoleManager<IdentityRole> roleManager,
+            UserManager<IdentityUser> userManager)
+        {
+            var roles = new[] { "Reservationist", "Manager", "Client" };
+
+            foreach (var role in roles)
+            {
+                if (!await roleManager.RoleExistsAsync(role))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(role));
+                }
+            }
+
+            await EnsureUserWithRoleAsync(userManager, "manager@example.com", "Manager@123", "Manager");
+
+            await EnsureUserWithRoleAsync(userManager, "reservationist@example.com", "Reservationist@123",
+                "Reservationist");
+
+            await EnsureUserWithRoleAsync(userManager, "client@example.com", "Client@123", "Client");
+        }
+
+        private static async Task EnsureUserWithRoleAsync(UserManager<IdentityUser> userManager, string email,
+            string password, string role)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                user = new IdentityUser { UserName = email, Email = email, EmailConfirmed = true };
+                await userManager.CreateAsync(user, password);
+            }
+
+            if (!await userManager.IsInRoleAsync(user, role))
+            {
+                await userManager.AddToRoleAsync(user, role);
+            }
         }
 
         private static async Task SeedTipoEquipamentoAsync(ReserveSystemContext context)
@@ -92,6 +132,69 @@ namespace ReserveSystem.Data
 
             var clients = new[]
             {
+                new ClientModel
+                {
+                    NomeCliente = "John Doe", MoradaCliente = "123 Main St", Email = "john.doe@example.com",
+                    Password = "password", Telefone = "1234567890", NIF = 123456789
+                },
+                new ClientModel
+                {
+                    NomeCliente = "Jane Smith", MoradaCliente = "456 Elm St", Email = "jane.smith@example.com",
+                    Password = "password", Telefone = "0987654321", NIF = 987654321
+                },
+                new ClientModel
+                {
+                    NomeCliente = "João Silva", MoradaCliente = "Rua das Flores, 123", Email = "joao.silva@example.com",
+                    Password = "senha123", Telefone = "912345678", NIF = 123456789
+                },
+                new ClientModel
+                {
+                    NomeCliente = "Maria Oliveira", MoradaCliente = "Avenida Central, 456",
+                    Email = "maria.oliveira@example.com", Password = "senha456", Telefone = "923456789", NIF = 234567890
+                },
+                new ClientModel
+                {
+                    NomeCliente = "Carlos Souza", MoradaCliente = "Praça da Liberdade, 789",
+                    Email = "carlos.souza@example.com", Password = "senha789", Telefone = "934567890", NIF = 345678901
+                },
+                new ClientModel
+                {
+                    NomeCliente = "Ana Santos", MoradaCliente = "Rua das Palmeiras, 101",
+                    Email = "ana.santos@example.com", Password = "senha101", Telefone = "945678901", NIF = 456789012
+                },
+                new ClientModel
+                {
+                    NomeCliente = "Pedro Lima", MoradaCliente = "Estrada Velha, 202", Email = "pedro.lima@example.com",
+                    Password = "senha202", Telefone = "956789012", NIF = 567890123
+                },
+                new ClientModel
+                {
+                    NomeCliente = "Fernanda Costa", MoradaCliente = "Travessa do Sol, 303",
+                    Email = "fernanda.costa@example.com", Password = "senha303", Telefone = "967890123", NIF = 678901234
+                },
+                new ClientModel
+                {
+                    NomeCliente = "Rafael Nascimento", MoradaCliente = "Largo do Mercado, 404",
+                    Email = "rafael.nascimento@example.com", Password = "senha404", Telefone = "978901234",
+                    NIF = 789012345
+                },
+                new ClientModel
+                {
+                    NomeCliente = "Juliana Alves", MoradaCliente = "Bairro da Paz, 505",
+                    Email = "juliana.alves@example.com", Password = "senha505", Telefone = "989012345", NIF = 890123456
+                },
+                new ClientModel
+                {
+                    NomeCliente = "Bruno Pereira", MoradaCliente = "Rua Nova, 606", Email = "bruno.pereira@example.com",
+                    Password = "senha606", Telefone = "991234567", NIF = 901234567
+                },
+                new ClientModel
+                {
+                    NomeCliente = "Patrícia Fernandes", MoradaCliente = "Vila Bela, 707",
+                    Email = "patricia.fernandes@example.com", Password = "senha707", Telefone = "992345678",
+                    NIF = 012345678
+                }
+            };
                  new ClientModel {NomeCliente = "João Silva", MoradaCliente = "Rua das Flores, 123", Email = "joao.silva@example.com", Password = "senha123", Telefone = "912345678", NIF = 123456789 },
                     new ClientModel {NomeCliente = "Maria Oliveira", MoradaCliente = "Avenida Central, 456", Email = "maria.oliveira@example.com", Password = "senha456", Telefone = "923456789", NIF = 234567890 },
                     new ClientModel{NomeCliente = "Carlos Souza", MoradaCliente = "Praça da Liberdade, 789", Email = "carlos.souza@example.com", Password = "senha789", Telefone = "934567890", NIF = 345678901 },
@@ -114,10 +217,17 @@ namespace ReserveSystem.Data
 
             var tipoSalas = new[]
             {
-                    new TipoSala { NomeSala = "Small Room", TamanhoSala = 20, Capacidade = 10, PreçoHora = 50 },
-                    new TipoSala { NomeSala = "Medium Room", TamanhoSala = 50, Capacidade = 25, PreçoHora = 100 },
-                    new TipoSala { NomeSala = "Large Room", TamanhoSala = 100, Capacidade = 50, PreçoHora = 200 }
-                };
+                new TipoSala { NomeSala = "Conference Room", TamanhoSala = 50, Capacidade = 25, PreçoHora = 120 },
+                new TipoSala { NomeSala = "Training Room", TamanhoSala = 40, Capacidade = 20, PreçoHora = 100 },
+                new TipoSala { NomeSala = "Meeting Room", TamanhoSala = 30, Capacidade = 15, PreçoHora = 80 },
+                new TipoSala { NomeSala = "Seminar Hall", TamanhoSala = 100, Capacidade = 50, PreçoHora = 200 },
+                new TipoSala { NomeSala = "Boardroom", TamanhoSala = 60, Capacidade = 30, PreçoHora = 150 },
+                new TipoSala { NomeSala = "Classroom", TamanhoSala = 45, Capacidade = 22, PreçoHora = 90 },
+                new TipoSala { NomeSala = "Event Hall", TamanhoSala = 120, Capacidade = 60, PreçoHora = 300 },
+                new TipoSala { NomeSala = "Coworking Space", TamanhoSala = 35, Capacidade = 10, PreçoHora = 70 },
+                new TipoSala { NomeSala = "Private Office", TamanhoSala = 20, Capacidade = 5, PreçoHora = 50 },
+                new TipoSala { NomeSala = "Open Space", TamanhoSala = 80, Capacidade = 40, PreçoHora = 180 }
+            };
 
             await context.TipoSala.AddRangeAsync(tipoSalas);
             await context.SaveChangesAsync();
@@ -127,16 +237,36 @@ namespace ReserveSystem.Data
         {
             if (await context.Sala.AnyAsync()) return;
 
-            var salas = new[]
+            var salas = new HashSet<Sala>();
+            var random = new Random();
+            var horaInicio = new TimeOnly(8, 0);
+
+            while (salas.Count < 100)
             {
-                    new Sala { IdTipoSala = 1, TempoPreparação = TimeSpan.FromMinutes(30), HoraInicio = new TimeOnly(8, 0), HoraFim = new TimeOnly(18, 0) },
-                    new Sala { IdTipoSala = 2, TempoPreparação = TimeSpan.FromMinutes(45), HoraInicio = new TimeOnly(8, 0), HoraFim = new TimeOnly(18, 0) },
-                    new Sala { IdTipoSala = 3, TempoPreparação = TimeSpan.FromMinutes(60), HoraInicio = new TimeOnly(8, 0), HoraFim = new TimeOnly(18, 0) }
+                int floor = random.Next(1, 6);
+
+                int roomNumber = floor * 100 + random.Next(1, 10) * 10 + random.Next(0, 10);
+
+                var newSala = new Sala
+                {
+                    IdTipoSala = random.Next(1, 11),
+                    TempoPreparação = TimeSpan.FromMinutes(random.Next(15, 61)),
+                    HoraInicio = horaInicio,
+                    HoraFim = horaInicio.AddHours(random.Next(8, 11)),
+                    Floor = floor,
+                    RoomNumber = roomNumber
                 };
+
+                if (!salas.Any(s => s.Floor == newSala.Floor && s.RoomNumber == newSala.RoomNumber))
+                {
+                    salas.Add(newSala);
+                }
+            }
 
             await context.Sala.AddRangeAsync(salas);
             await context.SaveChangesAsync();
         }
+
 
         private static async Task SeedReservaAsync(ReserveSystemContext context)
         {
