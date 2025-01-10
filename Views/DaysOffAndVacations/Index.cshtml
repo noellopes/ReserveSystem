@@ -1,59 +1,82 @@
-﻿@model IEnumerable<ReserveSystem.Models.DaysOffAndVacations>
+﻿@model ReserveSystem.Controllers.DaysOffAndVacationsIndexViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Days Off And Vacations";
 }
 
-<h1>Index</h1>
+<h1>Days Off And Vacations</h1>
+
+
+<link rel="stylesheet" href="~/css/DaysOffAndVacations.css" />
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
+
+<div class="pagination">
+    <p>Page @Model.PagingInfo.CurrentPage of @Model.PagingInfo.TotalPages</p>
+    @if (Model.PagingInfo.CurrentPage > 1)
+    {
+        <a asp-action="Index" asp-route-page="@(Model.PagingInfo.CurrentPage - 1)" class="btn btn-sm btn-primary">Previous</a>
+    }
+    @if (Model.PagingInfo.CurrentPage < Model.PagingInfo.TotalPages)
+    {
+        <a asp-action="Index" asp-route-page="@(Model.PagingInfo.CurrentPage + 1)" class="btn btn-sm btn-primary">Next</a>
+    }
+</div>
+
+<div class="filter-container">
+    <form method="get" asp-action="Index" class="form-inline">
+        <div class="form-group">
+            <label for="startDate">Start Date</label>
+            <input type="date" id="startDate" name="startDate" value="@ViewData["StartDate"]" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="endDate">End Date</label>
+            <input type="date" id="endDate" name="endDate" value="@ViewData["EndDate"]" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </form>
+</div>
+
+
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Reason)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
+            <th>@Html.DisplayNameFor(model => model.DaysOffAndVacations.FirstOrDefault().StaffId)</th>
+            <th>@Html.DisplayNameFor(model => model.DaysOffAndVacations.FirstOrDefault().StartDate)</th>
+            <th>@Html.DisplayNameFor(model => model.DaysOffAndVacations.FirstOrDefault().EndDate)</th>
+            <th>@Html.DisplayNameFor(model => model.DaysOffAndVacations.FirstOrDefault().Reason)</th>
+            <th>@Html.DisplayNameFor(model => model.DaysOffAndVacations.FirstOrDefault().Status)</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.StaffId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Reason)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.DayOffVacationId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.DayOffVacationId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.DayOffVacationId">Delete</a>
-            </td>
-        </tr>
-}
+        @if (Model.DaysOffAndVacations != null && Model.DaysOffAndVacations.Any())
+        {
+            @foreach (var item in Model.DaysOffAndVacations)
+            {
+                <tr>
+                    <td>@item.StaffId</td>
+                    <td>@item.StartDate.ToShortDateString()</td>
+                    <td>@item.EndDate.ToShortDateString()</td>
+                    <td>@item.Reason</td>
+                    <td>@item.Status</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.DayOffVacationId" class="btn  btn-warning">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.DayOffVacationId" class="btn btn-info">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.DayOffVacationId" class="btn  btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6" class="text-center">No records found</td>
+            </tr>
+        }
     </tbody>
 </table>
+
+

@@ -1,0 +1,256 @@
+﻿/* Genel Ayarlar */
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(120deg, #e3f2fd, #ffffff);
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Başlık */
+h1 {
+    text-align: center;
+    color: #01579b;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+h4 {
+    color: #0288d1;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Genel Container */
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Tablolar */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    .table th, .table td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        color: #333;
+    }
+
+    .table th {
+        background-color: #0288d1;
+        color: #ffffff;
+        text-transform: uppercase;
+    }
+
+    .table tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .table td a {
+        color: #0288d1;
+        text-decoration: none;
+        font-weight: bold;
+        margin-right: 10px;
+        transition: color 0.3s ease;
+    }
+
+        .table td a:hover {
+            color: #01579b;
+        }
+
+/* Formlar */
+form {
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+    color: #333;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+    transition: border-color 0.3s ease;
+}
+
+    input:focus,
+    select:focus {
+        border-color: #0288d1;
+        outline: none;
+        box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+    }
+
+/* Düğmeler */
+.btn {
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #0288d1;
+    color: #ffffff !important;
+    border: none;
+}
+
+    .btn-primary:hover {
+        background-color: #01579b;
+        color: #ffffff !important;
+    }
+
+.btn-warning {
+    background-color: #fbc02d;
+    color: #ffffff !important;
+}
+
+    .btn-warning:hover {
+        background-color: #c49000;
+        color: #ffffff !important;
+    }
+
+.btn-info {
+    background-color: #0288d1;
+    color: #ffffff  !important;
+}
+
+    .btn-info:hover {
+        background-color: #01579b;
+        color: #ffffff   !important;
+    }
+
+.btn-danger {
+    background-color: #d32f2f;
+    color: #ffffff !important;
+}
+
+    .btn-danger:hover {
+        background-color: #b71c1c;
+        color: #ffffff !important;
+    }
+
+/* Validation Messages */
+.text-danger {
+    color: #d32f2f;
+    font-size: 13px;
+}
+
+
+
+.filter-container {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #e3f2fd;
+    border: 1px solid #0288d1;
+    border-radius: 5px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+    .filter-container .form-group {
+        margin-right: 10px;
+    }
+
+    .filter-container label {
+        font-weight: bold;
+        color: #333;
+        margin-right: 5px;
+    }
+
+    .filter-container input[type="date"] {
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .filter-container button {
+        background-color: #0288d1;
+        color: white;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .filter-container button:hover {
+            background-color: #01579b;
+        }
+
+
+
+/* Pagination */
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+    .pagination a {
+        background-color: #0288d1;
+        color: #ffffff;
+        padding: 8px 12px;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+        .pagination a:hover {
+            background-color: #01579b;
+        }
+
+    .pagination span {
+        color: #333;
+        font-size: 14px;
+    }
+
+/* Details ve Delete Alanları */
+.dl-horizontal dt {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.dl-horizontal dd {
+    margin-left: 10px;
+}
+
+/* Şifre Giriş Alanı */
+#passwordDiv {
+    margin-top: 10px;
+    display: none;
+}
