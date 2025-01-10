@@ -13,7 +13,6 @@ namespace ReserveSystem.Data
             PopulatePratos(db);
             PopulateSuppliers(db);
             PopulateBuffet(db);
-            PopulatePratoComposicao(db);
         }
 
         private static void PopulateIngredients(ReserveSystemContext db)
@@ -177,28 +176,6 @@ namespace ReserveSystem.Data
                 new Buffet { Nome = "Buffet Temático Mexicano", Descricao = "Uma explosão de cores e sabores inspirados na culinária mexicana, com tacos, guacamole e nachos.", Data = DateTime.Now },
                 new Buffet { Nome = "Buffet Temático Mediterrâneo", Descricao = "Uma viagem aos sabores frescos e saudáveis do Mediterrâneo, com azeites, queijos e frutos do mar.", Data = DateTime.Now }
             });
-            db.SaveChanges();
-        }
-
-        private static void PopulatePratoComposicao(ReserveSystemContext db)
-        {
-            if (db.ComposicaoPrato.Any()) return;
-
-            var pratos = db.Prato.ToDictionary(p => p.Nome);
-            var ingredientes = db.Ingredient.ToDictionary(i => i.Name);
-
-            db.ComposicaoPrato.AddRange(new List<ComposicaoPrato>
-        {
-            new ComposicaoPrato { PratoID = pratos["Lasanha"].PratoId, IngredientID = ingredientes["Tomates"].IngredientID, IngredientQuantity = 200 },
-            new ComposicaoPrato { PratoID = pratos["Lasanha"].PratoId, IngredientID = ingredientes["Queijo"].IngredientID, IngredientQuantity = 150 },
-            new ComposicaoPrato { PratoID = pratos["Pizza Margherita"].PratoId, IngredientID = ingredientes["Tomates"].IngredientID, IngredientQuantity = 100 },
-            new ComposicaoPrato { PratoID = pratos["Pizza Margherita"].PratoId, IngredientID = ingredientes["Queijo"].IngredientID, IngredientQuantity = 150 },
-            new ComposicaoPrato { PratoID = pratos["Pizza Margherita"].PratoId, IngredientID = ingredientes["Manjericão"].IngredientID, IngredientQuantity = 5 },
-            new ComposicaoPrato { PratoID = pratos["Risoto de Camarão"].PratoId, IngredientID = ingredientes["Camarão"].IngredientID, IngredientQuantity = 200 },
-            new ComposicaoPrato { PratoID = pratos["Risoto de Camarão"].PratoId, IngredientID = ingredientes["Arroz"].IngredientID, IngredientQuantity = 150 },
-            new ComposicaoPrato { PratoID = pratos["Risoto de Camarão"].PratoId, IngredientID = ingredientes["Alho"].IngredientID, IngredientQuantity = 10 },
-        });
-
             db.SaveChanges();
         }
     }

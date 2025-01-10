@@ -21,204 +21,205 @@ namespace ReserveSystem.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
             modelBuilder.Entity("BuffetPrato", b =>
-            {
-                b.Property<int>("BuffetId")
-                    .HasColumnType("int");
+                {
+                    b.Property<int>("BuffetId")
+                        .HasColumnType("int");
 
-                b.Property<int>("PratosPratoId")
-                    .HasColumnType("int");
+                    b.Property<int>("PratosPratoId")
+                        .HasColumnType("int");
 
-                b.HasKey("BuffetId", "PratosPratoId");
+                    b.HasKey("BuffetId", "PratosPratoId");
 
-                b.HasIndex("PratosPratoId");
+                    b.HasIndex("PratosPratoId");
 
-                b.ToTable("BuffetPrato");
-            });
+                    b.ToTable("BuffetPrato");
+                });
 
             modelBuilder.Entity("ReserveSystem.Models.Buffet", b =>
-            {
-                b.Property<int>("BuffetId")
-                    .ValueGeneratedOnAdd()
-                    .HasColumnType("int");
+                {
+                    b.Property<int>("BuffetId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BuffetId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BuffetId"));
 
-                b.Property<DateTime>("Data")
-                    .HasColumnType("datetime2");
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("datetime2");
 
-                b.Property<string>("Descricao")
-                    .IsRequired()
-                    .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                b.Property<string>("Nome")
-                    .IsRequired()
-                    .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                b.HasKey("BuffetId");
+                    b.HasKey("BuffetId");
 
-                b.ToTable("Buffet");
-            });
+                    b.ToTable("Buffet");
+                });
 
             modelBuilder.Entity("ReserveSystem.Models.ComposicaoPrato", b =>
-            {
-                b.Property<int>("ComposicaoPratoID")
-                    .ValueGeneratedOnAdd()
-                    .HasColumnType("int");
+                {
+                    b.Property<int>("ComposicaoPratoID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ComposicaoPratoID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ComposicaoPratoID"));
 
-                b.Property<int>("IngredientID")
-                    .HasColumnType("int");
+                    b.Property<int>("IngredientID")
+                        .HasColumnType("int");
 
-                b.Property<decimal>("IngredientQuantity")
-                    .HasColumnType("decimal(18,2)");
+                    b.Property<decimal>("IngredientQuantity")
+                        .HasColumnType("decimal(18,2)");
 
-                b.Property<int>("PratoID")
-                    .HasColumnType("int");
+                    b.Property<int>("PratoID")
+                        .HasColumnType("int");
 
-                b.HasKey("ComposicaoPratoID");
+                    b.HasKey("ComposicaoPratoID");
 
-                b.HasIndex("IngredientID");
+                    b.HasIndex("IngredientID");
 
-                b.HasIndex("PratoID");
+                    b.HasIndex("PratoID");
 
-                b.ToTable("ComposicaoPrato");
-            });
+                    b.ToTable("ComposicaoPrato");
+                });
 
             modelBuilder.Entity("ReserveSystem.Models.Ingredient", b =>
-            {
-                b.Property<int>("IngredientID")
-                    .ValueGeneratedOnAdd()
-                    .HasColumnType("int");
+                {
+                    b.Property<int>("IngredientID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IngredientID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IngredientID"));
 
-                b.Property<DateTime>("LastModificationDate")
-                    .HasColumnType("datetime2");
+                    b.Property<DateTime>("LastModificationDate")
+                        .HasColumnType("datetime2");
 
-                b.Property<string>("Name")
-                    .IsRequired()
-                    .HasMaxLength(300)
-                    .HasColumnType("nvarchar(300)");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
-                b.Property<int>("QuantityAvailable")
-                    .HasColumnType("int");
+                    b.Property<int>("QuantityAvailable")
+                        .HasColumnType("int");
 
-                b.Property<int>("StockMin")
-                    .HasColumnType("int");
+                    b.Property<int>("StockMin")
+                        .HasColumnType("int");
 
-                b.Property<string>("UnityMeasure")
-                    .IsRequired()
-                    .HasMaxLength(10)
-                    .HasColumnType("nvarchar(10)");
+                    b.Property<string>("UnityMeasure")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
-                b.Property<string>("UnityRecipe")
-                    .IsRequired()
-                    .HasMaxLength(10)
-                    .HasColumnType("nvarchar(10)");
+                    b.Property<string>("UnityRecipe")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
-                b.HasKey("IngredientID");
+                    b.HasKey("IngredientID");
 
-                b.ToTable("Ingredient");
-            });
+                    b.ToTable("Ingredient");
+                });
 
             modelBuilder.Entity("ReserveSystem.Models.Prato", b =>
-            {
-                b.Property<int>("PratoId")
-                    .ValueGeneratedOnAdd()
-                    .HasColumnType("int");
+                {
+                    b.Property<int>("PratoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PratoId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PratoId"));
 
-                b.Property<string>("Descricao")
-                    .IsRequired()
-                    .HasMaxLength(900)
-                    .HasColumnType("nvarchar(900)");
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasMaxLength(900)
+                        .HasColumnType("nvarchar(900)");
 
-                b.Property<string>("Nome")
-                    .IsRequired()
-                    .HasMaxLength(300)
-                    .HasColumnType("nvarchar(300)");
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
-                b.Property<decimal>("Preco")
-                    .HasColumnType("decimal(18,2)");
+                    b.Property<decimal>("Preco")
+                        .HasColumnType("decimal(18,2)");
 
-                b.HasKey("PratoId");
+                    b.HasKey("PratoId");
 
-                b.ToTable("Prato");
-            });
-
-            modelBuilder.Entity("BuffetPrato", b =>
-            {
-                b.HasOne("ReserveSystem.Models.Buffet", null)
-                    .WithMany()
-                    .HasForeignKey("BuffetId")
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .IsRequired();
-
-                b.HasOne("ReserveSystem.Models.Prato", null)
-                    .WithMany()
-                    .HasForeignKey("PratosPratoId")
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .IsRequired();
-            });
+                    b.ToTable("Prato");
+                });
 
             modelBuilder.Entity("ReserveSystem.Models.Supplier", b =>
-            {
-                b.Property<int>("SupplierID")
-                    .ValueGeneratedOnAdd()
-                    .HasColumnType("int");
+                {
+                    b.Property<int>("SupplierID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SupplierID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SupplierID"));
 
-                b.Property<string>("SupplierAddress")
-                    .IsRequired()
-                    .HasMaxLength(300)
-                    .HasColumnType("nvarchar(300)");
+                    b.Property<string>("SupplierAddress")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
-                b.Property<string>("SupplierEmail")
-                    .IsRequired()
-                    .HasMaxLength(300)
-                    .HasColumnType("nvarchar(300)");
+                    b.Property<string>("SupplierEmail")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
-                b.Property<string>("SupplierName")
-                    .IsRequired()
-                    .HasMaxLength(300)
-                    .HasColumnType("nvarchar(300)");
+                    b.Property<string>("SupplierName")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
-                b.Property<string>("SupplierPhone")
-                    .IsRequired()
-                    .HasColumnType("nvarchar(max)");
+                    b.Property<string>("SupplierPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                b.HasKey("SupplierID");
+                    b.HasKey("SupplierID");
 
-                b.ToTable("Supplier");
-            });
+                    b.ToTable("Supplier");
+                });
+
+            modelBuilder.Entity("BuffetPrato", b =>
+                {
+                    b.HasOne("ReserveSystem.Models.Buffet", null)
+                        .WithMany()
+                        .HasForeignKey("BuffetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ReserveSystem.Models.Prato", null)
+                        .WithMany()
+                        .HasForeignKey("PratosPratoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
             modelBuilder.Entity("ReserveSystem.Models.ComposicaoPrato", b =>
-            {
-                b.HasOne("ReserveSystem.Models.Ingredient", "Ingredient")
-                    .WithMany()
-                    .HasForeignKey("IngredientID")
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .IsRequired();
+                {
+                    b.HasOne("ReserveSystem.Models.Ingredient", "Ingredient")
+                        .WithMany()
+                        .HasForeignKey("IngredientID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                b.HasOne("ReserveSystem.Models.Prato", "Prato")
-                    .WithMany("ComposicaoPratos")
-                    .HasForeignKey("PratoID")
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .IsRequired();
+                    b.HasOne("ReserveSystem.Models.Prato", "Prato")
+                        .WithMany("ComposicaoPratos")
+                        .HasForeignKey("PratoID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                b.Navigation("Ingredient");
+                    b.Navigation("Ingredient");
 
-                b.Navigation("Prato");
-            });
+                    b.Navigation("Prato");
+                });
 
             modelBuilder.Entity("ReserveSystem.Models.Prato", b =>
-            {
-                b.Navigation("ComposicaoPratos");
-            });
+                {
+                    b.Navigation("ComposicaoPratos");
+                });
 #pragma warning restore 612, 618
         }
     }
