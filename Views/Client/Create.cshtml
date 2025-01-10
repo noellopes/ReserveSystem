@@ -41,7 +41,7 @@
                                 <div class="form-group mb-3">
                                     <span asp-validation-for="Phone" class="text-danger"></span>
                                     <label asp-for="Phone" id="" class="control-label "></label>
-                                    <input asp-for="Phone" class="form-control bg-light" type="text" />
+                                    <input asp-for="Phone" class="form-control bg-light" type="tel" />
                                 </div>
                                 <div class="form-group mb-3">
                                     <span asp-validation-for="Address" class="text-danger"></span>
@@ -88,12 +88,12 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-between m-3">                               
-                                <div class="form-group">
+                            <div class="">
+                                <div class="form-group ml-auto d-flex justify-content-end">
                                     <input type="submit" value="Register" class="btn btn-primary" />
                                 </div>
+                                <p class="d-flex justify-content-end">Already have an account?<a asp-area="Identity" asp-page="/Account/Login" class="login-link">Click to Login</a></p>
                             </div>                           
-                            <p>Already have an account?<a asp-area="Identity" asp-page="/Account/Login" class="login-link">Click to Login</a></p>
                         </div>
                     </form>
                 </div>
