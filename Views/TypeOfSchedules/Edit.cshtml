@@ -1,34 +1,39 @@
 ﻿@model ReserveSystem.Models.TypeOfSchedule
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Type Of Schedule";
 }
 
-<h1>Edit</h1>
+<section class="section-container" style="text-align: center;">
+    <h1>
+        <span>Edit Type Of Schedule</span>
+    </h1>
 
-<h4>TypeOfSchedule</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+    <div style="border: 1px solid #ddd; padding: 20px; margin: 20px auto; display: inline-block; text-align: left;">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="TypeOfScheduleId" />
+
+            <!-- Form Grubu -->
             <div class="form-group">
-                <label asp-for="TypeOfScheduleName" class="control-label"></label>
-                <input asp-for="TypeOfScheduleName" class="form-control" />
+                <label asp-for="TypeOfScheduleName" class="control-label">Type Of Schedule Name</label>
+                <input asp-for="TypeOfScheduleName"
+                       class="form-control small-input"
+                       placeholder="Enter schedule name..." />
                 <span asp-validation-for="TypeOfScheduleName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+
+            <!-- Butonlar -->
+            <div style="margin-top: 20px; text-align: center;">
+                <input type="submit" value="Save" class="btn btn-primary" style="margin-right: 10px;" />
+                <a asp-action="Index" class="btn btn-secondary" style="margin-left: 10px;">Back to List</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+</section>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
