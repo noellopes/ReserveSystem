@@ -1,0 +1,52 @@
+@model IEnumerable<ReserveSystem.Models.ReservaModel>
+
+@{
+    ViewData["Title"] = "Marcações";
+    var trainerName = ViewData["TrainerName"].ToString();  // Pegando o nome do Personal Trainer
+}
+
+<div class="container my-5">
+    <h1 class="text-center my-4 text-dark fw-bold" style="font-family: 'Poppins', sans-serif;">
+        Marcações de @trainerName
+    </h1>
+
+    @if (!Model.Any()) 
+    {
+        <div class="alert alert-warning text-center" role="alert">
+            Ops, parece que não tem marcações!
+        </div>
+    }
+    else
+    {
+        <!-- Cards para cada marcação -->
+        <div class="row">
+            @foreach (var booking in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm" style="border-radius: 15px;">
+                        <div class="card-body">
+                            <h5 class="card-title text-center fw-bold" style="font-family: 'Poppins', sans-serif;">
+                                @booking.Client.Name
+                            </h5>
+                            <h6 class="card-subtitle mb-2 text-muted text-center">
+                                @booking.Space.Name
+                            </h6>
+
+                            <p class="card-text">
+                                <strong>Data:</strong> @booking.ReservationDate.ToString("dd/MM/yyyy")
+                            </p>
+                            <p class="card-text">
+                                <strong>Hora:</strong>
+                                @booking.StartTime.ToString(@"hh\:mm") - @booking.EndTime.ToString(@"hh\:mm")
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    <div class="text-center mt-5">
+        <a asp-action="Index" asp-controller="PersonalTrainer" class="btn btn-secondary btn-lg">Voltar</a>
+    </div>
+</div>

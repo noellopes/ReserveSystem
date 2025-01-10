@@ -43,8 +43,9 @@
                 <a asp-action="Index" class="btn btn-secondary">
                     <i class="fa fa-arrow-left"></i> Cancelar
                 </a>
+                <!-- Formulário para confirmação de exclusão -->
                 <form asp-action="Delete" method="post">
-                    @Html.AntiForgeryToken()
+                    @Html.AntiForgeryToken() <!-- Protege contra CSRF -->
                     <button type="submit" class="btn btn-danger">
                         <i class="fa fa-trash-alt"></i> Eliminar Reserva
                     </button>

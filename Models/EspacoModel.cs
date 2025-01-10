@@ -26,9 +26,5 @@ namespace ReserveSystem.Models
         [Required]
         public required SpaceType Type { get; set; } //Tipo de espaço (ginásio/piscina)
 
-
-
-
-
     }
 }

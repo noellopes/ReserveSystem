@@ -46,15 +46,30 @@ namespace ReserveSystem.Controllers
 
 
 
-        // GET: WorkoutSchedule/Index
         public async Task<IActionResult> Index()
         {
             var schedules = _context.Reserva
                 .Include(ws => ws.PersonalTrainer)
                 .Include(ws => ws.Client)
                 .Include(ws => ws.Space); // Inclua o espaço, se necessário
+
+            // Logando os dados de cada reserva
+            Console.WriteLine("Listando as reservas:");
+            foreach (var schedule in await schedules.ToListAsync())
+            {
+                Console.WriteLine($"Reserva ID: {schedule.Id}");
+                Console.WriteLine($"Data da Reserva: {schedule.ReservationDate}");
+                Console.WriteLine($"Horário Início: {schedule.StartTime}");
+                Console.WriteLine($"Horário Fim: {schedule.EndTime}");
+                Console.WriteLine($"Personal Trainer: {schedule.PersonalTrainerId ?? 0}");
+                Console.WriteLine($"Cliente: {schedule.Client?.Name ?? "Não atribuído"}");
+                Console.WriteLine($"Espaço: {schedule.Space?.Name ?? "Não atribuído"}");
+                Console.WriteLine("------");
+            }
+
             return View(await schedules.ToListAsync());
         }
+
 
         // GET: WorkoutSchedule/Create
         public async Task<IActionResult> Create()
@@ -63,12 +78,13 @@ namespace ReserveSystem.Controllers
             ViewData["Spaces"] = await _context.Spaces.ToListAsync() ?? new List<SpaceModel>();
             ViewData["PersonalTrainers"] = await _context.PersonalTrainer.ToListAsync() ?? new List<PersonalTrainerModel>();
             ViewData["Clients"] = await _context.Client.ToListAsync() ?? new List<ClientModel>();
+
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(ReservaModel reserva)
+        public async Task<IActionResult> Create(ReservaModel reserva)
         {
             // Log para depuração: verificar os dados recebidos
             Console.WriteLine("Dados recebidos na criação da reserva:");
@@ -78,6 +94,8 @@ namespace ReserveSystem.Controllers
             Console.WriteLine($"EndTime: {reserva.EndTime}");
             Console.WriteLine($"ClientId: {reserva.ClientId}");
             Console.WriteLine($"SpaceId: {reserva.SpaceId}");
+
+
             // Verificar se o PersonalTrainerId é válido, caso tenha sido selecionado
             if (reserva.PersonalTrainerId.HasValue)
             {
@@ -86,6 +104,47 @@ namespace ReserveSystem.Controllers
                 {
                     ModelState.AddModelError("PersonalTrainerId", "O Personal Trainer selecionado não é válido.");
                 }
+            }
+
+            var space = await _context.Spaces
+            .Where(s => s.Id == reserva.SpaceId)
+            .FirstOrDefaultAsync(); // Pega o espaço com o ID selecionado
+
+            if (space == null)
+            {
+                ModelState.AddModelError("SpaceId", "O espaço selecionado não é válido.");
+                return View(reserva);
+            }
+
+            // Buscar o cliente pelo ClientId
+            var client = await _context.Client
+                .Where(c => c.Id == reserva.ClientId)
+                .FirstOrDefaultAsync(); // Pega o cliente pelo ID
+
+            if (client == null)
+            {
+                ModelState.AddModelError("ClientId", "O cliente selecionado não é válido.");
+                return View(reserva);
+            }
+
+            //Puxar o numero de reservas nessa hora
+            var reservationCount = await _context.Reserva
+                .Where(ws => ws.SpaceId == reserva.SpaceId && // Verifica se é o espaço selecionado
+                            ws.ReservationDate == reserva.ReservationDate && // Verifica a data da reserva recebida
+                            (
+                                // Verifica se há sobreposição de horários com qualquer reserva existente
+                                (ws.StartTime < reserva.EndTime && ws.EndTime > reserva.StartTime) // Qualquer sobreposição de horário
+                            ))
+                .CountAsync(); // Conta o número de reservas que atendem os critério
+
+            //Verifica se já está lotado
+            int reservedVagas = (int)(space.Capacity * (space.ReservedPercentage / 100.0));
+            int freeVagas = space.Capacity - reservedVagas;
+            if(reservationCount >= space.Capacity || !client.isClientHotel && reservationCount >= freeVagas)
+            {
+                //Está cheio a essa hora
+                TempData["messageToastError"] = "Parece que esse espaço está cheio a essa hora!";
+                return RedirectToAction(nameof(Index));
             }
 
             // Verificar se a data é válida
@@ -106,12 +165,10 @@ namespace ReserveSystem.Controllers
                 ModelState.AddModelError("EndTime", "O intervalo mínimo entre os horários deve ser de 30 minutos.");
             }
 
-
             // Verificar o intervalo máximo de 3 horas
             if ((reserva.EndTime - reserva.StartTime).TotalHours > 3)
             {
                 ModelState.AddModelError("EndTime", "O intervalo máximo entre os horários deve ser de 3 horas.");
-            
             }
 
             // Retorna à view se houver erros de validação
@@ -126,12 +183,13 @@ namespace ReserveSystem.Controllers
 
             // Salvar a reserva
             _context.Reserva.Add(reserva);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync(); // Usando o método assíncrono para salvar
 
             TempData["messageToast"] = "Reserva criada com sucesso";
 
             return RedirectToAction(nameof(Index));
         }
+
 
 
 
@@ -214,9 +272,4 @@ namespace ReserveSystem.Controllers
 
 
     }
-
-
-
-
 }
-

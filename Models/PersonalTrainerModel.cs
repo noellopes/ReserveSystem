@@ -8,7 +8,8 @@ namespace ReserveSystem.Models
     {
         YOGA,
         CROSSFIT,
-        MUSCLE
+        MUSCLE,
+        NATACAO
     }
 
 

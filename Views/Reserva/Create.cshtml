@@ -29,6 +29,7 @@
                 <option value="MUSCLE">Musculação</option>
                 <option value="YOGA">Yoga</option>
                 <option value="CROSSFIT">Crossfit</option>
+                <option value="NATACAO">Natação</option>
             </select>
             <span class="text-danger" id="specialtyError"></span>
         </div>
@@ -116,15 +117,15 @@
                                 card.className = 'card personal-trainer-card';
                                 card.style = 'width: 18rem; padding: 15px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);';
                                 card.innerHTML = `
-                                                <label style="cursor: pointer; display: block;">
-                                                    <input type="radio" name="SelectedPersonalTrainerId" value="${pt.id}" style="display: none;" onchange="highlightSelectedCard(this)" />
-                                                    <div>
-                                                        <h5>${pt.name}</h5>
-                                                        <p>Email: ${pt.email}</p>
-                                                        <p>Especialidades: ${pt.specialties.join(', ')}</p>
-                                                    </div>
-                                                </label>
-                                            `;
+                                    <label style="cursor: pointer; display: block;">
+                                        <input type="radio" name="PersonalTrainerId" value="${pt.id}" style="display: none;" onchange="highlightSelectedCard(this)" />
+                                        <div>
+                                            <h5>${pt.name}</h5>
+                                            <p>Email: ${pt.email}</p>
+                                            <p>Especialidades: ${pt.specialties.join(', ')}</p>
+                                        </div>
+                                    </label>
+                                `;
                                 cardsContainer.appendChild(card);
                             });
                         } else {
@@ -140,6 +141,7 @@
 
             function highlightSelectedCard(radio) {
                 const cards = document.querySelectorAll('.personal-trainer-card');
+                console.log("Personal Trainer Selecionado: ", radio.value); // Verifica o valor selecionado
                 cards.forEach(card => {
                     card.style.border = '1px solid #ccc';
                 });
