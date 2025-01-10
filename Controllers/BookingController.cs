@@ -122,7 +122,9 @@ namespace ReserveSystem.Controllers
                     return View("EntityNoLongerExists");
                 
             }
-
+            var roomBookings = await _context.RoomBooking
+                .Where(rb => rb.ID_BOOKING == id).ToListAsync();
+            ViewBag.RoomBookings = roomBookings;
             ViewBag.Saved = savedNow;
             return View(bookingModel);
         }
@@ -330,33 +332,28 @@ namespace ReserveSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SaveRoomSelection(RoomBookingViewModel viewModel)
         {
-
-
-
             var selectedRooms = viewModel.RoomTypes.Where(rt => rt.SelectedQuantity > 0).ToList();
-            if (selectedRooms.Count == 0)
+
+            // If no rooms were selected
+            if (selectedRooms.Count == 0)
             {
                 TempData["ErrorMessage"] = "You must select at least one room.";
                 return RedirectToAction(nameof(SelectRooms), new { bookingId = viewModel.BookingId });
             }
 
-
-            foreach (var roomType in viewModel.RoomTypes)
+            // Ensure there are enough rooms available for the selected dates
+            foreach (var roomType in viewModel.RoomTypes)
             {
                 if (roomType.SelectedQuantity > 0)
                 {
-                    var availableRooms = await _context.Room
-                        .Where(r => r.RoomTypeId == roomType.RoomTypeId &&
-                                   !_context.RoomBooking
-                                       .Where(rb => rb.ID_ROOM == r.ID_ROOM)
-                                       .Any(rb => _context.Booking
-                                           .Where(b => b.ID_BOOKING == rb.ID_BOOKING)
-                                           .Any(b => b.CHECKIN_DATE < viewModel.CheckInDate &&
-                                                     b.CHECKOUT_DATE > viewModel.CheckInDate ||
-                                                     b.CHECKIN_DATE > viewModel.CheckOutDate &&
-                                                     b.CHECKOUT_DATE > viewModel.CheckOutDate
-                                                     )))  
-                        .CountAsync();
+                    // Check how many rooms are available (rooms not booked during the selected dates)
+                    var availableRooms = await _context.Room
+    .Where(r => r.RoomTypeId == roomType.RoomTypeId &&
+           !_context.RoomBooking
+               .Any(rb => rb.ID_ROOM == r.ID_ROOM &&
+                          _context.Booking.Where(b => b.ID_BOOKING == rb.ID_BOOKING)  // Filter out canceled bookings
+                               .Any(b => viewModel.CheckInDate < b.CHECKOUT_DATE && viewModel.CheckOutDate > b.CHECKIN_DATE)))
+    .CountAsync();
 
                     if (availableRooms < roomType.SelectedQuantity)
                     {
@@ -365,26 +362,24 @@ namespace ReserveSystem.Controllers
                     }
                 }
             }
-            foreach (var roomType in viewModel.RoomTypes.Where(rt => rt.SelectedQuantity > 0))
+
+            // Proceed to assign rooms
+            foreach (var roomType in viewModel.RoomTypes.Where(rt => rt.SelectedQuantity > 0))
             {
+                // Select rooms that are available for the requested dates
+                var availableRooms = await _context.Room
+    .Where(r => r.RoomTypeId == roomType.RoomTypeId &&
+           !_context.RoomBooking
+               .Any(rb => rb.ID_ROOM == r.ID_ROOM &&
+                          _context.Booking.Where(b => b.ID_BOOKING == rb.ID_BOOKING)  // Filter out canceled bookings
+                               .Any(b => viewModel.CheckInDate < b.CHECKOUT_DATE && viewModel.CheckOutDate > b.CHECKIN_DATE)))
+    .ToListAsync();
 
-                var availableRooms = await _context.Room
-                    .Where(r => r.RoomTypeId == roomType.RoomTypeId &&
-                               !_context.RoomBooking
-                                   .Where(rb => rb.ID_ROOM == r.ID_ROOM)
-                                   .Any(rb => _context.Booking
-                                       .Where(b => b.ID_BOOKING == rb.ID_BOOKING)
-                                       .Any(b => b.CHECKIN_DATE < viewModel.CheckInDate &&
-                                                     b.CHECKOUT_DATE > viewModel.CheckInDate ||
-                                                     b.CHECKIN_DATE > viewModel.CheckOutDate &&
-                                                     b.CHECKOUT_DATE > viewModel.CheckOutDate
-                                                     )))
-                    .ToListAsync();
+                // Take the required number of rooms from the available ones
+                var selectedRooms2 = availableRooms.Take(roomType.SelectedQuantity).ToList();
 
-
-                var selectedRooms2 = availableRooms.Take(roomType.SelectedQuantity).ToList();
-
-                foreach (var room in selectedRooms2)
+                // Create RoomBooking entries for each selected room
+                foreach (var room in selectedRooms2)
                 {
                     var roomBooking = new RoomBooking
                     {
@@ -397,11 +392,16 @@ namespace ReserveSystem.Controllers
                 }
             }
 
-            await _context.SaveChangesAsync();
-            TempData["SuccessMessage"] = "Room selection saved successfully!";
+            // Save the changes to the database
+            await _context.SaveChangesAsync();
+
+            // Show a success message and redirect
+            TempData["SuccessMessage"] = "Room selection saved successfully!";
             return RedirectToAction(nameof(Details), new { id = viewModel.BookingId });
 
         }
+
+
 
 
     }

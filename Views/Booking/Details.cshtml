@@ -85,6 +85,18 @@
                                     <i class="fa fa-times text-danger"></i> <!-- Cruz vermelha -->
                                 }
                             </dd>
+
+                            <dt class="col-sm-4 text-muted">
+                                <i class="bi bi-wheelchair"></i> Rooms Booked:
+                            </dt>
+                            <dd>
+                                @foreach (var roomBooking in ViewBag.RoomBookings as List<RoomBooking>)
+                                {
+                                    
+                                     @roomBooking.ID_ROOM
+                                     @: &nbsp;
+                                }
+                            </dd>
                         </dl>
                     </div>
                 </div>
