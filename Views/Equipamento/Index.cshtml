@@ -16,7 +16,7 @@
 
     <div class="row mb-3">
         <div class="col-md-6">
-            <a asp-action="AddEquipment" class="btn bg-success text-white">Create New Equipment</a>
+            <a asp-action="AddEquipment" class="btn btn-success">Create New Equipment</a>
         </div>
         <div class="col-md-6 d-flex justify-content-end">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filterModal">
@@ -61,11 +61,11 @@
                         <div class="card-body">
                             <h5 class="card-title">@equipamento.NomeEquipamento</h5>
                             <p class="card-text">
-                                <strong>Tipo:</strong> @equipamento.TipoEquipamento?.NomeTipoEquipamento ?? "N/A" <br>
+                                <strong>Tipo:</strong> @(ViewBag.tipoEquipamentoDict.ContainsKey(equipamento.IdTipoEquipamento) ? ViewBag.tipoEquipamentoDict[equipamento.IdTipoEquipamento] : "N/A") <br>
                                 <strong>Quantidade:</strong> @equipamento.Quantidade
                             </p>
-                            <a asp-action="Edit" asp-route-id="@equipamento.IdEquipamento" class="btn btn-primary">Edit</a>
-                            <a asp-action="Delete" asp-route-id="@equipamento.IdEquipamento" class="btn btn-danger">Delete</a>
+                            <a asp-action="Edit" asp-route-id="@equipamento.IdEquipamento" class="btn btn-sm btn-primary">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@equipamento.IdEquipamento" class="btn btn-sm btn-danger">Delete</a>
                         </div>
                     </div>
                 </div>
@@ -136,4 +136,3 @@
         document.getElementById('filterForm').submit();
     }
 </script>
-

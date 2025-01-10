@@ -20,15 +20,14 @@ namespace ReserveSystem.Controllers
 
         public async Task<IActionResult> Index(string filterNomeEquipamento, int page = 1)
         {
-            // Eagerly load TipoEquipamento
-            var equipamentos = _context.Equipamento
-                .Include(e => e.TipoEquipamento)
-                .AsQueryable();
+            var equipamentos = _context.Equipamento.Include(e => e.TipoEquipamento).AsQueryable();
+            var tipoEquipamentoDict = _context.TipoEquipamento.ToDictionary(te => te.IdTipoEquipamento, te => te.NomeTipoEquipamento);
+            ViewBag.TipoEquipamentoDict = tipoEquipamentoDict;
 
             // Filter by Equipment Name
             if (!string.IsNullOrEmpty(filterNomeEquipamento))
             {
-                equipamentos = equipamentos.Where(e => e.NomeEquipamento.Contains(filterNomeEquipamento));
+                equipamentos = equipamentos.Where(e => e.NomeEquipamento != null && e.NomeEquipamento.Contains(filterNomeEquipamento));
             }
 
             var totalItems = await equipamentos.CountAsync();
