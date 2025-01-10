@@ -361,3 +361,9 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/ReserveSystem.db
+/ReserveSystem.db-shm
+/ReserveSystem.db-wal
+/ReserveSystemsUsers.db
+/ReserveSystemsUsers.db-shm
+/ReserveSystemsUsers.db-wal
