@@ -27,8 +27,9 @@ using (var scope = app.Services.CreateScope())
         var dbContext = scopedServices.GetRequiredService<ReserveSystemContext>();
         var roleManager = scopedServices.GetRequiredService<RoleManager<IdentityRole>>();
         var userManager = scopedServices.GetRequiredService<UserManager<IdentityUser>>();
+        var logger = scopedServices.GetRequiredService<ILogger<Program>>();
 
-        await SeedData.PopulateAsync(dbContext, roleManager, userManager);
+        await SeedData.PopulateAsync(dbContext, roleManager, userManager, logger);
     }
     catch (Exception ex)
     {
