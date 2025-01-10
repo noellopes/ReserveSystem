@@ -102,6 +102,11 @@ namespace ReserveSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(RoomType roomType)
         {
+            if (roomType.QuantityOfRoomsAssociated <= 0)
+            {
+                ModelState.AddModelError("QuantityOfRoomsAssociated", "The quantity of associated rooms must be greater than 0.");
+                return View(roomType);
+            }
             if (ModelState.IsValid)
             {
                 // Adiciona o RoomType ao banco
@@ -109,7 +114,7 @@ namespace ReserveSystem.Controllers
                 await _context.SaveChangesAsync();
 
                 // Associa um quarto automaticamente ao RoomTypeId recém-criado
-                for(int i = 0; i <= 3; i++)
+                for(int i = 0; i < roomType.QuantityOfRoomsAssociated; i++)
                 {
                     var room = new Room
                     {
