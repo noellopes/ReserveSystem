@@ -146,59 +146,74 @@
     }
 </style>
 
+@if (ViewBag.DeleteWhileUsing is true)
+{
+    <div class="container mt-5 alert alert-danger" style="border-color:crimson">
+        <div class="" role="alert">
+            <div class="d-flex">
+                <i class="fa-solid fa-xmark" style="font-size: 1.25em; padding-top: 4px;"></i>
+                <h4 class="alert-heading ms-2">Warning!</h4>
+                <br>
+            </div>
+            <p>The room price you were editing no longer exists. It might have been deleted.</p>
+            <p><strong>You can save and store it, but verify your data first.</strong></p>
+        </div>
+    </div>
+}
+
 <div class="form-container">
     <h1 class="text-center">Create new Room Type</h1>
     <hr class="hr" />
     <form asp-action="Create">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <!-- Exibe Type como somente leitura -->
+        
         <div class="form-group">
             <label class="control-label">Type</label>
-            <input asp-for="type" class="form-control" readonly />
+            <input asp-for="type" class="form-control"  />
         </div>
 
-        <!-- Exibe Capacity como somente leitura -->
+        
         <div class="form-group">
             <label class="control-label">Capacity</label>
-            <input asp-for="capacity" class="form-control" readonly />
+            <input asp-for="capacity" class="form-control"  />
         </div>
 
-        <!-- Exibe Room Quantity como somente leitura -->
+       
         <div class="form-group">
             <label class="control-label">Room Quantity</label>
-            <input asp-for="RoomQuantity" class="form-control" readonly />
+            <input asp-for="RoomQuantity" class="form-control"/>
         </div>
 
-        <!-- Checkbox para Accessibility Room desabilitado -->
+        
         <div class="form-group form-check">
             <label class="form-check-label">
-                <input class="form-check-input" asp-for="AcessibilityRoom" disabled /> Accessibility Room
+                <input class="form-check-input" asp-for="AcessibilityRoom" />  Room with Accessibility Adaptation
             </label>
         </div>
 
-        <!-- Checkbox para View desabilitado -->
+       
         <div class="form-group form-check">
             <label class="form-check-label">
-                <input class="form-check-input" asp-for="View" disabled /> View
+                <input class="form-check-input" asp-for="View"  /> View
             </label>
         </div>
 
-        <!-- Campo Base Price editável -->
+        
         <div class="form-group">
             <label class="control-label">Base Price</label>
             <input asp-for="BasePrice" class="form-control" />
             <span asp-validation-for="BasePrice" class="text-danger"></span>
         </div>
 
-        <!-- Outros campos desabilitados -->
+       
         <div class="form-group">
-            <label class="control-label">Additional Beds</label>
-            <input asp-for="AdicionalBeds" class="form-control" readonly />
+            <label class="control-label">Additional Bed</label>
+            <input asp-for="AdicionalBeds" class="form-control"/>
         </div>
         <div class="form-group form-check">
             <label class="form-check-label">
-                <input class="form-check-input" asp-for="InUse" disabled /> In Use
+                <input class="form-check-input" asp-for="InUse"  /> In Use
             </label>
         </div>
 

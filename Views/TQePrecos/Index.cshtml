@@ -1,146 +1,74 @@
-﻿@model IEnumerable<ReserveSystem.Models.TQePreco>
+﻿@model TQePrecosViewModel
 @{
     ViewData["Title"] = "Index";
 }
 
 <style>
-    /* General Body Styling */
     body {
         font-family: 'Georgia', serif;
         background-color: #f9f9f6; /* Off-white background */
         color: #1a1a1a; /* Deep black for text */
     }
 
-    /* Container and General Styles */
-    .details-container {
-        background: #ffffff; /* White background for container */
-        padding: 3rem;
-        border-radius: 12px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        max-width: 1200px;
-        margin: 5rem auto;
+    /* Overall table styles */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        background-color: #ffffff;
     }
 
-    /* Table Header Styles */
-    .table thead th {
-        font-size: 1.1rem;
-        color: #333333; /* Darker black for header text */
-    }
+        /* Table Header Styles */
+        .table thead {
+            background-color: #333333; /* Dark background for header */
+            color: white;
+        }
 
-    /* Table Body Styles */
-    .table tbody td {
-        color: #4a4a4a; /* Dark grey for table body text */
-        font-size: 1.05rem;
-    }
+        /* Table row hover effect */
+        .table tbody tr:hover {
+            background-color: #F5F5F5; /* Hover effect color */
+            color: #d4af37; /* Text color on hover */
+            cursor: pointer;
+        }
 
-    /* Button Styles */
-    .btn_edit, .btn_delete, .btn_back, .btn_back2 {
+        /* Table cell styles */
+        .table th, .table td {
+            padding: 18px 20px;
+            text-align: left;
+            font-size: 1.125rem;
+            font-weight: 500;
+        }
+
+    /* Button styles */
+    .btn {
+        background-color: #ffffff;
+        border-color: #d4af37;
+        color: #333333;
         font-weight: 600;
-        padding: 10px 20px;
+        padding: 14px 28px;
         border-radius: 50px;
-        font-size: 0.9rem;
+        font-size: 1.125rem;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         transition: all 0.3s ease;
-        margin: 5px;
-        text-align: center; /* Center text */
-        display: flex;
-        align-items: center;
-        justify-content: center;
     }
 
-    .btn_edit, .btn_delete, .btn_back {
-        width: 80px; /* Adjusting width to ensure similar proportions */
-    }
+        .btn:hover {
+            background-color: #333333;
+            color: #F5F5F5;
+            border-color: #333333;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
 
-    .btn_edit {
-        background-color: #ffffff;
-        border-color: #d4af37;
-        color: #333333;
-        margin-top: 2rem;
-    }
-
-    .btn_edit:hover {
-        background-color: #333333;
-        color: #F5F5F5;
-        border-color: #d4af37;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        transform: translateY(-3px);
-    }
-
-    .btn_edit:active {
-        background-color: #000000;
-        border-color: #000000;
-        color: white;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transform: translateY(0);
-    }
-
-    .btn_delete {
-        background-color: #ffffff;
-        border-color: #d4af37;
-        color: #333333;
-        margin-top: 2rem;
-    }
-
-    .btn_delete:hover {
-        background-color: #333333;
-        color: #F5F5F5;
-        border-color: #d4af37;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        transform: translateY(-3px);
-    }
-
-    .btn_delete:active {
-        background-color: #000000;
-        border-color: #000000;
-        color: white;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transform: translateY(0);
-    }
-
-    .btn_back {
-        background-color: #333333;
-        border-color: #d4af37;
-        color: #ffffff;
-        margin-top: 2rem;
-    }
-
-    .btn_back:hover {
-        background-color: #ffffff;
-        color: #d4af37;
-        border-color: #d4af37;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        transform: translateY(-3px);
-    }
-
-    .btn_back2 {
-        background-color: #333333;
-        border-color: #d4af37;
-        color: #ffffff;
-        margin-top: 2rem;
-        margin-right: 2rem;
-    }
-
-    .btn_back2:hover {
-        background-color: #ffffff;
-        color: #d4af37;
-        border-color: #d4af37;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        transform: translateY(-3px);
-    }
-
-    /* Button container for aligning Edit and Delete buttons in one row */
-    .button-container {
-        display: flex;
-        flex-direction: row;
-        gap: 0.5rem; /* Space between buttons */
-        justify-content: flex-start;
-    }
-
-    h1 {
-        font-size: 2rem;
-        color: #d4af37; /* Gold for title */
-    }
+        .btn:active {
+            background-color: #000000; /* Darker effect when clicked */
+            border-color: #000000;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Return to original shadow */
+            transform: translateY(0); /* Button "presses" down */
+        }
 
     .hr {
         border: none;
@@ -150,7 +78,103 @@
         margin: 1rem auto;
         opacity: 0.8;
     }
+
+    /* Centered title */
+    h1 {
+        font-size: 2rem;
+        color: #d4af37; /* Gold for title */
+    }
+
+    /* Adjusting the paragraph style for centered 'Create' button */
+    p {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+
+
+    .pagination {
+        margin-top: 20px;
+    }
+
+        .pagination .page-item {
+            margin: 0 5px;
+        }
+
+            .pagination .page-item .page-link {
+                color: #333333;
+                background-color: #ffffff; /* White background */
+                border: 1px solid #d4af37; /* Gold border */
+                padding: 10px 15px;
+                font-weight: 600;
+                border-radius: 50px;
+                transition: all 0.3s ease;
+            }
+
+            .pagination .page-item.active .page-link {
+                background-color: #d4af37; /* Gold background for active */
+                color: #ffffff; /* White text */
+                border-color: #d4af37;
+            }
+
+            .pagination .page-item.disabled .page-link {
+                background-color: #f5f5f5; /* Light gray for disabled */
+                color: #999999; /* Muted gray text */
+            }
+
+            .pagination .page-item .page-link:hover {
+                background-color: #333333; /* Darker background on hover */
+                color: #ffffff;
+                border-color: #333333;
+
+            }
 </style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const rows = document.querySelectorAll(".clickable-row");
+        rows.forEach(row => {
+            row.addEventListener("click", function () {
+                window.location = this.dataset.href;
+            });
+        });
+    });
+</script>
+
+<div>
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#searchModal">
+        Search
+    </button>
+    @if (Model.SearchRoomType != "")
+    {
+        <a asp-action="Index" class="btn btn-outline-danger">Clear search</a>
+    }
+</div>
+
+<!-- Search Modal -->
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Search book</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="Index" method="get">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="searchRoomType" class="control-label">Room Type</label>
+                        <input name="searchRoomType" class="form-control" type="search" value="@Model.SearchRoomType" />
+                    </div>
+                   
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <div class="details-container">
     <h1 class="text-center">Room Type Index</h1>
@@ -160,39 +184,90 @@
             <tr>
                 <th>Type</th>
                 <th>Capacity</th>
-                <th>Room Quantity</th>
+                <th>Quantity</th>
                 <th>Accessibility </th>
                 <th>View</th>
                 <th>Base Price</th>
                 <th>Cancelation Fee</th>
-                <th>Additional Beds</th>
+                <th>Additional Bed</th>
                 <th>In Use</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.TQePrecos)
             {
-                <tr>
+                <tr class="clickable-row" data-href="@Url.Action("Details", new { id = item.RoomTypeId })">
                     <td>@Html.DisplayFor(modelItem => item.type)</td>
                     <td>@Html.DisplayFor(modelItem => item.capacity)</td>
                     <td>@Html.DisplayFor(modelItem => item.RoomQuantity)</td>
-                    <td>@Html.DisplayFor(modelItem => item.AcessibilityRoom)</td>
-                    <td>@Html.DisplayFor(modelItem => item.View)</td>
+                    <td>@(item.AcessibilityRoom ? "Yes" : "No")</td>
+                    <td>@(item.View ? "Yes" : "No")</td>
                     <td>@Html.DisplayFor(modelItem => item.BasePrice)</td>
                     <td>@Html.DisplayFor(modelItem => item.CancelationFee)</td>
                     <td>@Html.DisplayFor(modelItem => item.AdicionalBeds)</td>
-                    <td>@Html.DisplayFor(modelItem => item.InUse)</td>
-                    <td class="button-container">
-                        <a asp-action="Edit" asp-route-id="@item.RoomTypeId" class="btn btn_edit">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@item.RoomTypeId" class="btn btn_delete">Delete</a>
-                        <a asp-action="Details" asp-route-id="@item.RoomTypeId" class="btn btn_back">Details</a>
-                    </td>
+                    <td>@(item.InUse ? "Yes" : "No")</td>
+                    
+                    
                 </tr>
             }
         </tbody>
     </table>
-    <p>
-        <a asp-action="Create" class="btn btn_back2">Create New</a>
+   
+</div>
+
+<div class ="row">
+    <nav aria-label="Room Type Pagination" class="text-center col-sm-4 me-3" >
+        <ul class="pagination">
+            @{
+                var cssStyle = "page-item";
+                if (Model.TQePrecosPageInfos.CurrentPage == 1)
+                {
+                    cssStyle += " disabled";
+                }
+            }
+            <li class="@cssStyle">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="1"
+                   asp-route-searchRoomType="@Model.SearchRoomType">First</a>
+
+            </li>
+
+            @for (int p = Model.TQePrecosPageInfos.FirstPageShow; p <= Model.TQePrecosPageInfos.LastPageShow; p++)
+            {
+                cssStyle = "page-item";
+                if (p == Model.TQePrecosPageInfos.CurrentPage)
+                {
+                    cssStyle += " active";
+                }
+
+                <li class="@cssStyle">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-page="@p"
+                       asp-route-searchRoomType="@Model.SearchRoomType">@p</a>
+                </li>
+            }
+
+            @{
+                cssStyle = "page-item";
+                if (Model.TQePrecosPageInfos.CurrentPage == Model.TQePrecosPageInfos.TotalPages)
+                {
+                    cssStyle += " disabled";
+                }
+            }
+            <li class="@cssStyle">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@Model.TQePrecosPageInfos.TotalPages"
+                   asp-route-searchRoomType="@Model.SearchRoomType">Last</a>
+            </li>
+        </ul>
+    </nav>
+
+
+    <p class="text-center col-4 mt-3">
+        <a class="btn" asp-action="Create">Create New</a>
     </p>
 </div>
