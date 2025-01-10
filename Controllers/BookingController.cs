@@ -138,27 +138,26 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID_CLIENT,ID_BOOKING,CHECKIN_DATE,CHECKOUT_DATE,BOOKING_DATE,TOTAL_PERSONS_NUMBER,BOOKED,PAYMENT_STATUS")] Booking bookingModel)
+        public async Task<IActionResult> Create([Bind("ID_CLIENT,CHECKIN_DATE,CHECKOUT_DATE,TOTAL_PERSONS_NUMBER")] Booking bookingModel)
         {
-           
+            if (ModelState.IsValid)
+            {
+                // Set default values for new bookings
+                bookingModel.BOOKED = false;
+                bookingModel.PAYMENT_STATUS = false;
+                bookingModel.BOOKING_DATE = DateTime.Now;
 
+                // Save the booking
+                _context.Add(bookingModel);
+                await _context.SaveChangesAsync();
 
-
-                if (ModelState.IsValid)
-                {
-                   
-                    bookingModel.BOOKED = false;
-                    bookingModel.PAYMENT_STATUS = false;
-                    bookingModel.BOOKING_DATE = DateTime.Now;
-                    _context.Add(bookingModel);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Details), new { id = bookingModel.ID_BOOKING, savedNow = true });
-                }
-
-
-
-                return View(bookingModel);
+                // Redirect to room selection
+                return RedirectToAction(nameof(SelectRooms), new { bookingId = bookingModel.ID_BOOKING });
             }
+
+            // If invalid, return to create view
+            return View(bookingModel);
+        }
 
         // GET: Booking/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -295,6 +294,130 @@ namespace ReserveSystem.Controllers
         private bool BookingModelExists(int id)
         {
             return _context.Booking.Any(e => e.ID_BOOKING == id);
+        }
+
+
+        public async Task<IActionResult> SelectRooms(int bookingId)
+        {
+            // Busca os tipos de quartos disponÃ­veis
+            var roomTypes = await _context.RoomType
+                .Select(rt => new RoomTypeSelection
+                {
+                    RoomTypeId = rt.RoomTypeId,
+                    Type = rt.Type,
+                    RoomCapacity = rt.RoomCapacity,
+                    Beds = rt.Beds,
+                    HasView = rt.HasView,
+                    AcessibilityRoom = rt.AcessibilityRoom
+                })
+                .ToListAsync();
+
+            var viewModel = new RoomBookingViewModel
+            {
+                BookingId = bookingId,
+                RoomTypes = roomTypes
+            };
+
+            return View(viewModel);
+        }
+
+
+        private async Task<bool> CheckRoomAvailability(RoomBookingViewModel viewModel, DateOnly checkinDate, DateOnly checkoutDate)
+        {
+            // Collect all the room IDs for the selected room types
+            var selectedRoomTypeIds = viewModel.RoomTypes
+                .Where(rt => rt.SelectedQuantity > 0)
+                .Select(rt => rt.RoomTypeId)
+                .ToList();
+
+            // For each selected room type, check if any room is available for the given date range
+            foreach (var roomTypeId in selectedRoomTypeIds)
+            {
+                // Get all rooms of the current room type
+                var rooms = await _context.Room
+                    .Where(r => r.RoomTypeId == roomTypeId)
+                    .ToListAsync();
+
+                // For each room, check if it is already booked for the selected dates
+                foreach (var room in rooms)
+                {
+                    // Check if there's any existing booking for the room during the specified date range
+                    var isRoomBooked = await _context.RoomBooking
+                        .AnyAsync(rb => rb.ID_ROOM == room.ID_ROOM &&
+                                        ((checkinDate >= rb.Booking.CHECKIN_DATE && checkinDate <= rb.Booking.CHECKOUT_DATE) ||
+                                         (checkoutDate >= rb.Booking.CHECKIN_DATE && checkoutDate <= rb.Booking.CHECKOUT_DATE)));
+
+                    if (!isRoomBooked)
+                    {
+                        // If a room is available for this room type and date range, we can book it
+                        return true;
+                    }
+                }
+            }
+
+            // No rooms available for the selected dates
+            return false;
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SaveRoomSelection(RoomBookingViewModel viewModel)
+        {
+            try
+            {
+                var booking = await _context.Booking.FindAsync(viewModel.BookingId);
+                if (booking == null)
+                {
+                    TempData["ErrorMessage"] = "Booking not found.";
+                    return RedirectToAction(nameof(SelectRooms), new { bookingId = viewModel.BookingId });
+                }
+
+                // Step 1: Ensure at least one room is selected
+                bool isAnyRoomSelected = viewModel.RoomTypes.Any(rt => rt.SelectedQuantity > 0);
+                if (!isAnyRoomSelected)
+                {
+                    TempData["ErrorMessage"] = "You must select at least one room.";
+                    return RedirectToAction(nameof(SelectRooms), new { bookingId = viewModel.BookingId });
+                }
+
+                // Step 2: Check for room availability
+                bool isRoomAvailable = await CheckRoomAvailability(viewModel, booking.CHECKIN_DATE, booking.CHECKOUT_DATE);
+
+                if (!isRoomAvailable)
+                {
+                    TempData["ErrorMessage"] = "No available rooms for the selected dates.";
+                    return RedirectToAction(nameof(SelectRooms), new { bookingId = viewModel.BookingId });
+                }
+
+                // Step 3: Save the room selections
+                foreach (var roomType in viewModel.RoomTypes.Where(rt => rt.SelectedQuantity > 0))
+                {
+                    for (int i = 0; i < roomType.SelectedQuantity; i++)
+                    {
+                        var roomBooking = new RoomBooking
+                        {
+                            ID_BOOKING = booking.ID_BOOKING,
+                            ID_ROOM = _context.Room
+                                .Where(r => r.RoomTypeId == roomType.RoomTypeId)
+                                .Select(r => r.ID_ROOM)
+                                .FirstOrDefault(), // Get one available room of this type
+                            PERSON_NUMBER = roomType.RoomCapacity
+                        };
+
+                        _context.RoomBooking.Add(roomBooking);
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Quartos selecionados com sucesso!";
+                return RedirectToAction(nameof(Details), new { id = viewModel.BookingId });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error saving room selection");
+                TempData["ErrorMessage"] = "An error occurred while saving.";
+                return RedirectToAction(nameof(SelectRooms), new { bookingId = viewModel.BookingId });
+            }
         }
     }
 
