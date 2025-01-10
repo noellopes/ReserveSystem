@@ -1,0 +1,160 @@
+﻿@model ReserveSystem.Models.RoomBookingViewModel
+
+@{
+    ViewData["Title"] = "Selecionar Quartos";
+}
+
+<head>
+    <style>
+        /* Estilo do título */
+        h1.text-center {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0px;
+            color: #333;
+        }
+
+        .title-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px; /* Espaço entre o título e o ícone */
+        }
+
+        .icon-logo {
+            font-size: 10rem;
+            color: #007bff;
+        }
+
+        /* Estilo geral da tabela */
+        .table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+            .table th,
+            .table td {
+                padding: 10px 15px;
+                text-align: center;
+            }
+
+            .table th {
+                background-color: #007bff;
+                color: #fff;
+                font-weight: bold;
+            }
+
+            .table tbody tr:nth-child(odd) {
+                background-color: #f9f9f9;
+            }
+
+            .table tbody tr:hover {
+                background-color: #f1f1f1;
+                cursor: pointer;
+            }
+
+        /* Estilo dos campos de entrada dentro da tabela */
+        .form-control {
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s ease;
+            font-size: 0.9rem;
+            width: 100px;
+        }
+
+            .form-control:focus {
+                border-color: #007bff;
+                outline: none;
+            }
+
+            .form-control.quantity-input {
+                width: 100%;
+                text-align: center;
+                padding: 6px 12px;
+            }
+
+        /* Estilo do botão de salvar */
+        .btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+            .btn-success:hover {
+                background-color: #218838;
+            }
+    </style>
+</head>
+
+<body>
+    <div class="title-container">
+        <h1 class="text-center">Selecionar Quartos para a Reserva</h1>
+        <i class="bi bi-building-add"></i>
+    </div>
+    
+    <br />
+
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+
+    <form asp-action="SaveRoomSelection" method="post">
+        <input type="hidden" asp-for="BookingId" />
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Tipo de Quarto</th>
+                    <th>Capacidade</th>
+                    <th>Camas</th>
+                    <th>Vista</th>
+                    <th>Acessível</th>
+                    <th>Quantidade</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (var i = 0; i < Model.RoomTypes.Count; i++)
+                {
+                    <tr>
+                        <td>@Model.RoomTypes[i].Type</td>
+                        <td>@Model.RoomTypes[i].RoomCapacity</td>
+                        <td>@Model.RoomTypes[i].Beds</td>
+                        <td>@(Model.RoomTypes[i].HasView ? "Sim" : "Não")</td>
+                        <td>@(Model.RoomTypes[i].AcessibilityRoom ? "Sim" : "Não")</td>
+                        <td>
+                            <input type="hidden" name="RoomTypes[@i].RoomTypeId" value="@Model.RoomTypes[i].RoomTypeId" />
+                            <label>@Model.RoomTypes[i].Type</label>
+                            <input type="number" name="RoomTypes[@i].SelectedQuantity" value="@Model.RoomTypes[i].SelectedQuantity" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <button type="submit" class="btn btn-success">Salvar Seleção</button>
+    </form>
+</body>

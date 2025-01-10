@@ -22,6 +22,9 @@ namespace ReserveSystem.Models
         [Required]
         public int Beds { get; set; } // Número de camas
 
+        [Required]
+        public int QuantityOfRoomsAssociated { get; set; } // Quantidade de quartos a associar
+
         public ICollection<Room> Rooms { get; set; } = new List<Room>(); // Relação de um para muitos com RoomModel
     }
 }

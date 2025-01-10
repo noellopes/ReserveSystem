@@ -15,7 +15,7 @@ namespace ReserveSystem.Data
 
         public DbSet<RoomBooking> RoomBooking { get; set; }
 
-
+        public DbSet<RoomTypePrice> RoomTypePrice { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -138,27 +138,30 @@ namespace ReserveSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID_CLIENT,ID_BOOKING,CHECKIN_DATE,CHECKOUT_DATE,BOOKING_DATE,TOTAL_PERSONS_NUMBER,BOOKED,PAYMENT_STATUS")] Booking bookingModel)
+        public async Task<IActionResult> Create([Bind("ID_CLIENT,CHECKIN_DATE,CHECKOUT_DATE,TOTAL_PERSONS_NUMBER")] Booking bookingModel)
         {
-           
+            if (ModelState.IsValid)
+            {
+                // Set default values for new bookings
+                bookingModel.BOOKED = false;
+                bookingModel.PAYMENT_STATUS = false;
+                bookingModel.BOOKING_DATE = DateTime.Now;
 
+                // Save the booking
+                _context.Add(bookingModel);
+                await _context.SaveChangesAsync();
 
-
-                if (ModelState.IsValid)
+                return RedirectToAction(nameof(SelectRooms), new
                 {
-                   
-                    bookingModel.BOOKED = false;
-                    bookingModel.PAYMENT_STATUS = false;
-                    bookingModel.BOOKING_DATE = DateTime.Now;
-                    _context.Add(bookingModel);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Details), new { id = bookingModel.ID_BOOKING, savedNow = true });
-                }
-
-
-
-                return View(bookingModel);
+                    bookingId = bookingModel.ID_BOOKING,
+                    checkInDate = bookingModel.CHECKIN_DATE,
+                    checkOutDate = bookingModel.CHECKOUT_DATE
+                });
             }
+
+            // If invalid, return to create view
+            return View(bookingModel);
+        }
 
         // GET: Booking/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -296,6 +299,111 @@ namespace ReserveSystem.Controllers
         {
             return _context.Booking.Any(e => e.ID_BOOKING == id);
         }
+
+
+        public async Task<IActionResult> SelectRooms(int bookingId)
+        {
+
+            // Busca os tipos de quartos disponÃ­veis
+            var roomTypes = await _context.RoomType
+                .Select(rt => new RoomTypeSelection
+                {
+                    RoomTypeId = rt.RoomTypeId,
+                    Type = rt.Type,
+                    RoomCapacity = rt.RoomCapacity,
+                    Beds = rt.Beds,
+                    HasView = rt.HasView,
+                    AcessibilityRoom = rt.AcessibilityRoom
+                })
+                .ToListAsync();
+
+            var viewModel = new RoomBookingViewModel
+            {
+                BookingId = bookingId,
+                RoomTypes = roomTypes
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SaveRoomSelection(RoomBookingViewModel viewModel)
+        {
+
+
+
+            var selectedRooms = viewModel.RoomTypes.Where(rt => rt.SelectedQuantity > 0).ToList();
+            if (selectedRooms.Count == 0)
+            {
+                TempData["ErrorMessage"] = "You must select at least one room.";
+                return RedirectToAction(nameof(SelectRooms), new { bookingId = viewModel.BookingId });
+            }
+
+
+            foreach (var roomType in viewModel.RoomTypes)
+            {
+                if (roomType.SelectedQuantity > 0)
+                {
+                    var availableRooms = await _context.Room
+                        .Where(r => r.RoomTypeId == roomType.RoomTypeId &&
+                                   !_context.RoomBooking
+                                       .Where(rb => rb.ID_ROOM == r.ID_ROOM)
+                                       .Any(rb => _context.Booking
+                                           .Where(b => b.ID_BOOKING == rb.ID_BOOKING)
+                                           .Any(b => b.CHECKIN_DATE < viewModel.CheckInDate &&
+                                                     b.CHECKOUT_DATE > viewModel.CheckInDate ||
+                                                     b.CHECKIN_DATE > viewModel.CheckOutDate &&
+                                                     b.CHECKOUT_DATE > viewModel.CheckOutDate
+                                                     )))  
+                        .CountAsync();
+
+                    if (availableRooms < roomType.SelectedQuantity)
+                    {
+                        TempData["ErrorMessage"] = $"There are not enough {roomType.Type} rooms available for the selected dates.";
+                        return RedirectToAction(nameof(SelectRooms), new { bookingId = viewModel.BookingId });
+                    }
+                }
+            }
+            foreach (var roomType in viewModel.RoomTypes.Where(rt => rt.SelectedQuantity > 0))
+            {
+
+                var availableRooms = await _context.Room
+                    .Where(r => r.RoomTypeId == roomType.RoomTypeId &&
+                               !_context.RoomBooking
+                                   .Where(rb => rb.ID_ROOM == r.ID_ROOM)
+                                   .Any(rb => _context.Booking
+                                       .Where(b => b.ID_BOOKING == rb.ID_BOOKING)
+                                       .Any(b => b.CHECKIN_DATE < viewModel.CheckInDate &&
+                                                     b.CHECKOUT_DATE > viewModel.CheckInDate ||
+                                                     b.CHECKIN_DATE > viewModel.CheckOutDate &&
+                                                     b.CHECKOUT_DATE > viewModel.CheckOutDate
+                                                     )))
+                    .ToListAsync();
+
+
+                var selectedRooms2 = availableRooms.Take(roomType.SelectedQuantity).ToList();
+
+                foreach (var room in selectedRooms2)
+                {
+                    var roomBooking = new RoomBooking
+                    {
+                        ID_BOOKING = viewModel.BookingId,
+                        ID_ROOM = room.ID_ROOM,
+                        PERSON_NUMBER = roomType.RoomCapacity
+                    };
+
+                    _context.RoomBooking.Add(roomBooking);
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            TempData["SuccessMessage"] = "Room selection saved successfully!";
+            return RedirectToAction(nameof(Details), new { id = viewModel.BookingId });
+
+        }
+
+
     }
 
 
