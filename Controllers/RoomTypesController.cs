@@ -12,7 +12,7 @@ using static System.Reflection.Metadata.BlobBuilder;
 
 namespace ReserveSystem.Controllers
 {
-    //[Authorize(Roles = "Staff")] //futuramente , quando juntarmos apenas o staff pode aceder a este controller
+    [Authorize(Roles = "admin")] //futuramente , quando juntarmos apenas o staff pode aceder a este controller
     public class RoomTypesController : Controller
     {
         private readonly ReserveSystemContext _context;
