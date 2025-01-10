@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using ReserveSystem.Data;
 using ReserveSystem.Models;
+using static System.Reflection.Metadata.BlobBuilder;
 
 
 namespace ReserveSystem.Controllers
@@ -28,9 +29,40 @@ namespace ReserveSystem.Controllers
         }
 
         // GET: Sazonalidades
-        public async Task<IActionResult> ViewSeasonList()
+        public async Task<IActionResult> ViewSeasonList(int page = 1, string searchName = "", DateOnly? searchDate = null)
         {
-            return View(_context.Sazonalidade.Where(e => e.InUse == true).ToList());
+            var seasons = from s in _context.Sazonalidade select s;
+
+            if (!string.IsNullOrEmpty(searchName))
+            {
+                seasons = seasons.Where(s => s.NameSeason.Contains(searchName));
+            }
+
+            if (searchDate != null)
+            {
+                var searchDateTime = searchDate.Value.ToDateTime(TimeOnly.MinValue); 
+                seasons = seasons.Where(s => (s.DateBegin.Date == searchDateTime.Date || s.DateEnd.Date == searchDateTime.Date || 
+                                        (s.DateBegin < searchDateTime && s.DateEnd > searchDateTime)) && s.InUse);
+            }
+
+            var model = new SeasonalityViewModel();
+
+            model.PagingInfo = new PagingInfo
+            {
+                CurrentPage = page,
+                TotalItems = await seasons.CountAsync(),
+            };
+
+            model.Sazonalidades = await seasons
+                .OrderBy(s => s.NameSeason)
+                .Skip((model.PagingInfo.CurrentPage - 1) * model.PagingInfo.PageSize)
+                .Take(model.PagingInfo.PageSize)
+                .ToListAsync();
+
+            model.SearchName = searchName;
+            model.SearchDate = searchDate;
+             
+            return View(model);
         }
 
         // GET: Sazonalidades/Details/5

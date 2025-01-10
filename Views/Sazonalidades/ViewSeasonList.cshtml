@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ReserveSystem.Models.Sazonalidade>
+﻿@model SeasonalityViewModel
+<!-- model IEnumerable<ReserveSystem.Models.Sazonalidade> -->
 @{
     ViewData["Title"] = "ViewSeasonList";
 }
@@ -69,6 +70,27 @@
             transform: translateY(0); /* Button "presses" down */
         }
 
+
+    /* Back Button Styling */
+    .btn_back {
+        background-color: #333333;
+        border-color: #d4af37;
+        color: #ffffff;
+        font-weight: 600;
+        padding: 14px 28px;
+        border-radius: 50px;
+        font-size: 1.125rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+        .btn_back:hover {
+            background-color: #ffffff;
+            color: #d4af37;
+        border-color: #d4af37;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        transform: translateY(-3px);
+        }
     .hr {
         border: none;
         height: 2px;
@@ -90,10 +112,114 @@
         margin-top: 2rem;
     }
 
+    .modal-content {
+        background-color: #ffffff; /* White background */
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        background-color: #333333; /* Gold */
+        color: white;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+    }
+
+    .modal-body {
+        font-size: 1.1rem;
+        color: #333333;
+        padding: 1.5rem;
+    }
+
+    .modal-footer {
+        background-color: #f9f9f6; /* Light off-white */
+        padding: 1rem;
+        justify-content: center;
+    }
+
+    /* Pagination styles */
+    .pagination {
+        margin-top: 20px;
+    }
+
+        .pagination .page-item {
+            margin: 0 5px;
+        }
+
+            .pagination .page-item .page-link {
+                color:#333333; 
+                background-color: #ffffff; /* White background */
+                border: 1px solid #d4af37; /* Gold border */
+                padding: 10px 15px;
+                font-weight: 600;
+                border-radius: 50px;
+                transition: all 0.3s ease;
+            }
+
+            .pagination .page-item.active .page-link {
+                background-color: #d4af37; /* Gold background for active */
+                color: #ffffff; /* White text */
+                border-color: #d4af37;
+            }
+
+            .pagination .page-item.disabled .page-link {
+                background-color: #f5f5f5; /* Light gray for disabled */
+                color: #999999; /* Muted gray text */
+            }
+
+            .pagination .page-item .page-link:hover {
+                background-color: #333333; /* Darker background on hover */
+                color: #ffffff;
+                border-color: #333333;
+            }
+
+
 </style>
 
 <h1 class="text-center my-4">Seasonalities</h1>
 <hr class="hr" />
+
+
+<div>
+    <button type="button" class="btn my-2 me-1" data-bs-toggle="modal" data-bs-target="#searchModal">
+        Search
+    </button>
+    @if (Model.SearchName != "" || Model.SearchDate != null)
+    {
+        <a asp-action="Index" class="btn btn_back my-2">Clear search</a>
+    }
+</div>
+
+<!-- Search Modal -->
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Search Seasonality</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="ViewSeasonList" method="get">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="searchName" class="control-label">Name</label>
+                        <input name="searchName" class="form-control" type="search" value="@Model.SearchName" />
+                    </div>
+                    <div class="form-group">
+                        <label for="searchDate" class="control-label">Date</label>
+                        <input name="searchDate" class="form-control" type="date" value="@Model.SearchDate" />
+                    </div>
+                </div>
+                <div class="modal-footer align-items-center">
+                    <button type="submit" class="btn">Search</button>
+                    <button type="button" class="btn_back" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
 <table class="table">
     <thead>
         <tr>
@@ -105,7 +231,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Sazonalidades)
         {
             <tr class="clickable-row" data-href="@Url.Action("Details", new { id = item.Id_saz })">
                 <td>@Html.DisplayFor(modelItem => item.NameSeason)</td>
@@ -127,6 +253,66 @@
         });
     });
 </script>
-<p class="text-center">
-    <a class="btn" asp-action="ConfigSeason">Configure New Sazonalidade</a>
-</p>
+
+
+<div class="row">
+	<nav aria-label="seasonsPagination" class="text-center col-sm-4 me-3">
+		<ul class="pagination">
+			@{
+				var cssStyle = "page-item";
+				if (Model.PagingInfo.CurrentPage == 1)
+				{
+					cssStyle += " disabled";
+				}
+			}
+			<li class="@cssStyle">
+				<a class="page-link"
+				   asp-action="ViewSeasonList"
+				   asp-route-page="1"
+				   asp-route-searchName="@Model.SearchName"
+				   asp-route-searchDate="@Model.SearchDate">First</a>
+			</li>
+
+			@for (int p = Model.PagingInfo.FirstPageShow; p <= Model.PagingInfo.LastPageShow; p++)
+			{
+				cssStyle = "page-item";
+				if (p == Model.PagingInfo.CurrentPage)
+				{
+					cssStyle += " active";
+				}
+
+				<li class="@cssStyle">
+					<a class="page-link"
+					   asp-action="ViewSeasonList"
+					   asp-route-page="@p"
+					   asp-route-searchName="@Model.SearchName"
+					   asp-route-searchDate="@Model.SearchDate">@p</a>
+				</li>
+			}
+
+			@{
+				cssStyle = "page-item";
+				if (Model.PagingInfo.CurrentPage == Model.PagingInfo.TotalPages)
+				{
+					cssStyle += " disabled";
+				}
+			}
+			<li class="@cssStyle">
+				<a class="page-link"
+				   asp-action="ViewSeasonList"
+				   asp-route-page="@Model.PagingInfo.TotalPages"
+				   asp-route-searchName="@Model.SearchName"
+				   asp-route-searchDate="@Model.SearchDate">Last</a>
+			</li>
+		</ul>
+	</nav>
+
+	<p class="text-center col-4 mt-3">
+		<a class="btn" asp-action="ConfigSeason">Configure New Sazonalidade</a>
+	</p>
+
+</div>
+
+
+
+
