@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserveSystem.Data;
 
@@ -11,9 +12,11 @@ using ReserveSystem.Data;
 namespace ReserveSystem.Data.Migrations
 {
     [DbContext(typeof(ReserveSystemUsersDbContext))]
-    partial class ReserveSystemUsersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250110042041_AutoCalc")]
+    partial class AutoCalc
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,10 +170,12 @@ namespace ReserveSystem.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -207,10 +212,12 @@ namespace ReserveSystem.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -530,8 +537,31 @@ namespace ReserveSystem.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ReserveSystem.Models.Events", b =>
+                {
+                    b.HasOne("ReserveSystem.Models.PricePerDate", null)
+                        .WithMany("Events")
+                        .HasForeignKey("PricePerDatepricePD_id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ReserveSystem.Models.PricePerDate", b =>
+                {
+                    b.HasOne("ReserveSystem.Models.TQePreco", "TQePreco")
+                        .WithMany()
+                        .HasForeignKey("RoomTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TQePreco");
+                });
+
             modelBuilder.Entity("ReserveSystem.Models.Promos", b =>
                 {
+                    b.HasOne("ReserveSystem.Models.PricePerDate", null)
+                        .WithMany("Promos")
+                        .HasForeignKey("PricePerDatepricePD_id");
+
                     b.HasOne("ReserveSystem.Models.Events", "Events")
                         .WithMany()
                         .HasForeignKey("event_id")
