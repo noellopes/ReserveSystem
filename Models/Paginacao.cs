@@ -2,13 +2,11 @@
 {
     public class Paginacao
     {
+        public int PaginaCorrente { get; set; }
         public int ItemTotal { get; set; }
-        public int TamanhoPagina { get; set; } = 10;
-        public int PaginaCorrente { get; set; } = 1;
-        public int PaginaMaximoVerAntesDepois { get; set; } = 4;
-        public int PaginaTotal => (int)Math.Ceiling((double)ItemTotal / TamanhoPagina);
-        public int PrimeiraPaginaVer => Math.Max(1, PaginaCorrente - PaginaMaximoVerAntesDepois);
-        public int UltimaPaginaVer => Math.Min(PaginaTotal, PaginaCorrente + PaginaMaximoVerAntesDepois);
-
+        public int TamanhoPagina { get; set; } = 6;
+        public int PaginaTotal => (int)Math.Ceiling((decimal)ItemTotal / TamanhoPagina);
+        public int PrimeiraPaginaVer => Math.Max(1, PaginaCorrente - 5);
+        public int UltimaPaginaVer => Math.Min(PaginaTotal, PaginaCorrente + 5);
     }
 }
