@@ -112,9 +112,12 @@
             <td>@item.PreçoHora.ToString("C", new System.Globalization.CultureInfo("en-IE"))</td>
             <td>
                 <a asp-action="Details" asp-route-id="@item.IdTipoSala" class="btn btn-sm btn-info">Details</a>
-                @if (User.IsInRole("Manager"))
+                @if (User.IsInRole("Reservationist") || User.IsInRole("Manager"))
                 {
                     <a asp-action="Edit" asp-route-id="@item.IdTipoSala" class="btn btn-sm btn-warning">Edit</a>
+                }
+                @if (User.IsInRole("Manager"))
+                {
                     <a asp-action="Delete" asp-route-id="@item.IdTipoSala" class="btn btn-sm btn-danger">Delete</a>
                 }
             </td>
@@ -122,6 +125,9 @@
     }
     </tbody>
 </table>
+
+<!-- PAGINATION -->
+
 @if (Model.Pagination.TotalPages > 1)
 {
     <nav aria-label="Page navigation">
