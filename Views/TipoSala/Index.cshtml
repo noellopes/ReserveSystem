@@ -1,4 +1,6 @@
 @model ReserveSystem.Models.ViewModels.TipoSalaViewModel
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
 
 @{
     ViewData["Title"] = "Room Types";
@@ -7,12 +9,20 @@
     {
         <div class="alert alert-success">@message</div>
     }
+    var errorMessage = TempData["ErrorMessage"];
+    if (errorMessage != null)
+    {
+        <div class="alert alert-danger">@errorMessage</div>
+    }
 }
 
 <h1 class="mb-4">Room Types</h1>
 
 <div class="mb-3">
-    <a asp-action="Create" class="btn btn-success me-2">Create New Room Type</a>
+    @if (User.IsInRole("Manager"))
+    {
+        <a asp-action="Create" class="btn btn-success me-2">Create New Room Type</a>
+    }
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filterModal">
         <i class="bi bi-search"></i> Search for a Specific Room Type
     </button>
@@ -101,9 +111,12 @@
             <td>@item.Capacidade</td>
             <td>@item.PreçoHora.ToString("C", new System.Globalization.CultureInfo("en-IE"))</td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdTipoSala" class="btn btn-sm btn-warning">Edit</a>
                 <a asp-action="Details" asp-route-id="@item.IdTipoSala" class="btn btn-sm btn-info">Details</a>
-                <a asp-action="Delete" asp-route-id="@item.IdTipoSala" class="btn btn-sm btn-danger">Delete</a>
+                @if (User.IsInRole("Manager"))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.IdTipoSala" class="btn btn-sm btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.IdTipoSala" class="btn btn-sm btn-danger">Delete</a>
+                }
             </td>
         </tr>
     }

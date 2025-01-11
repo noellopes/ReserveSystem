@@ -1,4 +1,6 @@
 @model ReserveSystem.Models.Sala
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
 
 @{
     ViewData["Title"] = "Room Details";
@@ -8,27 +10,30 @@
 
 <div>
     <dl class="row">
-        <dt>Preparation Time</dt>
-        <dd>@Model.TempoPreparação.ToString(@"hh\:mm")</dd>
+        <dt class="col-sm-3">Preparation Time</dt>
+        <dd class="col-sm-9">@Model.TempoPreparação.ToString(@"hh\:mm")</dd>
 
-        <dt>Start Time</dt>
-        <dd>@Model.HoraInicio.ToString("hh:mm tt")</dd>
+        <dt class="col-sm-3">Start Time</dt>
+        <dd class="col-sm-9">@Model.HoraInicio.ToString("hh:mm tt")</dd>
 
-        <dt>End Time</dt>
-        <dd>@Model.HoraFim.ToString("hh:mm tt")</dd>
+        <dt class="col-sm-3">End Time</dt>
+        <dd class="col-sm-9">@Model.HoraFim.ToString("hh:mm tt")</dd>
 
-        <dt>Floor</dt>
-        <dd>@Model.Floor</dd>
+        <dt class="col-sm-3">Floor</dt>
+        <dd class="col-sm-9">@Model.Floor</dd>
 
-        <dt>Room Number</dt>
-        <dd>@Model.RoomNumber</dd>
+        <dt class="col-sm-3">Room Number</dt>
+        <dd class="col-sm-9">@Model.RoomNumber</dd>
 
-        <dt>Room Type</dt>
-        <dd>@Model.TipoSala?.NomeSala</dd>
+        <dt class="col-sm-3">Room Type</dt>
+        <dd class="col-sm-9">@Model.TipoSala?.NomeSala</dd>
     </dl>
 </div>
 
 <p>
-    <a asp-action="Edit" asp-route-id="@Model.IdSala" class="btn btn-primary">Edit</a>
+    @if (User.IsInRole("Manager") || User.IsInRole("Reservationist"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.IdSala" class="btn btn-primary">Edit</a>
+    }
     <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </p>

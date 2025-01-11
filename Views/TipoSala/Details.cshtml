@@ -1,4 +1,6 @@
 @model ReserveSystem.Models.TipoSala
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
 
 @{
     ViewData["Title"] = "Room Type Details";
@@ -8,24 +10,27 @@
 
 <div>
     <dl class="row">
-        <dt>Room ID</dt>
-        <dd>@Model.IdTipoSala</dd>
+        <dt class="col-sm-3">Room ID</dt>
+        <dd class="col-sm-9">@Model.IdTipoSala</dd>
 
-        <dt>Room Name</dt>
-        <dd>@Model.NomeSala</dd>
+        <dt class="col-sm-3">Room Name</dt>
+        <dd class="col-sm-9">@Model.NomeSala</dd>
 
-        <dt>Room Size (m²)</dt>
-        <dd>@Model.TamanhoSala</dd>
+        <dt class="col-sm-3">Room Size (m²)</dt>
+        <dd class="col-sm-9">@Model.TamanhoSala</dd>
 
-        <dt>Capacity</dt>
-        <dd>@Model.Capacidade</dd>
+        <dt class="col-sm-3">Capacity</dt>
+        <dd class="col-sm-9">@Model.Capacidade</dd>
 
-        <dt>Hourly Price</dt>
-        <dd>@Model.PreçoHora.ToString("C", new System.Globalization.CultureInfo("en-IE"))</dd>
+        <dt class="col-sm-3">Hourly Price</dt>
+        <dd class="col-sm-9">@Model.PreçoHora.ToString("C", new System.Globalization.CultureInfo("en-IE"))</dd>
     </dl>
 </div>
 
 <p>
-    <a asp-action="Edit" asp-route-id="@Model.IdTipoSala" class="btn btn-primary">Edit</a>
+    @if (User.IsInRole("Manager"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.IdTipoSala" class="btn btn-primary">Edit</a>
+    }
     <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </p>
